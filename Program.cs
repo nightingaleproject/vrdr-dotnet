@@ -28,7 +28,7 @@ namespace csharp_fhir_death_record
                 FhirJsonParser parser = new FhirJsonParser();
                 Bundle bundle = parser.Parse<Bundle>(json);
                 // TODO: Need to gracefully handle edge conditins like no decedent present
-                Patient decedent = (Patient)bundle.Entry.Find(e => e.Resource.ResourceType.ToString() == "Patient").Resource;
+                Patient decedent = (Patient)bundle.Entry.Find(e => e.Resource.ResourceType == ResourceType.Patient).Resource;
                 Console.WriteLine($"  Decedent Name: {decedent.Name[0].ToString()}");
                 var deceasedDateTime = DateTime.Parse(decedent.Deceased.ToString());
                 Console.WriteLine($"  Time and Date of Death: {String.Format("{0:MMMM d, yyyy \\a\\t h:mmtt}", deceasedDateTime)}");
@@ -50,11 +50,12 @@ namespace csharp_fhir_death_record
                 }
 
                 // TODO: The use of FHIR paths seems potentially valuable, but the paths below don't appear to work as expected
-                //PocoNavigator navigator = new PocoNavigator(bundle);
-                //var matches = navigator.Select("Bundle.entry.resource.where(resourceType='Patient').name.family");
-                //var matches = navigator.Select("Bundle.entry.resource.where(meta.profile='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Decedent')");
-                //var matches = navigator.Select("Bundle.entry.resource");
-                //Console.WriteLine($"Found {matches.Count()} matches");
+                // Marco: Try to use the is operator: "$this is Patient"  : 
+                var matches = navigator.Select("Bundle.entry.resource.where($this is Patient).name.family");
+
+                // Marco: I tried it as well and for me it worked! So meta.profile='<some uri>'
+                var matches = navigator.Select("Bundle.entry.resource.where(meta.profile='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Decedent')");                //var matches = navigator.Select("Bundle.entry.resource");
+                Console.WriteLine($"Found {matches.Count()} matches");
                 //foreach (var match in matches)
                 //{
                 //    Console.WriteLine(match.Value);

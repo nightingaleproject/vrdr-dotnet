@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>FhirDeathRecord</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />

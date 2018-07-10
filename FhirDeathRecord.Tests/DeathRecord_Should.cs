@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace DeathRecord.Tests
+namespace FhirDeathRecord.Tests
 {
     public class DeathRecord_Should
     {

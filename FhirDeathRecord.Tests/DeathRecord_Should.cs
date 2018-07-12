@@ -6,9 +6,10 @@ namespace FhirDeathRecord.Tests
     public class DeathRecord_Should
     {
         [Fact]
-        public void Test1()
+        public void FailGivenInvalidRecord()
         {
-            Assert.False(true, "blah");
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));
+            Assert.Equal("Record is neither valid XML nor JSON.", ex.Message);
         }
     }
 }

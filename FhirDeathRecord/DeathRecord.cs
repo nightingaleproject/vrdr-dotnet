@@ -34,7 +34,7 @@ namespace FhirDeathRecord
             // If the given record string was not JSON or XML, fail immediately.
             if (Navigator == null)
             {
-                throw new System.ArgumentException("Record is neither valid XML nor JSON.", "record");
+                throw new System.ArgumentException("Record is neither valid XML nor JSON.");
             }
         }
 

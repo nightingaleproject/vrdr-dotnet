@@ -27,7 +27,7 @@ This directory contains unit and functional tests for the FhirDeathRecord librar
 
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
 ```
-dotnet test
+dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
 ```
 
 ### FhirDeathRecord.CLI

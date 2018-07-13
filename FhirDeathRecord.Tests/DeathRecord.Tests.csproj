@@ -13,4 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\FhirDeathRecord\DeathRecord.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="fixtures/json/1.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

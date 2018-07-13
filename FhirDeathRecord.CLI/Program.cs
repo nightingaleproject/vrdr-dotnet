@@ -27,24 +27,29 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"Reading file '{path}'");
                 string json = File.ReadAllText(path);
                 DeathRecord deathRecord = new DeathRecord(json);
-                Console.WriteLine($"  Given Name: {deathRecord.GivenName}");
-                Console.WriteLine($"  Last Name: {deathRecord.LastName}");
-                Console.WriteLine($"  SSN: {deathRecord.SSN}");
-                Console.WriteLine($"  Cause of Death 1: {deathRecord.COD(0)}");
-                Console.WriteLine($"  Cause of Death Interval 1: {deathRecord.CODInterval(0)}");
-                Console.WriteLine($"  Cause of Death 2: {deathRecord.COD(1)}");
-                Console.WriteLine($"  Cause of Death Interval 2: {deathRecord.CODInterval(1)}");
-                Console.WriteLine($"  Cause of Death 3: {deathRecord.COD(2)}");
-                Console.WriteLine($"  Cause of Death Interval 3: {deathRecord.CODInterval(2)}");
-                Console.WriteLine($"  Cause of Death 4: {deathRecord.COD(3)}");
-                Console.WriteLine($"  Cause of Death Interval 4: {deathRecord.CODInterval(3)}");
-                Console.WriteLine($"  Contributing Conditions: {deathRecord.ContributingConditions}");
-                Console.WriteLine($"  Certifier Given Name: {deathRecord.CertifierGivenName}");
-                Console.WriteLine($"  Certifier Last Name: {deathRecord.CertifierLastName}");
-                Console.WriteLine($"  Autopsy Performed: {deathRecord.AutopsyPerformed}");
-                Console.WriteLine($"  Autopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
-                Console.WriteLine($"  Manner of Death: {deathRecord.MannerOfDeath}");
-                Console.WriteLine($"  Tobacco Use Contributed to Death: {deathRecord.TobaccoUseContributedToDeath}");
+
+                // Decedent Information
+                Console.WriteLine($"\tGiven Name: {deathRecord.GivenName}");
+                Console.WriteLine($"\tLast Name: {deathRecord.LastName}");
+                Console.WriteLine($"\tSSN: {deathRecord.SSN}");
+
+                // Certifier Information
+                Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenName}");
+                Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierLastName}");
+
+                // Conditions
+                Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+                foreach (var cause in causes)
+                {
+                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}");
+                }
+                Console.WriteLine($"\tContributing Conditions: {deathRecord.ContributingConditions}");
+
+                // Observations
+                Console.WriteLine($"\tAutopsy Performed: {deathRecord.AutopsyPerformed}");
+                Console.WriteLine($"\tAutopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
+                Console.WriteLine($"\tManner of Death: {deathRecord.MannerOfDeath}");
+                Console.WriteLine($"\tTobacco Use Contributed to Death: {deathRecord.TobaccoUseContributedToDeath}");
             }
             else
             {

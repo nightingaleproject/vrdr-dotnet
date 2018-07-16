@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -45,11 +47,12 @@ namespace FhirDeathRecord
             var matches = Navigator.Select(path);
             if (matches.Count() > 0)
             {
-                return (string)matches.First().Value;
+                return Convert.ToString(matches.First().Value);
             }
             else
             {
                 // TODO: Figure out appropriate way to handle element not found
+                Console.WriteLine("element not found");
                 return "";
             }
         }
@@ -82,6 +85,42 @@ namespace FhirDeathRecord
                 string cc = GetFirst("Bundle.entry.resource.where($this is Condition).where(onset.empty()).text.div");
                 Regex htmlRegex = new Regex("<.*?>");
                 return htmlRegex.Replace(cc, "");
+            }
+        }
+
+        public string AutopsyPerformed
+        {
+            get
+            {
+                string ap = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value");
+                return ap;
+            }
+        }
+
+        public string AutopsyResultsAvailable
+        {
+            get
+            {
+                string ara = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69436-4').value");
+                return ara;
+            }
+        }
+
+        public string MannerOfDeath
+        {
+            get
+            {
+                string mod = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.display");
+                return mod;
+            }
+        }
+
+        public string TobaccoUseContributedToDeath
+        {
+            get
+            {
+                string tc = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.display");
+                return tc;
             }
         }
     }

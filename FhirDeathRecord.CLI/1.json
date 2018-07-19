@@ -481,6 +481,40 @@
         "onsetString": "15 years",
         "resourceType": "Condition"
       }
+    },{
+      "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d4f591",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Underlying COD 3</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "15 years",
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d9snr50",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Contributing Condition</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "resourceType": "Condition"
+      }
     },
     {
       "fullUrl": "urn:uuid:8183570d-b8bd-4db8-95f1-7a32c642cca0",

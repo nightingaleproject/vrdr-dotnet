@@ -386,6 +386,24 @@
       </Condition>
     </resource>
   </entry>
+    <entry>
+    <fullUrl value="urn:uuid:54a8d8f5-0397-4f7f-b6eb-57b5b5991057"/>
+    <resource>
+      <Condition>
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+        </meta>
+        <text>
+          <status value="additional"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">Example Contributing Condition</div>
+        </text>
+        <clinicalStatus value="active"/>
+        <subject>
+          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+        </subject>
+      </Condition>
+    </resource>
+  </entry>
   <entry>
     <fullUrl value="urn:uuid:40de8408-d029-41fd-8dac-a4113bc5c09c"/>
     <resource>

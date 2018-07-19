@@ -41,6 +41,10 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"  Contributing Conditions: {deathRecord.ContributingConditions}");
                 Console.WriteLine($"  Certifier Given Name: {deathRecord.CertifierGivenName}");
                 Console.WriteLine($"  Certifier Last Name: {deathRecord.CertifierLastName}");
+                Console.WriteLine($"  Autopsy Performed: {deathRecord.AutopsyPerformed}");
+                Console.WriteLine($"  Autopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
+                Console.WriteLine($"  Manner of Death: {deathRecord.MannerOfDeath}");
+                Console.WriteLine($"  Tobacco Use Contributed to Death: {deathRecord.TobaccoUseContributedToDeath}");
             }
             else
             {

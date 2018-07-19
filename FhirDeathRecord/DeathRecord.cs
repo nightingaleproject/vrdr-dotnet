@@ -51,9 +51,7 @@ namespace FhirDeathRecord
             }
             else
             {
-                // TODO: Figure out appropriate way to handle element not found
-                Console.WriteLine("element not found");
-                return "";
+                return null;
             }
         }
 
@@ -92,8 +90,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string ap = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value");
-                return ap;
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value");
             }
         }
 
@@ -101,8 +98,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string ara = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69436-4').value");
-                return ara;
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69436-4').value");
             }
         }
 
@@ -110,8 +106,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string mod = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.display");
-                return mod;
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.display");
             }
         }
 
@@ -119,8 +114,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string tc = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.display");
-                return tc;
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.display");
             }
         }
     }

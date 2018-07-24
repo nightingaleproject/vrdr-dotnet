@@ -1,0 +1,825 @@
+{
+  "id": "1",
+  "type": "document",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:23473588-fc97-474c-ba2c-818e8ffc7432",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents"
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "64297-5",
+              "display": "Death certificate"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "date": "2018-07-10",
+        "author": [
+          {
+            "reference": "urn:uuid:51c586b9-b04c-4bf4-9b29-b875f4485d50"
+          }
+        ],
+        "title": "Record of Death",
+        "section": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69453-9",
+                  "display": "Cause of death"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:0b9b033d-f694-42b2-858c-485f9abbfc35"
+              },
+              {
+                "reference": "urn:uuid:89b3fdb8-ba98-49ad-8ba5-43fafa81d8f3"
+              },
+              {
+                "reference": "urn:uuid:be1ffa87-c5d2-46e0-9116-96204feb72bc"
+              },
+              {
+                "reference": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d4f591"
+              },
+              {
+                "reference": "urn:uuid:8183570d-b8bd-4db8-95f1-7a32c642cca0"
+              },
+              {
+                "reference": "urn:uuid:a81319cd-6c2a-431a-8c75-c7f306f882bd"
+              },
+              {
+                "reference": "urn:uuid:d5b8dcdc-6e3e-4828-a695-84fe06ff335a"
+              },
+              {
+                "reference": "urn:uuid:85253a38-434f-4354-833b-863191b84a9c"
+              },
+              {
+                "reference": "urn:uuid:087a0903-aeec-41ed-95af-32a647459aed"
+              },
+              {
+                "reference": "urn:uuid:d2e2e087-044b-42c1-a5aa-2fd603f4de57"
+              },
+              {
+                "reference": "urn:uuid:3cca4d3a-9bb7-40cb-854f-7f988b650e76"
+              },
+              {
+                "reference": "urn:uuid:453ae2d5-5bca-4e0c-9892-b034b4dd7f9e"
+              },
+              {
+                "reference": "urn:uuid:488fabdd-84e7-4eef-86cf-7ea770c0ac0a"
+              },
+              {
+                "reference": "urn:uuid:21e1abe1-630d-4ed0-a7f2-8375c1cde676"
+              },
+              {
+                "reference": "urn:uuid:3caf7960-a269-4fc3-9a28-b296510059f5"
+              }
+            ]
+          }
+        ],
+        "resourceType": "Composition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce",
+      "resource": {
+        "meta": {
+          "profile": [
+            "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Decedent",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ]
+        },
+        "extension": [
+          {
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2106-3"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2076-8"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2028-5"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "1002-5"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2054-5"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "White"
+              },
+              {
+                "url": "text",
+                "valueString": "Native Hawaiian or Other Pacific Islander"
+              },
+              {
+                "url": "text",
+                "valueString": "Asian"
+              },
+              {
+                "url": "text",
+                "valueString": "American Indian or Alaskan Native"
+              },
+              {
+                "url": "text",
+                "valueString": "Black or African American"
+              }
+            ],
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/v3/Ethnicity",
+                  "code": "2186-5",
+                  "display": "Non Hispanic or Latino"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "valueCode": "M"
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension",
+            "valueUnsignedInt": 48
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension",
+            "valueAddress": {
+              "type": "postal",
+              "city": "Boston",
+              "state": "Massachusetts",
+              "country": "United States"
+            }
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/v3/MaritalStatus",
+                  "code": "S"
+                }
+              ]
+            }
+          },
+          {
+            "extension": [
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension",
+                "valueAddress": {
+                  "type": "postal",
+                  "line": [
+                    "5 Example St."
+                  ],
+                  "city": "Boston",
+                  "state": "Massachusetts",
+                  "postalCode": "02101",
+                  "country": "United States"
+                }
+              },
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension",
+                "valueString": "Example Hospital"
+              },
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "16983000"
+                    }
+                  ]
+                }
+              }
+            ],
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension"
+          },
+          {
+            "extension": [
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "449971000124106"
+                    }
+                  ]
+                }
+              },
+              {
+                "extension": [
+                  {
+                    "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension",
+                    "valueString": "Example Cemetery"
+                  },
+                  {
+                    "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension",
+                    "valueAddress": {
+                      "type": "postal",
+                      "city": "Boston",
+                      "state": "Massachusetts",
+                      "country": "United States"
+                    }
+                  }
+                ],
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension"
+              },
+              {
+                "extension": [
+                  {
+                    "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension",
+                    "valueString": "Example Funeral Home"
+                  },
+                  {
+                    "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension",
+                    "valueAddress": {
+                      "type": "postal",
+                      "line": [
+                        "2 Example Street"
+                      ],
+                      "city": "Boston",
+                      "state": "Massachusetts",
+                      "postalCode": "02101",
+                      "country": "United States"
+                    }
+                  }
+                ],
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension"
+              }
+            ],
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension"
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "PHC1454"
+                }
+              ]
+            }
+          },
+          {
+            "extension": [
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension",
+                "valueString": "Example usual occupation."
+              },
+              {
+                "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension",
+                "valueString": "Example kind of business."
+              }
+            ],
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension"
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+            "valueString": "Maiden"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-ssn",
+            "value": "111223333"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Person",
+            "given": [
+              "Example",
+              "Middle"
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1970-04-24",
+        "deceasedDateTime": "2018-04-24T00:00:00+00:00",
+        "address": [
+          {
+            "line": [
+              "1 Example Street"
+            ],
+            "city": "Boston",
+            "state": "Massachusetts",
+            "postalCode": "02101"
+          }
+        ],
+        "resourceType": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:51c586b9-b04c-4bf4-9b29-b875f4485d50",
+      "resource": {
+        "meta": {
+          "profile": [
+            "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-Certifier",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "434651000124107",
+                  "display": "Physician (Pronouncer and Certifier)"
+                }
+              ]
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://github.com/nightingaleproject/nightingale",
+            "value": ""
+          }
+        ],
+        "name": [
+          {
+            "family": "Doctor",
+            "given": [
+              "Example",
+              "Middle"
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "100 Example St."
+            ],
+            "city": "Bedford",
+            "state": "Massachusetts",
+            "postalCode": "01730"
+          }
+        ],
+        "qualification": {
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/v2/0360/2.7",
+                "code": "MD",
+                "display": "Doctor of Medicine"
+              }
+            ]
+          }
+        },
+        "resourceType": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0b9b033d-f694-42b2-858c-485f9abbfc35",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Immediate COD</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "minutes",
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:89b3fdb8-ba98-49ad-8ba5-43fafa81d8f3",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Underlying COD 1</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "2 hours",
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:be1ffa87-c5d2-46e0-9116-96204feb72bc",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Underlying COD 2</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "6 months",
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d4f591",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Underlying COD 3</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "15 years",
+        "resourceType": "Condition"
+      }
+    },{
+      "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d4f591",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Underlying COD 3</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "onsetString": "15 years",
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d9snr50",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+        },
+        "text": {
+          "status": "additional",
+          "div": "<div xmlns='http://www.w3.org/1999/xhtml'>Example Contributing Condition</div>"
+        },
+        "clinicalStatus": "active",
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "resourceType": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8183570d-b8bd-4db8-95f1-7a32c642cca0",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ActualOrPresumedDateOfDeath"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "81956-5",
+              "display": "Date and time of death"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueDateTime": "2018-04-24T00:00:00+00:00",
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a81319cd-6c2a-431a-8c75-c7f306f882bd",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyPerformed"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "85699-7",
+              "display": "Autopsy was performed"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueBoolean": false,
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d5b8dcdc-6e3e-4828-a695-84fe06ff335a",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyResultsAvailable"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69436-4",
+              "display": "Autopsy results available"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueBoolean": false,
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:85253a38-434f-4354-833b-863191b84a9c",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DatePronouncedDead"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "80616-6",
+              "display": "Date and time pronounced dead"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueDateTime": "2018-04-24T00:00:00+00:00",
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:087a0903-aeec-41ed-95af-32a647459aed",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromWorkInjury"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69444-8",
+              "display": "Did death result from injury at work"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueBoolean": false,
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2e2e087-044b-42c1-a5aa-2fd603f4de57",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromTransportInjury"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69448-9",
+              "display": "Injury leading to death associated with transportation event"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "OTH",
+              "display": "Other"
+            }
+          ]
+        },
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3cca4d3a-9bb7-40cb-854f-7f988b650e76",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DetailsOfInjury"
+        },
+        "extension": [
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension",
+            "valueString": "Home"
+          },
+          {
+            "url": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension",
+            "valueAddress": {
+              "type": "postal",
+              "line": [
+                "7 Example Street"
+              ],
+              "city": "Bedford",
+              "state": "Massachusetts",
+              "postalCode": "01730",
+              "country": "United States"
+            }
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11374-6",
+              "display": "Injury incident description"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "effectiveDateTime": "2018-04-19T15:43:00+00:00",
+        "valueString": "Example details of injury",
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:453ae2d5-5bca-4e0c-9892-b034b4dd7f9e",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MannerOfDeath"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69449-7",
+              "display": "Manner of death"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "7878000",
+              "display": "Accident"
+            }
+          ]
+        },
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:488fabdd-84e7-4eef-86cf-7ea770c0ac0a",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MedicalExaminerContacted"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "74497-9",
+              "display": "Medical examiner or coroner was contacted"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueBoolean": false,
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:21e1abe1-630d-4ed0-a7f2-8375c1cde676",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TimingOfRecentPregnancyInRelationToDeath"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69442-2",
+              "display": "Timing of recent pregnancy in relation to death"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "PHC1260",
+              "display": "Not pregnant within past year"
+            }
+          ]
+        },
+        "resourceType": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3caf7960-a269-4fc3-9a28-b296510059f5",
+      "resource": {
+        "meta": {
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TobaccoUseContributedToDeath"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69443-0",
+              "display": "Did tobacco use contribute to death"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:b09ecca6-617b-414b-a507-8906d24821ce"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "373067005",
+              "display": "No"
+            }
+          ]
+        },
+        "resourceType": "Observation"
+      }
+    }
+  ],
+  "resourceType": "Bundle"
+}

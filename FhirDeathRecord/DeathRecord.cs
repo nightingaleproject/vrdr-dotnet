@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -188,7 +189,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
-        public Tuple<string, string, string> MannerOfDeath
+        public Dictionary<string, string> MannerOfDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
             get
@@ -196,7 +197,11 @@ namespace FhirDeathRecord
                 string code = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.code");
                 string system = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.system");
                 string display = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.display");
-                return Tuple.Create(code, system, display);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("code", code);
+                dictionary.Add("system", system);
+                dictionary.Add("display", display);
+                return dictionary;
             }
             set
             {
@@ -205,7 +210,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Did tobacco use contribute to death. Corresponds to item 35 of the U.S. Standard Certificate of Death.</summary>
-        public Tuple<string, string, string> TobaccoUseContributedToDeath
+        public Dictionary<string, string> TobaccoUseContributedToDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
             get
@@ -213,7 +218,11 @@ namespace FhirDeathRecord
                 string code = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.code");
                 string system = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.system");
                 string display = GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.display");
-                return Tuple.Create(code, system, display);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("code", code);
+                dictionary.Add("system", system);
+                dictionary.Add("display", display);
+                return dictionary;
             }
             set
             {

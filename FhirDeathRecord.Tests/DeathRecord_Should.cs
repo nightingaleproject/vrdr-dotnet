@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using Xunit;
@@ -108,15 +109,27 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MannerOfDeath()
         {
-            Assert.Equal("(7878000, http://snomed.info/sct, Accident)", Convert.ToString(((DeathRecord)XMLRecords[0]).MannerOfDeath));
-            Assert.Equal("(7878000, http://snomed.info/sct, Accident)", Convert.ToString(((DeathRecord)JSONRecords[0]).MannerOfDeath));
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).MannerOfDeath;
+            Assert.Equal("7878000", xmlDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", xmlDictionary["system"]);
+            Assert.Equal("Accident", xmlDictionary["display"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).MannerOfDeath;
+            Assert.Equal("7878000", jsonDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", jsonDictionary["system"]);
+            Assert.Equal("Accident", jsonDictionary["display"]);
         }
 
         [Fact]
         public void Get_TobaccoUseContributedToDeath()
         {
-            Assert.Equal("(373067005, http://snomed.info/sct, No)", Convert.ToString(((DeathRecord)XMLRecords[0]).TobaccoUseContributedToDeath));
-            Assert.Equal("(373067005, http://snomed.info/sct, No)", Convert.ToString(((DeathRecord)JSONRecords[0]).TobaccoUseContributedToDeath));
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).TobaccoUseContributedToDeath;
+            Assert.Equal("373067005", xmlDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", xmlDictionary["system"]);
+            Assert.Equal("No", xmlDictionary["display"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).TobaccoUseContributedToDeath;
+            Assert.Equal("373067005", jsonDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", jsonDictionary["system"]);
+            Assert.Equal("No", jsonDictionary["display"]);
         }
 
         private string FixturePath(string filePath)

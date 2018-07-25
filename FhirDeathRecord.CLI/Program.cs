@@ -48,8 +48,15 @@ namespace csharp_fhir_death_record
                 // Observations
                 Console.WriteLine($"\tAutopsy Performed: {deathRecord.AutopsyPerformed}");
                 Console.WriteLine($"\tAutopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
-                Console.WriteLine($"\tManner of Death: {deathRecord.MannerOfDeath}");
-                Console.WriteLine($"\tTobacco Use Contributed to Death: {deathRecord.TobaccoUseContributedToDeath}");
+                foreach(var pair in deathRecord.MannerOfDeath)
+                {
+                    Console.WriteLine($"\tManner of Death key: {pair.Key}: value: {pair.Value}");
+                }
+                
+                foreach(var pair in deathRecord.TobaccoUseContributedToDeath)
+                {
+                    Console.WriteLine($"\tTobacco Use Contributed to Death key: {pair.Key}: value: {pair.Value}");
+                }
             }
             else
             {

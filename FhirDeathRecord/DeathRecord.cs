@@ -229,6 +229,97 @@ namespace FhirDeathRecord
                 // TODO
             }
         }
+        /// <summary>Returns actual or presumed date of death.</summary>
+        public string ActualOrPresumedDateOfDeath
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5').value");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns date pronounced dead.</summary>
+        public string DatePronouncedDead
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6').value");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns death from injury at worky</summary>
+        public bool DeathResultedFromInjuryAtWork
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69444-8').value") == "True";
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns death from transportation injury</summary>
+        public bool DeathFromTransportInjury
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69448-9').value") == "True";
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns Details of Injury.</summary>
+        public string DetailsOfInjury
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').value");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns Medical Examiner or Coroner Contacted.</summary>
+        public bool MedicalExaminerContacted
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9').value") == "True";
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Returns Timing Of Recent Pregnancy In Relation To Death.</summary>
+        public string TimingOfRecentPregnancyInRelationToDeath
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2').value");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+        
 
         /// <summary>Given a FHIR path, return the elements that match the given path as a string;
         /// returns an empty array if no matches are found.</summary>

@@ -48,8 +48,6 @@ namespace csharp_fhir_death_record
                 // Observations
                 Console.WriteLine($"\tAutopsy Performed: {deathRecord.AutopsyPerformed}");
                 Console.WriteLine($"\tAutopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
-                Console.WriteLine($"\tManner of Death: {deathRecord.MannerOfDeath}");
-                Console.WriteLine($"\tTobacco Use Contributed to Death: {deathRecord.TobaccoUseContributedToDeath}");
                 Console.WriteLine($"\tActual Or Presumed Date of Death: {deathRecord.ActualOrPresumedDateOfDeath}");
                 Console.WriteLine($"\tDate Pronounced Dead: {deathRecord.DatePronouncedDead}");
                 Console.WriteLine($"\tDeath Resulted from Injury at Work: {deathRecord.DeathResultedFromInjuryAtWork}");
@@ -57,6 +55,15 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tDetails of Injury: {deathRecord.DetailsOfInjury}");
                 Console.WriteLine($"\tMedical Examiner Contacted: {deathRecord.MedicalExaminerContacted}");
                 Console.WriteLine($"\tTiming of Recent Pregnancy In Relation to Death: {deathRecord.TimingOfRecentPregnancyInRelationToDeath}");
+                foreach(var pair in deathRecord.MannerOfDeath)
+                {
+                    Console.WriteLine($"\tManner of Death key: {pair.Key}: value: {pair.Value}");
+                }
+                
+                foreach(var pair in deathRecord.TobaccoUseContributedToDeath)
+                {
+                    Console.WriteLine($"\tTobacco Use Contributed to Death key: {pair.Key}: value: {pair.Value}");
+                }
             }
             else
             {

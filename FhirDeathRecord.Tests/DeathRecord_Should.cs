@@ -46,6 +46,20 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
         }
 
+        public void Get_Address()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Address;
+            Assert.Equal("1 Example Street", xmlDictionary["street"]);
+            Assert.Equal("Boston", xmlDictionary["city"]);
+            Assert.Equal("Massachusetts", xmlDictionary["state"]);
+            Assert.Equal("02101", xmlDictionary["zip"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).Address;
+            Assert.Equal("1 Example Street", jsonDictionary["street"]);
+            Assert.Equal("Boston", jsonDictionary["city"]);
+            Assert.Equal("Massachusetts", jsonDictionary["state"]);
+            Assert.Equal("02101", jsonDictionary["zip"]);
+        }
+
         [Fact]
         public void Get_SSN()
         {
@@ -55,14 +69,14 @@ namespace FhirDeathRecord.Tests
 
         public void Get_DateOfBirth()
         {
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).DateOfBirth);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+            Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfBirth);
+            Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfBirth);
         }
 
         public void Get_DateOfDeath()
         {
-            Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfDeath);
-            Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).DateOfDeath);
         }
 
         [Fact]

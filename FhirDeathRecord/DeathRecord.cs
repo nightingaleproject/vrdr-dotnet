@@ -106,12 +106,35 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Deceden't Date and Time of Death</summary>
+        /// <summary>The decedent's Date and Time of Death.</summary>
         public string DateOfDeath
          {
             get
             {
+                //Not working, will resolve before PR
                 return GetFirst("Bundle.entry.resource.where($this is Patient).deceasedDateTime");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>The decedent's address.</summary>
+        public Dictionary<string, string> Address
+        {
+            get
+            {
+                string street = GetFirst("Bundle.entry.resource.where($this is Patient).address.line[0]");
+                string city = GetFirst("Bundle.entry.resource.where($this is Patient).address.city");
+                string state = GetFirst("Bundle.entry.resource.where($this is Patient).address.state");
+                string zip = GetFirst("Bundle.entry.resource.where($this is Patient).address.postalCode");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("street", street);
+                dictionary.Add("city", city);
+                dictionary.Add("state", state);
+                dictionary.Add("zip", zip);
+                return dictionary;
             }
             set
             {
@@ -227,6 +250,8 @@ namespace FhirDeathRecord
                 // TODO
             }
         }
+
+       
 
         /// <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
         public Dictionary<string, string> MannerOfDeath

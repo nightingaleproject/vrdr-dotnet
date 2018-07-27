@@ -36,6 +36,11 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tDate of Birth: {deathRecord.DateOfBirth}");
                 Console.WriteLine($"\tDate of Death: {deathRecord.DateOfDeath}");
 
+                foreach(var pair in deathRecord.Address)
+                {
+                    Console.WriteLine($"\tAddressh key: {pair.Key}: value: {pair.Value}");
+                }
+
 
                 // Certifier Information
                 Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenName}");

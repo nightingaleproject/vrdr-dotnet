@@ -80,6 +80,46 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Deceden't Gender</summary>
+        public string Gender
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Patient).gender");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Deceden't Date of Birth</summary>
+        public string DateOfBirth
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Patient).birthDate");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>Deceden't Date and Time of Death</summary>
+        public string DateOfDeath
+         {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Patient).deceasedDateTime");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+
         /// <summary>Decedent's Social Security Number</summary>
         public string SSN
         {

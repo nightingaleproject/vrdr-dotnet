@@ -40,11 +40,29 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Person", ((DeathRecord)JSONRecords[0]).LastName);
         }
 
+        public void Get_Gender()
+        {
+            Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
+            Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
+        }
+
         [Fact]
         public void Get_SSN()
         {
             Assert.Equal("111223333", ((DeathRecord)XMLRecords[0]).SSN);
             Assert.Equal("111223333", ((DeathRecord)JSONRecords[0]).SSN);
+        }
+
+        public void Get_DateOfBirth()
+        {
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).DateOfBirth);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+        }
+
+        public void Get_DateOfDeath()
+        {
+            Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfDeath);
         }
 
         [Fact]

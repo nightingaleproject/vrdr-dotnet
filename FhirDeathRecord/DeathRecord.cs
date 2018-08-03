@@ -111,7 +111,7 @@ namespace FhirDeathRecord
          {
             get
             {
-                //Not working, will resolve before PR
+                //TODO unsure why this doesn't resolve
                 return GetFirst("Bundle.entry.resource.where($this is Patient).deceasedDateTime");
             }
             set

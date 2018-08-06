@@ -40,12 +40,14 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Person", ((DeathRecord)JSONRecords[0]).LastName);
         }
 
+        [Fact]
         public void Get_Gender()
         {
             Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
             Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
         }
 
+        [Fact]
         public void Get_Address()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Address;
@@ -67,16 +69,25 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("111223333", ((DeathRecord)JSONRecords[0]).SSN);
         }
 
+        [Fact]
+        public void Get_Ethnicity()
+        {
+            Assert.Equal("Non Hispanic or Latino", ((DeathRecord)XMLRecords[0]).Ethnicity);
+            Assert.Equal("Non Hispanic or Latino", ((DeathRecord)JSONRecords[0]).Ethnicity);
+        }
+
+        [Fact]
         public void Get_DateOfBirth()
         {
             Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfBirth);
             Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfBirth);
         }
 
+        [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("", ((DeathRecord)XMLRecords[0]).DateOfDeath);
-            Assert.Equal("", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
         }
 
         [Fact]
@@ -91,6 +102,28 @@ namespace FhirDeathRecord.Tests
         {
             Assert.Equal("Doctor", ((DeathRecord)XMLRecords[0]).CertifierLastName);
             Assert.Equal("Doctor", ((DeathRecord)JSONRecords[0]).CertifierLastName);
+        }
+
+        [Fact]
+        public void Get_CertifierAddress()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).CertifierAddress;
+            Assert.Equal("100 Example St.", xmlDictionary["street"]);
+            Assert.Equal("Bedford", xmlDictionary["city"]);
+            Assert.Equal("Massachusetts", xmlDictionary["state"]);
+            Assert.Equal("01730", xmlDictionary["zip"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).CertifierAddress;
+            Assert.Equal("100 Example St.", jsonDictionary["street"]);
+            Assert.Equal("Bedford", jsonDictionary["city"]);
+            Assert.Equal("Massachusetts", jsonDictionary["state"]);
+            Assert.Equal("01730", jsonDictionary["zip"]);
+        }
+
+        [Fact]
+        public void Get_CertifierType()
+        {
+            Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)XMLRecords[0]).CertifierType);
+            Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)JSONRecords[0]).CertifierType);
         }
 
         [Fact]

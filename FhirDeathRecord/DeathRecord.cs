@@ -111,8 +111,7 @@ namespace FhirDeathRecord
          {
             get
             {
-                //TODO unsure why this doesn't resolve
-                return GetFirst("Bundle.entry.resource.where($this is Patient).deceasedDateTime");
+                return GetFirst("Bundle.entry.resource.where($this is Patient).deceased");
             }
             set
             {
@@ -156,6 +155,19 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Ethnicity.</summary>
+        public string Ethnicity 
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
         /// <summary>Given name(s) of certifier.</summary>
         public string CertifierGivenName
         {
@@ -180,6 +192,42 @@ namespace FhirDeathRecord
             {
                 // TODO
             }
+        }
+
+        /// <summary>The certifier's address.</summary>
+        public Dictionary<string, string> CertifierAddress
+        {
+            get
+            {
+                string street = GetFirst("Bundle.entry.resource.where($this is Practitioner).address.line[0]");
+                string city = GetFirst("Bundle.entry.resource.where($this is Practitioner).address.city");
+                string state = GetFirst("Bundle.entry.resource.where($this is Practitioner).address.state");
+                string zip = GetFirst("Bundle.entry.resource.where($this is Practitioner).address.postalCode");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("street", street);
+                dictionary.Add("city", city);
+                dictionary.Add("state", state);
+                dictionary.Add("zip", zip);
+                return dictionary;
+            }
+            set
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>The type of certifier.</summary>
+        public string CertifierType
+        {
+            get
+            {
+                return GetFirst("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
+            }
+            set
+            {
+                //TODO
+            }
+
         }
 
         /// <summary>Conditions that resulted in the underlying cause of death. Corresponds to part 1 of item 32 of the U.S.

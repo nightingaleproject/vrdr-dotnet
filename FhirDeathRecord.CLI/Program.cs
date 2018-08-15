@@ -31,11 +31,26 @@ namespace csharp_fhir_death_record
                 // Decedent Information
                 Console.WriteLine($"\tGiven Name: {deathRecord.GivenName}");
                 Console.WriteLine($"\tLast Name: {deathRecord.LastName}");
+                Console.WriteLine($"\tGender: {deathRecord.Gender}");
                 Console.WriteLine($"\tSSN: {deathRecord.SSN}");
+                Console.WriteLine($"\tEthnicity: {deathRecord.Ethnicity}");
+                Console.WriteLine($"\tDate of Birth: {deathRecord.DateOfBirth}");
+                Console.WriteLine($"\tDate of Death: {deathRecord.DateOfDeath}");
+
+                foreach(var pair in deathRecord.Address)
+                {
+                    Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");
+                }
+
 
                 // Certifier Information
                 Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenName}");
                 Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierLastName}");
+                foreach(var pair in deathRecord.CertifierAddress)
+                {
+                    Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");
+                }
+                Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
 
                 // Conditions
                 Tuple<string, string>[] causes = deathRecord.CausesOfDeath;

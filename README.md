@@ -20,6 +20,64 @@ You can include the library by referencing it in your project configuration, for
 </Project>
 ```
 
+#### Consuming Example
+A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
+```
+// Read in XML file as a string
+string xml = File.ReadAllText("./example_sdr.xml");
+
+// Construct a new DeathRecord object from the SDR XML string
+DeathRecord deathRecord = new DeathRecord(xml);
+
+// Print out some details from the record
+Console.WriteLine($"Decedent's Given Name(s): {deathRecord.GivenName}");
+Console.WriteLine($"Decedent's Last Name: {deathRecord.LastName}");
+
+Console.WriteLine($"Autopsy Performed: {deathRecord.AutopsyPerformed}");
+
+Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+foreach (var cause in causes)
+{
+  Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");
+}
+```
+
+#### Producing Example
+A quick example of producing a from-scratch SDR FHIR document using this library, and then printing it out as a JSON string:
+```
+DeathRecord deathRecord = new DeathRecord();
+
+// Set Death Record ID
+deathRecord.Id = "42";
+
+// Add Given Names
+string[] givens = {"First", "Middle"};
+deathRecord.GivenName = givens;
+
+// Add Last Name
+deathRecord.LastName = "Last";
+
+// Add Certifier Given Names
+string[] certGivens = {"First", "Middle"};
+deathRecord.GivenName = certGivens;
+
+// Add Certifier Last Name
+deathRecord.LastName = "Doctor";
+
+// Add TimingOfRecentPregnancyInRelationToDeath
+Dictionary<string, string> code = new Dictionary<string, string>();
+code.Add("code", "PHC1260");
+code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
+code.Add("display", "Not pregnant within past year");
+deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
+
+// Add MedicalExaminerContacted
+deathRecord.MedicalExaminerContacted = false;
+
+// Print record as a JSON string
+Console.WriteLine(deathRecord.ToJSON());
+```
+
 ### FhirDeathRecord.Tests
 This directory contains unit and functional tests for the FhirDeathRecord library.
 

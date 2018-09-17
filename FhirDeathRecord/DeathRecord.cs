@@ -569,6 +569,7 @@ namespace FhirDeathRecord
             {
                 Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MedicalExaminerContacted",
                                                          "74497-9",
+                                                         "http://loinc.org",
                                                          "Medical examiner or coroner was contacted");
                 observation.Value = new FhirBoolean(value);
             }
@@ -592,6 +593,7 @@ namespace FhirDeathRecord
             {
                 Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TimingOfRecentPregnancyInRelationToDeath",
                                                          "69442-2",
+                                                         "http://loinc.org",
                                                          "Timing of recent pregnancy in relation to death");
                 observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
             }
@@ -599,9 +601,10 @@ namespace FhirDeathRecord
 
         /// <summary>Add a new observation to the Death Record.</summary>
         /// <param name="profile">the observation profile.</param>
-        /// <param name="code">the observation loinc code.</param>
-        /// <param name="display">the observation loinc code display.</param>
-        private Observation AddObservation(string profile, string code, string display)
+        /// <param name="code">the observation code.</param>
+        /// <param name="system">the observation code system.</param>
+        /// <param name="display">the observation code display.</param>
+        private Observation AddObservation(string profile, string code, string system, string display)
         {
             Observation observation = new Observation();
             observation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
@@ -610,7 +613,7 @@ namespace FhirDeathRecord
             string[] observation_profile = {profile};
             observation.Meta.Profile = observation_profile;
             observation.Status = ObservationStatus.Final;
-            observation.Code = new CodeableConcept("http://loinc.org", code, display, null);
+            observation.Code = new CodeableConcept(system, code, display, null);
             AddReferenceToComposition(observation.Id);
             Bundle.AddResourceEntry(observation, observation.Id);
             return observation;

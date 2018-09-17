@@ -24,7 +24,6 @@ You can include the library by referencing it in your project configuration, for
 This directory contains unit and functional tests for the FhirDeathRecord library.
 
 #### Usage
-
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
 ```
 dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj

@@ -24,7 +24,7 @@ You can include the library by referencing it in your project configuration, for
 A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
 ```
 // Read in XML file as a string
-string xml = File.ReadAllText("./example_sdr.xml");
+string xml = File.ReadAllText("./example_sdr_fhir.xml");
 
 // Construct a new DeathRecord object from the SDR XML string
 DeathRecord deathRecord = new DeathRecord(xml);
@@ -50,19 +50,12 @@ DeathRecord deathRecord = new DeathRecord();
 // Set Death Record ID
 deathRecord.Id = "42";
 
-// Add Given Names
-string[] givens = {"First", "Middle"};
-deathRecord.GivenNames = givens;
+// Add Decedent Given Names
+string[] givenNames = {"First", "Middle"};
+deathRecord.GivenNames = givenNames;
 
-// Add Last Name
+// Add Decedent Last Name
 deathRecord.FamilyName = "Last";
-
-// Add Certifier Given Names
-string[] certGivens = {"First", "Middle"};
-deathRecord.GivenNames = certGivens;
-
-// Add Certifier Last Name
-deathRecord.FamilyName = "Doctor";
 
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();
@@ -73,6 +66,9 @@ deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
 
 // Add MedicalExaminerContacted
 deathRecord.MedicalExaminerContacted = false;
+
+// Add DatePronouncedDead
+deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
 
 // Print record as a JSON string
 Console.WriteLine(deathRecord.ToJSON());

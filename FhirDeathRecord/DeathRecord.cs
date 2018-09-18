@@ -16,7 +16,7 @@ namespace FhirDeathRecord
     {
         private PocoNavigator Navigator;
 
-        public Bundle Bundle;
+        private Bundle Bundle;
 
         private Composition Composition;
 
@@ -66,7 +66,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
-        /// <param name="record">a string that represents a FHIR SDR in either XML or JSON format.</param>
+        /// <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record)
         {
@@ -112,13 +112,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Death Record ID.</summary>
-        /// <value>a string containing the record identification</value>
+        /// <value>the record identification</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.Id = "42";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Id = "42";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");</para>
         /// </example>
         public string Id
         {
@@ -133,13 +132,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Death Record Creation Date.</summary>
-        /// <value>a string describing when the record was created</value>
+        /// <value>when the record was created</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.CreationDate = "2018-07-11";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Record was created on: {ExampleDeathRecord.CreationDate}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CreationDate = "2018-07-11";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Record was created on: {ExampleDeathRecord.CreationDate}");</para>
         /// </example>
         public string CreationDate
         {
@@ -154,14 +152,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Given Name(s).</summary>
-        /// <value>an array of strings describing the decedent's name (first, middle, etc.)</value>
+        /// <value>the decedent's name (first, middle, etc.)</value>
         /// <example>
-        /// // Setter:
-        /// string[] names = {"Example", "Middle"};
-        /// ExampleDeathRecord.GivenNames = names;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");
+        /// <para>// Setter:</para>
+        /// <para>string[] names = {"Example", "Middle"};</para>
+        /// <para>ExampleDeathRecord.GivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
         public string[] GivenNames
         {
@@ -187,13 +184,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Family Name.</summary>
-        /// <value>a string describing the decedent's family name (i.e. last name)</value>
+        /// <value>the decedent's family name (i.e. last name)</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.FamilyName = "Last";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Decedent's Last Name: {string.Join(", ", ExampleDeathRecord.FamilyName)}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Last Name: {string.Join(", ", ExampleDeathRecord.FamilyName)}");</para>
         /// </example>
         public string FamilyName
         {
@@ -321,14 +317,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Given name(s) of certifier.</summary>
-        /// <value>an array of strings describing the certifier's name (first, middle, etc.)</value>
+        /// <value>the certifier's name (first, middle, etc.)</value>
         /// <example>
-        /// // Setter:
-        /// string[] names = {"Doctor", "Middle"};
-        /// ExampleDeathRecord.CertifierGivenNames = names;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");
+        /// <para>// Setter:</para>
+        /// <para>string[] names = {"Doctor", "Middle"};</para>
+        /// <para>ExampleDeathRecord.CertifierGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
         public string[] CertifierGivenNames
         {
@@ -354,13 +349,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Family name of certifier.</summary>
-        /// <value>a string describing the decedent's family name (i.e. last name)</value>
+        /// <value>the certifier's family name (i.e. last name)</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.CertifierFamilyName = "Last";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertifierFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");</para>
         /// </example>
         public string CertifierFamilyName
         {
@@ -465,13 +459,12 @@ namespace FhirDeathRecord
 
         /// <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
         /// Certificate of Death.</summary>
-        /// <value>a Boolean describing this finding</value>
+        /// <value>Whether an autopsy was performed (true) or not (false)</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.AutopsyPerformed = true;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutopsyPerformed = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
         /// </example>
         public bool AutopsyPerformed
         {
@@ -491,13 +484,12 @@ namespace FhirDeathRecord
 
         /// <summary>Were autopsy findings available to complete the cause of death? Corresponds to item 34 of the U.S.
         /// Standard Certificate of Death.</summary>
-        /// <value>a Boolean describing this finding</value>
+        /// <value>Were autopsy findings available to complete the cause of death?</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.AutopsyResultsAvailable = true;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailable = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");</para>
         /// </example>
         public bool AutopsyResultsAvailable
         {
@@ -516,21 +508,20 @@ namespace FhirDeathRecord
         }
 
         /// <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Dictionary representing a code, containing the following key/value pairs:
-        /// "code" - the code describing this finding
-        /// "system" - the system the given code belongs to
-        /// "display" - the human readable display text that corresponds to the given code
+        /// <value>The manner of the decendents demise. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
         /// </value>
         /// <example>
-        /// // Setter:
-        /// Dictionary<string, string> code = new Dictionary<string, string>();
-        /// code.Add("code", "7878000");
-        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
-        /// code.Add("display", "Accident");
-        /// ExampleDeathRecord.MannerOfDeath = code;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "7878000");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");</para>
+        /// <para>code.Add("display", "Accident");</para>
+        /// <para>ExampleDeathRecord.MannerOfDeath = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");</para>
         /// </example>
         public Dictionary<string, string> MannerOfDeath
         {
@@ -557,21 +548,20 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Did tobacco use contribute to death. Corresponds to item 35 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Dictionary representing a code, containing the following key/value pairs:
-        /// "code" - the code describing this finding
-        /// "system" - the system the given code belongs to
-        /// "display" - the human readable display text that corresponds to the given code
+        /// <value>Did tobacco use contribute to death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
         /// </value>
         /// <example>
-        /// // Setter:
-        /// Dictionary<string, string> code = new Dictionary<string, string>();
-        /// code.Add("code", "373066001");
-        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
-        /// code.Add("display", "Yes");
-        /// ExampleDeathRecord.TobaccoUseContributedToDeath = code;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "373066001");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.TobaccoUseContributedToDeath = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");</para>
         /// </example>
         public Dictionary<string, string> TobaccoUseContributedToDeath
         {
@@ -597,13 +587,12 @@ namespace FhirDeathRecord
             }
         }
         /// <summary>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a String describing the date/time of this finding</value>
+        /// <value>Actual or presumed date of death</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");</para>
         /// </example>
         public string ActualOrPresumedDateOfDeath
         {
@@ -622,13 +611,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Date pronounced dead. Corresponds to items 24 and 25 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a String describing the date/time of this finding</value>
+        /// <value>Date pronounced dead</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.DatePronouncedDead = "2018-04-24T00:00:00+00:00";
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DatePronouncedDead = "2018-04-24T00:00:00+00:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");</para>
         /// </example>
         public string DatePronouncedDead
         {
@@ -647,13 +635,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Did death result from injury at work? Corresponds to item 41 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Boolean describing this finding</value>
+        /// <value>Did death result from injury at work?</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.DeathFromWorkInjury = true;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathFromWorkInjury = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");</para>
         /// </example>
         public bool DeathFromWorkInjury
         {
@@ -672,21 +659,20 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Injury leading to death associated with transportation event. Corresponds to item 44 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Dictionary representing a code, containing the following key/value pairs:
-        /// "code" - the code describing this finding
-        /// "system" - the system the given code belongs to
-        /// "display" - the human readable display text that corresponds to the given code
+        /// <value>Injury leading to death associated with transportation event. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
         /// </value>
         /// <example>
-        /// // Setter:
-        /// Dictionary<string, string> code = new Dictionary<string, string>();
-        /// code.Add("code", "236320001");
-        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
-        /// code.Add("display", "Vehicle driver");
-        /// ExampleDeathRecord.DeathFromTransportInjury = code;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "236320001");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");</para>
+        /// <para>code.Add("display", "Vehicle driver");</para>
+        /// <para>ExampleDeathRecord.DeathFromTransportInjury = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");</para>
         /// </example>
         public Dictionary<string, string> DeathFromTransportInjury
         {
@@ -712,13 +698,12 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Boolean describing this finding</value>
+        /// <value>Whether a medical examiner or coroner was contacted</value>
         /// <example>
-        /// // Setter:
-        /// ExampleDeathRecord.MedicalExaminerContacted = true;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MedicalExaminerContacted = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");</para>
         /// </example>
         public bool MedicalExaminerContacted
         {
@@ -737,21 +722,20 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Timing Of Recent Pregnancy In Relation To Death. Corresponds to item 36 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>a Dictionary representing a code, containing the following key/value pairs:
-        /// "code" - the code describing this finding
-        /// "system" - the system the given code belongs to
-        /// "display" - the human readable display text that corresponds to the given code
+        /// <value>Timing Of Recent Pregnancy In Relation To Death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
         /// </value>
         /// <example>
-        /// // Setter:
-        /// Dictionary<string, string> code = new Dictionary<string, string>();
-        /// code.Add("code", "PHC1260");
-        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
-        /// code.Add("display", "Not pregnant within past year");
-        /// ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
-        ///
-        /// // Getter:
-        /// Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "PHC1260");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");</para>
+        /// <para>code.Add("display", "Not pregnant within past year");</para>
+        /// <para>ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");</para>
         /// </example>
         public Dictionary<string, string> TimingOfRecentPregnancyInRelationToDeath
         {
@@ -777,36 +761,35 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Injury incident description.</summary>
-        /// <value>a Dictionary representing a description of an injury incident, containing the following key/value pairs:
-        /// "placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area
-        /// "effectiveDateTime" - effective date and time of injury
-        /// "description" - description of injury
-        /// "placeOfInjuryLine1" - location of injury, line one
-        /// "placeOfInjuryLine2" - location of injury, line two
-        /// "placeOfInjuryCity" - location of injury, city
-        /// "placeOfInjuryState" - location of injury, state
-        /// "placeOfInjuryZip" - location of injury, zip
-        /// "placeOfInjuryCountry" - location of injury, country
-        /// "placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)
+        /// <value>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:
+        /// <para>"placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
+        /// <para>"effectiveDateTime" - effective date and time of injury</para>
+        /// <para>"description" - description of injury</para>
+        /// <para>"placeOfInjuryLine1" - location of injury, line one</para>
+        /// <para>"placeOfInjuryLine2" - location of injury, line two</para>
+        /// <para>"placeOfInjuryCity" - location of injury, city</para>
+        /// <para>"placeOfInjuryState" - location of injury, state</para>
+        /// <para>"placeOfInjuryZip" - location of injury, zip</para>
+        /// <para>"placeOfInjuryCountry" - location of injury, country</para>
+        /// <para>"placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)</para>
         /// </value>
         /// <example>
-        /// // Setter:
-        /// Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
-        /// detailsOfInjury.Add("placeOfInjuryDescription", "Home");
-        /// detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");
-        /// detailsOfInjury.Add("description", "Example details of injury");
-        /// detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
-        /// detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");
-        /// detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
-        /// detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
-        /// detailsOfInjury.Add("placeOfInjuryZip", "01730");
-        /// detailsOfInjury.Add("placeOfInjuryCountry", "United States");
-        /// detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
-        /// ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;
-        ///
-        /// // Getter:
-        /// string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];
-        /// Console.WriteLine($"State where injury occurred: {state}");
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; detailsOfInjury = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryDescription", "Home");</para>
+        /// <para>detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
+        /// <para>detailsOfInjury.Add("description", "Example details of injury");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryCity", "Bedford");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryZip", "01730");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryCountry", "United States");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");</para>
+        /// <para>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</para>
+        /// <para>// Getter:</para>
+        /// <para>string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];</para>
+        /// <para>Console.WriteLine($"State where injury occurred: {state}");</para>
         /// </example>
         public Dictionary<string, string> DetailsOfInjury
         {
@@ -893,7 +876,7 @@ namespace FhirDeathRecord
 
         /// <summary>Given a FHIR path, return the elements that match the given path;
         /// returns an empty array if no matches are found.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>all elements that match the given path, or an empty array if no matches are found.</returns>
         private object[] GetAll(string path)
         {
@@ -907,7 +890,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Given a FHIR path, return the first element that matches the given path.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path, or null if no match is found.</returns>
         private object GetFirst(string path)
         {
@@ -923,7 +906,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Given a FHIR path, return the last element that matches the given path.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>the last element that matches the given path, or null if no match is found.</returns>
         private object GetLast(string path)
         {
@@ -940,7 +923,7 @@ namespace FhirDeathRecord
 
         /// <summary>Given a FHIR path, return the elements that match the given path as a string;
         /// returns an empty array if no matches are found.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>all elements that match the given path as a string, or an empty array if no matches are found.</returns>
         private string[] GetAllString(string path)
         {
@@ -954,7 +937,7 @@ namespace FhirDeathRecord
 
         /// <summary>Given a FHIR path, return the first element that matches the given path as a string;
         /// returns an empty string if no match is found.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path as a string, or null if no match is found.</returns>
         private string GetFirstString(string path)
         {
@@ -971,7 +954,7 @@ namespace FhirDeathRecord
 
         /// <summary>Given a FHIR path, return the last element that matches the given path as a string;
         /// returns an empty string if no match is found.</summary>
-        /// <param name="path">a string representing a FHIR path.</param>
+        /// <param name="path">represents a FHIR path.</param>
         /// <returns>the last element that matches the given path as a string, or null if no match is found.</returns>
         private string GetLastString(string path)
         {

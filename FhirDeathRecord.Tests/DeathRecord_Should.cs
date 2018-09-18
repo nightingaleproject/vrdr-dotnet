@@ -224,6 +224,13 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_AutopsyPerformed()
+        {
+            SetterDeathRecord.AutopsyPerformed = false;
+            Assert.False(SetterDeathRecord.AutopsyPerformed);
+        }
+
+        [Fact]
         public void Get_AutopsyPerformed()
         {
             Assert.False(((DeathRecord)XMLRecords[0]).AutopsyPerformed);
@@ -231,10 +238,30 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_AutopsyResultsAvailable()
+        {
+            SetterDeathRecord.AutopsyResultsAvailable = false;
+            Assert.False(SetterDeathRecord.AutopsyResultsAvailable);
+        }
+
+        [Fact]
         public void Get_AutopsyResultsAvailable()
         {
             Assert.False(((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable);
             Assert.False(((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable);
+        }
+
+        [Fact]
+        public void Set_MannerOfDeath()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "7878000");
+            code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+            code.Add("display", "Accident");
+            SetterDeathRecord.MannerOfDeath = code;
+            Assert.Equal("7878000", SetterDeathRecord.MannerOfDeath["code"]);
+            Assert.Equal("http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS", SetterDeathRecord.MannerOfDeath["system"]);
+            Assert.Equal("Accident", SetterDeathRecord.MannerOfDeath["display"]);
         }
 
         [Fact]
@@ -251,17 +278,16 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_MedicalExaminerContacted()
+        public void Set_TobaccoUseContributedToDeath()
         {
-            SetterDeathRecord.MedicalExaminerContacted = true;
-            Assert.True(SetterDeathRecord.MedicalExaminerContacted);
-        }
-
-        [Fact]
-        public void Get_MedicalExaminerContacted()
-        {
-            Assert.False(((DeathRecord)XMLRecords[0]).MedicalExaminerContacted);
-            Assert.False(((DeathRecord)JSONRecords[0]).MedicalExaminerContacted);
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "373066001");
+            code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+            code.Add("display", "Yes");
+            SetterDeathRecord.TobaccoUseContributedToDeath = code;
+            Assert.Equal("373066001", SetterDeathRecord.TobaccoUseContributedToDeath["code"]);
+            Assert.Equal("http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS", SetterDeathRecord.TobaccoUseContributedToDeath["system"]);
+            Assert.Equal("Yes", SetterDeathRecord.TobaccoUseContributedToDeath["display"]);
         }
 
         [Fact]
@@ -275,6 +301,88 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("373067005", jsonDictionary["code"]);
             Assert.Equal("http://snomed.info/sct", jsonDictionary["system"]);
             Assert.Equal("No", jsonDictionary["display"]);
+        }
+
+        [Fact]
+        public void Set_ActualOrPresumedDateOfDeath()
+        {
+            SetterDeathRecord.ActualOrPresumedDateOfDeath = "2018-09-01T00:00:00+06:00";
+            Assert.Equal("2018-09-01T00:00:00+06:00", SetterDeathRecord.ActualOrPresumedDateOfDeath);
+        }
+
+        [Fact]
+        public void Get_ActualOrPresumedDateOfDeath()
+        {
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).ActualOrPresumedDateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).ActualOrPresumedDateOfDeath);
+        }
+
+        [Fact]
+        public void Set_DatePronouncedDead()
+        {
+            SetterDeathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
+            Assert.Equal("2018-09-01T00:00:00+04:00", SetterDeathRecord.DatePronouncedDead);
+        }
+
+        [Fact]
+        public void Get_DatePronouncedDead()
+        {
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).DatePronouncedDead);
+            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).DatePronouncedDead);
+        }
+
+        [Fact]
+        public void Set_DeathFromWorkInjury()
+        {
+            SetterDeathRecord.DeathFromWorkInjury = true;
+            Assert.True(SetterDeathRecord.DeathFromWorkInjury);
+        }
+
+        [Fact]
+        public void Get_DeathFromWorkInjury()
+        {
+            Assert.False(((DeathRecord)XMLRecords[0]).DeathFromWorkInjury);
+            Assert.False(((DeathRecord)JSONRecords[0]).DeathFromWorkInjury);
+        }
+
+        [Fact]
+        public void Set_DeathFromTransportInjury()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "236320001");
+            code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
+            code.Add("display", "Vehicle driver");
+            SetterDeathRecord.DeathFromTransportInjury = code;
+            Assert.Equal("236320001", SetterDeathRecord.DeathFromTransportInjury["code"]);
+            Assert.Equal("http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS", SetterDeathRecord.DeathFromTransportInjury["system"]);
+            Assert.Equal("Vehicle driver", SetterDeathRecord.DeathFromTransportInjury["display"]);
+        }
+
+        [Fact]
+        public void Get_DeathFromTransportInjury()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).DeathFromTransportInjury;
+            Assert.Equal("OTH", xmlDictionary["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", xmlDictionary["system"]);
+            Assert.Equal("Other", xmlDictionary["display"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).DeathFromTransportInjury;
+            Assert.Equal("OTH", jsonDictionary["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", jsonDictionary["system"]);
+            Assert.Equal("Other", jsonDictionary["display"]);
+        }
+
+        [Fact]
+        public void Set_MedicalExaminerContacted()
+        {
+            SetterDeathRecord.MedicalExaminerContacted = true;
+            Assert.True(SetterDeathRecord.MedicalExaminerContacted);
+        }
+
+        [Fact]
+        public void Get_MedicalExaminerContacted()
+        {
+            Assert.False(((DeathRecord)XMLRecords[0]).MedicalExaminerContacted);
+            Assert.False(((DeathRecord)JSONRecords[0]).MedicalExaminerContacted);
         }
 
         [Fact]
@@ -299,6 +407,60 @@ namespace FhirDeathRecord.Tests
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).TimingOfRecentPregnancyInRelationToDeath;
             Assert.Equal("PHC1260", jsonDictionary["code"]);
             Assert.Equal("Not pregnant within past year", jsonDictionary["display"]);
+        }
+
+        [Fact]
+        public void Set_DetailsOfInjury()
+        {
+            Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
+            detailsOfInjury.Add("placeOfInjuryDescription", "Home");
+            detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");
+            detailsOfInjury.Add("description", "Example details of injury");
+            detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
+            detailsOfInjury.Add("placeOfInjuryLine2", "Line 2");
+            detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
+            detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
+            detailsOfInjury.Add("placeOfInjuryZip", "01730");
+            detailsOfInjury.Add("placeOfInjuryCountry", "United States");
+            detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
+            SetterDeathRecord.DetailsOfInjury = detailsOfInjury;
+            Assert.Equal("Home", SetterDeathRecord.DetailsOfInjury["placeOfInjuryDescription"]);
+            Assert.Equal("2018-04-19T15:43:00+00:00", SetterDeathRecord.DetailsOfInjury["effectiveDateTime"]);
+            Assert.Equal("Example details of injury", SetterDeathRecord.DetailsOfInjury["description"]);
+            Assert.Equal("7 Example Street", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.DetailsOfInjury["placeOfInjuryCity"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.DetailsOfInjury["placeOfInjuryState"]);
+            Assert.Equal("01730", SetterDeathRecord.DetailsOfInjury["placeOfInjuryZip"]);
+            Assert.Equal("United States", SetterDeathRecord.DetailsOfInjury["placeOfInjuryCountry"]);
+            Assert.Equal("True", SetterDeathRecord.DetailsOfInjury["placeOfInjuryInsideCityLimits"]);
+        }
+
+        [Fact]
+        public void Get_DetailsOfInjury()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).DetailsOfInjury;
+            Assert.Equal("Home", xmlDictionary["placeOfInjuryDescription"]);
+            Assert.Equal("2018-04-19T15:43:00+00:00", xmlDictionary["effectiveDateTime"]);
+            Assert.Equal("Example details of injury", xmlDictionary["description"]);
+            Assert.Equal("7 Example Street", xmlDictionary["placeOfInjuryLine1"]);
+            Assert.Null(xmlDictionary["placeOfInjuryLine2"]);
+            Assert.Equal("Bedford", xmlDictionary["placeOfInjuryCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["placeOfInjuryState"]);
+            Assert.Equal("01730", xmlDictionary["placeOfInjuryZip"]);
+            Assert.Equal("United States", xmlDictionary["placeOfInjuryCountry"]);
+            Assert.Null(xmlDictionary["placeOfInjuryInsideCityLimits"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).DetailsOfInjury;
+            Assert.Equal("Home", jsonDictionary["placeOfInjuryDescription"]);
+            Assert.Equal("2018-04-19T15:43:00+00:00", jsonDictionary["effectiveDateTime"]);
+            Assert.Equal("Example details of injury", jsonDictionary["description"]);
+            Assert.Equal("7 Example Street", jsonDictionary["placeOfInjuryLine1"]);
+            Assert.Null(jsonDictionary["placeOfInjuryLine2"]);
+            Assert.Equal("Bedford", jsonDictionary["placeOfInjuryCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["placeOfInjuryState"]);
+            Assert.Equal("01730", jsonDictionary["placeOfInjuryZip"]);
+            Assert.Equal("United States", jsonDictionary["placeOfInjuryCountry"]);
+            Assert.Null(jsonDictionary["placeOfInjuryInsideCityLimits"]);
         }
 
         private string FixturePath(string filePath)

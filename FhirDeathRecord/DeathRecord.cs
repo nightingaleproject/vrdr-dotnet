@@ -183,7 +183,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Deceden't Gender.</summary>
+        /// <summary>Decedent's Gender.</summary>
         public string Gender
         {
             get
@@ -196,7 +196,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Deceden't Date of Birth.</summary>
+        /// <summary>Decedent's Date of Birth.</summary>
         public string DateOfBirth
         {
             get
@@ -209,7 +209,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>The decedent's Date and Time of Death.</summary>
+        /// <summary>Decedent's Date and Time of Death.</summary>
         public string DateOfDeath
          {
             get
@@ -222,7 +222,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>The decedent's address.</summary>
+        /// <summary>Decedent's address.</summary>
         public Dictionary<string, string> Address
         {
             get
@@ -243,7 +243,6 @@ namespace FhirDeathRecord
                 // TODO
             }
         }
-
 
         /// <summary>Decedent's Social Security Number.</summary>
         public string SSN
@@ -336,7 +335,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>The certifier's address.</summary>
+        /// <summary>Address of certifier.</summary>
         public Dictionary<string, string> CertifierAddress
         {
             get
@@ -358,7 +357,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>The type of certifier.</summary>
+        /// <summary>Type of certifier.</summary>
         public string CertifierType
         {
             get
@@ -414,6 +413,7 @@ namespace FhirDeathRecord
 
         /// <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
         /// Certificate of Death.</summary>
+        /// <value>a Boolean describing this finding</value>
         public bool AutopsyPerformed
         {
             get
@@ -422,12 +422,17 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyPerformed",
+                                                         "85699-7",
+                                                         "http://loinc.org",
+                                                         "Autopsy was performed");
+                observation.Value = new FhirBoolean(value);
             }
         }
 
         /// <summary>Were autopsy findings available to complete the cause of death? Corresponds to item 34 of the U.S.
         /// Standard Certificate of Death.</summary>
+        /// <value>a Boolean describing this finding</value>
         public bool AutopsyResultsAvailable
         {
             get
@@ -436,11 +441,20 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyResultsAvailable",
+                                                         "69436-4",
+                                                         "http://loinc.org",
+                                                         "Autopsy results available");
+                observation.Value = new FhirBoolean(value);
             }
         }
 
         /// <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Dictionary representing a code, containing the following key/value pairs:
+        /// "code" - the code describing this finding
+        /// "system" - the system the given code belongs to
+        /// "display" - the human readable display text that corresponds to the given code
+        ///</value>
         public Dictionary<string, string> MannerOfDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
@@ -457,11 +471,20 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MannerOfDeath",
+                                                         "69449-7",
+                                                         "http://loinc.org",
+                                                         "Manner of death");
+                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
             }
         }
 
         /// <summary>Did tobacco use contribute to death. Corresponds to item 35 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Dictionary representing a code, containing the following key/value pairs:
+        /// "code" - the code describing this finding
+        /// "system" - the system the given code belongs to
+        /// "display" - the human readable display text that corresponds to the given code
+        ///</value>
         public Dictionary<string, string> TobaccoUseContributedToDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
@@ -478,10 +501,15 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TobaccoUseContributedToDeath",
+                                                         "69443-0",
+                                                         "http://loinc.org",
+                                                         "Did tobacco use contribute to death");
+                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
             }
         }
         /// <summary>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a String describing the date/time of this finding</value>
         public string ActualOrPresumedDateOfDeath
         {
             get
@@ -490,11 +518,16 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ActualOrPresumedDateOfDeath",
+                                                         "81956-5",
+                                                         "http://loinc.org",
+                                                         "Date and time of death");
+                observation.Value = new FhirDateTime(value);
             }
         }
 
         /// <summary>Date pronounced dead. Corresponds to items 24 and 25 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a String describing the date/time of this finding</value>
         public string DatePronouncedDead
         {
             get
@@ -503,11 +536,16 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DatePronouncedDead",
+                                                         "80616-6",
+                                                         "http://loinc.org",
+                                                         "Date and time pronounced dead");
+                observation.Value = new FhirDateTime(value);
             }
         }
 
         /// <summary>Did death result from injury at work? Corresponds to item 41 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Boolean describing this finding</value>
         public bool DeathFromWorkInjury
         {
             get
@@ -516,11 +554,20 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromWorkInjury",
+                                                         "69444-8",
+                                                         "http://loinc.org",
+                                                         "Did death result from injury at work");
+                observation.Value = new FhirBoolean(value);
             }
         }
 
         /// <summary>Injury leading to death associated with transportation event. Corresponds to item 44 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Dictionary representing a code, containing the following key/value pairs:
+        /// "code" - the code describing this finding
+        /// "system" - the system the given code belongs to
+        /// "display" - the human readable display text that corresponds to the given code
+        ///</value>
         public Dictionary<string, string> DeathFromTransportInjury
         {
             get
@@ -536,29 +583,16 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Injury incident description.</summary>
-        public string DetailsOfInjury
-        {
-            get
-            {
-                // TODO, see: https://nightingaleproject.github.io/fhir-death-record/guide/StructureDefinition-sdr-causeOfDeath-DetailsOfInjury.html
-
-                // Missing: shr-core-PostalAddress-extension, sdr-causeOfDeath-PlaceOfInjury-extension, effectiveDateTime, valueString
-
-                //return GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').value");
-                return "";
-            }
-            set
-            {
-                // TODO
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromTransportInjury",
+                                                         "69448-9",
+                                                         "http://loinc.org",
+                                                         "Injury leading to death associated with transportation event");
+                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
             }
         }
 
         /// <summary>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Boolean describing this finding</value>
         public bool MedicalExaminerContacted
         {
             get
@@ -576,6 +610,11 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Timing Of Recent Pregnancy In Relation To Death. Corresponds to item 36 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>a Dictionary representing a code, containing the following key/value pairs:
+        /// "code" - the code describing this finding
+        /// "system" - the system the given code belongs to
+        /// "display" - the human readable display text that corresponds to the given code
+        ///</value>
         public Dictionary<string, string> TimingOfRecentPregnancyInRelationToDeath
         {
             get
@@ -596,6 +635,75 @@ namespace FhirDeathRecord
                                                          "http://loinc.org",
                                                          "Timing of recent pregnancy in relation to death");
                 observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+            }
+        }
+
+        /// <summary>Injury incident description.</summary>
+        /// <value>a Dictionary representing a description of an injury incident, containing the following key/value pairs:
+        /// "placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area
+        /// "effectiveDateTime" - effective date and time of injury
+        /// "description" - description of injury
+        /// "placeOfInjuryLine1" - location of injury, line one
+        /// "placeOfInjuryLine2" - location of injury, line two
+        /// "placeOfInjuryCity" - location of injury, city
+        /// "placeOfInjuryState" - location of injury, state
+        /// "placeOfInjuryZip" - location of injury, zip
+        /// "placeOfInjuryCountry" - location of injury, country
+        /// "placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)
+        ///</value>
+        public Dictionary<string, string> DetailsOfInjury
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+                // Place of injury - Description of the place of injury, e.g. decedent’s home, restaurant, wooded area
+                dictionary.Add("placeOfInjuryDescription", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension').value"));
+
+                // Effective date and time of injury
+                dictionary.Add("effectiveDateTime", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').effective"));
+
+                // Description of injury
+                dictionary.Add("description", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').value"));
+
+                // Location of injury
+                dictionary.Add("placeOfInjuryLine1", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
+                dictionary.Add("placeOfInjuryLine2", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
+                dictionary.Add("placeOfInjuryCity", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("placeOfInjuryState", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
+                dictionary.Add("placeOfInjuryZip", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
+                dictionary.Add("placeOfInjuryCountry", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
+                dictionary.Add("placeOfInjuryInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+
+                return dictionary;
+            }
+            set
+            {
+                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DetailsOfInjury",
+                                                         "11374-6",
+                                                         "http://loinc.org",
+                                                         "Injury incident description");
+                observation.Value = new FhirString(value["description"]);
+                observation.Effective = new FhirDateTime(value["effectiveDateTime"]);
+                Extension placeOfInjury = new Extension();
+                placeOfInjury.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension";
+                placeOfInjury.Value = new FhirString(value["placeOfInjuryDescription"]);
+                observation.Extension.Add(placeOfInjury);
+                Extension placeOfInjuryLocation = new Extension();
+                placeOfInjuryLocation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
+                Address placeOfInjuryLocationAddress = new Address();
+                string[] lines = {value["placeOfInjuryLine1"], value["placeOfInjuryLine2"]};
+                placeOfInjuryLocationAddress.Line = lines.ToArray();
+                placeOfInjuryLocationAddress.City = value["placeOfInjuryCity"];
+                placeOfInjuryLocationAddress.State = value["placeOfInjuryState"];
+                placeOfInjuryLocationAddress.PostalCode = value["placeOfInjuryZip"];
+                placeOfInjuryLocationAddress.Country = value["placeOfInjuryCountry"];
+                Extension insideCityLimits = new Extension();
+                insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                insideCityLimits.Value = new FhirBoolean(value["placeOfInjuryInsideCityLimits"] == "true");
+                placeOfInjuryLocationAddress.Extension.Add(insideCityLimits);
+                placeOfInjuryLocation.Value = placeOfInjuryLocationAddress;
+                observation.Extension.Add(placeOfInjuryLocation);
             }
         }
 
@@ -636,9 +744,9 @@ namespace FhirDeathRecord
             ArrayList list = new ArrayList();
             foreach (var match in matches)
             {
-                list.Add(Convert.ToString(match.Value));
+                list.Add(match.Value);
             }
-            return list.ToArray(typeof(string)) as string[];
+            return list.ToArray();
         }
 
         /// <summary>Given a FHIR path, return the first element that matches the given path.</summary>

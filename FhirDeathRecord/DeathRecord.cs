@@ -366,7 +366,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                //TODO
+                // TODO
             }
         }
 
@@ -414,6 +414,13 @@ namespace FhirDeathRecord
         /// <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
         /// Certificate of Death.</summary>
         /// <value>a Boolean describing this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.AutopsyPerformed = true;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");
+        /// </example>
         public bool AutopsyPerformed
         {
             get
@@ -433,6 +440,13 @@ namespace FhirDeathRecord
         /// <summary>Were autopsy findings available to complete the cause of death? Corresponds to item 34 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>a Boolean describing this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.AutopsyResultsAvailable = true;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");
+        /// </example>
         public bool AutopsyResultsAvailable
         {
             get
@@ -454,7 +468,18 @@ namespace FhirDeathRecord
         /// "code" - the code describing this finding
         /// "system" - the system the given code belongs to
         /// "display" - the human readable display text that corresponds to the given code
-        ///</value>
+        /// </value>
+        /// <example>
+        /// // Setter:
+        /// Dictionary<string, string> code = new Dictionary<string, string>();
+        /// code.Add("code", "7878000");
+        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+        /// code.Add("display", "Accident");
+        /// ExampleDeathRecord.MannerOfDeath = code;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");
+        /// </example>
         public Dictionary<string, string> MannerOfDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
@@ -484,7 +509,18 @@ namespace FhirDeathRecord
         /// "code" - the code describing this finding
         /// "system" - the system the given code belongs to
         /// "display" - the human readable display text that corresponds to the given code
-        ///</value>
+        /// </value>
+        /// <example>
+        /// // Setter:
+        /// Dictionary<string, string> code = new Dictionary<string, string>();
+        /// code.Add("code", "373066001");
+        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+        /// code.Add("display", "Yes");
+        /// ExampleDeathRecord.TobaccoUseContributedToDeath = code;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");
+        /// </example>
         public Dictionary<string, string> TobaccoUseContributedToDeath
         {
             /// <returns>a tuple containing a code, code system, and display</returns>
@@ -510,6 +546,13 @@ namespace FhirDeathRecord
         }
         /// <summary>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</summary>
         /// <value>a String describing the date/time of this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");
+        /// </example>
         public string ActualOrPresumedDateOfDeath
         {
             get
@@ -528,6 +571,13 @@ namespace FhirDeathRecord
 
         /// <summary>Date pronounced dead. Corresponds to items 24 and 25 of the U.S. Standard Certificate of Death.</summary>
         /// <value>a String describing the date/time of this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.DatePronouncedDead = "2018-04-24T00:00:00+00:00";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");
+        /// </example>
         public string DatePronouncedDead
         {
             get
@@ -546,6 +596,13 @@ namespace FhirDeathRecord
 
         /// <summary>Did death result from injury at work? Corresponds to item 41 of the U.S. Standard Certificate of Death.</summary>
         /// <value>a Boolean describing this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.DeathFromWorkInjury = true;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");
+        /// </example>
         public bool DeathFromWorkInjury
         {
             get
@@ -567,7 +624,18 @@ namespace FhirDeathRecord
         /// "code" - the code describing this finding
         /// "system" - the system the given code belongs to
         /// "display" - the human readable display text that corresponds to the given code
-        ///</value>
+        /// </value>
+        /// <example>
+        /// // Setter:
+        /// Dictionary<string, string> code = new Dictionary<string, string>();
+        /// code.Add("code", "236320001");
+        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
+        /// code.Add("display", "Vehicle driver");
+        /// ExampleDeathRecord.DeathFromTransportInjury = code;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");
+        /// </example>
         public Dictionary<string, string> DeathFromTransportInjury
         {
             get
@@ -593,6 +661,13 @@ namespace FhirDeathRecord
 
         /// <summary>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</summary>
         /// <value>a Boolean describing this finding</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.MedicalExaminerContacted = true;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");
+        /// </example>
         public bool MedicalExaminerContacted
         {
             get
@@ -614,7 +689,18 @@ namespace FhirDeathRecord
         /// "code" - the code describing this finding
         /// "system" - the system the given code belongs to
         /// "display" - the human readable display text that corresponds to the given code
-        ///</value>
+        /// </value>
+        /// <example>
+        /// // Setter:
+        /// Dictionary<string, string> code = new Dictionary<string, string>();
+        /// code.Add("code", "PHC1260");
+        /// code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
+        /// code.Add("display", "Not pregnant within past year");
+        /// ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");
+        /// </example>
         public Dictionary<string, string> TimingOfRecentPregnancyInRelationToDeath
         {
             get
@@ -650,7 +736,26 @@ namespace FhirDeathRecord
         /// "placeOfInjuryZip" - location of injury, zip
         /// "placeOfInjuryCountry" - location of injury, country
         /// "placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)
-        ///</value>
+        /// </value>
+        /// <example>
+        /// // Setter:
+        /// Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
+        /// detailsOfInjury.Add("placeOfInjuryDescription", "Home");
+        /// detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");
+        /// detailsOfInjury.Add("description", "Example details of injury");
+        /// detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
+        /// detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");
+        /// detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
+        /// detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
+        /// detailsOfInjury.Add("placeOfInjuryZip", "01730");
+        /// detailsOfInjury.Add("placeOfInjuryCountry", "United States");
+        /// detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
+        /// ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;
+        ///
+        /// // Getter:
+        /// string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];
+        /// Console.WriteLine($"State where injury occurred: {state}");
+        /// </example>
         public Dictionary<string, string> DetailsOfInjury
         {
             get

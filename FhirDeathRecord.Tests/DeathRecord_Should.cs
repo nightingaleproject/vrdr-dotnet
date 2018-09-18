@@ -59,33 +59,33 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_GivenName()
+        public void Set_GivenNames()
         {
             string[] expected = {"Example", "Middle"};
-            SetterDeathRecord.GivenName = expected;
-            Assert.Equal(expected, SetterDeathRecord.GivenName);
+            SetterDeathRecord.GivenNames = expected;
+            Assert.Equal(expected, SetterDeathRecord.GivenNames);
         }
 
         [Fact]
-        public void Get_GivenName()
+        public void Get_GivenNames()
         {
             string[] expected = {"Example", "Middle"};
-            Assert.Equal(expected, ((DeathRecord)XMLRecords[0]).GivenName);
-            Assert.Equal(expected, ((DeathRecord)JSONRecords[0]).GivenName);
+            Assert.Equal(expected, ((DeathRecord)XMLRecords[0]).GivenNames);
+            Assert.Equal(expected, ((DeathRecord)JSONRecords[0]).GivenNames);
         }
 
         [Fact]
-        public void Set_LastName()
+        public void Set_FamilyName()
         {
-            SetterDeathRecord.LastName = "Last";
-            Assert.Equal("Last", SetterDeathRecord.LastName);
+            SetterDeathRecord.FamilyName = "Last";
+            Assert.Equal("Last", SetterDeathRecord.FamilyName);
         }
 
         [Fact]
-        public void Get_LastName()
+        public void Get_FamilyName()
         {
-            Assert.Equal("Person", ((DeathRecord)XMLRecords[0]).LastName);
-            Assert.Equal("Person", ((DeathRecord)JSONRecords[0]).LastName);
+            Assert.Equal("Person", ((DeathRecord)XMLRecords[0]).FamilyName);
+            Assert.Equal("Person", ((DeathRecord)JSONRecords[0]).FamilyName);
         }
 
         [Fact]
@@ -141,33 +141,33 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_CertifierGivenName()
+        public void Set_CertifierGivenNames()
         {
             string[] expected = {"Example", "Middle", "Middle 2", "Middle 3"};
-            SetterDeathRecord.CertifierGivenName = expected;
-            Assert.Equal(expected, SetterDeathRecord.CertifierGivenName);
+            SetterDeathRecord.CertifierGivenNames = expected;
+            Assert.Equal(expected, SetterDeathRecord.CertifierGivenNames);
         }
 
         [Fact]
-        public void Get_CertifierGivenName()
+        public void Get_CertifierGivenNames()
         {
             string[] expected = {"Example", "Middle"};
-            Assert.Equal(expected, ((DeathRecord)XMLRecords[0]).CertifierGivenName);
-            Assert.Equal(expected, ((DeathRecord)JSONRecords[0]).CertifierGivenName);
+            Assert.Equal(expected, ((DeathRecord)XMLRecords[0]).CertifierGivenNames);
+            Assert.Equal(expected, ((DeathRecord)JSONRecords[0]).CertifierGivenNames);
         }
 
         [Fact]
-        public void Set_CertifierLastName()
+        public void Set_CertifierFamilyName()
         {
-            SetterDeathRecord.LastName = "Doctor";
-            Assert.Equal("Doctor", SetterDeathRecord.LastName);
+            SetterDeathRecord.FamilyName = "Doctor";
+            Assert.Equal("Doctor", SetterDeathRecord.FamilyName);
         }
 
         [Fact]
-        public void Get_CertifierLastName()
+        public void Get_CertifierFamilyName()
         {
-            Assert.Equal("Doctor", ((DeathRecord)XMLRecords[0]).CertifierLastName);
-            Assert.Equal("Doctor", ((DeathRecord)JSONRecords[0]).CertifierLastName);
+            Assert.Equal("Doctor", ((DeathRecord)XMLRecords[0]).CertifierFamilyName);
+            Assert.Equal("Doctor", ((DeathRecord)JSONRecords[0]).CertifierFamilyName);
         }
 
         [Fact]

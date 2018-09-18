@@ -30,8 +30,8 @@ string xml = File.ReadAllText("./example_sdr.xml");
 DeathRecord deathRecord = new DeathRecord(xml);
 
 // Print out some details from the record
-Console.WriteLine($"Decedent's Given Name(s): {deathRecord.GivenName}");
-Console.WriteLine($"Decedent's Last Name: {deathRecord.LastName}");
+Console.WriteLine($"Decedent's Given Name(s): {deathRecord.GivenNames}");
+Console.WriteLine($"Decedent's Last Name: {deathRecord.FamilyName}");
 
 Console.WriteLine($"Autopsy Performed: {deathRecord.AutopsyPerformed}");
 
@@ -52,17 +52,17 @@ deathRecord.Id = "42";
 
 // Add Given Names
 string[] givens = {"First", "Middle"};
-deathRecord.GivenName = givens;
+deathRecord.GivenNames = givens;
 
 // Add Last Name
-deathRecord.LastName = "Last";
+deathRecord.FamilyName = "Last";
 
 // Add Certifier Given Names
 string[] certGivens = {"First", "Middle"};
-deathRecord.GivenName = certGivens;
+deathRecord.GivenNames = certGivens;
 
 // Add Certifier Last Name
-deathRecord.LastName = "Doctor";
+deathRecord.FamilyName = "Doctor";
 
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();

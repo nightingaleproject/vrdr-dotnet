@@ -27,17 +27,17 @@ namespace csharp_fhir_death_record
 
                 // Given Names
                 string[] givens = {"First", "Middle"};
-                d.GivenName = givens;
+                d.GivenNames = givens;
 
                 // Last Name
-                d.LastName = "Last";
+                d.FamilyName = "Last";
 
                 // Certifier Given Names
                 string[] cgivens = {"First", "Middle", "Doc"};
-                d.GivenName = cgivens;
+                d.GivenNames = cgivens;
 
                 // Certifier Last Name
-                d.LastName = "Doctor";
+                d.FamilyName = "Doctor";
 
                 // Add TimingOfRecentPregnancyInRelationToDeath
                 Dictionary<string, string> code = new Dictionary<string, string>();
@@ -73,8 +73,8 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tRecord Creation Date: {deathRecord.CreationDate}");
 
                 // Decedent Information
-                Console.WriteLine($"\tGiven Name: {deathRecord.GivenName}");
-                Console.WriteLine($"\tLast Name: {deathRecord.LastName}");
+                Console.WriteLine($"\tGiven Name: {string.Join(", ", deathRecord.GivenNames)}");
+                Console.WriteLine($"\tLast Name: {deathRecord.FamilyName}");
                 Console.WriteLine($"\tGender: {deathRecord.Gender}");
                 Console.WriteLine($"\tSSN: {deathRecord.SSN}");
                 Console.WriteLine($"\tEthnicity: {deathRecord.Ethnicity}");
@@ -88,8 +88,8 @@ namespace csharp_fhir_death_record
 
 
                 // Certifier Information
-                Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenName}");
-                Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierLastName}");
+                Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenNames}");
+                Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierFamilyName}");
                 foreach(var pair in deathRecord.CertifierAddress)
                 {
                     Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");
@@ -110,8 +110,8 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tActual Or Presumed Date of Death: {deathRecord.ActualOrPresumedDateOfDeath}");
                 Console.WriteLine($"\tDate Pronounced Dead: {deathRecord.DatePronouncedDead}");
                 Console.WriteLine($"\tDeath Resulted from Injury at Work: {deathRecord.DeathFromWorkInjury}");
-                Console.WriteLine($"\tDeath From Transport Injury: {deathRecord.DeathFromTransportInjury}");
-                Console.WriteLine($"\tDetails of Injury: {deathRecord.DetailsOfInjury}");
+                Console.WriteLine($"\tDeath From Transport Injury: {string.Join(", ", deathRecord.DeathFromTransportInjury)}");
+                Console.WriteLine($"\tDetails of Injury: {string.Join(", ", deathRecord.DetailsOfInjury)}");
                 Console.WriteLine($"\tMedical Examiner Contacted: {deathRecord.MedicalExaminerContacted}");
                 Console.WriteLine($"\tTiming of Recent Pregnancy In Relation to Death: {string.Join(", ", deathRecord.TimingOfRecentPregnancyInRelationToDeath)}");
                 foreach(var pair in deathRecord.MannerOfDeath)

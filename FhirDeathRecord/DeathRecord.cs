@@ -96,6 +96,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
+        /// <returns>a string representation of this Death Record in XML format</returns>
         public string ToXML()
         {
             var serializer = new FhirXmlSerializer();
@@ -103,6 +104,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+        /// <returns>a string representation of this Death Record in JSON format</returns>
         public string ToJSON()
         {
             var serializer = new FhirJsonSerializer();
@@ -110,6 +112,14 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Death Record ID.</summary>
+        /// <value>a string containing the record identification</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.Id = "42";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");
+        /// </example>
         public string Id
         {
             get
@@ -123,6 +133,14 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Death Record Creation Date.</summary>
+        /// <value>a string describing when the record was created</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.CreationDate = "2018-07-11";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Record was created on: {ExampleDeathRecord.CreationDate}");
+        /// </example>
         public string CreationDate
         {
             get
@@ -135,8 +153,17 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's Given Name.</summary>
-        public string[] GivenName
+        /// <summary>Decedent's Given Name(s).</summary>
+        /// <value>an array of strings describing the decedent's name (first, middle, etc.)</value>
+        /// <example>
+        /// // Setter:
+        /// string[] names = {"Example", "Middle"};
+        /// ExampleDeathRecord.GivenNames = names;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");
+        /// </example>
+        public string[] GivenNames
         {
             get
             {
@@ -159,8 +186,16 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's Last Name.</summary>
-        public string LastName
+        /// <summary>Decedent's Family Name.</summary>
+        /// <value>a string describing the decedent's family name (i.e. last name)</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.FamilyName = "Last";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Decedent's Last Name: {string.Join(", ", ExampleDeathRecord.FamilyName)}");
+        /// </example>
+        public string FamilyName
         {
             get
             {
@@ -286,7 +321,16 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Given name(s) of certifier.</summary>
-        public string[] CertifierGivenName
+        /// <value>an array of strings describing the certifier's name (first, middle, etc.)</value>
+        /// <example>
+        /// // Setter:
+        /// string[] names = {"Doctor", "Middle"};
+        /// ExampleDeathRecord.CertifierGivenNames = names;
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");
+        /// </example>
+        public string[] CertifierGivenNames
         {
             get
             {
@@ -309,8 +353,16 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Last name of certifier.</summary>
-        public string CertifierLastName
+        /// <summary>Family name of certifier.</summary>
+        /// <value>a string describing the decedent's family name (i.e. last name)</value>
+        /// <example>
+        /// // Setter:
+        /// ExampleDeathRecord.CertifierFamilyName = "Last";
+        ///
+        /// // Getter:
+        /// Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");
+        /// </example>
+        public string CertifierFamilyName
         {
             get
             {
@@ -318,7 +370,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
                 if (name != null)
                 {
                     string[] last = {value};

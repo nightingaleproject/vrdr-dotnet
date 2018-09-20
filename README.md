@@ -20,11 +20,64 @@ You can include the library by referencing it in your project configuration, for
 </Project>
 ```
 
+#### Consuming Example
+A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
+```
+// Read in XML file as a string
+string xml = File.ReadAllText("./example_sdr_fhir.xml");
+
+// Construct a new DeathRecord object from the SDR XML string
+DeathRecord deathRecord = new DeathRecord(xml);
+
+// Print out some details from the record
+Console.WriteLine($"Decedent's Given Name(s): {deathRecord.GivenNames}");
+Console.WriteLine($"Decedent's Last Name: {deathRecord.FamilyName}");
+
+Console.WriteLine($"Autopsy Performed: {deathRecord.AutopsyPerformed}");
+
+Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+foreach (var cause in causes)
+{
+  Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");
+}
+```
+
+#### Producing Example
+A quick example of producing a from-scratch SDR FHIR document using this library, and then printing it out as a JSON string:
+```
+DeathRecord deathRecord = new DeathRecord();
+
+// Set Death Record ID
+deathRecord.Id = "42";
+
+// Add Decedent Given Names
+string[] givenNames = {"First", "Middle"};
+deathRecord.GivenNames = givenNames;
+
+// Add Decedent Last Name
+deathRecord.FamilyName = "Last";
+
+// Add TimingOfRecentPregnancyInRelationToDeath
+Dictionary<string, string> code = new Dictionary<string, string>();
+code.Add("code", "PHC1260");
+code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
+code.Add("display", "Not pregnant within past year");
+deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
+
+// Add MedicalExaminerContacted
+deathRecord.MedicalExaminerContacted = false;
+
+// Add DatePronouncedDead
+deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
+
+// Print record as a JSON string
+Console.WriteLine(deathRecord.ToJSON());
+```
+
 ### FhirDeathRecord.Tests
 This directory contains unit and functional tests for the FhirDeathRecord library.
 
 #### Usage
-
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
 ```
 dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj

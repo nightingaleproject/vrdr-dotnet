@@ -522,6 +522,14 @@ namespace FhirDeathRecord
 
         /// <summary>A significant condition that contributed to death but did not result in the underlying cause
         /// captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>A significant condition that contributed to death but did not result in the underlying cause
+        /// captured by a CauseOfDeathCondition.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
+        /// </example>
         public string ContributingConditions
         {
             get

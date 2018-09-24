@@ -391,7 +391,7 @@
     <resource>
       <Condition>
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition"/>
         </meta>
         <text>
           <status value="additional"/>

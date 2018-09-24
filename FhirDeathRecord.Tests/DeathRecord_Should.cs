@@ -193,10 +193,44 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_ContributingConditions()
+        {
+            SetterDeathRecord.ContributingConditions = "Example Contributing Condition";
+            Assert.Equal("Example Contributing Condition", SetterDeathRecord.ContributingConditions);
+        }
+
+        [Fact]
         public void Get_ContributingConditions()
         {
             Assert.Equal("Example Contributing Condition", ((DeathRecord)XMLRecords[0]).ContributingConditions);
             Assert.Equal("Example Contributing Condition", ((DeathRecord)JSONRecords[0]).ContributingConditions);
+        }
+
+        [Fact]
+        public void Set_CausesOfDeath()
+        {
+            Tuple<string, string>[] causes =
+            {
+                Tuple.Create("Example Immediate COD", "minutes"),
+                Tuple.Create("Example Underlying COD 1", "2 hours"),
+                Tuple.Create("Example Underlying COD 2", "6 months"),
+                Tuple.Create("Example Underlying COD 3", "15 years"),
+                Tuple.Create("Example Underlying COD 4", "30 years"),
+                Tuple.Create("Example Underlying COD 5", "years")
+            };
+            SetterDeathRecord.CausesOfDeath = causes;
+            Assert.Equal("Example Immediate COD", SetterDeathRecord.CausesOfDeath[0].Item1);
+            Assert.Equal("minutes", SetterDeathRecord.CausesOfDeath[0].Item2);
+            Assert.Equal("Example Underlying COD 1", SetterDeathRecord.CausesOfDeath[1].Item1);
+            Assert.Equal("2 hours", SetterDeathRecord.CausesOfDeath[1].Item2);
+            Assert.Equal("Example Underlying COD 2", SetterDeathRecord.CausesOfDeath[2].Item1);
+            Assert.Equal("6 months", SetterDeathRecord.CausesOfDeath[2].Item2);
+            Assert.Equal("Example Underlying COD 3", SetterDeathRecord.CausesOfDeath[3].Item1);
+            Assert.Equal("15 years", SetterDeathRecord.CausesOfDeath[3].Item2);
+            Assert.Equal("Example Underlying COD 4", SetterDeathRecord.CausesOfDeath[4].Item1);
+            Assert.Equal("30 years", SetterDeathRecord.CausesOfDeath[4].Item2);
+            Assert.Equal("Example Underlying COD 5", SetterDeathRecord.CausesOfDeath[5].Item1);
+            Assert.Equal("years", SetterDeathRecord.CausesOfDeath[5].Item2);
         }
 
         [Fact]
@@ -461,6 +495,35 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("01730", jsonDictionary["placeOfInjuryZip"]);
             Assert.Equal("United States", jsonDictionary["placeOfInjuryCountry"]);
             Assert.Null(jsonDictionary["placeOfInjuryInsideCityLimits"]);
+        }
+
+        [Fact]
+        public void MultipleObservationSets()
+        {
+            SetterDeathRecord.MedicalExaminerContacted = false;
+            SetterDeathRecord.MedicalExaminerContacted = true;
+            Assert.True(SetterDeathRecord.MedicalExaminerContacted);
+        }
+
+        [Fact]
+        public void MultipleConditionSets()
+        {
+            Tuple<string, string>[] bogus_causes =
+            {
+                Tuple.Create("bogus cause", "bogus onset")
+            };
+            SetterDeathRecord.CausesOfDeath = bogus_causes;
+
+            Tuple<string, string>[] second_causes =
+            {
+                Tuple.Create("a cause", "a onset"),
+                Tuple.Create("b cause", "b onset")
+            };
+            SetterDeathRecord.CausesOfDeath = second_causes;
+            Assert.Equal("a cause", SetterDeathRecord.CausesOfDeath[0].Item1);
+            Assert.Equal("a onset", SetterDeathRecord.CausesOfDeath[0].Item2);
+            Assert.Equal("b cause", SetterDeathRecord.CausesOfDeath[1].Item1);
+            Assert.Equal("b onset", SetterDeathRecord.CausesOfDeath[1].Item2);
         }
 
         private string FixturePath(string filePath)

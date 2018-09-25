@@ -462,34 +462,62 @@ namespace FhirDeathRecord
         /// <summary>Conditions that resulted in the underlying cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
-        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") and
-        /// its approximate onset to death (Tuple "Item2").</value>
+        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
+        /// approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string&gt;[] causes =</para>
+        /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
         /// <para>{</para>
-        /// <para>    Tuple.Create("Example Immediate COD", "minutes"),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours"),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months"),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years")</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>())</para>
         /// <para>};</para>
         /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
         /// <para>// Getter:</para>
         /// <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
         /// <para>foreach (var cause in causes)</para>
         /// <para>{</para>
-        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");</para>
+        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
         /// <para>}</para>
         /// </example>
-        public Tuple<string, string>[] CausesOfDeath
+        public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
             /// <returns>an array of tuples each containing the cause of death literal and the approximate interval onset to death.</returns>
             get
             {
-                string[] causes = GetAllString($"Bundle.entry.resource.where($this is Condition).where(onset).text.div");
-                string[] intervals = GetAllString($"Bundle.entry.resource.where($this is Condition).where(onset).onset");
+                List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
                 Regex htmlRegex = new Regex("<.*?>");
-                return causes.Zip(intervals, (a, b) => Tuple.Create(htmlRegex.Replace(a, ""), b)).ToArray();
+
+                // Grab the cause of death conditions on the record
+                var causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Onset != null).ToList();
+                foreach (var cause in causes)
+                {
+                    // Grab literal and onset
+                    string literal = htmlRegex.Replace(Convert.ToString(((Condition)cause.Resource).Text.Div), "");
+                    string onset = Convert.ToString(((Condition)cause.Resource).Onset);
+
+                    // Grab code (if it is there)
+                    CodeableConcept codeableConcept = ((Condition)cause.Resource).Code;
+                    Dictionary<string, string> code = new Dictionary<string, string>();
+                    if (codeableConcept != null)
+                    {
+                        Coding coding = codeableConcept.Coding.First();
+                        if (coding != null)
+                        {
+                            code.Add("code", codeableConcept.Coding.First().Code);
+                            code.Add("system", codeableConcept.Coding.First().System);
+                            code.Add("display", codeableConcept.Coding.First().Display);
+                        }
+                    }
+                    results.Add(Tuple.Create(literal, onset, code));
+                }
+
+                return results.ToArray();
             }
             set
             {
@@ -497,7 +525,7 @@ namespace FhirDeathRecord
                 RemoveCauseConditions();
 
                 // Add new Conditions for causes
-                foreach (Tuple<string, string> cause in value)
+                foreach (Tuple<string, string, Dictionary<string, string>> cause in value)
                 {
                     // Create a new Condition and populate it with the given details
                     Condition condition = new Condition();
@@ -512,6 +540,7 @@ namespace FhirDeathRecord
                     narrative.Status = Narrative.NarrativeStatus.Additional;
                     condition.Text = narrative;
                     condition.Onset = new FhirString(cause.Item2);
+                    condition.Code = DictToCodeableConcept(cause.Item3); // Optional, literal might not be coded yet.
 
                     // Add Condition to Composition and Bundle
                     AddReferenceToComposition(condition.Id);
@@ -569,7 +598,7 @@ namespace FhirDeathRecord
 
         /////////////////////////////////////////////////////////////////////////////////
         //
-        // Class Properties related to other record information (Observations)
+        // Class Properties related to other record information (Observations).
         //
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -659,7 +688,7 @@ namespace FhirDeathRecord
                                                          "69449-7",
                                                          "http://loinc.org",
                                                          "Manner of death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -699,7 +728,7 @@ namespace FhirDeathRecord
                                                          "69443-0",
                                                          "http://loinc.org",
                                                          "Did tobacco use contribute to death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -810,7 +839,7 @@ namespace FhirDeathRecord
                                                          "69448-9",
                                                          "http://loinc.org",
                                                          "Injury leading to death associated with transportation event");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -873,7 +902,7 @@ namespace FhirDeathRecord
                                                          "69442-2",
                                                          "http://loinc.org",
                                                          "Timing of recent pregnancy in relation to death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -1036,6 +1065,29 @@ namespace FhirDeathRecord
             Bundle.Entry.RemoveAll(entry => entry.Resource.ResourceType == ResourceType.Condition &&
                                             ((Condition)entry.Resource).Onset != null &&
                                             RemoveReferenceFromComposition(entry.Resource.Id));
+        }
+
+        /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+        /// <param name="dict">represents a code.</param>
+        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
+        private CodeableConcept DictToCodeableConcept(Dictionary<string, string> dict)
+        {
+            CodeableConcept codeableConcept = new CodeableConcept();
+            Coding coding = new Coding();
+            if (dict.ContainsKey("code"))
+            {
+                coding.Code = dict["code"];
+            }
+            if (dict.ContainsKey("system"))
+            {
+                coding.System = dict["system"];
+            }
+            if (dict.ContainsKey("display"))
+            {
+                coding.Display = dict["display"];
+            }
+            codeableConcept.Coding.Add(coding);
+            return codeableConcept;
         }
 
         /// <summary>Given a FHIR path, return the elements that match the given path;

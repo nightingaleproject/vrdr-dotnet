@@ -209,18 +209,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_CausesOfDeath()
         {
-            Tuple<string, string>[] causes =
+            Tuple<string, string, Dictionary<string, string>>[] causes =
             {
-                Tuple.Create("Example Immediate COD", "minutes"),
-                Tuple.Create("Example Underlying COD 1", "2 hours"),
-                Tuple.Create("Example Underlying COD 2", "6 months"),
-                Tuple.Create("Example Underlying COD 3", "15 years"),
-                Tuple.Create("Example Underlying COD 4", "30 years"),
-                Tuple.Create("Example Underlying COD 5", "years")
+                Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
+                Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
+                Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),
+                Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>()),
+                Tuple.Create("Example Underlying COD 4", "30 years", new Dictionary<string, string>()),
+                Tuple.Create("Example Underlying COD 5", "years", new Dictionary<string, string>())
             };
             SetterDeathRecord.CausesOfDeath = causes;
             Assert.Equal("Example Immediate COD", SetterDeathRecord.CausesOfDeath[0].Item1);
             Assert.Equal("minutes", SetterDeathRecord.CausesOfDeath[0].Item2);
+            Assert.Equal("1234", SetterDeathRecord.CausesOfDeath[0].Item3["code"]);
+            Assert.Equal("example", SetterDeathRecord.CausesOfDeath[0].Item3["system"]);
             Assert.Equal("Example Underlying COD 1", SetterDeathRecord.CausesOfDeath[1].Item1);
             Assert.Equal("2 hours", SetterDeathRecord.CausesOfDeath[1].Item2);
             Assert.Equal("Example Underlying COD 2", SetterDeathRecord.CausesOfDeath[2].Item1);
@@ -236,7 +238,7 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CausesOfDeath()
         {
-            Tuple<string, string>[] xmlCauses = ((DeathRecord)XMLRecords[0]).CausesOfDeath;
+            Tuple<string, string, Dictionary<string, string>>[] xmlCauses = ((DeathRecord)XMLRecords[0]).CausesOfDeath;
             Assert.Equal("Example Immediate COD", xmlCauses[0].Item1);
             Assert.Equal("minutes", xmlCauses[0].Item2);
             Assert.Equal("Example Underlying COD 1", xmlCauses[1].Item1);
@@ -246,7 +248,7 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Example Underlying COD 3", xmlCauses[3].Item1);
             Assert.Equal("15 years", xmlCauses[3].Item2);
 
-            Tuple<string, string>[] jsonCauses = ((DeathRecord)XMLRecords[0]).CausesOfDeath;
+            Tuple<string, string, Dictionary<string, string>>[] jsonCauses = ((DeathRecord)XMLRecords[0]).CausesOfDeath;
             Assert.Equal("Example Immediate COD", jsonCauses[0].Item1);
             Assert.Equal("minutes", jsonCauses[0].Item2);
             Assert.Equal("Example Underlying COD 1", jsonCauses[1].Item1);
@@ -508,16 +510,16 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void MultipleConditionSets()
         {
-            Tuple<string, string>[] bogus_causes =
+            Tuple<string, string, Dictionary<string, string>>[] bogus_causes =
             {
-                Tuple.Create("bogus cause", "bogus onset")
+                Tuple.Create("bogus cause", "bogus onset", new Dictionary<string, string>())
             };
             SetterDeathRecord.CausesOfDeath = bogus_causes;
 
-            Tuple<string, string>[] second_causes =
+            Tuple<string, string, Dictionary<string, string>>[] second_causes =
             {
-                Tuple.Create("a cause", "a onset"),
-                Tuple.Create("b cause", "b onset")
+                Tuple.Create("a cause", "a onset", new Dictionary<string, string>()),
+                Tuple.Create("b cause", "b onset", new Dictionary<string, string>())
             };
             SetterDeathRecord.CausesOfDeath = second_causes;
             Assert.Equal("a cause", SetterDeathRecord.CausesOfDeath[0].Item1);

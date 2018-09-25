@@ -50,10 +50,10 @@ namespace csharp_fhir_death_record
                 d.MedicalExaminerContacted = false;
 
                 // Add CausesOfDeath
-                Tuple<string, string>[] causes =
+                Tuple<string, string, Dictionary<string, string>>[] causes =
                 {
-                    Tuple.Create("Example Immediate COD", "minutes"),
-                    Tuple.Create("Example Underlying COD 1", "2 hours")
+                    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
+                    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>())
                 };
                 d.CausesOfDeath = causes;
 
@@ -105,10 +105,10 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
 
                 // Conditions
-                Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+                Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
                 foreach (var cause in causes)
                 {
-                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}");
+                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}, Code: {string.Join(", ", cause.Item3)}");
                 }
                 Console.WriteLine($"\tContributing Conditions: {deathRecord.ContributingConditions}");
 

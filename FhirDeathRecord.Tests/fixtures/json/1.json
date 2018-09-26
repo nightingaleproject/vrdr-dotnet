@@ -503,7 +503,7 @@
       "fullUrl": "urn:uuid:60dabcb9-25c1-40d3-adcf-2e0ae7d9snr50",
       "resource": {
         "meta": {
-          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"
+          "profile": "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition"
         },
         "text": {
           "status": "additional",

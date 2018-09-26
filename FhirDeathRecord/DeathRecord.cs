@@ -11,17 +11,31 @@ using Hl7.FhirPath;
 
 namespace FhirDeathRecord
 {
-    /// <summary>Class <c>DeathRecord</c> models a Standard Death Record (SDR).</summary>
+    /// <summary>Class <c>DeathRecord</c> models a FHIR Standard Death Record (SDR).
+    /// For consuming a FHIR SDR (in either XML or JSON format), there is a constructor that
+    /// takes a string, which will parse the given FHIR SDR and build a new <c>DeathRecord</c> that
+    /// represents it. You can then use the various property getters to infer details about the
+    /// record.
+    /// For producing a new FHIR SDR, there is a default no-param constructor that creates the bare
+    /// bones necessary for a new record. You can then use the various property setters to
+    /// populate details of the record. All <c>DeathRecord</c>s can be converted to FHIR XML or JSON
+    /// suitable for transmission, by making use of the <c>ToXML()</c> and <c>ToJSON()</c> methods.
+    /// </summary>
     public class DeathRecord
     {
+        /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
         private PocoNavigator Navigator;
 
+        /// <summary>Bundle that contains the death record.</summary>
         private Bundle Bundle;
 
+        /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         private Composition Composition;
 
+        /// <summary>The decedent.</summary>
         private Patient Patient;
 
+        /// <summary>The Certifier.</summary>
         private Practitioner Practitioner;
 
         /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
@@ -62,6 +76,7 @@ namespace FhirDeathRecord
             section.Entry.Add(new ResourceReference(Practitioner.Id));
             Bundle.AddResourceEntry(Practitioner, Practitioner.Id);
 
+            // Create a Navigator for this new death record.
             Navigator = new PocoNavigator(Bundle);
         }
 
@@ -111,6 +126,13 @@ namespace FhirDeathRecord
             return serializer.SerializeToString(Bundle);
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties related to the record itself (i.e. record id).
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>Death Record ID.</summary>
         /// <value>the record identification</value>
         /// <example>
@@ -150,6 +172,13 @@ namespace FhirDeathRecord
                 Composition.Date = value;
             }
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties related to the Decedent (Patient).
+        //
+        /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>Decedent's Given Name(s).</summary>
         /// <value>the decedent's name (first, middle, etc.)</value>
@@ -316,6 +345,13 @@ namespace FhirDeathRecord
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties related to the Certifier (Practitioner).
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>Given name(s) of certifier.</summary>
         /// <value>the certifier's name (first, middle, etc.)</value>
         /// <example>
@@ -416,26 +452,113 @@ namespace FhirDeathRecord
             }
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties related to the Cause of Death (Conditions).
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>Conditions that resulted in the underlying cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
-        public Tuple<string, string>[] CausesOfDeath
+        /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
+        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
+        /// approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
+        /// <para>{</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>())</para>
+        /// <para>};</para>
+        /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
+        /// <para>// Getter:</para>
+        /// <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
+        /// <para>foreach (var cause in causes)</para>
+        /// <para>{</para>
+        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
+        /// <para>}</para>
+        /// </example>
+        public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
             /// <returns>an array of tuples each containing the cause of death literal and the approximate interval onset to death.</returns>
             get
             {
-                string[] causes = GetAllString($"Bundle.entry.resource.where($this is Condition).where(onset).text.div");
-                string[] intervals = GetAllString($"Bundle.entry.resource.where($this is Condition).where(onset).onset");
+                List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
                 Regex htmlRegex = new Regex("<.*?>");
-                return causes.Zip(intervals, (a, b) => Tuple.Create(htmlRegex.Replace(a, ""), b)).ToArray();
+
+                // Grab the cause of death conditions on the record
+                var causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Onset != null).ToList();
+                foreach (var cause in causes)
+                {
+                    // Grab literal and onset
+                    string literal = htmlRegex.Replace(Convert.ToString(((Condition)cause.Resource).Text.Div), "");
+                    string onset = Convert.ToString(((Condition)cause.Resource).Onset);
+
+                    // Grab code (if it is there)
+                    CodeableConcept codeableConcept = ((Condition)cause.Resource).Code;
+                    Dictionary<string, string> code = new Dictionary<string, string>();
+                    if (codeableConcept != null)
+                    {
+                        Coding coding = codeableConcept.Coding.First();
+                        if (coding != null)
+                        {
+                            code.Add("code", codeableConcept.Coding.First().Code);
+                            code.Add("system", codeableConcept.Coding.First().System);
+                            code.Add("display", codeableConcept.Coding.First().Display);
+                        }
+                    }
+                    results.Add(Tuple.Create(literal, onset, code));
+                }
+
+                return results.ToArray();
             }
             set
             {
-                // TODO
+                // Remove all existing Causes
+                RemoveCauseConditions();
+
+                // Add new Conditions for causes
+                foreach (Tuple<string, string, Dictionary<string, string>> cause in value)
+                {
+                    // Create a new Condition and populate it with the given details
+                    Condition condition = new Condition();
+                    condition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    condition.Subject = new ResourceReference(Patient.Id);
+                    condition.Meta = new Meta();
+                    string[] condition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"};
+                    condition.Meta.Profile = condition_profile;
+                    condition.ClinicalStatus = Condition.ConditionClinicalStatusCodes.Active;
+                    Narrative narrative = new Narrative();
+                    narrative.Div = $"<div xmlns='http://www.w3.org/1999/xhtml'>{cause.Item1}</div>";
+                    narrative.Status = Narrative.NarrativeStatus.Additional;
+                    condition.Text = narrative;
+                    condition.Onset = new FhirString(cause.Item2);
+                    condition.Code = DictToCodeableConcept(cause.Item3); // Optional, literal might not be coded yet.
+
+                    // Add Condition to Composition and Bundle
+                    AddReferenceToComposition(condition.Id);
+                    Bundle.AddResourceEntry(condition, condition.Id);
+                }
             }
         }
 
         /// <summary>A significant condition that contributed to death but did not result in the underlying cause
         /// captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>A significant condition that contributed to death but did not result in the underlying cause
+        /// captured by a CauseOfDeathCondition.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
+        /// </example>
         public string ContributingConditions
         {
             get
@@ -453,9 +576,31 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                // Create a new Condition and populate it with the given details
+                Condition condition = new Condition();
+                condition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                condition.Subject = new ResourceReference(Patient.Id);
+                condition.Meta = new Meta();
+                string[] condition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition"};
+                condition.Meta.Profile = condition_profile;
+                condition.ClinicalStatus = Condition.ConditionClinicalStatusCodes.Active;
+                Narrative narrative = new Narrative();
+                narrative.Div = $"<div xmlns='http://www.w3.org/1999/xhtml'>{value}</div>";
+                narrative.Status = Narrative.NarrativeStatus.Additional;
+                condition.Text = narrative;
+
+                // Add Condition to Composition and Bundle
+                AddReferenceToComposition(condition.Id);
+                Bundle.AddResourceEntry(condition, condition.Id);
             }
         }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties related to other record information (Observations).
+        //
+        /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
         /// Certificate of Death.</summary>
@@ -543,7 +688,7 @@ namespace FhirDeathRecord
                                                          "69449-7",
                                                          "http://loinc.org",
                                                          "Manner of death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -583,9 +728,10 @@ namespace FhirDeathRecord
                                                          "69443-0",
                                                          "http://loinc.org",
                                                          "Did tobacco use contribute to death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
+
         /// <summary>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</summary>
         /// <value>Actual or presumed date of death</value>
         /// <example>
@@ -693,7 +839,7 @@ namespace FhirDeathRecord
                                                          "69448-9",
                                                          "http://loinc.org",
                                                          "Injury leading to death associated with transportation event");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -756,7 +902,7 @@ namespace FhirDeathRecord
                                                          "69442-2",
                                                          "http://loinc.org",
                                                          "Timing of recent pregnancy in relation to death");
-                observation.Value = new CodeableConcept(value["system"], value["code"], value["display"], null);
+                observation.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -847,13 +993,24 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Add a new observation to the Death Record.</summary>
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class helper methods useful for building, searching through records.
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>Add a new (or replaces a) observation on the Death Record.</summary>
         /// <param name="profile">the observation profile.</param>
         /// <param name="code">the observation code.</param>
         /// <param name="system">the observation code system.</param>
         /// <param name="display">the observation code display.</param>
         private Observation AddObservation(string profile, string code, string system, string display)
         {
+            // If this type of Observation already exists, remove it.
+            RemoveObservation(code);
+
+            // Create a new Observation, add references to it where approriate, and return it
             Observation observation = new Observation();
             observation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             observation.Subject = new ResourceReference(Patient.Id);
@@ -872,6 +1029,65 @@ namespace FhirDeathRecord
         private void AddReferenceToComposition(string reference)
         {
             Composition.Section.First().Entry.Add(new ResourceReference(reference));
+        }
+
+        /// <summary>Remove a reference from the Death Record Composition.</summary>
+        /// <param name="path">a reference.</param>
+        private bool RemoveReferenceFromComposition(string reference)
+        {
+            return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
+        }
+
+        /// <summary>Remove an observation entry from the bundle, and remove the reference to it in the Composition.</summary>
+        /// <param name="code">the code that describes the type of observation.</param>
+        private void RemoveObservation(string code)
+        {
+            // Below RemoveAll predicate logic (makes use of short-circuit evaluation):
+            // 1. Continue if an Observation
+            // 2. Continue if Observation is of the correct type (code matches)
+            // 3. At this point, we have the Observation we want to get rid of, so:
+            //    Remove the reference to it in the composition (will return true if something was removed)
+            // If all 3 points above were true, remove the entry
+            Bundle.Entry.RemoveAll(entry => entry.Resource.ResourceType == ResourceType.Observation &&
+                                            ((Observation)entry.Resource).Code.Coding.First().Code == code &&
+                                            RemoveReferenceFromComposition(entry.Resource.Id));
+        }
+
+        /// <summary>Remove Cause of Death Condition entries from the bundle, and remove their references in the Composition.</summary>
+        private void RemoveCauseConditions()
+        {
+            // Below RemoveAll predicate logic (makes use of short-circuit evaluation):
+            // 1. Continue if a Condition
+            // 2. Continue if Condition has an onset (not a contributing cause)
+            // 3. At this point, we have a cause Condition, which we want to get rid of, so:
+            //    Remove the reference to it in the composition (will return true if something was removed)
+            // If all 3 points above were true, remove the entry
+            Bundle.Entry.RemoveAll(entry => entry.Resource.ResourceType == ResourceType.Condition &&
+                                            ((Condition)entry.Resource).Onset != null &&
+                                            RemoveReferenceFromComposition(entry.Resource.Id));
+        }
+
+        /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+        /// <param name="dict">represents a code.</param>
+        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
+        private CodeableConcept DictToCodeableConcept(Dictionary<string, string> dict)
+        {
+            CodeableConcept codeableConcept = new CodeableConcept();
+            Coding coding = new Coding();
+            if (dict.ContainsKey("code"))
+            {
+                coding.Code = dict["code"];
+            }
+            if (dict.ContainsKey("system"))
+            {
+                coding.System = dict["system"];
+            }
+            if (dict.ContainsKey("display"))
+            {
+                coding.Display = dict["display"];
+            }
+            codeableConcept.Coding.Add(coding);
+            return codeableConcept;
         }
 
         /// <summary>Given a FHIR path, return the elements that match the given path;
@@ -901,7 +1117,7 @@ namespace FhirDeathRecord
             }
             else
             {
-                return null;
+                return null; // Nothing found
             }
         }
 
@@ -917,7 +1133,7 @@ namespace FhirDeathRecord
             }
             else
             {
-                return null;
+                return null; // Nothing found
             }
         }
 
@@ -948,7 +1164,7 @@ namespace FhirDeathRecord
             }
             else
             {
-                return null;
+                return null; // Nothing found
             }
         }
 
@@ -958,14 +1174,14 @@ namespace FhirDeathRecord
         /// <returns>the last element that matches the given path as a string, or null if no match is found.</returns>
         private string GetLastString(string path)
         {
-            var last = GetFirst(path);
+            var last = GetLast(path);
             if (last != null)
             {
                 return Convert.ToString(last);
             }
             else
             {
-                return null;
+                return null; // Nothing found
             }
         }
     }

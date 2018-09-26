@@ -17,9 +17,9 @@ namespace csharp_fhir_death_record
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0) // NOTE (Adam 9/17): Temporarily adding this use case in order to help implement setters.
+            if (args.Length == 0)
             {
-                Console.WriteLine("No filepath given; Constructing fake record and printing its XML output...\n");
+                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
                 DeathRecord d = new DeathRecord();
 
                 // Death Record ID
@@ -48,6 +48,14 @@ namespace csharp_fhir_death_record
 
                 // Add MedicalExaminerContacted
                 d.MedicalExaminerContacted = false;
+
+                // Add CausesOfDeath
+                Tuple<string, string, Dictionary<string, string>>[] causes =
+                {
+                    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
+                    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>())
+                };
+                d.CausesOfDeath = causes;
 
                 Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
             }
@@ -97,10 +105,10 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
 
                 // Conditions
-                Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+                Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
                 foreach (var cause in causes)
                 {
-                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}");
+                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}, Code: {string.Join(", ", cause.Item3)}");
                 }
                 Console.WriteLine($"\tContributing Conditions: {deathRecord.ContributingConditions}");
 

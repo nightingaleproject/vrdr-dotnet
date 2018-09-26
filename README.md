@@ -57,6 +57,16 @@ deathRecord.GivenNames = givenNames;
 // Add Decedent Last Name
 deathRecord.FamilyName = "Last";
 
+// Add Causes Of Death
+Tuple<string, string, Dictionary<string, string>>[] causes =
+{
+  Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }), // Give this one a code
+  Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()), // Empty "code"
+  Tuple.Create("Example Underlying COD 2", "5 weeks", new Dictionary<string, string>()), // Empty "code"
+  Tuple.Create("Example Underlying COD 3", "30 years", new Dictionary<string, string>()) // Empty "code"
+};
+deathRecord.CausesOfDeath = causes;
+
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();
 code.Add("code", "PHC1260");

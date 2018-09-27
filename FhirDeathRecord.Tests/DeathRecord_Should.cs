@@ -89,10 +89,48 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_Suffix()
+        {
+            SetterDeathRecord.Suffix = "Sr.";
+            Assert.Equal("Sr.", SetterDeathRecord.Suffix);
+        }
+
+        [Fact]
+        public void Get_Suffix()
+        {
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
+            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).Suffix);
+        }
+
+        [Fact]
         public void Get_Gender()
         {
             Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
             Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
+        }
+
+        [Fact]
+        public void Set_BirthSex()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "M");
+            code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
+            code.Add("display", "Male");
+            SetterDeathRecord.BirthSex = code;
+            Assert.Equal("M", SetterDeathRecord.BirthSex["code"]);
+            Assert.Equal("http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex", SetterDeathRecord.BirthSex["system"]);
+            Assert.Equal("Male", SetterDeathRecord.BirthSex["display"]);
+        }
+
+        [Fact]
+        public void Get_BirthSex()
+        {
+            Assert.Equal("M", ((DeathRecord)XMLRecords[0]).BirthSex["code"]);
+            Assert.Equal("http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex", ((DeathRecord)XMLRecords[0]).BirthSex["system"]);
+            Assert.Equal("Male", ((DeathRecord)XMLRecords[0]).BirthSex["display"]);
+            Assert.Equal("M", ((DeathRecord)JSONRecords[0]).BirthSex["code"]);
+            Assert.Equal("http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex", ((DeathRecord)JSONRecords[0]).BirthSex["system"]);
+            Assert.Equal("Male", ((DeathRecord)JSONRecords[0]).BirthSex["display"]);
         }
 
         [Fact]

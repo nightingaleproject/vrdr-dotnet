@@ -35,10 +35,10 @@ Console.WriteLine($"Decedent's Last Name: {deathRecord.FamilyName}");
 
 Console.WriteLine($"Autopsy Performed: {deathRecord.AutopsyPerformed}");
 
-Tuple<string, string>[] causes = deathRecord.CausesOfDeath;
+Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
 foreach (var cause in causes)
 {
-  Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");
+  Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Coding: {cause.Item3}");
 }
 ```
 
@@ -60,10 +60,10 @@ deathRecord.FamilyName = "Last";
 // Add Causes Of Death
 Tuple<string, string, Dictionary<string, string>>[] causes =
 {
-  Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }), // Give this one a code
-  Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()), // Empty "code"
-  Tuple.Create("Example Underlying COD 2", "5 weeks", new Dictionary<string, string>()), // Empty "code"
-  Tuple.Create("Example Underlying COD 3", "30 years", new Dictionary<string, string>()) // Empty "code"
+  Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }), // Include a fake code
+  Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
+  Tuple.Create("Example Underlying COD 2", "5 weeks", new Dictionary<string, string>()),
+  Tuple.Create("Example Underlying COD 3", "30 years", new Dictionary<string, string>())
 };
 deathRecord.CausesOfDeath = causes;
 

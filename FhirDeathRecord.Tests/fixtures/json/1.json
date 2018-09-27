@@ -157,6 +157,18 @@
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           },
           {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex",
+                  "code": "M",
+                  "display": "Male"
+                }
+              ]
+            }
+          },
+          {
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
             "valueCodeableConcept": {
               "coding": [
@@ -328,6 +340,9 @@
             "given": [
               "Example",
               "Middle"
+            ],
+            "suffix": [
+              "Jr."
             ]
           }
         ],

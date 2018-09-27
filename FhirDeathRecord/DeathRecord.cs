@@ -64,6 +64,7 @@ namespace FhirDeathRecord
             // Start with empty Patient to represent Decedent.
             Patient = new Patient();
             Patient.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Patient.Deceased = new FhirBoolean(true);
             Composition.Subject = new ResourceReference(Patient.Id);
             section.Entry.Add(new ResourceReference(Patient.Id));
             Bundle.AddResourceEntry(Patient, Patient.Id);
@@ -218,7 +219,7 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.FamilyName = "Last";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Last Name: {string.Join(", ", ExampleDeathRecord.FamilyName)}");</para>
+        /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
         public string FamilyName
         {
@@ -243,6 +244,39 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Suffix.</summary>
+        /// <value>the decedent's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Suffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
+        /// </example>
+        public string Suffix
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.suffix");
+            }
+            set
+            {
+                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                if (name != null)
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Patient.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Decedent's Gender.</summary>
         public string Gender
         {
@@ -253,6 +287,29 @@ namespace FhirDeathRecord
             set
             {
                 // TODO
+            }
+        }
+
+        /// <summary>Decedent's Birth Sex.</summary>
+        public Dictionary<string, string> BirthSex
+        {
+            get
+            {
+                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.code");
+                string system = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.system");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.display");
+                Dictionary<string, string> birthsex = new Dictionary<string, string>();
+                birthsex.Add("code", code);
+                birthsex.Add("system", system);
+                birthsex.Add("display", display);
+                return birthsex;
+            }
+            set
+            {
+                Extension birthsex = new Extension();
+                birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                birthsex.Value = DictToCodeableConcept(value);
+                Patient.Extension.Add(birthsex);
             }
         }
 

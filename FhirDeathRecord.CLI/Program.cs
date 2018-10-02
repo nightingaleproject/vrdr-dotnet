@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Reflection;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
@@ -59,6 +60,27 @@ namespace csharp_fhir_death_record
 
                 Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
             }
+            else if (args.Length == 2 && args[0] == "ije")
+            {
+                Console.WriteLine("Converting FHIR SDR to IJE...\n");
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                IJEMortality ije1 = new IJEMortality(d);
+                Console.WriteLine(ije1.ToString() + "\n\n");
+                IJEMortality ije2 = new IJEMortality(ije1.ToString());
+                //Console.WriteLine(ije2.ToString() + "\n");
+                foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+                {
+                    string val1 = Convert.ToString(property.GetValue(ije1, null));
+                    string val2 = Convert.ToString(property.GetValue(ije2, null));
+
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
+
+                    if (val1 != val2)
+                    {
+                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\"");
+                    }
+                }
+            }
             else
             {
                 foreach (var path in args)
@@ -73,8 +95,8 @@ namespace csharp_fhir_death_record
             if (File.Exists(path))
             {
                 Console.WriteLine($"Reading file '{path}'");
-                string json = File.ReadAllText(path);
-                DeathRecord deathRecord = new DeathRecord(json);
+                string contents = File.ReadAllText(path);
+                DeathRecord deathRecord = new DeathRecord(contents);
 
                 // Record Information
                 Console.WriteLine($"\tRecord ID: {deathRecord.Id}");

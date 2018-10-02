@@ -75,6 +75,34 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_FirstName()
+        {
+            SetterDeathRecord.FirstName = "Example";
+            Assert.Equal("Example", SetterDeathRecord.FirstName);
+        }
+
+        [Fact]
+        public void Get_FirstName()
+        {
+            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).FirstName);
+            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).FirstName);
+        }
+
+        [Fact]
+        public void Set_MiddleName()
+        {
+            SetterDeathRecord.MiddleName = "Middle";
+            Assert.Equal("Middle", SetterDeathRecord.MiddleName);
+        }
+
+        [Fact]
+        public void Get_MiddleName()
+        {
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MiddleName);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MiddleName);
+        }
+
+        [Fact]
         public void Set_FamilyName()
         {
             SetterDeathRecord.FamilyName = "Last";

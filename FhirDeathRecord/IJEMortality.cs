@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Text;
+using System.Reflection;
 
 namespace FhirDeathRecord
 {
@@ -7,32 +10,36 @@ namespace FhirDeathRecord
     public class IJEField : System.Attribute
     {
         /// <summary>Field number.</summary>
-        public int field;
+        public int Field;
 
         /// <summary>Beggining location.</summary>
-        public int location;
+        public int Location;
 
         /// <summary>Field length.</summary>
-        public int length;
+        public int Length;
 
         /// <summary>Description of what the field contains.</summary>
-        public string contents;
+        public string Contents;
 
         /// <summary>Field name.</summary>
-        public string name;
+        public string Name;
 
         public IJEField(int field, int location, int length, string contents, string name)
         {
-            this.field = field;
-            this.location = location;
-            this.length = length;
-            this.contents = contents;
-            this.name = name;
+            this.Field = field;
+            this.Location = location;
+            this.Length = length;
+            this.Contents = contents;
+            this.Name = name;
         }
     }
 
     /// <summary>A "wrapper" class to convert between a FHIR based <c>DeathRecord</c> and
-    /// a record in IJE Mortality format.</summary>
+    /// a record in IJE Mortality format. Each property of this class corresponds exactly
+    /// with a field in the IJE Mortality format. The getters convert from the embedded
+    /// FHIR based <c>DeathRecord</c> to the IJE format for a specific field, and
+    /// the setters convert from IJE format for a specific field and set that value
+    /// on the embedded FHIR based <c>DeathRecord<c>.</summary>
     public class IJEMortality
     {
         /// <summary>FHIR based death record.</summary>
@@ -43,17 +50,161 @@ namespace FhirDeathRecord
             this.record = record;
         }
 
+        public IJEMortality(string ije)
+        {
+            this.record = new DeathRecord();
+            // Loop over every property (these are the fields)
+            foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+            {
+                // Grab the field attributes
+                IJEField info = (IJEField)property.GetCustomAttributes().First();
+                // Grab the field value
+                string field = ije.Substring(info.Location - 1, info.Length);
+                // Set the value on this IJEMortality (and the embedded record)
+                property.SetValue(this, field);
+            }
+        }
+
+        public override string ToString()
+        {
+            // Start with empty IJE Mortality record
+            StringBuilder ije = new StringBuilder(new String(' ', 5000), 5000);
+            // Loop over every property (these are the fields)
+            foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+            {
+                // Grab the field value
+                string field = Convert.ToString(property.GetValue(this, null));
+                // Grab the field attributes
+                IJEField info = (IJEField)property.GetCustomAttributes().First();
+                // Be mindful about lengths
+                if (field.Length > info.Length)
+                {
+                    field = field.Substring(0, info.Length);
+                }
+                // Insert the field value into the record
+                ije.Insert(info.Location - 1, field);
+            }
+            return ije.ToString();
+        }
+
+        public DeathRecord ToDeathRecord()
+        {
+            return this.record;
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class helper methods for getting and settings IJE fields.
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
+        private static string Truncate(string value, int length)
+        {
+            if (string.IsNullOrEmpty(value) || value.Length <= length)
+            {
+                return value;
+            }
+            else
+            {
+                return value.Substring(0, length);
+            }
+        }
+
+        private static IJEField FieldInfo(string ijeFieldName)
+        {
+            return (IJEField)typeof(IJEMortality).GetProperty(ijeFieldName).GetCustomAttributes().First();
+        }
+
+        private string DateTime_Get(string ijeFieldName, string dateTimeType, string fhirFieldName)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            DateTime date;
+            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            if (DateTime.TryParse(current, out date))
+            {
+                return Truncate(date.ToString(dateTimeType), info.Length);
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            DateTime date;
+            if (current != null && DateTime.TryParse(current, out date))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, date.ToString($"{Truncate(value, info.Length)}-MM-dd"));
+            }
+            else
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, $"{Truncate(value, info.Length)}-01-01");
+            }
+        }
+
+        private string RightJustifiedZeroed_Get(string ijeFieldName, string fhirFieldName)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            if (current != null)
+            {
+                return Truncate(current, info.Length).PadLeft(info.Length, '0');
+            }
+            else
+            {
+                return new String('0', info.Length);
+            }
+        }
+
+        private void RightJustifiedZeroed_Set(string ijeFieldName, string fhirFieldName, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.TrimStart('0'));
+        }
+
+        private string LeftJustified_Get(string ijeFieldName, string fhirFieldName)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            if (current != null)
+            {
+                return Truncate(current, info.Length).PadRight(info.Length, ' ');
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //
+        // Class Properties that provide getters and setters for each of the IJE
+        // Mortality fields.
+        //
+        /////////////////////////////////////////////////////////////////////////////////
+
         // <summary>Date of Death--Year</summary>
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR")]
         public string DOD_YR
         {
             get
             {
-                return "TODO";
+                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
             }
             set
             {
-                // TODO
+                DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value);
             }
         }
 
@@ -77,11 +228,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return RightJustifiedZeroed_Get("FILENO", "Id");
             }
             set
             {
-                // TODO
+                RightJustifiedZeroed_Set("FILENO", "Id", value);
             }
         }
 
@@ -91,11 +242,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return LeftJustified_Get("GNAME", "FirstName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("GNAME", "FirstName", value);
             }
         }
 
@@ -105,11 +256,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return LeftJustified_Get("MNAME", "MiddleName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("MNAME", "MiddleName", value);
             }
         }
 
@@ -119,11 +270,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return LeftJustified_Get("LNAME", "FamilyName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("LNAME", "FamilyName", value);
             }
         }
 
@@ -133,11 +284,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return LeftJustified_Get("SUFF", "Suffix");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("SUFF", "Suffix", value);
             }
         }
 

@@ -366,8 +366,23 @@ namespace FhirDeathRecord
                 return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
             }
             set
-            {
-                // TODO
+            {   
+                switch(value)
+                {
+                    case "male":
+                        Patient.Gender = AdministrativeGender.Male;
+                        break;
+                    case "female":
+                        Patient.Gender = AdministrativeGender.Female;
+                        break;
+                    case "other":
+                        Patient.Gender = AdministrativeGender.Other;
+                        break;
+                    case "unknown":
+                        Patient.Gender = AdministrativeGender.Unknown;
+                        break;
+                }
+                
             }
         }
 
@@ -403,7 +418,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Patient.BirthDate = value;
             }
         }
 
@@ -438,7 +453,13 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Address address = new Address();
+                address.LineElement[0] = new FhirString(value["street"]);
+                address.City = value["city"];
+                address.State = value["state"];
+                address.PostalCodeElement = new FhirString(value["zip"]);
+                Patient.Address = new List<Hl7.Fhir.Model.Address>();
+                Patient.Address.Add(address);
             }
         }
 
@@ -451,21 +472,30 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Identifier ssn = new Identifier();
+                ssn.System = "http://hl7.org/fhir/sid/us-ssn";
+                ssn.Value = value;
             }
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
-        public string Ethnicity
+        public Dictionary<string, string> Ethnicity
         {
             get
             {
-                return "TODO";
-                //return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.code");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("display", display);
+                dictionary.Add("code", code);
+                return dictionary;
             }
             set
             {
-                // TODO
+                Extension eth = new Extension();
+                eth.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension"
+                eth.Value = DictToCodeableConcept(value);
+                Patient.Extension.Add(eth);
             }
         }
 
@@ -573,20 +603,34 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Address address = new Address();
+                address.LineElement[0] = new FhirString(value["street"]);
+                address.City = value["city"];
+                address.State = value["state"];
+                address.PostalCodeElement = new FhirString(value["zip"]);
+                Practitioner.Address = new List<Hl7.Fhir.Model.Address>();
+                Practitioner.Address.Add(address);
             }
         }
 
         /// <summary>Type of certifier.</summary>
-        public string CertifierType
+        public Dictionary<string, string> CertifierType
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
+                string code = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.code");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("display", display);
+                dictionary.Add("code", code);
+                return dictionary;
             }
             set
             {
-                // TODO
+                Extension type = new Extension();
+                type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension"
+                type.Value = DictToCodeableConcept(value);
+                Practitioner.Extension.Add(type);
             }
         }
 

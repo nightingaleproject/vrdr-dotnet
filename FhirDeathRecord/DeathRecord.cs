@@ -454,7 +454,7 @@ namespace FhirDeathRecord
             set
             {
                 Address address = new Address();
-                address.LineElement[0] = new FhirString(value["street"]);
+                address.LineElement.Add(new FhirString(value["street"]));
                 address.City = value["city"];
                 address.State = value["state"];
                 address.PostalCodeElement = new FhirString(value["zip"]);
@@ -475,6 +475,7 @@ namespace FhirDeathRecord
                 Identifier ssn = new Identifier();
                 ssn.System = "http://hl7.org/fhir/sid/us-ssn";
                 ssn.Value = value;
+                Patient.Identifier.Add(ssn);
             }
         }
 
@@ -493,7 +494,7 @@ namespace FhirDeathRecord
             set
             {
                 Extension eth = new Extension();
-                eth.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension"
+                eth.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
                 eth.Value = DictToCodeableConcept(value);
                 Patient.Extension.Add(eth);
             }
@@ -628,7 +629,7 @@ namespace FhirDeathRecord
             set
             {
                 Extension type = new Extension();
-                type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension"
+                type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
                 type.Value = DictToCodeableConcept(value);
                 Practitioner.Extension.Add(type);
             }

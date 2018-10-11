@@ -207,6 +207,88 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_PlaceOfBirth()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("placeOfBirthLine1", "9 Example Street");
+            dictionary.Add("placeOfBirthLine2", "Line 2");
+            dictionary.Add("placeOfBirthCity", "Bedford");
+            dictionary.Add("placeOfBirthState", "Massachusetts");
+            dictionary.Add("placeOfBirthZip", "01730");
+            dictionary.Add("placeOfBirthCountry", "United States");
+            SetterDeathRecord.PlaceOfBirth = dictionary;
+            Assert.Equal("9 Example Street", SetterDeathRecord.PlaceOfBirth["placeOfBirthLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.PlaceOfBirth["placeOfBirthLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.PlaceOfBirth["placeOfBirthCity"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.PlaceOfBirth["placeOfBirthState"]);
+            Assert.Equal("01730", SetterDeathRecord.PlaceOfBirth["placeOfBirthZip"]);
+            Assert.Equal("United States", SetterDeathRecord.PlaceOfBirth["placeOfBirthCountry"]);
+        }
+
+        [Fact]
+        public void Get_PlaceOfBirth()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).PlaceOfBirth;
+            Assert.Equal("Boston", xmlDictionary["placeOfBirthCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["placeOfBirthState"]);
+            Assert.Equal("United States", xmlDictionary["placeOfBirthCountry"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).PlaceOfBirth;
+            Assert.Equal("Boston", jsonDictionary["placeOfBirthCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["placeOfBirthState"]);
+            Assert.Equal("United States", jsonDictionary["placeOfBirthCountry"]);
+        }
+
+        [Fact]
+        public void Set_PlaceOfDeath()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("placeOfDeathTypeCode", "16983000");
+            dictionary.Add("placeOfDeathTypeSystem", "http://snomed.info/sct");
+            dictionary.Add("placeOfDeathTypeDisplay", "Death in hospital");
+            dictionary.Add("placeOfDeathFacilityName", "Example Hospital");
+            dictionary.Add("placeOfDeathLine1", "8 Example Street");
+            dictionary.Add("placeOfDeathLine2", "Line 2");
+            dictionary.Add("placeOfDeathCity", "Bedford");
+            dictionary.Add("placeOfDeathState", "Massachusetts");
+            dictionary.Add("placeOfDeathZip", "01730");
+            dictionary.Add("placeOfDeathCountry", "United States");
+            dictionary.Add("placeOfDeathInsideCityLimits", "True");
+            SetterDeathRecord.PlaceOfDeath = dictionary;
+            Assert.Equal("16983000", SetterDeathRecord.PlaceOfDeath["placeOfDeathTypeCode"]);
+            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.PlaceOfDeath["placeOfDeathTypeSystem"]);
+            Assert.Equal("Death in hospital", SetterDeathRecord.PlaceOfDeath["placeOfDeathTypeDisplay"]);
+            Assert.Equal("Example Hospital", SetterDeathRecord.PlaceOfDeath["placeOfDeathFacilityName"]);
+            Assert.Equal("8 Example Street", SetterDeathRecord.PlaceOfDeath["placeOfDeathLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.PlaceOfDeath["placeOfDeathLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.PlaceOfDeath["placeOfDeathCity"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.PlaceOfDeath["placeOfDeathState"]);
+            Assert.Equal("01730", SetterDeathRecord.PlaceOfDeath["placeOfDeathZip"]);
+            Assert.Equal("United States", SetterDeathRecord.PlaceOfDeath["placeOfDeathCountry"]);
+            Assert.Equal("True", SetterDeathRecord.PlaceOfDeath["placeOfDeathInsideCityLimits"]);
+        }
+
+        [Fact]
+        public void Get_PlaceOfDeath()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).PlaceOfDeath;
+            Assert.Equal("16983000", xmlDictionary["placeOfDeathTypeCode"]);
+            Assert.Equal("Example Hospital", xmlDictionary["placeOfDeathFacilityName"]);
+            Assert.Equal("5 Example St.", xmlDictionary["placeOfDeathLine1"]);
+            Assert.Equal("Boston", xmlDictionary["placeOfDeathCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["placeOfDeathState"]);
+            Assert.Equal("02101", xmlDictionary["placeOfDeathZip"]);
+            Assert.Equal("United States", xmlDictionary["placeOfDeathCountry"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).PlaceOfDeath;
+            Assert.Equal("16983000", jsonDictionary["placeOfDeathTypeCode"]);
+            Assert.Equal("Example Hospital", jsonDictionary["placeOfDeathFacilityName"]);
+            Assert.Equal("5 Example St.", jsonDictionary["placeOfDeathLine1"]);
+            Assert.Equal("Boston", jsonDictionary["placeOfDeathCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["placeOfDeathState"]);
+            Assert.Equal("02101", jsonDictionary["placeOfDeathZip"]);
+            Assert.Equal("United States", jsonDictionary["placeOfDeathCountry"]);
+        }
+
+        [Fact]
         public void Set_CertifierGivenNames()
         {
             string[] expected = {"Example", "Middle", "Middle 2", "Middle 3"};

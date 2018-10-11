@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FhirDeathRecord
 {
@@ -45,11 +47,16 @@ namespace FhirDeathRecord
         /// <summary>FHIR based death record.</summary>
         private DeathRecord record;
 
+        /// <summary>IJE data lookup helper.</summary>
+        private IJEMortalityData dataLookup = IJEMortalityData.Instance;
+
+        /// <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
         public IJEMortality(DeathRecord record)
         {
             this.record = record;
         }
 
+        /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         public IJEMortality(string ije)
         {
             this.record = new DeathRecord();
@@ -65,6 +72,7 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
         public override string ToString()
         {
             // Start with empty IJE Mortality record
@@ -87,6 +95,7 @@ namespace FhirDeathRecord
             return ije.ToString();
         }
 
+        /// <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
         public DeathRecord ToDeathRecord()
         {
             return this.record;
@@ -99,6 +108,7 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
+        // <summary>Truncates the given string to the given length.</summary>
         private static string Truncate(string value, int length)
         {
             if (string.IsNullOrEmpty(value) || value.Length <= length)
@@ -111,11 +121,31 @@ namespace FhirDeathRecord
             }
         }
 
+        // <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         private static IJEField FieldInfo(string ijeFieldName)
         {
             return (IJEField)typeof(IJEMortality).GetProperty(ijeFieldName).GetCustomAttributes().First();
         }
 
+        // <summary>Helps decompose a DateTime into individual parts (year, month, day).</summary>
+        private string DateTimeStringHelper(IJEField info, string value, string type, DateTime date)
+        {
+            if (type == "yyyy")
+            {
+                return date.ToString($"{Truncate(value, info.Length)}-MM-dd");
+            }
+            else if (type == "MM")
+            {
+                return date.ToString($"yyyy-{Truncate(value, info.Length)}-dd");
+            }
+            else if (type == "dd")
+            {
+                return date.ToString($"yyyy-MM-{Truncate(value, info.Length)}");
+            }
+            return "";
+        }
+
+        // <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private string DateTime_Get(string ijeFieldName, string dateTimeType, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -131,6 +161,7 @@ namespace FhirDeathRecord
             }
         }
 
+        // <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -138,14 +169,15 @@ namespace FhirDeathRecord
             DateTime date;
             if (current != null && DateTime.TryParse(current, out date))
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, date.ToString($"{Truncate(value, info.Length)}-MM-dd"));
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date));
             }
             else
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, $"{Truncate(value, info.Length)}-01-01");
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, new DateTime()));
             }
         }
 
+        // <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private string RightJustifiedZeroed_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -160,12 +192,14 @@ namespace FhirDeathRecord
             }
         }
 
+        // <summary>Set a value on the DeathRecord whose IJE type is a right justified, zeroed filled string.</summary>
         private void RightJustifiedZeroed_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.TrimStart('0'));
         }
 
+        // <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private string LeftJustified_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -180,12 +214,95 @@ namespace FhirDeathRecord
             }
         }
 
+        // <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
         }
 
+        // <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
+        private string Dictionary_Get(string ijeFieldName, string fhirFieldName, string key)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string current = Convert.ToString(dictionary[key]);
+            if (current != null)
+            {
+                return Truncate(current, info.Length).PadRight(info.Length, ' ');
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        // <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
+        private void Dictionary_Set(string ijeFieldName, string fhirFieldName, string key, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrEmpty(dictionary[key])))
+            {
+                dictionary[key] = value;
+            }
+            else
+            {
+                dictionary = new Dictionary<string, string>();
+                dictionary[key] = value;
+            }
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
+        }
+
+        // <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        private string Dictionary_Geo_Get(string ijeFieldName, string fhirFieldName, string key, string geoType, bool isCoded)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string current = Convert.ToString(dictionary[key]);
+            if (isCoded)
+            {
+                if (geoType == "state")
+                {
+                    current = dataLookup.StateTerritoryProvinceToCode(current);
+                }
+            }
+            if (current != null)
+            {
+                return Truncate(current, info.Length).PadRight(info.Length, ' ');
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        // <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        private void Dictionary_Geo_Set(string ijeFieldName, string fhirFieldName, string key, string geoType, bool isCoded, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrEmpty(dictionary[key])))
+            {
+                if (isCoded)
+                {
+                    if (geoType == "state")
+                    {
+                        dictionary[key] = dataLookup.CodeToStateTerritoryProvince(value);;
+                    }
+                }
+                else
+                {
+                    dictionary[key] = value;
+                }
+            }
+            else
+            {
+                dictionary = new Dictionary<string, string>();
+                dictionary[key] = value;
+            }
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -214,11 +331,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return Dictionary_Geo_Get("DSTATE", "PlaceOfDeath", "placeOfDeathState", "state", true);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("DSTATE", "PlaceOfDeath", "placeOfDeathState", "state", true, value);
             }
         }
 
@@ -298,11 +415,27 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return Dictionary_Get("SEX", "BirthSex", "code");
             }
             set
             {
-                // TODO
+                string code = value == "U" ? "UNK" : value;
+                string display = "";
+                if (code == "M")
+                {
+                    display = "Male";
+                }
+                else if (code == "F")
+                {
+                    display = "Female";
+                }
+                else if (code == "UNK")
+                {
+                    display = "Unknown";
+                }
+                Dictionary_Set("SEX", "BirthSex", "code", code);
+                Dictionary_Set("SEX", "BirthSex", "display", display);
+                Dictionary_Set("SEX", "BirthSex", "system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
             }
         }
 
@@ -312,11 +445,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return LeftJustified_Get("SSN", "SSN");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("SSN", "SSN", value);
             }
         }
 
@@ -330,7 +463,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                // NOOP
+                // NOOP; this should always be years in this implementation.
             }
         }
 
@@ -340,11 +473,22 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                IJEField info = FieldInfo("AGE");
+                string dateOfDeathCurrent = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeath").GetValue(this.record));
+                string dateOfBirthCurrent = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfBirth").GetValue(this.record));
+                DateTime dateOfDeath;
+                DateTime dateOfBirth;
+                int years = 0;
+                if (dateOfDeathCurrent != null && DateTime.TryParse(dateOfDeathCurrent, out dateOfDeath) &&
+                    dateOfBirthCurrent != null && DateTime.TryParse(dateOfBirthCurrent, out dateOfBirth))
+                {
+                    years = (int)((dateOfDeath - dateOfBirth).Days/365.2425);
+                }
+                return Truncate(Convert.ToString(years), info.Length).PadLeft(info.Length, '0');
             }
             set
             {
-                // TODO
+                // NOOP; Date of Birth and Date of Death should be set individually.
             }
         }
 
@@ -354,11 +498,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
             }
             set
             {
-                // TODO
+                DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value);
             }
         }
 
@@ -369,11 +513,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return DateTime_Get("DOB_YR", "MM", "DateOfBirth");
             }
             set
             {
-                // TODO
+                DateTime_Set("DOB_YR", "MM", "DateOfBirth", value);
             }
         }
 
@@ -383,11 +527,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "TODO";
+                return DateTime_Get("DOB_YR", "dd", "DateOfBirth");
             }
             set
             {
-                // TODO
+                DateTime_Set("DOB_YR", "dd", "DateOfBirth", value);
             }
         }
 

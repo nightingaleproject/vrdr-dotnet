@@ -65,7 +65,7 @@ namespace csharp_fhir_death_record
                 Console.WriteLine("Converting FHIR SDR to IJE...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 IJEMortality ije1 = new IJEMortality(d);
-                Console.WriteLine(ije1.ToString() + "\n\n");
+                //Console.WriteLine(ije1.ToString() + "\n\n");
                 IJEMortality ije2 = new IJEMortality(ije1.ToString());
                 //Console.WriteLine(ije2.ToString() + "\n");
                 foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())

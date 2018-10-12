@@ -269,8 +269,10 @@
         <address>
           <line value="1 Example Street"/>
           <city value="Boston"/>
+          <district value="Suffolk"/>
           <state value="Massachusetts"/>
           <postalCode value="02101"/>
+          <country value="United States"/>
         </address>
       </Patient>
     </resource>

@@ -434,25 +434,59 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's address.</summary>
-        public Dictionary<string, string> Address
+        /// <summary>Decedent's residence.</summary>
+        /// <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+        /// <para>"residenceLine1" - residence, line one</para>
+        /// <para>"residenceLine2" - residence, line two</para>
+        /// <para>"residenceCity" - residence, city</para>
+        /// <para>"residenceCounty" - residence, county</para>
+        /// <para>"residenceState" - residence, state</para>
+        /// <para>"residenceZip" - residence, zip</para>
+        /// <para>"residenceCountry" - residence, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; residence = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>residence.Add("placeOfBirthLine1", "9 Example Street");
+        /// <para>residence.Add("placeOfBirthLine2", "Line 2");
+        /// <para>residence.Add("placeOfBirthCity", "Bedford");
+        /// <para>residence.Add("placeOfBirthCounty", "Middlesex");
+        /// <para>residence.Add("placeOfBirthState", "Massachusetts");
+        /// <para>residence.Add("placeOfBirthZip", "01730");
+        /// <para>residence.Add("placeOfBirthCountry", "United States");
+        /// <para>SetterDeathRecord.Residence = residence;
+        /// <para>// Getter:</para>
+        /// <para>string state = ExampleDeathRecord.<para>["residenceState"];</para>
+        /// <para>Console.WriteLine($"State of residence: {state}");</para>
+        /// </example>
+        public Dictionary<string, string> Residence
         {
             get
             {
-                string street = GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[0]");
-                string city = GetFirstString("Bundle.entry.resource.where($this is Patient).address.city");
-                string state = GetFirstString("Bundle.entry.resource.where($this is Patient).address.state");
-                string zip = GetFirstString("Bundle.entry.resource.where($this is Patient).address.postalCode");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("street", street);
-                dictionary.Add("city", city);
-                dictionary.Add("state", state);
-                dictionary.Add("zip", zip);
+
+                // Place Of Birth Address
+                dictionary.Add("residenceLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[0]"));
+                dictionary.Add("residenceLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[1]"));
+                dictionary.Add("residenceCity", GetFirstString("Bundle.entry.resource.where($this is Patient).address.city"));
+                dictionary.Add("residenceCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).address.district"));
+                dictionary.Add("residenceState", GetFirstString("Bundle.entry.resource.where($this is Patient).address.state"));
+                dictionary.Add("residenceZip", GetFirstString("Bundle.entry.resource.where($this is Patient).address.postalCode"));
+                dictionary.Add("residenceCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).address.country"));
+
                 return dictionary;
             }
             set
             {
-                // TODO
+                Address address = new Address();
+                address.LineElement.Add(new FhirString(value["residenceLine1"]));
+                address.LineElement.Add(new FhirString(value["residenceLine2"]));
+                address.City = value["residenceCity"];
+                address.District = value["residenceCounty"];
+                address.State = value["residenceState"];
+                address.PostalCodeElement = new FhirString(value["residenceZip"]);
+                address.Country = value["residenceCountry"];
+                Patient.Address.Add(address);
             }
         }
 

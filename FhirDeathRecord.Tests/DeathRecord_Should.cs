@@ -162,18 +162,50 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Get_Address()
+        public void Set_Residence()
         {
-            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Address;
-            Assert.Equal("1 Example Street", xmlDictionary["street"]);
-            Assert.Equal("Boston", xmlDictionary["city"]);
-            Assert.Equal("Massachusetts", xmlDictionary["state"]);
-            Assert.Equal("02101", xmlDictionary["zip"]);
-            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).Address;
-            Assert.Equal("1 Example Street", jsonDictionary["street"]);
-            Assert.Equal("Boston", jsonDictionary["city"]);
-            Assert.Equal("Massachusetts", jsonDictionary["state"]);
-            Assert.Equal("02101", jsonDictionary["zip"]);
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("residenceLine1", "19 Example Street");
+            dictionary.Add("residenceLine2", "Line 2");
+            dictionary.Add("residenceCity", "Bedford");
+            dictionary.Add("residenceCounty", "Middlesex");
+            dictionary.Add("residenceState", "Massachusetts");
+            dictionary.Add("residenceZip", "01730");
+            dictionary.Add("residenceCountry", "United States");
+            SetterDeathRecord.Residence = dictionary;
+            Assert.Equal("19 Example Street", SetterDeathRecord.Residence["residenceLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.Residence["residenceLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.Residence["residenceCity"]);
+            Assert.Equal("Middlesex", SetterDeathRecord.Residence["residenceCounty"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.Residence["residenceState"]);
+            Assert.Equal("01730", SetterDeathRecord.Residence["residenceZip"]);
+            Assert.Equal("United States", SetterDeathRecord.Residence["residenceCountry"]);
+        }
+
+        [Fact]
+        public void Get_Residence()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Residence;
+            Assert.Equal("1 Example Street", xmlDictionary["residenceLine1"]);
+            Assert.Equal("Boston", xmlDictionary["residenceCity"]);
+            Assert.Equal("Suffolk", xmlDictionary["residenceCounty"]);
+            Assert.Equal("Massachusetts", xmlDictionary["residenceState"]);
+            Assert.Equal("02101", xmlDictionary["residenceZip"]);
+            Assert.Equal("United States", xmlDictionary["residenceCountry"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).Residence;
+            Assert.Equal("1 Example Street", jsonDictionary["residenceLine1"]);
+            Assert.Equal("Boston", jsonDictionary["residenceCity"]);
+            Assert.Equal("Suffolk", jsonDictionary["residenceCounty"]);
+            Assert.Equal("Massachusetts", jsonDictionary["residenceState"]);
+            Assert.Equal("02101", jsonDictionary["residenceZip"]);
+            Assert.Equal("United States", jsonDictionary["residenceCountry"]);
+        }
+
+        [Fact]
+        public void Set_SSN()
+        {
+            SetterDeathRecord.SSN = "111223333";
+            Assert.Equal("111223333", SetterDeathRecord.SSN);
         }
 
         [Fact]

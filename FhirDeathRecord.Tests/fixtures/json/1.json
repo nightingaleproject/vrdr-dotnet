@@ -355,8 +355,10 @@
               "1 Example Street"
             ],
             "city": "Boston",
+            "district": "Suffolk",
             "state": "Massachusetts",
-            "postalCode": "02101"
+            "postalCode": "02101",
+            "country": "United States"
           }
         ],
         "resourceType": "Patient"

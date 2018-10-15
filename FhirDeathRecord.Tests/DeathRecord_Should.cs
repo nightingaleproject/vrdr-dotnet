@@ -215,22 +215,23 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("111223333", ((DeathRecord)JSONRecords[0]).SSN);
         }
 
-        [Fact]
-        public void Set_Ethnicity()
-        {
-            Dictionary<string, string> eth = new Dictionary<string, string>();
-            eth.Add("display", "Non Hispanic or Latino");
-            eth.Add("code", "1234");
-            SetterDeathRecord.Ethnicity = eth;
-            Assert.Equal("Non Hispanic or Latino", SetterDeathRecord.Ethnicity["display"]);
-            Assert.Equal("1234", SetterDeathRecord.Ethnicity["code"]);
-        }
+        // [Fact]
+        // public void Set_Ethnicity()
+        // {
+        //     //TODO
+        // }
+
+        // [Fact]
+        // public void Get_Ethnicity()
+        // {
+        //     //TODO
+        // }
 
         [Fact]
-        public void Get_Ethnicity()
+        public void Set_DateOfBirth() 
         {
-            //Assert.Equal("Non Hispanic or Latino", ((DeathRecord)XMLRecords[0]).Ethnicity);
-            //Assert.Equal("Non Hispanic or Latino", ((DeathRecord)JSONRecords[0]).Ethnicity);
+            SetterDeathRecord.DateOfBirth = "1970-04-24";
+            Assert.Equal("1970-04-24", SetterDeathRecord.DateOfBirth);
         }
 
         [Fact]
@@ -238,6 +239,13 @@ namespace FhirDeathRecord.Tests
         {
             Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfBirth);
             Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+        }
+
+        [Fact]
+        public void Set_DateOfDeath()
+        {
+            SetterDeathRecord.DateOfDeath = "1970-04-24";
+            Assert.Equal("1970-04-24", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
@@ -278,6 +286,21 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_CertifierAddress()
+        {
+            Dictionary<string, string> address = new Dictionary<string, string>();
+            address.Add("street", "123 Test Street");
+            address.Add("city", "Boston");
+            address.Add("state", "Massachusetts");
+            address.Add("zip", "12345");
+            SetterDeathRecord.CertifierAddress = address;
+            Assert.Equal("123 Test Street", SetterDeathRecord.CertifierAddress["street"]);
+            Assert.Equal("Boston", SetterDeathRecord.CertifierAddress["city"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.CertifierAddress["state"]);
+            Assert.Equal("12345", SetterDeathRecord.CertifierAddress["zip"]);
+        }
+
+        [Fact]
         public void Get_CertifierAddress()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).CertifierAddress;
@@ -295,8 +318,11 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierType()
         {
-            // Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)XMLRecords[0]).CertifierType);
-            // Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)JSONRecords[0]).CertifierType);
+            Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)XMLRecords[0]).CertifierType["display"]);
+            Assert.Equal("434651000124107", ((DeathRecord)XMLRecords[0]).CertifierType["code"]);
+
+            Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)JSONRecords[0]).CertifierType["display"]);
+            Assert.Equal("434651000124107", ((DeathRecord)JSONRecords[0]).CertifierType["code"]);
         }
 
         [Fact]

@@ -480,37 +480,76 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
-        public Dictionary<string, string> Ethnicity
+        public Tuple<string, string>[] Ethnicity
         {
             get
             {
-                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
-                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.code");
-                Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("display", display);
-                dictionary.Add("code", code);
-                return dictionary;
+                string[] displays = new string[] { };
+                string[] codes = new string[] { };
+                Tuple<string, string>[] ethlist = new Tuple<string, string>[] { };
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
+
+                for (int i = 0; i < displays.Length; i++)
+                {
+                    ethlist[i] = (Tuple.Create(displays[i], codes[i]));
+                }
+                return ethlist;
             }
             set
             {
-                Extension eth = new Extension();
-                eth.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
-                eth.Value = DictToCodeableConcept(value);
-                Patient.Extension.Add(eth);
+                Extension ethnicities = new Extension();
+                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                foreach (Tuple<string, string> element in value)
+                {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension texteth = new Extension();
+                    Extension codeth = new Extension();
+                    texteth.Url = "text";
+                    texteth.Value = new FhirString(display);
+                    codeth.Url = "ombCategory";
+                    codeth.Value = new Code(code);
+                    ethnicities.Extension.Add(codeth);
+                    ethnicities.Extension.Add(codeth);
+                }
+                Patient.Extension.Add(ethnicities);
             }
         }
 
         /// <summary>Decedent's Race.</summary>
-        public string Race
+        public Tuple<string, string>[] Race
         {
             get
             {
-                return "TODO";
-                //return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+                string[] displays = new string[] { };
+                string[] codes = new string[] { };
+                Tuple<string, string>[] racelist = new Tuple<string, string>[]{};
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
+
+                for(int i = 0; i < displays.Length; i++) {
+                    racelist[i] = (Tuple.Create(displays[i], codes[i]));
+                }                
+                return racelist;
             }
             set
             {
-                // TODO
+                Extension races = new Extension();
+                races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                foreach(Tuple<string,string> element in value) {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension textrace = new Extension();
+                    Extension coderace = new Extension();
+                    textrace.Url = "text";
+                    textrace.Value = new FhirString(display);
+                    coderace.Url = "ombCategory";
+                    coderace.Value = new Code(code);
+                    races.Extension.Add(textrace);
+                    races.Extension.Add(coderace);
+                }
+                Patient.Extension.Add(races);
             }
         }
 

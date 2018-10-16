@@ -6,7 +6,7 @@ This repository includes C# code for producing and consuming the preliminary ver
 ## Project Organization
 
 ### FhirDeathRecord
-This directory contains a FHIR Death Record library for consuming and producing Standard Death Records.
+This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This FHIR Death Record library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 #### Usage
 You can include the library by referencing it in your project configuration, for example (taken from FhirDeathRecord.CLI):
@@ -23,7 +23,7 @@ You can include the library by referencing it in your project configuration, for
 #### Consuming Example
 A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
 ```
-// Read in XML file as a string
+// Read in FHIR Death Record XML file as a string
 string xml = File.ReadAllText("./example_sdr_fhir.xml");
 
 // Construct a new DeathRecord object from the SDR XML string
@@ -81,6 +81,35 @@ deathRecord.MedicalExaminerContacted = false;
 deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
 
 // Print record as a JSON string
+Console.WriteLine(deathRecord.ToJSON());
+```
+
+#### FHIR SDR to/from IJE Mortality format
+A quick example of converting a FHIR Death Record to an IJE string:
+```
+// Read in FHIR Death Record XML file as a string
+string xml = File.ReadAllText("./example_sdr_fhir.xml");
+
+// Construct a new DeathRecord object from the string
+DeathRecord deathRecord = new DeathRecord(xml);
+
+// Create an IJEMortality instance from the DeathRecord
+IJEMortality ije = new IJEMortality(deathRecord);
+
+// Print out the corresponding IJE version of the DeathRecord
+string ijeString = ije.ToString(); // Converts DeathRecord to IJE
+Console.WriteLine(ijeString);
+```
+
+A quick example of converting an IJE string to a FHIR Death Record:
+```
+// Construct a new IJEMortality instance from an IJE string
+IJEMortality ije = new IJEMortality("..."); // This will convert the IJE string to a DeathRecord
+
+// Grab the corresponding FHIR DeathRecord
+DeathRecord deathRecord = ije.ToDeathRecord();
+
+// Print out the converted FHIR DeathRecord as a JSON string
 Console.WriteLine(deathRecord.ToJSON());
 ```
 

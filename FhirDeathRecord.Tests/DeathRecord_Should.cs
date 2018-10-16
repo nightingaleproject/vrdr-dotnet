@@ -172,6 +172,7 @@ namespace FhirDeathRecord.Tests
             dictionary.Add("residenceState", "Massachusetts");
             dictionary.Add("residenceZip", "01730");
             dictionary.Add("residenceCountry", "United States");
+            dictionary.Add("residenceInsideCityLimits", "True");
             SetterDeathRecord.Residence = dictionary;
             Assert.Equal("19 Example Street", SetterDeathRecord.Residence["residenceLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.Residence["residenceLine2"]);
@@ -180,6 +181,7 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", SetterDeathRecord.Residence["residenceState"]);
             Assert.Equal("01730", SetterDeathRecord.Residence["residenceZip"]);
             Assert.Equal("United States", SetterDeathRecord.Residence["residenceCountry"]);
+            Assert.Equal("True", SetterDeathRecord.Residence["residenceInsideCityLimits"]);
         }
 
         [Fact]
@@ -318,6 +320,132 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", jsonDictionary["placeOfDeathState"]);
             Assert.Equal("02101", jsonDictionary["placeOfDeathZip"]);
             Assert.Equal("United States", jsonDictionary["placeOfDeathCountry"]);
+        }
+
+
+        [Fact]
+        public void Set_MaritalStatus()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "S");
+            code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus	");
+            code.Add("display", "Never Married");
+            SetterDeathRecord.MaritalStatus = code;
+            Assert.Equal("S", SetterDeathRecord.MaritalStatus["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus	", SetterDeathRecord.MaritalStatus["system"]);
+            Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
+        }
+
+        [Fact]
+        public void Get_MaritalStatus()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).MaritalStatus;
+            Assert.Equal("S", xmlDictionary["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", xmlDictionary["system"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).MaritalStatus;
+            Assert.Equal("S", jsonDictionary["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", jsonDictionary["system"]);
+        }
+
+        [Fact]
+        public void Set_Education()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "PHC1453");
+            code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+            code.Add("display", "Bachelor's Degree");
+            SetterDeathRecord.Education = code;
+            Assert.Equal("PHC1453", SetterDeathRecord.Education["code"]);
+            Assert.Equal("http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS", SetterDeathRecord.Education["system"]);
+            Assert.Equal("Bachelor's Degree", SetterDeathRecord.Education["display"]);
+        }
+
+        [Fact]
+        public void Get_Education()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Education;
+            Assert.Equal("PHC1454", xmlDictionary["code"]);
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).Education;
+            Assert.Equal("PHC1454", jsonDictionary["code"]);
+        }
+
+        [Fact]
+        public void Set_Disposition()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("dispositionTypeCode", "449971000124106");
+            dictionary.Add("dispositionTypeSystem", "http://snomed.info/sct");
+            dictionary.Add("dispositionTypeDisplay", "Burial");
+            dictionary.Add("dispositionPlaceName", "Example disposition place name");
+            dictionary.Add("dispositionPlaceLine1", "100 Example Street");
+            dictionary.Add("dispositionPlaceLine2", "Line 2");
+            dictionary.Add("dispositionPlaceCity", "Bedford");
+            dictionary.Add("dispositionPlaceCounty", "Middlesex");
+            dictionary.Add("dispositionPlaceState", "Massachusetts");
+            dictionary.Add("dispositionPlaceZip", "01730");
+            dictionary.Add("dispositionPlaceCountry", "United States");
+            dictionary.Add("dispositionPlaceInsideCityLimits", "True");
+            dictionary.Add("funeralFacilityName", "Example funeral facility name");
+            dictionary.Add("funeralFacilityLine1", "50 Example Street");
+            dictionary.Add("funeralFacilityLine2", "Line 2a");
+            dictionary.Add("funeralFacilityCity", "Watertown");
+            dictionary.Add("funeralFacilityCounty", "Middlesex");
+            dictionary.Add("funeralFacilityState", "Massachusetts");
+            dictionary.Add("funeralFacilityZip", "02472");
+            dictionary.Add("funeralFacilityCountry", "United States");
+            dictionary.Add("funeralFacilityInsideCityLimits", "False");
+            SetterDeathRecord.Disposition = dictionary;
+            Assert.Equal("449971000124106", SetterDeathRecord.Disposition["dispositionTypeCode"]);
+            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.Disposition["dispositionTypeSystem"]);
+            Assert.Equal("Burial", SetterDeathRecord.Disposition["dispositionTypeDisplay"]);
+            Assert.Equal("Example disposition place name", SetterDeathRecord.Disposition["dispositionPlaceName"]);
+            Assert.Equal("100 Example Street", SetterDeathRecord.Disposition["dispositionPlaceLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.Disposition["dispositionPlaceLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.Disposition["dispositionPlaceCity"]);
+            Assert.Equal("Middlesex", SetterDeathRecord.Disposition["dispositionPlaceCounty"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.Disposition["dispositionPlaceState"]);
+            Assert.Equal("01730", SetterDeathRecord.Disposition["dispositionPlaceZip"]);
+            Assert.Equal("United States", SetterDeathRecord.Disposition["dispositionPlaceCountry"]);
+            Assert.Equal("True", SetterDeathRecord.Disposition["dispositionPlaceInsideCityLimits"]);
+            Assert.Equal("Example funeral facility name", SetterDeathRecord.Disposition["funeralFacilityName"]);
+            Assert.Equal("50 Example Street", SetterDeathRecord.Disposition["funeralFacilityLine1"]);
+            Assert.Equal("Line 2a", SetterDeathRecord.Disposition["funeralFacilityLine2"]);
+            Assert.Equal("Watertown", SetterDeathRecord.Disposition["funeralFacilityCity"]);
+            Assert.Equal("Middlesex", SetterDeathRecord.Disposition["funeralFacilityCounty"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.Disposition["funeralFacilityState"]);
+            Assert.Equal("02472", SetterDeathRecord.Disposition["funeralFacilityZip"]);
+            Assert.Equal("United States", SetterDeathRecord.Disposition["funeralFacilityCountry"]);
+            Assert.Equal("False", SetterDeathRecord.Disposition["funeralFacilityInsideCityLimits"]);
+        }
+
+        [Fact]
+        public void Get_Disposition()
+        {
+            Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).Disposition;
+            Assert.Equal("449971000124106", xmlDictionary["dispositionTypeCode"]);
+            Assert.Equal("Example Cemetery", xmlDictionary["dispositionPlaceName"]);
+            Assert.Equal("Boston", xmlDictionary["dispositionPlaceCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["dispositionPlaceState"]);
+            Assert.Equal("United States", xmlDictionary["dispositionPlaceCountry"]);
+            Assert.Equal("Example Funeral Home", xmlDictionary["funeralFacilityName"]);
+            Assert.Equal("2 Example Street", xmlDictionary["funeralFacilityLine1"]);
+            Assert.Equal("Boston", xmlDictionary["funeralFacilityCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["funeralFacilityState"]);
+            Assert.Equal("02101", xmlDictionary["funeralFacilityZip"]);
+            Assert.Equal("United States", xmlDictionary["funeralFacilityCountry"]);
+
+            Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).Disposition;
+            Assert.Equal("449971000124106", jsonDictionary["dispositionTypeCode"]);
+            Assert.Equal("Example Cemetery", jsonDictionary["dispositionPlaceName"]);
+            Assert.Equal("Boston", jsonDictionary["dispositionPlaceCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["dispositionPlaceState"]);
+            Assert.Equal("United States", jsonDictionary["dispositionPlaceCountry"]);
+            Assert.Equal("Example Funeral Home", jsonDictionary["funeralFacilityName"]);
+            Assert.Equal("2 Example Street", jsonDictionary["funeralFacilityLine1"]);
+            Assert.Equal("Boston", jsonDictionary["funeralFacilityCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["funeralFacilityState"]);
+            Assert.Equal("02101", jsonDictionary["funeralFacilityZip"]);
+            Assert.Equal("United States", jsonDictionary["funeralFacilityCountry"]);
         }
 
         [Fact]

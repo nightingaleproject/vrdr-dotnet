@@ -25,10 +25,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = StateTerritoryProvinceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == state.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return StateTerritoryProvinceCodes[index].Item2.ToUpper();
         }
 
@@ -55,10 +55,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = CountryCodes.ToList().FindIndex(t => t.Item1.ToUpper() == country.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return CountryCodes[index].Item2.ToUpper();
         }
 
@@ -70,10 +70,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = CountryCodes.ToList().FindIndex(t => t.Item2.ToUpper() == code.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return CountryCodes[index].Item1.ToUpper();
         }
 
@@ -90,10 +90,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = PlaceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == stateCode.ToUpper() && t.Item2.ToUpper() == county.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return PlaceCodes[index].Item3.ToUpper();
         }
 
@@ -110,10 +110,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = PlaceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == stateCode.ToUpper() && t.Item3.ToUpper() == code.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return PlaceCodes[index].Item2.ToUpper();
         }
 
@@ -130,10 +130,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = PlaceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == stateCode.ToUpper() && t.Item2.ToUpper() == county.ToUpper() && t.Item4.ToUpper() == place.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return PlaceCodes[index].Item6.ToUpper();
         }
 
@@ -150,10 +150,10 @@ namespace FhirDeathRecord
                 return null;
             }
             int index = PlaceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == stateCode.ToUpper() && t.Item2.ToUpper() == county.ToUpper() && t.Item6 == code.ToUpper());
-            // if (index < 0)
-            // {
-            //     return null;
-            // }
+            if (index < 0)
+            {
+                return null;
+            }
             return PlaceCodes[index].Item4.ToUpper();
         }
 

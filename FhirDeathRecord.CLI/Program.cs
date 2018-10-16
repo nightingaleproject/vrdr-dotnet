@@ -79,8 +79,10 @@ namespace csharp_fhir_death_record
                     IJEField info = (IJEField)property.GetCustomAttributes().First();
 
                     if (val1 != val2 || val1 != val3 || val2 != val3)
+                    //if (val1 != val2)
                     {
                         Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
+                        //Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\"");
                     }
                 }
             }

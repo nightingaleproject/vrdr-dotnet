@@ -215,17 +215,52 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("111223333", ((DeathRecord)JSONRecords[0]).SSN);
         }
 
-        // [Fact]
-        // public void Set_Ethnicity()
-        // {
-        //     //TODO
-        // }
+        [Fact]
+        public void Set_Ethnicity()
+        {
+            Tuple<string, string>[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };
+            SetterDeathRecord.Ethnicity = ethnicity;
+            Assert.Equal(ethnicity[0], SetterDeathRecord.Ethnicity[0]);
+            Assert.Equal(ethnicity[1], SetterDeathRecord.Ethnicity[1]);
+        }
 
-        // [Fact]
-        // public void Get_Ethnicity()
-        // {
-        //     //TODO
-        // }
+        [Fact]
+        public void Get_Ethnicity()
+        {
+            Tuple<string, string>[] ethnicity =
+            {
+                Tuple.Create("Non Hispanic or Latino", "2186-5"),
+                Tuple.Create("Salvadoran", "2161-8"),
+            };
+
+            Assert.Equal(ethnicity, ((DeathRecord)XMLRecords[0]).Ethnicity);
+            Assert.Equal(ethnicity, ((DeathRecord)JSONRecords[0]).Ethnicity);
+        }
+
+        [Fact]
+        public void Set_Race()
+        {
+            Tuple<string, string>[] race = {Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")};
+            SetterDeathRecord.Race = race;
+            Assert.Equal(race[0], SetterDeathRecord.Race[0]);
+            Assert.Equal(race[1], SetterDeathRecord.Race[1]);
+        }
+
+        [Fact]
+        public void Get_Race()
+        {
+            Tuple<string, string>[] race = 
+            {
+                Tuple.Create("White", "2106-3"),
+                Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"),
+                Tuple.Create("Asian", "2028-5"),
+                Tuple.Create("American Indian or Alaskan Native", "1002-5"),
+                Tuple.Create("Black or African American", "2054-5"),
+            };
+
+            Assert.Equal(race, ((DeathRecord)XMLRecords[0]).Race);
+            Assert.Equal(race, ((DeathRecord)JSONRecords[0]).Race);
+        }
 
         [Fact]
         public void Set_DateOfBirth() 
@@ -313,6 +348,17 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Bedford", jsonDictionary["city"]);
             Assert.Equal("Massachusetts", jsonDictionary["state"]);
             Assert.Equal("01730", jsonDictionary["zip"]);
+        }
+
+        [Fact]
+        public void Set_CertifierType()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "434651000124107");
+            code.Add("display", "Physician (Pronouncer and Certifier)");
+            SetterDeathRecord.BirthSex = code;
+            Assert.Equal("434651000124107", SetterDeathRecord.BirthSex["code"]);
+            Assert.Equal("Physician (Pronouncer and Certifier)", SetterDeathRecord.BirthSex["display"]);
         }
 
         [Fact]

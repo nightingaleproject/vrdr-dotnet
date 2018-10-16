@@ -359,6 +359,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Gender.</summary>
+        /// <value>the decedent's gender</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Gender = "female";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Gender}");</para>
+        /// </example>
         public string Gender
         {
             get
@@ -387,6 +394,22 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Birth Sex.</summary>
+        /// <value>the decedent's birth sex</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> code = new Dictionary<string, string>();</para>
+        /// <para>code.Add("code", "M");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
+        /// <para>code.Add("display", "Male");</para>
+        /// <para>ExampleDeathRecord.BirthSex = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.BirthSex)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        /// </example>
+
         public Dictionary<string, string> BirthSex
         {
             get
@@ -410,6 +433,14 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Date of Birth.</summary>
+        /// <value>the decedent's date of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfBirth = "1970-04-24";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfBirth}");</para>
+        /// </example>
+
         public string DateOfBirth
         {
             get
@@ -423,6 +454,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Date and Time of Death.</summary>
+        /// <value>the decedent's date and time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeath = "1970-04-24";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfDeath}");</para>
+        /// </example>
         public string DateOfDeath
          {
             get
@@ -435,7 +473,22 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's address.</summary>
+        /// <summary>Address of Decedent</summary>
+        /// <value>The decedent's address</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> address = new Dictionary<string, string>();</para>
+        /// <para>address.Add("street", "123 Test Street");</para>
+        /// <para>address.Add("city", "Boston");</para>
+        /// <para>address.Add("state", "Massachusetts");</para>
+        /// <para>address.Add("zip", "12345");</para>
+        /// <para>ExampleDeathRecord.Address = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in deathRecord.Address)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
         public Dictionary<string, string> Address
         {
             get
@@ -464,6 +517,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Social Security Number.</summary>
+        /// <value>the decedent's social security number</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SSN = "123-45-678";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
+        /// </example>
         public string SSN
         {
             get
@@ -480,58 +540,80 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
+        /// <value>the decedent's ethnicity</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string>[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
         public Tuple<string, string>[] Ethnicity
         {
             get
             {
                 string[] displays = new string[] { };
                 string[] codes = new string[] { };
-                Tuple<string, string>[] ethlist = new Tuple<string, string>[] { };
-                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
-                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'text').value");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
+                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[displays.Length];
 
                 for (int i = 0; i < displays.Length; i++)
                 {
-                    ethlist[i] = (Tuple.Create(displays[i], codes[i]));
+                    ethnicityList[i] = (Tuple.Create(displays[i], codes[i]));
                 }
-                return ethlist;
+                return ethnicityList;
             }
             set
             {
                 Extension ethnicities = new Extension();
-                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
                 foreach (Tuple<string, string> element in value)
                 {
                     string display = element.Item1;
                     string code = element.Item2;
-                    Extension texteth = new Extension();
-                    Extension codeth = new Extension();
-                    texteth.Url = "text";
-                    texteth.Value = new FhirString(display);
-                    codeth.Url = "ombCategory";
-                    codeth.Value = new Code(code);
-                    ethnicities.Extension.Add(codeth);
-                    ethnicities.Extension.Add(codeth);
+                    Extension textEthnicity = new Extension();
+                    Extension codeEthnicity = new Extension();
+                    textEthnicity.Url = "text";
+                    textEthnicity.Value = new FhirString(display);
+                    codeEthnicity.Url = "ombCategory";
+                    codeEthnicity.Value = new Coding("", code);
+                    ethnicities.Extension.Add(textEthnicity);
+                    ethnicities.Extension.Add(codeEthnicity);
                 }
                 Patient.Extension.Add(ethnicities);
             }
         }
 
         /// <summary>Decedent's Race.</summary>
+        /// <value>the decedent's race</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string>[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Race = race;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.race)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
         public Tuple<string, string>[] Race
         {
             get
             {
                 string[] displays = new string[] { };
                 string[] codes = new string[] { };
-                Tuple<string, string>[] racelist = new Tuple<string, string>[]{};
-                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
-                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'text').value");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
+                Tuple<string, string>[] raceList = new Tuple<string, string>[displays.Length];
 
                 for(int i = 0; i < displays.Length; i++) {
-                    racelist[i] = (Tuple.Create(displays[i], codes[i]));
-                }                
-                return racelist;
+                    raceList[i] = (Tuple.Create(displays[i], codes[i]));
+                }
+                return raceList;
             }
             set
             {
@@ -540,14 +622,14 @@ namespace FhirDeathRecord
                 foreach(Tuple<string,string> element in value) {
                     string display = element.Item1;
                     string code = element.Item2;
-                    Extension textrace = new Extension();
-                    Extension coderace = new Extension();
-                    textrace.Url = "text";
-                    textrace.Value = new FhirString(display);
-                    coderace.Url = "ombCategory";
-                    coderace.Value = new Code(code);
-                    races.Extension.Add(textrace);
-                    races.Extension.Add(coderace);
+                    Extension textRace = new Extension();
+                    Extension codeRace = new Extension();
+                    textRace.Url = "text";
+                    textRace.Value = new FhirString(display);
+                    codeRace.Url = "ombCategory";
+                    codeRace.Value = new Coding("", code);
+                    races.Extension.Add(textRace);
+                    races.Extension.Add(codeRace);
                 }
                 Patient.Extension.Add(races);
             }
@@ -626,6 +708,21 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Address of certifier.</summary>
+        /// <value>the certifier's address</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> address = new Dictionary<string, string>();</para>
+        /// <para>address.Add("street", "123 Test Street");</para>
+        /// <para>address.Add("city", "Boston");</para>
+        /// <para>address.Add("state", "Massachusetts");</para>
+        /// <para>address.Add("zip", "12345");</para>
+        /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
         public Dictionary<string, string> CertifierAddress
         {
             get
@@ -644,7 +741,7 @@ namespace FhirDeathRecord
             set
             {
                 Address address = new Address();
-                address.LineElement[0] = new FhirString(value["street"]);
+                address.LineElement.Add(new FhirString(value["street"]));
                 address.City = value["city"];
                 address.State = value["state"];
                 address.PostalCodeElement = new FhirString(value["zip"]);
@@ -653,7 +750,21 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Type of certifier.</summary>
+        /// <summary>Decedent's Birth Sex.</summary>
+        /// <value>the decedent's birth sex</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> type = new Dictionary<string, string>();</para>
+        /// <para>code.Add("code", "434651000124107");</para>
+        /// <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
+        /// <para>ExampleDeathRecord.BirthSex = type;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.CertifierType)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        /// </example>
         public Dictionary<string, string> CertifierType
         {
             get

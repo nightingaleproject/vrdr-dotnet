@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record.svg?branch=master)](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record)
 
 # csharp-fhir-death-record
-This repository includes C# code for producing and consuming the preliminary version of the Standard Death Record (SDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR). [Click here to view the generated FHIR IG](https://nightingaleproject.github.io/fhir-death-record).
+This repository includes C# code for producing and consuming the preliminary version of the Standard Death Record (SDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR). [Click here to view the generated FHIR IG](https://nightingaleproject.github.io/fhir-death-record). This code also includes support for converting FHIR SDRs to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 ## Project Organization
 
 ### FhirDeathRecord
-This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This FHIR Death Record library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
+This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 #### Usage
 You can include the library by referencing it in your project configuration, for example (taken from FhirDeathRecord.CLI):

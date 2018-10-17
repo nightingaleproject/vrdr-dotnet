@@ -169,16 +169,29 @@
             }
           },
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/v3/Ethnicity",
-                  "code": "2186-5",
-                  "display": "Non Hispanic or Latino"
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2186-5"
                 }
-              ]
-            }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2161-8"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Non Hispanic or Latino"
+              },
+              {
+                "url": "text",
+                "valueString": "Salvadoran"
+              }
+            ],
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
           },
           {
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",

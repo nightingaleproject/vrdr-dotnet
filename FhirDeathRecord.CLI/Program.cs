@@ -65,19 +65,24 @@ namespace csharp_fhir_death_record
                 Console.WriteLine("Converting FHIR SDR to IJE...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 IJEMortality ije1 = new IJEMortality(d);
-                Console.WriteLine(ije1.ToString() + "\n\n");
+                //Console.WriteLine(ije1.ToString() + "\n\n");
                 IJEMortality ije2 = new IJEMortality(ije1.ToString());
-                //Console.WriteLine(ije2.ToString() + "\n");
+                //Console.WriteLine(ije2.ToString() + "\n\n");
+                //Console.WriteLine(ije2.ToDeathRecord().ToXML() + "\n");
+                IJEMortality ije3 = new IJEMortality(ije2.ToDeathRecord());
                 foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
                 {
                     string val1 = Convert.ToString(property.GetValue(ije1, null));
                     string val2 = Convert.ToString(property.GetValue(ije2, null));
+                    string val3 = Convert.ToString(property.GetValue(ije3, null));
 
                     IJEField info = (IJEField)property.GetCustomAttributes().First();
 
-                    if (val1 != val2)
+                    if (val1 != val2 || val1 != val3 || val2 != val3)
+                    //if (val1 != val2)
                     {
-                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\"");
+                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
+                        //Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\"");
                     }
                 }
             }
@@ -110,12 +115,6 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"\tEthnicity: {deathRecord.Ethnicity}");
                 Console.WriteLine($"\tDate of Birth: {deathRecord.DateOfBirth}");
                 Console.WriteLine($"\tDate of Death: {deathRecord.DateOfDeath}");
-
-                foreach(var pair in deathRecord.Address)
-                {
-                    Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");
-                }
-
 
                 // Certifier Information
                 Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenNames}");

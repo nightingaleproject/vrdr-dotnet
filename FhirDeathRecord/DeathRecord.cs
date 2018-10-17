@@ -932,7 +932,22 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's Education.</summary>
+        /// <summary>Decedent’s level of education. Corresponds to item 51 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s level of education. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "PHC1453");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS	");</para>
+        /// <para>code.Add("display", "Bachelor's Degree");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Degree: {ExampleDeathRecord.Education["display"]}");</para>
+        /// </example>
         public Dictionary<string, string> Education
         {
             get
@@ -952,6 +967,97 @@ namespace FhirDeathRecord
                 education.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension";
                 education.Value = DictToCodeableConcept(value);
                 Patient.Extension.Add(education);
+            }
+        }
+
+        /// <summary>The decedent’s age in years at last birthday. Corresponds to item 4a of the U.S. Standard Certificate of Death.</summary>
+        /// <value>The decedent’s age in years at last birthday.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Age = "100";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age in years at last birthday.: {ExampleDeathRecord.Age}");</para>
+        /// </example>
+        public string Age
+        {
+            get
+            {
+                return Convert.ToString(Int32.Parse(GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value")));
+            }
+            set
+            {
+                Extension age = new Extension();
+                age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
+                age.Value = new FhirDecimal(Int32.Parse(value));
+                Patient.Extension.Add(age);
+            }
+        }
+
+        /// <summary>Whether the decedent ever served in the US armed forces. Corresponds to item 8 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Whether the decedent ever served in the US armed forces.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ServedInArmedForces = False;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}");</para>
+        /// </example>
+        public bool ServedInArmedForces
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension').value") == "True";
+            }
+            set
+            {
+                Extension served = new Extension();
+                served.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension";
+                served.Value = new FhirBoolean(value);
+                Patient.Extension.Add(served);
+            }
+        }
+
+        /// <summary>Decedent’s usual occupation. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s usual occupation. A Dictionary representing a place of birth address, containing the following key/value pairs:
+        /// <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
+        /// <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>occupation.Add("jobDescription", "9 Example Street");</para>
+        /// <para>occupation.Add("industryDescription", "Line 2");</para>
+        /// <para>SetterDeathRecord.Occupation = occupation;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
+        /// </example>
+        public Dictionary<string, string> Occupation
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("jobDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension').value"));
+                dictionary.Add("industryDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension').value"));
+                return dictionary;
+            }
+            set
+            {
+                // Occupation extension
+                Extension occupation = new Extension();
+                occupation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension";
+
+                // Job extension
+                Extension job = new Extension();
+                job.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
+                job.Value = new FhirString(GetValue(value, "jobDescription"));
+
+                // Industry extension
+                Extension industry = new Extension();
+                industry.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
+                industry.Value = new FhirString(GetValue(value, "industryDescription"));
+
+                occupation.Extension.Add(job);
+                occupation.Extension.Add(industry);
+                Patient.Extension.Add(occupation);
             }
         }
 

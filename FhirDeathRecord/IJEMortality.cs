@@ -422,11 +422,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
+                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath") ?? DateTime_Get("DOD_YR", "yyyy", "ActualOrPresumedDateOfDeath");
             }
             set
             {
                 DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value);
+                DateTime_Set("DOD_YR", "yyyy", "ActualOrPresumedDateOfDeath", value);
             }
         }
 
@@ -578,22 +579,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                IJEField info = FieldInfo("AGE");
-                string dateOfDeathCurrent = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfDeath").GetValue(this.record));
-                string dateOfBirthCurrent = Convert.ToString(typeof(DeathRecord).GetProperty("DateOfBirth").GetValue(this.record));
-                DateTime dateOfDeath;
-                DateTime dateOfBirth;
-                int years = 0;
-                if (dateOfDeathCurrent != null && DateTime.TryParse(dateOfDeathCurrent, out dateOfDeath) &&
-                    dateOfBirthCurrent != null && DateTime.TryParse(dateOfBirthCurrent, out dateOfBirth))
-                {
-                    years = (int)((dateOfDeath - dateOfBirth).Days/365.2425);
-                }
-                return Truncate(Convert.ToString(years), info.Length).PadLeft(info.Length, '0');
+                return RightJustifiedZeroed_Get("AGE", "Age");
             }
             set
             {
-                // NOOP; Date of Birth and Date of Death should be set individually.
+                RightJustifiedZeroed_Set("AGE", "Age", value);
             }
         }
 
@@ -966,11 +956,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
+                return DateTime_Get("DOD_MO", "MM", "DateOfDeath") ?? DateTime_Get("DOD_MO", "MM", "ActualOrPresumedDateOfDeath");
             }
             set
             {
                 DateTime_Set("DOD_MO", "MM", "DateOfDeath", value);
+                DateTime_Set("DOD_MO", "MM", "ActualOrPresumedDateOfDeath", value);
             }
         }
 
@@ -980,11 +971,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
+                return DateTime_Get("DOD_DY", "dd", "DateOfDeath") ?? DateTime_Get("DOD_DY", "dd", "ActualOrPresumedDateOfDeath");
             }
             set
             {
                 DateTime_Set("DOD_DY", "dd", "DateOfDeath", value);
+                DateTime_Set("DOD_DY", "dd", "ActualOrPresumedDateOfDeath", value);
             }
         }
 
@@ -994,11 +986,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("TOD", "HHmm", "DateOfDeath");
+                return DateTime_Get("TOD", "HHmm", "DateOfDeath") ?? DateTime_Get("TOD", "HHmm", "ActualOrPresumedDateOfDeath");
             }
             set
             {
                 DateTime_Set("TOD", "HHmm", "DateOfDeath", value);
+                DateTime_Set("TOD", "HHmm", "ActualOrPresumedDateOfDeath", value);
             }
         }
 

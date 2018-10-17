@@ -370,6 +370,54 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_Age()
+        {
+            SetterDeathRecord.Age = "100";
+            Assert.Equal("100", SetterDeathRecord.Age);
+        }
+
+        [Fact]
+        public void Get_Age()
+        {
+            Assert.Equal("48", ((DeathRecord)XMLRecords[0]).Age);
+            Assert.Equal("48", ((DeathRecord)JSONRecords[0]).Age);
+        }
+
+        [Fact]
+        public void Set_Occupation()
+        {
+            Dictionary<string, string> occupation = new Dictionary<string, string>();
+            occupation.Add("jobDescription", "Software Engineer");
+            occupation.Add("industryDescription", "Information Technology");
+            SetterDeathRecord.Occupation = occupation;
+            Assert.Equal("Software Engineer", SetterDeathRecord.Occupation["jobDescription"]);
+            Assert.Equal("Information Technology", SetterDeathRecord.Occupation["industryDescription"]);
+        }
+
+        [Fact]
+        public void Get_Occupation()
+        {
+            Assert.Equal("Example usual occupation.", ((DeathRecord)XMLRecords[0]).Occupation["jobDescription"]);
+            Assert.Equal("Example kind of business.", ((DeathRecord)XMLRecords[0]).Occupation["industryDescription"]);
+            Assert.Equal("Example usual occupation.", ((DeathRecord)JSONRecords[0]).Occupation["jobDescription"]);
+            Assert.Equal("Example kind of business.", ((DeathRecord)JSONRecords[0]).Occupation["industryDescription"]);
+        }
+
+        [Fact]
+        public void Set_ServedInArmedForces()
+        {
+            SetterDeathRecord.ServedInArmedForces = false;
+            Assert.False(SetterDeathRecord.ServedInArmedForces);
+        }
+
+        [Fact]
+        public void Get_ServedInArmedForces()
+        {
+            Assert.False(((DeathRecord)XMLRecords[0]).ServedInArmedForces);
+            Assert.False(((DeathRecord)JSONRecords[0]).ServedInArmedForces);
+        }
+
+        [Fact]
         public void Set_Disposition()
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();

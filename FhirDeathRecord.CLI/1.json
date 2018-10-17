@@ -157,16 +157,41 @@
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           },
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://hl7.org/fhir/v3/Ethnicity",
-                  "code": "2186-5",
-                  "display": "Non Hispanic or Latino"
+                  "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex",
+                  "code": "M",
+                  "display": "Male"
                 }
               ]
             }
+          },
+          {
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2186-5"
+                }
+              },
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2161-8"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Non Hispanic or Latino"
+              },
+              {
+                "url": "text",
+                "valueString": "Salvadoran"
+              }
+            ],
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
           },
           {
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
@@ -328,6 +353,9 @@
             "given": [
               "Example",
               "Middle"
+            ],
+            "suffix": [
+              "Jr."
             ]
           }
         ],
@@ -340,8 +368,10 @@
               "1 Example Street"
             ],
             "city": "Boston",
+            "district": "Suffolk",
             "state": "Massachusetts",
-            "postalCode": "02101"
+            "postalCode": "02101",
+            "country": "United States"
           }
         ],
         "resourceType": "Patient"

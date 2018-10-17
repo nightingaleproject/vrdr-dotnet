@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -180,11 +180,11 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Decedent's Given Name(s).</summary>
-        /// <value>the decedent's name (first, middle, etc.)</value>
+        /// <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
+        /// <value>the decedent's name (first, etc., middle)</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>string[] names = {"Example", "Middle"};</para>
+        /// <para>string[] names = {"Example", "Something", "Middle"};</para>
         /// <para>ExampleDeathRecord.GivenNames = names;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
@@ -212,13 +212,95 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's First Name. This is essentially the same as the first thing in
+        /// <c>GivenNames</c>. Setting this value will prepend whatever is given to the start
+        /// of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
+        /// <value>the decedent's first name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstName = "Example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent First Name: {ExampleDeathRecord.FirstName}");</para>
+        /// </example>
+        public string FirstName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.given");
+            }
+            set
+            {
+                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                if (name != null)
+                {
+                    string[] firstName = new String[] {value};
+                    if (name.Given.First() == "") // Looks like middle name was set first, replace fake first name.
+                    {
+                        name.Given = firstName.Concat(name.Given.Skip(1).ToArray()).ToArray();
+                    }
+                    else
+                    {
+                        name.Given = firstName.Concat(name.Given).ToArray();
+                    }
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = new String[] {value, ""}; // Put an empty "fake" middle name at the end.
+                    Patient.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Middle Name. This is essentially the same as the last thing in
+        /// <c>GivenNames</c>. Setting this value will append whatever is given to the end
+        /// of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
+        /// <value>the decedent's middle name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MiddleName = "Middle";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Middle Name: {ExampleDeathRecord.MiddleName}");</para>
+        /// </example>
+        public string MiddleName
+        {
+            get
+            {
+                return GetLastString("Bundle.entry.resource.where($this is Patient).name.given");
+            }
+            set
+            {
+                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                if (name != null)
+                {
+                    string[] middleName = new String[] {value};
+                    if (name.Given.Last() == "") // Looks like first name was set first, replace fake middle name.
+                    {
+                        name.Given = name.Given.Take(name.Given.Count() - 1).ToArray().Concat(middleName).ToArray();
+                    }
+                    else
+                    {
+                        name.Given = name.Given.Concat(middleName).ToArray();
+                    }
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = new String[] {"", value}; // Put an empty "fake" first name at the start.
+                    Patient.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Decedent's Family Name.</summary>
         /// <value>the decedent's family name (i.e. last name)</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.FamilyName = "Last";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Last Name: {string.Join(", ", ExampleDeathRecord.FamilyName)}");</para>
+        /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
         public string FamilyName
         {
@@ -243,7 +325,47 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Suffix.</summary>
+        /// <value>the decedent's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Suffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
+        /// </example>
+        public string Suffix
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.suffix");
+            }
+            set
+            {
+                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                if (name != null)
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Patient.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Decedent's Gender.</summary>
+        /// <value>the decedent's gender</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Gender = "female";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Gender}");</para>
+        /// </example>
         public string Gender
         {
             get
@@ -252,11 +374,72 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                switch(value)
+                {
+                    case "male":
+                        Patient.Gender = AdministrativeGender.Male;
+                        break;
+                    case "female":
+                        Patient.Gender = AdministrativeGender.Female;
+                        break;
+                    case "other":
+                        Patient.Gender = AdministrativeGender.Other;
+                        break;
+                    case "unknown":
+                        Patient.Gender = AdministrativeGender.Unknown;
+                        break;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Birth Sex.</summary>
+        /// <value>the decedent's birth sex</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> code = new Dictionary<string, string>();</para>
+        /// <para>code.Add("code", "M");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
+        /// <para>code.Add("display", "Male");</para>
+        /// <para>ExampleDeathRecord.BirthSex = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.BirthSex)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        /// </example>
+
+        public Dictionary<string, string> BirthSex
+        {
+            get
+            {
+                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.code");
+                string system = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.system");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.display");
+                Dictionary<string, string> birthsex = new Dictionary<string, string>();
+                birthsex.Add("code", code);
+                birthsex.Add("system", system);
+                birthsex.Add("display", display);
+                return birthsex;
+            }
+            set
+            {
+                Extension birthsex = new Extension();
+                birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                birthsex.Value = DictToCodeableConcept(value);
+                Patient.Extension.Add(birthsex);
             }
         }
 
         /// <summary>Decedent's Date of Birth.</summary>
+        /// <value>the decedent's date of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfBirth = "1970-04-24";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfBirth}");</para>
+        /// </example>
+
         public string DateOfBirth
         {
             get
@@ -265,11 +448,18 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Patient.BirthDate = value;
             }
         }
 
         /// <summary>Decedent's Date and Time of Death.</summary>
+        /// <value>the decedent's date and time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeath = "1970-04-24";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfDeath}");</para>
+        /// </example>
         public string DateOfDeath
          {
             get
@@ -278,33 +468,84 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Patient.Deceased = new FhirDateTime(value);
             }
         }
 
-        /// <summary>Decedent's address.</summary>
-        public Dictionary<string, string> Address
+        /// <summary>Decedent's residence.</summary>
+        /// <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+        /// <para>"residenceLine1" - residence, line one</para>
+        /// <para>"residenceLine2" - residence, line two</para>
+        /// <para>"residenceCity" - residence, city</para>
+        /// <para>"residenceCounty" - residence, county</para>
+        /// <para>"residenceState" - residence, state</para>
+        /// <para>"residenceZip" - residence, zip</para>
+        /// <para>"residenceCountry" - residence, country</para>
+        /// <para>"residenceInsideCityLimits" - residence, inside city limits</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; residence = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>residence.Add("residenceLine1", "9 Example Street");</para>
+        /// <para>residence.Add("residenceLine2", "Line 2");</para>
+        /// <para>residence.Add("residenceCity", "Bedford");</para>
+        /// <para>residence.Add("residenceCounty", "Middlesex");</para>
+        /// <para>residence.Add("residenceState", "Massachusetts");</para>
+        /// <para>residence.Add("residenceZip", "01730");</para>
+        /// <para>residence.Add("residenceCountry", "United States");</para>
+        /// <para>residence.Add("residenceInsideCityLimits", "True");</para>
+        /// <para>SetterDeathRecord.Residence = residence;</para>
+        /// <para>// Getter:</para>
+        /// <para>string state = ExampleDeathRecord.<para>["residenceState"];</para>
+        /// <para>Console.WriteLine($"State of residence: {state}");</para>
+        /// </example>
+        public Dictionary<string, string> Residence
         {
             get
             {
-                string street = GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[0]");
-                string city = GetFirstString("Bundle.entry.resource.where($this is Patient).address.city");
-                string state = GetFirstString("Bundle.entry.resource.where($this is Patient).address.state");
-                string zip = GetFirstString("Bundle.entry.resource.where($this is Patient).address.postalCode");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("street", street);
-                dictionary.Add("city", city);
-                dictionary.Add("state", state);
-                dictionary.Add("zip", zip);
+
+                // Place Of Birth Address
+                dictionary.Add("residenceLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[0]"));
+                dictionary.Add("residenceLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).address.line[1]"));
+                dictionary.Add("residenceCity", GetFirstString("Bundle.entry.resource.where($this is Patient).address.city"));
+                dictionary.Add("residenceCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).address.district"));
+                dictionary.Add("residenceState", GetFirstString("Bundle.entry.resource.where($this is Patient).address.state"));
+                dictionary.Add("residenceZip", GetFirstString("Bundle.entry.resource.where($this is Patient).address.postalCode"));
+                dictionary.Add("residenceCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).address.country"));
+                dictionary.Add("residenceInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).address.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+
                 return dictionary;
             }
             set
             {
-                // TODO
+                Address address = new Address();
+                address.LineElement.Add(new FhirString(GetValue(value, "residenceLine1")));
+                address.LineElement.Add(new FhirString(GetValue(value, "residenceLine2")));
+                address.City = GetValue(value, "residenceCity");
+                address.District = GetValue(value, "residenceCounty");
+                address.State = GetValue(value, "residenceState");
+                address.PostalCodeElement = new FhirString(GetValue(value, "residenceZip"));
+                address.Country = GetValue(value, "residenceCountry");
+                if (value.ContainsKey("residenceInsideCityLimits") && GetValue(value, "residenceInsideCityLimits") != null)
+                {
+                    Extension insideCityLimits = new Extension();
+                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "residenceInsideCityLimits") == "true" || GetValue(value, "residenceInsideCityLimits") == "True");
+                    address.Extension.Add(insideCityLimits);
+                }
+                Patient.Address.Add(address);
             }
         }
 
         /// <summary>Decedent's Social Security Number.</summary>
+        /// <value>the decedent's social security number</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SSN = "123-45-678";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
+        /// </example>
         public string SSN
         {
             get
@@ -313,35 +554,623 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Identifier ssn = new Identifier();
+                ssn.System = "http://hl7.org/fhir/sid/us-ssn";
+                ssn.Value = value;
+                Patient.Identifier.Add(ssn);
             }
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
-        public string Ethnicity
+        /// <value>the decedent's ethnicity</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string>[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Tuple<string, string>[] Ethnicity
         {
             get
             {
-                return "TODO";
-                //return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+                string[] displays = new string[] { };
+                string[] codes = new string[] { };
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'text').value");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
+                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[displays.Length];
+
+                for (int i = 0; i < displays.Length; i++)
+                {
+                    ethnicityList[i] = (Tuple.Create(displays[i], codes[i]));
+                }
+                return ethnicityList;
             }
             set
             {
-                // TODO
+                Extension ethnicities = new Extension();
+                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
+                foreach (Tuple<string, string> element in value)
+                {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension textEthnicity = new Extension();
+                    Extension codeEthnicity = new Extension();
+                    textEthnicity.Url = "text";
+                    textEthnicity.Value = new FhirString(display);
+                    codeEthnicity.Url = "ombCategory";
+                    codeEthnicity.Value = new Coding("", code);
+                    ethnicities.Extension.Add(textEthnicity);
+                    ethnicities.Extension.Add(codeEthnicity);
+                }
+                Patient.Extension.Add(ethnicities);
             }
         }
 
         /// <summary>Decedent's Race.</summary>
-        public string Race
+        /// <value>the decedent's race</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string>[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Race = race;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.race)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Tuple<string, string>[] Race
         {
             get
             {
-                return "TODO";
-                //return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').value.coding.display");
+                string[] displays = new string[] { };
+                string[] codes = new string[] { };
+                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'text').value");
+                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
+                Tuple<string, string>[] raceList = new Tuple<string, string>[displays.Length];
+
+                for(int i = 0; i < displays.Length; i++) {
+                    raceList[i] = (Tuple.Create(displays[i], codes[i]));
+                }
+                return raceList;
             }
             set
             {
-                // TODO
+                Extension races = new Extension();
+                races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                foreach(Tuple<string,string> element in value) {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension textRace = new Extension();
+                    Extension codeRace = new Extension();
+                    textRace.Url = "text";
+                    textRace.Value = new FhirString(display);
+                    codeRace.Url = "ombCategory";
+                    codeRace.Value = new Coding("", code);
+                    races.Extension.Add(textRace);
+                    races.Extension.Add(codeRace);
+                }
+                Patient.Extension.Add(races);
+            }
+        }
+
+        /// <summary>Decedent's Place Of Birth.</summary>
+        /// <value>Decedent's Place Of Birth. A Dictionary representing a place of birth address, containing the following key/value pairs:
+        /// <para>"placeOfBirthLine1" - location of birth, line one</para>
+        /// <para>"placeOfBirthLine2" - location of birth, line two</para>
+        /// <para>"placeOfBirthCity" - location of birth, city</para>
+        /// <para>"placeOfBirthState" - location of birth, state</para>
+        /// <para>"placeOfBirthZip" - location of birth, zip</para>
+        /// <para>"placeOfBirthCountry" - location of birth, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; placeOfBirth = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>placeOfBirth.Add("placeOfBirthLine1", "9 Example Street");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthLine2", "Line 2");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthCity", "Bedford");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthState", "Massachusetts");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthZip", "01730");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthCountry", "United States");</para>
+        /// <para>SetterDeathRecord.PlaceOfBirth = placeOfBirth;</para>
+        /// <para>// Getter:</para>
+        /// <para>string state = ExampleDeathRecord.<para>["placeOfBirthState"];</para>
+        /// <para>Console.WriteLine($"State where decedent was born: {state}");</para>
+        /// </example>
+        public Dictionary<string, string> PlaceOfBirth
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+                // Place Of Birth Address
+                dictionary.Add("placeOfBirthLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[0]"));
+                dictionary.Add("placeOfBirthLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[1]"));
+                dictionary.Add("placeOfBirthCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.city"));
+                dictionary.Add("placeOfBirthState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.state"));
+                dictionary.Add("placeOfBirthZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.postalCode"));
+                dictionary.Add("placeOfBirthCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.country"));
+
+                return dictionary;
+            }
+            set
+            {
+                // Place Of Birth extension
+                Extension placeOfBirthExt = new Extension();
+                placeOfBirthExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension";
+
+                // Place Of Birth Address
+                Address placeOfBirthAddress = new Address();
+                string[] lines = {GetValue(value, "placeOfBirthLine1"), GetValue(value, "placeOfBirthLine2")};
+                placeOfBirthAddress.Line = lines.ToArray();
+                placeOfBirthAddress.City = GetValue(value, "placeOfBirthCity");
+                placeOfBirthAddress.State = GetValue(value, "placeOfBirthState");
+                placeOfBirthAddress.PostalCode = GetValue(value, "placeOfBirthZip");
+                placeOfBirthAddress.Country = GetValue(value, "placeOfBirthCountry");
+                placeOfBirthAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+                placeOfBirthExt.Value = placeOfBirthAddress;
+
+                Patient.Extension.Add(placeOfBirthExt);
+            }
+        }
+
+        /// <summary>Decedent's Place Of Death.</summary>
+        /// <value>Decedent's Place Of Death. A Dictionary representing a place of death, containing the following key/value pairs:
+        /// <para>"placeOfDeathTypeCode" - place of death type, code</para>
+        /// <para>"placeOfDeathTypeSystem" - place of death type, code system</para>
+        /// <para>"placeOfDeathTypeDisplay" - place of death type, code display</para>
+        /// <para>"placeOfDeathFacilityName" - place of death facility name</para>
+        /// <para>"placeOfDeathLine1" - location of death, line one</para>
+        /// <para>"placeOfDeathLine2" - location of death, line two</para>
+        /// <para>"placeOfDeathCity" - location of death, city</para>
+        /// <para>"placeOfDeathCounty" - location of death, county</para>
+        /// <para>"placeOfDeathState" - location of death, state</para>
+        /// <para>"placeOfDeathZip" - location of death, zip</para>
+        /// <para>"placeOfDeathCountry" - location of death, country</para>
+        /// <para>"placeOfDeathInsideCityLimits" - location of death, whether the address is within city limits (true) or not (false)</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; placeOfDeath = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>placeOfDeath.Add("placeOfDeathTypeCode", "16983000");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathTypeSystem", "http://snomed.info/sct");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathTypeDisplay", "Death in hospital");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathFacilityName", "Example Hospital");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathLine1", "8 Example Street");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathLine2", "Line 2");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathCity", "Bedford");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathCounty", "Middlesex");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathState", "Massachusetts");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathZip", "01730");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathCountry", "United States");</para>
+        /// <para>placeOfDeath.Add("placeOfDeathInsideCityLimits", "True");</para>
+        /// <para>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</para>
+        /// <para>// Getter:</para>
+        /// <para>string state = ExampleDeathRecord.<para>["placeOfDeathState"];</para>
+        /// <para>Console.WriteLine($"State where death occurred: {state}");</para>
+        /// </example>
+        public Dictionary<string, string> PlaceOfDeath
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+                // Place Of Death Type
+                dictionary.Add("placeOfDeathTypeCode", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension').value.coding.code"));
+                dictionary.Add("placeOfDeathTypeSystem", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension').value.coding.system"));
+                dictionary.Add("placeOfDeathTypeDisplay", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension').value.coding.display"));
+
+                // Place Of Death Facility Name
+                dictionary.Add("placeOfDeathFacilityName", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension').value"));
+
+                // Place Of Death Address
+                dictionary.Add("placeOfDeathLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
+                dictionary.Add("placeOfDeathLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
+                dictionary.Add("placeOfDeathCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("placeOfDeathCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
+                dictionary.Add("placeOfDeathState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
+                dictionary.Add("placeOfDeathZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
+                dictionary.Add("placeOfDeathCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
+                dictionary.Add("placeOfDeathInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+
+                return dictionary;
+            }
+            set
+            {
+                // Place Of Death extension
+                Extension placeOfDeathExt = new Extension();
+                placeOfDeathExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension";
+
+                // Place Of Death Type extension
+                Extension placeOfDeathTypeExt = new Extension();
+                placeOfDeathTypeExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension";
+                CodeableConcept codeableConcept = new CodeableConcept();
+                Coding coding = new Coding();
+                coding.Code = GetValue(value, "placeOfDeathTypeCode");
+                coding.System = GetValue(value, "placeOfDeathTypeSystem");
+                coding.Display = GetValue(value, "placeOfDeathTypeDisplay");
+                codeableConcept.Coding.Add(coding);
+                placeOfDeathTypeExt.Value = codeableConcept;
+                placeOfDeathExt.Extension.Add(placeOfDeathTypeExt);
+
+                // Place Of Death Facility Name extension
+                Extension placeOfDeathFacilityNameExt = new Extension();
+                placeOfDeathFacilityNameExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension";
+                placeOfDeathFacilityNameExt.Value = new FhirString(GetValue(value, "placeOfDeathFacilityName"));
+                placeOfDeathExt.Extension.Add(placeOfDeathFacilityNameExt);
+
+                // Place Of Death Address extension
+                Extension placeOfDeathAddressExt = new Extension();
+                placeOfDeathAddressExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
+                Address placeOfDeathAddress = new Address();
+                string[] lines = {GetValue(value, "placeOfDeathLine1"), GetValue(value, "placeOfDeathLine2")};
+                placeOfDeathAddress.Line = lines.ToArray();
+                placeOfDeathAddress.City = GetValue(value, "placeOfDeathCity");
+                placeOfDeathAddress.District = GetValue(value, "placeOfDeathCounty");
+                placeOfDeathAddress.State = GetValue(value, "placeOfDeathState");
+                placeOfDeathAddress.PostalCode = GetValue(value, "placeOfDeathZip");
+                placeOfDeathAddress.Country = GetValue(value, "placeOfDeathCountry");
+                placeOfDeathAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+                if (value.ContainsKey("placeOfDeathInsideCityLimits") && GetValue(value, "placeOfDeathInsideCityLimits") != null)
+                {
+                    Extension insideCityLimits = new Extension();
+                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfDeathInsideCityLimits") == "true" || GetValue(value, "placeOfDeathInsideCityLimits") == "True");
+                    placeOfDeathAddress.Extension.Add(insideCityLimits);
+                }
+                placeOfDeathAddressExt.Value = placeOfDeathAddress;
+                placeOfDeathExt.Extension.Add(placeOfDeathAddressExt);
+
+                Patient.Extension.Add(placeOfDeathExt);
+            }
+        }
+
+        /// <summary>The marital status of the decedent at the time of death. Corresponds to item 9 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>The marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "S");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
+        /// <para>code.Add("display", "Never Married");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
+        /// </example>
+        public Dictionary<string, string> MaritalStatus
+        {
+            get
+            {
+                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension').value.coding.code");
+                string system = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension').value.coding.system");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension').value.coding.display");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("code", code);
+                dictionary.Add("system", system);
+                dictionary.Add("display", display);
+                return dictionary;
+            }
+            set
+            {
+                Extension maritalStatus = new Extension();
+                maritalStatus.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension";
+                maritalStatus.Value = DictToCodeableConcept(value);
+                Patient.Extension.Add(maritalStatus);
+            }
+        }
+
+        /// <summary>Disposition of the decedent’s body. Corresponds to items 18, 19, 20, 21, 22 and 23 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Disposition of the decedent’s body. A Dictionary representing the disposition, containing the following key/value pairs:
+        /// <para>"dispositionTypeCode" - the code describing the method of disposition of the decedent’s remains</para>
+        /// <para>"dispositionTypeSystem" - the code system describing the method of disposition of the decedent’s remains</para>
+        /// <para>"dispositionTypeDisplay" - the human readable code display text that describes the method of disposition of the decedent’s remains</para>
+        /// <para>"dispositionPlaceName" - the name of the disposition place</para>
+        /// <para>"dispositionPlaceLine1" - disposition place address, line one</para>
+        /// <para>"dispositionPlaceLine2" - disposition place address, line two</para>
+        /// <para>"dispositionPlaceCity" - disposition place address, city</para>
+        /// <para>"dispositionPlaceCounty" - disposition place address, county</para>
+        /// <para>"dispositionPlaceState" - disposition place address, state</para>
+        /// <para>"dispositionPlaceZip" - disposition place address, zip</para>
+        /// <para>"dispositionPlaceCountry" - disposition place address, country</para>
+        /// <para>"dispositionPlaceInsideCityLimits" - disposition place address, whether the address is within city limits (true) or not (false)</para>
+        /// <para>"funeralFacilityName" - the name of a funeral facility or institution</para>
+        /// <para>"funeralFacilityLine1" - funeral facility address, line one</para>
+        /// <para>"funeralFacilityLine2" - funeral facility address, line two</para>
+        /// <para>"funeralFacilityCity" - funeral facility address, city</para>
+        /// <para>"funeralFacilityCounty" - funeral facility address, county</para>
+        /// <para>"funeralFacilityState" - funeral facility address, state</para>
+        /// <para>"funeralFacilityZip" - funeral facility address, zip</para>
+        /// <para>"funeralFacilityCountry" - funeral facility address, country</para>
+        /// <para>"funeralFacilityInsideCityLimits" - funeral facility address, whether the address is within city limits (true) or not (false)</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; disposition = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>disposition.Add("dispositionTypeCode", "449971000124106");</para>
+        /// <para>disposition.Add("dispositionTypeSystem", "http://snomed.info/sct");</para>
+        /// <para>disposition.Add("dispositionTypeDisplay", "Burial");</para>
+        /// <para>disposition.Add("dispositionPlaceName", "Example disposition place name");</para>
+        /// <para>disposition.Add("dispositionPlaceLine1", "100 Example Street");</para>
+        /// <para>disposition.Add("dispositionPlaceLine2", "Line 2");</para>
+        /// <para>disposition.Add("dispositionPlaceCity", "Bedford");</para>
+        /// <para>disposition.Add("dispositionPlaceCounty", "Middlesex");</para>
+        /// <para>disposition.Add("dispositionPlaceState", "Massachusetts");</para>
+        /// <para>disposition.Add("dispositionPlaceZip", "01730");</para>
+        /// <para>disposition.Add("dispositionPlaceCountry", "United States");</para>
+        /// <para>disposition.Add("dispositionPlaceInsideCityLimits", "True");</para>
+        /// <para>disposition.Add("funeralFacilityName", "Example funeral facility name");</para>
+        /// <para>disposition.Add("funeralFacilityLine1", "50 Example Street");</para>
+        /// <para>disposition.Add("funeralFacilityLine2", "Line 2");</para>
+        /// <para>disposition.Add("funeralFacilityCity", "Bedford");</para>
+        /// <para>disposition.Add("funeralFacilityCounty", "Middlesex");</para>
+        /// <para>disposition.Add("funeralFacilityState", "Massachusetts");</para>
+        /// <para>disposition.Add("funeralFacilityZip", "01730");</para>
+        /// <para>disposition.Add("funeralFacilityCountry", "United States");</para>
+        /// <para>disposition.Add("funeralFacilityInsideCityLimits", "True");</para>
+        /// <para>ExampleDeathRecord.Disposition = disposition;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
+        /// </example>
+        public Dictionary<string, string> Disposition
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+                // Disposition Type - The method of disposition of the decedent’s remains.
+                dictionary.Add("dispositionTypeCode", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension').value.coding.code"));
+                dictionary.Add("dispositionTypeSystem", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension').value.coding.system"));
+                dictionary.Add("dispositionTypeDisplay", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension').value.coding.display"));
+
+                // Disposition Place name
+                dictionary.Add("dispositionPlaceName", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension').value"));
+
+                // Disposition Place address
+                dictionary.Add("dispositionPlaceLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
+                dictionary.Add("dispositionPlaceLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
+                dictionary.Add("dispositionPlaceCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("dispositionPlaceCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
+                dictionary.Add("dispositionPlaceState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
+                dictionary.Add("dispositionPlaceZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
+                dictionary.Add("dispositionPlaceCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
+                dictionary.Add("dispositionPlaceInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+
+                // Disposition Facility name
+                dictionary.Add("funeralFacilityName", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension').value"));
+
+                // Disposition Facility address
+                dictionary.Add("funeralFacilityLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
+                dictionary.Add("funeralFacilityLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
+                dictionary.Add("funeralFacilityCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("funeralFacilityCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
+                dictionary.Add("funeralFacilityState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
+                dictionary.Add("funeralFacilityZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
+                dictionary.Add("funeralFacilityCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
+                dictionary.Add("funeralFacilityInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+
+                return dictionary;
+            }
+            set
+            {
+                // Disposition extension
+                Extension dispositionExt = new Extension();
+                dispositionExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension";
+
+                // Disposition Type extension - The method of disposition of the decedent’s remains.
+                Extension dispositionTypeExt = new Extension();
+                dispositionTypeExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension";
+                CodeableConcept codeableConcept = new CodeableConcept();
+                Coding coding = new Coding();
+                coding.Code = GetValue(value, "dispositionTypeCode");
+                coding.System = GetValue(value, "dispositionTypeSystem");
+                coding.Display = GetValue(value, "dispositionTypeDisplay");
+                codeableConcept.Coding.Add(coding);
+                dispositionTypeExt.Value = codeableConcept;
+
+                // Disposition Place extension - The place of disposition of the decedent’s remains.
+                Extension dispositionPlaceExt = new Extension();
+                dispositionPlaceExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension";
+
+                // Disposition Place name extension
+                Extension dispositionPlaceNameExt = new Extension();
+                dispositionPlaceNameExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension";
+                dispositionPlaceNameExt.Value = new FhirString(GetValue(value, "dispositionPlaceName"));
+                dispositionPlaceExt.Extension.Add(dispositionPlaceNameExt);
+
+                // Disposition Place address extension
+                Extension dispositionPlaceAddressExt = new Extension();
+                dispositionPlaceAddressExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
+                Address dispositionPlaceAddress = new Address();
+                string[] lines = {GetValue(value, "dispositionPlaceLine1"), GetValue(value, "dispositionPlaceLine2")};
+                dispositionPlaceAddress.Line = lines.ToArray();
+                dispositionPlaceAddress.City = GetValue(value, "dispositionPlaceCity");
+                dispositionPlaceAddress.District = GetValue(value, "dispositionPlaceCounty");
+                dispositionPlaceAddress.State = GetValue(value, "dispositionPlaceState");
+                dispositionPlaceAddress.PostalCode = GetValue(value, "dispositionPlaceZip");
+                dispositionPlaceAddress.Country = GetValue(value, "dispositionPlaceCountry");
+                dispositionPlaceAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+                if (value.ContainsKey("dispositionPlaceInsideCityLimits") && GetValue(value, "dispositionPlaceInsideCityLimits") != null)
+                {
+                    Extension insideCityLimits = new Extension();
+                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "dispositionPlaceInsideCityLimits") == "true" || GetValue(value, "dispositionPlaceInsideCityLimits") == "True");
+                    dispositionPlaceAddress.Extension.Add(insideCityLimits);
+                }
+                dispositionPlaceAddressExt.Value = dispositionPlaceAddress;
+                dispositionPlaceExt.Extension.Add(dispositionPlaceAddressExt);
+
+                // Funeral Facility extension - Name and address of the funeral facility.
+                Extension funeralFacilityExt = new Extension();
+                funeralFacilityExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension";
+
+                // Disposition Facility name extension
+                Extension funeralFacilityNameExt = new Extension();
+                funeralFacilityNameExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension";
+                funeralFacilityNameExt.Value = new FhirString(GetValue(value, "funeralFacilityName"));
+                funeralFacilityExt.Extension.Add(funeralFacilityNameExt);
+
+                // Disposition Facility address extension
+                Extension funeralFacilityAddressExt = new Extension();
+                funeralFacilityAddressExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
+                Address funeralFacilityAddress = new Address();
+                string[] fflines = {GetValue(value, "funeralFacilityLine1"), GetValue(value, "funeralFacilityLine2")};
+                funeralFacilityAddress.Line = fflines.ToArray();
+                funeralFacilityAddress.City = GetValue(value, "funeralFacilityCity");
+                funeralFacilityAddress.District = GetValue(value, "funeralFacilityCounty");
+                funeralFacilityAddress.State = GetValue(value, "funeralFacilityState");
+                funeralFacilityAddress.PostalCode = GetValue(value, "funeralFacilityZip");
+                funeralFacilityAddress.Country = GetValue(value, "funeralFacilityCountry");
+                funeralFacilityAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+                if (value.ContainsKey("funeralFacilityInsideCityLimits") && GetValue(value, "funeralFacilityInsideCityLimits") != null)
+                {
+                    Extension insideCityLimits = new Extension();
+                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "funeralFacilityInsideCityLimits") == "true" || GetValue(value, "funeralFacilityInsideCityLimits") == "True");
+                    funeralFacilityAddress.Extension.Add(insideCityLimits);
+                }
+                funeralFacilityAddressExt.Value = funeralFacilityAddress;
+                funeralFacilityExt.Extension.Add(funeralFacilityAddressExt);
+
+                dispositionExt.Extension.Add(dispositionTypeExt);
+                dispositionExt.Extension.Add(dispositionPlaceExt);
+                dispositionExt.Extension.Add(funeralFacilityExt);
+                Patient.Extension.Add(dispositionExt);
+            }
+        }
+
+        /// <summary>Decedent’s level of education. Corresponds to item 51 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s level of education. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "PHC1453");</para>
+        /// <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS	");</para>
+        /// <para>code.Add("display", "Bachelor's Degree");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Degree: {ExampleDeathRecord.Education["display"]}");</para>
+        /// </example>
+        public Dictionary<string, string> Education
+        {
+            get
+            {
+                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.code");
+                string system = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.system");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.display");
+                Dictionary<string, string> education = new Dictionary<string, string>();
+                education.Add("code", code);
+                education.Add("system", system);
+                education.Add("display", display);
+                return education;
+            }
+            set
+            {
+                Extension education = new Extension();
+                education.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension";
+                education.Value = DictToCodeableConcept(value);
+                Patient.Extension.Add(education);
+            }
+        }
+
+        /// <summary>The decedent’s age in years at last birthday. Corresponds to item 4a of the U.S. Standard Certificate of Death.</summary>
+        /// <value>The decedent’s age in years at last birthday.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Age = "100";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age in years at last birthday.: {ExampleDeathRecord.Age}");</para>
+        /// </example>
+        public string Age
+        {
+            get
+            {
+                return Convert.ToString(Int32.Parse(GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value")));
+            }
+            set
+            {
+                Extension age = new Extension();
+                age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
+                age.Value = new FhirDecimal(Int32.Parse(value));
+                Patient.Extension.Add(age);
+            }
+        }
+
+        /// <summary>Whether the decedent ever served in the US armed forces. Corresponds to item 8 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Whether the decedent ever served in the US armed forces.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ServedInArmedForces = False;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}");</para>
+        /// </example>
+        public bool ServedInArmedForces
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension').value") == "True";
+            }
+            set
+            {
+                Extension served = new Extension();
+                served.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension";
+                served.Value = new FhirBoolean(value);
+                Patient.Extension.Add(served);
+            }
+        }
+
+        /// <summary>Decedent’s usual occupation. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s usual occupation. A Dictionary representing a place of birth address, containing the following key/value pairs:
+        /// <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
+        /// <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>occupation.Add("jobDescription", "9 Example Street");</para>
+        /// <para>occupation.Add("industryDescription", "Line 2");</para>
+        /// <para>SetterDeathRecord.Occupation = occupation;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
+        /// </example>
+        public Dictionary<string, string> Occupation
+        {
+            get
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("jobDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension').value"));
+                dictionary.Add("industryDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension').value"));
+                return dictionary;
+            }
+            set
+            {
+                // Occupation extension
+                Extension occupation = new Extension();
+                occupation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension";
+
+                // Job extension
+                Extension job = new Extension();
+                job.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
+                job.Value = new FhirString(GetValue(value, "jobDescription"));
+
+                // Industry extension
+                Extension industry = new Extension();
+                industry.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
+                industry.Value = new FhirString(GetValue(value, "industryDescription"));
+
+                occupation.Extension.Add(job);
+                occupation.Extension.Add(industry);
+                Patient.Extension.Add(occupation);
             }
         }
 
@@ -418,6 +1247,21 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Address of certifier.</summary>
+        /// <value>the certifier's address</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> address = new Dictionary<string, string>();</para>
+        /// <para>address.Add("street", "123 Test Street");</para>
+        /// <para>address.Add("city", "Boston");</para>
+        /// <para>address.Add("state", "Massachusetts");</para>
+        /// <para>address.Add("zip", "12345");</para>
+        /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
         public Dictionary<string, string> CertifierAddress
         {
             get
@@ -435,20 +1279,48 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                Address address = new Address();
+                address.LineElement.Add(new FhirString(value["street"]));
+                address.City = value["city"];
+                address.State = value["state"];
+                address.PostalCodeElement = new FhirString(value["zip"]);
+                Practitioner.Address = new List<Hl7.Fhir.Model.Address>();
+                Practitioner.Address.Add(address);
             }
         }
 
-        /// <summary>Type of certifier.</summary>
-        public string CertifierType
+        /// <summary>Decedent's Birth Sex.</summary>
+        /// <value>the decedent's birth sex</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary<string, string> type = new Dictionary<string, string>();</para>
+        /// <para>code.Add("code", "434651000124107");</para>
+        /// <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
+        /// <para>ExampleDeathRecord.BirthSex = type;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.CertifierType)</para>
+        /// <para>{</para>
+        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        /// </example>
+        public Dictionary<string, string> CertifierType
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
+                string display = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
+                string code = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.code");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("display", display);
+                dictionary.Add("code", code);
+                return dictionary;
             }
             set
             {
-                // TODO
+                Extension type = new Extension();
+                type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
+                type.Value = DictToCodeableConcept(value);
+                Practitioner.Extension.Add(type);
             }
         }
 
@@ -969,24 +1841,25 @@ namespace FhirDeathRecord
                                                          "11374-6",
                                                          "http://loinc.org",
                                                          "Injury incident description");
-                observation.Value = new FhirString(value["description"]);
-                observation.Effective = new FhirDateTime(value["effectiveDateTime"]);
+                observation.Value = new FhirString(GetValue(value, "description"));
+                observation.Effective = new FhirDateTime(GetValue(value, "effectiveDateTime"));
                 Extension placeOfInjury = new Extension();
                 placeOfInjury.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension";
-                placeOfInjury.Value = new FhirString(value["placeOfInjuryDescription"]);
+                placeOfInjury.Value = new FhirString(GetValue(value, "placeOfInjuryDescription"));
                 observation.Extension.Add(placeOfInjury);
                 Extension placeOfInjuryLocation = new Extension();
                 placeOfInjuryLocation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
                 Address placeOfInjuryLocationAddress = new Address();
-                string[] lines = {value["placeOfInjuryLine1"], value["placeOfInjuryLine2"]};
+                string[] lines = {GetValue(value, "placeOfInjuryLine1"), GetValue(value, "placeOfInjuryLine2")};
                 placeOfInjuryLocationAddress.Line = lines.ToArray();
-                placeOfInjuryLocationAddress.City = value["placeOfInjuryCity"];
-                placeOfInjuryLocationAddress.State = value["placeOfInjuryState"];
-                placeOfInjuryLocationAddress.PostalCode = value["placeOfInjuryZip"];
-                placeOfInjuryLocationAddress.Country = value["placeOfInjuryCountry"];
+                placeOfInjuryLocationAddress.City = GetValue(value, "placeOfInjuryCity");
+                placeOfInjuryLocationAddress.State = GetValue(value, "placeOfInjuryState");
+                placeOfInjuryLocationAddress.PostalCode = GetValue(value, "placeOfInjuryZip");
+                placeOfInjuryLocationAddress.Country = GetValue(value, "placeOfInjuryCountry");
+                placeOfInjuryLocationAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
                 Extension insideCityLimits = new Extension();
                 insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                insideCityLimits.Value = new FhirBoolean(value["placeOfInjuryInsideCityLimits"] == "true");
+                insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfInjuryInsideCityLimits") == "true" || GetValue(value, "placeOfInjuryInsideCityLimits") == "True");
                 placeOfInjuryLocationAddress.Extension.Add(insideCityLimits);
                 placeOfInjuryLocation.Value = placeOfInjuryLocationAddress;
                 observation.Extension.Add(placeOfInjuryLocation);
@@ -1184,6 +2057,17 @@ namespace FhirDeathRecord
                 return null; // Nothing found
             }
         }
+
+        /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
+        public static string GetValue(Dictionary<string, string> dict, string key)
+        {
+            string value;
+            dict.TryGetValue(key, out value);
+            return value;
+        }
+
     }
 
 }
+
+

@@ -132,6 +132,15 @@
             <valueString value="Black or African American"/>
           </extension>
         </extension>
+        <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex"/>
+              <code value="M"/>
+              <display value="Male"/>
+            </coding>
+          </valueCodeableConcept>
+        </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity">
           <valueCodeableConcept>
             <coding>
@@ -252,6 +261,7 @@
           <family value="Person"/>
           <given value="Example"/>
           <given value="Middle"/>
+          <suffix value="Jr."/>
         </name>
         <gender value="male"/>
         <birthDate value="1970-04-24"/>
@@ -259,8 +269,10 @@
         <address>
           <line value="1 Example Street"/>
           <city value="Boston"/>
+          <district value="Suffolk"/>
           <state value="Massachusetts"/>
           <postalCode value="02101"/>
+          <country value="United States"/>
         </address>
       </Patient>
     </resource>

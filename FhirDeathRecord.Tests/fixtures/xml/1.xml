@@ -142,13 +142,22 @@
           </valueCodeableConcept>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity">
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://hl7.org/fhir/v3/Ethnicity"/>
+          <extension url="ombCategory">
+            <valueCoding>
               <code value="2186-5"/>
-              <display value="Non Hispanic or Latino"/>
-            </coding>
-          </valueCodeableConcept>
+            </valueCoding>
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <code value="2161-8"/>
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Non Hispanic or Latino"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Salvadoran"/>
+          </extension>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
           <valueCode value="M"/>

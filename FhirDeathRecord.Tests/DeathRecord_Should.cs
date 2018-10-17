@@ -220,12 +220,6 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_SSN() {
-            SetterDeathRecord.SSN = "12345";
-            Assert.Equal("12345", SetterDeathRecord.SSN);
-        }
-
-        [Fact]
         public void Get_SSN()
         {
             Assert.Equal("111223333", ((DeathRecord)XMLRecords[0]).SSN);
@@ -266,7 +260,7 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Race()
         {
-            Tuple<string, string>[] race = 
+            Tuple<string, string>[] race =
             {
                 Tuple.Create("White", "2106-3"),
                 Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"),
@@ -280,7 +274,7 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_DateOfBirth() 
+        public void Set_DateOfBirth()
         {
             SetterDeathRecord.DateOfBirth = "1970-04-24";
             Assert.Equal("1970-04-24", SetterDeathRecord.DateOfBirth);

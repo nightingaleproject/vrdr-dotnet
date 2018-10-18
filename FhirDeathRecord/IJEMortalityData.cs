@@ -10,6 +10,7 @@ namespace FhirDeathRecord
     {
         private IJEMortalityData() {
         }
+        /// <summary>Instance get method for singleton.</summary>
         public static IJEMortalityData Instance { get { return Nested.instance; } }
         private class Nested
         {
@@ -17,7 +18,7 @@ namespace FhirDeathRecord
             internal static readonly IJEMortalityData instance = new IJEMortalityData();
         }
 
-        // <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
+        /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         public string StateNameToStateCode(string state)
         {
             if (state == null)
@@ -32,7 +33,7 @@ namespace FhirDeathRecord
             return StateTerritoryProvinceCodes[index].Item2.ToUpper();
         }
 
-        // <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
+        /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         public string StateCodeToStateName(string code)
         {
             if (code == null)
@@ -47,7 +48,7 @@ namespace FhirDeathRecord
             return StateTerritoryProvinceCodes[index].Item1.ToUpper();
         }
 
-        // <summary>Given a Country name - return the representative Country code.</summary>
+        /// <summary>Given a Country name - return the representative Country code.</summary>
         public string CountryNameToCountryCode(string country)
         {
             if (country == null)
@@ -62,7 +63,7 @@ namespace FhirDeathRecord
             return CountryCodes[index].Item2.ToUpper();
         }
 
-        // <summary>Given a Country code - return the representative Country name.</summary>
+        /// <summary>Given a Country code - return the representative Country name.</summary>
         public string CountryCodeToCountryName(string code)
         {
             if (code == null)
@@ -77,7 +78,7 @@ namespace FhirDeathRecord
             return CountryCodes[index].Item1.ToUpper();
         }
 
-        // <summary>Given a State and County name - return the representative County code.</summary>
+        /// <summary>Given a State and County name - return the representative County code.</summary>
         public string StateNameAndCountyNameToCountyCode(string state, string county)
         {
             if (state == null || county == null)
@@ -97,7 +98,7 @@ namespace FhirDeathRecord
             return PlaceCodes[index].Item3.ToUpper();
         }
 
-        // <summary>Given a County code and a State name - return the representative County name.</summary>
+        /// <summary>Given a County code and a State name - return the representative County name.</summary>
         public string StateNameAndCountyCodeToCountyName(string state, string code)
         {
             if (code == null || state == null)
@@ -117,7 +118,7 @@ namespace FhirDeathRecord
             return PlaceCodes[index].Item2.ToUpper();
         }
 
-        // <summary>Given a State, County, and Place name - return the representative Place code.</summary>
+        /// <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         public string StateNameAndCountyNameAndPlaceNameToPlaceCode(string state, string county, string place)
         {
             if (state == null || county == null || place == null)
@@ -137,7 +138,7 @@ namespace FhirDeathRecord
             return PlaceCodes[index].Item6.ToUpper();
         }
 
-        // <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
+        /// <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         public string StateNameAndCountyNameAndPlaceCodeToPlaceName(string state, string county, string code)
         {
             if (state == null || county == null || code == null)
@@ -157,6 +158,7 @@ namespace FhirDeathRecord
             return PlaceCodes[index].Item4.ToUpper();
         }
 
+        /// <summary>State and Territory Province Codes</summary>
         private Tuple<string, string>[] StateTerritoryProvinceCodes =
         {
             Tuple.Create("Alabama", "AL"),
@@ -229,6 +231,7 @@ namespace FhirDeathRecord
             Tuple.Create("Yukon", "YK")
         };
 
+        /// <summary>Country Codes</summary>
         private Tuple<string, string>[] CountryCodes =
         {
             Tuple.Create("AFGHANISTAN", "AF"),
@@ -557,6 +560,7 @@ namespace FhirDeathRecord
             Tuple.Create("NOT CLASSIFIABLE", "ZZ")
         };
 
+        /// <summary>Place Codes</summary>
         private Tuple<string, string, string, string, string, string>[] PlaceCodes =
         {
             Tuple.Create("AK", "Anchorage", "020", "Anchorage", "Municipality of", "03000"),

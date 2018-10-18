@@ -29,6 +29,7 @@ namespace FhirDeathRecord
         /// <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
         public int Priority;
 
+        /// <summary>Constructor.</summary>
         public IJEField(int field, int location, int length, string contents, string name, int priority)
         {
             this.Field = field;
@@ -45,7 +46,7 @@ namespace FhirDeathRecord
     /// with a field in the IJE Mortality format. The getters convert from the embedded
     /// FHIR based <c>DeathRecord</c> to the IJE format for a specific field, and
     /// the setters convert from IJE format for a specific field and set that value
-    /// on the embedded FHIR based <c>DeathRecord<c>.</summary>
+    /// on the embedded FHIR based <c>DeathRecord</c>.</summary>
     public class IJEMortality
     {
         /// <summary>FHIR based death record.</summary>
@@ -113,7 +114,7 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        // <summary>Truncates the given string to the given length.</summary>
+        /// <summary>Truncates the given string to the given length.</summary>
         private static string Truncate(string value, int length)
         {
             if (string.IsNullOrEmpty(value) || value.Length <= length)
@@ -126,13 +127,13 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
+        /// <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         private static IJEField FieldInfo(string ijeFieldName)
         {
             return (IJEField)typeof(IJEMortality).GetProperty(ijeFieldName).GetCustomAttributes().First();
         }
 
-        // <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
+        /// <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
         private string DateTimeStringHelper(IJEField info, string value, string type, DateTime date)
         {
             if (type == "yyyy")
@@ -154,7 +155,7 @@ namespace FhirDeathRecord
             return "";
         }
 
-        // <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private string DateTime_Get(string ijeFieldName, string dateTimeType, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -170,7 +171,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -186,7 +187,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        /// <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private string RightJustifiedZeroed_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -201,14 +202,14 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Set a value on the DeathRecord whose IJE type is a right justified, zeroed filled string.</summary>
+        /// <summary>Set a value on the DeathRecord whose IJE type is a right justified, zeroed filled string.</summary>
         private void RightJustifiedZeroed_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.TrimStart('0'));
         }
 
-        // <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        /// <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private string LeftJustified_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -223,14 +224,14 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        /// <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
         }
 
-        // <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
+        /// <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
         private string Dictionary_Get(string ijeFieldName, string fhirFieldName, string key)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -246,7 +247,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Get a value on the DeathRecord whose property is a Dictionary type, with NO truncating.</summary>
+        /// <summary>Get a value on the DeathRecord whose property is a Dictionary type, with NO truncating.</summary>
         private string Dictionary_Get_Full(string ijeFieldName, string fhirFieldName, string key)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -262,7 +263,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
+        /// <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
         private void Dictionary_Set(string ijeFieldName, string fhirFieldName, string key, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -279,7 +280,7 @@ namespace FhirDeathRecord
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
-        // <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        /// <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         private string Dictionary_Geo_Get(string ijeFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -342,7 +343,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        /// <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         private void Dictionary_Geo_Set(string ijeFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
@@ -416,7 +417,7 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        // <summary>Date of Death--Year</summary>
+        /// <summary>Date of Death--Year</summary>
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
         {
@@ -431,7 +432,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Death - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Death - code</summary>
         [IJEField(2, 5, 2, "State, U.S. Territory or Canadian Province of Death - code", "DSTATE", 1)]
         public string DSTATE
         {
@@ -445,7 +446,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certificate Number</summary>
+        /// <summary>Certificate Number</summary>
         [IJEField(3, 7, 6, "Certificate Number", "FILENO", 1)]
         public string FILENO
         {
@@ -459,7 +460,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Legal Name--Given</summary>
+        /// <summary>Decedent's Legal Name--Given</summary>
         [IJEField(7, 27, 50, "Decedent's Legal Name--Given", "GNAME", 1)]
         public string GNAME
         {
@@ -473,7 +474,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Legal Name--Middle</summary>
+        /// <summary>Decedent's Legal Name--Middle</summary>
         [IJEField(8, 77, 1, "Decedent's Legal Name--Middle", "MNAME", 1)]
         public string MNAME
         {
@@ -487,7 +488,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Legal Name--Last</summary>
+        /// <summary>Decedent's Legal Name--Last</summary>
         [IJEField(9, 78, 50, "Decedent's Legal Name--Last", "LNAME", 1)]
         public string LNAME
         {
@@ -501,7 +502,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Legal Name--Suffix</summary>
+        /// <summary>Decedent's Legal Name--Suffix</summary>
         [IJEField(10, 128, 10, "Decedent's Legal Name--Suffix", "SUFF", 1)]
         public string SUFF
         {
@@ -515,7 +516,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Sex</summary>
+        /// <summary>Sex</summary>
         [IJEField(13, 189, 1, "Sex", "SEX", 1)]
         public string SEX
         {
@@ -545,7 +546,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Social Security Number</summary>
+        /// <summary>Social Security Number</summary>
         [IJEField(15, 191, 9, "Social Security Number", "SSN", 1)]
         public string SSN
         {
@@ -559,7 +560,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Age--Type</summary>
+        /// <summary>Decedent's Age--Type</summary>
         [IJEField(16, 200, 1, "Decedent's Age--Type", "AGETYPE", 1)]
         public string AGETYPE
         {
@@ -573,7 +574,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Age--Units</summary>
+        /// <summary>Decedent's Age--Units</summary>
         [IJEField(17, 201, 3, "Decedent's Age--Units", "AGE", 1)]
         public string AGE
         {
@@ -587,7 +588,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of Birth--Year</summary>
+        /// <summary>Date of Birth--Year</summary>
         [IJEField(19, 205, 4, "Date of Birth--Year", "DOB_YR", 1)]
         public string DOB_YR
         {
@@ -601,7 +602,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of Birth--Month</summary>
+        /// <summary>Date of Birth--Month</summary>
         [IJEField(20, 209, 2, "Date of Birth--Month", "DOB_MO", 1)]
         public string DOB_MO
         {
@@ -615,7 +616,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of Birth--Day</summary>
+        /// <summary>Date of Birth--Day</summary>
         [IJEField(21, 211, 2, "Date of Birth--Day", "DOB_DY", 1)]
         public string DOB_DY
         {
@@ -629,7 +630,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Birthplace--Country</summary>
+        /// <summary>Birthplace--Country</summary>
         [IJEField(22, 213, 2, "Birthplace--Country", "BPLACE_CNT", 1)]
         public string BPLACE_CNT
         {
@@ -643,7 +644,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Birth - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Birth - code</summary>
         [IJEField(23, 215, 2, "State, U.S. Territory or Canadian Province of Birth - code", "BPLACE_ST", 1)]
         public string BPLACE_ST
         {
@@ -657,7 +658,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence--City</summary>
+        /// <summary>Decedent's Residence--City</summary>
         [IJEField(24, 217, 5, "Decedent's Residence--City", "CITYC", 3)]
         public string CITYC
         {
@@ -671,7 +672,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence--County</summary>
+        /// <summary>Decedent's Residence--County</summary>
         [IJEField(25, 222, 3, "Decedent's Residence--County", "COUNTYC", 2)]
         public string COUNTYC
         {
@@ -685,7 +686,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Decedent's residence - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Decedent's residence - code</summary>
         [IJEField(26, 225, 2, "State, U.S. Territory or Canadian Province of Decedent's residence - code", "STATEC", 1)]
         public string STATEC
         {
@@ -699,7 +700,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence--Country</summary>
+        /// <summary>Decedent's Residence--Country</summary>
         [IJEField(27, 227, 2, "Decedent's Residence--Country", "COUNTRYC", 1)]
         public string COUNTRYC
         {
@@ -713,7 +714,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence--Inside City Limits</summary>
+        /// <summary>Decedent's Residence--Inside City Limits</summary>
         [IJEField(28, 229, 1, "Decedent's Residence--Inside City Limits", "LIMITS", 1)]
         public string LIMITS
         {
@@ -727,7 +728,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Marital Status</summary>
+        /// <summary>Marital Status</summary>
         [IJEField(29, 230, 1, "Marital Status", "MARITAL", 1)]
         public string MARITAL
         {
@@ -790,7 +791,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of Death</summary>
+        /// <summary>Place of Death</summary>
         [IJEField(31, 232, 1, "Place of Death", "DPLACE", 1)]
         public string DPLACE
         {
@@ -866,7 +867,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>County of Death Occurrence</summary>
+        /// <summary>County of Death Occurrence</summary>
         [IJEField(32, 233, 3, "County of Death Occurrence", "COD", 2)]
         public string COD
         {
@@ -880,7 +881,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Method of Disposition</summary>
+        /// <summary>Method of Disposition</summary>
         [IJEField(33, 236, 1, "Method of Disposition", "DISP", 1)]
         public string DISP
         {
@@ -950,7 +951,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of Death--Month</summary>
+        /// <summary>Date of Death--Month</summary>
         [IJEField(34, 237, 2, "Date of Death--Month", "DOD_MO", 1)]
         public string DOD_MO
         {
@@ -965,7 +966,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of Death--Day</summary>
+        /// <summary>Date of Death--Day</summary>
         [IJEField(35, 239, 2, "Date of Death--Day", "DOD_DY", 1)]
         public string DOD_DY
         {
@@ -980,7 +981,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Time of Death</summary>
+        /// <summary>Time of Death</summary>
         [IJEField(36, 241, 4, "Time of Death", "TOD", 1)]
         public string TOD
         {
@@ -995,7 +996,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Education</summary>
+        /// <summary>Decedent's Education</summary>
         [IJEField(37, 245, 1, "Decedent's Education", "DEDUC", 1)]
         public string DEDUC
         {
@@ -1078,7 +1079,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent of Hispanic Origin?--Mexican</summary>
+        /// <summary>Decedent of Hispanic Origin?--Mexican</summary>
         [IJEField(39, 247, 1, "Decedent of Hispanic Origin?--Mexican", "DETHNIC1", 1)]
         public string DETHNIC1
         {
@@ -1092,7 +1093,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent of Hispanic Origin?--Puerto Rican</summary>
+        /// <summary>Decedent of Hispanic Origin?--Puerto Rican</summary>
         [IJEField(40, 248, 1, "Decedent of Hispanic Origin?--Puerto Rican", "DETHNIC2", 1)]
         public string DETHNIC2
         {
@@ -1106,7 +1107,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent of Hispanic Origin?--Cuban</summary>
+        /// <summary>Decedent of Hispanic Origin?--Cuban</summary>
         [IJEField(41, 249, 1, "Decedent of Hispanic Origin?--Cuban", "DETHNIC3", 1)]
         public string DETHNIC3
         {
@@ -1120,7 +1121,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent of Hispanic Origin?--Other</summary>
+        /// <summary>Decedent of Hispanic Origin?--Other</summary>
         [IJEField(42, 250, 1, "Decedent of Hispanic Origin?--Other", "DETHNIC4", 1)]
         public string DETHNIC4
         {
@@ -1134,7 +1135,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
+        /// <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
         [IJEField(43, 251, 20, "Decedent of Hispanic Origin?--Other, Literal", "DETHNIC5", 1)]
         public string DETHNIC5
         {
@@ -1148,7 +1149,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--White</summary>
+        /// <summary>Decedent's Race--White</summary>
         [IJEField(44, 271, 1, "Decedent's Race--White", "RACE1", 1)]
         public string RACE1
         {
@@ -1162,7 +1163,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Black or African American</summary>
+        /// <summary>Decedent's Race--Black or African American</summary>
         [IJEField(45, 272, 1, "Decedent's Race--Black or African American", "RACE2", 1)]
         public string RACE2
         {
@@ -1176,7 +1177,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--American Indian or Alaska Native</summary>
+        /// <summary>Decedent's Race--American Indian or Alaska Native</summary>
         [IJEField(46, 273, 1, "Decedent's Race--American Indian or Alaska Native", "RACE3", 1)]
         public string RACE3
         {
@@ -1190,7 +1191,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Asian Indian</summary>
+        /// <summary>Decedent's Race--Asian Indian</summary>
         [IJEField(47, 274, 1, "Decedent's Race--Asian Indian", "RACE4", 1)]
         public string RACE4
         {
@@ -1204,7 +1205,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Chinese</summary>
+        /// <summary>Decedent's Race--Chinese</summary>
         [IJEField(48, 275, 1, "Decedent's Race--Chinese", "RACE5", 1)]
         public string RACE5
         {
@@ -1218,7 +1219,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Filipino</summary>
+        /// <summary>Decedent's Race--Filipino</summary>
         [IJEField(49, 276, 1, "Decedent's Race--Filipino", "RACE6", 1)]
         public string RACE6
         {
@@ -1232,7 +1233,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Japanese</summary>
+        /// <summary>Decedent's Race--Japanese</summary>
         [IJEField(50, 277, 1, "Decedent's Race--Japanese", "RACE7", 1)]
         public string RACE7
         {
@@ -1246,7 +1247,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Korean</summary>
+        /// <summary>Decedent's Race--Korean</summary>
         [IJEField(51, 278, 1, "Decedent's Race--Korean", "RACE8", 1)]
         public string RACE8
         {
@@ -1260,7 +1261,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Vietnamese</summary>
+        /// <summary>Decedent's Race--Vietnamese</summary>
         [IJEField(52, 279, 1, "Decedent's Race--Vietnamese", "RACE9", 1)]
         public string RACE9
         {
@@ -1274,7 +1275,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Other Asian</summary>
+        /// <summary>Decedent's Race--Other Asian</summary>
         [IJEField(53, 280, 1, "Decedent's Race--Other Asian", "RACE10", 1)]
         public string RACE10
         {
@@ -1288,7 +1289,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Native Hawaiian</summary>
+        /// <summary>Decedent's Race--Native Hawaiian</summary>
         [IJEField(54, 281, 1, "Decedent's Race--Native Hawaiian", "RACE11", 1)]
         public string RACE11
         {
@@ -1302,7 +1303,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Guamanian or Chamorro</summary>
+        /// <summary>Decedent's Race--Guamanian or Chamorro</summary>
         [IJEField(55, 282, 1, "Decedent's Race--Guamanian or Chamorro", "RACE12", 1)]
         public string RACE12
         {
@@ -1316,7 +1317,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Samoan</summary>
+        /// <summary>Decedent's Race--Samoan</summary>
         [IJEField(56, 283, 1, "Decedent's Race--Samoan", "RACE13", 1)]
         public string RACE13
         {
@@ -1330,7 +1331,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Other Pacific Islander</summary>
+        /// <summary>Decedent's Race--Other Pacific Islander</summary>
         [IJEField(57, 284, 1, "Decedent's Race--Other Pacific Islander", "RACE14", 1)]
         public string RACE14
         {
@@ -1344,7 +1345,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Race--Other</summary>
+        /// <summary>Decedent's Race--Other</summary>
         [IJEField(58, 285, 1, "Decedent's Race--Other", "RACE15", 1)]
         public string RACE15
         {
@@ -1358,7 +1359,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Occupation -- Literal (OPTIONAL)</summary>
+        /// <summary>Occupation -- Literal (OPTIONAL)</summary>
         [IJEField(84, 575, 40, "Occupation -- Literal (OPTIONAL)", "OCCUP", 1)]
         public string OCCUP
         {
@@ -1372,7 +1373,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Industry -- Literal (OPTIONAL)</summary>
+        /// <summary>Industry -- Literal (OPTIONAL)</summary>
         [IJEField(86, 618, 40, "Industry -- Literal (OPTIONAL)", "INDUST", 1)]
         public string INDUST
         {
@@ -1386,7 +1387,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Manner of Death</summary>
+        /// <summary>Manner of Death</summary>
         [IJEField(99, 701, 1, "Manner of Death", "MANNER", 1)]
         public string MANNER
         {
@@ -1400,7 +1401,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Was Autopsy performed</summary>
+        /// <summary>Was Autopsy performed</summary>
         [IJEField(108, 976, 1, "Was Autopsy performed", "AUTOP", 1)]
         public string AUTOP
         {
@@ -1414,7 +1415,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
+        /// <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
         [IJEField(109, 977, 1, "Were Autopsy Findings Available to Complete the Cause of Death?", "AUTOPF", 1)]
         public string AUTOPF
         {
@@ -1428,7 +1429,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Did Tobacco Use Contribute to Death?</summary>
+        /// <summary>Did Tobacco Use Contribute to Death?</summary>
         [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
@@ -1442,7 +1443,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Pregnancy</summary>
+        /// <summary>Pregnancy</summary>
         [IJEField(111, 979, 1, "Pregnancy", "PREG", 1)]
         public string PREG
         {
@@ -1456,7 +1457,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of injury--month</summary>
+        /// <summary>Date of injury--month</summary>
         [IJEField(113, 981, 2, "Date of injury--month", "DOI_MO", 1)]
         public string DOI_MO
         {
@@ -1470,7 +1471,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of injury--day</summary>
+        /// <summary>Date of injury--day</summary>
         [IJEField(114, 983, 2, "Date of injury--day", "DOI_DY", 1)]
         public string DOI_DY
         {
@@ -1484,7 +1485,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Date of injury--year</summary>
+        /// <summary>Date of injury--year</summary>
         [IJEField(115, 985, 4, "Date of injury--year", "DOI_YR", 1)]
         public string DOI_YR
         {
@@ -1498,7 +1499,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Time of injury</summary>
+        /// <summary>Time of injury</summary>
         [IJEField(116, 989, 4, "Time of injury", "TOI_HR", 1)]
         public string TOI_HR
         {
@@ -1512,7 +1513,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Injury at work</summary>
+        /// <summary>Injury at work</summary>
         [IJEField(117, 993, 1, "Injury at work", "WORKINJ", 1)]
         public string WORKINJ
         {
@@ -1526,7 +1527,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Title of Certifier</summary>
+        /// <summary>Title of Certifier</summary>
         [IJEField(118, 994, 30, "Title of Certifier", "CERTL", 1)]
         public string CERTL
         {
@@ -1540,7 +1541,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Time of Injury Unit</summary>
+        /// <summary>Time of Injury Unit</summary>
         [IJEField(125, 1075, 1, "Time of Injury Unit", "TOI_UNIT", 1)]
         public string TOI_UNIT
         {
@@ -1554,7 +1555,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent ever served in Armed Forces?</summary>
+        /// <summary>Decedent ever served in Armed Forces?</summary>
         [IJEField(127, 1081, 1, "Decedent ever served in Armed Forces?", "ARMEDF", 1)]
         public string ARMEDF
         {
@@ -1568,7 +1569,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Death Institution name</summary>
+        /// <summary>Death Institution name</summary>
         [IJEField(128, 1082, 30, "Death Institution name", "DINSTI", 1)]
         public string DINSTI
         {
@@ -1582,7 +1583,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Long String address for place of death</summary>
+        /// <summary>Long String address for place of death</summary>
         [IJEField(129, 1112, 50, "Long String address for place of death", "ADDRESS_D", 1)]
         public string ADDRESS_D
         {
@@ -1596,7 +1597,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Street number</summary>
+        /// <summary>Place of death. Street number</summary>
         [IJEField(130, 1162, 10, "Place of death. Street number", "STNUM_D", 1)]
         public string STNUM_D
         {
@@ -1610,7 +1611,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Pre Directional</summary>
+        /// <summary>Place of death. Pre Directional</summary>
         [IJEField(131, 1172, 10, "Place of death. Pre Directional", "PREDIR_D", 1)]
         public string PREDIR_D
         {
@@ -1624,7 +1625,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Street name</summary>
+        /// <summary>Place of death. Street name</summary>
         [IJEField(132, 1182, 50, "Place of death. Street name", "STNAME_D", 1)]
         public string STNAME_D
         {
@@ -1638,7 +1639,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Street designator</summary>
+        /// <summary>Place of death. Street designator</summary>
         [IJEField(133, 1232, 10, "Place of death. Street designator", "STDESIG_D", 1)]
         public string STDESIG_D
         {
@@ -1652,7 +1653,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Post Directional</summary>
+        /// <summary>Place of death. Post Directional</summary>
         [IJEField(134, 1242, 10, "Place of death. Post Directional", "POSTDIR_D", 1)]
         public string POSTDIR_D
         {
@@ -1666,7 +1667,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. City or Town name</summary>
+        /// <summary>Place of death. City or Town name</summary>
         [IJEField(135, 1252, 28, "Place of death. City or Town name", "CITYTEXT_D", 1)]
         public string CITYTEXT_D
         {
@@ -1680,7 +1681,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. State name literal</summary>
+        /// <summary>Place of death. State name literal</summary>
         [IJEField(136, 1280, 28, "Place of death. State name literal", "STATETEXT_D", 1)]
         public string STATETEXT_D
         {
@@ -1694,7 +1695,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Zip code</summary>
+        /// <summary>Place of death. Zip code</summary>
         [IJEField(137, 1308, 9, "Place of death. Zip code", "ZIP9_D", 1)]
         public string ZIP9_D
         {
@@ -1708,7 +1709,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. County of Death</summary>
+        /// <summary>Place of death. County of Death</summary>
         [IJEField(138, 1317, 28, "Place of death. County of Death", "COUNTYTEXT_D", 2)]
         public string COUNTYTEXT_D
         {
@@ -1722,7 +1723,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. City FIPS code</summary>
+        /// <summary>Place of death. City FIPS code</summary>
         [IJEField(139, 1345, 5, "Place of death. City FIPS code", "CITYCODE_D", 3)]
         public string CITYCODE_D
         {
@@ -1736,7 +1737,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of death. Longitude</summary>
+        /// <summary>Place of death. Longitude</summary>
         [IJEField(140, 1350, 17, "Place of death. Longitude", "LONG_D", 1)]
         public string LONG_D
         {
@@ -1750,7 +1751,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of Death. Latitude</summary>
+        /// <summary>Place of Death. Latitude</summary>
         [IJEField(141, 1367, 17, "Place of Death. Latitude", "LAT_D", 1)]
         public string LAT_D
         {
@@ -1764,7 +1765,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Spouse's First Name</summary>
+        /// <summary>Spouse's First Name</summary>
         [IJEField(143, 1385, 50, "Spouse's First Name", "SPOUSEF", 1)]
         public string SPOUSEF
         {
@@ -1778,7 +1779,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Husband's Surname/Wife's Maiden Last Name</summary>
+        /// <summary>Husband's Surname/Wife's Maiden Last Name</summary>
         [IJEField(144, 1435, 50, "Husband's Surname/Wife's Maiden Last Name", "SPOUSEL", 1)]
         public string SPOUSEL
         {
@@ -1792,7 +1793,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Street number</summary>
+        /// <summary>Decedent's Residence - Street number</summary>
         [IJEField(145, 1485, 10, "Decedent's Residence - Street number", "STNUM_R", 1)]
         public string STNUM_R
         {
@@ -1806,7 +1807,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Pre Directional</summary>
+        /// <summary>Decedent's Residence - Pre Directional</summary>
         [IJEField(146, 1495, 10, "Decedent's Residence - Pre Directional", "PREDIR_R", 1)]
         public string PREDIR_R
         {
@@ -1820,7 +1821,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Street name</summary>
+        /// <summary>Decedent's Residence - Street name</summary>
         [IJEField(147, 1505, 28, "Decedent's Residence - Street name", "STNAME_R", 1)]
         public string STNAME_R
         {
@@ -1834,7 +1835,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Street designator</summary>
+        /// <summary>Decedent's Residence - Street designator</summary>
         [IJEField(148, 1533, 10, "Decedent's Residence - Street designator", "STDESIG_R", 1)]
         public string STDESIG_R
         {
@@ -1848,7 +1849,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Post Directional</summary>
+        /// <summary>Decedent's Residence - Post Directional</summary>
         [IJEField(149, 1543, 10, "Decedent's Residence - Post Directional", "POSTDIR_R", 1)]
         public string POSTDIR_R
         {
@@ -1862,7 +1863,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - Unit or apt number</summary>
+        /// <summary>Decedent's Residence - Unit or apt number</summary>
         [IJEField(150, 1553, 7, "Decedent's Residence - Unit or apt number", "UNITNUM_R", 1)]
         public string UNITNUM_R
         {
@@ -1876,7 +1877,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - City or Town name</summary>
+        /// <summary>Decedent's Residence - City or Town name</summary>
         [IJEField(151, 1560, 28, "Decedent's Residence - City or Town name", "CITYTEXT_R", 1)]
         public string CITYTEXT_R
         {
@@ -1890,7 +1891,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - ZIP code</summary>
+        /// <summary>Decedent's Residence - ZIP code</summary>
         [IJEField(152, 1588, 9, "Decedent's Residence - ZIP code", "ZIP9_R", 1)]
         public string ZIP9_R
         {
@@ -1904,7 +1905,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - County</summary>
+        /// <summary>Decedent's Residence - County</summary>
         [IJEField(153, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
         public string COUNTYTEXT_R
         {
@@ -1918,7 +1919,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - State name</summary>
+        /// <summary>Decedent's Residence - State name</summary>
         [IJEField(154, 1625, 28, "Decedent's Residence - State name", "STATETEXT_R", 1)]
         public string STATETEXT_R
         {
@@ -1932,7 +1933,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Residence - COUNTRY name</summary>
+        /// <summary>Decedent's Residence - COUNTRY name</summary>
         [IJEField(155, 1653, 28, "Decedent's Residence - COUNTRY name", "COUNTRYTEXT_R", 1)]
         public string COUNTRYTEXT_R
         {
@@ -1946,7 +1947,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</summary>
+        /// <summary>Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</summary>
         [IJEField(156, 1681, 50, "Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.", "ADDRESS_R", 1)]
         public string ADDRESS_R
         {
@@ -1960,7 +1961,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Hispanic Origin - Specify</summary>
+        /// <summary>Hispanic Origin - Specify</summary>
         [IJEField(163, 1743, 15, "Hispanic Origin - Specify ", "HISPSTSP", 1)]
         public string HISPSTSP
         {
@@ -1974,7 +1975,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Race - Specify</summary>
+        /// <summary>Race - Specify</summary>
         [IJEField(164, 1758, 50, "Race - Specify", "RACESTSP", 1)]
         public string RACESTSP
         {
@@ -1988,7 +1989,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Middle Name of Decedent</summary>
+        /// <summary>Middle Name of Decedent</summary>
         [IJEField(165, 1808, 50, "Middle Name of Decedent ", "DMIDDLE", 1)]
         public string DMIDDLE
         {
@@ -2002,7 +2003,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Father's First Name</summary>
+        /// <summary>Father's First Name</summary>
         [IJEField(166, 1858, 50, "Father's First Name", "DDADF", 1)]
         public string DDADF
         {
@@ -2016,7 +2017,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Father's Middle Name</summary>
+        /// <summary>Father's Middle Name</summary>
         [IJEField(167, 1908, 50, "Father's Middle Name", "DDADMID", 1)]
         public string DDADMID
         {
@@ -2030,7 +2031,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Mother's First Name</summary>
+        /// <summary>Mother's First Name</summary>
         [IJEField(168, 1958, 50, "Mother's First Name", "DMOMF", 1)]
         public string DMOMF
         {
@@ -2044,7 +2045,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Mother's Middle Name</summary>
+        /// <summary>Mother's Middle Name</summary>
         [IJEField(169, 2008, 50, "Mother's Middle Name", "DMOMMID", 1)]
         public string DMOMMID
         {
@@ -2058,7 +2059,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Mother's Maiden Surname</summary>
+        /// <summary>Mother's Maiden Surname</summary>
         [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
         public string DMOMMDN
         {
@@ -2072,7 +2073,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Was case Referred to Medical Examiner/Coroner?</summary>
+        /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         [IJEField(171, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
         {
@@ -2086,7 +2087,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of Injury- literal</summary>
+        /// <summary>Place of Injury- literal</summary>
         [IJEField(172, 2109, 50, "Place of Injury- literal", "POILITRL", 1)]
         public string POILITRL
         {
@@ -2100,7 +2101,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Describe How Injury Occurred</summary>
+        /// <summary>Describe How Injury Occurred</summary>
         [IJEField(173, 2159, 250, "Describe How Injury Occurred", "HOWINJ", 1)]
         public string HOWINJ
         {
@@ -2114,7 +2115,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>If Transportation Accident, Specify</summary>
+        /// <summary>If Transportation Accident, Specify</summary>
         [IJEField(174, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
         public string TRANSPRT
         {
@@ -2128,7 +2129,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>County of Injury - literal</summary>
+        /// <summary>County of Injury - literal</summary>
         [IJEField(175, 2439, 28, "County of Injury - literal", "COUNTYTEXT_I", 1)]
         public string COUNTYTEXT_I
         {
@@ -2142,7 +2143,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>County of Injury code</summary>
+        /// <summary>County of Injury code</summary>
         [IJEField(176, 2467, 3, "County of Injury code", "COUNTYCODE_I", 2)]
         public string COUNTYCODE_I
         {
@@ -2156,7 +2157,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Town/city of Injury - literal</summary>
+        /// <summary>Town/city of Injury - literal</summary>
         [IJEField(177, 2470, 28, "Town/city of Injury - literal", "CITYTEXT_I", 1)]
         public string CITYTEXT_I
         {
@@ -2170,7 +2171,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Town/city of Injury code</summary>
+        /// <summary>Town/city of Injury code</summary>
         [IJEField(178, 2498, 5, "Town/city of Injury code", "CITYCODE_I", 3)]
         public string CITYCODE_I
         {
@@ -2184,7 +2185,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Injury - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Injury - code</summary>
         [IJEField(179, 2503, 2, "State, U.S. Territory or Canadian Province of Injury - code", "STATECODE_I", 1)]
         public string STATECODE_I
         {
@@ -2198,7 +2199,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of injury. Longitude</summary>
+        /// <summary>Place of injury. Longitude</summary>
         [IJEField(180, 2505, 17, "Place of injury. Longitude", "LONG_I", 1)]
         public string LONG_I
         {
@@ -2212,7 +2213,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Place of injury. Latitude</summary>
+        /// <summary>Place of injury. Latitude</summary>
         [IJEField(181, 2522, 17, "Place of injury. Latitude", "LAT_I", 1)]
         public string LAT_I
         {
@@ -2226,7 +2227,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Line a</summary>
+        /// <summary>Cause of Death Part I Line a</summary>
         [IJEField(184, 2542, 120, "Cause of Death Part I Line a", "COD1A", 1)]
         public string COD1A
         {
@@ -2240,7 +2241,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Interval, Line a</summary>
+        /// <summary>Cause of Death Part I Interval, Line a</summary>
         [IJEField(185, 2662, 20, "Cause of Death Part I Interval, Line a", "INTERVAL1A", 1)]
         public string INTERVAL1A
         {
@@ -2254,7 +2255,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Line b</summary>
+        /// <summary>Cause of Death Part I Line b</summary>
         [IJEField(186, 2682, 120, "Cause of Death Part I Line b", "COD1B", 1)]
         public string COD1B
         {
@@ -2268,7 +2269,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Interval, Line b</summary>
+        /// <summary>Cause of Death Part I Interval, Line b</summary>
         [IJEField(187, 2802, 20, "Cause of Death Part I Interval, Line b", "INTERVAL1B", 1)]
         public string INTERVAL1B
         {
@@ -2282,7 +2283,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Line c</summary>
+        /// <summary>Cause of Death Part I Line c</summary>
         [IJEField(188, 2822, 120, "Cause of Death Part I Line c", "COD1C", 1)]
         public string COD1C
         {
@@ -2296,7 +2297,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Interval, Line c</summary>
+        /// <summary>Cause of Death Part I Interval, Line c</summary>
         [IJEField(189, 2942, 20, "Cause of Death Part I Interval, Line c", "INTERVAL1C", 1)]
         public string INTERVAL1C
         {
@@ -2310,7 +2311,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Line d</summary>
+        /// <summary>Cause of Death Part I Line d</summary>
         [IJEField(190, 2962, 120, "Cause of Death Part I Line d", "COD1D", 1)]
         public string COD1D
         {
@@ -2324,7 +2325,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part I Interval, Line d</summary>
+        /// <summary>Cause of Death Part I Interval, Line d</summary>
         [IJEField(191, 3082, 20, "Cause of Death Part I Interval, Line d", "INTERVAL1D", 1)]
         public string INTERVAL1D
         {
@@ -2338,7 +2339,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Cause of Death Part II</summary>
+        /// <summary>Cause of Death Part II</summary>
         [IJEField(192, 3102, 240, "Cause of Death Part II", "OTHERCONDITION", 1)]
         public string OTHERCONDITION
         {
@@ -2352,7 +2353,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Maiden Name</summary>
+        /// <summary>Decedent's Maiden Name</summary>
         [IJEField(193, 3342, 50, "Decedent's Maiden Name", "DMAIDEN", 1)]
         public string DMAIDEN
         {
@@ -2366,7 +2367,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Birth Place City - Code</summary>
+        /// <summary>Decedent's Birth Place City - Code</summary>
         [IJEField(194, 3392, 5, "Decedent's Birth Place City - Code", "DBPLACECITYCODE", 3)]
         public string DBPLACECITYCODE
         {
@@ -2380,7 +2381,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Decedent's Birth Place City - Literal</summary>
+        /// <summary>Decedent's Birth Place City - Literal</summary>
         [IJEField(195, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 1)]
         public string DBPLACECITY
         {
@@ -2394,7 +2395,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Spouse's Middle Name</summary>
+        /// <summary>Spouse's Middle Name</summary>
         [IJEField(196, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 1)]
         public string SPOUSEMIDNAME
         {
@@ -2408,7 +2409,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Spouse's Suffix</summary>
+        /// <summary>Spouse's Suffix</summary>
         [IJEField(197, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
         public string SPOUSESUFFIX
         {
@@ -2422,7 +2423,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Father's Suffix</summary>
+        /// <summary>Father's Suffix</summary>
         [IJEField(198, 3485, 10, "Father's Suffix", "FATHERSUFFIX", 1)]
         public string FATHERSUFFIX
         {
@@ -2436,7 +2437,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Mother's Suffix</summary>
+        /// <summary>Mother's Suffix</summary>
         [IJEField(199, 3495, 10, "Mother's Suffix", "MOTHERSSUFFIX", 1)]
         public string MOTHERSSUFFIX
         {
@@ -2450,7 +2451,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Informant's Relationship</summary>
+        /// <summary>Informant's Relationship</summary>
         [IJEField(200, 3505, 30, "Informant's Relationship", "INFORMRELATE", 1)]
         public string INFORMRELATE
         {
@@ -2464,7 +2465,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Disposition - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Disposition - code</summary>
         [IJEField(201, 3535, 2, "State, U.S. Territory or Canadian Province of Disposition - code", "DISPSTATECD", 1)]
         public string DISPSTATECD
         {
@@ -2478,7 +2479,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Disposition State or Territory - Literal</summary>
+        /// <summary>Disposition State or Territory - Literal</summary>
         [IJEField(202, 3537, 28, "Disposition State or Territory - Literal", "DISPSTATE", 1)]
         public string DISPSTATE
         {
@@ -2492,7 +2493,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Disposition City - Code</summary>
+        /// <summary>Disposition City - Code</summary>
         [IJEField(203, 3565, 5, "Disposition City - Code", "DISPCITYCODE", 3)]
         public string DISPCITYCODE
         {
@@ -2506,7 +2507,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Disposition City - Literal</summary>
+        /// <summary>Disposition City - Literal</summary>
         [IJEField(204, 3570, 28, "Disposition City - Literal", "DISPCITY", 1)]
         public string DISPCITY
         {
@@ -2520,7 +2521,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility Name</summary>
+        /// <summary>Funeral Facility Name</summary>
         [IJEField(205, 3598, 100, "Funeral Facility Name", "FUNFACNAME", 1)]
         public string FUNFACNAME
         {
@@ -2534,7 +2535,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Street number</summary>
+        /// <summary>Funeral Facility - Street number</summary>
         [IJEField(206, 3698, 10, "Funeral Facility - Street number", "FUNFACSTNUM", 1)]
         public string FUNFACSTNUM
         {
@@ -2548,7 +2549,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Pre Directional</summary>
+        /// <summary>Funeral Facility - Pre Directional</summary>
         [IJEField(207, 3708, 10, "Funeral Facility - Pre Directional", "FUNFACPREDIR", 1)]
         public string FUNFACPREDIR
         {
@@ -2562,7 +2563,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Street name</summary>
+        /// <summary>Funeral Facility - Street name</summary>
         [IJEField(208, 3718, 28, "Funeral Facility - Street name", "FUNFACSTRNAME", 1)]
         public string FUNFACSTRNAME
         {
@@ -2576,7 +2577,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Street designator</summary>
+        /// <summary>Funeral Facility - Street designator</summary>
         [IJEField(209, 3746, 10, "Funeral Facility - Street designator", "FUNFACSTRDESIG", 1)]
         public string FUNFACSTRDESIG
         {
@@ -2590,7 +2591,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Post Directional</summary>
+        /// <summary>Funeral Facility - Post Directional</summary>
         [IJEField(210, 3756, 10, "Funeral Facility - Post Directional", "FUNPOSTDIR", 1)]
         public string FUNPOSTDIR
         {
@@ -2604,7 +2605,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - Unit or apt number</summary>
+        /// <summary>Funeral Facility - Unit or apt number</summary>
         [IJEField(211, 3766, 7, "Funeral Facility - Unit or apt number", "FUNUNITNUM", 1)]
         public string FUNUNITNUM
         {
@@ -2618,7 +2619,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</summary>
+        /// <summary>Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</summary>
         [IJEField(212, 3773, 50, "Long string address for Funeral Facility same as above but allows states to choose the way they capture information.", "FUNFACADDRESS", 1)]
         public string FUNFACADDRESS
         {
@@ -2632,7 +2633,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - City or Town name</summary>
+        /// <summary>Funeral Facility - City or Town name</summary>
         [IJEField(213, 3823, 28, "Funeral Facility - City or Town name", "FUNCITYTEXT", 1)]
         public string FUNCITYTEXT
         {
@@ -2646,7 +2647,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Funeral Facility - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Funeral Facility - code</summary>
         [IJEField(214, 3851, 2, "State, U.S. Territory or Canadian Province of Funeral Facility - code", "FUNSTATECD", 1)]
         public string FUNSTATECD
         {
@@ -2660,7 +2661,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Funeral Facility - literal</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Funeral Facility - literal</summary>
         [IJEField(215, 3853, 28, "State, U.S. Territory or Canadian Province of Funeral Facility - literal", "FUNSTATE", 1)]
         public string FUNSTATE
         {
@@ -2674,7 +2675,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Funeral Facility - ZIP</summary>
+        /// <summary>Funeral Facility - ZIP</summary>
         [IJEField(216, 3881, 9, "Funeral Facility - ZIP", "FUNZIP", 1)]
         public string FUNZIP
         {
@@ -2688,7 +2689,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Person Pronouncing Date Signed</summary>
+        /// <summary>Person Pronouncing Date Signed</summary>
         [IJEField(217, 3890, 8, "Person Pronouncing Date Signed", "PPDATESIGNED", 1)]
         public string PPDATESIGNED
         {
@@ -2702,7 +2703,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Person Pronouncing Time Pronounced</summary>
+        /// <summary>Person Pronouncing Time Pronounced</summary>
         [IJEField(218, 3898, 4, "Person Pronouncing Time Pronounced", "PPTIME", 1)]
         public string PPTIME
         {
@@ -2716,7 +2717,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier's First Name</summary>
+        /// <summary>Certifier's First Name</summary>
         [IJEField(219, 3902, 50, "Certifier's First Name", "CERTFIRST", 1)]
         public string CERTFIRST
         {
@@ -2730,7 +2731,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier's Middle Name</summary>
+        /// <summary>Certifier's Middle Name</summary>
         [IJEField(220, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 1)]
         public string CERTMIDDLE
         {
@@ -2744,7 +2745,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier's Last Name</summary>
+        /// <summary>Certifier's Last Name</summary>
         [IJEField(221, 4002, 50, "Certifier's Last Name", "CERTLAST", 1)]
         public string CERTLAST
         {
@@ -2758,7 +2759,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier's Suffix Name</summary>
+        /// <summary>Certifier's Suffix Name</summary>
         [IJEField(222, 4052, 10, "Certifier's Suffix Name", "CERTSUFFIX", 1)]
         public string CERTSUFFIX
         {
@@ -2772,7 +2773,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Street number</summary>
+        /// <summary>Certifier - Street number</summary>
         [IJEField(223, 4062, 10, "Certifier - Street number", "CERTSTNUM", 1)]
         public string CERTSTNUM
         {
@@ -2786,7 +2787,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Pre Directional</summary>
+        /// <summary>Certifier - Pre Directional</summary>
         [IJEField(224, 4072, 10, "Certifier - Pre Directional", "CERTPREDIR", 1)]
         public string CERTPREDIR
         {
@@ -2800,7 +2801,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Street name</summary>
+        /// <summary>Certifier - Street name</summary>
         [IJEField(225, 4082, 28, "Certifier - Street name", "CERTSTRNAME", 1)]
         public string CERTSTRNAME
         {
@@ -2814,7 +2815,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Street designator</summary>
+        /// <summary>Certifier - Street designator</summary>
         [IJEField(226, 4110, 10, "Certifier - Street designator", "CERTSTRDESIG", 1)]
         public string CERTSTRDESIG
         {
@@ -2828,7 +2829,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Post Directional</summary>
+        /// <summary>Certifier - Post Directional</summary>
         [IJEField(227, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
         public string CERTPOSTDIR
         {
@@ -2842,7 +2843,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Unit or apt number</summary>
+        /// <summary>Certifier - Unit or apt number</summary>
         [IJEField(228, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
         public string CERTUNITNUM
         {
@@ -2856,7 +2857,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Long string address for Certifier same as above but allows states to choose the way they capture information.</summary>
+        /// <summary>Long string address for Certifier same as above but allows states to choose the way they capture information.</summary>
         [IJEField(229, 4137, 50, "Long string address for Certifier same as above but allows states to choose the way they capture information.", "CERTADDRESS", 1)]
         public string CERTADDRESS
         {
@@ -2870,7 +2871,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - City or Town name</summary>
+        /// <summary>Certifier - City or Town name</summary>
         [IJEField(230, 4187, 28, "Certifier - City or Town name", "CERTCITYTEXT", 1)]
         public string CERTCITYTEXT
         {
@@ -2884,7 +2885,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
         [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 1)]
         public string CERTSTATECD
         {
@@ -2898,7 +2899,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Certifier - literal</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Certifier - literal</summary>
         [IJEField(232, 4217, 28, "State, U.S. Territory or Canadian Province of Certifier - literal", "CERTSTATE", 1)]
         public string CERTSTATE
         {
@@ -2912,7 +2913,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier - Zip</summary>
+        /// <summary>Certifier - Zip</summary>
         [IJEField(233, 4245, 9, "Certifier - Zip", "CERTZIP", 1)]
         public string CERTZIP
         {
@@ -2926,7 +2927,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Certifier Date Signed</summary>
+        /// <summary>Certifier Date Signed</summary>
         [IJEField(234, 4254, 8, "Certifier Date Signed", "CERTDATE", 1)]
         public string CERTDATE
         {
@@ -2940,7 +2941,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>
         [IJEField(236, 4270, 28, "State, U.S. Territory or Canadian Province of Injury - literal", "STINJURY", 1)]
         public string STINJURY
         {
@@ -2954,7 +2955,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>State, U.S. Territory or Canadian Province of Birth - literal</summary>
+        /// <summary>State, U.S. Territory or Canadian Province of Birth - literal</summary>
         [IJEField(237, 4298, 28, "State, U.S. Territory or Canadian Province of Birth - literal", "STATEBTH", 1)]
         public string STATEBTH
         {
@@ -2968,7 +2969,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Country of Death - Code</summary>
+        /// <summary>Country of Death - Code</summary>
         [IJEField(238, 4326, 2, "Country of Death - Code", "DTHCOUNTRYCD", 1)]
         public string DTHCOUNTRYCD
         {
@@ -2982,7 +2983,7 @@ namespace FhirDeathRecord
             }
         }
 
-        // <summary>Country of Death - Literal</summary>
+        /// <summary>Country of Death - Literal</summary>
         [IJEField(239, 4328, 28, "Country of Death - Literal", "DTHCOUNTRY", 1)]
         public string DTHCOUNTRY
         {
@@ -2995,6 +2996,5 @@ namespace FhirDeathRecord
                 // TODO
             }
         }
-
     }
 }

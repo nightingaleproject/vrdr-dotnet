@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>FhirDeathRecord</RootNamespace>
+    <DocumentationFile>DeathRecord.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />

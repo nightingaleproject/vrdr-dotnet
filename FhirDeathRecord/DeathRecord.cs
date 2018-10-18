@@ -396,7 +396,7 @@ namespace FhirDeathRecord
         /// <value>the decedent's birth sex</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary<string, string> code = new Dictionary<string, string>();</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "M");</para>
         /// <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
         /// <para>code.Add("display", "Male");</para>
@@ -407,8 +407,6 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        /// </example>
-
         public Dictionary<string, string> BirthSex
         {
             get
@@ -496,7 +494,7 @@ namespace FhirDeathRecord
         /// <para>residence.Add("residenceInsideCityLimits", "True");</para>
         /// <para>SetterDeathRecord.Residence = residence;</para>
         /// <para>// Getter:</para>
-        /// <para>string state = ExampleDeathRecord.<para>["residenceState"];</para>
+        /// <para>string state = ExampleDeathRecord.Residence["residenceState"];</para>
         /// <para>Console.WriteLine($"State of residence: {state}");</para>
         /// </example>
         public Dictionary<string, string> Residence
@@ -565,7 +563,7 @@ namespace FhirDeathRecord
         /// <value>the decedent's ethnicity</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple<string, string>[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
         /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
@@ -614,7 +612,7 @@ namespace FhirDeathRecord
         /// <value>the decedent's race</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple<string, string>[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
         /// <para>ExampleDeathRecord.Race = race;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.race)</para>
@@ -677,7 +675,7 @@ namespace FhirDeathRecord
         /// <para>placeOfBirth.Add("placeOfBirthCountry", "United States");</para>
         /// <para>SetterDeathRecord.PlaceOfBirth = placeOfBirth;</para>
         /// <para>// Getter:</para>
-        /// <para>string state = ExampleDeathRecord.<para>["placeOfBirthState"];</para>
+        /// <para>string state = ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"];</para>
         /// <para>Console.WriteLine($"State where decedent was born: {state}");</para>
         /// </example>
         public Dictionary<string, string> PlaceOfBirth
@@ -749,7 +747,7 @@ namespace FhirDeathRecord
         /// <para>placeOfDeath.Add("placeOfDeathInsideCityLimits", "True");</para>
         /// <para>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</para>
         /// <para>// Getter:</para>
-        /// <para>string state = ExampleDeathRecord.<para>["placeOfDeathState"];</para>
+        /// <para>string state = ExampleDeathRecord.PlaceOfDeath["placeOfDeathState"];</para>
         /// <para>Console.WriteLine($"State where death occurred: {state}");</para>
         /// </example>
         public Dictionary<string, string> PlaceOfDeath
@@ -1250,7 +1248,7 @@ namespace FhirDeathRecord
         /// <value>the certifier's address</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary<string, string> address = new Dictionary<string, string>();</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
         /// <para>address.Add("street", "123 Test Street");</para>
         /// <para>address.Add("city", "Boston");</para>
         /// <para>address.Add("state", "Massachusetts");</para>
@@ -1293,7 +1291,7 @@ namespace FhirDeathRecord
         /// <value>the decedent's birth sex</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary<string, string> type = new Dictionary<string, string>();</para>
+        /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "434651000124107");</para>
         /// <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
         /// <para>ExampleDeathRecord.BirthSex = type;</para>
@@ -1302,7 +1300,6 @@ namespace FhirDeathRecord
         /// <para>{</para>
         /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
-        /// </example>
         /// </example>
         public Dictionary<string, string> CertifierType
         {
@@ -1344,10 +1341,10 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
         /// <para>{</para>
-        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>())</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary&lt;string, string&gt;(){ {"code", "1234"}, {"system", "example"} }),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary&lt;string, string&gt;()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary&lt;string, string&gt;()),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary&lt;string, string&gt;())</para>
         /// <para>};</para>
         /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
         /// <para>// Getter:</para>
@@ -1359,7 +1356,6 @@ namespace FhirDeathRecord
         /// </example>
         public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
-            /// <returns>an array of tuples each containing the cause of death literal and the approximate interval onset to death.</returns>
             get
             {
                 List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
@@ -1542,7 +1538,6 @@ namespace FhirDeathRecord
         /// </example>
         public Dictionary<string, string> MannerOfDeath
         {
-            /// <returns>a tuple containing a code, code system, and display</returns>
             get
             {
                 string code = GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7').value.coding.code");
@@ -1582,7 +1577,6 @@ namespace FhirDeathRecord
         /// </example>
         public Dictionary<string, string> TobaccoUseContributedToDeath
         {
-            /// <returns>a tuple containing a code, code system, and display</returns>
             get
             {
                 string code = GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0').value.coding.code");
@@ -1898,14 +1892,14 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
-        /// <param name="path">a reference.</param>
+        /// <param name="reference">a reference.</param>
         private void AddReferenceToComposition(string reference)
         {
             Composition.Section.First().Entry.Add(new ResourceReference(reference));
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>
-        /// <param name="path">a reference.</param>
+        /// <param name="reference">a reference.</param>
         private bool RemoveReferenceFromComposition(string reference)
         {
             return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;

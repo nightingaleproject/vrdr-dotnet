@@ -10,7 +10,7 @@ This directory contains a FHIR Death Record library for consuming and producing 
 
 #### Usage
 You can include the library by referencing it in your project configuration, for example (taken from FhirDeathRecord.CLI):
-```
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
   ...
   <ItemGroup>
@@ -22,7 +22,7 @@ You can include the library by referencing it in your project configuration, for
 
 #### Consuming Example
 A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
-```
+```cs
 // Read in FHIR Death Record XML file as a string
 string xml = File.ReadAllText("./example_sdr_fhir.xml");
 
@@ -44,7 +44,7 @@ foreach (var cause in causes)
 
 #### Producing Example
 A quick example of producing a from-scratch SDR FHIR document using this library, and then printing it out as a JSON string:
-```
+```cs
 DeathRecord deathRecord = new DeathRecord();
 
 // Set Death Record ID
@@ -86,7 +86,7 @@ Console.WriteLine(deathRecord.ToJSON());
 
 #### FHIR SDR to/from IJE Mortality format **(Under Active Development - Currently Experimental!)**
 A quick example of converting a FHIR Death Record to an IJE string:
-```
+```cs
 // Read in FHIR Death Record XML file as a string
 string xml = File.ReadAllText("./example_sdr_fhir.xml");
 
@@ -102,7 +102,7 @@ Console.WriteLine(ijeString);
 ```
 
 A quick example of converting an IJE string to a FHIR Death Record:
-```
+```cs
 // Construct a new IJEMortality instance from an IJE string
 IJEMortality ije = new IJEMortality("..."); // This will convert the IJE string to a DeathRecord
 

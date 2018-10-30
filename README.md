@@ -130,3 +130,29 @@ Example usage (executed inside the FhirDeathRecord.CLI directory):
 ```
 dotnet run 1.xml
 ```
+
+### FhirDeathRecord.HTTP
+This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.
+
+The current available endpoints are:
+```
+http://<server>:8080/xml-ije/   <- For converting XML to IJE
+http://<server>:8080/json-ije/   <- For converting JSON to IJE
+http://<server>:8080/ije-xml/   <- For converting IJE to XML
+http://<server>:8080/ije-json/   <- For converting IJE to JSON
+```
+
+### Usage (Local)
+Example usage (executed inside the FhirDeathRecord.HTTP directory):
+```
+dotnet run
+```
+
+### Usage (docker)
+Note, this requires a locally running instance of docker on the machine for the service to be deployed on.
+
+```
+dotnet publish
+docker build -t fhirdeath .
+docker run -p 8080:8080 fhirdeath
+```

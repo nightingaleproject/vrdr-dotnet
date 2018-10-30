@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Linq;
 using System.Text;
+using System.ServiceProcess;
 using FhirDeathRecord;
 
 namespace FhirDeathRecord.HTTP
@@ -11,21 +12,24 @@ namespace FhirDeathRecord.HTTP
     {
         static void Main(string[] args)
         {
-            FhirDeathRecordListener IJEXMLListener = new FhirDeathRecordListener(SendXMLIJEResponse, "http://localhost:8080/ije-xml/");
-            FhirDeathRecordListener IJEJSONListener = new FhirDeathRecordListener(SendJSONIJEResponse, "http://localhost:8080/ije-json/");
-            FhirDeathRecordListener XMLListener = new FhirDeathRecordListener(SendFHIRXMLResponse, "http://localhost:8080/xml/");
-            FhirDeathRecordListener JSONListener = new FhirDeathRecordListener(SendFHIRJSONResponse, "http://localhost:8080/json/");
+            FhirDeathRecordListener XMLIJEListener = new FhirDeathRecordListener(SendXMLIJEResponse, "http://*:8080/xml-ije/");
+            FhirDeathRecordListener JSONLIJEistener = new FhirDeathRecordListener(SendJSONIJEResponse, "http://*:8080/json-ije/");
+            FhirDeathRecordListener IJEXMLListener = new FhirDeathRecordListener(SendFHIRXMLResponse, "http://*:8080/ije-xml/");
+            FhirDeathRecordListener IJEJSONListener = new FhirDeathRecordListener(SendFHIRJSONResponse, "http://*:8080/ije-json/");
+            XMLIJEListener.Run();
+            JSONLIJEistener.Run();
             IJEXMLListener.Run();
             IJEJSONListener.Run();
-            XMLListener.Run();
-            JSONListener.Run();
 
             Console.WriteLine("Example FHIR Death Record Translation Service.");
 
+            ManualResetEvent _quitEvent = new ManualResetEvent(false);
+            _quitEvent.WaitOne();
+
+            XMLIJEListener.Stop();
+            JSONLIJEistener.Stop();
             IJEXMLListener.Stop();
             IJEJSONListener.Stop();
-            XMLListener.Stop();
-            JSONListener.Stop();
         }
 
     

@@ -6,12 +6,12 @@ using System.Text;
 
 namespace FhirDeathRecord.HTTP
 {
-    public class FhirDeathRecordServer
+    public class FhirDeathRecordListener
     {
         private readonly HttpListener _listener = new HttpListener();
         private readonly Func<HttpListenerRequest, string> _responderMethod;
 
-        public FhirDeathRecordServer(string[] prefixes, Func<HttpListenerRequest, string> method)
+        public FhirDeathRecordListener(string[] prefixes, Func<HttpListenerRequest, string> method)
         {
             // URI prefixes are required, for example 
             // "http://localhost:8080/index/".
@@ -29,14 +29,14 @@ namespace FhirDeathRecord.HTTP
             _listener.Start();
         }
 
-         public FhirDeathRecordServer(Func<HttpListenerRequest, string> method, params string[] prefixes)
+         public FhirDeathRecordListener(Func<HttpListenerRequest, string> method, params string[] prefixes)
             : this(prefixes, method) { }
 
         public void Run()
         {
             ThreadPool.QueueUserWorkItem((o) =>
             {
-                Console.WriteLine("Webserver running...");
+                Console.WriteLine("Listener running...");
                 try
                 {
                     while (_listener.IsListening)
@@ -69,7 +69,5 @@ namespace FhirDeathRecord.HTTP
             _listener.Stop();
             _listener.Close();
         }
-    }
- 
-    }
+    } 
 }

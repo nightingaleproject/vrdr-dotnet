@@ -28,8 +28,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void FailGivenInvalidRecord()
         {
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));
-            Assert.Equal("Record is neither valid XML nor JSON.", ex.Message);
+            Exception ex = Assert.Throws<System.FormatException>(() => new DeathRecord("foobar"));
+            Assert.Equal("Invalid Json encountered. Details: Error parsing boolean value. Path '', line 1, position 1.", ex.Message);
         }
 
         [Fact]

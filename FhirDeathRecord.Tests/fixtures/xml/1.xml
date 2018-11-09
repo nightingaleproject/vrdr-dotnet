@@ -306,7 +306,6 @@
         <identifier>
           <use value="official"/>
           <system value="https://github.com/nightingaleproject/nightingale"/>
-          <value value=""/>
         </identifier>
         <name>
           <family value="Doctor"/>

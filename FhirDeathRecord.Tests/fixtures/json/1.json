@@ -403,8 +403,7 @@
         "identifier": [
           {
             "use": "official",
-            "system": "https://github.com/nightingaleproject/nightingale",
-            "value": ""
+            "system": "https://github.com/nightingaleproject/nightingale"
           }
         ],
         "name": [

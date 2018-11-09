@@ -24,7 +24,7 @@ namespace FhirDeathRecord
     public class DeathRecord
     {
         /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
-        private PocoNavigator Navigator;
+        private ITypedElement Navigator;
 
         /// <summary>Bundle that contains the death record.</summary>
         private Bundle Bundle;
@@ -77,7 +77,7 @@ namespace FhirDeathRecord
             Bundle.AddResourceEntry(Practitioner, Practitioner.Id);
 
             // Create a Navigator for this new death record.
-            Navigator = new PocoNavigator(Bundle);
+            Navigator = Bundle.ToTypedElement();
         }
 
         /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
@@ -85,28 +85,19 @@ namespace FhirDeathRecord
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record)
         {
-            // Try JSON
-            try
-            {
-                FhirJsonParser parser = new FhirJsonParser();
-                Bundle = parser.Parse<Bundle>(record);
-                Navigator = new PocoNavigator(Bundle);
-            }
-            catch {}
-
-            // Try XML
-            try
+            // Check if XML
+            if (!string.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
             {
                 FhirXmlParser parser = new FhirXmlParser();
                 Bundle = parser.Parse<Bundle>(record);
-                Navigator = new PocoNavigator(Bundle);
+                Navigator = Bundle.ToTypedElement();
             }
-            catch {}
-
-            // If the given record string was not JSON or XML, fail immediately.
-            if (Navigator == null)
+            else
             {
-                throw new System.ArgumentException("Record is neither valid XML nor JSON.");
+                // Assume JSON
+                FhirJsonParser parser = new FhirJsonParser();
+                Bundle = parser.Parse<Bundle>(record);
+                Navigator = Bundle.ToTypedElement();
             }
         }
 
@@ -1093,14 +1084,27 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Convert.ToString(Int32.Parse(GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value")));
+                string age = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value");
+                if (age != null)
+                {
+                    return Convert.ToString(Int32.Parse(age));
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
-                Extension age = new Extension();
-                age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
-                age.Value = new FhirDecimal(Int32.Parse(value));
-                Patient.Extension.Add(age);
+                int n;
+                bool isNumeric = int.TryParse(value, out n);
+                if (isNumeric)
+                {
+                    Extension age = new Extension();
+                    age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
+                    age.Value = new FhirDecimal(n);
+                    Patient.Extension.Add(age);
+                }
             }
         }
 
@@ -1127,16 +1131,16 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent’s usual occupation. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>Decedent’s usual occupation. A Dictionary representing a place of birth address, containing the following key/value pairs:
+        /// <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s usual occupation and industry.
         /// <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
         /// <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>occupation.Add("jobDescription", "9 Example Street");</para>
-        /// <para>occupation.Add("industryDescription", "Line 2");</para>
+        /// <para>occupation.Add("jobDescription", "Example occupation");</para>
+        /// <para>occupation.Add("industryDescription", "Example industry");</para>
         /// <para>SetterDeathRecord.Occupation = occupation;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
@@ -1157,17 +1161,17 @@ namespace FhirDeathRecord
                 occupation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension";
 
                 // Job extension
-                Extension job = new Extension();
-                job.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
-                job.Value = new FhirString(GetValue(value, "jobDescription"));
+                Extension jobExt = new Extension();
+                jobExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
+                jobExt.Value = new FhirString(GetValue(value, "jobDescription"));
+                occupation.Extension.Add(jobExt);
 
                 // Industry extension
-                Extension industry = new Extension();
-                industry.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
-                industry.Value = new FhirString(GetValue(value, "industryDescription"));
+                Extension industryExt = new Extension();
+                industryExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
+                industryExt.Value = new FhirString(GetValue(value, "industryDescription"));
+                occupation.Extension.Add(industryExt);
 
-                occupation.Extension.Add(job);
-                occupation.Extension.Add(industry);
                 Patient.Extension.Add(occupation);
             }
         }
@@ -2053,11 +2057,26 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
-        public static string GetValue(Dictionary<string, string> dict, string key)
+        private static string GetValue(Dictionary<string, string> dict, string key)
         {
             string value;
             dict.TryGetValue(key, out value);
             return value;
+        }
+
+        /// <summary>Combine the given dictionaries and return the combined result.</summary>
+        private static Dictionary<string, string> UpdateDictionary(Dictionary<string, string> a, Dictionary<string, string> b)
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> entry in a)
+            {
+                dictionary[entry.Key] = entry.Value;
+            }
+            foreach(KeyValuePair<string, string> entry in b)
+            {
+                dictionary[entry.Key] = entry.Value;
+            }
+            return dictionary;
         }
 
     }

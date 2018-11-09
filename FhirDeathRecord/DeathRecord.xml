@@ -409,16 +409,16 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.Occupation">
-            <summary>Decedent’s usual occupation. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-            <value>Decedent’s usual occupation. A Dictionary representing a place of birth address, containing the following key/value pairs:
+            <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
+            <value>Decedent’s usual occupation and industry.
             <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
             <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
             </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-            <para>occupation.Add("jobDescription", "9 Example Street");</para>
-            <para>occupation.Add("industryDescription", "Line 2");</para>
+            <para>occupation.Add("jobDescription", "Example occupation");</para>
+            <para>occupation.Add("industryDescription", "Example industry");</para>
             <para>SetterDeathRecord.Occupation = occupation;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
@@ -749,6 +749,9 @@
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetValue(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Combine the given dictionaries and return the combined result.</summary>
         </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>

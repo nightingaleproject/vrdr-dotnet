@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.ServiceProcess;
 using FhirDeathRecord;
 
@@ -12,55 +13,53 @@ namespace FhirDeathRecord.HTTP
     {
         static void Main(string[] args)
         {
-            FhirDeathRecordListener XMLIJEListener = new FhirDeathRecordListener(SendXMLIJEResponse, "http://*:8080/xml-ije/");
-            FhirDeathRecordListener JSONLIJEistener = new FhirDeathRecordListener(SendJSONIJEResponse, "http://*:8080/json-ije/");
-            FhirDeathRecordListener IJEXMLListener = new FhirDeathRecordListener(SendFHIRXMLResponse, "http://*:8080/ije-xml/");
-            FhirDeathRecordListener IJEJSONListener = new FhirDeathRecordListener(SendFHIRJSONResponse, "http://*:8080/ije-json/");
-            XMLIJEListener.Run();
-            JSONLIJEistener.Run();
-            IJEXMLListener.Run();
-            IJEJSONListener.Run();
+            FhirDeathRecordListener Listener = new FhirDeathRecordListener(SendResponse, "http://*:8080/");
+            Listener.Run();
 
             Console.WriteLine("Example FHIR Death Record Translation Service.");
 
             ManualResetEvent _quitEvent = new ManualResetEvent(false);
             _quitEvent.WaitOne();
 
-            XMLIJEListener.Stop();
-            JSONLIJEistener.Stop();
-            IJEXMLListener.Stop();
-            IJEJSONListener.Stop();
-        }
-
-    
-        public static string SendXMLIJEResponse(HttpListenerRequest request)
-        {
-            string xmlText = GetBodyContent(request);
-            DeathRecord deathRecord = new DeathRecord(xmlText);
-            IJEMortality ije = new IJEMortality(deathRecord);
-            return ije.ToString();
-        }
-        
-        public static string SendJSONIJEResponse(HttpListenerRequest request)
-        {
-            string jsonText = GetBodyContent(request);
-            DeathRecord deathRecord = new DeathRecord(jsonText);
-            IJEMortality ije = new IJEMortality(deathRecord);
-            return ije.ToString();
+            Listener.Stop();
         }
     
-        public static string SendFHIRXMLResponse(HttpListenerRequest request)
+        public static string SendResponse(HttpListenerRequest request)
         {
-            string IJEText = GetBodyContent(request);
-            IJEMortality ije = new IJEMortality(IJEText);
-            return ije.ToDeathRecord().ToXML();   
-        }
+            string requestBody = GetBodyContent(request);
+            DeathRecord deathRecord = null;
 
-        public static string SendFHIRJSONResponse(HttpListenerRequest request)
-        {
-            string IJEText = GetBodyContent(request);
-            IJEMortality ije = new IJEMortality(IJEText);
-            return ije.ToDeathRecord().ToJSON();
+            // Look at content type to determine input format; be permissive in what we accept as format specification
+            switch (request.ContentType)
+            {
+                case string ijeType when new Regex(@"ije").IsMatch(ijeType): // application/ije
+                    IJEMortality ije = new IJEMortality(requestBody);
+                    deathRecord = ije.ToDeathRecord();
+                    break;
+                case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
+                case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
+                default:
+                    deathRecord = new DeathRecord(requestBody);
+                    break;
+            }
+
+            // Look at URL extension to determine output format; be permissive in what we accept as format specification
+            switch (request.RawUrl)
+            {
+                case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
+                    IJEMortality ije = new IJEMortality(deathRecord);
+                    return ije.ToString();
+                    break;
+                case string url when new Regex(@"json$").IsMatch(url): // .json
+                    return deathRecord.ToJSON();
+                    break;
+                case string url when new Regex(@"xml$").IsMatch(url): // .xml
+                    return deathRecord.ToXML();
+                    break;
+            }
+
+            // TODO: error handling
+            return "";
         }
 
         public static string GetBodyContent(HttpListenerRequest request)

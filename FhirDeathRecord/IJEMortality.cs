@@ -152,6 +152,10 @@ namespace FhirDeathRecord
             {
                 return date.ToString($"yyyy-MM-dd {Truncate(value, info.Length).Substring(0, 2)}:{Truncate(value, info.Length).Substring(2, 2)}");
             }
+            else if (type == "MMddyyyy")
+            {
+                return date.ToString($"{Truncate(value, info.Length).Substring(4, 4)}-{Truncate(value, info.Length).Substring(0, 2)}-{Truncate(value, info.Length).Substring(2, 2)} HH:mm");
+            }
             return "";
         }
 
@@ -270,12 +274,12 @@ namespace FhirDeathRecord
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrEmpty(dictionary[key])))
             {
-                dictionary[key] = value;
+                dictionary[key] = value.Trim();
             }
             else
             {
                 dictionary = new Dictionary<string, string>();
-                dictionary[key] = value;
+                dictionary[key] = value.Trim();
             }
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
@@ -335,7 +339,7 @@ namespace FhirDeathRecord
             }
             if (current != null)
             {
-                return Truncate(current, info.Length).PadRight(info.Length, ' ');
+                return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
             }
             else
             {
@@ -361,7 +365,7 @@ namespace FhirDeathRecord
                         dictionary.TryGetValue(keyPrefix + "County", out county);
                         if (state != null && county != null)
                         {
-                            dictionary[key] = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value);
+                            dictionary[key] = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value).Trim();
                         }
                     }
                     else if (geoType == "county") // This is a tricky case, we need to know about state!
@@ -370,16 +374,16 @@ namespace FhirDeathRecord
                         dictionary.TryGetValue(keyPrefix + "State", out state);
                         if (state != null)
                         {
-                            dictionary[key] = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
+                            dictionary[key] = dataLookup.StateNameAndCountyCodeToCountyName(state, value).Trim();
                         }
                     }
                     else if (geoType == "state")
                     {
-                        dictionary[key] = dataLookup.StateCodeToStateName(value);
+                        dictionary[key] = dataLookup.StateCodeToStateName(value).Trim();
                     }
                     else if (geoType == "country")
                     {
-                        dictionary[key] = dataLookup.CountryCodeToCountryName(value);
+                        dictionary[key] = dataLookup.CountryCodeToCountryName(value).Trim();
                     }
                     else if (geoType == "insideCityLimits")
                     {
@@ -395,15 +399,73 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    dictionary[key] = value;
+                    dictionary[key] = value.Trim();
                 }
             }
             else
             {
                 dictionary = new Dictionary<string, string>();
-                dictionary[key] = value;
+                dictionary[key] = value.Trim();
             }
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
+        }
+
+        /// <summary>If the decedent was of hispanic origin, returns a list of OMB categories.</summary>
+        private string[] HispanicOrigin()
+        {
+            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+            List<string> ethnicities = new List<string>();
+            // Check if hispanic origin
+            if (Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
+            {
+                foreach(Tuple<string, string> tuple in ethnicityStatus)
+                {
+                    ethnicities.Add(tuple.Item1);
+                    ethnicities.Add(tuple.Item2);
+                }
+            }
+            return ethnicities.ToArray();
+        }
+
+        /// <summary>Checks if the given race exists in the record.</summary>
+        private bool Get_Race(string code, string display)
+        {
+            return Array.Exists(record.Race, element => element.Item1 == display || element.Item2 == code);
+        }
+
+        /// <summary>Checks if the given race exists in the record.</summary>
+        private void Set_Race(string code, string display)
+        {
+            List<Tuple<string, string>> raceStatus = record.Race.ToList();
+            raceStatus.Add(Tuple.Create(display, code));
+            record.Race = raceStatus.Distinct().ToList().ToArray();
+        }
+
+        /// <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
+        private string Get_YNU(string fhirFieldName)
+        {
+            object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (status == null)
+            {
+                return "U";
+            }
+            else
+            {
+                return ((bool)status) ? "Y" : "N";
+            }
+        }
+
+        /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
+        private void Set_YNU(string fhirFieldName, string value)
+        {
+            if (value != "U" && value == "Y")
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
+            }
+            else if (value != "U" && value == "N")
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
+            }
         }
 
 
@@ -484,7 +546,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                LeftJustified_Set("MNAME", "MiddleName", value);
+                // NOOP
             }
         }
 
@@ -566,11 +628,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "1"; // Always years.
+                return "1"; // Years
             }
             set
             {
-                // NOOP; this should always be years in this implementation.
+                // NOOP
             }
         }
 
@@ -668,7 +730,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Dictionary_Geo_Set("CITYC", "Residence", "residence", "city", true, value);
+                // NOOP
             }
         }
 
@@ -1085,11 +1147,28 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                string[] ethnicities = HispanicOrigin();
+                if (Array.Exists(ethnicities, element => element == "Mexican" || element == "2148-5"))
+                {
+                    return "Y";
+                }
+                return "N";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
+                if (value == "Y")
+                {
+                    ethnicities.Add(Tuple.Create("Mexican", "2135-2"));
+                    ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
+                    ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
+                else if (ethnicities.Count == 0)
+                {
+                    ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
             }
         }
 
@@ -1099,11 +1178,28 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                string[] ethnicities = HispanicOrigin();
+                if (Array.Exists(ethnicities, element => element == "Puerto Rican" || element == "2180-8"))
+                {
+                    return "Y";
+                }
+                return "N";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
+                if (value == "Y")
+                {
+                    ethnicities.Add(Tuple.Create("Puerto Rican", "2180-8"));
+                    ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
+                    ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
+                else if (ethnicities.Count == 0)
+                {
+                    ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
             }
         }
 
@@ -1113,11 +1209,28 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                string[] ethnicities = HispanicOrigin();
+                if (Array.Exists(ethnicities, element => element == "Cuban" || element == "2182-4"))
+                {
+                    return "Y";
+                }
+                return "N";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
+                if (value == "Y")
+                {
+                    ethnicities.Add(Tuple.Create("Cuban", "2182-4"));
+                    ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
+                    ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
+                else if (ethnicities.Count == 0)
+                {
+                    ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
             }
         }
 
@@ -1127,25 +1240,37 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                string[] ethnicities = HispanicOrigin();
+                if (ethnicities.Length == 0)
+                {
+                    return "N";
+                }
+                else
+                {
+                    if (DETHNIC3 == "Y" || DETHNIC2 == "Y" || DETHNIC1 == "Y")
+                    {
+                        return "N";
+                    }
+                    else
+                    {
+                        return "Y";
+                    }
+                }
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
-        [IJEField(43, 251, 20, "Decedent of Hispanic Origin?--Other, Literal", "DETHNIC5", 1)]
-        public string DETHNIC5
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
+                if (value == "Y")
+                {
+                    ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
+                    ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
+                else if (ethnicities.Count == 0)
+                {
+                    ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
+                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                }
             }
         }
 
@@ -1155,11 +1280,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2106-3", "White") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2106-3", "White");
+                }
             }
         }
 
@@ -1169,11 +1297,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2054-5", "Black or African American") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2054-5", "Black or African American");
+                }
             }
         }
 
@@ -1183,11 +1314,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("1002-5", "American Indian or Alaska Native") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("1002-5", "American Indian or Alaska Native");
+                }
             }
         }
 
@@ -1197,11 +1331,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2029-7", "Asian Indian") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2029-7", "Asian Indian");
+                }
             }
         }
 
@@ -1211,11 +1348,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2034-7", "Chinese") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2034-7", "Chinese");
+                }
             }
         }
 
@@ -1225,11 +1365,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2036-2", "Filipino") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2036-2", "Filipino");
+                }
             }
         }
 
@@ -1239,11 +1382,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2039-6", "Japanese") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2039-6", "Japanese");
+                }
             }
         }
 
@@ -1253,11 +1399,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2040-4", "Korean") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2040-4", "Korean");
+                }
             }
         }
 
@@ -1267,25 +1416,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2047-9", "Vietnamese") ? "Y" : "N";
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Race--Other Asian</summary>
-        [IJEField(53, 280, 1, "Decedent's Race--Other Asian", "RACE10", 1)]
-        public string RACE10
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2047-9", "Vietnamese");
+                }
             }
         }
 
@@ -1295,11 +1433,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2079-2", "Native Hawaiian") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2079-2", "Native Hawaiian");
+                }
             }
         }
 
@@ -1309,11 +1450,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2086-7", "Guamanian or Chamorro") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2086-7", "Guamanian or Chamorro");
+                }
             }
         }
 
@@ -1323,11 +1467,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2080-0", "Samoan") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2080-0", "Samoan");
+                }
             }
         }
 
@@ -1337,27 +1484,17 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_Race("2500-7", "Other Pacific Islander") ? "Y" : "N";
             }
             set
             {
-                // TODO
+                if (value == "Y")
+                {
+                    Set_Race("2500-7", "Other Pacific Islander");
+                }
             }
         }
 
-        /// <summary>Decedent's Race--Other</summary>
-        [IJEField(58, 285, 1, "Decedent's Race--Other", "RACE15", 1)]
-        public string RACE15
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
 
         /// <summary>Occupation -- Literal (OPTIONAL)</summary>
         [IJEField(84, 575, 40, "Occupation -- Literal (OPTIONAL)", "OCCUP", 1)]
@@ -1365,11 +1502,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("OCCUP", "Occupation", "jobDescription");
             }
             set
             {
-                // TODO
+                Dictionary_Set("OCCUP", "Occupation", "jobDescription", value);
             }
         }
 
@@ -1379,11 +1516,53 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("INDUST", "Occupation", "industryDescription");
             }
             set
             {
-                // TODO
+                Dictionary_Set("INDUST", "Occupation", "industryDescription", value);
+            }
+        }
+
+        /// <summary>Date of Registration--Year</summary>
+        [IJEField(95, 689, 4, "Date of Registration--Year", "DOR_YR", 1)]
+        public string DOR_YR
+        {
+            get
+            {
+                return DateTime_Get("DOR_YR", "yyyy", "DateOfRegistration");
+            }
+            set
+            {
+                DateTime_Set("DOR_YR", "yyyy", "DateOfRegistration", value);
+            }
+        }
+
+        /// <summary>Date of Registration--Month</summary>
+        [IJEField(96, 693, 2, "Date of Registration--Month", "DOR_MO", 1)]
+        public string DOR_MO
+        {
+            get
+            {
+                return DateTime_Get("DOR_MO", "MM", "DateOfRegistration");
+            }
+            set
+            {
+                DateTime_Set("DOR_MO", "MM", "DateOfRegistration", value);
+            }
+        }
+
+        /// <summary>Date of Registration--Day</summary>
+        [IJEField(97, 695, 2, "Date of Registration--Day", "DOR_DY", 1)]
+        public string DOR_DY
+        {
+            get
+            {
+                return DateTime_Get("DOR_DY", "dd", "DateOfRegistration");
+            }
+            set
+            {
+                DateTime_Set("DOR_DY", "dd", "DateOfRegistration", value);
             }
         }
 
@@ -1393,11 +1572,59 @@ namespace FhirDeathRecord
         {
             get
             {
+                string code = Dictionary_Get_Full("MANNER", "MannerOfDeath", "code");
+                switch (code)
+                {
+                    case "38605008": // Natural
+                        return "N";
+                    case "7878000": // Accident
+                        return "A";
+                    case "44301001": // Suicide
+                        return "S";
+                    case "27935005": // Homicide
+                        return "H";
+                    case "185973002": // Pending Investigation
+                        return "P";
+                    case "65037004": // Could not be determined
+                        return "C";
+                }
                 return "";
             }
             set
             {
-                // TODO
+                switch (value)
+                {
+                    case "N":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "38605008");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Natural");
+                        break;
+                    case "A":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "7878000");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Accident");
+                        break;
+                    case "S":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "44301001");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Suicide");
+                        break;
+                    case "H":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "27935005");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Homicide");
+                        break;
+                    case "P":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "185973002");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Pending Investigation");
+                        break;
+                    case "C":
+                        Dictionary_Set("MANNER", "MannerOfDeath", "code", "65037004");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "display", "Could not be determined");
+                        break;
+                }
             }
         }
 
@@ -1407,11 +1634,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_YNU("AutopsyPerformed");
             }
             set
             {
-                // TODO
+                Set_YNU("AutopsyPerformed", value);
             }
         }
 
@@ -1421,11 +1648,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_YNU("AutopsyResultsAvailable");
             }
             set
             {
-                // TODO
+                Set_YNU("AutopsyResultsAvailable", value);
             }
         }
 
@@ -1435,11 +1662,52 @@ namespace FhirDeathRecord
         {
             get
             {
+                string code = Dictionary_Get_Full("TOBAC", "TobaccoUseContributedToDeath", "code");
+                switch (code)
+                {
+                    case "373066001": // Yes
+                        return "Y";
+                    case "373067005": // No
+                        return "N";
+                    case "2931005": // Probably
+                        return "P";
+                    case "UNK": // Unknown
+                        return "U";
+                    case "NASK": // Pending Investigation
+                        return "C";
+                }
                 return "";
             }
             set
             {
-                // TODO
+                switch (value)
+                {
+                    case "Y":
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373066001");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Yes");
+                        break;
+                    case "N":
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373067005");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "No");
+                        break;
+                    case "P":
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "2931005");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Probably");
+                        break;
+                    case "U":
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "UNK");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Unknown");
+                        break;
+                    case "C":
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "NASK");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Not asked");
+                        break;
+                }
             }
         }
 
@@ -1449,11 +1717,59 @@ namespace FhirDeathRecord
         {
             get
             {
+                string code = Dictionary_Get_Full("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code");
+                switch (code)
+                {
+                    case "PHC1260": // Not pregnant within past year
+                        return "1";
+                    case "PHC1261": // Pregnant at time of death
+                        return "2";
+                    case "PHC1262": // Not pregnant, but pregnant within 42 days of death
+                        return "3";
+                    case "PHC1263": // Not pregnant, but pregnant 43 days to 1 year before death
+                        return "4";
+                    case "PHC1264": // Unknown if pregnant within the past year
+                        return "9";
+                    case "NA": // Not applicable
+                        return "8";
+                }
                 return "";
             }
             set
             {
-                // TODO
+                switch (value)
+                {
+                    case "1":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1260");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant within past year");
+                        break;
+                    case "2":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1261");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Pregnant at time of death");
+                        break;
+                    case "3":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1262");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant within 42 days of death");
+                        break;
+                    case "4":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1263");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
+                        break;
+                    case "9":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1264");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Unknown if pregnant within the past year");
+                        break;
+                    case "8":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "NA");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not applicable");
+                        break;
+                }
             }
         }
 
@@ -1463,11 +1779,31 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                IJEField info = FieldInfo("DOI_MO");
+                string current = Dictionary_Get_Full("DOI_MO", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (DateTime.TryParse(current, out date))
+                {
+                    return Truncate(date.ToString("MM"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
-                // TODO
+                IJEField info = FieldInfo("DOI_MO");
+                string current = Dictionary_Get_Full("DOI_MO", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (current != null && DateTime.TryParse(current, out date))
+                {
+                    Dictionary_Set("DOI_MO", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "MM", date));
+                }
+                else
+                {
+                    Dictionary_Set("DOI_MO", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "MM", new DateTime()));
+                }
             }
         }
 
@@ -1477,11 +1813,31 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                IJEField info = FieldInfo("DOI_DY");
+                string current = Dictionary_Get_Full("DOI_DY", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (DateTime.TryParse(current, out date))
+                {
+                    return Truncate(date.ToString("dd"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
-                // TODO
+                IJEField info = FieldInfo("DOI_DY");
+                string current = Dictionary_Get_Full("DOI_DY", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (current != null && DateTime.TryParse(current, out date))
+                {
+                    Dictionary_Set("DOI_DY", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "dd", date));
+                }
+                else
+                {
+                    Dictionary_Set("DOI_DY", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "dd", new DateTime()));
+                }
             }
         }
 
@@ -1491,11 +1847,31 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                IJEField info = FieldInfo("DOI_YR");
+                string current = Dictionary_Get_Full("DOI_YR", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (DateTime.TryParse(current, out date))
+                {
+                    return Truncate(date.ToString("yyyy"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
-                // TODO
+                IJEField info = FieldInfo("DOI_YR");
+                string current = Dictionary_Get_Full("DOI_YR", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (current != null && DateTime.TryParse(current, out date))
+                {
+                    Dictionary_Set("DOI_YR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "yyyy", date));
+                }
+                else
+                {
+                    Dictionary_Set("DOI_YR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "yyyy", new DateTime()));
+                }
             }
         }
 
@@ -1505,11 +1881,31 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                IJEField info = FieldInfo("TOI_HR");
+                string current = Dictionary_Get_Full("TOI_HR", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (DateTime.TryParse(current, out date))
+                {
+                    return Truncate(date.ToString("HHmm"), info.Length);
+                }
+                else
+                {
+                    return new String(' ', info.Length);
+                }
             }
             set
             {
-                // TODO
+                IJEField info = FieldInfo("TOI_HR");
+                string current = Dictionary_Get_Full("TOI_HR", "DetailsOfInjury", "effectiveDateTime");
+                DateTime date;
+                if (current != null && DateTime.TryParse(current, out date))
+                {
+                    Dictionary_Set("TOI_HR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "HHmm", date));
+                }
+                else
+                {
+                    Dictionary_Set("TOI_HR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "HHmm", new DateTime()));
+                }
             }
         }
 
@@ -1519,11 +1915,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_YNU("DeathFromWorkInjury");
             }
             set
             {
-                // TODO
+                Set_YNU("DeathFromWorkInjury", value);
             }
         }
 
@@ -1533,11 +1929,40 @@ namespace FhirDeathRecord
         {
             get
             {
+                string code = Dictionary_Get_Full("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code");
+                switch (code)
+                {
+                    case "434641000124105": // Physician (Certifier)
+                        return "D";
+                    case "434651000124107": // Physician (Pronouncer and Certifier)
+                        return "P";
+                    case "310193003": // Coroner
+                        return "M";
+                    case "440051000124108": // Medical Examiner
+                        return "M";
+                }
                 return "";
             }
             set
             {
-                // TODO
+                switch (value)
+                {
+                    case "D":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "434641000124105");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Physician (Certifier)");
+                        break;
+                    case "P":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "434651000124107");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Physician (Pronouncer and Certifier)");
+                        break;
+                    case "M":
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "440051000124108");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Medical Examiner");
+                        break;
+                }
             }
         }
 
@@ -1547,11 +1972,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return "M"; // Military time
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1561,11 +1986,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_YNU("ServedInArmedForces");
             }
             set
             {
-                // TODO
+                Set_YNU("ServedInArmedForces", value);
             }
         }
 
@@ -1575,11 +2000,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("DINSTI", "Disposition", "dispositionPlaceName");
             }
             set
             {
-                // TODO
+                Dictionary_Set("DINSTI", "Disposition", "dispositionPlaceName", value);
             }
         }
 
@@ -1589,81 +2014,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("ADDRESS_D", "PlaceOfDeath", "placeOfDeathLine1");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Street number</summary>
-        [IJEField(130, 1162, 10, "Place of death. Street number", "STNUM_D", 1)]
-        public string STNUM_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Pre Directional</summary>
-        [IJEField(131, 1172, 10, "Place of death. Pre Directional", "PREDIR_D", 1)]
-        public string PREDIR_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Street name</summary>
-        [IJEField(132, 1182, 50, "Place of death. Street name", "STNAME_D", 1)]
-        public string STNAME_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Street designator</summary>
-        [IJEField(133, 1232, 10, "Place of death. Street designator", "STDESIG_D", 1)]
-        public string STDESIG_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Post Directional</summary>
-        [IJEField(134, 1242, 10, "Place of death. Post Directional", "POSTDIR_D", 1)]
-        public string POSTDIR_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Set("ADDRESS_D", "PlaceOfDeath", "placeOfDeathLine1", value);
             }
         }
 
@@ -1673,11 +2028,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("CITYTEXT_D", "PlaceOfDeath", "placeOfDeath", "city", false);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("CITYTEXT_D", "PlaceOfDeath", "placeOfDeath", "city", false, value);
             }
         }
 
@@ -1687,11 +2042,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("STATETEXT_D", "PlaceOfDeath", "placeOfDeath", "state", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1701,11 +2056,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("ZIP9_D", "PlaceOfDeath", "placeOfDeathZip");
             }
             set
             {
-                // TODO
+                Dictionary_Set("ZIP9_D", "PlaceOfDeath", "placeOfDeathZip", value);
             }
         }
 
@@ -1715,179 +2070,39 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("COUNTYTEXT_D", "PlaceOfDeath", "placeOfDeath", "county", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
         /// <summary>Place of death. City FIPS code</summary>
-        [IJEField(139, 1345, 5, "Place of death. City FIPS code", "CITYCODE_D", 3)]
+        [IJEField(139, 1345, 5, "Place of death. City FIPS code", "CITYCODE_D", 1)]
         public string CITYCODE_D
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("CITYCODE_D", "PlaceOfDeath", "placeOfDeath", "city", true);
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of death. Longitude</summary>
-        [IJEField(140, 1350, 17, "Place of death. Longitude", "LONG_D", 1)]
-        public string LONG_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of Death. Latitude</summary>
-        [IJEField(141, 1367, 17, "Place of Death. Latitude", "LAT_D", 1)]
-        public string LAT_D
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Spouse's First Name</summary>
-        [IJEField(143, 1385, 50, "Spouse's First Name", "SPOUSEF", 1)]
-        public string SPOUSEF
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Husband's Surname/Wife's Maiden Last Name</summary>
-        [IJEField(144, 1435, 50, "Husband's Surname/Wife's Maiden Last Name", "SPOUSEL", 1)]
-        public string SPOUSEL
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Street number</summary>
-        [IJEField(145, 1485, 10, "Decedent's Residence - Street number", "STNUM_R", 1)]
-        public string STNUM_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Pre Directional</summary>
-        [IJEField(146, 1495, 10, "Decedent's Residence - Pre Directional", "PREDIR_R", 1)]
-        public string PREDIR_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Street name</summary>
-        [IJEField(147, 1505, 28, "Decedent's Residence - Street name", "STNAME_R", 1)]
-        public string STNAME_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Street designator</summary>
-        [IJEField(148, 1533, 10, "Decedent's Residence - Street designator", "STDESIG_R", 1)]
-        public string STDESIG_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Post Directional</summary>
-        [IJEField(149, 1543, 10, "Decedent's Residence - Post Directional", "POSTDIR_R", 1)]
-        public string POSTDIR_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Residence - Unit or apt number</summary>
-        [IJEField(150, 1553, 7, "Decedent's Residence - Unit or apt number", "UNITNUM_R", 1)]
-        public string UNITNUM_R
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                // NOOP
             }
         }
 
         /// <summary>Decedent's Residence - City or Town name</summary>
-        [IJEField(151, 1560, 28, "Decedent's Residence - City or Town name", "CITYTEXT_R", 1)]
+        [IJEField(151, 1560, 28, "Decedent's Residence - City or Town name", "CITYTEXT_R", 3)]
         public string CITYTEXT_R
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("CITYTEXT_R", "Residence", "residence", "city", false);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("CITYTEXT_R", "Residence", "residence", "city", false, value);
             }
         }
 
@@ -1897,11 +2112,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("ZIP9_R", "Residence", "residence", "zip", false);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("ZIP9_R", "Residence", "residence", "zip", false, value);
             }
         }
 
@@ -1911,11 +2126,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("COUNTYTEXT_R", "Residence", "residence", "county", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1925,11 +2140,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("STATETEXT_R", "Residence", "residence", "state", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1939,11 +2154,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "residence", "country", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1953,123 +2168,25 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("ADDRESS_R", "Residence", "residenceLine1");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Hispanic Origin - Specify</summary>
-        [IJEField(163, 1743, 15, "Hispanic Origin - Specify ", "HISPSTSP", 1)]
-        public string HISPSTSP
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race - Specify</summary>
-        [IJEField(164, 1758, 50, "Race - Specify", "RACESTSP", 1)]
-        public string RACESTSP
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Set("ADDRESS_R", "Residence", "residenceLine1", value);
             }
         }
 
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(165, 1808, 50, "Middle Name of Decedent ", "DMIDDLE", 1)]
+        [IJEField(165, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
         public string DMIDDLE
         {
             get
             {
-                return "";
+                return LeftJustified_Get("DMIDDLE", "MiddleName");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Father's First Name</summary>
-        [IJEField(166, 1858, 50, "Father's First Name", "DDADF", 1)]
-        public string DDADF
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Father's Middle Name</summary>
-        [IJEField(167, 1908, 50, "Father's Middle Name", "DDADMID", 1)]
-        public string DDADMID
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Mother's First Name</summary>
-        [IJEField(168, 1958, 50, "Mother's First Name", "DMOMF", 1)]
-        public string DMOMF
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Mother's Middle Name</summary>
-        [IJEField(169, 2008, 50, "Mother's Middle Name", "DMOMMID", 1)]
-        public string DMOMMID
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Mother's Maiden Surname</summary>
-        [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
-        public string DMOMMDN
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                LeftJustified_Set("DMIDDLE", "MiddleName", value);
             }
         }
 
@@ -2079,11 +2196,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Get_YNU("MedicalExaminerContacted");
             }
             set
             {
-                // TODO
+                Set_YNU("MedicalExaminerContacted", value);
             }
         }
 
@@ -2093,11 +2210,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("POILITRL", "DetailsOfInjury", "placeOfInjuryDescription");
             }
             set
             {
-                // TODO
+                Dictionary_Set("POILITRL", "DetailsOfInjury", "placeOfInjuryDescription", value);
             }
         }
 
@@ -2107,11 +2224,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("HOWINJ", "DetailsOfInjury", "description");
             }
             set
             {
-                // TODO
+                Dictionary_Set("HOWINJ", "DetailsOfInjury", "description", value);
             }
         }
 
@@ -2121,11 +2238,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("TRANSPRT", "DeathFromTransportInjury", "display");
             }
             set
             {
-                // TODO
+                Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", value);
             }
         }
 
@@ -2135,11 +2252,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("COUNTYTEXT_I", "DetailsOfInjury", "placeOfInjury", "county", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2149,25 +2266,25 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("COUNTYCODE_I", "DetailsOfInjury", "placeOfInjury", "county", true);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("COUNTYCODE_I", "DetailsOfInjury", "placeOfInjury", "county", true, value);
             }
         }
 
         /// <summary>Town/city of Injury - literal</summary>
-        [IJEField(177, 2470, 28, "Town/city of Injury - literal", "CITYTEXT_I", 1)]
+        [IJEField(177, 2470, 28, "Town/city of Injury - literal", "CITYTEXT_I", 3)]
         public string CITYTEXT_I
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("CITYTEXT_I", "DetailsOfInjury", "placeOfInjury", "city", false);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("CITYTEXT_I", "DetailsOfInjury", "placeOfInjury", "city", false, value);
             }
         }
 
@@ -2177,11 +2294,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("CITYCODE_I", "DetailsOfInjury", "placeOfInjury", "city", true);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2191,39 +2308,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("STATECODE_I", "DetailsOfInjury", "placeOfInjury", "state", true);
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of injury. Longitude</summary>
-        [IJEField(180, 2505, 17, "Place of injury. Longitude", "LONG_I", 1)]
-        public string LONG_I
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Place of injury. Latitude</summary>
-        [IJEField(181, 2522, 17, "Place of injury. Latitude", "LAT_I", 1)]
-        public string LAT_I
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Geo_Set("STATECODE_I", "DetailsOfInjury", "placeOfInjury", "state", true, value);
             }
         }
 
@@ -2233,109 +2322,161 @@ namespace FhirDeathRecord
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 1) {
+                    return record.CausesOfDeath[0].Item1.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
+                record.CausesOfDeath = results.ToArray();
             }
         }
 
         /// <summary>Cause of Death Part I Interval, Line a</summary>
-        [IJEField(185, 2662, 20, "Cause of Death Part I Interval, Line a", "INTERVAL1A", 1)]
+        [IJEField(185, 2662, 20, "Cause of Death Part I Interval, Line a", "INTERVAL1A", 2)]
         public string INTERVAL1A
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 1) {
+                    return record.CausesOfDeath[0].Item2.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                Tuple<string, string, Dictionary<string, string>> last = results.Last();
+                Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
+                Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
+                updatedCauses[0] = updated;
+                record.CausesOfDeath = updatedCauses;
             }
         }
 
         /// <summary>Cause of Death Part I Line b</summary>
-        [IJEField(186, 2682, 120, "Cause of Death Part I Line b", "COD1B", 1)]
+        [IJEField(186, 2682, 120, "Cause of Death Part I Line b", "COD1B", 3)]
         public string COD1B
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 2) {
+                    return record.CausesOfDeath[1].Item1.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
+                record.CausesOfDeath = results.ToArray();
             }
         }
 
         /// <summary>Cause of Death Part I Interval, Line b</summary>
-        [IJEField(187, 2802, 20, "Cause of Death Part I Interval, Line b", "INTERVAL1B", 1)]
+        [IJEField(187, 2802, 20, "Cause of Death Part I Interval, Line b", "INTERVAL1B", 4)]
         public string INTERVAL1B
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 2) {
+                    return record.CausesOfDeath[1].Item2.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                Tuple<string, string, Dictionary<string, string>> last = results.Last();
+                Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
+                Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
+                updatedCauses[1] = updated;
+                record.CausesOfDeath = updatedCauses;
             }
         }
 
         /// <summary>Cause of Death Part I Line c</summary>
-        [IJEField(188, 2822, 120, "Cause of Death Part I Line c", "COD1C", 1)]
+        [IJEField(188, 2822, 120, "Cause of Death Part I Line c", "COD1C", 5)]
         public string COD1C
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 3) {
+                    return record.CausesOfDeath[2].Item1.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
+                record.CausesOfDeath = results.ToArray();
             }
         }
 
         /// <summary>Cause of Death Part I Interval, Line c</summary>
-        [IJEField(189, 2942, 20, "Cause of Death Part I Interval, Line c", "INTERVAL1C", 1)]
+        [IJEField(189, 2942, 20, "Cause of Death Part I Interval, Line c", "INTERVAL1C", 6)]
         public string INTERVAL1C
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 3) {
+                    return record.CausesOfDeath[2].Item2.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                Tuple<string, string, Dictionary<string, string>> last = results.Last();
+                Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
+                Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
+                updatedCauses[2] = updated;
+                record.CausesOfDeath = updatedCauses;
             }
         }
 
         /// <summary>Cause of Death Part I Line d</summary>
-        [IJEField(190, 2962, 120, "Cause of Death Part I Line d", "COD1D", 1)]
+        [IJEField(190, 2962, 120, "Cause of Death Part I Line d", "COD1D", 7)]
         public string COD1D
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 4) {
+                    return record.CausesOfDeath[3].Item1.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
+                record.CausesOfDeath = results.ToArray();
             }
         }
 
         /// <summary>Cause of Death Part I Interval, Line d</summary>
-        [IJEField(191, 3082, 20, "Cause of Death Part I Interval, Line d", "INTERVAL1D", 1)]
+        [IJEField(191, 3082, 20, "Cause of Death Part I Interval, Line d", "INTERVAL1D", 8)]
         public string INTERVAL1D
         {
             get
             {
+                if (record.CausesOfDeath.Count() >= 4) {
+                    return record.CausesOfDeath[3].Item2.Trim();
+                }
                 return "";
             }
             set
             {
-                // TODO
+                List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
+                Tuple<string, string, Dictionary<string, string>> last = results.Last();
+                Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
+                Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
+                updatedCauses[3] = updated;
+                record.CausesOfDeath = updatedCauses;
             }
         }
 
@@ -2345,11 +2486,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return record.ContributingConditions.Trim();
             }
             set
             {
-                // TODO
+                record.ContributingConditions = value.Trim();
             }
         }
 
@@ -2359,25 +2500,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return LeftJustified_Get("DMAIDEN", "MaidenName");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Decedent's Birth Place City - Code</summary>
-        [IJEField(194, 3392, 5, "Decedent's Birth Place City - Code", "DBPLACECITYCODE", 3)]
-        public string DBPLACECITYCODE
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                LeftJustified_Set("DMAIDEN", "MaidenName", value);
             }
         }
 
@@ -2387,81 +2514,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "city", false);
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Spouse's Middle Name</summary>
-        [IJEField(196, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 1)]
-        public string SPOUSEMIDNAME
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Spouse's Suffix</summary>
-        [IJEField(197, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
-        public string SPOUSESUFFIX
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Father's Suffix</summary>
-        [IJEField(198, 3485, 10, "Father's Suffix", "FATHERSUFFIX", 1)]
-        public string FATHERSUFFIX
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Mother's Suffix</summary>
-        [IJEField(199, 3495, 10, "Mother's Suffix", "MOTHERSSUFFIX", 1)]
-        public string MOTHERSSUFFIX
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Informant's Relationship</summary>
-        [IJEField(200, 3505, 30, "Informant's Relationship", "INFORMRELATE", 1)]
-        public string INFORMRELATE
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "city", false, value);
             }
         }
 
@@ -2471,11 +2528,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DISPSTATECD", "Disposition", "dispositionPlace", "state", true);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("DISPSTATECD", "Disposition", "dispositionPlace", "state", true, value);
             }
         }
 
@@ -2485,25 +2542,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DISPSTATE", "Disposition", "dispositionPlace", "state", false);
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Disposition City - Code</summary>
-        [IJEField(203, 3565, 5, "Disposition City - Code", "DISPCITYCODE", 3)]
-        public string DISPCITYCODE
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2513,11 +2556,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DISPCITY", "Disposition", "dispositionPlace", "city", false);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "city", false, value);
             }
         }
 
@@ -2527,95 +2570,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("FUNFACNAME", "Disposition", "funeralFacilityName");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Street number</summary>
-        [IJEField(206, 3698, 10, "Funeral Facility - Street number", "FUNFACSTNUM", 1)]
-        public string FUNFACSTNUM
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Pre Directional</summary>
-        [IJEField(207, 3708, 10, "Funeral Facility - Pre Directional", "FUNFACPREDIR", 1)]
-        public string FUNFACPREDIR
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Street name</summary>
-        [IJEField(208, 3718, 28, "Funeral Facility - Street name", "FUNFACSTRNAME", 1)]
-        public string FUNFACSTRNAME
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Street designator</summary>
-        [IJEField(209, 3746, 10, "Funeral Facility - Street designator", "FUNFACSTRDESIG", 1)]
-        public string FUNFACSTRDESIG
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Post Directional</summary>
-        [IJEField(210, 3756, 10, "Funeral Facility - Post Directional", "FUNPOSTDIR", 1)]
-        public string FUNPOSTDIR
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Funeral Facility - Unit or apt number</summary>
-        [IJEField(211, 3766, 7, "Funeral Facility - Unit or apt number", "FUNUNITNUM", 1)]
-        public string FUNUNITNUM
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Set("FUNFACNAME", "Disposition", "funeralFacilityName", value);
             }
         }
 
@@ -2625,11 +2584,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("FUNFACADDRESS", "Disposition", "funeralFacilityLine1");
             }
             set
             {
-                // TODO
+                Dictionary_Set("FUNFACADDRESS", "Disposition", "funeralFacilityLine1", value);
             }
         }
 
@@ -2639,11 +2598,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("FUNCITYTEXT", "Disposition", "funeralFacilityCity");
             }
             set
             {
-                // TODO
+                Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCity", value);
             }
         }
 
@@ -2653,11 +2612,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("FUNSTATECD", "Disposition", "funeralFacilityState"));
             }
             set
             {
-                // TODO
+                Dictionary_Set("FUNSTATECD", "Disposition", "funeralFacilityState", dataLookup.StateCodeToStateName(value));
             }
         }
 
@@ -2667,11 +2626,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("FUNSTATE", "Disposition", "funeralFacilityState");
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2681,11 +2640,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("FUNZIP", "Disposition", "funeralFacilityZip");
             }
             set
             {
-                // TODO
+                Dictionary_Set("FUNZIP", "Disposition", "funeralFacilityZip", value);
             }
         }
 
@@ -2695,11 +2654,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DatePronouncedDead");
             }
             set
             {
-                // TODO
+                DateTime_Set("PPDATESIGNED", "MMddyyyy", "DatePronouncedDead", value);
             }
         }
 
@@ -2709,11 +2668,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return DateTime_Get("PPTIME", "HHmm", "DatePronouncedDead");
             }
             set
             {
-                // TODO
+                DateTime_Set("PPTIME", "HHmm", "DatePronouncedDead", value);
             }
         }
 
@@ -2723,137 +2682,53 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return LeftJustified_Get("CERTFIRST", "CertifierFirstName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("CERTFIRST", "CertifierFirstName", value);
             }
         }
 
         /// <summary>Certifier's Middle Name</summary>
-        [IJEField(220, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 1)]
+        [IJEField(220, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 2)]
         public string CERTMIDDLE
         {
             get
             {
-                return "";
+                return LeftJustified_Get("CERTMIDDLE", "CertifierMiddleName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("CERTMIDDLE", "CertifierMiddleName", value);
             }
         }
 
         /// <summary>Certifier's Last Name</summary>
-        [IJEField(221, 4002, 50, "Certifier's Last Name", "CERTLAST", 1)]
+        [IJEField(221, 4002, 50, "Certifier's Last Name", "CERTLAST", 3)]
         public string CERTLAST
         {
             get
             {
-                return "";
+                return LeftJustified_Get("CERTLAST", "CertifierFamilyName");
             }
             set
             {
-                // TODO
+                LeftJustified_Set("CERTLAST", "CertifierFamilyName", value);
             }
         }
 
         /// <summary>Certifier's Suffix Name</summary>
-        [IJEField(222, 4052, 10, "Certifier's Suffix Name", "CERTSUFFIX", 1)]
+        [IJEField(222, 4052, 10, "Certifier's Suffix Name", "CERTSUFFIX", 4)]
         public string CERTSUFFIX
         {
             get
             {
-                return "";
+                return LeftJustified_Get("CERTSUFFIX", "CertifierSuffix");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Street number</summary>
-        [IJEField(223, 4062, 10, "Certifier - Street number", "CERTSTNUM", 1)]
-        public string CERTSTNUM
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Pre Directional</summary>
-        [IJEField(224, 4072, 10, "Certifier - Pre Directional", "CERTPREDIR", 1)]
-        public string CERTPREDIR
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Street name</summary>
-        [IJEField(225, 4082, 28, "Certifier - Street name", "CERTSTRNAME", 1)]
-        public string CERTSTRNAME
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Street designator</summary>
-        [IJEField(226, 4110, 10, "Certifier - Street designator", "CERTSTRDESIG", 1)]
-        public string CERTSTRDESIG
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Post Directional</summary>
-        [IJEField(227, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
-        public string CERTPOSTDIR
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier - Unit or apt number</summary>
-        [IJEField(228, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
-        public string CERTUNITNUM
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value);
             }
         }
 
@@ -2863,11 +2738,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "street");
             }
             set
             {
-                // TODO
+                Dictionary_Set("CERTADDRESS", "CertifierAddress", "street", value);
             }
         }
 
@@ -2877,25 +2752,25 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("CERTCITYTEXT", "CertifierAddress", "city");
             }
             set
             {
-                // TODO
+                Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "city", value);
             }
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
-        [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 1)]
+        [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 2)]
         public string CERTSTATECD
         {
             get
             {
-                return "";
+                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "state"));
             }
             set
             {
-                // TODO
+                Dictionary_Set("CERTSTATECD", "CertifierAddress", "state", dataLookup.StateCodeToStateName(value));
             }
         }
 
@@ -2905,11 +2780,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("CERTSTATE", "CertifierAddress", "state");
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2919,25 +2794,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Get("CERTZIP", "CertifierAddress", "zip");
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Certifier Date Signed</summary>
-        [IJEField(234, 4254, 8, "Certifier Date Signed", "CERTDATE", 1)]
-        public string CERTDATE
-        {
-            get
-            {
-                return "";
-            }
-            set
-            {
-                // TODO
+                Dictionary_Set("CERTZIP", "CertifierAddress", "zip", value);
             }
         }
 
@@ -2947,11 +2808,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("STINJURY", "DetailsOfInjury", "placeOfInjury", "state", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2961,11 +2822,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("STATEBTH", "PlaceOfBirth", "placeOfBirth", "state", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2975,11 +2836,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DTHCOUNTRYCD", "PlaceOfDeath", "placeOfDeath", "country", true);
             }
             set
             {
-                // TODO
+                Dictionary_Geo_Set("DTHCOUNTRYCD", "PlaceOfDeath", "placeOfDeath", "country", true, value);
             }
         }
 
@@ -2989,11 +2850,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                return Dictionary_Geo_Get("DTHCOUNTRY", "PlaceOfDeath", "placeOfDeath", "country", false);
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
     }

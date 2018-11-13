@@ -24,7 +24,7 @@ namespace FhirDeathRecord
     public class DeathRecord
     {
         /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
-        private PocoNavigator Navigator;
+        private ITypedElement Navigator;
 
         /// <summary>Bundle that contains the death record.</summary>
         private Bundle Bundle;
@@ -71,13 +71,23 @@ namespace FhirDeathRecord
             // Start with empty Practitioner to represent Certifier.
             Practitioner = new Practitioner();
             Practitioner.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+            Coding coding = new Coding();
+            coding.Code = "MD";
+            coding.System = "http://hl7.org/fhir/v2/0360/2.7";
+            coding.Display = "Doctor of Medicine";
+            qualification.Code = new CodeableConcept();
+            Coding[] codings = {coding};
+            qualification.Code.Coding = codings.ToList();
+            Practitioner.QualificationComponent[] quals = {qualification};
+            Practitioner.Qualification = quals.ToList();
             ResourceReference[] authors = { new ResourceReference(Practitioner.Id) };
             Composition.Author = authors.ToList();
             section.Entry.Add(new ResourceReference(Practitioner.Id));
             Bundle.AddResourceEntry(Practitioner, Practitioner.Id);
 
             // Create a Navigator for this new death record.
-            Navigator = new PocoNavigator(Bundle);
+            Navigator = Bundle.ToTypedElement();
         }
 
         /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
@@ -85,28 +95,19 @@ namespace FhirDeathRecord
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record)
         {
-            // Try JSON
-            try
-            {
-                FhirJsonParser parser = new FhirJsonParser();
-                Bundle = parser.Parse<Bundle>(record);
-                Navigator = new PocoNavigator(Bundle);
-            }
-            catch {}
-
-            // Try XML
-            try
+            // Check if XML
+            if (!string.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
             {
                 FhirXmlParser parser = new FhirXmlParser();
                 Bundle = parser.Parse<Bundle>(record);
-                Navigator = new PocoNavigator(Bundle);
+                Navigator = Bundle.ToTypedElement();
             }
-            catch {}
-
-            // If the given record string was not JSON or XML, fail immediately.
-            if (Navigator == null)
+            else
             {
-                throw new System.ArgumentException("Record is neither valid XML nor JSON.");
+                // Assume JSON
+                FhirJsonParser parser = new FhirJsonParser();
+                Bundle = parser.Parse<Bundle>(record);
+                Navigator = Bundle.ToTypedElement();
             }
         }
 
@@ -153,15 +154,15 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Death Record Creation Date.</summary>
-        /// <value>when the record was created</value>
+        /// <summary>Death Record Registration Date.</summary>
+        /// <value>when the record was registered</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CreationDate = "2018-07-11";</para>
+        /// <para>ExampleDeathRecord.DateOfRegistration = "2018-07-11";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Record was created on: {ExampleDeathRecord.CreationDate}");</para>
+        /// <para>Console.WriteLine($"Record was registered on: {ExampleDeathRecord.DateOfRegistration}");</para>
         /// </example>
-        public string CreationDate
+        public string DateOfRegistration
         {
             get
             {
@@ -193,11 +194,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetAllString("Bundle.entry.resource.where($this is Patient).name.given");
+                return GetAllString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
             }
             set
             {
-                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null)
                 {
                     name.Given = value;
@@ -226,12 +227,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.given");
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
             }
             set
             {
-                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
-                if (name != null)
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
                     string[] firstName = new String[] {value};
                     if (name.Given.First() == "") // Looks like middle name was set first, replace fake first name.
@@ -243,7 +244,7 @@ namespace FhirDeathRecord
                         name.Given = firstName.Concat(name.Given).ToArray();
                     }
                 }
-                else
+                else if (!String.IsNullOrEmpty(value))
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
@@ -267,12 +268,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetLastString("Bundle.entry.resource.where($this is Patient).name.given");
+                return GetLastString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
             }
             set
             {
-                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
-                if (name != null)
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
                     string[] middleName = new String[] {value};
                     if (name.Given.Last() == "") // Looks like first name was set first, replace fake middle name.
@@ -284,7 +285,7 @@ namespace FhirDeathRecord
                         name.Given = name.Given.Concat(middleName).ToArray();
                     }
                 }
-                else
+                else if (!String.IsNullOrEmpty(value))
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
@@ -306,19 +307,50 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name[0].family");
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').family");
             }
             set
             {
-                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
-                if (name != null)
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
                     name.Family = value;
                 }
-                else
+                else if (!String.IsNullOrEmpty(value))
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
+                    name.Family = value;
+                    Patient.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Maiden Name.</summary>
+        /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaidenName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
+        /// </example>
+        public string MaidenName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').family");
+            }
+            set
+            {
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
                     name.Family = value;
                     Patient.Name.Add(name);
                 }
@@ -341,13 +373,13 @@ namespace FhirDeathRecord
             }
             set
             {
-                HumanName name = Patient.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
-                if (name != null)
+                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
                     string[] suffix = { value };
                     name.Suffix = suffix;
                 }
-                else
+                else if (!String.IsNullOrEmpty(value))
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
@@ -422,6 +454,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
                 Extension birthsex = new Extension();
                 birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
                 birthsex.Value = DictToCodeableConcept(value);
@@ -532,6 +565,7 @@ namespace FhirDeathRecord
                     insideCityLimits.Value = new FhirBoolean(GetValue(value, "residenceInsideCityLimits") == "true" || GetValue(value, "residenceInsideCityLimits") == "True");
                     address.Extension.Add(insideCityLimits);
                 }
+                Patient.Address.Clear();
                 Patient.Address.Add(address);
             }
         }
@@ -552,6 +586,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Identifier.RemoveAll(iden => iden.System == "http://hl7.org/fhir/sid/us-ssn");
                 Identifier ssn = new Identifier();
                 ssn.System = "http://hl7.org/fhir/sid/us-ssn";
                 ssn.Value = value;
@@ -589,6 +624,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity");
                 Extension ethnicities = new Extension();
                 ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
                 foreach (Tuple<string, string> element in value)
@@ -600,7 +636,7 @@ namespace FhirDeathRecord
                     textEthnicity.Url = "text";
                     textEthnicity.Value = new FhirString(display);
                     codeEthnicity.Url = "ombCategory";
-                    codeEthnicity.Value = new Coding("", code);
+                    codeEthnicity.Value = new Coding(null, code);
                     ethnicities.Extension.Add(textEthnicity);
                     ethnicities.Extension.Add(codeEthnicity);
                 }
@@ -637,9 +673,11 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race");
                 Extension races = new Extension();
                 races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-                foreach(Tuple<string,string> element in value) {
+                foreach(Tuple<string,string> element in value)
+                {
                     string display = element.Item1;
                     string code = element.Item2;
                     Extension textRace = new Extension();
@@ -647,7 +685,7 @@ namespace FhirDeathRecord
                     textRace.Url = "text";
                     textRace.Value = new FhirString(display);
                     codeRace.Url = "ombCategory";
-                    codeRace.Value = new Coding("", code);
+                    codeRace.Value = new Coding(null, code);
                     races.Extension.Add(textRace);
                     races.Extension.Add(codeRace);
                 }
@@ -697,6 +735,7 @@ namespace FhirDeathRecord
             set
             {
                 // Place Of Birth extension
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension");
                 Extension placeOfBirthExt = new Extension();
                 placeOfBirthExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension";
 
@@ -779,6 +818,7 @@ namespace FhirDeathRecord
             set
             {
                 // Place Of Death extension
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension");
                 Extension placeOfDeathExt = new Extension();
                 placeOfDeathExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension";
 
@@ -857,6 +897,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension");
                 Extension maritalStatus = new Extension();
                 maritalStatus.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension";
                 maritalStatus.Value = DictToCodeableConcept(value);
@@ -958,6 +999,7 @@ namespace FhirDeathRecord
             set
             {
                 // Disposition extension
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension");
                 Extension dispositionExt = new Extension();
                 dispositionExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension";
 
@@ -1074,6 +1116,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension");
                 Extension education = new Extension();
                 education.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension";
                 education.Value = DictToCodeableConcept(value);
@@ -1093,14 +1136,28 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Convert.ToString(Int32.Parse(GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value")));
+                string age = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension').value");
+                if (age != null)
+                {
+                    return Convert.ToString(Int32.Parse(age));
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
-                Extension age = new Extension();
-                age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
-                age.Value = new FhirDecimal(Int32.Parse(value));
-                Patient.Extension.Add(age);
+                int n;
+                bool isNumeric = int.TryParse(value, out n);
+                if (isNumeric)
+                {
+                    Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension");
+                    Extension age = new Extension();
+                    age.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension";
+                    age.Value = new FhirDecimal(n);
+                    Patient.Extension.Add(age);
+                }
             }
         }
 
@@ -1120,6 +1177,7 @@ namespace FhirDeathRecord
             }
             set
             {
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension");
                 Extension served = new Extension();
                 served.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension";
                 served.Value = new FhirBoolean(value);
@@ -1127,16 +1185,16 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent’s usual occupation. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>Decedent’s usual occupation. A Dictionary representing a place of birth address, containing the following key/value pairs:
+        /// <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>Decedent’s usual occupation and industry.
         /// <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
         /// <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>occupation.Add("jobDescription", "9 Example Street");</para>
-        /// <para>occupation.Add("industryDescription", "Line 2");</para>
+        /// <para>occupation.Add("jobDescription", "Example occupation");</para>
+        /// <para>occupation.Add("industryDescription", "Example industry");</para>
         /// <para>SetterDeathRecord.Occupation = occupation;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
@@ -1153,21 +1211,22 @@ namespace FhirDeathRecord
             set
             {
                 // Occupation extension
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension");
                 Extension occupation = new Extension();
                 occupation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension";
 
                 // Job extension
-                Extension job = new Extension();
-                job.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
-                job.Value = new FhirString(GetValue(value, "jobDescription"));
+                Extension jobExt = new Extension();
+                jobExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
+                jobExt.Value = new FhirString(GetValue(value, "jobDescription"));
+                occupation.Extension.Add(jobExt);
 
                 // Industry extension
-                Extension industry = new Extension();
-                industry.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
-                industry.Value = new FhirString(GetValue(value, "industryDescription"));
+                Extension industryExt = new Extension();
+                industryExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
+                industryExt.Value = new FhirString(GetValue(value, "industryDescription"));
+                occupation.Extension.Add(industryExt);
 
-                occupation.Extension.Add(job);
-                occupation.Extension.Add(industry);
                 Patient.Extension.Add(occupation);
             }
         }
@@ -1211,6 +1270,88 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Certifier's First Name. This is essentially the same as the first thing in
+        /// <c>CertifierGivenNames</c>. Setting this value will prepend whatever is given to the start
+        /// of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
+        /// <value>the certifier's first name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertifierFirstName = "Example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certifier First Name: {ExampleDeathRecord.CertifierFirstName}");</para>
+        /// </example>
+        public string CertifierFirstName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.given");
+            }
+            set
+            {
+                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] firstName = new String[] {value};
+                    if (name.Given.First() == "") // Looks like middle name was set first, replace fake first name.
+                    {
+                        name.Given = firstName.Concat(name.Given.Skip(1).ToArray()).ToArray();
+                    }
+                    else
+                    {
+                        name.Given = firstName.Concat(name.Given).ToArray();
+                    }
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = new String[] {value, ""}; // Put an empty "fake" middle name at the end.
+                    Practitioner.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Certifier's Middle Name. This is essentially the same as the last thing in
+        /// <c>CertifierGivenNames</c>. Setting this value will append whatever is given to the end
+        /// of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
+        /// <value>the certifier's middle name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertifierMiddleName = "Middle";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certifier Middle Name: {ExampleDeathRecord.CertifierMiddleName}");</para>
+        /// </example>
+        public string CertifierMiddleName
+        {
+            get
+            {
+                return GetLastString("Bundle.entry.resource.where($this is Practitioner).name.given");
+            }
+            set
+            {
+                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] middleName = new String[] {value};
+                    if (name.Given.Last() == "") // Looks like first name was set first, replace fake middle name.
+                    {
+                        name.Given = name.Given.Take(name.Given.Count() - 1).ToArray().Concat(middleName).ToArray();
+                    }
+                    else
+                    {
+                        name.Given = name.Given.Concat(middleName).ToArray();
+                    }
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = new String[] {"", value}; // Put an empty "fake" first name at the start.
+                    Practitioner.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Family name of certifier.</summary>
         /// <value>the certifier's family name (i.e. last name)</value>
         /// <example>
@@ -1223,22 +1364,53 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name[0].family");
+                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.where(use='official').family");
             }
             set
             {
                 HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
-                if (name != null)
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
-                    string[] last = {value};
-                    name.Given = last;
+                    name.Family = value;
                 }
-                else
+                else if (!String.IsNullOrEmpty(value))
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
-                    string[] last = {value};
-                    name.Given = last;
+                    name.Family = value;
+                    Practitioner.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Certifier's Suffix.</summary>
+        /// <value>the certifier's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertifierSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
+        /// </example>
+        public string CertifierSuffix
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.suffix");
+            }
+            set
+            {
+                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
                     Practitioner.Name.Add(name);
                 }
             }
@@ -1307,13 +1479,16 @@ namespace FhirDeathRecord
             {
                 string display = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.display");
                 string code = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.code");
+                string system = GetFirstString("Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension').value.coding.system");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
                 dictionary.Add("display", display);
                 dictionary.Add("code", code);
+                dictionary.Add("system", system);
                 return dictionary;
             }
             set
             {
+                Practitioner.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension");
                 Extension type = new Extension();
                 type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
                 type.Value = DictToCodeableConcept(value);
@@ -1780,6 +1955,7 @@ namespace FhirDeathRecord
         /// <para>"placeOfInjuryLine1" - location of injury, line one</para>
         /// <para>"placeOfInjuryLine2" - location of injury, line two</para>
         /// <para>"placeOfInjuryCity" - location of injury, city</para>
+        /// <para>"placeOfInjuryCounty" - location of injury, county</para>
         /// <para>"placeOfInjuryState" - location of injury, state</para>
         /// <para>"placeOfInjuryZip" - location of injury, zip</para>
         /// <para>"placeOfInjuryCountry" - location of injury, country</para>
@@ -1794,6 +1970,7 @@ namespace FhirDeathRecord
         /// <para>detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");</para>
         /// <para>detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");</para>
         /// <para>detailsOfInjury.Add("placeOfInjuryCity", "Bedford");</para>
+        /// <para>detailsOfInjury.Add("placeOfInjuryCounty", "Middlesex");</para>
         /// <para>detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");</para>
         /// <para>detailsOfInjury.Add("placeOfInjuryZip", "01730");</para>
         /// <para>detailsOfInjury.Add("placeOfInjuryCountry", "United States");</para>
@@ -1822,6 +1999,7 @@ namespace FhirDeathRecord
                 dictionary.Add("placeOfInjuryLine1", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
                 dictionary.Add("placeOfInjuryLine2", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
                 dictionary.Add("placeOfInjuryCity", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("placeOfInjuryCounty", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
                 dictionary.Add("placeOfInjuryState", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
                 dictionary.Add("placeOfInjuryZip", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
                 dictionary.Add("placeOfInjuryCountry", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
@@ -1847,6 +2025,7 @@ namespace FhirDeathRecord
                 string[] lines = {GetValue(value, "placeOfInjuryLine1"), GetValue(value, "placeOfInjuryLine2")};
                 placeOfInjuryLocationAddress.Line = lines.ToArray();
                 placeOfInjuryLocationAddress.City = GetValue(value, "placeOfInjuryCity");
+                placeOfInjuryLocationAddress.District = GetValue(value, "placeOfInjuryCounty");
                 placeOfInjuryLocationAddress.State = GetValue(value, "placeOfInjuryState");
                 placeOfInjuryLocationAddress.PostalCode = GetValue(value, "placeOfInjuryZip");
                 placeOfInjuryLocationAddress.Country = GetValue(value, "placeOfInjuryCountry");
@@ -2053,15 +2232,28 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
-        public static string GetValue(Dictionary<string, string> dict, string key)
+        private static string GetValue(Dictionary<string, string> dict, string key)
         {
             string value;
             dict.TryGetValue(key, out value);
             return value;
         }
 
+        /// <summary>Combine the given dictionaries and return the combined result.</summary>
+        private static Dictionary<string, string> UpdateDictionary(Dictionary<string, string> a, Dictionary<string, string> b)
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> entry in a)
+            {
+                dictionary[entry.Key] = entry.Value;
+            }
+            foreach(KeyValuePair<string, string> entry in b)
+            {
+                dictionary[entry.Key] = entry.Value;
+            }
+            return dictionary;
+        }
     }
-
 }
 
 

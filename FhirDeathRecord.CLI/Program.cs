@@ -64,27 +64,43 @@ namespace csharp_fhir_death_record
             {
                 Console.WriteLine("Converting FHIR SDR to IJE...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
                 IJEMortality ije1 = new IJEMortality(d);
-                Console.WriteLine(ije1.ToString() + "\n\n");
-                //IJEMortality ije2 = new IJEMortality(ije1.ToString());
+                //Console.WriteLine(ije1.ToString() + "\n\n");
+                IJEMortality ije2 = new IJEMortality(ije1.ToString());
                 //Console.WriteLine(ije2.ToString() + "\n\n");
-                //Console.WriteLine(ije2.ToDeathRecord().ToXML() + "\n");
-                // IJEMortality ije3 = new IJEMortality(ije2.ToDeathRecord());
-                // foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
-                // {
-                //     string val1 = Convert.ToString(property.GetValue(ije1, null));
-                //     string val2 = Convert.ToString(property.GetValue(ije2, null));
-                //     string val3 = Convert.ToString(property.GetValue(ije3, null));
+                //Console.WriteLine(XDocument.Parse(ije2.ToDeathRecord().ToXML()).ToString() + "\n");
+                IJEMortality ije3 = new IJEMortality(new DeathRecord(ije2.ToDeathRecord().ToXML()));
+                int issues = 0;
+                int total = 0;
+                foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+                {
+                    string val1 = Convert.ToString(property.GetValue(ije1, null));
+                    string val2 = Convert.ToString(property.GetValue(ije2, null));
+                    string val3 = Convert.ToString(property.GetValue(ije3, null));
 
-                //     IJEField info = (IJEField)property.GetCustomAttributes().First();
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
 
-                //     if (val1 != val2 || val1 != val3 || val2 != val3)
-                //     //if (val1 != val2)
-                //     {
-                //         Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
-                //         //Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\"");
-                //     }
-                // }
+                    if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
+                    {
+                        issues++;
+                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
+                    }
+                    total++;
+                }
+                Console.WriteLine($"\n{issues} issues out of {total} total fields.");
+            }
+            else if (args.Length == 2 && args[0] == "json2xml")
+            {
+                Console.WriteLine("Converting FHIR JSON to FHIR XML...\n");
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
+            }
+            else if (args.Length == 2 && args[0] == "xml2json")
+            {
+                Console.WriteLine("Converting FHIR XML to FHIR JSON...\n");
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(d.ToJSON());
             }
             else
             {
@@ -105,7 +121,6 @@ namespace csharp_fhir_death_record
 
                 // Record Information
                 Console.WriteLine($"\tRecord ID: {deathRecord.Id}");
-                Console.WriteLine($"\tRecord Creation Date: {deathRecord.CreationDate}");
 
                 // Decedent Information
                 Console.WriteLine($"\tGiven Name: {string.Join(", ", deathRecord.GivenNames)}");

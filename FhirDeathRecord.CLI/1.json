@@ -173,22 +173,22 @@
               {
                 "url": "ombCategory",
                 "valueCoding": {
-                  "code": "2186-5"
+                  "code": "2135-2"
                 }
               },
               {
                 "url": "ombCategory",
                 "valueCoding": {
-                  "code": "2161-8"
+                  "code": "2180-8"
                 }
               },
               {
                 "url": "text",
-                "valueString": "Non Hispanic or Latino"
+                "valueString": "Hispanic or Latino"
               },
               {
                 "url": "text",
-                "valueString": "Salvadoran"
+                "valueString": "Puerto Rican"
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
@@ -206,6 +206,7 @@
             "valueAddress": {
               "type": "postal",
               "city": "Boston",
+              "district": "Suffolk",
               "state": "Massachusetts",
               "country": "United States"
             }
@@ -235,6 +236,7 @@
                     "5 Example St."
                   ],
                   "city": "Boston",
+                  "district": "Suffolk",
                   "state": "Massachusetts",
                   "postalCode": "02101",
                   "country": "United States"
@@ -280,6 +282,7 @@
                     "valueAddress": {
                       "type": "postal",
                       "city": "Boston",
+                      "district": "Suffolk",
                       "state": "Massachusetts",
                       "country": "United States"
                     }
@@ -301,6 +304,7 @@
                         "2 Example Street"
                       ],
                       "city": "Boston",
+                      "district": "Suffolk",
                       "state": "Massachusetts",
                       "postalCode": "02101",
                       "country": "United States"
@@ -357,6 +361,10 @@
             "suffix": [
               "Jr."
             ]
+          },
+          {
+            "use": "maiden",
+            "family": "Last"
           }
         ],
         "gender": "male",
@@ -408,10 +416,14 @@
         ],
         "name": [
           {
+            "use": "official",
             "family": "Doctor",
             "given": [
               "Example",
               "Middle"
+            ],
+            "suffix": [
+              "Sr."
             ]
           }
         ],
@@ -421,6 +433,7 @@
               "100 Example St."
             ],
             "city": "Bedford",
+            "district": "Suffolk",
             "state": "Massachusetts",
             "postalCode": "01730"
           }
@@ -709,9 +722,10 @@
               "line": [
                 "7 Example Street"
               ],
-              "city": "Bedford",
+              "city": "Watertown",
+              "district": "Middlesex",
               "state": "Massachusetts",
-              "postalCode": "01730",
+              "postalCode": "02472",
               "country": "United States"
             }
           }

@@ -142,13 +142,22 @@
           </valueCodeableConcept>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity">
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://hl7.org/fhir/v3/Ethnicity"/>
-              <code value="2186-5"/>
-              <display value="Non Hispanic or Latino"/>
-            </coding>
-          </valueCodeableConcept>
+          <extension url="ombCategory">
+            <valueCoding>
+              <code value="2135-2"/>
+            </valueCoding>
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <code value="2180-8"/>
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Hispanic or Latino"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Puerto Rican"/>
+          </extension>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
           <valueCode value="M"/>
@@ -160,6 +169,7 @@
           <valueAddress>
             <type value="postal"/>
             <city value="Boston"/>
+            <district value="Suffolk"/>
             <state value="Massachusetts"/>
             <country value="United States"/>
           </valueAddress>
@@ -181,6 +191,7 @@
               <type value="postal"/>
               <line value="5 Example St."/>
               <city value="Boston"/>
+              <district value="Suffolk"/>
               <state value="Massachusetts"/>
               <postalCode value="02101"/>
               <country value="United States"/>
@@ -213,6 +224,7 @@
               <valueAddress>
                 <type value="postal"/>
                 <city value="Boston"/>
+                <district value="Suffolk"/>
                 <state value="Massachusetts"/>
                 <country value="United States"/>
               </valueAddress>
@@ -227,6 +239,7 @@
                 <type value="postal"/>
                 <line value="2 Example Street"/>
                 <city value="Boston"/>
+                <district value="Suffolk"/>
                 <state value="Massachusetts"/>
                 <postalCode value="02101"/>
                 <country value="United States"/>
@@ -262,6 +275,10 @@
           <given value="Example"/>
           <given value="Middle"/>
           <suffix value="Jr."/>
+        </name>
+        <name>
+          <use value="maiden"/>
+          <family value="Last"/>
         </name>
         <gender value="male"/>
         <birthDate value="1970-04-24"/>
@@ -302,6 +319,8 @@
           <family value="Doctor"/>
           <given value="Example"/>
           <given value="Middle"/>
+          <use value="official"/>
+          <suffix value="Sr."/>
         </name>
         <address>
           <line value="100 Example St."/>
@@ -567,9 +586,10 @@
           <valueAddress>
             <type value="postal"/>
             <line value="7 Example Street"/>
-            <city value="Bedford"/>
+            <city value="Watertown"/>
+            <district value="Middlesex"/>
             <state value="Massachusetts"/>
-            <postalCode value="01730"/>
+            <postalCode value="02472"/>
             <country value="United States"/>
           </valueAddress>
         </extension>

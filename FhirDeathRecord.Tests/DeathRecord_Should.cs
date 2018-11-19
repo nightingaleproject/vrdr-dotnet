@@ -292,7 +292,7 @@ namespace FhirDeathRecord.Tests
             {
                 Tuple.Create("White", "2106-3"),
                 Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"),
-                Tuple.Create("Asian", "2028-5"),
+                Tuple.Create("Asian", "2028-9"),
                 Tuple.Create("American Indian or Alaskan Native", "1002-5"),
                 Tuple.Create("Black or African American", "2054-5"),
             };
@@ -417,11 +417,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> code = new Dictionary<string, string>();
             code.Add("code", "S");
-            code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus	");
+            code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
             code.Add("display", "Never Married");
             SetterDeathRecord.MaritalStatus = code;
             Assert.Equal("S", SetterDeathRecord.MaritalStatus["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus	", SetterDeathRecord.MaritalStatus["system"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", SetterDeathRecord.MaritalStatus["system"]);
             Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
         }
 

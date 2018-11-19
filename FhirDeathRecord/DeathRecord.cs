@@ -390,6 +390,48 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Father's Family Name.</summary>
+        /// <value>the decedent's father's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FatherFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
+        /// </example>
+        public string FatherFamilyName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).contact.where(relationship.coding.code='FTH').name.family");
+            }
+            set
+            {
+                Patient.ContactComponent contact = Patient.Contact.SingleOrDefault(c => c.Relationship.First().Coding.First().Code == "FTH");
+                if (contact != null && !String.IsNullOrEmpty(value))
+                {
+                    HumanName name = contact.Name;
+                    if (name != null)
+                    {
+                        name.Family = value;
+                    }
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    contact = new Patient.ContactComponent();
+                    CodeableConcept relation = new CodeableConcept();
+                    Coding code = new Coding();
+                    code.System = "http://hl7.org/fhir/v3/RoleCode";
+                    code.Code = "FTH";
+                    relation.Coding.Add(code);
+                    contact.Relationship.Add(relation);
+                    HumanName name = new HumanName();
+                    name.Family = value;
+                    contact.Name = name;
+                    Patient.Contact.Add(contact);
+                }
+            }
+        }
+
         /// <summary>Decedent's Gender.</summary>
         /// <value>the decedent's gender</value>
         /// <example>
@@ -611,14 +653,19 @@ namespace FhirDeathRecord
             get
             {
                 string[] displays = new string[] { };
-                string[] codes = new string[] { };
+                string[] ombCodes = new string[] { };
+                string[] detailedCodes = new string[] { };
                 displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'text').value");
-                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
+                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
+                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
                 Tuple<string, string>[] ethnicityList = new Tuple<string, string>[displays.Length];
-
-                for (int i = 0; i < displays.Length; i++)
+                for (int i = 0; i < ombCodes.Length; i++)
                 {
-                    ethnicityList[i] = (Tuple.Create(displays[i], codes[i]));
+                    ethnicityList[i] = (Tuple.Create(displays[i], ombCodes[i]));
+                }
+                for (int i = 0; i < detailedCodes.Length; i++)
+                {
+                    ethnicityList[ombCodes.Length + i] = (Tuple.Create(displays[ombCodes.Length + i], detailedCodes[i]));
                 }
                 return ethnicityList;
             }
@@ -635,7 +682,14 @@ namespace FhirDeathRecord
                     Extension codeEthnicity = new Extension();
                     textEthnicity.Url = "text";
                     textEthnicity.Value = new FhirString(display);
-                    codeEthnicity.Url = "ombCategory";
+                    if (code == "2135-2" || code == "2186-5")
+                    {
+                        codeEthnicity.Url = "ombCategory";
+                    }
+                    else
+                    {
+                        codeEthnicity.Url = "detailed";
+                    }
                     codeEthnicity.Value = new Coding(null, code);
                     ethnicities.Extension.Add(textEthnicity);
                     ethnicities.Extension.Add(codeEthnicity);

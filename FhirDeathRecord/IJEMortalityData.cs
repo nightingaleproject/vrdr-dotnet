@@ -18,10 +18,40 @@ namespace FhirDeathRecord
             internal static readonly IJEMortalityData instance = new IJEMortalityData();
         }
 
+        /// <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
+        public string EthnicityNameToEthnicityCode(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
+        public string EthnicityCodeToEthnicityName(string code)
+        {
+            if (String.IsNullOrEmpty(code))
+            {
+                return null;
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item2.ToUpper();
+        }
+
         /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         public string StateNameToStateCode(string state)
         {
-            if (state == null)
+            if (String.IsNullOrEmpty(state))
             {
                 return null;
             }
@@ -36,7 +66,7 @@ namespace FhirDeathRecord
         /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         public string StateCodeToStateName(string code)
         {
-            if (code == null)
+            if (String.IsNullOrEmpty(code))
             {
                 return null;
             }
@@ -51,7 +81,7 @@ namespace FhirDeathRecord
         /// <summary>Given a Country name - return the representative Country code.</summary>
         public string CountryNameToCountryCode(string country)
         {
-            if (country == null)
+            if (String.IsNullOrEmpty(country))
             {
                 return null;
             }
@@ -66,7 +96,7 @@ namespace FhirDeathRecord
         /// <summary>Given a Country code - return the representative Country name.</summary>
         public string CountryCodeToCountryName(string code)
         {
-            if (code == null)
+            if (String.IsNullOrEmpty(code))
             {
                 return null;
             }
@@ -81,7 +111,7 @@ namespace FhirDeathRecord
         /// <summary>Given a State and County name - return the representative County code.</summary>
         public string StateNameAndCountyNameToCountyCode(string state, string county)
         {
-            if (state == null || county == null)
+            if (String.IsNullOrEmpty(state) || String.IsNullOrEmpty(county))
             {
                 return null;
             }
@@ -101,12 +131,12 @@ namespace FhirDeathRecord
         /// <summary>Given a County code and a State name - return the representative County name.</summary>
         public string StateNameAndCountyCodeToCountyName(string state, string code)
         {
-            if (code == null || state == null)
+            if (String.IsNullOrEmpty(code) || String.IsNullOrEmpty(state))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrEmpty(stateCode))
             {
                 return null;
             }
@@ -121,12 +151,12 @@ namespace FhirDeathRecord
         /// <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         public string StateNameAndCountyNameAndPlaceNameToPlaceCode(string state, string county, string place)
         {
-            if (state == null || county == null || place == null)
+            if (String.IsNullOrEmpty(state) || String.IsNullOrEmpty(county) || String.IsNullOrEmpty(place))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrEmpty(stateCode))
             {
                 return null;
             }
@@ -141,12 +171,12 @@ namespace FhirDeathRecord
         /// <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         public string StateNameAndCountyNameAndPlaceCodeToPlaceName(string state, string county, string code)
         {
-            if (state == null || county == null || code == null)
+            if (String.IsNullOrEmpty(state) || String.IsNullOrEmpty(county) || String.IsNullOrEmpty(code))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrEmpty(stateCode))
             {
                 return null;
             }
@@ -157,6 +187,53 @@ namespace FhirDeathRecord
             }
             return PlaceCodes[index].Item4.ToUpper();
         }
+
+        /// <summary>CDC Ethnicity Codes</summary>
+        private Tuple<string, string>[] CDCEthnicityCodes =
+        {
+            Tuple.Create("2133-7", "Ethnicity"),
+            Tuple.Create("2137-8", "Spaniard"),
+            Tuple.Create("2148-5", "Mexican"),
+            Tuple.Create("2155-0", "Central American"),
+            Tuple.Create("2165-9", "South American"),
+            Tuple.Create("2178-2", "Latin American"),
+            Tuple.Create("2180-8", "Puerto Rican"),
+            Tuple.Create("2182-4", "Cuban"),
+            Tuple.Create("2184-0", "Dominican"),
+            Tuple.Create("2138-6", "Andalusian"),
+            Tuple.Create("2139-4", "Asturian"),
+            Tuple.Create("2140-2", "Castillian"),
+            Tuple.Create("2141-0", "Catalonian"),
+            Tuple.Create("2142-8", "Belearic Islander"),
+            Tuple.Create("2143-6", "Gallego"),
+            Tuple.Create("2144-4", "Valencian"),
+            Tuple.Create("2145-1", "Canarian"),
+            Tuple.Create("2146-9", "Spanish Basque"),
+            Tuple.Create("2149-3", "Mexican American"),
+            Tuple.Create("2150-1", "Mexicano"),
+            Tuple.Create("2151-9", "Chicano"),
+            Tuple.Create("2152-7", "La Raza"),
+            Tuple.Create("2153-5", "Mexican American Indian"),
+            Tuple.Create("2156-8", "Costa Rican"),
+            Tuple.Create("2157-6", "Guatemalan"),
+            Tuple.Create("2158-4", "Honduran"),
+            Tuple.Create("2159-2", "Nicaraguan"),
+            Tuple.Create("2160-0", "Panamanian"),
+            Tuple.Create("2161-8", "Salvadoran"),
+            Tuple.Create("2162-6", "Central American Indian"),
+            Tuple.Create("2163-4", "Canal Zone"),
+            Tuple.Create("2166-7", "Argentinean"),
+            Tuple.Create("2167-5", "Bolivian"),
+            Tuple.Create("2168-3", "Chilean"),
+            Tuple.Create("2169-1", "Colombian"),
+            Tuple.Create("2170-9", "Ecuadorian"),
+            Tuple.Create("2171-7", "Paraguayan"),
+            Tuple.Create("2172-5", "Peruvian"),
+            Tuple.Create("2173-3", "Uruguayan"),
+            Tuple.Create("2174-1", "Venezuelan"),
+            Tuple.Create("2175-8", "South American Indian"),
+            Tuple.Create("2176-6", "Criollo")
+        };
 
         /// <summary>State and Territory Province Codes</summary>
         private Tuple<string, string>[] StateTerritoryProvinceCodes =

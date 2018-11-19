@@ -147,6 +147,20 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_FatherFamilyName()
+        {
+            SetterDeathRecord.FatherFamilyName = "FTHLast";
+            Assert.Equal("FTHLast", SetterDeathRecord.FatherFamilyName);
+        }
+
+        [Fact]
+        public void Get_FatherFamilyName()
+        {
+            Assert.Equal("FTHLast", ((DeathRecord)XMLRecords[0]).FatherFamilyName);
+            Assert.Equal("FTHLast", ((DeathRecord)JSONRecords[0]).FatherFamilyName);
+        }
+
+        [Fact]
         public void Set_Gender()
         {
             SetterDeathRecord.Gender = "male";
@@ -255,9 +269,9 @@ namespace FhirDeathRecord.Tests
             Tuple<string, string>[] ethnicity =
             {
                 Tuple.Create("Hispanic or Latino", "2135-2"),
-                Tuple.Create("Puerto Rican", "2180-8"),
+                Tuple.Create("Mexican", "2148-5"),
+                Tuple.Create("Spanish Basque", "2146-9")
             };
-
             Assert.Equal(ethnicity, ((DeathRecord)XMLRecords[0]).Ethnicity);
             Assert.Equal(ethnicity, ((DeathRecord)JSONRecords[0]).Ethnicity);
         }

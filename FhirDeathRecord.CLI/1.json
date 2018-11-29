@@ -118,7 +118,7 @@
               {
                 "url": "ombCategory",
                 "valueCoding": {
-                  "code": "2028-5"
+                  "code": "2028-9"
                 }
               },
               {
@@ -131,6 +131,42 @@
                 "url": "ombCategory",
                 "valueCoding": {
                   "code": "2054-5"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2116-2"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2041-2"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "1214-6"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "1209-6"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2037-0"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2093-3"
                 }
               },
               {
@@ -152,6 +188,30 @@
               {
                 "url": "text",
                 "valueString": "Black or African American"
+              },
+              {
+                "url": "text",
+                "valueString": "Scottish"
+              },
+              {
+                "url": "text",
+                "valueString": "Laotian"
+              },
+              {
+                "url": "text",
+                "valueString": "Delaware"
+              },
+              {
+                "url": "text",
+                "valueString": "Crow"
+              },
+              {
+                "url": "text",
+                "valueString": "Hmong"
+              },
+              {
+                "url": "text",
+                "valueString": "Kosraean"
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
@@ -177,9 +237,15 @@
                 }
               },
               {
-                "url": "ombCategory",
+                "url": "detailed",
                 "valueCoding": {
-                  "code": "2180-8"
+                  "code": "2148-5"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2146-9"
                 }
               },
               {
@@ -188,7 +254,11 @@
               },
               {
                 "url": "text",
-                "valueString": "Puerto Rican"
+                "valueString": "Mexican"
+              },
+              {
+                "url": "text",
+                "valueString": "Spanish Basque"
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
@@ -380,6 +450,23 @@
             "state": "Massachusetts",
             "postalCode": "02101",
             "country": "United States"
+          }
+        ],
+        "contact": [
+          {
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/v3/RoleCode",
+                    "code": "FTH"
+                  }
+                ]
+              }
+            ],
+            "name": {
+              "family": "FTHLast"
+            }
           }
         ],
         "resourceType": "Patient"

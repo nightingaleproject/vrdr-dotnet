@@ -6,22 +6,52 @@ using System.Reflection;
 namespace FhirDeathRecord
 {
     /// <summary>Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</summary>
-    public sealed class IJEMortalityData
+    public sealed class MortalityData
     {
-        private IJEMortalityData() {
+        private MortalityData() {
         }
         /// <summary>Instance get method for singleton.</summary>
-        public static IJEMortalityData Instance { get { return Nested.instance; } }
+        public static MortalityData Instance { get { return Nested.instance; } }
         private class Nested
         {
             static Nested() {}
-            internal static readonly IJEMortalityData instance = new IJEMortalityData();
+            internal static readonly MortalityData instance = new MortalityData();
+        }
+
+        /// <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
+        public string EthnicityNameToEthnicityCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
+        public string EthnicityCodeToEthnicityName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item2.ToUpper();
         }
 
         /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         public string StateNameToStateCode(string state)
         {
-            if (state == null)
+            if (String.IsNullOrWhiteSpace(state))
             {
                 return null;
             }
@@ -36,7 +66,7 @@ namespace FhirDeathRecord
         /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         public string StateCodeToStateName(string code)
         {
-            if (code == null)
+            if (String.IsNullOrWhiteSpace(code))
             {
                 return null;
             }
@@ -51,7 +81,7 @@ namespace FhirDeathRecord
         /// <summary>Given a Country name - return the representative Country code.</summary>
         public string CountryNameToCountryCode(string country)
         {
-            if (country == null)
+            if (String.IsNullOrWhiteSpace(country))
             {
                 return null;
             }
@@ -66,7 +96,7 @@ namespace FhirDeathRecord
         /// <summary>Given a Country code - return the representative Country name.</summary>
         public string CountryCodeToCountryName(string code)
         {
-            if (code == null)
+            if (String.IsNullOrWhiteSpace(code))
             {
                 return null;
             }
@@ -81,7 +111,7 @@ namespace FhirDeathRecord
         /// <summary>Given a State and County name - return the representative County code.</summary>
         public string StateNameAndCountyNameToCountyCode(string state, string county)
         {
-            if (state == null || county == null)
+            if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county))
             {
                 return null;
             }
@@ -101,12 +131,12 @@ namespace FhirDeathRecord
         /// <summary>Given a County code and a State name - return the representative County name.</summary>
         public string StateNameAndCountyCodeToCountyName(string state, string code)
         {
-            if (code == null || state == null)
+            if (String.IsNullOrWhiteSpace(code) || String.IsNullOrWhiteSpace(state))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrWhiteSpace(stateCode))
             {
                 return null;
             }
@@ -121,12 +151,12 @@ namespace FhirDeathRecord
         /// <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         public string StateNameAndCountyNameAndPlaceNameToPlaceCode(string state, string county, string place)
         {
-            if (state == null || county == null || place == null)
+            if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county) || String.IsNullOrWhiteSpace(place))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrWhiteSpace(stateCode))
             {
                 return null;
             }
@@ -141,12 +171,12 @@ namespace FhirDeathRecord
         /// <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         public string StateNameAndCountyNameAndPlaceCodeToPlaceName(string state, string county, string code)
         {
-            if (state == null || county == null || code == null)
+            if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county) || String.IsNullOrWhiteSpace(code))
             {
                 return null;
             }
             string stateCode = StateNameToStateCode(state);
-            if (stateCode == null)
+            if (String.IsNullOrWhiteSpace(stateCode))
             {
                 return null;
             }
@@ -157,6 +187,1154 @@ namespace FhirDeathRecord
             }
             return PlaceCodes[index].Item4.ToUpper();
         }
+
+        /// <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>
+        public string AIANRaceNameToRaceCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCRaceAIANCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceAIANCodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given an American Indian or Alaska Native Race code - return the representative Race name.</summary>
+        public string AIANRaceCodeToRaceName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCRaceAIANCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceAIANCodes[index].Item2.ToUpper();
+        }
+
+        /// <summary>Given an Asian Race name - return the representative Race code.</summary>
+        public string ARaceNameToRaceCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCRaceACodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceACodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given an Asian Race code - return the representative Race name.</summary>
+        public string ARaceCodeToRaceName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCRaceACodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceACodes[index].Item2.ToUpper();
+        }
+
+        /// <summary>Given a Black or African American Race name - return the representative Race code.</summary>
+        public string BAARaceNameToRaceCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCRaceBAACodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceBAACodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given a Black or African American Race code - return the representative Race name.</summary>
+        public string BAARaceCodeToRaceName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCRaceBAACodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceBAACodes[index].Item2.ToUpper();
+        }
+
+        /// <summary>Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.</summary>
+        public string NHOPIRaceNameToRaceCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCRaceNHOPICodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceNHOPICodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.</summary>
+        public string NHOPIRaceCodeToRaceName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCRaceNHOPICodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceNHOPICodes[index].Item2.ToUpper();
+        }
+
+        /// <summary>Given a White Race name - return the representative Race code.</summary>
+        public string WRaceNameToRaceCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            int index = CDCRaceWCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceWCodes[index].Item1.ToUpper();
+        }
+
+        /// <summary>Given a White Race code - return the representative Race name.</summary>
+        public string WRaceCodeToRaceName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            int index = CDCRaceWCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCRaceWCodes[index].Item2.ToUpper();
+        }
+
+        /// <summary>Given a Race name - return the representative Race code.</summary>
+        public string RaceNameToRaceCode(string name)
+        {
+            return WRaceNameToRaceCode(name) ?? BAARaceNameToRaceCode(name) ?? ARaceNameToRaceCode(name) ?? AIANRaceNameToRaceCode(name);
+        }
+
+        /// <summary>Given a Race code - return the representative Race name.</summary>
+        public string RaceCodeToRaceName(string code)
+        {
+            return WRaceCodeToRaceName(code) ?? BAARaceCodeToRaceName(code) ?? ARaceCodeToRaceName(code) ?? AIANRaceCodeToRaceName(code);
+        }
+
+        /// <summary>CDC Race American Indian or Alaska Native Codes</summary>
+        public Tuple<string, string>[] CDCRaceAIANCodes =
+        {
+            Tuple.Create("1004-1", "American Indian"),
+            Tuple.Create("1735-0", "Alaska Native"),
+            Tuple.Create("1006-6", "Abenaki"),
+            Tuple.Create("1008-2", "Algonquian"),
+            Tuple.Create("1010-8", "Apache"),
+            Tuple.Create("1021-5", "Arapaho"),
+            Tuple.Create("1026-4", "Arikara"),
+            Tuple.Create("1028-0", "Assiniboine"),
+            Tuple.Create("1030-6", "Assiniboine Sioux"),
+            Tuple.Create("1033-0", "Bannock"),
+            Tuple.Create("1035-5", "Blackfeet"),
+            Tuple.Create("1037-1", "Brotherton"),
+            Tuple.Create("1039-7", "Burt Lake Band"),
+            Tuple.Create("1041-3", "Caddo"),
+            Tuple.Create("1044-7", "Cahuilla"),
+            Tuple.Create("1053-8", "California Tribes"),
+            Tuple.Create("1068-6", "Canadian and Latin American Indian"),
+            Tuple.Create("1076-9", "Catawba"),
+            Tuple.Create("1078-5", "Cayuse"),
+            Tuple.Create("1080-1", "Chehalis"),
+            Tuple.Create("1082-7", "Chemakuan"),
+            Tuple.Create("1086-8", "Chemehuevi"),
+            Tuple.Create("1088-4", "Cherokee"),
+            Tuple.Create("1100-7", "Cherokee Shawnee"),
+            Tuple.Create("1102-3", "Cheyenne"),
+            Tuple.Create("1106-4", "Cheyenne-Arapaho"),
+            Tuple.Create("1108-0", "Chickahominy"),
+            Tuple.Create("1112-2", "Chickasaw"),
+            Tuple.Create("1114-8", "Chinook"),
+            Tuple.Create("1123-9", "Chippewa"),
+            Tuple.Create("1150-2", "Chippewa Cree"),
+            Tuple.Create("1153-6", "Chitimacha"),
+            Tuple.Create("1155-1", "Choctaw"),
+            Tuple.Create("1162-7", "Chumash"),
+            Tuple.Create("1165-0", "Clear Lake"),
+            Tuple.Create("1167-6", "Coeur D'Alene"),
+            Tuple.Create("1169-2", "Coharie"),
+            Tuple.Create("1171-8", "Colorado River"),
+            Tuple.Create("1173-4", "Colville"),
+            Tuple.Create("1175-9", "Comanche"),
+            Tuple.Create("1178-3", "Coos, Lower Umpqua, Siuslaw"),
+            Tuple.Create("1180-9", "Coos"),
+            Tuple.Create("1182-5", "Coquilles"),
+            Tuple.Create("1184-1", "Costanoan"),
+            Tuple.Create("1186-6", "Coushatta"),
+            Tuple.Create("1189-0", "Cowlitz"),
+            Tuple.Create("1191-6", "Cree"),
+            Tuple.Create("1193-2", "Creek"),
+            Tuple.Create("1207-0", "Croatan"),
+            Tuple.Create("1209-6", "Crow"),
+            Tuple.Create("1211-2", "Cupeno"),
+            Tuple.Create("1214-6", "Delaware"),
+            Tuple.Create("1222-9", "Diegueno"),
+            Tuple.Create("1233-6", "Eastern Tribes"),
+            Tuple.Create("1250-0", "Esselen"),
+            Tuple.Create("1252-6", "Fort Belknap"),
+            Tuple.Create("1254-2", "Fort Berthold"),
+            Tuple.Create("1256-7", "Fort Mcdowell"),
+            Tuple.Create("1258-3", "Fort Hall"),
+            Tuple.Create("1260-9", "Gabrieleno"),
+            Tuple.Create("1262-5", "Grand Ronde"),
+            Tuple.Create("1264-1", "Gros Ventres"),
+            Tuple.Create("1267-4", "Haliwa"),
+            Tuple.Create("1269-0", "Hidatsa"),
+            Tuple.Create("1271-6", "Hoopa"),
+            Tuple.Create("1275-7", "Hoopa Extension"),
+            Tuple.Create("1277-3", "Houma"),
+            Tuple.Create("1279-9", "Inaja-Cosmit"),
+            Tuple.Create("1281-5", "Iowa"),
+            Tuple.Create("1285-6", "Iroquois"),
+            Tuple.Create("1297-1", "Juaneno"),
+            Tuple.Create("1299-7", "Kalispel"),
+            Tuple.Create("1301-1", "Karuk"),
+            Tuple.Create("1303-7", "Kaw"),
+            Tuple.Create("1305-2", "Kickapoo"),
+            Tuple.Create("1309-4", "Kiowa"),
+            Tuple.Create("1312-8", "Klallam"),
+            Tuple.Create("1317-7", "Klamath"),
+            Tuple.Create("1319-3", "Konkow"),
+            Tuple.Create("1321-9", "Kootenai"),
+            Tuple.Create("1323-5", "Lassik"),
+            Tuple.Create("1325-0", "Long Island"),
+            Tuple.Create("1331-8", "Luiseno"),
+            Tuple.Create("1340-9", "Lumbee"),
+            Tuple.Create("1342-5", "Lummi"),
+            Tuple.Create("1344-1", "Maidu"),
+            Tuple.Create("1348-2", "Makah"),
+            Tuple.Create("1350-8", "Maliseet"),
+            Tuple.Create("1352-4", "Mandan"),
+            Tuple.Create("1354-0", "Mattaponi"),
+            Tuple.Create("1356-5", "Menominee"),
+            Tuple.Create("1358-1", "Miami"),
+            Tuple.Create("1363-1", "Miccosukee"),
+            Tuple.Create("1365-6", "Micmac"),
+            Tuple.Create("1368-0", "Mission Indians"),
+            Tuple.Create("1370-6", "Miwok"),
+            Tuple.Create("1372-2", "Modoc"),
+            Tuple.Create("1374-8", "Mohegan"),
+            Tuple.Create("1376-3", "Mono"),
+            Tuple.Create("1378-9", "Nanticoke"),
+            Tuple.Create("1380-5", "Narragansett"),
+            Tuple.Create("1382-1", "Navajo"),
+            Tuple.Create("1387-0", "Nez Perce"),
+            Tuple.Create("1389-6", "Nomalaki"),
+            Tuple.Create("1391-2", "Northwest Tribes"),
+            Tuple.Create("1403-5", "Omaha"),
+            Tuple.Create("1405-0", "Oregon Athabaskan"),
+            Tuple.Create("1407-6", "Osage"),
+            Tuple.Create("1409-2", "Otoe-Missouria"),
+            Tuple.Create("1411-8", "Ottawa"),
+            Tuple.Create("1416-7", "Paiute"),
+            Tuple.Create("1439-9", "Pamunkey"),
+            Tuple.Create("1441-5", "Passamaquoddy"),
+            Tuple.Create("1445-6", "Pawnee"),
+            Tuple.Create("1448-0", "Penobscot"),
+            Tuple.Create("1450-6", "Peoria"),
+            Tuple.Create("1453-0", "Pequot"),
+            Tuple.Create("1456-3", "Pima"),
+            Tuple.Create("1460-5", "Piscataway"),
+            Tuple.Create("1462-1", "Pit River"),
+            Tuple.Create("1464-7", "Pomo"),
+            Tuple.Create("1474-6", "Ponca"),
+            Tuple.Create("1478-7", "Potawatomi"),
+            Tuple.Create("1487-8", "Powhatan"),
+            Tuple.Create("1489-4", "Pueblo"),
+            Tuple.Create("1518-0", "Puget Sound Salish"),
+            Tuple.Create("1541-2", "Quapaw"),
+            Tuple.Create("1543-8", "Quinault"),
+            Tuple.Create("1545-3", "Rappahannock"),
+            Tuple.Create("1547-9", "Reno-Sparks"),
+            Tuple.Create("1549-5", "Round Valley"),
+            Tuple.Create("1551-1", "Sac and Fox"),
+            Tuple.Create("1556-0", "Salinan"),
+            Tuple.Create("1558-6", "Salish"),
+            Tuple.Create("1560-2", "Salish and Kootenai"),
+            Tuple.Create("1562-8", "Schaghticoke"),
+            Tuple.Create("1564-4", "Scott Valley"),
+            Tuple.Create("1566-9", "Seminole"),
+            Tuple.Create("1573-5", "Serrano"),
+            Tuple.Create("1576-8", "Shasta"),
+            Tuple.Create("1578-4", "Shawnee"),
+            Tuple.Create("1582-6", "Shinnecock"),
+            Tuple.Create("1584-2", "Shoalwater Bay"),
+            Tuple.Create("1586-7", "Shoshone"),
+            Tuple.Create("1602-2", "Shoshone Paiute"),
+            Tuple.Create("1607-1", "Siletz"),
+            Tuple.Create("1609-7", "Sioux"),
+            Tuple.Create("1643-6", "Siuslaw"),
+            Tuple.Create("1645-1", "Spokane"),
+            Tuple.Create("1647-7", "Stewart"),
+            Tuple.Create("1649-3", "Stockbridge"),
+            Tuple.Create("1651-9", "Susanville"),
+            Tuple.Create("1653-5", "Tohono O'Odham"),
+            Tuple.Create("1659-2", "Tolowa"),
+            Tuple.Create("1661-8", "Tonkawa"),
+            Tuple.Create("1663-4", "Tygh"),
+            Tuple.Create("1665-9", "Umatilla"),
+            Tuple.Create("1667-5", "Umpqua"),
+            Tuple.Create("1670-9", "Ute"),
+            Tuple.Create("1675-8", "Wailaki"),
+            Tuple.Create("1677-4", "Walla-Walla"),
+            Tuple.Create("1679-0", "Wampanoag"),
+            Tuple.Create("1683-2", "Warm Springs"),
+            Tuple.Create("1685-7", "Wascopum"),
+            Tuple.Create("1687-3", "Washoe"),
+            Tuple.Create("1692-3", "Wichita"),
+            Tuple.Create("1694-9", "Wind River"),
+            Tuple.Create("1696-4", "Winnebago"),
+            Tuple.Create("1700-4", "Winnemucca"),
+            Tuple.Create("1702-0", "Wintun"),
+            Tuple.Create("1704-6", "Wiyot"),
+            Tuple.Create("1707-9", "Yakama"),
+            Tuple.Create("1709-5", "Yakama Cowlitz"),
+            Tuple.Create("1711-1", "Yaqui"),
+            Tuple.Create("1715-2", "Yavapai Apache"),
+            Tuple.Create("1717-8", "Yokuts"),
+            Tuple.Create("1722-8", "Yuchi"),
+            Tuple.Create("1724-4", "Yuman"),
+            Tuple.Create("1732-7", "Yurok"),
+            Tuple.Create("1011-6", "Chiricahua"),
+            Tuple.Create("1012-4", "Fort Sill Apache"),
+            Tuple.Create("1013-2", "Jicarilla Apache"),
+            Tuple.Create("1014-0", "Lipan Apache"),
+            Tuple.Create("1015-7", "Mescalero Apache"),
+            Tuple.Create("1016-5", "Oklahoma Apache"),
+            Tuple.Create("1017-3", "Payson Apache"),
+            Tuple.Create("1018-1", "San Carlos Apache"),
+            Tuple.Create("1019-9", "White Mountain Apache"),
+            Tuple.Create("1022-3", "Northern Arapaho"),
+            Tuple.Create("1023-1", "Southern Arapaho"),
+            Tuple.Create("1024-9", "Wind River Arapaho"),
+            Tuple.Create("1031-4", "Fort Peck Assiniboine Sioux"),
+            Tuple.Create("1042-1", "Oklahoma Cado"),
+            Tuple.Create("1045-4", "Agua Caliente Cahuilla"),
+            Tuple.Create("1046-2", "Augustine"),
+            Tuple.Create("1047-0", "Cabazon"),
+            Tuple.Create("1048-8", "Los Coyotes"),
+            Tuple.Create("1049-6", "Morongo"),
+            Tuple.Create("1050-4", "Santa Rosa Cahuilla"),
+            Tuple.Create("1051-2", "Torres-Martinez"),
+            Tuple.Create("1054-6", "Cahto"),
+            Tuple.Create("1055-3", "Chimariko"),
+            Tuple.Create("1056-1", "Coast Miwok"),
+            Tuple.Create("1057-9", "Digger"),
+            Tuple.Create("1058-7", "Kawaiisu"),
+            Tuple.Create("1059-5", "Kern River"),
+            Tuple.Create("1060-3", "Mattole"),
+            Tuple.Create("1061-1", "Red Wood"),
+            Tuple.Create("1062-9", "Santa Rosa"),
+            Tuple.Create("1063-7", "Takelma"),
+            Tuple.Create("1064-5", "Wappo"),
+            Tuple.Create("1065-2", "Yana"),
+            Tuple.Create("1066-0", "Yuki"),
+            Tuple.Create("1069-4", "Canadian Indian"),
+            Tuple.Create("1070-2", "Central American Indian"),
+            Tuple.Create("1071-0", "French American Indian"),
+            Tuple.Create("1072-8", "Mexican American Indian"),
+            Tuple.Create("1073-6", "South American Indian"),
+            Tuple.Create("1074-4", "Spanish American Indian"),
+            Tuple.Create("1083-5", "Hoh"),
+            Tuple.Create("1084-3", "Quileute"),
+            Tuple.Create("1089-2", "Cherokee Alabama"),
+            Tuple.Create("1090-0", "Cherokees of Northeast Alabama"),
+            Tuple.Create("1091-8", "Cherokees of Southeast Alabama"),
+            Tuple.Create("1092-6", "Eastern Cherokee"),
+            Tuple.Create("1093-4", "Echota Cherokee"),
+            Tuple.Create("1094-2", "Etowah Cherokee"),
+            Tuple.Create("1095-9", "Northern Cherokee"),
+            Tuple.Create("1096-7", "Tuscola"),
+            Tuple.Create("1097-5", "United Keetowah Band of Cherokee"),
+            Tuple.Create("1098-3", "Western Cherokee"),
+            Tuple.Create("1103-1", "Northern Cheyenne"),
+            Tuple.Create("1104-9", "Southern Cheyenne"),
+            Tuple.Create("1109-8", "Eastern Chickahominy"),
+            Tuple.Create("1110-6", "Western Chickahominy"),
+            Tuple.Create("1115-5", "Clatsop"),
+            Tuple.Create("1116-3", "Columbia River Chinook"),
+            Tuple.Create("1117-1", "Kathlamet"),
+            Tuple.Create("1118-9", "Upper Chinook"),
+            Tuple.Create("1119-7", "Wakiakum Chinook"),
+            Tuple.Create("1120-5", "Willapa Chinook"),
+            Tuple.Create("1121-3", "Wishram"),
+            Tuple.Create("1124-7", "Bad River"),
+            Tuple.Create("1125-4", "Bay Mills Chippewa"),
+            Tuple.Create("1126-2", "Bois Fort"),
+            Tuple.Create("1127-0", "Burt Lake Chippewa"),
+            Tuple.Create("1128-8", "Fond du Lac"),
+            Tuple.Create("1129-6", "Grand Portage"),
+            Tuple.Create("1130-4", "Grand Traverse Band of Ottawa/Chippewa"),
+            Tuple.Create("1131-2", "Keweenaw"),
+            Tuple.Create("1132-0", "Lac Courte Oreilles"),
+            Tuple.Create("1133-8", "Lac du Flambeau"),
+            Tuple.Create("1134-6", "Lac Vieux Desert Chippewa"),
+            Tuple.Create("1135-3", "Lake Superior"),
+            Tuple.Create("1136-1", "Leech Lake"),
+            Tuple.Create("1137-9", "Little Shell Chippewa"),
+            Tuple.Create("1138-7", "Mille Lacs"),
+            Tuple.Create("1139-5", "Minnesota Chippewa"),
+            Tuple.Create("1140-3", "Ontonagon"),
+            Tuple.Create("1141-1", "Red Cliff Chippewa"),
+            Tuple.Create("1142-9", "Red Lake Chippewa"),
+            Tuple.Create("1143-7", "Saginaw Chippewa"),
+            Tuple.Create("1144-5", "St. Croix Chippewa"),
+            Tuple.Create("1145-2", "Sault Ste. Marie Chippewa"),
+            Tuple.Create("1146-0", "Sokoagon Chippewa"),
+            Tuple.Create("1147-8", "Turtle Mountain"),
+            Tuple.Create("1148-6", "White Earth"),
+            Tuple.Create("1151-0", "Rocky Boy's Chippewa Cree"),
+            Tuple.Create("1156-9", "Clifton Choctaw"),
+            Tuple.Create("1157-7", "Jena Choctaw"),
+            Tuple.Create("1158-5", "Mississippi Choctaw"),
+            Tuple.Create("1159-3", "Mowa Band of Choctaw"),
+            Tuple.Create("1160-1", "Oklahoma Choctaw"),
+            Tuple.Create("1163-5", "Santa Ynez"),
+            Tuple.Create("1176-7", "Oklahoma Comanche"),
+            Tuple.Create("1187-4", "Alabama Coushatta"),
+            Tuple.Create("1194-0", "Alabama Creek"),
+            Tuple.Create("1195-7", "Alabama Quassarte"),
+            Tuple.Create("1196-5", "Eastern Creek"),
+            Tuple.Create("1197-3", "Eastern Muscogee"),
+            Tuple.Create("1198-1", "Kialegee"),
+            Tuple.Create("1199-9", "Lower Muscogee"),
+            Tuple.Create("1200-5", "Machis Lower Creek Indian"),
+            Tuple.Create("1201-3", "Poarch Band"),
+            Tuple.Create("1202-1", "Principal Creek Indian Nation"),
+            Tuple.Create("1203-9", "Star Clan of Muscogee Creeks"),
+            Tuple.Create("1204-7", "Thlopthlocco"),
+            Tuple.Create("1205-4", "Tuckabachee"),
+            Tuple.Create("1212-0", "Agua Caliente"),
+            Tuple.Create("1215-3", "Eastern Delaware"),
+            Tuple.Create("1216-1", "Lenni-Lenape"),
+            Tuple.Create("1217-9", "Munsee"),
+            Tuple.Create("1218-7", "Oklahoma Delaware"),
+            Tuple.Create("1219-5", "Rampough Mountain"),
+            Tuple.Create("1220-3", "Sand Hill"),
+            Tuple.Create("1223-7", "Campo"),
+            Tuple.Create("1224-5", "Capitan Grande"),
+            Tuple.Create("1225-2", "Cuyapaipe"),
+            Tuple.Create("1226-0", "La Posta"),
+            Tuple.Create("1227-8", "Manzanita"),
+            Tuple.Create("1228-6", "Mesa Grande"),
+            Tuple.Create("1229-4", "San Pasqual"),
+            Tuple.Create("1230-2", "Santa Ysabel"),
+            Tuple.Create("1231-0", "Sycuan"),
+            Tuple.Create("1234-4", "Attacapa"),
+            Tuple.Create("1235-1", "Biloxi"),
+            Tuple.Create("1236-9", "Georgetown (Eastern Tribes)"),
+            Tuple.Create("1237-7", "Moor"),
+            Tuple.Create("1238-5", "Nansemond"),
+            Tuple.Create("1239-3", "Natchez"),
+            Tuple.Create("1240-1", "Nausu Waiwash"),
+            Tuple.Create("1241-9", "Nipmuc"),
+            Tuple.Create("1242-7", "Paugussett"),
+            Tuple.Create("1243-5", "Pocomoke Acohonock"),
+            Tuple.Create("1244-3", "Southeastern Indians"),
+            Tuple.Create("1245-0", "Susquehanock"),
+            Tuple.Create("1246-8", "Tunica Biloxi"),
+            Tuple.Create("1247-6", "Waccamaw-Siousan"),
+            Tuple.Create("1248-4", "Wicomico"),
+            Tuple.Create("1265-8", "Atsina"),
+            Tuple.Create("1272-4", "Trinity"),
+            Tuple.Create("1273-2", "Whilkut"),
+            Tuple.Create("1282-3", "Iowa of Kansas-Nebraska"),
+            Tuple.Create("1283-1", "Iowa of Oklahoma"),
+            Tuple.Create("1286-4", "Cayuga"),
+            Tuple.Create("1287-2", "Mohawk"),
+            Tuple.Create("1288-0", "Oneida"),
+            Tuple.Create("1289-8", "Onondaga"),
+            Tuple.Create("1290-6", "Seneca"),
+            Tuple.Create("1291-4", "Seneca Nation"),
+            Tuple.Create("1292-2", "Seneca-Cayuga"),
+            Tuple.Create("1293-0", "Tonawanda Seneca"),
+            Tuple.Create("1294-8", "Tuscarora"),
+            Tuple.Create("1295-5", "Wyandotte"),
+            Tuple.Create("1306-0", "Oklahoma Kickapoo"),
+            Tuple.Create("1307-8", "Texas Kickapoo"),
+            Tuple.Create("1310-2", "Oklahoma Kiowa"),
+            Tuple.Create("1313-6", "Jamestown"),
+            Tuple.Create("1314-4", "Lower Elwha"),
+            Tuple.Create("1315-1", "Port Gamble Klallam"),
+            Tuple.Create("1326-8", "Matinecock"),
+            Tuple.Create("1327-6", "Montauk"),
+            Tuple.Create("1328-4", "Poospatuck"),
+            Tuple.Create("1329-2", "Setauket"),
+            Tuple.Create("1332-6", "La Jolla"),
+            Tuple.Create("1333-4", "Pala"),
+            Tuple.Create("1334-2", "Pauma"),
+            Tuple.Create("1335-9", "Pechanga"),
+            Tuple.Create("1336-7", "Soboba"),
+            Tuple.Create("1337-5", "Twenty-Nine Palms"),
+            Tuple.Create("1338-3", "Temecula"),
+            Tuple.Create("1345-8", "Mountain Maidu"),
+            Tuple.Create("1346-6", "Nishinam"),
+            Tuple.Create("1359-9", "Illinois Miami"),
+            Tuple.Create("1360-7", "Indiana Miami"),
+            Tuple.Create("1361-5", "Oklahoma Miami"),
+            Tuple.Create("1366-4", "Aroostook"),
+            Tuple.Create("1383-9", "Alamo Navajo"),
+            Tuple.Create("1384-7", "Canoncito Navajo"),
+            Tuple.Create("1385-4", "Ramah Navajo"),
+            Tuple.Create("1392-0", "Alsea"),
+            Tuple.Create("1393-8", "Celilo"),
+            Tuple.Create("1394-6", "Columbia"),
+            Tuple.Create("1395-3", "Kalapuya"),
+            Tuple.Create("1396-1", "Molala"),
+            Tuple.Create("1397-9", "Talakamish"),
+            Tuple.Create("1398-7", "Tenino"),
+            Tuple.Create("1399-5", "Tillamook"),
+            Tuple.Create("1400-1", "Wenatchee"),
+            Tuple.Create("1401-9", "Yahooskin"),
+            Tuple.Create("1412-6", "Burt Lake Ottawa"),
+            Tuple.Create("1413-4", "Michigan Ottawa"),
+            Tuple.Create("1414-2", "Oklahoma Ottawa"),
+            Tuple.Create("1417-5", "Bishop"),
+            Tuple.Create("1418-3", "Bridgeport"),
+            Tuple.Create("1419-1", "Burns Paiute"),
+            Tuple.Create("1420-9", "Cedarville"),
+            Tuple.Create("1421-7", "Fort Bidwell"),
+            Tuple.Create("1422-5", "Fort Independence"),
+            Tuple.Create("1423-3", "Kaibab"),
+            Tuple.Create("1424-1", "Las Vegas"),
+            Tuple.Create("1425-8", "Lone Pine"),
+            Tuple.Create("1426-6", "Lovelock"),
+            Tuple.Create("1427-4", "Malheur Paiute"),
+            Tuple.Create("1428-2", "Moapa"),
+            Tuple.Create("1429-0", "Northern Paiute"),
+            Tuple.Create("1430-8", "Owens Valley"),
+            Tuple.Create("1431-6", "Pyramid Lake"),
+            Tuple.Create("1432-4", "San Juan Southern Paiute"),
+            Tuple.Create("1433-2", "Southern Paiute"),
+            Tuple.Create("1434-0", "Summit Lake"),
+            Tuple.Create("1435-7", "Utu Utu Gwaitu Paiute"),
+            Tuple.Create("1436-5", "Walker River"),
+            Tuple.Create("1437-3", "Yerington Paiute"),
+            Tuple.Create("1442-3", "Indian Township"),
+            Tuple.Create("1443-1", "Pleasant Point Passamaquoddy"),
+            Tuple.Create("1446-4", "Oklahoma Pawnee"),
+            Tuple.Create("1451-4", "Oklahoma Peoria"),
+            Tuple.Create("1454-8", "Marshantucket Pequot"),
+            Tuple.Create("1457-1", "Gila River Pima-Maricopa"),
+            Tuple.Create("1458-9", "Salt River Pima-Maricopa"),
+            Tuple.Create("1465-4", "Central Pomo"),
+            Tuple.Create("1466-2", "Dry Creek"),
+            Tuple.Create("1467-0", "Eastern Pomo"),
+            Tuple.Create("1468-8", "Kashia"),
+            Tuple.Create("1469-6", "Northern Pomo"),
+            Tuple.Create("1470-4", "Scotts Valley"),
+            Tuple.Create("1471-2", "Stonyford"),
+            Tuple.Create("1472-0", "Sulphur Bank"),
+            Tuple.Create("1475-3", "Nebraska Ponca"),
+            Tuple.Create("1476-1", "Oklahoma Ponca"),
+            Tuple.Create("1479-5", "Citizen Band Potawatomi"),
+            Tuple.Create("1480-3", "Forest County"),
+            Tuple.Create("1481-1", "Hannahville"),
+            Tuple.Create("1482-9", "Huron Potawatomi"),
+            Tuple.Create("1483-7", "Pokagon Potawatomi"),
+            Tuple.Create("1484-5", "Prairie Band"),
+            Tuple.Create("1485-2", "Wisconsin Potawatomi"),
+            Tuple.Create("1490-2", "Acoma"),
+            Tuple.Create("1491-0", "Arizona Tewa"),
+            Tuple.Create("1492-8", "Cochiti"),
+            Tuple.Create("1493-6", "Hopi"),
+            Tuple.Create("1494-4", "Isleta"),
+            Tuple.Create("1495-1", "Jemez"),
+            Tuple.Create("1496-9", "Keres"),
+            Tuple.Create("1497-7", "Laguna"),
+            Tuple.Create("1498-5", "Nambe"),
+            Tuple.Create("1499-3", "Picuris"),
+            Tuple.Create("1500-8", "Piro"),
+            Tuple.Create("1501-6", "Pojoaque"),
+            Tuple.Create("1502-4", "San Felipe"),
+            Tuple.Create("1503-2", "San Ildefonso"),
+            Tuple.Create("1504-0", "San Juan Pueblo"),
+            Tuple.Create("1505-7", "San Juan De"),
+            Tuple.Create("1506-5", "San Juan"),
+            Tuple.Create("1507-3", "Sandia"),
+            Tuple.Create("1508-1", "Santa Ana"),
+            Tuple.Create("1509-9", "Santa Clara"),
+            Tuple.Create("1510-7", "Santo Domingo"),
+            Tuple.Create("1511-5", "Taos"),
+            Tuple.Create("1512-3", "Tesuque"),
+            Tuple.Create("1513-1", "Tewa"),
+            Tuple.Create("1514-9", "Tigua"),
+            Tuple.Create("1515-6", "Zia"),
+            Tuple.Create("1516-4", "Zuni"),
+            Tuple.Create("1519-8", "Duwamish"),
+            Tuple.Create("1520-6", "Kikiallus"),
+            Tuple.Create("1521-4", "Lower Skagit"),
+            Tuple.Create("1522-2", "Muckleshoot"),
+            Tuple.Create("1523-0", "Nisqually"),
+            Tuple.Create("1524-8", "Nooksack"),
+            Tuple.Create("1525-5", "Port Madison"),
+            Tuple.Create("1526-3", "Puyallup"),
+            Tuple.Create("1527-1", "Samish"),
+            Tuple.Create("1528-9", "Sauk-Suiattle"),
+            Tuple.Create("1529-7", "Skokomish"),
+            Tuple.Create("1530-5", "Skykomish"),
+            Tuple.Create("1531-3", "Snohomish"),
+            Tuple.Create("1532-1", "Snoqualmie"),
+            Tuple.Create("1533-9", "Squaxin Island"),
+            Tuple.Create("1534-7", "Steilacoom"),
+            Tuple.Create("1535-4", "Stillaguamish"),
+            Tuple.Create("1536-2", "Suquamish"),
+            Tuple.Create("1537-0", "Swinomish"),
+            Tuple.Create("1538-8", "Tulalip"),
+            Tuple.Create("1539-6", "Upper Skagit"),
+            Tuple.Create("1552-9", "Iowa Sac and Fox"),
+            Tuple.Create("1553-7", "Missouri Sac and Fox"),
+            Tuple.Create("1554-5", "Oklahoma Sac and Fox"),
+            Tuple.Create("1567-7", "Big Cypress"),
+            Tuple.Create("1568-5", "Brighton"),
+            Tuple.Create("1569-3", "Florida Seminole"),
+            Tuple.Create("1570-1", "Hollywood Seminole"),
+            Tuple.Create("1571-9", "Oklahoma Seminole"),
+            Tuple.Create("1574-3", "San Manual"),
+            Tuple.Create("1579-2", "Absentee Shawnee"),
+            Tuple.Create("1580-0", "Eastern Shawnee"),
+            Tuple.Create("1587-5", "Battle Mountain"),
+            Tuple.Create("1588-3", "Duckwater"),
+            Tuple.Create("1589-1", "Elko"),
+            Tuple.Create("1590-9", "Ely"),
+            Tuple.Create("1591-7", "Goshute"),
+            Tuple.Create("1592-5", "Panamint"),
+            Tuple.Create("1593-3", "Ruby Valley"),
+            Tuple.Create("1594-1", "Skull Valley"),
+            Tuple.Create("1595-8", "South Fork Shoshone"),
+            Tuple.Create("1596-6", "Te-Moak Western Shoshone"),
+            Tuple.Create("1597-4", "Timbi-Sha Shoshone"),
+            Tuple.Create("1598-2", "Washakie"),
+            Tuple.Create("1599-0", "Wind River Shoshone"),
+            Tuple.Create("1600-6", "Yomba"),
+            Tuple.Create("1603-0", "Duck Valley"),
+            Tuple.Create("1604-8", "Fallon"),
+            Tuple.Create("1605-5", "Fort McDermitt"),
+            Tuple.Create("1610-5", "Blackfoot Sioux"),
+            Tuple.Create("1611-3", "Brule Sioux"),
+            Tuple.Create("1612-1", "Cheyenne River Sioux"),
+            Tuple.Create("1613-9", "Crow Creek Sioux"),
+            Tuple.Create("1614-7", "Dakota Sioux"),
+            Tuple.Create("1615-4", "Flandreau Santee"),
+            Tuple.Create("1616-2", "Fort Peck"),
+            Tuple.Create("1617-0", "Lake Traverse Sioux"),
+            Tuple.Create("1618-8", "Lower Brule Sioux"),
+            Tuple.Create("1619-6", "Lower Sioux"),
+            Tuple.Create("1620-4", "Mdewakanton Sioux"),
+            Tuple.Create("1621-2", "Miniconjou"),
+            Tuple.Create("1622-0", "Oglala Sioux"),
+            Tuple.Create("1623-8", "Pine Ridge Sioux"),
+            Tuple.Create("1624-6", "Pipestone Sioux"),
+            Tuple.Create("1625-3", "Prairie Island Sioux"),
+            Tuple.Create("1626-1", "Prior Lake Sioux"),
+            Tuple.Create("1627-9", "Rosebud Sioux"),
+            Tuple.Create("1628-7", "Sans Arc Sioux"),
+            Tuple.Create("1629-5", "Santee Sioux"),
+            Tuple.Create("1630-3", "Sisseton-Wahpeton"),
+            Tuple.Create("1631-1", "Sisseton Sioux"),
+            Tuple.Create("1632-9", "Spirit Lake Sioux"),
+            Tuple.Create("1633-7", "Standing Rock Sioux"),
+            Tuple.Create("1634-5", "Teton Sioux"),
+            Tuple.Create("1635-2", "Two Kettle Sioux"),
+            Tuple.Create("1636-0", "Upper Sioux"),
+            Tuple.Create("1637-8", "Wahpekute Sioux"),
+            Tuple.Create("1638-6", "Wahpeton Sioux"),
+            Tuple.Create("1639-4", "Wazhaza Sioux"),
+            Tuple.Create("1640-2", "Yankton Sioux"),
+            Tuple.Create("1641-0", "Yanktonai Sioux"),
+            Tuple.Create("1654-3", "Ak-Chin"),
+            Tuple.Create("1655-0", "Gila Bend"),
+            Tuple.Create("1656-8", "San Xavier"),
+            Tuple.Create("1657-6", "Sells"),
+            Tuple.Create("1668-3", "Cow Creek Umpqua"),
+            Tuple.Create("1671-7", "Allen Canyon"),
+            Tuple.Create("1672-5", "Uintah Ute"),
+            Tuple.Create("1673-3", "Ute Mountain Ute"),
+            Tuple.Create("1680-8", "Gay Head Wampanoag"),
+            Tuple.Create("1681-6", "Mashpee Wampanoag"),
+            Tuple.Create("1688-1", "Alpine"),
+            Tuple.Create("1689-9", "Carson"),
+            Tuple.Create("1690-7", "Dresslerville"),
+            Tuple.Create("1697-2", "Ho-chunk"),
+            Tuple.Create("1698-0", "Nebraska Winnebago"),
+            Tuple.Create("1705-3", "Table Bluff"),
+            Tuple.Create("1712-9", "Barrio Libre"),
+            Tuple.Create("1713-7", "Pascua Yaqui"),
+            Tuple.Create("1718-6", "Chukchansi"),
+            Tuple.Create("1719-4", "Tachi"),
+            Tuple.Create("1720-2", "Tule River"),
+            Tuple.Create("1725-1", "Cocopah"),
+            Tuple.Create("1726-9", "Havasupai"),
+            Tuple.Create("1727-7", "Hualapai"),
+            Tuple.Create("1728-5", "Maricopa"),
+            Tuple.Create("1729-3", "Mohave"),
+            Tuple.Create("1730-1", "Quechan"),
+            Tuple.Create("1731-9", "Yavapai"),
+            Tuple.Create("1733-5", "Coast Yurok"),
+            Tuple.Create("1737-6", "Alaska Indian"),
+            Tuple.Create("1840-8", "Eskimo"),
+            Tuple.Create("1966-1", "Aleut"),
+            Tuple.Create("1739-2", "Alaskan Athabascan"),
+            Tuple.Create("1811-9", "Southeast Alaska"),
+            Tuple.Create("1740-0", "Ahtna"),
+            Tuple.Create("1741-8", "Alatna"),
+            Tuple.Create("1742-6", "Alexander"),
+            Tuple.Create("1743-4", "Allakaket"),
+            Tuple.Create("1744-2", "Alanvik"),
+            Tuple.Create("1745-9", "Anvik"),
+            Tuple.Create("1746-7", "Arctic"),
+            Tuple.Create("1747-5", "Beaver"),
+            Tuple.Create("1748-3", "Birch Creek"),
+            Tuple.Create("1749-1", "Cantwell"),
+            Tuple.Create("1750-9", "Chalkyitsik"),
+            Tuple.Create("1751-7", "Chickaloon"),
+            Tuple.Create("1752-5", "Chistochina"),
+            Tuple.Create("1753-3", "Chitina"),
+            Tuple.Create("1754-1", "Circle"),
+            Tuple.Create("1755-8", "Cook Inlet"),
+            Tuple.Create("1756-6", "Copper Center"),
+            Tuple.Create("1757-4", "Copper River"),
+            Tuple.Create("1758-2", "Dot Lake"),
+            Tuple.Create("1759-0", "Doyon"),
+            Tuple.Create("1760-8", "Eagle"),
+            Tuple.Create("1761-6", "Eklutna"),
+            Tuple.Create("1762-4", "Evansville"),
+            Tuple.Create("1763-2", "Fort Yukon"),
+            Tuple.Create("1764-0", "Gakona"),
+            Tuple.Create("1765-7", "Galena"),
+            Tuple.Create("1766-5", "Grayling"),
+            Tuple.Create("1767-3", "Gulkana"),
+            Tuple.Create("1768-1", "Healy Lake"),
+            Tuple.Create("1769-9", "Holy Cross"),
+            Tuple.Create("1770-7", "Hughes"),
+            Tuple.Create("1771-5", "Huslia"),
+            Tuple.Create("1772-3", "Iliamna"),
+            Tuple.Create("1773-1", "Kaltag"),
+            Tuple.Create("1774-9", "Kluti Kaah"),
+            Tuple.Create("1775-6", "Knik"),
+            Tuple.Create("1776-4", "Koyukuk"),
+            Tuple.Create("1777-2", "Lake Minchumina"),
+            Tuple.Create("1778-0", "Lime"),
+            Tuple.Create("1779-8", "Mcgrath"),
+            Tuple.Create("1780-6", "Manley Hot Springs"),
+            Tuple.Create("1781-4", "Mentasta Lake"),
+            Tuple.Create("1782-2", "Minto"),
+            Tuple.Create("1783-0", "Nenana"),
+            Tuple.Create("1784-8", "Nikolai"),
+            Tuple.Create("1785-5", "Ninilchik"),
+            Tuple.Create("1786-3", "Nondalton"),
+            Tuple.Create("1787-1", "Northway"),
+            Tuple.Create("1788-9", "Nulato"),
+            Tuple.Create("1789-7", "Pedro Bay"),
+            Tuple.Create("1790-5", "Rampart"),
+            Tuple.Create("1791-3", "Ruby"),
+            Tuple.Create("1792-1", "Salamatof"),
+            Tuple.Create("1793-9", "Seldovia"),
+            Tuple.Create("1794-7", "Slana"),
+            Tuple.Create("1795-4", "Shageluk"),
+            Tuple.Create("1796-2", "Stevens"),
+            Tuple.Create("1797-0", "Stony River"),
+            Tuple.Create("1798-8", "Takotna"),
+            Tuple.Create("1799-6", "Tanacross"),
+            Tuple.Create("1800-2", "Tanaina"),
+            Tuple.Create("1801-0", "Tanana"),
+            Tuple.Create("1802-8", "Tanana Chiefs"),
+            Tuple.Create("1803-6", "Tazlina"),
+            Tuple.Create("1804-4", "Telida"),
+            Tuple.Create("1805-1", "Tetlin"),
+            Tuple.Create("1806-9", "Tok"),
+            Tuple.Create("1807-7", "Tyonek"),
+            Tuple.Create("1808-5", "Venetie"),
+            Tuple.Create("1809-3", "Wiseman"),
+            Tuple.Create("1813-5", "Tlingit-Haida"),
+            Tuple.Create("1837-4", "Tsimshian"),
+            Tuple.Create("1814-3", "Angoon"),
+            Tuple.Create("1815-0", "Central Council of Tlingit and Haida Tribes"),
+            Tuple.Create("1816-8", "Chilkat"),
+            Tuple.Create("1817-6", "Chilkoot"),
+            Tuple.Create("1818-4", "Craig"),
+            Tuple.Create("1819-2", "Douglas"),
+            Tuple.Create("1820-0", "Haida"),
+            Tuple.Create("1821-8", "Hoonah"),
+            Tuple.Create("1822-6", "Hydaburg"),
+            Tuple.Create("1823-4", "Kake"),
+            Tuple.Create("1824-2", "Kasaan"),
+            Tuple.Create("1825-9", "Kenaitze"),
+            Tuple.Create("1826-7", "Ketchikan"),
+            Tuple.Create("1827-5", "Klawock"),
+            Tuple.Create("1828-3", "Pelican"),
+            Tuple.Create("1829-1", "Petersburg"),
+            Tuple.Create("1830-9", "Saxman"),
+            Tuple.Create("1831-7", "Sitka"),
+            Tuple.Create("1832-5", "Tenakee Springs"),
+            Tuple.Create("1833-3", "Tlingit"),
+            Tuple.Create("1834-1", "Wrangell"),
+            Tuple.Create("1835-8", "Yakutat"),
+            Tuple.Create("1838-2", "Metlakatla"),
+            Tuple.Create("1842-4", "Greenland Eskimo"),
+            Tuple.Create("1844-0", "Inupiat Eskimo"),
+            Tuple.Create("1891-1", "Siberian Eskimo"),
+            Tuple.Create("1896-0", "Yupik Eskimo"),
+            Tuple.Create("1845-7", "Ambler"),
+            Tuple.Create("1846-5", "Anaktuvuk"),
+            Tuple.Create("1847-3", "Anaktuvuk Pass"),
+            Tuple.Create("1848-1", "Arctic Slope Inupiat"),
+            Tuple.Create("1849-9", "Arctic Slope Corporation"),
+            Tuple.Create("1850-7", "Atqasuk"),
+            Tuple.Create("1851-5", "Barrow"),
+            Tuple.Create("1852-3", "Bering Straits Inupiat"),
+            Tuple.Create("1853-1", "Brevig Mission"),
+            Tuple.Create("1854-9", "Buckland"),
+            Tuple.Create("1855-6", "Chinik"),
+            Tuple.Create("1856-4", "Council"),
+            Tuple.Create("1857-2", "Deering"),
+            Tuple.Create("1858-0", "Elim"),
+            Tuple.Create("1859-8", "Golovin"),
+            Tuple.Create("1860-6", "Inalik Diomede"),
+            Tuple.Create("1861-4", "Inupiaq"),
+            Tuple.Create("1862-2", "Kaktovik"),
+            Tuple.Create("1863-0", "Kawerak"),
+            Tuple.Create("1864-8", "Kiana"),
+            Tuple.Create("1865-5", "Kivalina"),
+            Tuple.Create("1866-3", "Kobuk"),
+            Tuple.Create("1867-1", "Kotzebue"),
+            Tuple.Create("1868-9", "Koyuk"),
+            Tuple.Create("1869-7", "Kwiguk"),
+            Tuple.Create("1870-5", "Mauneluk Inupiat"),
+            Tuple.Create("1871-3", "Nana Inupiat"),
+            Tuple.Create("1872-1", "Noatak"),
+            Tuple.Create("1873-9", "Nome"),
+            Tuple.Create("1874-7", "Noorvik"),
+            Tuple.Create("1875-4", "Nuiqsut"),
+            Tuple.Create("1876-2", "Point Hope"),
+            Tuple.Create("1877-0", "Point Lay"),
+            Tuple.Create("1878-8", "Selawik"),
+            Tuple.Create("1879-6", "Shaktoolik"),
+            Tuple.Create("1880-4", "Shishmaref"),
+            Tuple.Create("1881-2", "Shungnak"),
+            Tuple.Create("1882-0", "Solomon"),
+            Tuple.Create("1883-8", "Teller"),
+            Tuple.Create("1884-6", "Unalakleet"),
+            Tuple.Create("1885-3", "Wainwright"),
+            Tuple.Create("1886-1", "Wales"),
+            Tuple.Create("1887-9", "White Mountain"),
+            Tuple.Create("1888-7", "White Mountain Inupiat"),
+            Tuple.Create("1889-5", "Mary's Igloo"),
+            Tuple.Create("1892-9", "Gambell"),
+            Tuple.Create("1893-7", "Savoonga"),
+            Tuple.Create("1894-5", "Siberian Yupik"),
+            Tuple.Create("1897-8", "Akiachak"),
+            Tuple.Create("1898-6", "Akiak"),
+            Tuple.Create("1899-4", "Alakanuk"),
+            Tuple.Create("1900-0", "Aleknagik"),
+            Tuple.Create("1901-8", "Andreafsky"),
+            Tuple.Create("1902-6", "Aniak"),
+            Tuple.Create("1903-4", "Atmautluak"),
+            Tuple.Create("1904-2", "Bethel"),
+            Tuple.Create("1905-9", "Bill Moore's Slough"),
+            Tuple.Create("1906-7", "Bristol Bay Yupik"),
+            Tuple.Create("1907-5", "Calista Yupik"),
+            Tuple.Create("1908-3", "Chefornak"),
+            Tuple.Create("1909-1", "Chevak"),
+            Tuple.Create("1910-9", "Chuathbaluk"),
+            Tuple.Create("1911-7", "Clark's Point"),
+            Tuple.Create("1912-5", "Crooked Creek"),
+            Tuple.Create("1913-3", "Dillingham"),
+            Tuple.Create("1914-1", "Eek"),
+            Tuple.Create("1915-8", "Ekuk"),
+            Tuple.Create("1916-6", "Ekwok"),
+            Tuple.Create("1917-4", "Emmonak"),
+            Tuple.Create("1918-2", "Goodnews Bay"),
+            Tuple.Create("1919-0", "Hooper Bay"),
+            Tuple.Create("1920-8", "Iqurmuit (Russian Mission)"),
+            Tuple.Create("1921-6", "Kalskag"),
+            Tuple.Create("1922-4", "Kasigluk"),
+            Tuple.Create("1923-2", "Kipnuk"),
+            Tuple.Create("1924-0", "Koliganek"),
+            Tuple.Create("1925-7", "Kongiganak"),
+            Tuple.Create("1926-5", "Kotlik"),
+            Tuple.Create("1927-3", "Kwethluk"),
+            Tuple.Create("1928-1", "Kwigillingok"),
+            Tuple.Create("1929-9", "Levelock"),
+            Tuple.Create("1930-7", "Lower Kalskag"),
+            Tuple.Create("1931-5", "Manokotak"),
+            Tuple.Create("1932-3", "Marshall"),
+            Tuple.Create("1933-1", "Mekoryuk"),
+            Tuple.Create("1934-9", "Mountain Village"),
+            Tuple.Create("1935-6", "Naknek"),
+            Tuple.Create("1936-4", "Napaumute"),
+            Tuple.Create("1937-2", "Napakiak"),
+            Tuple.Create("1938-0", "Napaskiak"),
+            Tuple.Create("1939-8", "Newhalen"),
+            Tuple.Create("1940-6", "New Stuyahok"),
+            Tuple.Create("1941-4", "Newtok"),
+            Tuple.Create("1942-2", "Nightmute"),
+            Tuple.Create("1943-0", "Nunapitchukv"),
+            Tuple.Create("1944-8", "Oscarville"),
+            Tuple.Create("1945-5", "Pilot Station"),
+            Tuple.Create("1946-3", "Pitkas Point"),
+            Tuple.Create("1947-1", "Platinum"),
+            Tuple.Create("1948-9", "Portage Creek"),
+            Tuple.Create("1949-7", "Quinhagak"),
+            Tuple.Create("1950-5", "Red Devil"),
+            Tuple.Create("1951-3", "St. Michael"),
+            Tuple.Create("1952-1", "Scammon Bay"),
+            Tuple.Create("1953-9", "Sheldon's Point"),
+            Tuple.Create("1954-7", "Sleetmute"),
+            Tuple.Create("1955-4", "Stebbins"),
+            Tuple.Create("1956-2", "Togiak"),
+            Tuple.Create("1957-0", "Toksook"),
+            Tuple.Create("1958-8", "Tulukskak"),
+            Tuple.Create("1959-6", "Tuntutuliak"),
+            Tuple.Create("1960-4", "Tununak"),
+            Tuple.Create("1961-2", "Twin Hills"),
+            Tuple.Create("1962-0", "Georgetown (Yupik-Eskimo)"),
+            Tuple.Create("1963-8", "St. Mary's"),
+            Tuple.Create("1964-6", "Umkumiate"),
+            Tuple.Create("1968-7", "Alutiiq Aleut"),
+            Tuple.Create("1972-9", "Bristol Bay Aleut"),
+            Tuple.Create("1984-4", "Chugach Aleut"),
+            Tuple.Create("1990-1", "Eyak"),
+            Tuple.Create("1992-7", "Koniag Aleut"),
+            Tuple.Create("2002-4", "Sugpiaq"),
+            Tuple.Create("2004-0", "Suqpigaq"),
+            Tuple.Create("2006-5", "Unangan Aleut"),
+            Tuple.Create("1969-5", "Tatitlek"),
+            Tuple.Create("1970-3", "Ugashik"),
+            Tuple.Create("1973-7", "Chignik"),
+            Tuple.Create("1974-5", "Chignik Lake"),
+            Tuple.Create("1975-2", "Egegik"),
+            Tuple.Create("1976-0", "Igiugig"),
+            Tuple.Create("1977-8", "Ivanof Bay"),
+            Tuple.Create("1978-6", "King Salmon"),
+            Tuple.Create("1979-4", "Kokhanok"),
+            Tuple.Create("1980-2", "Perryville"),
+            Tuple.Create("1981-0", "Pilot Point"),
+            Tuple.Create("1982-8", "Port Heiden"),
+            Tuple.Create("1985-1", "Chenega"),
+            Tuple.Create("1986-9", "Chugach Corporation"),
+            Tuple.Create("1987-7", "English Bay"),
+            Tuple.Create("1988-5", "Port Graham"),
+            Tuple.Create("1993-5", "Akhiok"),
+            Tuple.Create("1994-3", "Agdaagux"),
+            Tuple.Create("1995-0", "Karluk"),
+            Tuple.Create("1996-8", "Kodiak"),
+            Tuple.Create("1997-6", "Larsen Bay"),
+            Tuple.Create("1998-4", "Old Harbor"),
+            Tuple.Create("1999-2", "Ouzinkie"),
+            Tuple.Create("2000-8", "Port Lions"),
+            Tuple.Create("2007-3", "Akutan"),
+            Tuple.Create("2008-1", "Aleut Corporation"),
+            Tuple.Create("2009-9", "Aleutian"),
+            Tuple.Create("2010-7", "Aleutian Islander"),
+            Tuple.Create("2011-5", "Atka"),
+            Tuple.Create("2012-3", "Belkofski"),
+            Tuple.Create("2013-1", "Chignik Lagoon"),
+            Tuple.Create("2014-9", "King Cove"),
+            Tuple.Create("2015-6", "False Pass"),
+            Tuple.Create("2016-4", "Nelson Lagoon"),
+            Tuple.Create("2017-2", "Nikolski"),
+            Tuple.Create("2018-0", "Pauloff Harbor"),
+            Tuple.Create("2019-8", "Qagan Toyagungin"),
+            Tuple.Create("2020-6", "Qawalangin"),
+            Tuple.Create("2021-4", "St. George"),
+            Tuple.Create("2022-2", "St. Paul"),
+            Tuple.Create("2023-0", "Sand Point"),
+            Tuple.Create("2024-8", "South Naknek"),
+            Tuple.Create("2025-5", "Unalaska"),
+            Tuple.Create("2026-3", "Unga")
+        };
+
+        /// <summary>CDC Race Asian Codes</summary>
+        public Tuple<string, string>[] CDCRaceACodes =
+        {
+            Tuple.Create("2029-7", "Asian Indian"),
+            Tuple.Create("2030-5", "Bangladeshi"),
+            Tuple.Create("2031-3", "Bhutanese"),
+            Tuple.Create("2032-1", "Burmese"),
+            Tuple.Create("2033-9", "Cambodian"),
+            Tuple.Create("2034-7", "Chinese"),
+            Tuple.Create("2035-4", "Taiwanese"),
+            Tuple.Create("2036-2", "Filipino"),
+            Tuple.Create("2037-0", "Hmong"),
+            Tuple.Create("2038-8", "Indonesian"),
+            Tuple.Create("2039-6", "Japanese"),
+            Tuple.Create("2040-4", "Korean"),
+            Tuple.Create("2041-2", "Laotian"),
+            Tuple.Create("2042-0", "Malaysian"),
+            Tuple.Create("2043-8", "Okinawan"),
+            Tuple.Create("2044-6", "Pakistani"),
+            Tuple.Create("2045-3", "Sri Lankan"),
+            Tuple.Create("2046-1", "Thai"),
+            Tuple.Create("2047-9", "Vietnamese"),
+            Tuple.Create("2048-7", "Iwo Jiman"),
+            Tuple.Create("2049-5", "Maldivian"),
+            Tuple.Create("2050-3", "Nepalese"),
+            Tuple.Create("2051-1", "Singaporean"),
+            Tuple.Create("2052-9", "Madagascar")
+        };
+
+        /// <summary>CDC Race Black or African American Codes</summary>
+        public Tuple<string, string>[] CDCRaceBAACodes =
+        {
+            Tuple.Create("2056-0", "Black"),
+            Tuple.Create("2058-6", "African American"),
+            Tuple.Create("2060-2", "African"),
+            Tuple.Create("2067-7", "Bahamian"),
+            Tuple.Create("2068-5", "Barbadian"),
+            Tuple.Create("2069-3", "Dominican"),
+            Tuple.Create("2070-1", "Dominica Islander"),
+            Tuple.Create("2071-9", "Haitian"),
+            Tuple.Create("2072-7", "Jamaican"),
+            Tuple.Create("2073-5", "Tobagoan"),
+            Tuple.Create("2074-3", "Trinidadian"),
+            Tuple.Create("2075-0", "West Indian"),
+            Tuple.Create("2061-0", "Botswanan"),
+            Tuple.Create("2062-8", "Ethiopian"),
+            Tuple.Create("2063-6", "Liberian"),
+            Tuple.Create("2064-4", "Namibian"),
+            Tuple.Create("2065-1", "Nigerian"),
+            Tuple.Create("2066-9", "Zairean")
+        };
+
+        /// <summary>CDC Race Native Hawaiian or Other Pacific Islander Codes</summary>
+        public Tuple<string, string>[] CDCRaceNHOPICodes =
+        {
+            Tuple.Create("2078-4", "Polynesian"),
+            Tuple.Create("2085-9", "Micronesian"),
+            Tuple.Create("2100-6", "Melanesian"),
+            Tuple.Create("2500-7", "Other Pacific Islander"),
+            Tuple.Create("2079-2", "Native Hawaiian"),
+            Tuple.Create("2080-0", "Samoan"),
+            Tuple.Create("2081-8", "Tahitian"),
+            Tuple.Create("2082-6", "Tongan"),
+            Tuple.Create("2083-4", "Tokelauan"),
+            Tuple.Create("2086-7", "Guamanian or Chamorro"),
+            Tuple.Create("2087-5", "Guamanian"),
+            Tuple.Create("2088-3", "Chamorro"),
+            Tuple.Create("2089-1", "Mariana Islander"),
+            Tuple.Create("2090-9", "Marshallese"),
+            Tuple.Create("2091-7", "Palauan"),
+            Tuple.Create("2092-5", "Carolinian"),
+            Tuple.Create("2093-3", "Kosraean"),
+            Tuple.Create("2094-1", "Pohnpeian"),
+            Tuple.Create("2095-8", "Saipanese"),
+            Tuple.Create("2096-6", "Kiribati"),
+            Tuple.Create("2097-4", "Chuukese"),
+            Tuple.Create("2098-2", "Yapese"),
+            Tuple.Create("2101-4", "Fijian"),
+            Tuple.Create("2102-2", "Papua New Guinean"),
+            Tuple.Create("2103-0", "Solomon Islander"),
+            Tuple.Create("2104-8", "New Hebrides")
+        };
+
+        /// <summary>CDC Race White Codes</summary>
+        public Tuple<string, string>[] CDCRaceWCodes =
+        {
+            Tuple.Create("2108-9", "European"),
+            Tuple.Create("2118-8", "Middle Eastern or North African"),
+            Tuple.Create("2129-5", "Arab"),
+            Tuple.Create("2109-7", "Armenian"),
+            Tuple.Create("2110-5", "English"),
+            Tuple.Create("2111-3", "French"),
+            Tuple.Create("2112-1", "German"),
+            Tuple.Create("2113-9", "Irish"),
+            Tuple.Create("2114-7", "Italian"),
+            Tuple.Create("2115-4", "Polish"),
+            Tuple.Create("2116-2", "Scottish"),
+            Tuple.Create("2119-6", "Assyrian"),
+            Tuple.Create("2120-4", "Egyptian"),
+            Tuple.Create("2121-2", "Iranian"),
+            Tuple.Create("2122-0", "Iraqi"),
+            Tuple.Create("2123-8", "Lebanese"),
+            Tuple.Create("2124-6", "Palestinian"),
+            Tuple.Create("2125-3", "Syrian"),
+            Tuple.Create("2126-1", "Afghanistani"),
+            Tuple.Create("2127-9", "Israeili")
+        };
+
+        /// <summary>CDC Ethnicity Codes</summary>
+        private Tuple<string, string>[] CDCEthnicityCodes =
+        {
+            Tuple.Create("2137-8", "Spaniard"),
+            Tuple.Create("2148-5", "Mexican"),
+            Tuple.Create("2155-0", "Central American"),
+            Tuple.Create("2165-9", "South American"),
+            Tuple.Create("2178-2", "Latin American"),
+            Tuple.Create("2180-8", "Puerto Rican"),
+            Tuple.Create("2182-4", "Cuban"),
+            Tuple.Create("2184-0", "Dominican"),
+            Tuple.Create("2138-6", "Andalusian"),
+            Tuple.Create("2139-4", "Asturian"),
+            Tuple.Create("2140-2", "Castillian"),
+            Tuple.Create("2141-0", "Catalonian"),
+            Tuple.Create("2142-8", "Belearic Islander"),
+            Tuple.Create("2143-6", "Gallego"),
+            Tuple.Create("2144-4", "Valencian"),
+            Tuple.Create("2145-1", "Canarian"),
+            Tuple.Create("2146-9", "Spanish Basque"),
+            Tuple.Create("2149-3", "Mexican American"),
+            Tuple.Create("2150-1", "Mexicano"),
+            Tuple.Create("2151-9", "Chicano"),
+            Tuple.Create("2152-7", "La Raza"),
+            Tuple.Create("2153-5", "Mexican American Indian"),
+            Tuple.Create("2156-8", "Costa Rican"),
+            Tuple.Create("2157-6", "Guatemalan"),
+            Tuple.Create("2158-4", "Honduran"),
+            Tuple.Create("2159-2", "Nicaraguan"),
+            Tuple.Create("2160-0", "Panamanian"),
+            Tuple.Create("2161-8", "Salvadoran"),
+            Tuple.Create("2162-6", "Central American Indian"),
+            Tuple.Create("2163-4", "Canal Zone"),
+            Tuple.Create("2166-7", "Argentinean"),
+            Tuple.Create("2167-5", "Bolivian"),
+            Tuple.Create("2168-3", "Chilean"),
+            Tuple.Create("2169-1", "Colombian"),
+            Tuple.Create("2170-9", "Ecuadorian"),
+            Tuple.Create("2171-7", "Paraguayan"),
+            Tuple.Create("2172-5", "Peruvian"),
+            Tuple.Create("2173-3", "Uruguayan"),
+            Tuple.Create("2174-1", "Venezuelan"),
+            Tuple.Create("2175-8", "South American Indian"),
+            Tuple.Create("2176-6", "Criollo")
+        };
 
         /// <summary>State and Territory Province Codes</summary>
         private Tuple<string, string>[] StateTerritoryProvinceCodes =

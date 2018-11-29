@@ -53,7 +53,7 @@ namespace FhirDeathRecord
         private DeathRecord record;
 
         /// <summary>IJE data lookup helper. Thread-safe singleton!</summary>
-        private IJEMortalityData dataLookup = IJEMortalityData.Instance;
+        private MortalityData dataLookup = MortalityData.Instance;
 
         /// <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
         public IJEMortality(DeathRecord record)
@@ -363,7 +363,7 @@ namespace FhirDeathRecord
                         string county = null;
                         dictionary.TryGetValue(keyPrefix + "State", out state);
                         dictionary.TryGetValue(keyPrefix + "County", out county);
-                        if (state != null && county != null)
+                        if (!String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(county))
                         {
                             dictionary[key] = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value).Trim();
                         }
@@ -372,7 +372,7 @@ namespace FhirDeathRecord
                     {
                         string state = null;
                         dictionary.TryGetValue(keyPrefix + "State", out state);
-                        if (state != null)
+                        if (!String.IsNullOrEmpty(state))
                         {
                             dictionary[key] = dataLookup.StateNameAndCountyCodeToCountyName(state, value).Trim();
                         }
@@ -387,11 +387,11 @@ namespace FhirDeathRecord
                     }
                     else if (geoType == "insideCityLimits")
                     {
-                        if (value != null && value == "Y")
+                        if (!String.IsNullOrEmpty(value) && value == "Y")
                         {
                             dictionary[key] = "True";
                         }
-                        else if (value != null && value == "N")
+                        else if (!String.IsNullOrEmpty(value) && value == "N")
                         {
                             dictionary[key] = "False";
                         }
@@ -410,7 +410,7 @@ namespace FhirDeathRecord
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
-        /// <summary>If the decedent was of hispanic origin, returns a list of OMB categories.</summary>
+        /// <summary>If the decedent was of hispanic origin, returns a list of ethnicities.</summary>
         private string[] HispanicOrigin()
         {
             Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
@@ -427,13 +427,84 @@ namespace FhirDeathRecord
             return ethnicities.ToArray();
         }
 
+        /// <summary>If the decedent was of hispanic origin, returns a list of OTHER ethnicities (not Mexican, Cuban, or Puerto Rican).</summary>
+        private Tuple<string, string>[] HispanicOriginOther()
+        {
+            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+            List<Tuple<string, string>> ethnicities = new List<Tuple<string, string>>();
+            // Check if hispanic origin
+            if (Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
+            {
+                foreach(Tuple<string, string> tuple in ethnicityStatus)
+                {
+                    if (tuple.Item1.ToUpper() != "Hispanic or Latino".ToUpper() &&
+                        tuple.Item1.ToUpper() != "Mexican".ToUpper() &&
+                        tuple.Item1.ToUpper() != "Puerto Rican".ToUpper() &&
+                        tuple.Item1.ToUpper() != "Cuban".ToUpper())
+                    {
+                        if (tuple.Item2.ToUpper() != "2135-2".ToUpper() &&
+                            tuple.Item2.ToUpper() != "2148-5".ToUpper() &&
+                            tuple.Item2.ToUpper() != "2180-8".ToUpper() &&
+                            tuple.Item2.ToUpper() != "2182-4".ToUpper())
+                        {
+                            ethnicities.Add(tuple);
+                        }
+                    }
+                }
+            }
+            return ethnicities.ToArray();
+        }
+
         /// <summary>Checks if the given race exists in the record.</summary>
         private bool Get_Race(string code, string display)
         {
             return Array.Exists(record.Race, element => element.Item1 == display || element.Item2 == code);
         }
 
-        /// <summary>Checks if the given race exists in the record.</summary>
+        /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
+        private string[] Get_Race_AIAN_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
+        private string[] Get_Race_A_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
+            string[] filterCodes = { "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Black or African American Race literals on the record.</summary>
+        private string[] Get_Race_BAA_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
+        private string[] Get_Race_NHOPI_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
+            string[] filterCodes = { "2086-7", "2080-0", "2079-2" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves White Race literals on the record.</summary>
+        private string[] Get_Race_W_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves OTHER Race literals on the record.</summary>
+        private string[] Get_Race_OTHER_Literals()
+        {
+            return Get_Race_W_Literals().ToList().Concat(Get_Race_BAA_Literals().ToList()).ToArray();
+        }
+
+        /// <summary>Adds the given race to the record.</summary>
         private void Set_Race(string code, string display)
         {
             List<Tuple<string, string>> raceStatus = record.Race.ToList();
@@ -522,6 +593,48 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Void flag</summary>
+        [IJEField(4, 13, 1, "Void flag", "VOID", 1)]
+        public string VOID
+        {
+            get
+            {
+                return "0";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Auxiliary State file number</summary>
+        [IJEField(5, 14, 12, "Auxiliary State file number", "AUXNO", 1)]
+        public string AUXNO
+        {
+            get
+            {
+                return RightJustifiedZeroed_Get("AUXNO", "Id");
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Source flag: paper/electronic</summary>
+        [IJEField(6, 26, 1, "Source flag: paper/electronic", "MFILED", 1)]
+        public string MFILED
+        {
+            get
+            {
+                return "0";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
         /// <summary>Decedent's Legal Name--Given</summary>
         [IJEField(7, 27, 50, "Decedent's Legal Name--Given", "GNAME", 1)]
         public string GNAME
@@ -578,6 +691,34 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Legal Name--Alias</summary>
+        [IJEField(11, 138, 1, "Decedent's Legal Name--Alias", "ALIAS", 1)]
+        public string ALIAS
+        {
+            get
+            {
+                return "0";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Father's Surname</summary>
+        [IJEField(12, 139, 50, "Father's Surname", "FLNAME", 1)]
+        public string FLNAME
+        {
+            get
+            {
+                return LeftJustified_Get("FLNAME", "FatherFamilyName");
+            }
+            set
+            {
+                LeftJustified_Set("FLNAME", "FatherFamilyName", value);
+            }
+        }
+
         /// <summary>Sex</summary>
         [IJEField(13, 189, 1, "Sex", "SEX", 1)]
         public string SEX
@@ -605,6 +746,20 @@ namespace FhirDeathRecord
                 Dictionary_Set("SEX", "BirthSex", "code", code);
                 Dictionary_Set("SEX", "BirthSex", "display", display);
                 Dictionary_Set("SEX", "BirthSex", "system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
+            }
+        }
+
+        /// <summary>Sex--Edit Flag</summary>
+        [IJEField(14, 190, 1, "Sex--Edit Flag", "SEX_BYPASS", 1)]
+        public string SEX_BYPASS
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -647,6 +802,20 @@ namespace FhirDeathRecord
             set
             {
                 RightJustifiedZeroed_Set("AGE", "Age", value);
+            }
+        }
+
+        /// <summary>Decedent's Age--Edit Flag</summary>
+        [IJEField(18, 204, 1, "Decedent's Age--Edit Flag", "AGE_BYPASS", 1)]
+        public string AGE_BYPASS
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -850,6 +1019,20 @@ namespace FhirDeathRecord
                         Dictionary_Set("MARITAL", "MaritalStatus", "display", "unknown");
                         break;
                 }
+            }
+        }
+
+        /// <summary>Marital Status--Edit Flag</summary>
+        [IJEField(30, 231, 1, "Marital Status--Edit Flag", "MARITAL_BYPASS", 1)]
+        public string MARITAL_BYPASS
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -1141,6 +1324,20 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Education--Edit Flag</summary>
+        [IJEField(38, 246, 1, "Decedent's Education--Edit Flag", "DEDUC_BYPASS", 1)]
+        public string DEDUC_BYPASS
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
         /// <summary>Decedent of Hispanic Origin?--Mexican</summary>
         [IJEField(39, 247, 1, "Decedent of Hispanic Origin?--Mexican", "DETHNIC1", 1)]
         public string DETHNIC1
@@ -1159,7 +1356,7 @@ namespace FhirDeathRecord
                 List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
                 if (value == "Y")
                 {
-                    ethnicities.Add(Tuple.Create("Mexican", "2135-2"));
+                    ethnicities.Add(Tuple.Create("Mexican", "2148-5"));
                     ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
                     ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                     record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1240,21 +1437,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                if (HispanicOriginOther().Length > 0)
                 {
-                    return "N";
+                    return "Y";
                 }
                 else
                 {
-                    if (DETHNIC3 == "Y" || DETHNIC2 == "Y" || DETHNIC1 == "Y")
-                    {
-                        return "N";
-                    }
-                    else
-                    {
-                        return "Y";
-                    }
+                    return "N";
                 }
             }
             set
@@ -1271,6 +1460,34 @@ namespace FhirDeathRecord
                     ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                     record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                 }
+            }
+        }
+
+        /// <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
+        [IJEField(43, 251, 20, "Decedent of Hispanic Origin?--Other, Literal", "DETHNIC5", 1)]
+        public string DETHNIC5
+        {
+            get
+            {
+                Tuple<string, string> other = HispanicOriginOther().FirstOrDefault();
+                if (other != null)
+                {
+                    return other.Item1;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            set
+            {
+                List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
+                // Try to find a matching code for the literal
+                string codeMatch = dataLookup.EthnicityNameToEthnicityCode(value.Trim());
+                ethnicities.Add(Tuple.Create(value.Trim(), codeMatch));
+                ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
+                ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
+                record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
             }
         }
 
@@ -1427,6 +1644,20 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Race--Other Asian</summary>
+        [IJEField(53, 280, 1, "Decedent's Race--Other Asian", "RACE10", 1)]
+        public string RACE10
+        {
+            get
+            {
+                return Get_Race_A_Literals().Length > 0 ? "Y" : "N";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
         /// <summary>Decedent's Race--Native Hawaiian</summary>
         [IJEField(54, 281, 1, "Decedent's Race--Native Hawaiian", "RACE11", 1)]
         public string RACE11
@@ -1484,17 +1715,241 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Get_Race("2500-7", "Other Pacific Islander") ? "Y" : "N";
+                return Get_Race_NHOPI_Literals().Length > 0 ? "Y" : "N";
             }
             set
             {
-                if (value == "Y")
+                // NOOP
+            }
+        }
+
+        /// <summary>Decedent's Race--Other</summary>
+        [IJEField(58, 285, 1, "Decedent's Race--Other", "RACE15", 1)]
+        public string RACE15
+        {
+            get
+            {
+                return Get_Race_OTHER_Literals().Length > 0 ? "Y" : "N";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Decedent's Race--First American Indian or Alaska Native Literal</summary>
+        [IJEField(59, 286, 30, "Decedent's Race--First American Indian or Alaska Native Literal", "RACE16", 1)]
+        public string RACE16
+        {
+            get
+            {
+                string[] literals = Get_Race_AIAN_Literals();
+                if (literals.Length > 0)
                 {
-                    Set_Race("2500-7", "Other Pacific Islander");
+                    return literals[0];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.AIANRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
                 }
             }
         }
 
+        /// <summary>Decedent's Race--Second American Indian or Alaska Native Literal</summary>
+        [IJEField(60, 316, 30, "Decedent's Race--Second American Indian or Alaska Native Literal", "RACE17", 1)]
+        public string RACE17
+        {
+            get
+            {
+                string[] literals = Get_Race_AIAN_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.AIANRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--First Other Asian Literal</summary>
+        [IJEField(61, 346, 30, "Decedent's Race--First Other Asian Literal", "RACE18", 1)]
+        public string RACE18
+        {
+            get
+            {
+                string[] literals = Get_Race_A_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.ARaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--Second Other Asian Literal</summary>
+        [IJEField(62, 376, 30, "Decedent's Race--Second Other Asian Literal", "RACE19", 1)]
+        public string RACE19
+        {
+            get
+            {
+                string[] literals = Get_Race_A_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.ARaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--First Other Pacific Islander Literal</summary>
+        [IJEField(63, 406, 30, "Decedent's Race--First Other Pacific Islander Literal", "RACE20", 1)]
+        public string RACE20
+        {
+            get
+            {
+                string[] literals = Get_Race_NHOPI_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.NHOPIRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--Second Other Pacific Islander Literalr</summary>
+        [IJEField(64, 436, 30, "Decedent's Race--Second Other Pacific Islander Literal", "RACE21", 1)]
+        public string RACE21
+        {
+            get
+            {
+                string[] literals = Get_Race_NHOPI_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.NHOPIRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--First Other Literal</summary>
+        [IJEField(65, 466, 30, "Decedent's Race--First Other Literal", "RACE22", 1)]
+        public string RACE22
+        {
+            get
+            {
+                string[] literals = Get_Race_OTHER_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.WRaceNameToRaceCode(name);
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = dataLookup.BAARaceNameToRaceCode(name);
+                }
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--Second Other Literal</summary>
+        [IJEField(66, 496, 30, "Decedent's Race--Second Other Literal", "RACE23", 1)]
+        public string RACE23
+        {
+            get
+            {
+                string[] literals = Get_Race_OTHER_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
+            }
+            set
+            {
+                string name = value.Trim();
+                string code = dataLookup.WRaceNameToRaceCode(name);
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = dataLookup.BAARaceNameToRaceCode(name);
+                }
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Race--Missing</summary>
+        [IJEField(83, 574, 1, "Decedent's Race--Missing", "RACE_MVR", 1)]
+        public string RACE_MVR
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
+            }
+        }
 
         /// <summary>Occupation -- Literal (OPTIONAL)</summary>
         [IJEField(84, 575, 40, "Occupation -- Literal (OPTIONAL)", "OCCUP", 1)]
@@ -1521,6 +1976,64 @@ namespace FhirDeathRecord
             set
             {
                 Dictionary_Set("INDUST", "Occupation", "industryDescription", value);
+            }
+        }
+
+        /// <summary>Infant Death/Birth Linking - birth certificate number</summary>
+        [IJEField(88, 661, 6, "Infant Death/Birth Linking - birth certificate number", "BCNO", 1)]
+        public string BCNO
+        {
+            get
+            {
+                return "";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Infant Death/Birth Linking - year of birth</summary>
+        [IJEField(89, 667, 4, "Infant Death/Birth Linking - year of birth", "IDOB_YR", 1)]
+        public string IDOB_YR
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(BCNO))
+                {
+                    string dob = DateTime_Get("IDOB_YR", "yyyy", "DateOfBirth");
+                    if (String.IsNullOrEmpty(dob))
+                    {
+                        return "9999"; // Unknown
+                    }
+                    else
+                    {
+                        return dob;
+                    }
+                }
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Infant Death/Birth Linking - year of birth</summary>
+        [IJEField(90, 671, 2, "Infant Death/Birth Linking - State, U.S. Territory or Canadian Province of Birth - code", "BSTATE", 1)]
+        public string BSTATE
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(BCNO))
+                {
+                    return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "placeOfBirth", "state", true);
+                }
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -1625,6 +2138,39 @@ namespace FhirDeathRecord
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Could not be determined");
                         break;
                 }
+            }
+        }
+
+        /// <summary>Place of Injury (computer generated)</summary>
+        [IJEField(102, 704, 1, "Place of Injury (computer generated)", "INJPL", 1)]
+        public string INJPL
+        {
+            get
+            {
+                // IJE options below, default to Blank.
+                // A Home
+                // B Farm
+                // C Residential Institution
+                // D Military Residence
+                // E Hospital
+                // F School, Other Institutions, Administrative Area
+                // G Industrial and Construction
+                // H Garage/Warehouse
+                // I Trade and Service Area
+                // J Mine/Quarry
+                // K Street/Highway
+                // L Public Recreation Area
+                // M Institutional Recreation Area
+                // N Sports and Recreation Area
+                // O Other building
+                // P Other specified Place
+                // Q Unspecified Place
+                // Blank
+                return "";
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -1770,6 +2316,20 @@ namespace FhirDeathRecord
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not applicable");
                         break;
                 }
+            }
+        }
+
+        /// <summary>If Female--Edit Flag: From EDR only</summary>
+        [IJEField(112, 980, 1, "If Female--Edit Flag: From EDR only", "PREG_BYPASS", 1)]
+        public string PREG_BYPASS
+        {
+            get
+            {
+                return ""; // Blank
+            }
+            set
+            {
+                // NOOP
             }
         }
 
@@ -1963,6 +2523,28 @@ namespace FhirDeathRecord
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Medical Examiner");
                         break;
                 }
+            }
+        }
+
+        /// <summary>Activity at time of death (computer generated)</summary>
+        [IJEField(119, 1024, 1, "Activity at time of death (computer generated)", "INACT", 1)]
+        public string INACT
+        {
+            get
+            {
+                // IJE options below, default to "9"
+                // 0 While engaged in sports activity
+                // 1 While engaged in leisure activities
+                // 2 While working for income
+                // 3 While engaged in other types of work
+                // 4 While resting, sleeping, eating, or engaging in other vital activities
+                // 8 While engaged in other specified activities
+                // 9 During unspecified activity
+                return "9";
+            }
+            set
+            {
+                // NOOP
             }
         }
 

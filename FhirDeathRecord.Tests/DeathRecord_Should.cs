@@ -147,6 +147,20 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_FatherFamilyName()
+        {
+            SetterDeathRecord.FatherFamilyName = "FTHLast";
+            Assert.Equal("FTHLast", SetterDeathRecord.FatherFamilyName);
+        }
+
+        [Fact]
+        public void Get_FatherFamilyName()
+        {
+            Assert.Equal("FTHLast", ((DeathRecord)XMLRecords[0]).FatherFamilyName);
+            Assert.Equal("FTHLast", ((DeathRecord)JSONRecords[0]).FatherFamilyName);
+        }
+
+        [Fact]
         public void Set_Gender()
         {
             SetterDeathRecord.Gender = "male";
@@ -255,9 +269,9 @@ namespace FhirDeathRecord.Tests
             Tuple<string, string>[] ethnicity =
             {
                 Tuple.Create("Hispanic or Latino", "2135-2"),
-                Tuple.Create("Puerto Rican", "2180-8"),
+                Tuple.Create("Mexican", "2148-5"),
+                Tuple.Create("Spanish Basque", "2146-9")
             };
-
             Assert.Equal(ethnicity, ((DeathRecord)XMLRecords[0]).Ethnicity);
             Assert.Equal(ethnicity, ((DeathRecord)JSONRecords[0]).Ethnicity);
         }
@@ -278,9 +292,15 @@ namespace FhirDeathRecord.Tests
             {
                 Tuple.Create("White", "2106-3"),
                 Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"),
-                Tuple.Create("Asian", "2028-5"),
+                Tuple.Create("Asian", "2028-9"),
                 Tuple.Create("American Indian or Alaskan Native", "1002-5"),
                 Tuple.Create("Black or African American", "2054-5"),
+                Tuple.Create("Scottish", "2116-2"),
+                Tuple.Create("Laotian", "2041-2"),
+                Tuple.Create("Delaware", "1214-6"),
+                Tuple.Create("Crow", "1209-6"),
+                Tuple.Create("Hmong", "2037-0"),
+                Tuple.Create("Kosraean", "2093-3")
             };
 
             Assert.Equal(race, ((DeathRecord)XMLRecords[0]).Race);
@@ -403,11 +423,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> code = new Dictionary<string, string>();
             code.Add("code", "S");
-            code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus	");
+            code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
             code.Add("display", "Never Married");
             SetterDeathRecord.MaritalStatus = code;
             Assert.Equal("S", SetterDeathRecord.MaritalStatus["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus	", SetterDeathRecord.MaritalStatus["system"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", SetterDeathRecord.MaritalStatus["system"]);
             Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
         }
 

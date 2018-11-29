@@ -24,12 +24,10 @@ namespace csharp_fhir_death_record
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
                 deathRecord.DateOfRegistration = "2018-07-11";
-                string[] expected = {"Example", "Middle"};
-                deathRecord.GivenNames = expected;
                 deathRecord.FirstName = "Example";
                 deathRecord.MiddleName = "Middle";
                 deathRecord.FamilyName = "Last";
-                deathRecord.MaidenName = "Last";
+                deathRecord.MaidenName = "Last Maiden";
                 deathRecord.Suffix = "Sr.";
                 deathRecord.FatherFamilyName = "FTHLast";
                 deathRecord.Gender = "male";
@@ -59,6 +57,7 @@ namespace csharp_fhir_death_record
                 dictionary.Add("placeOfBirthLine1", "9 Example Street");
                 dictionary.Add("placeOfBirthLine2", "Line 2");
                 dictionary.Add("placeOfBirthCity", "Bedford");
+                dictionary.Add("placeOfBirthCounty", "Middlesex");
                 dictionary.Add("placeOfBirthState", "Massachusetts");
                 dictionary.Add("placeOfBirthZip", "01730");
                 dictionary.Add("placeOfBirthCountry", "United States");
@@ -71,6 +70,7 @@ namespace csharp_fhir_death_record
                 dictionary.Add("placeOfDeathLine1", "8 Example Street");
                 dictionary.Add("placeOfDeathLine2", "Line 2");
                 dictionary.Add("placeOfDeathCity", "Bedford");
+                dictionary.Add("placeOfDeathCounty", "Middlesex");
                 dictionary.Add("placeOfDeathState", "Massachusetts");
                 dictionary.Add("placeOfDeathZip", "01730");
                 dictionary.Add("placeOfDeathCountry", "United States");
@@ -115,8 +115,6 @@ namespace csharp_fhir_death_record
                 dictionary.Add("funeralFacilityCountry", "United States");
                 dictionary.Add("funeralFacilityInsideCityLimits", "False");
                 deathRecord.Disposition = dictionary;
-                string[] expectedg = {"Example", "Middle", "Middle 2", "Middle 3"};
-                deathRecord.CertifierGivenNames = expectedg;
                 deathRecord.FamilyName = "Doctor";
                 deathRecord.CertifierFirstName = "Example";
                 deathRecord.CertifierMiddleName = "Middle";
@@ -175,6 +173,7 @@ namespace csharp_fhir_death_record
                 detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
                 detailsOfInjury.Add("placeOfInjuryLine2", "Line 2");
                 detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
+                detailsOfInjury.Add("placeOfInjuryCounty", "Middlesex");
                 detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
                 detailsOfInjury.Add("placeOfInjuryZip", "01730");
                 detailsOfInjury.Add("placeOfInjuryCountry", "United States");

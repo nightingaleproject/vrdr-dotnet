@@ -116,6 +116,36 @@
               <code value="2054-5"/>
             </valueCoding>
           </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="2116-2"/>
+            </valueCoding>
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="2041-2"/>
+            </valueCoding>
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="1214-6"/>
+            </valueCoding>
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="1209-6"/>
+            </valueCoding>
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="2037-0"/>
+            </valueCoding>
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <code value="2093-3"/>
+            </valueCoding>
+          </extension>
           <extension url="text">
             <valueString value="White"/>
           </extension>
@@ -130,6 +160,24 @@
           </extension>
           <extension url="text">
             <valueString value="Black or African American"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Scottish"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Laotian"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Delaware"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Crow"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Hmong"/>
+          </extension>
+          <extension url="text">
+            <valueString value="Kosraean"/>
           </extension>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">

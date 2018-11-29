@@ -262,6 +262,7 @@
             <para>"placeOfBirthLine1" - location of birth, line one</para>
             <para>"placeOfBirthLine2" - location of birth, line two</para>
             <para>"placeOfBirthCity" - location of birth, city</para>
+            <para>"placeOfBirthCounty" - location of birth, county</para>
             <para>"placeOfBirthState" - location of birth, state</para>
             <para>"placeOfBirthZip" - location of birth, zip</para>
             <para>"placeOfBirthCountry" - location of birth, country</para>
@@ -272,6 +273,7 @@
             <para>placeOfBirth.Add("placeOfBirthLine1", "9 Example Street");</para>
             <para>placeOfBirth.Add("placeOfBirthLine2", "Line 2");</para>
             <para>placeOfBirth.Add("placeOfBirthCity", "Bedford");</para>
+            <para>placeOfBirth.Add("placeOfBirthCounty", "Middlesex");</para>
             <para>placeOfBirth.Add("placeOfBirthState", "Massachusetts");</para>
             <para>placeOfBirth.Add("placeOfBirthZip", "01730");</para>
             <para>placeOfBirth.Add("placeOfBirthCountry", "United States");</para>
@@ -910,6 +912,24 @@
         <member name="M:FhirDeathRecord.IJEMortality.Get_Race(System.String,System.String)">
             <summary>Checks if the given race exists in the record.</summary>
         </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_AIAN_Literals">
+            <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_A_Literals">
+            <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_BAA_Literals">
+            <summary>Retrieves Black or African American Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_NHOPI_Literals">
+            <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_W_Literals">
+            <summary>Retrieves White Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_OTHER_Literals">
+            <summary>Retrieves OTHER Race literals on the record.</summary>
+        </member>
         <member name="M:FhirDeathRecord.IJEMortality.Set_Race(System.String,System.String)">
             <summary>Adds the given race to the record.</summary>
         </member>
@@ -1116,54 +1136,6 @@
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.RACE23">
             <summary>Decedent's Race--Second Other Literal</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE1E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE2E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE3E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE4E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE5E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE6E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE7E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE8E">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE16C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE17C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE18C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE19C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE20C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE21C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE22C">
-            <summary>Race Tabulation Variables</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE23C">
-            <summary>Race Tabulation Variables</summary>
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.RACE_MVR">
             <summary>Decedent's Race--Missing</summary>
@@ -1414,52 +1386,103 @@
         <member name="P:FhirDeathRecord.IJEMortality.DTHCOUNTRY">
             <summary>Country of Death - Literal</summary>
         </member>
-        <member name="T:FhirDeathRecord.IJEMortalityData">
+        <member name="T:FhirDeathRecord.MortalityData">
             <summary>Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortalityData.Instance">
+        <member name="P:FhirDeathRecord.MortalityData.Instance">
             <summary>Instance get method for singleton.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.EthnicityNameToEthnicityCode(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.EthnicityNameToEthnicityCode(System.String)">
             <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.EthnicityCodeToEthnicityName(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.EthnicityCodeToEthnicityName(System.String)">
             <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateNameToStateCode(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateCodeToStateName(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateCodeToStateName(System.String)">
             <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.CountryNameToCountryCode(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.CountryNameToCountryCode(System.String)">
             <summary>Given a Country name - return the representative Country code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.CountryCodeToCountryName(System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.CountryCodeToCountryName(System.String)">
             <summary>Given a Country code - return the representative Country name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateNameAndCountyNameToCountyCode(System.String,System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameToCountyCode(System.String,System.String)">
             <summary>Given a State and County name - return the representative County code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateNameAndCountyCodeToCountyName(System.String,System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyCodeToCountyName(System.String,System.String)">
             <summary>Given a County code and a State name - return the representative County name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(System.String,System.String,System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(System.String,System.String,System.String)">
             <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
+        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
             <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortalityData.CDCEthnicityCodes">
+        <member name="M:FhirDeathRecord.MortalityData.AIANRaceNameToRaceCode(System.String)">
+            <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.AIANRaceCodeToRaceName(System.String)">
+            <summary>Given an American Indian or Alaska Native Race code - return the representative Race name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.ARaceNameToRaceCode(System.String)">
+            <summary>Given an Asian Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.ARaceCodeToRaceName(System.String)">
+            <summary>Given an Asian Race code - return the representative Race name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.BAARaceNameToRaceCode(System.String)">
+            <summary>Given a Black or African American Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.BAARaceCodeToRaceName(System.String)">
+            <summary>Given a Black or African American Race code - return the representative Race name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.NHOPIRaceNameToRaceCode(System.String)">
+            <summary>Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.NHOPIRaceCodeToRaceName(System.String)">
+            <summary>Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.WRaceNameToRaceCode(System.String)">
+            <summary>Given a White Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.WRaceCodeToRaceName(System.String)">
+            <summary>Given a White Race code - return the representative Race name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.RaceNameToRaceCode(System.String)">
+            <summary>Given a Race name - return the representative Race code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.RaceCodeToRaceName(System.String)">
+            <summary>Given a Race code - return the representative Race name.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCRaceAIANCodes">
+            <summary>CDC Race American Indian or Alaska Native Codes</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCRaceACodes">
+            <summary>CDC Race Asian Codes</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCRaceBAACodes">
+            <summary>CDC Race Black or African American Codes</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCRaceNHOPICodes">
+            <summary>CDC Race Native Hawaiian or Other Pacific Islander Codes</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCRaceWCodes">
+            <summary>CDC Race White Codes</summary>
+        </member>
+        <member name="F:FhirDeathRecord.MortalityData.CDCEthnicityCodes">
             <summary>CDC Ethnicity Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortalityData.StateTerritoryProvinceCodes">
+        <member name="F:FhirDeathRecord.MortalityData.StateTerritoryProvinceCodes">
             <summary>State and Territory Province Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortalityData.CountryCodes">
+        <member name="F:FhirDeathRecord.MortalityData.CountryCodes">
             <summary>Country Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortalityData.PlaceCodes">
+        <member name="F:FhirDeathRecord.MortalityData.PlaceCodes">
             <summary>Place Codes</summary>
         </member>
     </members>

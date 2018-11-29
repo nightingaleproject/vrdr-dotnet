@@ -53,7 +53,7 @@ namespace FhirDeathRecord
         private DeathRecord record;
 
         /// <summary>IJE data lookup helper. Thread-safe singleton!</summary>
-        private IJEMortalityData dataLookup = IJEMortalityData.Instance;
+        private MortalityData dataLookup = MortalityData.Instance;
 
         /// <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
         public IJEMortality(DeathRecord record)
@@ -461,6 +461,49 @@ namespace FhirDeathRecord
             return Array.Exists(record.Race, element => element.Item1 == display || element.Item2 == code);
         }
 
+        /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
+        private string[] Get_Race_AIAN_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
+        private string[] Get_Race_A_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
+            string[] filterCodes = { "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Black or African American Race literals on the record.</summary>
+        private string[] Get_Race_BAA_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
+        private string[] Get_Race_NHOPI_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
+            string[] filterCodes = { "2086-7", "2080-0", "2079-2" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves White Race literals on the record.</summary>
+        private string[] Get_Race_W_Literals()
+        {
+            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
+            return literals.Select(race => race.Item2).ToArray();
+        }
+
+        /// <summary>Retrieves OTHER Race literals on the record.</summary>
+        private string[] Get_Race_OTHER_Literals()
+        {
+            return Get_Race_W_Literals().ToList().Concat(Get_Race_BAA_Literals().ToList()).ToArray();
+        }
+
         /// <summary>Adds the given race to the record.</summary>
         private void Set_Race(string code, string display)
         {
@@ -556,7 +599,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "0"; // TODO: Capability for the FHIR VRDR to mark void records.
+                return "0";
             }
             set
             {
@@ -570,7 +613,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return RightJustifiedZeroed_Get("AUXNO", "Id"); // TODO: Capability for the FHIR VRDR to record state ID as well as certificate number.
+                return RightJustifiedZeroed_Get("AUXNO", "Id");
             }
             set
             {
@@ -654,7 +697,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "0"; // TODO: Defaulting to **not** alias record. Investigate how this could work with FHIR VRDR.
+                return "0";
             }
             set
             {
@@ -1607,11 +1650,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return ""; // TODO
+                return Get_Race_A_Literals().Length > 0 ? "Y" : "N";
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -1672,14 +1715,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Get_Race("2500-7", "Other Pacific Islander") ? "Y" : "N";
+                return Get_Race_NHOPI_Literals().Length > 0 ? "Y" : "N";
             }
             set
             {
-                if (value == "Y")
-                {
-                    Set_Race("2500-7", "Other Pacific Islander");
-                }
+                // NOOP
             }
         }
 
@@ -1689,347 +1729,211 @@ namespace FhirDeathRecord
         {
             get
             {
-                return ""; // TODO
+                return Get_Race_OTHER_Literals().Length > 0 ? "Y" : "N";
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
         /// <summary>Decedent's Race--First American Indian or Alaska Native Literal</summary>
-        [IJEField(59, 286, 1, "Decedent's Race--First American Indian or Alaska Native Literal", "RACE16", 1)]
+        [IJEField(59, 286, 30, "Decedent's Race--First American Indian or Alaska Native Literal", "RACE16", 1)]
         public string RACE16
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_AIAN_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.AIANRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--Second American Indian or Alaska Native Literal</summary>
-        [IJEField(60, 316, 1, "Decedent's Race--Second American Indian or Alaska Native Literal", "RACE17", 1)]
+        [IJEField(60, 316, 30, "Decedent's Race--Second American Indian or Alaska Native Literal", "RACE17", 1)]
         public string RACE17
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_AIAN_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.AIANRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--First Other Asian Literal</summary>
-        [IJEField(61, 346, 1, "Decedent's Race--First Other Asian Literal", "RACE18", 1)]
+        [IJEField(61, 346, 30, "Decedent's Race--First Other Asian Literal", "RACE18", 1)]
         public string RACE18
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_A_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.ARaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--Second Other Asian Literal</summary>
-        [IJEField(62, 376, 1, "Decedent's Race--Second Other Asian Literal", "RACE19", 1)]
+        [IJEField(62, 376, 30, "Decedent's Race--Second Other Asian Literal", "RACE19", 1)]
         public string RACE19
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_A_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.ARaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--First Other Pacific Islander Literal</summary>
-        [IJEField(63, 406, 1, "Decedent's Race--First Other Pacific Islander Literal", "RACE20", 1)]
+        [IJEField(63, 406, 30, "Decedent's Race--First Other Pacific Islander Literal", "RACE20", 1)]
         public string RACE20
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_NHOPI_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.NHOPIRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--Second Other Pacific Islander Literalr</summary>
-        [IJEField(64, 436, 1, "Decedent's Race--Second Other Pacific Islander Literal", "RACE21", 1)]
+        [IJEField(64, 436, 30, "Decedent's Race--Second Other Pacific Islander Literal", "RACE21", 1)]
         public string RACE21
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_NHOPI_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.NHOPIRaceNameToRaceCode(name);
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--First Other Literal</summary>
-        [IJEField(65, 466, 1, "Decedent's Race--First Other Literal", "RACE22", 1)]
+        [IJEField(65, 466, 30, "Decedent's Race--First Other Literal", "RACE22", 1)]
         public string RACE22
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_OTHER_Literals();
+                if (literals.Length > 0)
+                {
+                    return literals[0];
+                }
+                return "";
             }
             set
             {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.WRaceNameToRaceCode(name);
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = dataLookup.BAARaceNameToRaceCode(name);
+                }
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
         /// <summary>Decedent's Race--Second Other Literal</summary>
-        [IJEField(66, 496, 1, "Decedent's Race--Second Other Literal", "RACE23", 1)]
+        [IJEField(66, 496, 30, "Decedent's Race--Second Other Literal", "RACE23", 1)]
         public string RACE23
         {
             get
             {
-                return ""; // TODO
+                string[] literals = Get_Race_OTHER_Literals();
+                if (literals.Length > 1)
+                {
+                    return literals[1];
+                }
+                return "";
             }
             set
             {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(67, 526, 3, "Race Tabulation Variables", "RACE1E", 1)]
-        public string RACE1E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(68, 529, 3, "Race Tabulation Variables", "RACE2E", 1)]
-        public string RACE2E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(69, 532, 3, "Race Tabulation Variables", "RACE3E", 1)]
-        public string RACE3E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(70, 535, 3, "Race Tabulation Variables", "RACE4E", 1)]
-        public string RACE4E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(71, 538, 3, "Race Tabulation Variables", "RACE5E", 1)]
-        public string RACE5E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(72, 541, 3, "Race Tabulation Variables", "RACE6E", 1)]
-        public string RACE6E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(73, 544, 3, "Race Tabulation Variables", "RACE7E", 1)]
-        public string RACE7E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(74, 547, 3, "Race Tabulation Variables", "RACE8E", 1)]
-        public string RACE8E
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(75, 550, 3, "Race Tabulation Variables", "RACE16C", 1)]
-        public string RACE16C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(76, 553, 3, "Race Tabulation Variables", "RACE17C", 1)]
-        public string RACE17C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(77, 556, 3, "Race Tabulation Variables", "RACE18C", 1)]
-        public string RACE18C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(78, 559, 3, "Race Tabulation Variables", "RACE19C", 1)]
-        public string RACE19C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(79, 562, 3, "Race Tabulation Variables", "RACE20C", 1)]
-        public string RACE20C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(80, 565, 3, "Race Tabulation Variables", "RACE21C", 1)]
-        public string RACE21C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(81, 568, 3, "Race Tabulation Variables", "RACE22C", 1)]
-        public string RACE22C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
-            }
-        }
-
-        /// <summary>Race Tabulation Variables</summary>
-        [IJEField(82, 571, 3, "Race Tabulation Variables", "RACE23C", 1)]
-        public string RACE23C
-        {
-            get
-            {
-                return ""; // TODO
-            }
-            set
-            {
-                // TODO
+                string name = value.Trim();
+                string code = dataLookup.WRaceNameToRaceCode(name);
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = dataLookup.BAARaceNameToRaceCode(name);
+                }
+                if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
+                {
+                    Set_Race(code, name);
+                }
             }
         }
 
@@ -2085,7 +1989,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                // TODO
+                // NOOP
             }
         }
 
@@ -2243,7 +2147,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                // TODO: IJE options below, for now default to Blank.
+                // IJE options below, default to Blank.
                 // A Home
                 // B Farm
                 // C Residential Institution
@@ -2628,7 +2532,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                // TODO: IJE options below, for now default to "9"
+                // IJE options below, default to "9"
                 // 0 While engaged in sports activity
                 // 1 While engaged in leisure activities
                 // 2 While working for income

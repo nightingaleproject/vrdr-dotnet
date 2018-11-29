@@ -134,6 +134,42 @@
                 }
               },
               {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2116-2"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2041-2"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "1214-6"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "1209-6"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2037-0"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "code": "2093-3"
+                }
+              },
+              {
                 "url": "text",
                 "valueString": "White"
               },
@@ -152,6 +188,30 @@
               {
                 "url": "text",
                 "valueString": "Black or African American"
+              },
+              {
+                "url": "text",
+                "valueString": "Scottish"
+              },
+              {
+                "url": "text",
+                "valueString": "Laotian"
+              },
+              {
+                "url": "text",
+                "valueString": "Delaware"
+              },
+              {
+                "url": "text",
+                "valueString": "Crow"
+              },
+              {
+                "url": "text",
+                "valueString": "Hmong"
+              },
+              {
+                "url": "text",
+                "valueString": "Kosraean"
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"

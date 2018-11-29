@@ -295,6 +295,12 @@ namespace FhirDeathRecord.Tests
                 Tuple.Create("Asian", "2028-9"),
                 Tuple.Create("American Indian or Alaskan Native", "1002-5"),
                 Tuple.Create("Black or African American", "2054-5"),
+                Tuple.Create("Scottish", "2116-2"),
+                Tuple.Create("Laotian", "2041-2"),
+                Tuple.Create("Delaware", "1214-6"),
+                Tuple.Create("Crow", "1209-6"),
+                Tuple.Create("Hmong", "2037-0"),
+                Tuple.Create("Kosraean", "2093-3")
             };
 
             Assert.Equal(race, ((DeathRecord)XMLRecords[0]).Race);

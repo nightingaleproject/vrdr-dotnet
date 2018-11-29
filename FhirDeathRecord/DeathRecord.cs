@@ -715,13 +715,19 @@ namespace FhirDeathRecord
             get
             {
                 string[] displays = new string[] { };
-                string[] codes = new string[] { };
+                string[] ombCodes = new string[] { };
+                string[] detailedCodes = new string[] { };
                 displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'text').value");
-                codes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
+                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
+                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
                 Tuple<string, string>[] raceList = new Tuple<string, string>[displays.Length];
-
-                for(int i = 0; i < displays.Length; i++) {
-                    raceList[i] = (Tuple.Create(displays[i], codes[i]));
+                for (int i = 0; i < ombCodes.Length; i++)
+                {
+                    raceList[i] = (Tuple.Create(displays[i], ombCodes[i]));
+                }
+                for (int i = 0; i < detailedCodes.Length; i++)
+                {
+                    raceList[ombCodes.Length + i] = (Tuple.Create(displays[ombCodes.Length + i], detailedCodes[i]));
                 }
                 return raceList;
             }
@@ -738,7 +744,14 @@ namespace FhirDeathRecord
                     Extension codeRace = new Extension();
                     textRace.Url = "text";
                     textRace.Value = new FhirString(display);
-                    codeRace.Url = "ombCategory";
+                    if (code == "1002-5" || code == "2028-9" || code == "2054-5" || code == "2076-8" || code == "2106-3")
+                    {
+                        codeRace.Url = "ombCategory";
+                    }
+                    else
+                    {
+                        codeRace.Url = "detailed";
+                    }
                     codeRace.Value = new Coding(null, code);
                     races.Extension.Add(textRace);
                     races.Extension.Add(codeRace);
@@ -752,6 +765,7 @@ namespace FhirDeathRecord
         /// <para>"placeOfBirthLine1" - location of birth, line one</para>
         /// <para>"placeOfBirthLine2" - location of birth, line two</para>
         /// <para>"placeOfBirthCity" - location of birth, city</para>
+        /// <para>"placeOfBirthCounty" - location of birth, county</para>
         /// <para>"placeOfBirthState" - location of birth, state</para>
         /// <para>"placeOfBirthZip" - location of birth, zip</para>
         /// <para>"placeOfBirthCountry" - location of birth, country</para>
@@ -762,6 +776,7 @@ namespace FhirDeathRecord
         /// <para>placeOfBirth.Add("placeOfBirthLine1", "9 Example Street");</para>
         /// <para>placeOfBirth.Add("placeOfBirthLine2", "Line 2");</para>
         /// <para>placeOfBirth.Add("placeOfBirthCity", "Bedford");</para>
+        /// <para>placeOfBirth.Add("placeOfBirthCounty", "Middlesex");</para>
         /// <para>placeOfBirth.Add("placeOfBirthState", "Massachusetts");</para>
         /// <para>placeOfBirth.Add("placeOfBirthZip", "01730");</para>
         /// <para>placeOfBirth.Add("placeOfBirthCountry", "United States");</para>
@@ -780,6 +795,7 @@ namespace FhirDeathRecord
                 dictionary.Add("placeOfBirthLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[0]"));
                 dictionary.Add("placeOfBirthLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[1]"));
                 dictionary.Add("placeOfBirthCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.city"));
+                dictionary.Add("placeOfBirthCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.district"));
                 dictionary.Add("placeOfBirthState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.state"));
                 dictionary.Add("placeOfBirthZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.postalCode"));
                 dictionary.Add("placeOfBirthCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.country"));
@@ -798,6 +814,7 @@ namespace FhirDeathRecord
                 string[] lines = {GetValue(value, "placeOfBirthLine1"), GetValue(value, "placeOfBirthLine2")};
                 placeOfBirthAddress.Line = lines.ToArray();
                 placeOfBirthAddress.City = GetValue(value, "placeOfBirthCity");
+                placeOfBirthAddress.District = GetValue(value, "placeOfBirthCounty");
                 placeOfBirthAddress.State = GetValue(value, "placeOfBirthState");
                 placeOfBirthAddress.PostalCode = GetValue(value, "placeOfBirthZip");
                 placeOfBirthAddress.Country = GetValue(value, "placeOfBirthCountry");

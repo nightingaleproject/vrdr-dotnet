@@ -64,6 +64,10 @@ namespace FhirDeathRecord
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         public IJEMortality(string ije)
         {
+            if (ije == null || ije.Length < 5000)
+            {
+                throw new ArgumentException("IJE string must be (at least) 5000 characters long.");
+            }
             this.record = new DeathRecord();
             // Loop over every property (these are the fields); Order by priority
             List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
@@ -337,7 +341,7 @@ namespace FhirDeathRecord
                     }
                 }
             }
-            if (current != null)
+            if (current != null && current != Convert.ToString(dictionary[key]))
             {
                 return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
             }
@@ -387,11 +391,7 @@ namespace FhirDeathRecord
                     }
                     else if (geoType == "insideCityLimits")
                     {
-                        if (!String.IsNullOrEmpty(value) && value == "Y")
-                        {
-                            dictionary[key] = "True";
-                        }
-                        else if (!String.IsNullOrEmpty(value) && value == "N")
+                        if (!String.IsNullOrEmpty(value) && value == "N")
                         {
                             dictionary[key] = "False";
                         }
@@ -955,7 +955,10 @@ namespace FhirDeathRecord
             }
             set
             {
-                Dictionary_Geo_Set("LIMITS", "Residence", "residence", "insideCityLimits", true, value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("LIMITS", "Residence", "residence", "insideCityLimits", true, value);
+                }
             }
         }
 

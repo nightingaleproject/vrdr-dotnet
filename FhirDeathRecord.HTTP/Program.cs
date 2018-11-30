@@ -15,15 +15,11 @@ namespace FhirDeathRecord.HTTP
         {
             FhirDeathRecordListener Listener = new FhirDeathRecordListener(SendResponse, "http://*:8080/");
             Listener.Run();
-
-            Console.WriteLine("Example FHIR Death Record Translation Service.");
-
             ManualResetEvent _quitEvent = new ManualResetEvent(false);
             _quitEvent.WaitOne();
-
             Listener.Stop();
         }
-    
+
         public static string SendResponse(HttpListenerRequest request)
         {
             string requestBody = GetBodyContent(request);
@@ -49,22 +45,18 @@ namespace FhirDeathRecord.HTTP
                 case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
                     IJEMortality ije = new IJEMortality(deathRecord);
                     return ije.ToString();
-                    break;
                 case string url when new Regex(@"json$").IsMatch(url): // .json
                     return deathRecord.ToJSON();
-                    break;
                 case string url when new Regex(@"xml$").IsMatch(url): // .xml
                     return deathRecord.ToXML();
-                    break;
             }
 
-            // TODO: error handling
             return "";
         }
 
         public static string GetBodyContent(HttpListenerRequest request)
         {
-            using (System.IO.Stream body = request.InputStream) // here we have data
+            using (System.IO.Stream body = request.InputStream)
             {
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(body, request.ContentEncoding))
                 {
@@ -72,6 +64,6 @@ namespace FhirDeathRecord.HTTP
                 }
             }
         }
-        
+
     }
 }

@@ -143,7 +143,7 @@ http://<server>:8080/ije   <- For requesting a record as IJE
 
 Include a `Content-Type` header indicating what format the record is represented as in the body of the message (e.g. `application/fhir+json`, `application/fhir+xml`, or `application/ije`.).
 
-### Usage (Local)
+#### Usage (Local)
 Example usage (executed inside the FhirDeathRecord.HTTP directory):
 ```
 dotnet run
@@ -151,7 +151,7 @@ dotnet run
 
 This will launch the microservice locally, which will be listening on port 8080.
 
-### Usage (docker)
+#### Usage (docker)
 Note, this requires a locally running instance of docker on the machine for the service to be deployed on.
 
 ```

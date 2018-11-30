@@ -64,6 +64,10 @@ namespace FhirDeathRecord
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         public IJEMortality(string ije)
         {
+            if (ije == null || ije.Length < 5000)
+            {
+                throw new ArgumentException("IJE string must be (at least) 5000 characters long.");
+            }
             this.record = new DeathRecord();
             // Loop over every property (these are the fields); Order by priority
             List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
@@ -117,7 +121,7 @@ namespace FhirDeathRecord
         /// <summary>Truncates the given string to the given length.</summary>
         private static string Truncate(string value, int length)
         {
-            if (string.IsNullOrEmpty(value) || value.Length <= length)
+            if (string.IsNullOrWhiteSpace(value) || value.Length <= length)
             {
                 return value;
             }
@@ -272,7 +276,7 @@ namespace FhirDeathRecord
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrEmpty(dictionary[key])))
+            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrWhiteSpace(dictionary[key])))
             {
                 dictionary[key] = value.Trim();
             }
@@ -323,7 +327,7 @@ namespace FhirDeathRecord
                 }
                 else if (geoType == "insideCityLimits")
                 {
-                    if (string.IsNullOrEmpty(current))
+                    if (string.IsNullOrWhiteSpace(current))
                     {
                         current = "U";
                     }
@@ -353,7 +357,7 @@ namespace FhirDeathRecord
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrEmpty(dictionary[key])))
+            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrWhiteSpace(dictionary[key])))
             {
                 if (isCoded)
                 {
@@ -363,35 +367,47 @@ namespace FhirDeathRecord
                         string county = null;
                         dictionary.TryGetValue(keyPrefix + "State", out state);
                         dictionary.TryGetValue(keyPrefix + "County", out county);
-                        if (!String.IsNullOrEmpty(state) && !String.IsNullOrEmpty(county))
+                        if (!String.IsNullOrWhiteSpace(state) && !String.IsNullOrWhiteSpace(county))
                         {
-                            dictionary[key] = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value).Trim();
+                            string city = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value).Trim();
+                            if (!String.IsNullOrWhiteSpace(city))
+                            {
+                                dictionary[key] = city;
+                            }
                         }
                     }
                     else if (geoType == "county") // This is a tricky case, we need to know about state!
                     {
                         string state = null;
                         dictionary.TryGetValue(keyPrefix + "State", out state);
-                        if (!String.IsNullOrEmpty(state))
+                        if (!String.IsNullOrWhiteSpace(state))
                         {
-                            dictionary[key] = dataLookup.StateNameAndCountyCodeToCountyName(state, value).Trim();
+                            string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value).Trim();
+                            if (!String.IsNullOrWhiteSpace(county))
+                            {
+                                dictionary[key] = county;
+                            }
                         }
                     }
                     else if (geoType == "state")
                     {
-                        dictionary[key] = dataLookup.StateCodeToStateName(value).Trim();
+                        string state = dataLookup.StateCodeToStateName(value).Trim();
+                        if (!String.IsNullOrWhiteSpace(state))
+                        {
+                            dictionary[key] = state;
+                        }
                     }
                     else if (geoType == "country")
                     {
-                        dictionary[key] = dataLookup.CountryCodeToCountryName(value).Trim();
+                        string country = dataLookup.CountryCodeToCountryName(value).Trim();
+                        if (!String.IsNullOrWhiteSpace(country))
+                        {
+                            dictionary[key] = country;
+                        }
                     }
                     else if (geoType == "insideCityLimits")
                     {
-                        if (!String.IsNullOrEmpty(value) && value == "Y")
-                        {
-                            dictionary[key] = "True";
-                        }
-                        else if (!String.IsNullOrEmpty(value) && value == "N")
+                        if (!String.IsNullOrWhiteSpace(value) && value == "N")
                         {
                             dictionary[key] = "False";
                         }
@@ -955,7 +971,10 @@ namespace FhirDeathRecord
             }
             set
             {
-                Dictionary_Geo_Set("LIMITS", "Residence", "residence", "insideCityLimits", true, value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("LIMITS", "Residence", "residence", "insideCityLimits", true, value);
+                }
             }
         }
 
@@ -1999,10 +2018,10 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (!String.IsNullOrEmpty(BCNO))
+                if (!String.IsNullOrWhiteSpace(BCNO))
                 {
                     string dob = DateTime_Get("IDOB_YR", "yyyy", "DateOfBirth");
-                    if (String.IsNullOrEmpty(dob))
+                    if (String.IsNullOrWhiteSpace(dob))
                     {
                         return "9999"; // Unknown
                     }
@@ -2025,7 +2044,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (!String.IsNullOrEmpty(BCNO))
+                if (!String.IsNullOrWhiteSpace(BCNO))
                 {
                     return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "placeOfBirth", "state", true);
                 }

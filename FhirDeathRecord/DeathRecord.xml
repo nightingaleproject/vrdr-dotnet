@@ -1392,12 +1392,6 @@
         <member name="P:FhirDeathRecord.MortalityData.Instance">
             <summary>Instance get method for singleton.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.EthnicityNameToEthnicityCode(System.String)">
-            <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.MortalityData.EthnicityCodeToEthnicityName(System.String)">
-            <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
-        </member>
         <member name="M:FhirDeathRecord.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         </member>
@@ -1421,6 +1415,12 @@
         </member>
         <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
             <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.EthnicityNameToEthnicityCode(System.String)">
+            <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.EthnicityCodeToEthnicityName(System.String)">
+            <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
         </member>
         <member name="M:FhirDeathRecord.MortalityData.AIANRaceNameToRaceCode(System.String)">
             <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>

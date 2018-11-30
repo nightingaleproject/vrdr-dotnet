@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record.svg?branch=master)](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record)
 
 # csharp-fhir-death-record
-This repository includes C# code for producing and consuming the preliminary version of the Standard Death Record (SDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR). [Click here to view the generated FHIR IG](https://nightingaleproject.github.io/fhir-death-record). This code also includes support for converting FHIR SDRs to and from the Inter-Jurisdictional Exchange (IJE) Mortality format **(Under Active Development - Currently Experimental!)**.
+This repository includes C# code for producing and consuming the preliminary version of the Standard Death Record (SDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR). [Click here to view the generated FHIR IG](https://nightingaleproject.github.io/fhir-death-record). This code also includes support for converting FHIR SDRs to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
 ## Project Organization
 
 ### FhirDeathRecord
-This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format **(Under Active Development - Currently Experimental!)**.
+This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 #### Usage
 You can include the library by referencing it in your project configuration, for example (taken from FhirDeathRecord.CLI):
@@ -129,4 +129,33 @@ This directory contains a sample app that uses the FhirDeathRecord library. The 
 Example usage (executed inside the FhirDeathRecord.CLI directory):
 ```
 dotnet run 1.xml
+```
+
+### FhirDeathRecord.HTTP
+This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.
+
+The current available endpoints to `POST` to are:
+```
+http://<server>:8080/xml   <- For requesting a record as FHIR in XML format
+http://<server>:8080/json  <- For requesting a record as FHIR in JSON format
+http://<server>:8080/ije   <- For requesting a record as IJE
+```
+
+Include a `Content-Type` header indicating what format the record is represented as in the body of the message (e.g. `application/fhir+json`, `application/fhir+xml`, or `application/ije`.).
+
+### Usage (Local)
+Example usage (executed inside the FhirDeathRecord.HTTP directory):
+```
+dotnet run
+```
+
+This will launch the microservice locally, which will be listening on port 8080.
+
+### Usage (docker)
+Note, this requires a locally running instance of docker on the machine for the service to be deployed on.
+
+```
+dotnet publish
+docker build -t fhirdeath .
+docker run -p 8080:8080 fhirdeath
 ```

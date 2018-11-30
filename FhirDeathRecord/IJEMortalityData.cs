@@ -18,36 +18,6 @@ namespace FhirDeathRecord
             internal static readonly MortalityData instance = new MortalityData();
         }
 
-        /// <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
-        public string EthnicityNameToEthnicityCode(string name)
-        {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                return null;
-            }
-            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
-            if (index < 0)
-            {
-                return null;
-            }
-            return CDCEthnicityCodes[index].Item1.ToUpper();
-        }
-
-        /// <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
-        public string EthnicityCodeToEthnicityName(string code)
-        {
-            if (String.IsNullOrWhiteSpace(code))
-            {
-                return null;
-            }
-            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
-            if (index < 0)
-            {
-                return null;
-            }
-            return CDCEthnicityCodes[index].Item2.ToUpper();
-        }
-
         /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         public string StateNameToStateCode(string state)
         {
@@ -55,12 +25,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                state = state.Trim();
+            }
             int index = StateTerritoryProvinceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == state.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return StateTerritoryProvinceCodes[index].Item2.ToUpper();
+            return StateTerritoryProvinceCodes[index].Item2;
         }
 
         /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
@@ -70,12 +44,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = StateTerritoryProvinceCodes.ToList().FindIndex(t => t.Item2.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return StateTerritoryProvinceCodes[index].Item1.ToUpper();
+            return StateTerritoryProvinceCodes[index].Item1;
         }
 
         /// <summary>Given a Country name - return the representative Country code.</summary>
@@ -85,12 +63,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                country = country.Trim();
+            }
             int index = CountryCodes.ToList().FindIndex(t => t.Item1.ToUpper() == country.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CountryCodes[index].Item2.ToUpper();
+            return CountryCodes[index].Item2;
         }
 
         /// <summary>Given a Country code - return the representative Country name.</summary>
@@ -100,12 +82,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CountryCodes.ToList().FindIndex(t => t.Item2.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CountryCodes[index].Item1.ToUpper();
+            return CountryCodes[index].Item1;
         }
 
         /// <summary>Given a State and County name - return the representative County code.</summary>
@@ -114,6 +100,11 @@ namespace FhirDeathRecord
             if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county))
             {
                 return null;
+            }
+            else
+            {
+                state = state.Trim();
+                county = county.Trim();
             }
             string stateCode = StateNameToStateCode(state);
             if (stateCode == null)
@@ -125,7 +116,7 @@ namespace FhirDeathRecord
             {
                 return null;
             }
-            return PlaceCodes[index].Item3.ToUpper();
+            return PlaceCodes[index].Item3;
         }
 
         /// <summary>Given a County code and a State name - return the representative County name.</summary>
@@ -134,6 +125,11 @@ namespace FhirDeathRecord
             if (String.IsNullOrWhiteSpace(code) || String.IsNullOrWhiteSpace(state))
             {
                 return null;
+            }
+            else
+            {
+                state = state.Trim();
+                code = code.Trim();
             }
             string stateCode = StateNameToStateCode(state);
             if (String.IsNullOrWhiteSpace(stateCode))
@@ -145,7 +141,7 @@ namespace FhirDeathRecord
             {
                 return null;
             }
-            return PlaceCodes[index].Item2.ToUpper();
+            return PlaceCodes[index].Item2;
         }
 
         /// <summary>Given a State, County, and Place name - return the representative Place code.</summary>
@@ -154,6 +150,12 @@ namespace FhirDeathRecord
             if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county) || String.IsNullOrWhiteSpace(place))
             {
                 return null;
+            }
+            else
+            {
+                state = state.Trim();
+                county = county.Trim();
+                place = place.Trim();
             }
             string stateCode = StateNameToStateCode(state);
             if (String.IsNullOrWhiteSpace(stateCode))
@@ -165,7 +167,7 @@ namespace FhirDeathRecord
             {
                 return null;
             }
-            return PlaceCodes[index].Item6.ToUpper();
+            return PlaceCodes[index].Item6;
         }
 
         /// <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
@@ -174,6 +176,12 @@ namespace FhirDeathRecord
             if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(county) || String.IsNullOrWhiteSpace(code))
             {
                 return null;
+            }
+            else
+            {
+                state = state.Trim();
+                county = county.Trim();
+                code = code.Trim();
             }
             string stateCode = StateNameToStateCode(state);
             if (String.IsNullOrWhiteSpace(stateCode))
@@ -185,7 +193,45 @@ namespace FhirDeathRecord
             {
                 return null;
             }
-            return PlaceCodes[index].Item4.ToUpper();
+            return PlaceCodes[index].Item4;
+        }
+
+        /// <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
+        public string EthnicityNameToEthnicityCode(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            else
+            {
+                name = name.Trim();
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item1;
+        }
+
+        /// <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
+        public string EthnicityCodeToEthnicityName(string code)
+        {
+            if (String.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            else
+            {
+                code = code.Trim();
+            }
+            int index = CDCEthnicityCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return CDCEthnicityCodes[index].Item2;
         }
 
         /// <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>
@@ -195,12 +241,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                name = name.Trim();
+            }
             int index = CDCRaceAIANCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceAIANCodes[index].Item1.ToUpper();
+            return CDCRaceAIANCodes[index].Item1;
         }
 
         /// <summary>Given an American Indian or Alaska Native Race code - return the representative Race name.</summary>
@@ -210,12 +260,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CDCRaceAIANCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceAIANCodes[index].Item2.ToUpper();
+            return CDCRaceAIANCodes[index].Item2;
         }
 
         /// <summary>Given an Asian Race name - return the representative Race code.</summary>
@@ -225,12 +279,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                name = name.Trim();
+            }
             int index = CDCRaceACodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceACodes[index].Item1.ToUpper();
+            return CDCRaceACodes[index].Item1;
         }
 
         /// <summary>Given an Asian Race code - return the representative Race name.</summary>
@@ -240,12 +298,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CDCRaceACodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceACodes[index].Item2.ToUpper();
+            return CDCRaceACodes[index].Item2;
         }
 
         /// <summary>Given a Black or African American Race name - return the representative Race code.</summary>
@@ -255,12 +317,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                name = name.Trim();
+            }
             int index = CDCRaceBAACodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceBAACodes[index].Item1.ToUpper();
+            return CDCRaceBAACodes[index].Item1;
         }
 
         /// <summary>Given a Black or African American Race code - return the representative Race name.</summary>
@@ -270,12 +336,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CDCRaceBAACodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceBAACodes[index].Item2.ToUpper();
+            return CDCRaceBAACodes[index].Item2;
         }
 
         /// <summary>Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.</summary>
@@ -285,12 +355,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                name = name.Trim();
+            }
             int index = CDCRaceNHOPICodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceNHOPICodes[index].Item1.ToUpper();
+            return CDCRaceNHOPICodes[index].Item1;
         }
 
         /// <summary>Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.</summary>
@@ -300,12 +374,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CDCRaceNHOPICodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceNHOPICodes[index].Item2.ToUpper();
+            return CDCRaceNHOPICodes[index].Item2;
         }
 
         /// <summary>Given a White Race name - return the representative Race code.</summary>
@@ -315,12 +393,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                name = name.Trim();
+            }
             int index = CDCRaceWCodes.ToList().FindIndex(t => t.Item2.ToUpper() == name.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceWCodes[index].Item1.ToUpper();
+            return CDCRaceWCodes[index].Item1;
         }
 
         /// <summary>Given a White Race code - return the representative Race name.</summary>
@@ -330,12 +412,16 @@ namespace FhirDeathRecord
             {
                 return null;
             }
+            else
+            {
+                code = code.Trim();
+            }
             int index = CDCRaceWCodes.ToList().FindIndex(t => t.Item1.ToUpper() == code.ToUpper());
             if (index < 0)
             {
                 return null;
             }
-            return CDCRaceWCodes[index].Item2.ToUpper();
+            return CDCRaceWCodes[index].Item2;
         }
 
         /// <summary>Given a Race name - return the representative Race code.</summary>

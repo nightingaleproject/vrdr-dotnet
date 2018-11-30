@@ -2101,10 +2101,13 @@ namespace FhirDeathRecord
                 placeOfInjuryLocationAddress.PostalCode = GetValue(value, "placeOfInjuryZip");
                 placeOfInjuryLocationAddress.Country = GetValue(value, "placeOfInjuryCountry");
                 placeOfInjuryLocationAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-                Extension insideCityLimits = new Extension();
-                insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfInjuryInsideCityLimits") == "true" || GetValue(value, "placeOfInjuryInsideCityLimits") == "True");
-                placeOfInjuryLocationAddress.Extension.Add(insideCityLimits);
+                if (!String.IsNullOrWhiteSpace(GetValue(value, "placeOfInjuryInsideCityLimits")))
+                {
+                    Extension insideCityLimits = new Extension();
+                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfInjuryInsideCityLimits") == "true" || GetValue(value, "placeOfInjuryInsideCityLimits") == "True");
+                    placeOfInjuryLocationAddress.Extension.Add(insideCityLimits);
+                }
                 placeOfInjuryLocation.Value = placeOfInjuryLocationAddress;
                 observation.Extension.Add(placeOfInjuryLocation);
             }

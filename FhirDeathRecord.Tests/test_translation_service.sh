@@ -14,7 +14,7 @@ echo "${IJE}" ) | nc localhost 8080)
 
 JSONLEN=${#JSONOUT}
 
-echo $JSONOUT > json.tmp
+echo "$(echo -e "${JSONOUT}" | sed -e 's/^[[:space:]]*//')" > json.tmp
 
 echo
 cat json.tmp

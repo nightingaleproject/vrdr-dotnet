@@ -16,14 +16,18 @@ JSONLEN=${#JSONOUT}
 
 echo $JSONOUT > json.tmp
 
+echo
+cat json.tmp
+echo
+
 IJEOUT=$(curl -d "@json.tmp" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/ije)
 
 cd ..
 
 echo $IJE
-echo ''
+echo
 echo $JSONOUT
-echo ''
+echo
 echo $IJEOUT
 
 if [[ $IJE == $IJEOUT ]]; then

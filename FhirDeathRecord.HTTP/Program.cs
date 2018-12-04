@@ -9,21 +9,45 @@ using FhirDeathRecord;
 
 namespace FhirDeathRecord.HTTP
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public FhirDeathRecordListener Listener;
+
+        public Program()
         {
-            FhirDeathRecordListener Listener = new FhirDeathRecordListener(SendResponse, "http://*:8080/");
-            Listener.Run();
+            Listener = new FhirDeathRecordListener(SendResponse, "http://*:8080/");
+        }
+
+        public void Start()
+        {
+            Listen();
             ManualResetEvent _quitEvent = new ManualResetEvent(false);
             _quitEvent.WaitOne();
+            Stop();
+        }
+
+        public void Listen()
+        {
+            Listener.Run();
+        }
+
+        public void Stop()
+        {
             Listener.Stop();
+        }
+
+        static void Main(string[] args)
+        {
+            Program program = new Program();
+            program.Start();
         }
 
         public static string SendResponse(HttpListenerRequest request)
         {
             string requestBody = GetBodyContent(request);
             DeathRecord deathRecord = null;
+
+            Console.WriteLine($"Request from: {request.UserHostAddress}, type: {request.ContentType}, url: {request.RawUrl}.");
 
             // Look at content type to determine input format; be permissive in what we accept as format specification
             switch (request.ContentType)
@@ -40,18 +64,22 @@ namespace FhirDeathRecord.HTTP
             }
 
             // Look at URL extension to determine output format; be permissive in what we accept as format specification
+            string result = "";
             switch (request.RawUrl)
             {
                 case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
                     IJEMortality ije = new IJEMortality(deathRecord);
-                    return ije.ToString();
+                    result = ije.ToString();
+                    break;
                 case string url when new Regex(@"json$").IsMatch(url): // .json
-                    return deathRecord.ToJSON();
+                    result = deathRecord.ToJSON();
+                    break;
                 case string url when new Regex(@"xml$").IsMatch(url): // .xml
-                    return deathRecord.ToXML();
+                    result = deathRecord.ToXML();
+                    break;
             }
 
-            return "";
+            return result;
         }
 
         public static string GetBodyContent(HttpListenerRequest request)

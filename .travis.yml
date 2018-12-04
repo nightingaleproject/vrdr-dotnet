@@ -11,3 +11,4 @@ script:
  - dotnet run -p FhirDeathRecord.CLI
  - dotnet run -p FhirDeathRecord.CLI ije FhirDeathRecord.CLI/1.xml
  - dotnet run -p FhirDeathRecord.CLI FhirDeathRecord.CLI/1.xml
+ - ./FhirDeathRecord.Tests/test_translation_service.sh

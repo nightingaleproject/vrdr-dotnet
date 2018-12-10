@@ -20,7 +20,7 @@ namespace csharp_fhir_death_record
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML, JSON, and IJE output...\n");
+                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
                 deathRecord.DateOfRegistration = "2018-07-11";
@@ -180,9 +180,9 @@ namespace csharp_fhir_death_record
                 detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
                 deathRecord.DetailsOfInjury = detailsOfInjury;
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                Console.WriteLine(deathRecord.ToJSON() + "\n\n");
+                //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
                 IJEMortality ije = new IJEMortality(deathRecord);
-                Console.WriteLine(ije.ToString() + "\n");
+                //Console.WriteLine(ije.ToString() + "\n");
             }
             else if (args.Length == 2 && args[0] == "ije")
             {
@@ -190,7 +190,7 @@ namespace csharp_fhir_death_record
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
                 IJEMortality ije1 = new IJEMortality(d);
-                Console.WriteLine(ije1.ToString() + "\n\n");
+                //Console.WriteLine(ije1.ToString() + "\n\n");
                 IJEMortality ije2 = new IJEMortality(ije1.ToString());
                 //Console.WriteLine(ije2.ToString() + "\n\n");
                 //Console.WriteLine(XDocument.Parse(ije2.ToDeathRecord().ToXML()).ToString() + "\n");

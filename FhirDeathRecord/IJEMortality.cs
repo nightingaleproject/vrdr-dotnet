@@ -64,9 +64,13 @@ namespace FhirDeathRecord
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         public IJEMortality(string ije)
         {
-            if (ije == null || ije.Length < 5000)
+            if (ije == null)
             {
-                throw new ArgumentException("IJE string must be (at least) 5000 characters long.");
+                throw new ArgumentException("IJE string cannot be null.");
+            }
+            if (ije.Length < 5000)
+            {
+                ije = ije.PadRight(5000, ' ');
             }
             this.record = new DeathRecord();
             // Loop over every property (these are the fields); Order by priority

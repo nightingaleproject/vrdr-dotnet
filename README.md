@@ -57,15 +57,27 @@ deathRecord.GivenNames = givenNames;
 // Add Decedent Last Name
 deathRecord.FamilyName = "Last";
 
-// Add Causes Of Death
-Tuple<string, string, Dictionary<string, string>>[] causes =
-{
-  Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }), // Include a fake code
-  Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
-  Tuple.Create("Example Underlying COD 2", "5 weeks", new Dictionary<string, string>()),
-  Tuple.Create("Example Underlying COD 3", "30 years", new Dictionary<string, string>())
-};
-deathRecord.CausesOfDeath = causes;
+// Cause of Death Part I, Line a
+deathRecord.COD1A = "Rupture of myocardium";
+
+// Cause of Death Part I Interval, Line a
+deathRecord.INTERVAL1A = "Minutes";
+
+// Cause of Death Part I Code, Line a
+deathRecord.CODE1A = new Dictionary<string, string>(){ {"code", "I23.3"}, {"system", "ICD-10-CM"}, {"display", "Rupture of cardiac wall without hemopericardium as current complication following acute myocardial infarction"} }
+
+// Cause of Death Part I, Line b
+deathRecord.COD1B = "Atherosclerotic coronary artery disease";
+
+// Cause of Death Part I Interval, Line b
+deathRecord.INTERVAL1B = "7 years";
+
+// Cause of Death Part I Code, Line b
+Dictionary<string, string> exampleCode = new Dictionary<string, string>();
+code.Add("code", "I25.10");
+code.Add("system", "ICD-10-CM");
+code.Add("display", "Atherosclerotic heart disease of native coronary artery without angina pectoris");
+deathRecord.CODE1B = exampleCode;
 
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();

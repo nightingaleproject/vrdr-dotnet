@@ -64,20 +64,11 @@ deathRecord.COD1A = "Rupture of myocardium";
 deathRecord.INTERVAL1A = "Minutes";
 
 // Cause of Death Part I Code, Line a
-deathRecord.CODE1A = new Dictionary<string, string>(){ {"code", "I23.3"}, {"system", "ICD-10-CM"}, {"display", "Rupture of cardiac wall without hemopericardium as current complication following acute myocardial infarction"} }
-
-// Cause of Death Part I, Line b
-deathRecord.COD1B = "Atherosclerotic coronary artery disease";
-
-// Cause of Death Part I Interval, Line b
-deathRecord.INTERVAL1B = "7 years";
-
-// Cause of Death Part I Code, Line b
 Dictionary<string, string> exampleCode = new Dictionary<string, string>();
-code.Add("code", "I25.10");
-code.Add("system", "ICD-10-CM");
-code.Add("display", "Atherosclerotic heart disease of native coronary artery without angina pectoris");
-deathRecord.CODE1B = exampleCode;
+code.Add("code", "I21.0");
+code.Add("system", "ICD-10");
+code.Add("display", "Acute transmural myocardial infarction of anterior wall");
+deathRecord.CODE1A = exampleCode;
 
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();

@@ -1663,6 +1663,318 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line a.</summary>
+        public string COD1A
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    return string.IsNullOrWhiteSpace(causes[0].Item1) ? "" : causes[0].Item1;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), causes[0].Item2, causes[0].Item3), 0);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 0);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line a.</summary>
+        public string INTERVAL1A
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    return string.IsNullOrWhiteSpace(causes[0].Item2) ? "" : causes[0].Item2;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    InsertCOD(Tuple.Create(causes[0].Item1, value.Trim(), causes[0].Item3), 0);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 0);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line a.</summary>
+        public Dictionary<string, string> CODE1A
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    return causes[0].Item3;
+                }
+                return null;
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 0)
+                {
+                    InsertCOD(Tuple.Create(causes[0].Item1, causes[0].Item2, value), 0);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", "", value), 0);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line b.</summary>
+        public string COD1B
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    return string.IsNullOrWhiteSpace(causes[1].Item1) ? "" : causes[1].Item1;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), causes[1].Item2, causes[1].Item3), 1);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 1);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line b.</summary>
+        public string INTERVAL1B
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    return string.IsNullOrWhiteSpace(causes[1].Item2) ? "" : causes[1].Item2;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    InsertCOD(Tuple.Create(causes[1].Item1, value.Trim(), causes[1].Item3), 1);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 1);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line b.</summary>
+        public Dictionary<string, string> CODE1B
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    return causes[1].Item3;
+                }
+                return null;
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 1)
+                {
+                    InsertCOD(Tuple.Create(causes[1].Item1, causes[1].Item2, value), 1);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", "", value), 1);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line c.</summary>
+        public string COD1C
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    return string.IsNullOrWhiteSpace(causes[2].Item1) ? "" : causes[2].Item1;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), causes[2].Item2, causes[2].Item3), 2);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 2);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line c.</summary>
+        public string INTERVAL1C
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    return string.IsNullOrWhiteSpace(causes[2].Item2) ? "" : causes[2].Item2;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    InsertCOD(Tuple.Create(causes[2].Item1, value.Trim(), causes[2].Item3), 2);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 2);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line c.</summary>
+        public Dictionary<string, string> CODE1C
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    return causes[2].Item3;
+                }
+                return null;
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 2)
+                {
+                    InsertCOD(Tuple.Create(causes[2].Item1, causes[2].Item2, value), 2);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", "", value), 2);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line d.</summary>
+        public string COD1D
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    return string.IsNullOrWhiteSpace(causes[3].Item1) ? "" : causes[3].Item1;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), causes[3].Item2, causes[3].Item3), 3);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 3);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line d.</summary>
+        public string INTERVAL1D
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    return string.IsNullOrWhiteSpace(causes[3].Item2) ? "" : causes[3].Item2;
+                }
+                return "";
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    InsertCOD(Tuple.Create(causes[3].Item1, value.Trim(), causes[3].Item3), 3);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 3);
+                }
+            }
+        }
+
+        /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line d.</summary>
+        public Dictionary<string, string> CODE1D
+        {
+            get
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    return causes[3].Item3;
+                }
+                return null;
+            }
+            set
+            {
+                Tuple<string, string, Dictionary<string, string>>[] causes = CausesOfDeath;
+                if (causes.Length > 3)
+                {
+                    InsertCOD(Tuple.Create(causes[3].Item1, causes[3].Item2, value), 3);
+                }
+                else
+                {
+                    InsertCOD(Tuple.Create("", "", value), 3);
+                }
+            }
+        }
+
         /// <summary>A significant condition that contributed to death but did not result in the underlying cause
         /// captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
         /// <value>A significant condition that contributed to death but did not result in the underlying cause
@@ -2208,6 +2520,33 @@ namespace FhirDeathRecord
             }
             codeableConcept.Coding.Add(coding);
             return codeableConcept;
+        }
+
+        /// <summary>Inserts a single COD line into the CausesOfDeath property.</summary>
+        /// <param name="cod">cause of death to add.</param>
+        /// <param name="index">what index the cause of death should appear.</param>
+        private void InsertCOD(Tuple<string, string, Dictionary<string, string>> cod, int index)
+        {
+            List<Tuple<string, string, Dictionary<string, string>>> causes = CausesOfDeath.ToList();
+            for (int i = 0; i < index + 1; i++)
+            {
+                if (causes.Count <= i)
+                {
+                    if (i == index)
+                    {
+                        causes.Add(cod);
+                    }
+                    else
+                    {
+                        causes.Add(Tuple.Create("", "", new Dictionary<string, string>()));
+                    }
+                }
+                else if (i == index)
+                {
+                    causes[i] = cod;
+                }
+            }
+            CausesOfDeath = causes.ToArray();
         }
 
         /// <summary>Given a FHIR path, return the elements that match the given path;

@@ -125,7 +125,7 @@ namespace FhirDeathRecord
         /// <summary>Truncates the given string to the given length.</summary>
         private static string Truncate(string value, int length)
         {
-            if (string.IsNullOrWhiteSpace(value) || value.Length <= length)
+            if (String.IsNullOrWhiteSpace(value) || value.Length <= length)
             {
                 return value;
             }
@@ -280,7 +280,7 @@ namespace FhirDeathRecord
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrWhiteSpace(dictionary[key])))
+            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
             {
                 dictionary[key] = value.Trim();
             }
@@ -331,7 +331,7 @@ namespace FhirDeathRecord
                 }
                 else if (geoType == "insideCityLimits")
                 {
-                    if (string.IsNullOrWhiteSpace(current))
+                    if (String.IsNullOrWhiteSpace(current))
                     {
                         current = "U";
                     }
@@ -361,7 +361,7 @@ namespace FhirDeathRecord
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || string.IsNullOrWhiteSpace(dictionary[key])))
+            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
             {
                 if (isCoded)
                 {

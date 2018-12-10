@@ -563,6 +563,42 @@
             <para>}</para>
             </example>
         </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1A">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line a.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1A">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line a.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1A">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line a.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1B">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line b.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1B">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line b.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1B">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line b.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1C">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line c.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1C">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line c.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1C">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line c.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1D">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line d.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1D">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line d.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1D">
+            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line d.</summary>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
             <summary>A significant condition that contributed to death but did not result in the underlying cause
             captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
@@ -770,6 +806,11 @@
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.InsertCOD(System.Tuple{System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String}},System.Int32)">
+            <summary>Inserts a single COD line into the CausesOfDeath property.</summary>
+            <param name="cod">cause of death to add.</param>
+            <param name="index">what index the cause of death should appear.</param>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;

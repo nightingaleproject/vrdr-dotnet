@@ -16,6 +16,8 @@ namespace FhirDeathRecord.Tests
 
         private DeathRecord SetterDeathRecord;
 
+        private DeathRecord SetterDeathRecordCOD;
+
         public DeathRecord_Should()
         {
             XMLRecords = new ArrayList();
@@ -23,6 +25,7 @@ namespace FhirDeathRecord.Tests
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json"))));
             SetterDeathRecord = new DeathRecord();
+            SetterDeathRecordCOD = new DeathRecord();
         }
 
         [Fact]
@@ -779,6 +782,174 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("6 months", jsonCauses[2].Item2);
             Assert.Equal("Example Underlying COD 3", jsonCauses[3].Item1);
             Assert.Equal("15 years", jsonCauses[3].Item2);
+        }
+
+        [Fact]
+        public void Set_COD1C()
+        {
+            SetterDeathRecordCOD.COD1C = "foo3";
+            Assert.Equal("foo3", SetterDeathRecordCOD.COD1C);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1C()
+        {
+            SetterDeathRecordCOD.INTERVAL1C = "bar3";
+            Assert.Equal("bar3", SetterDeathRecordCOD.INTERVAL1C);
+        }
+
+        [Fact]
+        public void Set_CODE1C()
+        {
+            SetterDeathRecordCOD.CODE1C = new Dictionary<string, string>(){ {"code", "12"}, {"system", "example2"}, {"display", "one two"} };
+            Assert.Equal(new Dictionary<string, string>(){ {"code", "12"}, {"system", "example2"}, {"display", "one two"} }, SetterDeathRecordCOD.CODE1C);
+        }
+
+        [Fact]
+        public void Get_COD1C()
+        {
+            Assert.Equal("Example Underlying COD 2", ((DeathRecord)XMLRecords[0]).COD1C);
+            Assert.Equal("Example Underlying COD 2", ((DeathRecord)JSONRecords[0]).COD1C);
+        }
+
+        [Fact]
+        public void Get_INTERVAL1C()
+        {
+            Assert.Equal("6 months", ((DeathRecord)XMLRecords[0]).INTERVAL1C);
+            Assert.Equal("6 months", ((DeathRecord)JSONRecords[0]).INTERVAL1C);
+        }
+
+        [Fact]
+        public void Get_CODE1C()
+        {
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1C);
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1C);
+        }
+
+        [Fact]
+        public void Set_COD1D()
+        {
+            SetterDeathRecordCOD.COD1D = "foobar";
+            Assert.Equal("foobar", SetterDeathRecordCOD.COD1D);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1D()
+        {
+            SetterDeathRecordCOD.INTERVAL1D = "barfoo";
+            Assert.Equal("barfoo", SetterDeathRecordCOD.INTERVAL1D);
+        }
+
+        [Fact]
+        public void Set_CODE1D()
+        {
+            SetterDeathRecordCOD.CODE1D = new Dictionary<string, string>(){ {"code", "1256"}, {"system", "example3"}, {"display", "one two five six"} };
+            Assert.Equal(new Dictionary<string, string>(){ {"code", "1256"}, {"system", "example3"}, {"display", "one two five six"} }, SetterDeathRecordCOD.CODE1D);
+        }
+
+        [Fact]
+        public void Get_COD1D()
+        {
+            Assert.Equal("Example Underlying COD 3", ((DeathRecord)XMLRecords[0]).COD1D);
+            Assert.Equal("Example Underlying COD 3", ((DeathRecord)JSONRecords[0]).COD1D);
+        }
+
+        [Fact]
+        public void Get_INTERVAL1D()
+        {
+            Assert.Equal("15 years", ((DeathRecord)XMLRecords[0]).INTERVAL1D);
+            Assert.Equal("15 years", ((DeathRecord)JSONRecords[0]).INTERVAL1D);
+        }
+
+        [Fact]
+        public void Get_CODE1D()
+        {
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1D);
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1D);
+        }
+
+        [Fact]
+        public void Set_COD1A()
+        {
+            SetterDeathRecordCOD.COD1A = "foo1";
+            Assert.Equal("foo1", SetterDeathRecordCOD.COD1A);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1A()
+        {
+            SetterDeathRecordCOD.INTERVAL1A = "bar1";
+            Assert.Equal("bar1", SetterDeathRecordCOD.INTERVAL1A);
+        }
+
+        [Fact]
+        public void Set_CODE1A()
+        {
+            SetterDeathRecordCOD.CODE1A = new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"}, {"display", "one two three four"} };
+            Assert.Equal(new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"}, {"display", "one two three four"} }, SetterDeathRecordCOD.CODE1A);
+        }
+
+        [Fact]
+        public void Get_COD1A()
+        {
+            Assert.Equal("Example Immediate COD", ((DeathRecord)XMLRecords[0]).COD1A);
+            Assert.Equal("Example Immediate COD", ((DeathRecord)JSONRecords[0]).COD1A);
+        }
+
+        [Fact]
+        public void Get_INTERVAL1A()
+        {
+            Assert.Equal("minutes", ((DeathRecord)XMLRecords[0]).INTERVAL1A);
+            Assert.Equal("minutes", ((DeathRecord)JSONRecords[0]).INTERVAL1A);
+        }
+
+        [Fact]
+        public void Get_CODE1A()
+        {
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1A);
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1A);
+        }
+
+        [Fact]
+        public void Set_COD1B()
+        {
+            SetterDeathRecordCOD.COD1B = "foo2";
+            Assert.Equal("foo2", SetterDeathRecordCOD.COD1B);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1B()
+        {
+            SetterDeathRecordCOD.INTERVAL1B = "bar2";
+            Assert.Equal("bar2", SetterDeathRecordCOD.INTERVAL1B);
+        }
+
+        [Fact]
+        public void Set_CODE1B()
+        {
+            SetterDeathRecordCOD.CODE1B = new Dictionary<string, string>(){ {"code", "124"}, {"system", "example1"}, {"display", "one two four"} };
+            Assert.Equal(new Dictionary<string, string>(){ {"code", "124"}, {"system", "example1"}, {"display", "one two four"} }, SetterDeathRecordCOD.CODE1B);
+        }
+
+        [Fact]
+        public void Get_COD1B()
+        {
+            Assert.Equal("Example Underlying COD 1", ((DeathRecord)XMLRecords[0]).COD1B);
+            Assert.Equal("Example Underlying COD 1", ((DeathRecord)JSONRecords[0]).COD1B);
+        }
+
+        [Fact]
+        public void Get_INTERVAL1B()
+        {
+            Assert.Equal("2 hours", ((DeathRecord)XMLRecords[0]).INTERVAL1B);
+            Assert.Equal("2 hours", ((DeathRecord)JSONRecords[0]).INTERVAL1B);
+        }
+
+        [Fact]
+        public void Get_CODE1B()
+        {
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1B);
+            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1B);
         }
 
         [Fact]

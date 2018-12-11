@@ -38,6 +38,9 @@ namespace FhirDeathRecord
         /// <summary>The Certifier.</summary>
         private Practitioner Practitioner;
 
+        /// <summary>Mortality data for code translations.</summary>
+        private MortalityData MortalityData = MortalityData.Instance;
+
         /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
         public DeathRecord()
         {
@@ -652,20 +655,18 @@ namespace FhirDeathRecord
         {
             get
             {
-                string[] displays = new string[] { };
                 string[] ombCodes = new string[] { };
                 string[] detailedCodes = new string[] { };
-                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'text').value");
                 ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
                 detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
-                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[displays.Length];
+                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
                 for (int i = 0; i < ombCodes.Length; i++)
                 {
-                    ethnicityList[i] = (Tuple.Create(displays[i], ombCodes[i]));
+                    ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), ombCodes[i]));
                 }
                 for (int i = 0; i < detailedCodes.Length; i++)
                 {
-                    ethnicityList[ombCodes.Length + i] = (Tuple.Create(displays[ombCodes.Length + i], detailedCodes[i]));
+                    ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), detailedCodes[i]));
                 }
                 return ethnicityList;
             }
@@ -690,7 +691,7 @@ namespace FhirDeathRecord
                     {
                         codeEthnicity.Url = "detailed";
                     }
-                    codeEthnicity.Value = new Coding(null, code);
+                    codeEthnicity.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
                     ethnicities.Extension.Add(textEthnicity);
                     ethnicities.Extension.Add(codeEthnicity);
                 }
@@ -714,20 +715,18 @@ namespace FhirDeathRecord
         {
             get
             {
-                string[] displays = new string[] { };
                 string[] ombCodes = new string[] { };
                 string[] detailedCodes = new string[] { };
-                displays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'text').value");
                 ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
                 detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
-                Tuple<string, string>[] raceList = new Tuple<string, string>[displays.Length];
+                Tuple<string, string>[] raceList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
                 for (int i = 0; i < ombCodes.Length; i++)
                 {
-                    raceList[i] = (Tuple.Create(displays[i], ombCodes[i]));
+                    raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), ombCodes[i]));
                 }
                 for (int i = 0; i < detailedCodes.Length; i++)
                 {
-                    raceList[ombCodes.Length + i] = (Tuple.Create(displays[ombCodes.Length + i], detailedCodes[i]));
+                    raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), detailedCodes[i]));
                 }
                 return raceList;
             }
@@ -752,7 +751,7 @@ namespace FhirDeathRecord
                     {
                         codeRace.Url = "detailed";
                     }
-                    codeRace.Value = new Coding(null, code);
+                    codeRace.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
                     races.Extension.Add(textRace);
                     races.Extension.Add(codeRace);
                 }

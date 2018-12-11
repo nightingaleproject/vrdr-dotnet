@@ -218,13 +218,37 @@ namespace csharp_fhir_death_record
             {
                 Console.WriteLine("Converting FHIR JSON to FHIR XML...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
             }
             else if (args.Length == 2 && args[0] == "xml2json")
             {
                 Console.WriteLine("Converting FHIR XML to FHIR JSON...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 Console.WriteLine(d.ToJSON());
+            }
+            else if (args.Length == 2 && args[0] == "xml2xml")
+            {
+                // Forces record through getters and then setters, prints as xml
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
+            }
+            else if (args.Length == 2 && args[0] == "json2json")
+            {
+                // Forces record through getters and then setters, prints as JSON
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(outdr.ToJSON());
             }
             else
             {

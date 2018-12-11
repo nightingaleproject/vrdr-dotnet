@@ -492,7 +492,7 @@ namespace FhirDeathRecord
         private string[] Get_Race_A_Literals()
         {
             Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
-            string[] filterCodes = { "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
+            string[] filterCodes = { "2028-9", "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
             return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
         }
 
@@ -507,7 +507,7 @@ namespace FhirDeathRecord
         private string[] Get_Race_NHOPI_Literals()
         {
             Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
-            string[] filterCodes = { "2086-7", "2080-0", "2079-2" };
+            string[] filterCodes = { "2076-8", "2086-7", "2080-0", "2079-2" };
             return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
         }
 

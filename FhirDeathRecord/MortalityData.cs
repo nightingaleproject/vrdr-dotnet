@@ -427,18 +427,19 @@ namespace FhirDeathRecord
         /// <summary>Given a Race name - return the representative Race code.</summary>
         public string RaceNameToRaceCode(string name)
         {
-            return WRaceNameToRaceCode(name) ?? BAARaceNameToRaceCode(name) ?? ARaceNameToRaceCode(name) ?? AIANRaceNameToRaceCode(name);
+            return WRaceNameToRaceCode(name) ?? BAARaceNameToRaceCode(name) ?? ARaceNameToRaceCode(name) ?? AIANRaceNameToRaceCode(name) ?? NHOPIRaceNameToRaceCode(name);
         }
 
         /// <summary>Given a Race code - return the representative Race name.</summary>
         public string RaceCodeToRaceName(string code)
         {
-            return WRaceCodeToRaceName(code) ?? BAARaceCodeToRaceName(code) ?? ARaceCodeToRaceName(code) ?? AIANRaceCodeToRaceName(code);
+            return WRaceCodeToRaceName(code) ?? BAARaceCodeToRaceName(code) ?? ARaceCodeToRaceName(code) ?? AIANRaceCodeToRaceName(code) ?? NHOPIRaceCodeToRaceName(code);
         }
 
         /// <summary>CDC Race American Indian or Alaska Native Codes</summary>
         public Tuple<string, string>[] CDCRaceAIANCodes =
         {
+            Tuple.Create("1002-5", "American Indian or Alaska Native"),
             Tuple.Create("1004-1", "American Indian"),
             Tuple.Create("1735-0", "Alaska Native"),
             Tuple.Create("1006-6", "Abenaki"),
@@ -1271,6 +1272,7 @@ namespace FhirDeathRecord
         /// <summary>CDC Race Asian Codes</summary>
         public Tuple<string, string>[] CDCRaceACodes =
         {
+            Tuple.Create("2028-9", "Asian"),
             Tuple.Create("2029-7", "Asian Indian"),
             Tuple.Create("2030-5", "Bangladeshi"),
             Tuple.Create("2031-3", "Bhutanese"),
@@ -1300,6 +1302,7 @@ namespace FhirDeathRecord
         /// <summary>CDC Race Black or African American Codes</summary>
         public Tuple<string, string>[] CDCRaceBAACodes =
         {
+            Tuple.Create("2054-5", "Black or African American"),
             Tuple.Create("2056-0", "Black"),
             Tuple.Create("2058-6", "African American"),
             Tuple.Create("2060-2", "African"),
@@ -1323,6 +1326,7 @@ namespace FhirDeathRecord
         /// <summary>CDC Race Native Hawaiian or Other Pacific Islander Codes</summary>
         public Tuple<string, string>[] CDCRaceNHOPICodes =
         {
+            Tuple.Create("2076-8", "Native Hawaiian or Other Pacific Islander"),
             Tuple.Create("2078-4", "Polynesian"),
             Tuple.Create("2085-9", "Micronesian"),
             Tuple.Create("2100-6", "Melanesian"),
@@ -1354,6 +1358,7 @@ namespace FhirDeathRecord
         /// <summary>CDC Race White Codes</summary>
         public Tuple<string, string>[] CDCRaceWCodes =
         {
+            Tuple.Create("2106-3", "White"),
             Tuple.Create("2108-9", "European"),
             Tuple.Create("2118-8", "Middle Eastern or North African"),
             Tuple.Create("2129-5", "Arab"),
@@ -1379,6 +1384,8 @@ namespace FhirDeathRecord
         /// <summary>CDC Ethnicity Codes</summary>
         private Tuple<string, string>[] CDCEthnicityCodes =
         {
+            Tuple.Create("2186-5", "Not Hispanic or Latino"),
+            Tuple.Create("2135-2", "Hispanic or Latino"),
             Tuple.Create("2137-8", "Spaniard"),
             Tuple.Create("2148-5", "Mexican"),
             Tuple.Create("2155-0", "Central American"),

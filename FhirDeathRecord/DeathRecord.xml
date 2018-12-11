@@ -31,6 +31,9 @@
         <member name="F:FhirDeathRecord.DeathRecord.Practitioner">
             <summary>The Certifier.</summary>
         </member>
+        <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
+            <summary>Mortality data for code translations.</summary>
+        </member>
         <member name="M:FhirDeathRecord.DeathRecord.#ctor">
             <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
         </member>

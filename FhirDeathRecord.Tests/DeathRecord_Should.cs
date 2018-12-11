@@ -296,7 +296,7 @@ namespace FhirDeathRecord.Tests
                 Tuple.Create("White", "2106-3"),
                 Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"),
                 Tuple.Create("Asian", "2028-9"),
-                Tuple.Create("American Indian or Alaskan Native", "1002-5"),
+                Tuple.Create("American Indian or Alaska Native", "1002-5"),
                 Tuple.Create("Black or African American", "2054-5"),
                 Tuple.Create("Scottish", "2116-2"),
                 Tuple.Create("Laotian", "2041-2"),

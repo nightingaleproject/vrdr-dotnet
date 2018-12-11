@@ -1,304 +1,327 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Bundle xmlns="http://hl7.org/fhir">
-  <id value="1"/>
-  <type value="document"/>
+  <id value="1" />
+  <type value="document" />
   <entry>
-    <fullUrl value="urn:uuid:a5e43293-d8a2-4215-8c57-d6305f8e37c2"/>
+    <fullUrl value="urn:uuid:88ca0036-245f-42c8-8a3c-b855ed404c73" />
     <resource>
       <Composition>
+        <id value="urn:uuid:88ca0036-245f-42c8-8a3c-b855ed404c73" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents" />
         </meta>
-        <status value="final"/>
+        <status value="final" />
         <type>
           <coding>
-            <system value="http://loinc.org"/>
-            <code value="64297-5"/>
-            <display value="Death certificate"/>
+            <system value="http://loinc.org" />
+            <code value="64297-5" />
           </coding>
         </type>
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <date value="2018-07-10"/>
+        <date value="2018-07-10" />
         <author>
-          <reference value="urn:uuid:a623c6b7-9d3f-4c88-97a4-c3e2f57d7d46"/>
+          <reference value="urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7" />
         </author>
-        <title value="Record of Death"/>
+        <title value="Record of Death" />
         <section>
           <code>
             <coding>
-              <system value="http://loinc.org"/>
-              <code value="69453-9"/>
-              <display value="Cause of death"/>
+              <system value="http://loinc.org" />
+              <code value="69453-9" />
             </coding>
           </code>
           <entry>
-            <reference value="urn:uuid:135e7e1d-5660-4528-8b5d-392f38ae11f8"/>
+            <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
           </entry>
           <entry>
-            <reference value="urn:uuid:cdc087b2-3ba3-4306-97ff-66282742e735"/>
+            <reference value="urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7" />
           </entry>
           <entry>
-            <reference value="urn:uuid:00246b02-384e-4445-bcf1-ea0ac5d684af"/>
+            <reference value="urn:uuid:15be9075-1adb-4714-8a62-28adb157f3bb" />
           </entry>
           <entry>
-            <reference value="urn:uuid:54a8d8f5-0397-4f7f-b6eb-57b5b59673ae"/>
+            <reference value="urn:uuid:14ecbf8a-2411-4207-8305-deb5be757291" />
           </entry>
           <entry>
-            <reference value="urn:uuid:40de8408-d029-41fd-8dac-a4113bc5c09c"/>
+            <reference value="urn:uuid:86412270-3bd2-469a-a18b-f25378ef2a83" />
           </entry>
           <entry>
-            <reference value="urn:uuid:695b3fd1-c273-4426-9053-11054d3fd993"/>
+            <reference value="urn:uuid:ae4654f7-84f1-4257-87a5-1b2f0ce5a89b" />
           </entry>
           <entry>
-            <reference value="urn:uuid:3df35d0b-268d-4671-b0dd-9eee7c5ae162"/>
+            <reference value="urn:uuid:8771c9e2-ef05-4c43-9aa3-58dec7dace30" />
           </entry>
           <entry>
-            <reference value="urn:uuid:eaab2df0-4708-4463-8d08-b436a1d26ccf"/>
+            <reference value="urn:uuid:ac426b82-1797-4187-8be4-a70e8daff8f0" />
           </entry>
           <entry>
-            <reference value="urn:uuid:fce625e3-d05f-49a7-bd63-1ca2f1cc499e"/>
+            <reference value="urn:uuid:2c5428a9-d420-42aa-82b4-ea53d9a3ad51" />
           </entry>
           <entry>
-            <reference value="urn:uuid:d642d7b0-d388-4803-915a-5cb2a559c68c"/>
+            <reference value="urn:uuid:d74e0b7b-62e1-44f0-8161-c31bd02d8bc5" />
           </entry>
           <entry>
-            <reference value="urn:uuid:01a9d0cb-b1ff-41fb-b91b-9b7e206f8218"/>
+            <reference value="urn:uuid:0d765a5d-1323-4d74-9ca7-601235488925" />
           </entry>
           <entry>
-            <reference value="urn:uuid:8537725f-e97f-4572-aa4c-3e965e319e3a"/>
+            <reference value="urn:uuid:50fac676-b026-4c13-9ec7-433ae3853106" />
           </entry>
           <entry>
-            <reference value="urn:uuid:43e2ef34-19d0-4dae-b210-1e379c5a5cdc"/>
+            <reference value="urn:uuid:5f7677c1-b927-4139-8f95-7cabbfe088a6" />
           </entry>
           <entry>
-            <reference value="urn:uuid:d8e7a92d-c23d-41d6-b947-976720906adc"/>
+            <reference value="urn:uuid:560a6906-1b00-4c3e-88b6-cec8c091fb5a" />
           </entry>
           <entry>
-            <reference value="urn:uuid:500eebfa-45e8-47e0-9292-564d3f17a7f5"/>
+            <reference value="urn:uuid:f1a53a21-f74b-4fea-9108-afa3468fc254" />
+          </entry>
+          <entry>
+            <reference value="urn:uuid:a9b477f3-ec3b-4b42-8d1e-94149d817066" />
+          </entry>
+          <entry>
+            <reference value="urn:uuid:1b61bb58-05c0-42cd-9b1f-d40a8953a375" />
+          </entry>
+          <entry>
+            <reference value="urn:uuid:9a211e6d-e648-4dc9-a293-baf47f17fbf9" />
           </entry>
         </section>
       </Composition>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+    <fullUrl value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
     <resource>
       <Patient>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Decedent"/>
-          <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"/>
-        </meta>
-        <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">
-          <extension url="ombCategory">
-            <valueCoding>
-              <code value="2106-3"/>
-            </valueCoding>
-          </extension>
-          <extension url="ombCategory">
-            <valueCoding>
-              <code value="2076-8"/>
-            </valueCoding>
-          </extension>
-          <extension url="ombCategory">
-            <valueCoding>
-              <code value="2028-9"/>
-            </valueCoding>
-          </extension>
-          <extension url="ombCategory">
-            <valueCoding>
-              <code value="1002-5"/>
-            </valueCoding>
-          </extension>
-          <extension url="ombCategory">
-            <valueCoding>
-              <code value="2054-5"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="2116-2"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="2041-2"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="1214-6"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="1209-6"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="2037-0"/>
-            </valueCoding>
-          </extension>
-          <extension url="detailed">
-            <valueCoding>
-              <code value="2093-3"/>
-            </valueCoding>
-          </extension>
-          <extension url="text">
-            <valueString value="White"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Native Hawaiian or Other Pacific Islander"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Asian"/>
-          </extension>
-          <extension url="text">
-            <valueString value="American Indian or Alaskan Native"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Black or African American"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Scottish"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Laotian"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Delaware"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Crow"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Hmong"/>
-          </extension>
-          <extension url="text">
-            <valueString value="Kosraean"/>
-          </extension>
-        </extension>
+        <id value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
           <valueCodeableConcept>
             <coding>
-              <system value="http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex"/>
-              <code value="M"/>
-              <display value="Male"/>
+              <system value="http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex" />
+              <code value="M" />
+              <display value="Male" />
             </coding>
           </valueCodeableConcept>
         </extension>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity">
+          <extension url="text">
+            <valueString value="Hispanic or Latino" />
+          </extension>
           <extension url="ombCategory">
             <valueCoding>
-              <code value="2135-2"/>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2135-2" />
+              <display value="Hispanic or Latino" />
             </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Mexican" />
           </extension>
           <extension url="detailed">
             <valueCoding>
-              <code value="2148-5"/>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2148-5" />
+              <display value="Mexican" />
             </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Spanish Basque" />
           </extension>
           <extension url="detailed">
             <valueCoding>
-              <code value="2146-9"/>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2146-9" />
+              <display value="Spanish Basque" />
+            </valueCoding>
+          </extension>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-race">
+          <extension url="text">
+            <valueString value="White" />
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2106-3" />
+              <display value="White" />
             </valueCoding>
           </extension>
           <extension url="text">
-            <valueString value="Hispanic or Latino"/>
+            <valueString value="Native Hawaiian or Other Pacific Islander" />
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2076-8" />
+              <display value="Native Hawaiian or Other Pacific Islander" />
+            </valueCoding>
           </extension>
           <extension url="text">
-            <valueString value="Mexican"/>
+            <valueString value="Asian" />
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2028-9" />
+              <display value="Asian" />
+            </valueCoding>
           </extension>
           <extension url="text">
-            <valueString value="Spanish Basque"/>
+            <valueString value="American Indian or Alaska Native" />
           </extension>
-        </extension>
-        <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
-          <valueCode value="M"/>
-        </extension>
-        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension">
-          <valueUnsignedInt value="48"/>
+          <extension url="ombCategory">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="1002-5" />
+              <display value="American Indian or Alaska Native" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Black or African American" />
+          </extension>
+          <extension url="ombCategory">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2054-5" />
+              <display value="Black or African American" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Scottish" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2116-2" />
+              <display value="Scottish" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Laotian" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2041-2" />
+              <display value="Laotian" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Delaware" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="1214-6" />
+              <display value="Delaware" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Crow" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="1209-6" />
+              <display value="Crow" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Hmong" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2037-0" />
+              <display value="Hmong" />
+            </valueCoding>
+          </extension>
+          <extension url="text">
+            <valueString value="Kosraean" />
+          </extension>
+          <extension url="detailed">
+            <valueCoding>
+              <system value="urn:oid:2.16.840.1.113883.6.238" />
+              <code value="2093-3" />
+              <display value="Kosraean" />
+            </valueCoding>
+          </extension>
         </extension>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension">
           <valueAddress>
-            <type value="postal"/>
-            <city value="Boston"/>
-            <district value="Suffolk"/>
-            <state value="Massachusetts"/>
-            <country value="United States"/>
+            <type value="postal" />
+            <city value="Boston" />
+            <district value="Suffolk" />
+            <state value="Massachusetts" />
+            <country value="United States" />
           </valueAddress>
         </extension>
-        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension">
-          <valueBoolean value="false"/>
+        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension">
+          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension">
+            <valueCodeableConcept>
+              <coding>
+                <code value="16983000" />
+              </coding>
+            </valueCodeableConcept>
+          </extension>
+          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension">
+            <valueString value="Example Hospital" />
+          </extension>
+          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
+            <valueAddress>
+              <type value="postal" />
+              <line value="5 Example St." />
+              <city value="Boston" />
+              <district value="Suffolk" />
+              <state value="Massachusetts" />
+              <postalCode value="02101" />
+              <country value="United States" />
+            </valueAddress>
+          </extension>
         </extension>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension">
           <valueCodeableConcept>
             <coding>
-              <system value="http://hl7.org/fhir/v3/MaritalStatus"/>
-              <code value="S"/>
+              <system value="http://hl7.org/fhir/v3/MaritalStatus" />
+              <code value="S" />
             </coding>
           </valueCodeableConcept>
-        </extension>
-        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension">
-          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
-            <valueAddress>
-              <type value="postal"/>
-              <line value="5 Example St."/>
-              <city value="Boston"/>
-              <district value="Suffolk"/>
-              <state value="Massachusetts"/>
-              <postalCode value="02101"/>
-              <country value="United States"/>
-            </valueAddress>
-          </extension>
-          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension">
-            <valueString value="Example Hospital"/>
-          </extension>
-          <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeathType-extension">
-            <valueCodeableConcept>
-              <coding>
-                <code value="16983000"/>
-              </coding>
-            </valueCodeableConcept>
-          </extension>
         </extension>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension">
           <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionType-extension">
             <valueCodeableConcept>
               <coding>
-                <code value="449971000124106"/>
+                <code value="449971000124106" />
               </coding>
             </valueCodeableConcept>
           </extension>
           <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension">
             <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension">
-              <valueString value="Example Cemetery"/>
+              <valueString value="Example Cemetery" />
             </extension>
             <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
               <valueAddress>
-                <type value="postal"/>
-                <city value="Boston"/>
-                <district value="Suffolk"/>
-                <state value="Massachusetts"/>
-                <country value="United States"/>
+                <type value="postal" />
+                <city value="Boston" />
+                <district value="Suffolk" />
+                <state value="Massachusetts" />
+                <country value="United States" />
               </valueAddress>
             </extension>
           </extension>
           <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension">
             <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension">
-              <valueString value="Example Funeral Home"/>
+              <valueString value="Example Funeral Home" />
             </extension>
             <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
               <valueAddress>
-                <type value="postal"/>
-                <line value="2 Example Street"/>
-                <city value="Boston"/>
-                <district value="Suffolk"/>
-                <state value="Massachusetts"/>
-                <postalCode value="02101"/>
-                <country value="United States"/>
+                <type value="postal" />
+                <line value="2 Example Street" />
+                <city value="Boston" />
+                <district value="Suffolk" />
+                <state value="Massachusetts" />
+                <postalCode value="02101" />
+                <country value="United States" />
               </valueAddress>
             </extension>
           </extension>
@@ -306,101 +329,97 @@
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension">
           <valueCodeableConcept>
             <coding>
-              <code value="PHC1454"/>
+              <code value="PHC1454" />
             </coding>
           </valueCodeableConcept>
         </extension>
+        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension">
+          <valueDecimal value="48" />
+        </extension>
+        <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension">
+          <valueBoolean value="false" />
+        </extension>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension">
           <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension">
-            <valueString value="Example usual occupation."/>
+            <valueString value="Example usual occupation." />
           </extension>
           <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension">
-            <valueString value="Example kind of business."/>
+            <valueString value="Example kind of business." />
           </extension>
         </extension>
-        <extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
-          <valueString value="Maiden"/>
-        </extension>
         <identifier>
-          <system value="http://hl7.org/fhir/sid/us-ssn"/>
-          <value value="111223333"/>
+          <system value="http://hl7.org/fhir/sid/us-ssn" />
+          <value value="111223333" />
         </identifier>
         <name>
-          <use value="official"/>
-          <family value="Person"/>
-          <given value="Example"/>
-          <given value="Middle"/>
-          <suffix value="Jr."/>
+          <use value="official" />
+          <family value="Person" />
+          <given value="Example" />
+          <given value="Middle" />
+          <suffix value="Jr." />
         </name>
         <name>
-          <use value="maiden"/>
-          <family value="Last"/>
+          <use value="maiden" />
+          <family value="Last" />
         </name>
-        <gender value="male"/>
-        <birthDate value="1970-04-24"/>
-        <deceasedDateTime value="2018-04-24T00:00:00+00:00"/>
+        <gender value="male" />
+        <birthDate value="1970-04-24" />
+        <deceasedDateTime value="2018-04-24T00:00:00+00:00" />
         <address>
-          <line value="1 Example Street"/>
-          <city value="Boston"/>
-          <district value="Suffolk"/>
-          <state value="Massachusetts"/>
-          <postalCode value="02101"/>
-          <country value="United States"/>
+          <line value="1 Example Street" />
+          <city value="Boston" />
+          <district value="Suffolk" />
+          <state value="Massachusetts" />
+          <postalCode value="02101" />
+          <country value="United States" />
         </address>
-      <contact>
-        <relationship>
-          <coding>
-            <system value="http://hl7.org/fhir/v3/RoleCode"/>
-            <code value="FTH"/>
-          </coding>
-        </relationship>
-        <name>
-          <family value="FTHLast"/>
-        </name>
-      </contact>
+        <contact>
+          <relationship>
+            <coding>
+              <system value="http://hl7.org/fhir/v3/RoleCode" />
+              <code value="FTH" />
+            </coding>
+          </relationship>
+          <name>
+            <family value="FTHLast" />
+          </name>
+        </contact>
       </Patient>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:a623c6b7-9d3f-4c88-97a4-c3e2f57d7d46"/>
+    <fullUrl value="urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7" />
     <resource>
       <Practitioner>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-Certifier"/>
-          <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"/>
-        </meta>
+        <id value="urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7" />
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension">
           <valueCodeableConcept>
             <coding>
-              <system value="http://snomed.info/sct"/>
-              <code value="434651000124107"/>
-              <display value="Physician (Pronouncer and Certifier)"/>
+              <system value="http://snomed.info/sct" />
+              <code value="434651000124107" />
+              <display value="Physician (Pronouncer and Certifier)" />
             </coding>
           </valueCodeableConcept>
         </extension>
-        <identifier>
-          <use value="official"/>
-          <system value="https://github.com/nightingaleproject/nightingale"/>
-        </identifier>
         <name>
-          <family value="Doctor"/>
-          <given value="Example"/>
-          <given value="Middle"/>
-          <use value="official"/>
-          <suffix value="Sr."/>
+          <use value="official" />
+          <family value="Doctor" />
+          <given value="Example" />
+          <given value="Middle" />
+          <suffix value="Sr." />
         </name>
         <address>
-          <line value="100 Example St."/>
-          <city value="Bedford"/>
-          <state value="Massachusetts"/>
-          <postalCode value="01730"/>
+          <line value="100 Example St." />
+          <city value="Bedford" />
+          <state value="Massachusetts" />
+          <postalCode value="01730" />
         </address>
         <qualification>
           <code>
             <coding>
-              <system value="http://hl7.org/fhir/v2/0360/2.7"/>
-              <code value="MD"/>
-              <display value="Doctor of Medicine"/>
+              <system value="http://hl7.org/fhir/v2/0360/2.7" />
+              <code value="MD" />
+              <display value="Doctor of Medicine" />
             </coding>
           </code>
         </qualification>
@@ -408,376 +427,392 @@
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:135e7e1d-5660-4528-8b5d-392f38ae11f8"/>
+    <fullUrl value="urn:uuid:15be9075-1adb-4714-8a62-28adb157f3bb" />
     <resource>
       <Condition>
+        <id value="urn:uuid:15be9075-1adb-4714-8a62-28adb157f3bb" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition" />
         </meta>
         <text>
-          <status value="additional"/>
+          <status value="additional" />
           <div xmlns="http://www.w3.org/1999/xhtml">Example Immediate COD</div>
         </text>
-        <clinicalStatus value="active"/>
+        <clinicalStatus value="active" />
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <onsetString value="minutes"/>
+        <onsetString value="minutes" />
       </Condition>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:cdc087b2-3ba3-4306-97ff-66282742e735"/>
+    <fullUrl value="urn:uuid:14ecbf8a-2411-4207-8305-deb5be757291" />
     <resource>
       <Condition>
+        <id value="urn:uuid:14ecbf8a-2411-4207-8305-deb5be757291" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition" />
         </meta>
         <text>
-          <status value="additional"/>
+          <status value="additional" />
           <div xmlns="http://www.w3.org/1999/xhtml">Example Underlying COD 1</div>
         </text>
-        <clinicalStatus value="active"/>
+        <clinicalStatus value="active" />
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <onsetString value="2 hours"/>
+        <onsetString value="2 hours" />
       </Condition>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:00246b02-384e-4445-bcf1-ea0ac5d684af"/>
+    <fullUrl value="urn:uuid:86412270-3bd2-469a-a18b-f25378ef2a83" />
     <resource>
       <Condition>
+        <id value="urn:uuid:86412270-3bd2-469a-a18b-f25378ef2a83" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition" />
         </meta>
         <text>
-          <status value="additional"/>
+          <status value="additional" />
           <div xmlns="http://www.w3.org/1999/xhtml">Example Underlying COD 2</div>
         </text>
-        <clinicalStatus value="active"/>
+        <clinicalStatus value="active" />
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <onsetString value="6 months"/>
+        <onsetString value="6 months" />
       </Condition>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:54a8d8f5-0397-4f7f-b6eb-57b5b59673ae"/>
+    <fullUrl value="urn:uuid:ae4654f7-84f1-4257-87a5-1b2f0ce5a89b" />
     <resource>
       <Condition>
+        <id value="urn:uuid:ae4654f7-84f1-4257-87a5-1b2f0ce5a89b" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition" />
         </meta>
         <text>
-          <status value="additional"/>
+          <status value="additional" />
           <div xmlns="http://www.w3.org/1999/xhtml">Example Underlying COD 3</div>
         </text>
-        <clinicalStatus value="active"/>
+        <clinicalStatus value="active" />
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <onsetString value="15 years"/>
+        <onsetString value="15 years" />
       </Condition>
     </resource>
   </entry>
-    <entry>
-    <fullUrl value="urn:uuid:54a8d8f5-0397-4f7f-b6eb-57b5b5991057"/>
+  <entry>
+    <fullUrl value="urn:uuid:8771c9e2-ef05-4c43-9aa3-58dec7dace30" />
     <resource>
       <Condition>
+        <id value="urn:uuid:8771c9e2-ef05-4c43-9aa3-58dec7dace30" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition" />
         </meta>
         <text>
-          <status value="additional"/>
+          <status value="additional" />
           <div xmlns="http://www.w3.org/1999/xhtml">Example Contributing Condition</div>
         </text>
-        <clinicalStatus value="active"/>
+        <clinicalStatus value="active" />
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
       </Condition>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:40de8408-d029-41fd-8dac-a4113bc5c09c"/>
+    <fullUrl value="urn:uuid:ac426b82-1797-4187-8be4-a70e8daff8f0" />
     <resource>
       <Observation>
+        <id value="urn:uuid:ac426b82-1797-4187-8be4-a70e8daff8f0" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ActualOrPresumedDateOfDeath"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyPerformed" />
         </meta>
-        <status value="final"/>
+        <status value="final" />
         <code>
           <coding>
-            <system value="http://loinc.org"/>
-            <code value="81956-5"/>
-            <display value="Date and time of death"/>
+            <system value="http://loinc.org" />
+            <code value="85699-7" />
+            <display value="Autopsy was performed" />
           </coding>
         </code>
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <valueDateTime value="2018-04-24T00:00:00+00:00"/>
+        <valueBoolean value="false" />
       </Observation>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:695b3fd1-c273-4426-9053-11054d3fd993"/>
+    <fullUrl value="urn:uuid:2c5428a9-d420-42aa-82b4-ea53d9a3ad51" />
     <resource>
       <Observation>
+        <id value="urn:uuid:2c5428a9-d420-42aa-82b4-ea53d9a3ad51" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyPerformed"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyResultsAvailable" />
         </meta>
-        <status value="final"/>
+        <status value="final" />
         <code>
           <coding>
-            <system value="http://loinc.org"/>
-            <code value="85699-7"/>
-            <display value="Autopsy was performed"/>
+            <system value="http://loinc.org" />
+            <code value="69436-4" />
+            <display value="Autopsy results available" />
           </coding>
         </code>
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <valueBoolean value="false"/>
+        <valueBoolean value="false" />
       </Observation>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:3df35d0b-268d-4671-b0dd-9eee7c5ae162"/>
+    <fullUrl value="urn:uuid:d74e0b7b-62e1-44f0-8161-c31bd02d8bc5" />
     <resource>
       <Observation>
+        <id value="urn:uuid:d74e0b7b-62e1-44f0-8161-c31bd02d8bc5" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyResultsAvailable"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MannerOfDeath" />
         </meta>
-        <status value="final"/>
+        <status value="final" />
         <code>
           <coding>
-            <system value="http://loinc.org"/>
-            <code value="69436-4"/>
-            <display value="Autopsy results available"/>
+            <system value="http://loinc.org" />
+            <code value="69449-7" />
+            <display value="Manner of death" />
           </coding>
         </code>
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueBoolean value="false"/>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:eaab2df0-4708-4463-8d08-b436a1d26ccf"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DatePronouncedDead"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="80616-6"/>
-            <display value="Date and time pronounced dead"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueDateTime value="2018-04-24T00:00:00+00:00"/>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:fce625e3-d05f-49a7-bd63-1ca2f1cc499e"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromWorkInjury"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="69444-8"/>
-            <display value="Did death result from injury at work"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueBoolean value="false"/>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:d642d7b0-d388-4803-915a-5cb2a559c68c"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromTransportInjury"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="69448-9"/>
-            <display value="Injury leading to death associated with transportation event"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/v3/NullFlavor"/>
-            <code value="OTH"/>
-            <display value="Other"/>
+            <system value="http://snomed.info/sct" />
+            <code value="7878000" />
+            <display value="Accident" />
           </coding>
         </valueCodeableConcept>
       </Observation>
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:01a9d0cb-b1ff-41fb-b91b-9b7e206f8218"/>
+    <fullUrl value="urn:uuid:0d765a5d-1323-4d74-9ca7-601235488925" />
     <resource>
       <Observation>
+        <id value="urn:uuid:0d765a5d-1323-4d74-9ca7-601235488925" />
         <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DetailsOfInjury"/>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TobaccoUseContributedToDeath" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69443-0" />
+            <display value="Did tobacco use contribute to death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="373067005" />
+            <display value="No" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:50fac676-b026-4c13-9ec7-433ae3853106" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:50fac676-b026-4c13-9ec7-433ae3853106" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ActualOrPresumedDateOfDeath" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="81956-5" />
+            <display value="Date and time of death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueDateTime value="2018-04-24T00:00:00+00:00" />
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:5f7677c1-b927-4139-8f95-7cabbfe088a6" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:5f7677c1-b927-4139-8f95-7cabbfe088a6" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DatePronouncedDead" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80616-6" />
+            <display value="Date and time pronounced dead" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueDateTime value="2018-04-24T00:00:00+00:00" />
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:560a6906-1b00-4c3e-88b6-cec8c091fb5a" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:560a6906-1b00-4c3e-88b6-cec8c091fb5a" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromWorkInjury" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69444-8" />
+            <display value="Did death result from injury at work" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueBoolean value="false" />
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:f1a53a21-f74b-4fea-9108-afa3468fc254" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:f1a53a21-f74b-4fea-9108-afa3468fc254" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DeathFromTransportInjury" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69448-9" />
+            <display value="Injury leading to death associated with transportation event" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/v3/NullFlavor" />
+            <code value="OTH" />
+            <display value="Other" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:a9b477f3-ec3b-4b42-8d1e-94149d817066" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:a9b477f3-ec3b-4b42-8d1e-94149d817066" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MedicalExaminerContacted" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="74497-9" />
+            <display value="Medical examiner or coroner was contacted" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueBoolean value="false" />
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:1b61bb58-05c0-42cd-9b1f-d40a8953a375" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:1b61bb58-05c0-42cd-9b1f-d40a8953a375" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TimingOfRecentPregnancyInRelationToDeath" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69442-2" />
+            <display value="Timing of recent pregnancy in relation to death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <code value="PHC1260" />
+            <display value="Not pregnant within past year" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:9a211e6d-e648-4dc9-a293-baf47f17fbf9" />
+    <resource>
+      <Observation>
+        <id value="urn:uuid:9a211e6d-e648-4dc9-a293-baf47f17fbf9" />
+        <meta>
+          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-DetailsOfInjury" />
         </meta>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension">
-          <valueString value="Home"/>
+          <valueString value="Home" />
         </extension>
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
           <valueAddress>
-            <type value="postal"/>
-            <line value="7 Example Street"/>
-            <city value="Watertown"/>
-            <district value="Middlesex"/>
-            <state value="Massachusetts"/>
-            <postalCode value="02472"/>
-            <country value="United States"/>
+            <type value="postal" />
+            <line value="7 Example Street" />
+            <city value="Watertown" />
+            <district value="Middlesex" />
+            <state value="Massachusetts" />
+            <postalCode value="02472" />
+            <country value="United States" />
           </valueAddress>
         </extension>
-        <status value="final"/>
+        <status value="final" />
         <code>
           <coding>
-            <system value="http://loinc.org"/>
-            <code value="11374-6"/>
-            <display value="Injury incident description"/>
+            <system value="http://loinc.org" />
+            <code value="11374-6" />
+            <display value="Injury incident description" />
           </coding>
         </code>
         <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
+          <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <effectiveDateTime value="2018-04-19T15:43:00+00:00"/>
-        <valueString value="Example details of injury"/>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:8537725f-e97f-4572-aa4c-3e965e319e3a"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MannerOfDeath"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="69449-7"/>
-            <display value="Manner of death"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueCodeableConcept>
-          <coding>
-            <system value="http://snomed.info/sct"/>
-            <code value="7878000"/>
-            <display value="Accident"/>
-          </coding>
-        </valueCodeableConcept>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:43e2ef34-19d0-4dae-b210-1e379c5a5cdc"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MedicalExaminerContacted"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="74497-9"/>
-            <display value="Medical examiner or coroner was contacted"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueBoolean value="false"/>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:d8e7a92d-c23d-41d6-b947-976720906adc"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TimingOfRecentPregnancyInRelationToDeath"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="69442-2"/>
-            <display value="Timing of recent pregnancy in relation to death"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueCodeableConcept>
-          <coding>
-            <code value="PHC1260"/>
-            <display value="Not pregnant within past year"/>
-          </coding>
-        </valueCodeableConcept>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:500eebfa-45e8-47e0-9292-564d3f17a7f5"/>
-    <resource>
-      <Observation>
-        <meta>
-          <profile value="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TobaccoUseContributedToDeath"/>
-        </meta>
-        <status value="final"/>
-        <code>
-          <coding>
-            <system value="http://loinc.org"/>
-            <code value="69443-0"/>
-            <display value="Did tobacco use contribute to death"/>
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:16f2a3b5-bff5-4675-96c0-3666a81e603e"/>
-        </subject>
-        <valueCodeableConcept>
-          <coding>
-            <system value="http://snomed.info/sct"/>
-            <code value="373067005"/>
-            <display value="No"/>
-          </coding>
-        </valueCodeableConcept>
+        <effectiveDateTime value="2018-04-19T15:43:00+00:00" />
+        <valueString value="Example details of injury" />
       </Observation>
     </resource>
   </entry>

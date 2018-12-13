@@ -234,6 +234,10 @@ namespace csharp_fhir_death_record
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
                     property.SetValue(outdr, property.GetValue(indr));
                 }
                 Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
@@ -246,6 +250,10 @@ namespace csharp_fhir_death_record
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
                     property.SetValue(outdr, property.GetValue(indr));
                 }
                 Console.WriteLine(outdr.ToJSON());

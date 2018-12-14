@@ -150,6 +150,19 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Get_Nickname()
+        {
+            // TODO
+        }
+
+        [Fact]
+        public void Set_Nickname()
+        {
+            SetterDeathRecord.Nickname = "nickname";
+            Assert.Equal("nickname", SetterDeathRecord.Nickname);
+        }
+
+        [Fact]
         public void Set_FatherFamilyName()
         {
             SetterDeathRecord.FatherFamilyName = "FTHLast";

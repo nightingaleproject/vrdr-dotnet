@@ -20,6 +20,44 @@ namespace csharp_fhir_death_record
         {
             if (args.Length == 0)
             {
+                // // Create Bundle
+                // Bundle bundle = new Bundle();
+                // bundle.Type = Bundle.BundleType.Document;
+
+                // // Create Patient
+                // Patient patient = new Patient();
+                // patient.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+
+                // // Create new Extension
+                // Extension extension = new Extension();
+                // extension.Url = "Example-Extension";
+
+                // // Create Address with State and Country
+                // Address address = new Address();
+                // address.State = "New York";
+                // address.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+
+                // // Add Address to Extension
+                // extension.Value = address;
+
+                // // Add Extension to Bundle
+                // patient.Extension.Add(extension);
+
+                // // Add Patient to Bundle
+                // bundle.AddResourceEntry(patient, patient.Id);
+
+                // // Serialize Bundle to JSON
+                // var xmlserializer = new FhirXmlSerializer();
+                // string xml = xmlserializer.SerializeToString(bundle);
+
+                // // Serialize Bundle to XML
+                // var jsonserializer = new FhirJsonSerializer();
+                // string json = jsonserializer.SerializeToString(bundle);
+
+                // Console.WriteLine(FormatJson(json) + "\n");
+
+                // Console.WriteLine(XDocument.Parse(xml).ToString() + "\n");
+
                 Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
@@ -86,7 +124,7 @@ namespace csharp_fhir_death_record
                 code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
                 code.Add("display", "Bachelor's Degree");
                 deathRecord.Education = code;
-                deathRecord.Age = "100";
+                //deathRecord.Age = "100";
                 Dictionary<string, string> occupation = new Dictionary<string, string>();
                 occupation.Add("jobDescription", "Software Engineer");
                 occupation.Add("industryDescription", "Information Technology");
@@ -180,8 +218,8 @@ namespace csharp_fhir_death_record
                 detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
                 deathRecord.DetailsOfInjury = detailsOfInjury;
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
-                IJEMortality ije = new IJEMortality(deathRecord);
+                //Console.WriteLine(FormatJson(deathRecord.ToJSON()) + "\n\n");
+                //IJEMortality ije = new IJEMortality(deathRecord);
                 //Console.WriteLine(ije.ToString() + "\n");
             }
             else if (args.Length == 2 && args[0] == "ije")
@@ -258,6 +296,101 @@ namespace csharp_fhir_death_record
                 }
                 Console.WriteLine(outdr.ToJSON());
             }
+            else if (args.Length == 2 && args[0] == "vrdr")
+            {
+                DeathRecord vrdr = new DeathRecord();
+
+                // Decedent
+
+                string[] givenNames = {"Robert", "John"};
+                vrdr.GivenNames = givenNames;
+                vrdr.FamilyName = "Smith";
+                vrdr.Suffix = "Jr.";
+                vrdr.Nickname = "Bobby";
+
+                vrdr.Gender = "male";
+
+                vrdr.DateOfBirth = "1974-12-31";
+
+                vrdr.SSN = "123-45-6789";
+
+                vrdr.DateOfDeath = "2017-12-31";
+
+                Dictionary<string, string> mscode = new Dictionary<string, string>();
+                mscode.Add("code", "S");
+                mscode.Add("system", "http://hl7.org/fhir/ValueSet/marital-status");
+                mscode.Add("display", "Never Married");
+                vrdr.MaritalStatus = mscode;
+
+                Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
+                vrdr.Ethnicity = ethnicity;
+
+                Tuple<string, string>[] race = { Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), Tuple.Create("Tahitian", "2081-8") };
+                vrdr.Race = race;
+
+                Dictionary<string, string> bcode = new Dictionary<string, string>();
+                bcode.Add("code", "M");
+                bcode.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
+                bcode.Add("display", "Male");
+                vrdr.BirthSex = bcode;
+
+
+                // Death Pronouncement Performer
+
+                Dictionary<string, string> cqcode = new Dictionary<string, string>();
+                cqcode.Add("code", "MD");
+                cqcode.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
+                cqcode.Add("display", "Doctor of Medicine");
+                vrdr.CertifierQualification = cqcode;
+
+                vrdr.CertifierId = "123456789";
+
+                vrdr.CertifierFirstName = "Beverly";
+                vrdr.CertifierMiddleName = "Jane";
+                vrdr.CertifierFamilyName = "McCoy";
+
+
+                // Decedent Age
+
+                Dictionary<string, string> age = new Dictionary<string, string>();
+                age.Add("value", "70");
+                age.Add("unit", "a");
+                vrdr.Age = age;
+
+
+                // Decedent Death Location
+
+                Dictionary<string, string> placeOfDeath = new Dictionary<string, string>();
+                placeOfDeath.Add("placeOfDeathTypeCode", "HOSP");
+                placeOfDeath.Add("placeOfDeathTypeSystem", "http://hl7.org/fhir/ValueSet/v3-ServiceDeliveryLocationRoleType");
+                placeOfDeath.Add("placeOfDeathTypeDisplay", "Hospital");
+                placeOfDeath.Add("placeOfDeathPhysicalTypeCode", "wa");
+                placeOfDeath.Add("placeOfDeathPhysicalTypeSystem", "http://hl7.org/fhir/ValueSet/location-physical-type");
+                placeOfDeath.Add("placeOfDeathPhysicalTypeDisplay", "Ward");
+                placeOfDeath.Add("placeOfDeathName", "Example Hospital");
+                placeOfDeath.Add("placeOfDeathDescription", "Example Hospital Wing B");
+                placeOfDeath.Add("placeOfDeathLine1", "8 Example Street");
+                placeOfDeath.Add("placeOfDeathCity", "Bedford");
+                placeOfDeath.Add("placeOfDeathCounty", "Middlesex");
+                placeOfDeath.Add("placeOfDeathState", "Massachusetts");
+                placeOfDeath.Add("placeOfDeathZip", "01730");
+                placeOfDeath.Add("placeOfDeathCountry", "United States");
+                vrdr.PlaceOfDeath = placeOfDeath;
+
+                // Decedent Death Date
+
+                vrdr.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";
+                vrdr.DatePronouncedDead = "2018-04-25T00:00:00+00:00";
+
+                if (args[1] == "json")
+                {
+                    Console.WriteLine(FormatJson(vrdr.ToJSON()));
+                }
+                else if (args[1] == "xml")
+                {
+                    Console.WriteLine(XDocument.Parse(vrdr.ToXML()).ToString());
+                }
+            }
             else
             {
                 foreach (var path in args)
@@ -329,5 +462,26 @@ namespace csharp_fhir_death_record
                 Console.WriteLine($"Error: File '{path}' does not exist");
             }
         }
+
+        private const string INDENT_STRING = "    ";
+        static string FormatJson(string json) {
+
+            int indentation = 0;
+            int quoteCount = 0;
+            var result =
+                from ch in json
+                let quotes = ch == '"' ? quoteCount++ : quoteCount
+                let lineBreak = ch == ',' && quotes % 2 == 0 ? ch + Environment.NewLine +  String.Concat(Enumerable.Repeat(INDENT_STRING, indentation)) : null
+                let openChar = ch == '{' || ch == '[' ? ch + Environment.NewLine + String.Concat(Enumerable.Repeat(INDENT_STRING, ++indentation)) : ch.ToString()
+                let closeChar = ch == '}' || ch == ']' ? Environment.NewLine + String.Concat(Enumerable.Repeat(INDENT_STRING, --indentation)) + ch : ch.ToString()
+                select lineBreak == null
+                            ? openChar.Length > 1
+                                ? openChar
+                                : closeChar
+                            : lineBreak;
+
+            return String.Concat(result);
+        }
+
     }
 }

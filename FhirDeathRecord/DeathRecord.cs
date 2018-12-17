@@ -639,13 +639,14 @@ namespace FhirDeathRecord
                 dictionary.Add("residenceState", GetFirstString("Bundle.entry.resource.where($this is Patient).address.state"));
                 dictionary.Add("residenceZip", GetFirstString("Bundle.entry.resource.where($this is Patient).address.postalCode"));
                 dictionary.Add("residenceCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).address.country"));
-                dictionary.Add("residenceInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).address.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+                dictionary.Add("residenceInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).address.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator').value"));
 
                 return dictionary;
             }
             set
             {
                 Address address = new Address();
+                address.Use = Address.AddressUse.Home;
                 address.LineElement.Add(new FhirString(GetValue(value, "residenceLine1")));
                 address.LineElement.Add(new FhirString(GetValue(value, "residenceLine2")));
                 address.City = GetValue(value, "residenceCity");
@@ -656,7 +657,7 @@ namespace FhirDeathRecord
                 if (value.ContainsKey("residenceInsideCityLimits") && GetValue(value, "residenceInsideCityLimits") != null)
                 {
                     Extension insideCityLimits = new Extension();
-                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
+                    insideCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
                     insideCityLimits.Value = new FhirBoolean(GetValue(value, "residenceInsideCityLimits") == "true" || GetValue(value, "residenceInsideCityLimits") == "True");
                     address.Extension.Add(insideCityLimits);
                 }
@@ -844,22 +845,22 @@ namespace FhirDeathRecord
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
                 // Place Of Birth Address
-                dictionary.Add("placeOfBirthLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[0]"));
-                dictionary.Add("placeOfBirthLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.line[1]"));
-                dictionary.Add("placeOfBirthCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.city"));
-                dictionary.Add("placeOfBirthCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.district"));
-                dictionary.Add("placeOfBirthState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.state"));
-                dictionary.Add("placeOfBirthZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.postalCode"));
-                dictionary.Add("placeOfBirthCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension').value.country"));
+                dictionary.Add("placeOfBirthLine1", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.line[0]"));
+                dictionary.Add("placeOfBirthLine2", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.line[1]"));
+                dictionary.Add("placeOfBirthCity", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.city"));
+                dictionary.Add("placeOfBirthCounty", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.district"));
+                dictionary.Add("placeOfBirthState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.state"));
+                dictionary.Add("placeOfBirthZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.postalCode"));
+                dictionary.Add("placeOfBirthCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace').value.country"));
 
                 return dictionary;
             }
             set
             {
                 // Place Of Birth extension
-                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension");
+                Patient.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace");
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension";
+                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/birthPlace";
 
                 // Place Of Birth Address
                 Address placeOfBirthAddress = new Address();

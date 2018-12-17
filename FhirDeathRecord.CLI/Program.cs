@@ -334,6 +334,25 @@ namespace csharp_fhir_death_record
                 bcode.Add("display", "Male");
                 vrdr.BirthSex = bcode;
 
+                Dictionary<string, string> residence = new Dictionary<string, string>();
+                residence.Add("residenceLine1", "9 Example Street");
+                residence.Add("residenceCity", "Bedford");
+                residence.Add("residenceCounty", "Middlesex");
+                residence.Add("residenceState", "Massachusetts");
+                residence.Add("residenceZip", "01730");
+                residence.Add("residenceCountry", "United States");
+                residence.Add("residenceInsideCityLimits", "True");
+                vrdr.Residence = residence;
+
+                Dictionary<string, string> birthPlace = new Dictionary<string, string>();
+                birthPlace.Add("placeOfBirthLine1", "42 Example Street");
+                birthPlace.Add("placeOfBirthCity", "Boston");
+                birthPlace.Add("placeOfBirthCounty", "Suffolk");
+                birthPlace.Add("placeOfBirthState", "Massachusetts");
+                birthPlace.Add("placeOfBirthZip", "02101");
+                birthPlace.Add("placeOfBirthCountry", "United States");
+                vrdr.PlaceOfBirth = birthPlace;
+
 
                 // Death Pronouncement Performer
 

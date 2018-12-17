@@ -36,6 +36,32 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void SetPatientAfterParse()
+        {
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            Assert.Equal("Person", sample1.FamilyName);
+            Assert.Equal("Person", sample2.FamilyName);
+            sample1.FamilyName = "1changed2abc";
+            sample2.FamilyName = "2changed1xyz";
+            Assert.Equal("1changed2abc", sample1.FamilyName);
+            Assert.Equal("2changed1xyz", sample2.FamilyName);
+        }
+
+        [Fact]
+        public void SetPractitionerAfterParse()
+        {
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            Assert.Equal("Doctor", sample1.CertifierFamilyName);
+            Assert.Equal("Doctor", sample2.CertifierFamilyName);
+            sample1.CertifierFamilyName = "1diff2abc";
+            sample2.CertifierFamilyName = "2diff1xyz";
+            Assert.Equal("1diff2abc", sample1.CertifierFamilyName);
+            Assert.Equal("2diff1xyz", sample2.CertifierFamilyName);
+        }
+
+        [Fact]
         public void Set_Id()
         {
             SetterDeathRecord.Id = "1337";

@@ -567,7 +567,7 @@
            },
            "text":{
               "status":"additional",
-              "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">Example Immediate COD</div>"
+              "div":"&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;Example Immediate COD&lt;/div&gt;"
            },
            "clinicalStatus":"active",
            "subject":{
@@ -588,7 +588,7 @@
            },
            "text":{
               "status":"additional",
-              "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">Example Underlying COD 1</div>"
+              "div":"&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;Example Underlying COD 1&lt;/div&gt;"
            },
            "clinicalStatus":"active",
            "subject":{
@@ -609,7 +609,7 @@
            },
            "text":{
               "status":"additional",
-              "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">Example Underlying COD 2</div>"
+              "div":"&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;Example Underlying COD 2&lt;/div&gt;"
            },
            "clinicalStatus":"active",
            "subject":{
@@ -630,7 +630,7 @@
            },
            "text":{
               "status":"additional",
-              "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">Example Underlying COD 3</div>"
+              "div":"&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;Example Underlying COD 3&lt;/div&gt;"
            },
            "clinicalStatus":"active",
            "subject":{
@@ -651,7 +651,7 @@
            },
            "text":{
               "status":"additional",
-              "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">Example Contributing Condition</div>"
+              "div":"&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;Example Contributing Condition&lt;/div&gt;"
            },
            "clinicalStatus":"active",
            "subject":{

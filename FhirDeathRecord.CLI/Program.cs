@@ -20,7 +20,7 @@ namespace csharp_fhir_death_record
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
+                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML and JSON output...\n");
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
                 deathRecord.DateOfRegistration = "2018-07-11";
@@ -135,9 +135,7 @@ namespace csharp_fhir_death_record
                     Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
                     Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
                     Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 4", "30 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 5", "years", new Dictionary<string, string>())
+                    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>())
                 };
                 deathRecord.CausesOfDeath = causes;
                 deathRecord.AutopsyPerformed = false;
@@ -180,9 +178,7 @@ namespace csharp_fhir_death_record
                 detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
                 deathRecord.DetailsOfInjury = detailsOfInjury;
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
-                IJEMortality ije = new IJEMortality(deathRecord);
-                //Console.WriteLine(ije.ToString() + "\n");
+                Console.WriteLine(deathRecord.ToJSON() + "\n\n");
             }
             else if (args.Length == 2 && args[0] == "ije")
             {

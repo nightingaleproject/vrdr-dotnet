@@ -16,11 +16,11 @@ namespace csharp_fhir_death_record
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
+                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML and JSON output...\n");
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
                 deathRecord.DateOfRegistration = "2018-07-11";
@@ -135,9 +135,7 @@ namespace csharp_fhir_death_record
                     Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
                     Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
                     Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 4", "30 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 5", "years", new Dictionary<string, string>())
+                    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>())
                 };
                 deathRecord.CausesOfDeath = causes;
                 deathRecord.AutopsyPerformed = false;
@@ -180,13 +178,79 @@ namespace csharp_fhir_death_record
                 detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
                 deathRecord.DetailsOfInjury = detailsOfInjury;
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
-                IJEMortality ije = new IJEMortality(deathRecord);
-                //Console.WriteLine(ije.ToString() + "\n");
+                Console.WriteLine(deathRecord.ToJSON() + "\n\n");
+                return 0;
             }
-            else if (args.Length == 2 && args[0] == "ije")
+            else if (args.Length == 2 && args[0] == "2ije")
             {
-                Console.WriteLine("Converting FHIR SDR to IJE...\n");
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                IJEMortality ije1 = new IJEMortality(d);
+                Console.WriteLine(ije1.ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "ije2xml")
+            {
+                IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
+                DeathRecord d = ije1.ToDeathRecord();
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "ije2json")
+            {
+                IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
+                DeathRecord d = ije1.ToDeathRecord();
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "json2xml")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "xml2json")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "xml2xml")
+            {
+                // Forces record through getters and then setters, prints as xml
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "json2json")
+            {
+                // Forces record through getters and then setters, prints as JSON
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(outdr.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "roundtrip-ije")
+            {
+                Console.WriteLine("Converting FHIR to IJE...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
                 IJEMortality ije1 = new IJEMortality(d);
@@ -213,53 +277,116 @@ namespace csharp_fhir_death_record
                     total++;
                 }
                 Console.WriteLine($"\n{issues} issues out of {total} total fields.");
+                return 0;
             }
-            else if (args.Length == 2 && args[0] == "json2xml")
+            else if (args.Length == 2 && args[0] == "roundtrip-all")
             {
-                Console.WriteLine("Converting FHIR JSON to FHIR XML...\n");
-                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
-            }
-            else if (args.Length == 2 && args[0] == "xml2json")
-            {
-                Console.WriteLine("Converting FHIR XML to FHIR JSON...\n");
-                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                Console.WriteLine(d.ToJSON());
-            }
-            else if (args.Length == 2 && args[0] == "xml2xml")
-            {
-                // Forces record through getters and then setters, prints as xml
-                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecord outdr = new DeathRecord();
+                DeathRecord d1 = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord d2 = new DeathRecord(d1.ToJSON());
+                DeathRecord d3 = new DeathRecord();
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
-                    property.SetValue(outdr, property.GetValue(indr));
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(d3, property.GetValue(d2));
                 }
-                Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
+                IJEMortality ije1 = new IJEMortality(d3);
+                IJEMortality ije2 = new IJEMortality(ije1.ToString());
+                DeathRecord d4 = ije2.ToDeathRecord();
+
+                // We KNOW certain fields just aren't in the IJE, so make sure to ignore them.
+                string[] ignoreKeys = { "placeOfDeathFacilityName" };
+
+                int good = 0;
+                int bad = 0;
+
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    string one;
+                    string two;
+                    string three;
+                    string four;
+                    if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
+                    {
+                        Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
+                        foreach (string ignoreKey in ignoreKeys)
+                        {
+                            if (oneDict.ContainsKey(ignoreKey))
+                            {
+                                oneDict[ignoreKey] = "";
+                            }
+                        }
+                        one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
+                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        four = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d4)).Select(x => x.Key + "=" + x.Value).ToArray());
+                    }
+                    else if (property.PropertyType.ToString() == "System.String[]")
+                    {
+                        one = String.Join(", ", (string[])property.GetValue(d1));
+                        two = String.Join(", ", (string[])property.GetValue(d2));
+                        three = String.Join(", ", (string[])property.GetValue(d3));
+                        four = String.Join(", ", (string[])property.GetValue(d4));
+                    }
+                    else
+                    {
+                        one = Convert.ToString(property.GetValue(d1));
+                        two = Convert.ToString(property.GetValue(d2));
+                        three = Convert.ToString(property.GetValue(d3));
+                        four = Convert.ToString(property.GetValue(d4));
+                    }
+                    if (one.ToLower() != four.ToLower())
+                    {
+                        Console.WriteLine("[MISMATCH]\t" + $"\"{one}\" (property: {property.Name}) does not equal \"{four}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\" 4:\"{four}\"");
+                        bad++;
+                        //return 1;
+                    }
+                    else
+                    {
+                        Console.WriteLine("[MATCH]\t" + $"\"{one}\" (property: {property.Name}) equals \"{four}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\" 4:\"{four}\"");
+                        good++;
+                    }
+                }
+                Console.WriteLine($"\n{bad} mismatches out of {good + bad} total properties checked.");
+                if (bad > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            else if (args.Length == 2 && args[0] == "json2json")
+            else if (args.Length == 2 && args[0] == "ije")
             {
-                // Forces record through getters and then setters, prints as JSON
-                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecord outdr = new DeathRecord();
-                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                string ijeString = File.ReadAllText(args[1]);
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Field).ToList();
+
                 foreach(PropertyInfo property in properties)
                 {
-                    property.SetValue(outdr, property.GetValue(indr));
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
+                    string field = ijeString.Substring(info.Location - 1, info.Length);
+                    Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
-                Console.WriteLine(outdr.ToJSON());
             }
             else
             {
                 foreach (var path in args)
                 {
-                    ReadFile(path);
+                    return ReadFile(path);
                 }
             }
+            return 0;
         }
 
-        private static void ReadFile(string path)
+        private static int ReadFile(string path)
         {
             if (File.Exists(path))
             {
@@ -315,10 +442,24 @@ namespace csharp_fhir_death_record
                 {
                     Console.WriteLine($"\tTobacco Use Contributed to Death key: {pair.Key}: value: {pair.Value}");
                 }
+
+                return 0;
             }
             else
             {
                 Console.WriteLine($"Error: File '{path}' does not exist");
+                return 1;
+            }
+        }
+        private static string Truncate(string value, int length)
+        {
+            if (String.IsNullOrWhiteSpace(value) || value.Length <= length)
+            {
+                return value;
+            }
+            else
+            {
+                return value.Substring(0, length);
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord
 {
@@ -142,39 +143,76 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
-        private string DateTimeStringHelper(IJEField info, string value, string type, DateTime date)
+        private string DateTimeStringHelper(IJEField info, string value, string type, DateTimeOffset date)
         {
             if (type == "yyyy")
             {
-                return date.ToString($"{Truncate(value, info.Length)}-MM-dd HH:mm");
+                int year;
+                if (Int32.TryParse(Truncate(value, info.Length), out year))
+                {
+                    date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
             }
             else if (type == "MM")
             {
-                return date.ToString($"yyyy-{Truncate(value, info.Length)}-dd HH:mm");
+                int month;
+                if (Int32.TryParse(Truncate(value, info.Length), out month))
+                {
+                    date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
             }
             else if (type == "dd")
             {
-                return date.ToString($"yyyy-MM-{Truncate(value, info.Length)} HH:mm");
+                int day;
+                if (Int32.TryParse(Truncate(value, info.Length), out day))
+                {
+                    date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
             }
             else if (type == "HHmm")
             {
-                return date.ToString($"yyyy-MM-dd {Truncate(value, info.Length).Substring(0, 2)}:{Truncate(value, info.Length).Substring(2, 2)}");
+                int hour;
+                if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out hour))
+                {
+                    date = new DateTimeOffset(date.Year, date.Month, date.Day, hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
+                int minute;
+                if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out minute))
+                {
+                    date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
             }
             else if (type == "MMddyyyy")
             {
-                return date.ToString($"{Truncate(value, info.Length).Substring(4, 4)}-{Truncate(value, info.Length).Substring(0, 2)}-{Truncate(value, info.Length).Substring(2, 2)} HH:mm");
+                int month;
+                if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out month))
+                {
+                    date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
+                int day;
+                if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out day))
+                {
+                    date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
+                int year;
+                if (Int32.TryParse(Truncate(value, info.Length).Substring(4, 4), out year))
+                {
+                    date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                }
             }
-            return "";
+            return date.ToString("o");
         }
 
         /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private string DateTime_Get(string ijeFieldName, string dateTimeType, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            DateTime date;
+            DateTimeOffset date;
             string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
-            if (DateTime.TryParse(current, out date))
+            if (DateTimeOffset.TryParse(current, out date))
             {
+                date = date.ToUniversalTime();
+                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
                 return Truncate(date.ToString(dateTimeType), info.Length);
             }
             else
@@ -188,14 +226,60 @@ namespace FhirDeathRecord
         {
             IJEField info = FieldInfo(ijeFieldName);
             string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
-            DateTime date;
-            if (current != null && DateTime.TryParse(current, out date))
+            DateTimeOffset date;
+            if (current != null && DateTimeOffset.TryParse(current, out date))
             {
+                date = date.ToUniversalTime();
+                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date));
             }
             else
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, new DateTime()));
+                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date));
+            }
+        }
+
+        /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        private string DateTime_Dictionary_Get(string ijeFieldName, string dateTimeType, string fhirFieldName, string key)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            DateTimeOffset date;
+            Dictionary<string, string> currentDict = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string current = currentDict[key];
+            if (DateTimeOffset.TryParse(current, out date))
+            {
+                date = date.ToUniversalTime();
+                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                return Truncate(date.ToString(dateTimeType), info.Length);
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        private void DateTime_Dictionary_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string key, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Dictionary<string, string> currentDict = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string current = currentDict[key];
+            DateTimeOffset date;
+            if (current != null && DateTimeOffset.TryParse(current, out date))
+            {
+                date = date.ToUniversalTime();
+                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                string updated = DateTimeStringHelper(info, value, dateTimeType, date);
+                currentDict[key] = updated;
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, currentDict);
+            }
+            else
+            {
+                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                string updated = DateTimeStringHelper(info, value, dateTimeType, date);
+                currentDict[key] = updated;
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, currentDict);
             }
         }
 
@@ -485,7 +569,8 @@ namespace FhirDeathRecord
         private string[] Get_Race_AIAN_Literals()
         {
             Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
-            return literals.Select(race => race.Item2).ToArray();
+            string[] filterCodes = { "1002-5" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
         }
 
         /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
@@ -500,7 +585,8 @@ namespace FhirDeathRecord
         private string[] Get_Race_BAA_Literals()
         {
             Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
-            return literals.Select(race => race.Item2).ToArray();
+            string[] filterCodes = { "2054-5" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
         }
 
         /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
@@ -515,7 +601,8 @@ namespace FhirDeathRecord
         private string[] Get_Race_W_Literals()
         {
             Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
-            return literals.Select(race => race.Item2).ToArray();
+            string[] filterCodes = { "2106-3" };
+            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
         }
 
         /// <summary>Retrieves OTHER Race literals on the record.</summary>
@@ -766,6 +853,7 @@ namespace FhirDeathRecord
                 Dictionary_Set("SEX", "BirthSex", "code", code);
                 Dictionary_Set("SEX", "BirthSex", "display", display);
                 Dictionary_Set("SEX", "BirthSex", "system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
+                LeftJustified_Set("SEX", "Gender", display);
             }
         }
 
@@ -859,11 +947,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOB_YR", "MM", "DateOfBirth");
+                return DateTime_Get("DOB_MO", "MM", "DateOfBirth");
             }
             set
             {
-                DateTime_Set("DOB_YR", "MM", "DateOfBirth", value);
+                DateTime_Set("DOB_MO", "MM", "DateOfBirth", value);
             }
         }
 
@@ -873,11 +961,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOB_YR", "dd", "DateOfBirth");
+                return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
             }
             set
             {
-                DateTime_Set("DOB_YR", "dd", "DateOfBirth", value);
+                DateTime_Set("DOB_DY", "dd", "DateOfBirth", value);
             }
         }
 
@@ -1255,7 +1343,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("TOD", "HHmm", "DateOfDeath") ?? DateTime_Get("TOD", "HHmm", "ActualOrPresumedDateOfDeath");
+                return DateTime_Get("TOD", "HHmm", "ActualOrPresumedDateOfDeath") ?? DateTime_Get("TOD", "HHmm", "DateOfDeath");
             }
             set
             {
@@ -2132,32 +2220,32 @@ namespace FhirDeathRecord
                 {
                     case "N":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "38605008");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Natural");
                         break;
                     case "A":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "7878000");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Accident");
                         break;
                     case "S":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "44301001");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Suicide");
                         break;
                     case "H":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "27935005");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Homicide");
                         break;
                     case "P":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "185973002");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Pending Investigation");
                         break;
                     case "C":
                         Dictionary_Set("MANNER", "MannerOfDeath", "code", "65037004");
-                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
+                        Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("MANNER", "MannerOfDeath", "display", "Could not be determined");
                         break;
                 }
@@ -2253,17 +2341,17 @@ namespace FhirDeathRecord
                 {
                     case "Y":
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373066001");
-                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Yes");
                         break;
                     case "N":
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373067005");
-                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "No");
                         break;
                     case "P":
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "2931005");
-                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
+                        Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
                         Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Probably");
                         break;
                     case "U":
@@ -2310,27 +2398,27 @@ namespace FhirDeathRecord
                 {
                     case "1":
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1260");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant within past year");
                         break;
                     case "2":
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1261");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Pregnant at time of death");
                         break;
                     case "3":
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1262");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant within 42 days of death");
                         break;
                     case "4":
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1263");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
                         break;
                     case "9":
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1264");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/cs/PregnancyStatusCS");
+                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                         Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Unknown if pregnant within the past year");
                         break;
                     case "8":
@@ -2362,31 +2450,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                IJEField info = FieldInfo("DOI_MO");
-                string current = Dictionary_Get_Full("DOI_MO", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (DateTime.TryParse(current, out date))
-                {
-                    return Truncate(date.ToString("MM"), info.Length);
-                }
-                else
-                {
-                    return new String(' ', info.Length);
-                }
+                return DateTime_Dictionary_Get("DOI_MO", "MM", "DetailsOfInjury", "effectiveDateTime");
             }
             set
             {
-                IJEField info = FieldInfo("DOI_MO");
-                string current = Dictionary_Get_Full("DOI_MO", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (current != null && DateTime.TryParse(current, out date))
-                {
-                    Dictionary_Set("DOI_MO", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "MM", date));
-                }
-                else
-                {
-                    Dictionary_Set("DOI_MO", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "MM", new DateTime()));
-                }
+                DateTime_Dictionary_Set("DOI_MO", "MM", "DetailsOfInjury", "effectiveDateTime", value.Trim());
             }
         }
 
@@ -2396,31 +2464,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                IJEField info = FieldInfo("DOI_DY");
-                string current = Dictionary_Get_Full("DOI_DY", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (DateTime.TryParse(current, out date))
-                {
-                    return Truncate(date.ToString("dd"), info.Length);
-                }
-                else
-                {
-                    return new String(' ', info.Length);
-                }
+                return DateTime_Dictionary_Get("DOI_DY", "dd", "DetailsOfInjury", "effectiveDateTime");
             }
             set
             {
-                IJEField info = FieldInfo("DOI_DY");
-                string current = Dictionary_Get_Full("DOI_DY", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (current != null && DateTime.TryParse(current, out date))
-                {
-                    Dictionary_Set("DOI_DY", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "dd", date));
-                }
-                else
-                {
-                    Dictionary_Set("DOI_DY", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "dd", new DateTime()));
-                }
+                DateTime_Dictionary_Set("DOI_DY", "dd", "DetailsOfInjury", "effectiveDateTime", value.Trim());
             }
         }
 
@@ -2430,31 +2478,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                IJEField info = FieldInfo("DOI_YR");
-                string current = Dictionary_Get_Full("DOI_YR", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (DateTime.TryParse(current, out date))
-                {
-                    return Truncate(date.ToString("yyyy"), info.Length);
-                }
-                else
-                {
-                    return new String(' ', info.Length);
-                }
+                return DateTime_Dictionary_Get("DOI_YR", "yyyy", "DetailsOfInjury", "effectiveDateTime");
             }
             set
             {
-                IJEField info = FieldInfo("DOI_YR");
-                string current = Dictionary_Get_Full("DOI_YR", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (current != null && DateTime.TryParse(current, out date))
-                {
-                    Dictionary_Set("DOI_YR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "yyyy", date));
-                }
-                else
-                {
-                    Dictionary_Set("DOI_YR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "yyyy", new DateTime()));
-                }
+                DateTime_Dictionary_Set("DOI_YR", "yyyy", "DetailsOfInjury", "effectiveDateTime", value.Trim());
             }
         }
 
@@ -2464,31 +2492,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                IJEField info = FieldInfo("TOI_HR");
-                string current = Dictionary_Get_Full("TOI_HR", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (DateTime.TryParse(current, out date))
-                {
-                    return Truncate(date.ToString("HHmm"), info.Length);
-                }
-                else
-                {
-                    return new String(' ', info.Length);
-                }
+                return DateTime_Dictionary_Get("TOI_HR", "HHmm", "DetailsOfInjury", "effectiveDateTime");
             }
             set
             {
-                IJEField info = FieldInfo("TOI_HR");
-                string current = Dictionary_Get_Full("TOI_HR", "DetailsOfInjury", "effectiveDateTime");
-                DateTime date;
-                if (current != null && DateTime.TryParse(current, out date))
-                {
-                    Dictionary_Set("TOI_HR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "HHmm", date));
-                }
-                else
-                {
-                    Dictionary_Set("TOI_HR", "DetailsOfInjury", "effectiveDateTime", DateTimeStringHelper(info, value, "HHmm", new DateTime()));
-                }
+                DateTime_Dictionary_Set("TOI_HR", "HHmm", "DetailsOfInjury", "effectiveDateTime", value.Trim());
             }
         }
 
@@ -2512,7 +2520,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code");
+                string code = Dictionary_Get_Full("CERTL", "CertifierType", "code");
                 switch (code)
                 {
                     case "434641000124105": // Physician (Certifier)
@@ -2528,22 +2536,22 @@ namespace FhirDeathRecord
             }
             set
             {
-                switch (value)
+                switch (value.Trim())
                 {
                     case "D":
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "434641000124105");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Physician (Certifier)");
+                        Dictionary_Set("CERTL", "CertifierType", "code", "434641000124105");
+                        Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
+                        Dictionary_Set("CERTL", "CertifierType", "display", "Physician (Certifier)");
                         break;
                     case "P":
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "434651000124107");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Physician (Pronouncer and Certifier)");
+                        Dictionary_Set("CERTL", "CertifierType", "code", "434651000124107");
+                        Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
+                        Dictionary_Set("CERTL", "CertifierType", "display", "Physician (Pronouncer and Certifier)");
                         break;
                     case "M":
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "440051000124108");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/deathRecord/vs/CertifierTypeVS");
-                        Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Medical Examiner");
+                        Dictionary_Set("CERTL", "CertifierType", "code", "440051000124108");
+                        Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
+                        Dictionary_Set("CERTL", "CertifierType", "display", "Medical Examiner");
                         break;
                 }
             }
@@ -2843,11 +2851,38 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("TRANSPRT", "DeathFromTransportInjury", "display");
+                string code = Dictionary_Get_Full("TRANSPRT", "DeathFromTransportInjury", "code");
+                switch (code)
+                {
+                    case "236320001": // Vehicle driver
+                        return "DR";
+                    case "257500003": // Passenger
+                        return "PA";
+                    case "257518000": // Pedestrian
+                        return "PE";
+                }
+                return "";
             }
             set
             {
-                Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", value);
+                switch (value.Trim())
+                {
+                    case "DR":
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "236320001");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Vehicle driver");
+                        break;
+                    case "PA":
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "257500003");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Passenger");
+                        break;
+                    case "PE":
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "257518000");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
+                        Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Pedestrian");
+                        break;
+                }
             }
         }
 
@@ -3114,7 +3149,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent's Birth Place City - Literal</summary>
-        [IJEField(195, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 1)]
+        [IJEField(195, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 3)]
         public string DBPLACECITY
         {
             get
@@ -3124,6 +3159,13 @@ namespace FhirDeathRecord
             set
             {
                 Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "city", false, value);
+                // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "placeOfBirth", "state", false);
+                string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
+                if (!String.IsNullOrWhiteSpace(county))
+                {
+                    Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "county", false, county);
+                }
             }
         }
 
@@ -3156,7 +3198,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Disposition City - Literal</summary>
-        [IJEField(204, 3570, 28, "Disposition City - Literal", "DISPCITY", 1)]
+        [IJEField(204, 3570, 28, "Disposition City - Literal", "DISPCITY", 3)]
         public string DISPCITY
         {
             get
@@ -3166,6 +3208,15 @@ namespace FhirDeathRecord
             set
             {
                 Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "city", false, value);
+                // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                string state = Dictionary_Geo_Get("DISPSTATECD", "Disposition", "dispositionPlace", "state", false);
+                string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
+                if (!String.IsNullOrWhiteSpace(county))
+                {
+                    Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "county", false, county);
+                    // If we found a county, we know the country.
+                    Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "country", false, "United States");
+                }
             }
         }
 
@@ -3198,7 +3249,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Funeral Facility - City or Town name</summary>
-        [IJEField(213, 3823, 28, "Funeral Facility - City or Town name", "FUNCITYTEXT", 1)]
+        [IJEField(213, 3823, 28, "Funeral Facility - City or Town name", "FUNCITYTEXT", 3)]
         public string FUNCITYTEXT
         {
             get
@@ -3208,6 +3259,15 @@ namespace FhirDeathRecord
             set
             {
                 Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCity", value);
+                // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "Disposition", "funeralFacilityState"));
+                string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
+                if (!String.IsNullOrWhiteSpace(county))
+                {
+                    Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCounty", county);
+                    // If we found a county, we know the country.
+                    Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCountry", "United States");
+                }
             }
         }
 

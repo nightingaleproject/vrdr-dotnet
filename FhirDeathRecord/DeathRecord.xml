@@ -855,6 +855,12 @@
         <member name="M:FhirDeathRecord.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Combine the given dictionaries and return the combined result.</summary>
         </member>
+        <member name="M:FhirDeathRecord.DeathRecord.EscapeCauses(Hl7.Fhir.Model.Bundle)">
+            <summary>HTML escape cause of death divs in the given Bundle.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.UnescapeCauses(Hl7.Fhir.Model.Bundle)">
+            <summary>HTML un-escape cause of death divs in the given Bundle.</summary>
+        </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>
@@ -911,13 +917,19 @@
         <member name="M:FhirDeathRecord.IJEMortality.FieldInfo(System.String)">
             <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTime)">
+        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTimeOffset)">
             <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Dictionary_Get(System.String,System.String,System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Dictionary_Set(System.String,System.String,System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">
@@ -1458,6 +1470,9 @@
             <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         </member>
         <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
+            <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.StateCodeAndCityNameToCountyName(System.String,System.String)">
             <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         </member>
         <member name="M:FhirDeathRecord.MortalityData.EthnicityNameToEthnicityCode(System.String)">

@@ -19,7 +19,7 @@
         <subject>
           <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <date value="2018-07-10" />
+        <date value="2018-07-10T00:00:00.0000000+00:00" />
         <author>
           <reference value="urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7" />
         </author>
@@ -261,6 +261,8 @@
             <valueCodeableConcept>
               <coding>
                 <code value="16983000" />
+                <system value="http://snomed.info/sct" />
+                <display value="Death in hospital" />
               </coding>
             </valueCodeableConcept>
           </extension>
@@ -284,6 +286,7 @@
             <coding>
               <system value="http://hl7.org/fhir/v3/MaritalStatus" />
               <code value="S" />
+              <display value="Never Married" />
             </coding>
           </valueCodeableConcept>
         </extension>
@@ -292,6 +295,8 @@
             <valueCodeableConcept>
               <coding>
                 <code value="449971000124106" />
+                <system value="http://snomed.info/sct" />
+                <display value="Burial" />
               </coding>
             </valueCodeableConcept>
           </extension>
@@ -330,6 +335,8 @@
           <valueCodeableConcept>
             <coding>
               <code value="PHC1454" />
+              <system value="http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS" />
+              <display value="Master's Degree" />
             </coding>
           </valueCodeableConcept>
         </extension>
@@ -363,8 +370,8 @@
           <family value="Last" />
         </name>
         <gender value="male" />
-        <birthDate value="1970-04-24" />
-        <deceasedDateTime value="2018-04-24T00:00:00+00:00" />
+        <birthDate value="1970-04-24T00:00:00.0000000+00:00" />
+        <deceasedDateTime value="2018-04-24T00:00:00.0000000+00:00" />
         <address>
           <line value="1 Example Street" />
           <city value="Boston" />
@@ -648,7 +655,7 @@
         <subject>
           <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <valueDateTime value="2018-04-24T00:00:00+00:00" />
+        <valueDateTime value="2018-04-24T00:00:00.0000000+00:00" />
       </Observation>
     </resource>
   </entry>
@@ -671,7 +678,7 @@
         <subject>
           <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <valueDateTime value="2018-04-24T00:00:00+00:00" />
+        <valueDateTime value="2018-04-24T00:00:00.0000000+00:00" />
       </Observation>
     </resource>
   </entry>
@@ -719,9 +726,9 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/v3/NullFlavor" />
-            <code value="OTH" />
-            <display value="Other" />
+            <system value="http://snomed.info/sct" />
+            <code value="236320001" />
+            <display value="Vehicle driver" />
           </coding>
         </valueCodeableConcept>
       </Observation>
@@ -773,6 +780,7 @@
           <coding>
             <code value="PHC1260" />
             <display value="Not pregnant within past year" />
+            <system value="urn:oid:2.16.840.1.114222.4.11.6003" />
           </coding>
         </valueCodeableConcept>
       </Observation>
@@ -792,12 +800,9 @@
         <extension url="http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension">
           <valueAddress>
             <type value="postal" />
-            <line value="7 Example Street" />
             <city value="Watertown" />
             <district value="Middlesex" />
             <state value="Massachusetts" />
-            <postalCode value="02472" />
-            <country value="United States" />
           </valueAddress>
         </extension>
         <status value="final" />
@@ -811,7 +816,7 @@
         <subject>
           <reference value="urn:uuid:203aa649-b051-4121-b700-7418ac477bda" />
         </subject>
-        <effectiveDateTime value="2018-04-19T15:43:00+00:00" />
+        <effectiveDateTime value="2018-04-19T11:43:00.0000000+00:00" />
         <valueString value="Example details of injury" />
       </Observation>
     </resource>

@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -57,7 +58,6 @@ namespace FhirDeathRecord
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5");
             Composition.Title = "Record of Death";
-            Composition.Date = DateTime.Now.ToString("yyyy-MM-dd"); // By default, set creation date to now.
             Composition.Section = new List<Composition.SectionComponent>();
             Composition.SectionComponent section = new Composition.SectionComponent();
             section.Code = new CodeableConcept("http://loinc.org", "69453-9");
@@ -110,7 +110,18 @@ namespace FhirDeathRecord
                 // Assume JSON
                 FhirJsonParser parser = new FhirJsonParser();
                 Bundle = parser.Parse<Bundle>(record);
+                // Need to un-escape "div"s in Causes!
+                UnescapeCauses(Bundle);
                 Navigator = Bundle.ToTypedElement();
+            }
+
+            // Grab references to Patient and Practitioner for class instance
+            if (Navigator != null)
+            {
+                var patientEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Patient );
+                Patient = (Patient)patientEntry.Resource;
+                var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner );
+                Practitioner = (Practitioner)practitionerEntry.Resource;
             }
         }
 
@@ -127,7 +138,12 @@ namespace FhirDeathRecord
         public string ToJSON()
         {
             var serializer = new FhirJsonSerializer();
-            return serializer.SerializeToString(Bundle);
+            // Need to escape "div"s in Causes!
+            // IMPROVEMENT: Look into more efficient ways of doing this.
+            FhirXmlParser parser = new FhirXmlParser();
+            Bundle clonedBundle = parser.Parse<Bundle>(ToXML());
+            EscapeCauses(clonedBundle);
+            return serializer.SerializeToString(clonedBundle);
         }
 
 
@@ -173,7 +189,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Composition.Date = value;
+                Composition.Date = value.Trim();
             }
         }
 
@@ -454,15 +470,27 @@ namespace FhirDeathRecord
                 switch(value)
                 {
                     case "male":
+                    case "Male":
+                    case "m":
+                    case "M":
                         Patient.Gender = AdministrativeGender.Male;
                         break;
                     case "female":
+                    case "Female":
+                    case "f":
+                    case "F":
                         Patient.Gender = AdministrativeGender.Female;
                         break;
                     case "other":
+                    case "Other":
+                    case "o":
+                    case "O":
                         Patient.Gender = AdministrativeGender.Other;
                         break;
                     case "unknown":
+                    case "Unknown":
+                    case "u":
+                    case "U":
                         Patient.Gender = AdministrativeGender.Unknown;
                         break;
                 }
@@ -524,7 +552,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Patient.BirthDate = value;
+                Patient.BirthDate = value.Trim();
             }
         }
 
@@ -544,7 +572,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Patient.Deceased = new FhirDateTime(value);
+                Patient.Deceased = new FhirDateTime(value.Trim());
             }
         }
 
@@ -1626,6 +1654,18 @@ namespace FhirDeathRecord
                             code.Add("system", codeableConcept.Coding.First().System);
                             code.Add("display", codeableConcept.Coding.First().Display);
                         }
+                        else
+                        {
+                            code.Add("code", "");
+                            code.Add("system", "");
+                            code.Add("display", "");
+                        }
+                    }
+                    else
+                    {
+                        code.Add("code", "");
+                        code.Add("system", "");
+                        code.Add("display", "");
                     }
                     results.Add(Tuple.Create(literal, onset, code));
                 }
@@ -2664,6 +2704,36 @@ namespace FhirDeathRecord
                 dictionary[entry.Key] = entry.Value;
             }
             return dictionary;
+        }
+
+        /// <summary>HTML escape cause of death divs in the given Bundle.</summary>
+        private static void EscapeCauses(Bundle bundle)
+        {
+            var causes = bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition).ToList();
+            foreach (var cause in causes)
+            {
+                Condition causeEntry = (Condition)cause.Resource;
+                string causeNarrativeDiv = causeEntry.Text.Div;
+                Narrative narrative = new Narrative();
+                narrative.Div = HttpUtility.HtmlEncode(causeNarrativeDiv);
+                narrative.Status = Narrative.NarrativeStatus.Additional;
+                causeEntry.Text = narrative;
+            }
+        }
+
+        /// <summary>HTML un-escape cause of death divs in the given Bundle.</summary>
+        private static void UnescapeCauses(Bundle bundle)
+        {
+            var causes = bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition).ToList();
+            foreach (var cause in causes)
+            {
+                Condition causeEntry = (Condition)cause.Resource;
+                string causeNarrativeDiv = causeEntry.Text.Div;
+                Narrative narrative = new Narrative();
+                narrative.Div = HttpUtility.HtmlDecode(causeNarrativeDiv);
+                narrative.Status = Narrative.NarrativeStatus.Additional;
+                causeEntry.Text = narrative;
+            }
         }
     }
 }

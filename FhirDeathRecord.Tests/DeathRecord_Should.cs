@@ -36,6 +36,32 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void SetPatientAfterParse()
+        {
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            Assert.Equal("Person", sample1.FamilyName);
+            Assert.Equal("Person", sample2.FamilyName);
+            sample1.FamilyName = "1changed2abc";
+            sample2.FamilyName = "2changed1xyz";
+            Assert.Equal("1changed2abc", sample1.FamilyName);
+            Assert.Equal("2changed1xyz", sample2.FamilyName);
+        }
+
+        [Fact]
+        public void SetPractitionerAfterParse()
+        {
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            Assert.Equal("Doctor", sample1.CertifierFamilyName);
+            Assert.Equal("Doctor", sample2.CertifierFamilyName);
+            sample1.CertifierFamilyName = "1diff2abc";
+            sample2.CertifierFamilyName = "2diff1xyz";
+            Assert.Equal("1diff2abc", sample1.CertifierFamilyName);
+            Assert.Equal("2diff1xyz", sample2.CertifierFamilyName);
+        }
+
+        [Fact]
         public void Set_Id()
         {
             SetterDeathRecord.Id = "1337";
@@ -59,8 +85,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DateOfRegistration()
         {
-            Assert.Equal("2018-07-10", ((DeathRecord)XMLRecords[0]).DateOfRegistration);
-            Assert.Equal("2018-07-10", ((DeathRecord)JSONRecords[0]).DateOfRegistration);
+            Assert.Equal("2018-07-10T00:00:00.0000000+00:00", ((DeathRecord)XMLRecords[0]).DateOfRegistration);
+            Assert.Equal("2018-07-10T00:00:00.0000000+00:00", ((DeathRecord)JSONRecords[0]).DateOfRegistration);
         }
 
         [Fact]
@@ -313,29 +339,29 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_DateOfBirth()
         {
-            SetterDeathRecord.DateOfBirth = "1970-04-24";
-            Assert.Equal("1970-04-24", SetterDeathRecord.DateOfBirth);
+            SetterDeathRecord.DateOfBirth = "1970-04-24T00:00:00.0000000+00:00";
+            Assert.Equal("1970-04-24T00:00:00.0000000+00:00", SetterDeathRecord.DateOfBirth);
         }
 
         [Fact]
         public void Get_DateOfBirth()
         {
-            Assert.Equal("1970-04-24", ((DeathRecord)XMLRecords[0]).DateOfBirth);
-            Assert.Equal("1970-04-24", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+            Assert.Equal("1970-04-24T00:00:00.0000000+00:00", ((DeathRecord)XMLRecords[0]).DateOfBirth);
+            Assert.Equal("1970-04-24T00:00:00.0000000+00:00", ((DeathRecord)JSONRecords[0]).DateOfBirth);
         }
 
         [Fact]
         public void Set_DateOfDeath()
         {
-            SetterDeathRecord.DateOfDeath = "1970-04-24";
-            Assert.Equal("1970-04-24", SetterDeathRecord.DateOfDeath);
+            SetterDeathRecord.DateOfDeath = "1970-04-24T00:00:00.0000000+00:00";
+            Assert.Equal("1970-04-24T00:00:00.0000000+00:00", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
         }
 
         [Fact]
@@ -822,8 +848,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1C()
         {
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1C);
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1C);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)XMLRecords[0]).CODE1C);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)JSONRecords[0]).CODE1C);
         }
 
         [Fact]
@@ -864,8 +890,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1D()
         {
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1D);
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1D);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)XMLRecords[0]).CODE1D);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)JSONRecords[0]).CODE1D);
         }
 
         [Fact]
@@ -906,8 +932,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1A()
         {
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1A);
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1A);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)XMLRecords[0]).CODE1A);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)JSONRecords[0]).CODE1A);
         }
 
         [Fact]
@@ -948,8 +974,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1B()
         {
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)XMLRecords[0]).CODE1B);
-            Assert.Equal(new Dictionary<string, string>(), ((DeathRecord)JSONRecords[0]).CODE1B);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)XMLRecords[0]).CODE1B);
+            Assert.Equal(new Dictionary<string, string>(){ {"code", ""}, {"system", ""}, {"display", ""} }, ((DeathRecord)JSONRecords[0]).CODE1B);
         }
 
         [Fact]
@@ -1042,8 +1068,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_ActualOrPresumedDateOfDeath()
         {
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).ActualOrPresumedDateOfDeath);
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).ActualOrPresumedDateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)XMLRecords[0]).ActualOrPresumedDateOfDeath);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)JSONRecords[0]).ActualOrPresumedDateOfDeath);
         }
 
         [Fact]
@@ -1056,8 +1082,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DatePronouncedDead()
         {
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)XMLRecords[0]).DatePronouncedDead);
-            Assert.Equal("2018-04-24T00:00:00+00:00", ((DeathRecord)JSONRecords[0]).DatePronouncedDead);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)XMLRecords[0]).DatePronouncedDead);
+            Assert.Equal("2018-04-24T00:00:00.0000000+00:00", ((DeathRecord)JSONRecords[0]).DatePronouncedDead);
         }
 
         [Fact]
@@ -1091,13 +1117,13 @@ namespace FhirDeathRecord.Tests
         public void Get_DeathFromTransportInjury()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).DeathFromTransportInjury;
-            Assert.Equal("OTH", xmlDictionary["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", xmlDictionary["system"]);
-            Assert.Equal("Other", xmlDictionary["display"]);
+            Assert.Equal("236320001", xmlDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", xmlDictionary["system"]);
+            Assert.Equal("Vehicle driver", xmlDictionary["display"]);
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).DeathFromTransportInjury;
-            Assert.Equal("OTH", jsonDictionary["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", jsonDictionary["system"]);
-            Assert.Equal("Other", jsonDictionary["display"]);
+            Assert.Equal("236320001", jsonDictionary["code"]);
+            Assert.Equal("http://snomed.info/sct", jsonDictionary["system"]);
+            Assert.Equal("Vehicle driver", jsonDictionary["display"]);
         }
 
         [Fact]
@@ -1143,7 +1169,7 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
             detailsOfInjury.Add("placeOfInjuryDescription", "Home");
-            detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");
+            detailsOfInjury.Add("effectiveDateTime", "2018-04-19T11:43:00.0000000+00:00");
             detailsOfInjury.Add("description", "Example details of injury");
             detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
             detailsOfInjury.Add("placeOfInjuryLine2", "Line 2");
@@ -1154,7 +1180,7 @@ namespace FhirDeathRecord.Tests
             detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
             SetterDeathRecord.DetailsOfInjury = detailsOfInjury;
             Assert.Equal("Home", SetterDeathRecord.DetailsOfInjury["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T15:43:00+00:00", SetterDeathRecord.DetailsOfInjury["effectiveDateTime"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", SetterDeathRecord.DetailsOfInjury["effectiveDateTime"]);
             Assert.Equal("Example details of injury", SetterDeathRecord.DetailsOfInjury["description"]);
             Assert.Equal("7 Example Street", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine2"]);
@@ -1170,25 +1196,19 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).DetailsOfInjury;
             Assert.Equal("Home", xmlDictionary["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T15:43:00+00:00", xmlDictionary["effectiveDateTime"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", xmlDictionary["effectiveDateTime"]);
             Assert.Equal("Example details of injury", xmlDictionary["description"]);
-            Assert.Equal("7 Example Street", xmlDictionary["placeOfInjuryLine1"]);
             Assert.Null(xmlDictionary["placeOfInjuryLine2"]);
             Assert.Equal("Watertown", xmlDictionary["placeOfInjuryCity"]);
             Assert.Equal("Massachusetts", xmlDictionary["placeOfInjuryState"]);
-            Assert.Equal("02472", xmlDictionary["placeOfInjuryZip"]);
-            Assert.Equal("United States", xmlDictionary["placeOfInjuryCountry"]);
             Assert.Null(xmlDictionary["placeOfInjuryInsideCityLimits"]);
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).DetailsOfInjury;
             Assert.Equal("Home", jsonDictionary["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T15:43:00+00:00", jsonDictionary["effectiveDateTime"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", jsonDictionary["effectiveDateTime"]);
             Assert.Equal("Example details of injury", jsonDictionary["description"]);
-            Assert.Equal("7 Example Street", jsonDictionary["placeOfInjuryLine1"]);
             Assert.Null(jsonDictionary["placeOfInjuryLine2"]);
             Assert.Equal("Watertown", jsonDictionary["placeOfInjuryCity"]);
             Assert.Equal("Massachusetts", jsonDictionary["placeOfInjuryState"]);
-            Assert.Equal("02472", jsonDictionary["placeOfInjuryZip"]);
-            Assert.Equal("United States", jsonDictionary["placeOfInjuryCountry"]);
             Assert.Null(jsonDictionary["placeOfInjuryInsideCityLimits"]);
         }
 

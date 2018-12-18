@@ -5,6 +5,6 @@
     <DocumentationFile>DeathRecord.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.STU3" Version="1.0.0-beta1" />
+    <PackageReference Include="Hl7.Fhir.STU3" Version="1.0.0" />
   </ItemGroup>
 </Project>

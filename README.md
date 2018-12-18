@@ -30,16 +30,14 @@ string xml = File.ReadAllText("./example_sdr_fhir.xml");
 DeathRecord deathRecord = new DeathRecord(xml);
 
 // Print out some details from the record
-Console.WriteLine($"Decedent's Given Name(s): {deathRecord.GivenNames}");
+Console.WriteLine($"Decedent's First Name: {deathRecord.FirstName}");
 Console.WriteLine($"Decedent's Last Name: {deathRecord.FamilyName}");
 
-Console.WriteLine($"Autopsy Performed: {deathRecord.AutopsyPerformed}");
+Console.WriteLine($"Was an Autopsy Performed?: {deathRecord.AutopsyPerformed}");
 
-Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
-foreach (var cause in causes)
-{
-  Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Coding: {cause.Item3}");
-}
+Console.WriteLine($"Cause of Death Part I, Line a: {deathRecord.COD1A}");
+Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}");
+Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", deathRecord.CODE1A.Select(x => x.Key + "=" + x.Value).ToArray())}");
 ```
 
 #### Producing Example
@@ -73,7 +71,7 @@ deathRecord.CODE1A = exampleCode;
 // Add TimingOfRecentPregnancyInRelationToDeath
 Dictionary<string, string> code = new Dictionary<string, string>();
 code.Add("code", "PHC1260");
-code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
+code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
 code.Add("display", "Not pregnant within past year");
 deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
 

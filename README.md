@@ -121,7 +121,7 @@ This directory contains unit and functional tests for the FhirDeathRecord librar
 
 #### Usage
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
-```
+```bash
 dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
 ```
 
@@ -129,7 +129,7 @@ dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
 This directory contains a sample command line interface app that uses the FhirDeathRecord library to do a few different things.
 
 #### Example Usages
-```
+```bash
 // Builds a fake death record and print out the record as FHIR XML and JSON
 dotnet run
 
@@ -175,7 +175,7 @@ Include a `Content-Type` header indicating what format the record is represented
 
 #### Usage (Local)
 Example usage (executed inside the FhirDeathRecord.HTTP directory):
-```
+```bash
 dotnet run
 ```
 
@@ -184,7 +184,7 @@ This will launch the microservice locally, which will be listening on port 8080.
 #### Usage (docker)
 Note, this requires a locally running instance of docker on the machine for the service to be deployed on.
 
-```
+```bash
 dotnet publish
 docker build -t fhirdeath .
 docker run -p 8080:8080 fhirdeath

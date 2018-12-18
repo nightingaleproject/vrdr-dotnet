@@ -130,34 +130,34 @@ This directory contains a sample command line interface app that uses the FhirDe
 
 #### Example Usages
 ```bash
-// Builds a fake death record and print out the record as FHIR XML and JSON
+# Builds a fake death record and print out the record as FHIR XML and JSON
 dotnet run
 
-// Read in the FHIR XML or JSON death record and print out as IJE
+# Read in the FHIR XML or JSON death record and print out as IJE
 dotnet run 2ije 1.xml
 
-// Read in the IJE death record and print out as FHIR XML
+# Read in the IJE death record and print out as FHIR XML
 dotnet run ije2xml 1.MOR
 
-// Read in the IJE death record and print out as FHIR JSON
+# Read in the IJE death record and print out as FHIR JSON
 dotnet run ije2json 1.MOR
 
-// Read in the FHIR XML death record and print out as FHIR JSON
+# Read in the FHIR XML death record and print out as FHIR JSON
 dotnet run xml2json 1.xml
 
-// Read in the FHIR JSON death record and print out as FHIR XML
+# Read in the FHIR JSON death record and print out as FHIR XML
 dotnet run json2xml 1.json
 
-// Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
+# Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
 dotnet run json2json 1.json
 
-// Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
+# Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
 dotnet run xml2xml 1.xml
 
-// Read in and parse the FHIR XML or JSON death record and print out some general details about it
+# Read in and parse the FHIR XML or JSON death record and print out some general details about it
 dotnet run 1.xml
 
-// Read in and parse an IJE death record and print out the values for every (supported) field
+# Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run ije 1.MOR
 ```
 

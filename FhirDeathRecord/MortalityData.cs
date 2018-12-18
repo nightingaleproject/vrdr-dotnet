@@ -196,6 +196,26 @@ namespace FhirDeathRecord
             return PlaceCodes[index].Item4;
         }
 
+        /// <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
+        public string StateCodeAndCityNameToCountyName(string state, string city)
+        {
+            if (String.IsNullOrWhiteSpace(state) || String.IsNullOrWhiteSpace(city))
+            {
+                return null;
+            }
+            else
+            {
+                state = state.Trim();
+                city = city.Trim();
+            }
+            int index = PlaceCodes.ToList().FindIndex(t => t.Item1.ToUpper() == state.ToUpper() && t.Item4.ToUpper() == city.ToUpper());
+            if (index < 0)
+            {
+                return null;
+            }
+            return PlaceCodes[index].Item2;
+        }
+
         /// <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
         public string EthnicityNameToEthnicityCode(string name)
         {

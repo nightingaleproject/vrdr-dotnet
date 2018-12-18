@@ -58,7 +58,6 @@ namespace FhirDeathRecord
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5");
             Composition.Title = "Record of Death";
-            Composition.Date = DateTime.Now.ToString("yyyy-MM-dd"); // By default, set creation date to now.
             Composition.Section = new List<Composition.SectionComponent>();
             Composition.SectionComponent section = new Composition.SectionComponent();
             section.Code = new CodeableConcept("http://loinc.org", "69453-9");
@@ -190,7 +189,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Composition.Date = value;
+                Composition.Date = value.Trim();
             }
         }
 
@@ -471,15 +470,27 @@ namespace FhirDeathRecord
                 switch(value)
                 {
                     case "male":
+                    case "Male":
+                    case "m":
+                    case "M":
                         Patient.Gender = AdministrativeGender.Male;
                         break;
                     case "female":
+                    case "Female":
+                    case "f":
+                    case "F":
                         Patient.Gender = AdministrativeGender.Female;
                         break;
                     case "other":
+                    case "Other":
+                    case "o":
+                    case "O":
                         Patient.Gender = AdministrativeGender.Other;
                         break;
                     case "unknown":
+                    case "Unknown":
+                    case "u":
+                    case "U":
                         Patient.Gender = AdministrativeGender.Unknown;
                         break;
                 }
@@ -541,7 +552,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Patient.BirthDate = value;
+                Patient.BirthDate = value.Trim();
             }
         }
 
@@ -561,7 +572,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Patient.Deceased = new FhirDateTime(value);
+                Patient.Deceased = new FhirDateTime(value.Trim());
             }
         }
 
@@ -1643,6 +1654,18 @@ namespace FhirDeathRecord
                             code.Add("system", codeableConcept.Coding.First().System);
                             code.Add("display", codeableConcept.Coding.First().Display);
                         }
+                        else
+                        {
+                            code.Add("code", "");
+                            code.Add("system", "");
+                            code.Add("display", "");
+                        }
+                    }
+                    else
+                    {
+                        code.Add("code", "");
+                        code.Add("system", "");
+                        code.Add("display", "");
                     }
                     results.Add(Tuple.Create(literal, onset, code));
                 }

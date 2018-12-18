@@ -87,7 +87,7 @@ deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
 Console.WriteLine(deathRecord.ToJSON());
 ```
 
-#### FHIR SDR to/from IJE Mortality format **(Under Active Development - Currently Experimental!)**
+#### FHIR SDR to/from IJE Mortality format
 A quick example of converting a FHIR Death Record to an IJE string:
 ```cs
 // Read in FHIR Death Record XML file as a string
@@ -126,12 +126,39 @@ dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
 ```
 
 ### FhirDeathRecord.CLI
-This directory contains a sample app that uses the FhirDeathRecord library. The app is a simple command line utility that takes a single parameter (filepath to a SDR FHIR file, either json or xml) and parses it, then prints what it found to standard out.
+This directory contains a sample command line interface app that uses the FhirDeathRecord library to do a few different things.
 
-#### Usage
-Example usage (executed inside the FhirDeathRecord.CLI directory):
+#### Example Usages
 ```
+// Builds a fake death record and print out the record as FHIR XML and JSON
+dotnet run
+
+// Read in the FHIR XML or JSON death record and print out as IJE
+dotnet run 2ije 1.xml
+
+// Read in the IJE death record and print out as FHIR XML
+dotnet run ije2xml 1.MOR
+
+// Read in the IJE death record and print out as FHIR JSON
+dotnet run ije2json 1.MOR
+
+// Read in the FHIR XML death record and print out as FHIR JSON
+dotnet run xml2json 1.xml
+
+// Read in the FHIR JSON death record and print out as FHIR XML
+dotnet run json2xml 1.json
+
+// Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
+dotnet run json2json 1.json
+
+// Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
+dotnet run xml2xml 1.xml
+
+// Read in and parse the FHIR XML or JSON death record and print out some general details about it
 dotnet run 1.xml
+
+// Read in and parse an IJE death record and print out the values for every (supported) field
+dotnet run ije 1.MOR
 ```
 
 ### FhirDeathRecord.HTTP

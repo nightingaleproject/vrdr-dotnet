@@ -25,7 +25,7 @@
            "subject":{
               "reference":"urn:uuid:203aa649-b051-4121-b700-7418ac477bda"
            },
-           "date":"2018-07-10",
+           "date":"2018-07-10T00:00:00.0000000+00:00",
            "author":[
               {
                  "reference":"urn:uuid:12ffc13b-d538-4e25-80ac-f2b4ed5bb8d7"
@@ -315,7 +315,9 @@
                        "valueCodeableConcept":{
                           "coding":[
                              {
-                                "code":"16983000"
+                                "code":"16983000",
+                                "system":"http://snomed.info/sct",
+                                "display":"Death in hospital"
                              }
                           ]
                        }
@@ -347,7 +349,8 @@
                     "coding":[
                        {
                           "system":"http://hl7.org/fhir/v3/MaritalStatus",
-                          "code":"S"
+                          "code":"S",
+                          "display":"Never Married"
                        }
                     ]
                  }
@@ -359,7 +362,9 @@
                        "valueCodeableConcept":{
                           "coding":[
                              {
-                                "code":"449971000124106"
+                                "code":"449971000124106",
+                                "system":"http://snomed.info/sct",
+                                "display":"Burial"
                              }
                           ]
                        }
@@ -414,7 +419,9 @@
                  "valueCodeableConcept":{
                     "coding":[
                        {
-                          "code":"PHC1454"
+                          "code":"PHC1454",
+                          "system":"http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS",
+                          "display":"Master's Degree"
                        }
                     ]
                  }
@@ -465,8 +472,8 @@
               }
            ],
            "gender":"male",
-           "birthDate":"1970-04-24",
-           "deceasedDateTime":"2018-04-24T00:00:00+00:00",
+           "birthDate":"1970-04-24T00:00:00.0000000+00:00",
+           "deceasedDateTime":"2018-04-24T00:00:00.0000000+00:00",
            "address":[
               {
                  "line":[
@@ -802,7 +809,7 @@
            "subject":{
               "reference":"urn:uuid:203aa649-b051-4121-b700-7418ac477bda"
            },
-           "valueDateTime":"2018-04-24T00:00:00+00:00"
+           "valueDateTime":"2018-04-24T00:00:00.0000000+00:00"
         }
      },
      {
@@ -828,7 +835,7 @@
            "subject":{
               "reference":"urn:uuid:203aa649-b051-4121-b700-7418ac477bda"
            },
-           "valueDateTime":"2018-04-24T00:00:00+00:00"
+           "valueDateTime":"2018-04-24T00:00:00.0000000+00:00"
         }
      },
      {
@@ -883,9 +890,9 @@
            "valueCodeableConcept":{
               "coding":[
                  {
-                    "system":"http://hl7.org/fhir/v3/NullFlavor",
-                    "code":"OTH",
-                    "display":"Other"
+                    "system":"http://snomed.info/sct",
+                    "code":"236320001",
+                    "display":"Vehicle driver"
                  }
               ]
            }
@@ -944,6 +951,7 @@
               "coding":[
                  {
                     "code":"PHC1260",
+                    "system":"urn:oid:2.16.840.1.114222.4.11.6003",
                     "display":"Not pregnant within past year"
                  }
               ]
@@ -969,14 +977,9 @@
                  "url":"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension",
                  "valueAddress":{
                     "type":"postal",
-                    "line":[
-                       "7 Example Street"
-                    ],
                     "city":"Watertown",
                     "district":"Middlesex",
-                    "state":"Massachusetts",
-                    "postalCode":"02472",
-                    "country":"United States"
+                    "state":"Massachusetts"
                  }
               }
            ],
@@ -993,7 +996,7 @@
            "subject":{
               "reference":"urn:uuid:203aa649-b051-4121-b700-7418ac477bda"
            },
-           "effectiveDateTime":"2018-04-19T15:43:00+00:00",
+           "effectiveDateTime":"2018-04-19T11:43:00.0000000+00:00",
            "valueString":"Example details of injury"
         }
      }

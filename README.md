@@ -81,7 +81,7 @@ deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
 deathRecord.MedicalExaminerContacted = false;
 
 // Add DatePronouncedDead
-deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
+deathRecord.DatePronouncedDead = "2018-07-10T10:04:00.0000000+00:00";
 
 // Print record as a JSON string
 Console.WriteLine(deathRecord.ToJSON());

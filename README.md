@@ -155,6 +155,12 @@ dotnet run xml2xml 1.xml
 # Read in and parse the FHIR XML or JSON death record and print out some general details about it
 dotnet run 1.xml
 
+# Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs
+dotnet run checkXml 1.xml
+
+# Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs
+dotnet run checkJson 1.json
+
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run ije 1.MOR
 ```

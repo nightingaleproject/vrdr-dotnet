@@ -95,20 +95,21 @@ namespace FhirDeathRecord
 
         /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
         /// <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
-        public DeathRecord(string record)
+        public DeathRecord(string record, bool permissive = false)
         {
             // Check if XML
             if (!string.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
             {
-                FhirXmlParser parser = new FhirXmlParser();
+                FhirXmlParser parser = new FhirXmlParser(new ParserSettings { AcceptUnknownMembers = permissive, AllowUnrecognizedEnums = permissive });
                 Bundle = parser.Parse<Bundle>(record);
                 Navigator = Bundle.ToTypedElement();
             }
             else
             {
                 // Assume JSON
-                FhirJsonParser parser = new FhirJsonParser();
+                FhirJsonParser parser = new FhirJsonParser(new ParserSettings { AcceptUnknownMembers = permissive, AllowUnrecognizedEnums = permissive });
                 Bundle = parser.Parse<Bundle>(record);
                 // Need to un-escape "div"s in Causes!
                 UnescapeCauses(Bundle);
@@ -2545,17 +2546,20 @@ namespace FhirDeathRecord
         {
             CodeableConcept codeableConcept = new CodeableConcept();
             Coding coding = new Coding();
-            if (dict.ContainsKey("code"))
+            if (dict != null)
             {
-                coding.Code = dict["code"];
-            }
-            if (dict.ContainsKey("system"))
-            {
-                coding.System = dict["system"];
-            }
-            if (dict.ContainsKey("display"))
-            {
-                coding.Display = dict["display"];
+                if (dict.ContainsKey("code"))
+                {
+                    coding.Code = dict["code"];
+                }
+                if (dict.ContainsKey("system"))
+                {
+                    coding.System = dict["system"];
+                }
+                if (dict.ContainsKey("display"))
+                {
+                    coding.Display = dict["display"];
+                }
             }
             codeableConcept.Coding.Add(coding);
             return codeableConcept;

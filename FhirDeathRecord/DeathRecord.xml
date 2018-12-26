@@ -37,9 +37,10 @@
         <member name="M:FhirDeathRecord.DeathRecord.#ctor">
             <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.#ctor(System.String)">
+        <member name="M:FhirDeathRecord.DeathRecord.#ctor(System.String,System.Boolean)">
             <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
             <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.ToXML">

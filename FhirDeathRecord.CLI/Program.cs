@@ -12,7 +12,7 @@ using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
 using FhirDeathRecord;
 
-namespace csharp_fhir_death_record
+namespace FhirDeathRecord.CLI
 {
     class Program
     {
@@ -206,6 +206,18 @@ namespace csharp_fhir_death_record
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "checkXml")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "checkJson")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
+                Console.WriteLine(d.ToJSON());
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "xml2json")

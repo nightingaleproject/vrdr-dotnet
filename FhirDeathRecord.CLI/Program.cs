@@ -24,8 +24,7 @@ namespace FhirDeathRecord.CLI
                 DeathRecord deathRecord = new DeathRecord();
                 deathRecord.Id = "1337";
                 deathRecord.DateOfRegistration = "2018-07-11";
-                deathRecord.FirstName = "Example";
-                deathRecord.MiddleName = "Middle";
+                deathRecord.GivenNames = new string[] { "First", "Middle" };
                 deathRecord.FamilyName = "Last";
                 deathRecord.MaidenName = "Last Maiden";
                 deathRecord.Suffix = "Sr.";
@@ -116,8 +115,7 @@ namespace FhirDeathRecord.CLI
                 dictionary.Add("funeralFacilityInsideCityLimits", "False");
                 deathRecord.Disposition = dictionary;
                 deathRecord.FamilyName = "Doctor";
-                deathRecord.CertifierFirstName = "Example";
-                deathRecord.CertifierMiddleName = "Middle";
+                deathRecord.CertifierGivenNames = new string[] { "Certifier", "Middle" };
                 deathRecord.CertifierSuffix = "Sr.";
                 Dictionary<string, string> address = new Dictionary<string, string>();
                 address.Add("street", "123 Test Street");

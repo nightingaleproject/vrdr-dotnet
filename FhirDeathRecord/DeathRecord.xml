@@ -82,30 +82,6 @@
             <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FirstName">
-            <summary>Decedent's First Name. This is essentially the same as the first thing in
-            <c>GivenNames</c>. Setting this value will prepend whatever is given to the start
-            of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
-            <value>the decedent's first name</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FirstName = "Example";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent First Name: {ExampleDeathRecord.FirstName}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MiddleName">
-            <summary>Decedent's Middle Name. This is essentially the same as the last thing in
-            <c>GivenNames</c>. Setting this value will append whatever is given to the end
-            of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
-            <value>the decedent's middle name</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.MiddleName = "Middle";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Middle Name: {ExampleDeathRecord.MiddleName}");</para>
-            </example>
-        </member>
         <member name="P:FhirDeathRecord.DeathRecord.FamilyName">
             <summary>Decedent's Family Name.</summary>
             <value>the decedent's family name (i.e. last name)</value>
@@ -459,30 +435,6 @@
             <para>ExampleDeathRecord.CertifierGivenNames = names;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierFirstName">
-            <summary>Certifier's First Name. This is essentially the same as the first thing in
-            <c>CertifierGivenNames</c>. Setting this value will prepend whatever is given to the start
-            of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
-            <value>the certifier's first name</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.CertifierFirstName = "Example";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Certifier First Name: {ExampleDeathRecord.CertifierFirstName}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierMiddleName">
-            <summary>Certifier's Middle Name. This is essentially the same as the last thing in
-            <c>CertifierGivenNames</c>. Setting this value will append whatever is given to the end
-            of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
-            <value>the certifier's middle name</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.CertifierMiddleName = "Middle";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Certifier Middle Name: {ExampleDeathRecord.CertifierMiddleName}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierFamilyName">

@@ -233,88 +233,6 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's First Name. This is essentially the same as the first thing in
-        /// <c>GivenNames</c>. Setting this value will prepend whatever is given to the start
-        /// of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
-        /// <value>the decedent's first name</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.FirstName = "Example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent First Name: {ExampleDeathRecord.FirstName}");</para>
-        /// </example>
-        public string FirstName
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
-            }
-            set
-            {
-                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] firstName = new String[] {value};
-                    if (name.Given.First() == "") // Looks like middle name was set first, replace fake first name.
-                    {
-                        name.Given = firstName.Concat(name.Given.Skip(1).ToArray()).ToArray();
-                    }
-                    else
-                    {
-                        name.Given = firstName.Concat(name.Given).ToArray();
-                    }
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = new String[] {value, ""}; // Put an empty "fake" middle name at the end.
-                    Patient.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Middle Name. This is essentially the same as the last thing in
-        /// <c>GivenNames</c>. Setting this value will append whatever is given to the end
-        /// of <c>GivenNames</c> if <c>GivenNames</c> already exists.</summary>
-        /// <value>the decedent's middle name</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MiddleName = "Middle";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Middle Name: {ExampleDeathRecord.MiddleName}");</para>
-        /// </example>
-        public string MiddleName
-        {
-            get
-            {
-                return GetLastString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
-            }
-            set
-            {
-                HumanName name = Patient.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] middleName = new String[] {value};
-                    if (name.Given.Last() == "") // Looks like first name was set first, replace fake middle name.
-                    {
-                        name.Given = name.Given.Take(name.Given.Count() - 1).ToArray().Concat(middleName).ToArray();
-                    }
-                    else
-                    {
-                        name.Given = name.Given.Concat(middleName).ToArray();
-                    }
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = new String[] {"", value}; // Put an empty "fake" first name at the start.
-                    Patient.Name.Add(name);
-                }
-            }
-        }
-
         /// <summary>Decedent's Family Name.</summary>
         /// <value>the decedent's family name (i.e. last name)</value>
         /// <example>
@@ -1350,11 +1268,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetAllString("Bundle.entry.resource.where($this is Practitioner).name.given");
+                return GetAllString("Bundle.entry.resource.where($this is Practitioner).name.where(use='official').given");
             }
             set
             {
-                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Decedent.
+                HumanName name = Practitioner.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null)
                 {
                     name.Given = value;
@@ -1364,88 +1282,6 @@ namespace FhirDeathRecord
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Official;
                     name.Given = value;
-                    Practitioner.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Certifier's First Name. This is essentially the same as the first thing in
-        /// <c>CertifierGivenNames</c>. Setting this value will prepend whatever is given to the start
-        /// of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
-        /// <value>the certifier's first name</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CertifierFirstName = "Example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Certifier First Name: {ExampleDeathRecord.CertifierFirstName}");</para>
-        /// </example>
-        public string CertifierFirstName
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.given");
-            }
-            set
-            {
-                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] firstName = new String[] {value};
-                    if (name.Given.First() == "") // Looks like middle name was set first, replace fake first name.
-                    {
-                        name.Given = firstName.Concat(name.Given.Skip(1).ToArray()).ToArray();
-                    }
-                    else
-                    {
-                        name.Given = firstName.Concat(name.Given).ToArray();
-                    }
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = new String[] {value, ""}; // Put an empty "fake" middle name at the end.
-                    Practitioner.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Certifier's Middle Name. This is essentially the same as the last thing in
-        /// <c>CertifierGivenNames</c>. Setting this value will append whatever is given to the end
-        /// of <c>CertifierGivenNames</c> if <c>CertifierGivenNames</c> already exists.</summary>
-        /// <value>the certifier's middle name</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CertifierMiddleName = "Middle";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Certifier Middle Name: {ExampleDeathRecord.CertifierMiddleName}");</para>
-        /// </example>
-        public string CertifierMiddleName
-        {
-            get
-            {
-                return GetLastString("Bundle.entry.resource.where($this is Practitioner).name.given");
-            }
-            set
-            {
-                HumanName name = Practitioner.Name.FirstOrDefault(); // Check if there is already a HumanName on the Certifier.
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] middleName = new String[] {value};
-                    if (name.Given.Last() == "") // Looks like first name was set first, replace fake middle name.
-                    {
-                        name.Given = name.Given.Take(name.Given.Count() - 1).ToArray().Concat(middleName).ToArray();
-                    }
-                    else
-                    {
-                        name.Given = name.Given.Concat(middleName).ToArray();
-                    }
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = new String[] {"", value}; // Put an empty "fake" first name at the start.
                     Practitioner.Name.Add(name);
                 }
             }

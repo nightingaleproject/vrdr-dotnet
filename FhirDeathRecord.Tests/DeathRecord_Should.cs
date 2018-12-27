@@ -106,34 +106,6 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_FirstName()
-        {
-            SetterDeathRecord.FirstName = "Example";
-            Assert.Equal("Example", SetterDeathRecord.FirstName);
-        }
-
-        [Fact]
-        public void Get_FirstName()
-        {
-            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).FirstName);
-            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).FirstName);
-        }
-
-        [Fact]
-        public void Set_MiddleName()
-        {
-            SetterDeathRecord.MiddleName = "Middle";
-            Assert.Equal("Middle", SetterDeathRecord.MiddleName);
-        }
-
-        [Fact]
-        public void Get_MiddleName()
-        {
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MiddleName);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MiddleName);
-        }
-
-        [Fact]
         public void Set_FamilyName()
         {
             SetterDeathRecord.FamilyName = "Last";
@@ -648,34 +620,6 @@ namespace FhirDeathRecord.Tests
         {
             Assert.Equal("Doctor", ((DeathRecord)XMLRecords[0]).CertifierFamilyName);
             Assert.Equal("Doctor", ((DeathRecord)JSONRecords[0]).CertifierFamilyName);
-        }
-
-        [Fact]
-        public void Set_CertifierFirstName()
-        {
-            SetterDeathRecord.CertifierFirstName = "Example";
-            Assert.Equal("Example", SetterDeathRecord.CertifierFirstName);
-        }
-
-        [Fact]
-        public void Get_CertifierFirstName()
-        {
-            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).CertifierFirstName);
-            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).CertifierFirstName);
-        }
-
-        [Fact]
-        public void Set_CertifierMiddleName()
-        {
-            SetterDeathRecord.CertifierMiddleName = "Middle";
-            Assert.Equal("Middle", SetterDeathRecord.CertifierMiddleName);
-        }
-
-        [Fact]
-        public void Get_CertifierMiddleName()
-        {
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).CertifierMiddleName);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).CertifierMiddleName);
         }
 
         [Fact]

@@ -401,6 +401,69 @@ namespace csharp_fhir_death_record
                 vrdr.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";
                 vrdr.DatePronouncedDead = "2018-04-25T00:00:00+00:00";
 
+                // Mortician
+
+                vrdr.MorticianFirstName = "Mortician";
+                vrdr.MorticianMiddleName = "MMiddle";
+                vrdr.MorticianFamilyName = "MFamily";
+                vrdr.MorticianSuffix = "Jr.";
+                vrdr.MorticianId = "1234567890";
+
+                // Disposition (Disposition Method, Disposition Location, Funeral Home, Funeral Home Director)
+                Dictionary<string, string> ddictionary = new Dictionary<string, string>();
+                ddictionary.Add("dispositionTypeCode", "449971000124106");
+                ddictionary.Add("dispositionTypeSystem", "http://snomed.info/sct");
+                ddictionary.Add("dispositionTypeDisplay", "Burial");
+                ddictionary.Add("dispositionPlaceName", "Example disposition place name");
+                ddictionary.Add("dispositionPlaceLine1", "100 Example Street");
+                ddictionary.Add("dispositionPlaceLine2", "Line 2");
+                ddictionary.Add("dispositionPlaceCity", "Bedford");
+                ddictionary.Add("dispositionPlaceCounty", "Middlesex");
+                ddictionary.Add("dispositionPlaceState", "Massachusetts");
+                ddictionary.Add("dispositionPlaceZip", "01730");
+                ddictionary.Add("dispositionPlaceCountry", "United States");
+                ddictionary.Add("funeralFacilityName", "Example funeral facility name");
+                ddictionary.Add("funeralFacilityLine1", "50 Example Street");
+                ddictionary.Add("funeralFacilityLine2", "Line 2a");
+                ddictionary.Add("funeralFacilityCity", "Watertown");
+                ddictionary.Add("funeralFacilityCounty", "Middlesex");
+                ddictionary.Add("funeralFacilityState", "Massachusetts");
+                ddictionary.Add("funeralFacilityZip", "02472");
+                ddictionary.Add("funeralFacilityCountry", "United States");
+                vrdr.Disposition = ddictionary;
+
+                // Injury Details (Injury Incident, Injury Location)
+
+                Dictionary<string, string> idictionary = new Dictionary<string, string>();
+                idictionary.Add("injuryDescription", "Example details of injury");
+                idictionary.Add("injuryEffectiveDateTime", "2018-04-19T15:43:00+00:00");
+                idictionary.Add("placeOfInjuryName", "Decedent's Home");
+                idictionary.Add("placeOfInjuryLine1", "7 Example Street");
+                idictionary.Add("placeOfInjuryLine2", "Unit 1234");
+                idictionary.Add("placeOfInjuryCity", "Bedford");
+                idictionary.Add("placeOfInjuryCounty", "Middlesex");
+                idictionary.Add("placeOfInjuryState", "Massachusetts");
+                idictionary.Add("placeOfInjuryZip", "01730");
+                idictionary.Add("placeOfInjuryCountry", "United States");
+                vrdr.DetailsOfInjury = idictionary;
+
+                // Transportation Event Indicator
+
+                Dictionary<string, string> tdictionary = new Dictionary<string, string>();
+                tdictionary.Add("code", "236320001");
+                tdictionary.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
+                tdictionary.Add("display", "Vehicle driver");
+                vrdr.DeathFromTransportInjury = tdictionary;
+
+                // Work Injury Indicator
+
+                vrdr.DeathFromWorkInjury = true;
+
+                // Examiner contacted
+                vrdr.MedicalExaminerContacted = true;
+
+
+
                 if (args[1] == "json")
                 {
                     Console.WriteLine(FormatJson(vrdr.ToJSON()));

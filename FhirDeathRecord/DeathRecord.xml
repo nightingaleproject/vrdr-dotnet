@@ -37,6 +37,30 @@
         <member name="F:FhirDeathRecord.DeathRecord.DeathLocation">
             <summary>The death location.</summary>
         </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DispositionMethod">
+            <summary>The disposition method observation.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DispositionLocation">
+            <summary>The disposition location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.Mortician">
+            <summary>The mortician.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.FuneralHome">
+            <summary>The funeral home.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.FuneralHomeDirector">
+            <summary>The funeral home director.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InjuryIncident">
+            <summary>The injury incident.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InjuryLocation">
+            <summary>The injury location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.MEContacted">
+            <summary>If medical examiner contacted observation.</summary>
+        </member>
         <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
             <summary>Mortality data for code translations.</summary>
         </member>
@@ -377,7 +401,6 @@
             <para>"dispositionPlaceState" - disposition place address, state</para>
             <para>"dispositionPlaceZip" - disposition place address, zip</para>
             <para>"dispositionPlaceCountry" - disposition place address, country</para>
-            <para>"dispositionPlaceInsideCityLimits" - disposition place address, whether the address is within city limits (true) or not (false)</para>
             <para>"funeralFacilityName" - the name of a funeral facility or institution</para>
             <para>"funeralFacilityLine1" - funeral facility address, line one</para>
             <para>"funeralFacilityLine2" - funeral facility address, line two</para>
@@ -386,7 +409,6 @@
             <para>"funeralFacilityState" - funeral facility address, state</para>
             <para>"funeralFacilityZip" - funeral facility address, zip</para>
             <para>"funeralFacilityCountry" - funeral facility address, country</para>
-            <para>"funeralFacilityInsideCityLimits" - funeral facility address, whether the address is within city limits (true) or not (false)</para>
             </value>
             <example>
             <para>// Setter:</para>
@@ -402,7 +424,6 @@
             <para>disposition.Add("dispositionPlaceState", "Massachusetts");</para>
             <para>disposition.Add("dispositionPlaceZip", "01730");</para>
             <para>disposition.Add("dispositionPlaceCountry", "United States");</para>
-            <para>disposition.Add("dispositionPlaceInsideCityLimits", "True");</para>
             <para>disposition.Add("funeralFacilityName", "Example funeral facility name");</para>
             <para>disposition.Add("funeralFacilityLine1", "50 Example Street");</para>
             <para>disposition.Add("funeralFacilityLine2", "Line 2");</para>
@@ -411,7 +432,6 @@
             <para>disposition.Add("funeralFacilityState", "Massachusetts");</para>
             <para>disposition.Add("funeralFacilityZip", "01730");</para>
             <para>disposition.Add("funeralFacilityCountry", "United States");</para>
-            <para>disposition.Add("funeralFacilityInsideCityLimits", "True");</para>
             <para>ExampleDeathRecord.Disposition = disposition;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
@@ -472,6 +492,71 @@
             <para>SetterDeathRecord.Occupation = occupation;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianGivenNames">
+            <summary>Given name(s) of Mortician.</summary>
+            <value>the Mortician's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = {"Mortician", "Middle"};</para>
+            <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianFirstName">
+            <summary>Mortician's First Name. This is essentially the same as the first thing in
+            <c>MorticianGivenNames</c>. Setting this value will prepend whatever is given to the start
+            of <c>MorticianGivenNames</c> if <c>MorticianGivenNames</c> already exists.</summary>
+            <value>the Mortician's first name</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianFirstName = "Example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician First Name: {ExampleDeathRecord.MorticianFirstName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianMiddleName">
+            <summary>Mortician's Middle Name. This is essentially the same as the last thing in
+            <c>MorticianGivenNames</c>. Setting this value will append whatever is given to the end
+            of <c>MorticianGivenNames</c> if <c>MorticianGivenNames</c> already exists.</summary>
+            <value>the certifier's middle name</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianMiddleName = "Middle";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Middle Name: {ExampleDeathRecord.MorticianMiddleName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianFamilyName">
+            <summary>Family name of Mortician.</summary>
+            <value>the Mortician's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician's Last Name: {string.Join(", ", ExampleDeathRecord.MorticianFamilyName)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianSuffix">
+            <summary>Mortician's Suffix.</summary>
+            <value>the Mortician's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianId">
+            <summary>Mortician Identification.</summary>
+            <value>the Mortician identification</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianId = "123456789";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\Mortician Id: {ExampleDeathRecord.MorticianId}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierGivenNames">
@@ -797,9 +882,9 @@
         <member name="P:FhirDeathRecord.DeathRecord.DetailsOfInjury">
             <summary>Injury incident description.</summary>
             <value>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:
-            <para>"placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
-            <para>"effectiveDateTime" - effective date and time of injury</para>
-            <para>"description" - description of injury</para>
+            <para>"injuryDescription" - description of injury</para>
+            <para>"injuryEffectiveDateTime" - effective date and time of injury</para>
+            <para>"placeOfInjuryName" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
             <para>"placeOfInjuryLine1" - location of injury, line one</para>
             <para>"placeOfInjuryLine2" - location of injury, line two</para>
             <para>"placeOfInjuryCity" - location of injury, city</para>
@@ -807,14 +892,13 @@
             <para>"placeOfInjuryState" - location of injury, state</para>
             <para>"placeOfInjuryZip" - location of injury, zip</para>
             <para>"placeOfInjuryCountry" - location of injury, country</para>
-            <para>"placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)</para>
             </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; detailsOfInjury = new Dictionary&lt;string, string&gt;();</para>
-            <para>detailsOfInjury.Add("placeOfInjuryDescription", "Home");</para>
-            <para>detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
-            <para>detailsOfInjury.Add("description", "Example details of injury");</para>
+            <para>detailsOfInjury.Add("injuryDescription", "Example details of injury");</para>
+            <para>detailsOfInjury.Add("injuryEffectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
+            <para>detailsOfInjury.Add("placeOfInjuryName", "Decedent's Home");</para>
             <para>detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");</para>
             <para>detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");</para>
             <para>detailsOfInjury.Add("placeOfInjuryCity", "Bedford");</para>
@@ -822,7 +906,6 @@
             <para>detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");</para>
             <para>detailsOfInjury.Add("placeOfInjuryZip", "01730");</para>
             <para>detailsOfInjury.Add("placeOfInjuryCountry", "United States");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");</para>
             <para>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</para>
             <para>// Getter:</para>
             <para>string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];</para>

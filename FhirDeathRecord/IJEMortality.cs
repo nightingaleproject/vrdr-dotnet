@@ -724,7 +724,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return RightJustifiedZeroed_Get("FILENO", "Id");
+                string id_str = record.Id;
+                if (id_str.Length > 6)
+                {
+                    id_str = id_str.Substring(id_str.Length - 6);
+                }
+                return id_str.PadLeft(6, '0');
             }
             set
             {

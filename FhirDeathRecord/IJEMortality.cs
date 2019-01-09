@@ -726,7 +726,7 @@ namespace FhirDeathRecord
             {
                 if (String.IsNullOrWhiteSpace(record.Id))
                 {
-                    return "";
+                    return "".PadLeft(6, '0');
                 }
                 string id_str = record.Id;
                 if (id_str.Length > 6)

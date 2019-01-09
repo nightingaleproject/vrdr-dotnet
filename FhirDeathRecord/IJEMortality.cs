@@ -724,6 +724,10 @@ namespace FhirDeathRecord
         {
             get
             {
+                if (String.IsNullOrWhiteSpace(record.Id))
+                {
+                    return "";
+                }
                 string id_str = record.Id;
                 if (id_str.Length > 6)
                 {

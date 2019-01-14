@@ -126,7 +126,12 @@ namespace FhirDeathRecord.CLI
                 code = new Dictionary<string, string>();
                 code.Add("code", "434651000124107");
                 code.Add("display", "Physician (Pronouncer and Certifier)");
-                deathRecord.BirthSex = code;
+                deathRecord.CertifierType = code;
+                code = new Dictionary<string, string>();
+                code.Add("code", "MD");
+                code.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
+                code.Add("display", "Doctor of Medicine");
+                deathRecord.CertifierQualification = code;
                 deathRecord.ContributingConditions = "Example Contributing Condition";
                 Tuple<string, string, Dictionary<string, string>>[] causes =
                 {
@@ -232,7 +237,7 @@ namespace FhirDeathRecord.CLI
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
                     {
                         continue;
                     }
@@ -249,7 +254,7 @@ namespace FhirDeathRecord.CLI
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
                     {
                         continue;
                     }
@@ -297,7 +302,7 @@ namespace FhirDeathRecord.CLI
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
                     {
                         continue;
                     }
@@ -315,7 +320,7 @@ namespace FhirDeathRecord.CLI
 
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("GivenNames") || property.Name.Contains("CertifierGivenNames") || property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
                     {
                         continue;
                     }

@@ -476,19 +476,30 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierType">
-            <summary>Decedent's Birth Sex.</summary>
-            <value>the decedent's birth sex</value>
+            <summary>Certifier Type.</summary>
+            <value>the certifier type</value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "434651000124107");</para>
             <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
-            <para>ExampleDeathRecord.BirthSex = type;</para>
+            <para>ExampleDeathRecord.CertifierType = type;</para>
             <para>// Getter:</para>
-            <para>foreach(var pair in ExampleDeathRecord.CertifierType)</para>
-            <para>{</para>
-            <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
-            <para>};</para>
+            <para>Console.WriteLine($"\tCertifier Type: {ExampleDeathRecord.CertifierType['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CertifierQualification">
+            <summary>Certifier Qualification.</summary>
+            <value>the certifier qualification</value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "MD");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/v2/0360/2.7");</para>
+            <para>code.Add("display", "Doctor of Medicine");</para>
+            <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CausesOfDeath">

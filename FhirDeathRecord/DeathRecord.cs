@@ -54,7 +54,7 @@ namespace FhirDeathRecord
             Composition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
-            string[] composition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents"};
+            string[] composition_profile = { "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents" };
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5");
             Composition.Title = "Record of Death";
@@ -74,16 +74,6 @@ namespace FhirDeathRecord
             // Start with empty Practitioner to represent Certifier.
             Practitioner = new Practitioner();
             Practitioner.Id = "urn:uuid:" + Guid.NewGuid().ToString();
-            Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-            Coding coding = new Coding();
-            coding.Code = "MD";
-            coding.System = "http://hl7.org/fhir/v2/0360/2.7";
-            coding.Display = "Doctor of Medicine";
-            qualification.Code = new CodeableConcept();
-            Coding[] codings = {coding};
-            qualification.Code.Coding = codings.ToList();
-            Practitioner.QualificationComponent[] quals = {qualification};
-            Practitioner.Qualification = quals.ToList();
             ResourceReference[] authors = { new ResourceReference(Practitioner.Id) };
             Composition.Author = authors.ToList();
             section.Entry.Add(new ResourceReference(Practitioner.Id));
@@ -1394,19 +1384,16 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's Birth Sex.</summary>
-        /// <value>the decedent's birth sex</value>
+        /// <summary>Certifier Type.</summary>
+        /// <value>the certifier type</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "434651000124107");</para>
         /// <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
-        /// <para>ExampleDeathRecord.BirthSex = type;</para>
+        /// <para>ExampleDeathRecord.CertifierType = type;</para>
         /// <para>// Getter:</para>
-        /// <para>foreach(var pair in ExampleDeathRecord.CertifierType)</para>
-        /// <para>{</para>
-        /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
-        /// <para>};</para>
+        /// <para>Console.WriteLine($"\tCertifier Type: {ExampleDeathRecord.CertifierType['display']}");</para>
         /// </example>
         public Dictionary<string, string> CertifierType
         {
@@ -1428,6 +1415,38 @@ namespace FhirDeathRecord
                 type.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension";
                 type.Value = DictToCodeableConcept(value);
                 Practitioner.Extension.Add(type);
+            }
+        }
+
+        /// <summary>Certifier Qualification.</summary>
+        /// <value>the certifier qualification</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "MD");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/v2/0360/2.7");</para>
+        /// <para>code.Add("display", "Doctor of Medicine");</para>
+        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> CertifierQualification
+        {
+            get
+            {
+                Practitioner.QualificationComponent qualification = Practitioner.Qualification.FirstOrDefault();
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("display", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Display : ""));
+                dictionary.Add("code", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Code : ""));
+                dictionary.Add("system", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().System : ""));
+                return dictionary;
+            }
+            set
+            {
+                Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+                qualification.Code = DictToCodeableConcept(value);
+                Practitioner.Qualification.Clear();
+                Practitioner.Qualification.Add(qualification);
             }
         }
 

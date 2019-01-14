@@ -672,9 +672,9 @@ namespace FhirDeathRecord.Tests
             Dictionary<string, string> code = new Dictionary<string, string>();
             code.Add("code", "434651000124107");
             code.Add("display", "Physician (Pronouncer and Certifier)");
-            SetterDeathRecord.BirthSex = code;
-            Assert.Equal("434651000124107", SetterDeathRecord.BirthSex["code"]);
-            Assert.Equal("Physician (Pronouncer and Certifier)", SetterDeathRecord.BirthSex["display"]);
+            SetterDeathRecord.CertifierType = code;
+            Assert.Equal("434651000124107", SetterDeathRecord.CertifierType["code"]);
+            Assert.Equal("Physician (Pronouncer and Certifier)", SetterDeathRecord.CertifierType["display"]);
         }
 
         [Fact]
@@ -685,6 +685,30 @@ namespace FhirDeathRecord.Tests
 
             Assert.Equal("Physician (Pronouncer and Certifier)", ((DeathRecord)JSONRecords[0]).CertifierType["display"]);
             Assert.Equal("434651000124107", ((DeathRecord)JSONRecords[0]).CertifierType["code"]);
+        }
+
+        [Fact]
+        public void Set_CertifierQualification()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "MD");
+            code.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
+            code.Add("display", "Doctor of Medicine");
+            SetterDeathRecord.CertifierQualification = code;
+            Assert.Equal("http://hl7.org/fhir/v2/0360/2.7", SetterDeathRecord.CertifierQualification["system"]);
+            Assert.Equal("MD", SetterDeathRecord.CertifierQualification["code"]);
+            Assert.Equal("Doctor of Medicine", SetterDeathRecord.CertifierQualification["display"]);
+        }
+
+        [Fact]
+        public void Get_CertifierQualification()
+        {
+            Assert.Equal("Doctor of Medicine", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("MD", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://hl7.org/fhir/v2/0360/2.7", ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
+            Assert.Equal("Doctor of Medicine", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("MD", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://hl7.org/fhir/v2/0360/2.7", ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
         }
 
         [Fact]

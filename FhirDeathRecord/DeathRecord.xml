@@ -463,10 +463,11 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-            <para>address.Add("street", "123 Test Street");</para>
-            <para>address.Add("city", "Boston");</para>
-            <para>address.Add("state", "Massachusetts");</para>
-            <para>address.Add("zip", "12345");</para>
+            <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+            <para>address.Add("certifierAddressCity", "Boston");</para>
+            <para>address.Add("certifierAddressCounty", "Suffolk");</para>
+            <para>address.Add("certifierAddressState", "Massachusetts");</para>
+            <para>address.Add("certifierAddressZip", "12345");</para>
             <para>ExampleDeathRecord.CertifierAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>

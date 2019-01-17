@@ -640,30 +640,30 @@ namespace FhirDeathRecord.Tests
         public void Set_CertifierAddress()
         {
             Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("street", "123 Test Street");
-            address.Add("city", "Boston");
-            address.Add("state", "Massachusetts");
-            address.Add("zip", "12345");
+            address.Add("certifierAddressStreet", "123 Test Street");
+            address.Add("certifierAddressCity", "Boston");
+            address.Add("certifierAddressState", "Massachusetts");
+            address.Add("certifierAddressZip", "12345");
             SetterDeathRecord.CertifierAddress = address;
-            Assert.Equal("123 Test Street", SetterDeathRecord.CertifierAddress["street"]);
-            Assert.Equal("Boston", SetterDeathRecord.CertifierAddress["city"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.CertifierAddress["state"]);
-            Assert.Equal("12345", SetterDeathRecord.CertifierAddress["zip"]);
+            Assert.Equal("123 Test Street", SetterDeathRecord.CertifierAddress["certifierAddressStreet"]);
+            Assert.Equal("Boston", SetterDeathRecord.CertifierAddress["certifierAddressCity"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.CertifierAddress["certifierAddressState"]);
+            Assert.Equal("12345", SetterDeathRecord.CertifierAddress["certifierAddressZip"]);
         }
 
         [Fact]
         public void Get_CertifierAddress()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).CertifierAddress;
-            Assert.Equal("100 Example St.", xmlDictionary["street"]);
-            Assert.Equal("Bedford", xmlDictionary["city"]);
-            Assert.Equal("Massachusetts", xmlDictionary["state"]);
-            Assert.Equal("01730", xmlDictionary["zip"]);
+            Assert.Equal("100 Example St.", xmlDictionary["certifierAddressStreet"]);
+            Assert.Equal("Bedford", xmlDictionary["certifierAddressCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["certifierAddressState"]);
+            Assert.Equal("01730", xmlDictionary["certifierAddressZip"]);
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).CertifierAddress;
-            Assert.Equal("100 Example St.", jsonDictionary["street"]);
-            Assert.Equal("Bedford", jsonDictionary["city"]);
-            Assert.Equal("Massachusetts", jsonDictionary["state"]);
-            Assert.Equal("01730", jsonDictionary["zip"]);
+            Assert.Equal("100 Example St.", jsonDictionary["certifierAddressStreet"]);
+            Assert.Equal("Bedford", jsonDictionary["certifierAddressCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["certifierAddressState"]);
+            Assert.Equal("01730", jsonDictionary["certifierAddressZip"]);
         }
 
         [Fact]

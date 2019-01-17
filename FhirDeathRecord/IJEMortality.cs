@@ -3869,13 +3869,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "street");
+                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "certifierAddressStreet");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "street", value);
+                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "certifierAddressStreet", value);
                 }
             }
         }
@@ -3886,13 +3886,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTCITYTEXT", "CertifierAddress", "city");
+                return Dictionary_Get("CERTCITYTEXT", "CertifierAddress", "certifierAddressCity");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "city", value);
+                    Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "certifierAddressCity", value);
                 }
             }
         }
@@ -3903,13 +3903,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "state"));
+                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "certifierAddressState"));
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "state", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "certifierAddressState", dataLookup.StateCodeToStateName(value));
                 }
             }
         }
@@ -3920,7 +3920,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTSTATE", "CertifierAddress", "state");
+                return Dictionary_Get("CERTSTATE", "CertifierAddress", "certifierAddressState");
             }
             set
             {
@@ -3934,13 +3934,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTZIP", "CertifierAddress", "zip");
+                return Dictionary_Get("CERTZIP", "CertifierAddress", "certifierAddressZip");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTZIP", "CertifierAddress", "zip", value);
+                    Dictionary_Set("CERTZIP", "CertifierAddress", "certifierAddressZip", value);
                 }
             }
         }

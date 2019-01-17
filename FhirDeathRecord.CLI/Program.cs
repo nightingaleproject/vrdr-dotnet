@@ -118,10 +118,11 @@ namespace FhirDeathRecord.CLI
                 deathRecord.CertifierGivenNames = new string[] { "Certifier", "Middle" };
                 deathRecord.CertifierSuffix = "Sr.";
                 Dictionary<string, string> address = new Dictionary<string, string>();
-                address.Add("street", "123 Test Street");
-                address.Add("city", "Boston");
-                address.Add("state", "Massachusetts");
-                address.Add("zip", "12345");
+                address.Add("certifierAddressStreet", "123 Test Street");
+                address.Add("certifierAddressCity", "Boston");
+                address.Add("certifierAddressCounty", "Suffolk");
+                address.Add("certifierAddressState", "Massachusetts");
+                address.Add("certifierAddressZip", "12345");
                 deathRecord.CertifierAddress = address;
                 code = new Dictionary<string, string>();
                 code.Add("code", "434651000124107");
@@ -424,10 +425,6 @@ namespace FhirDeathRecord.CLI
                 // Certifier Information
                 Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenNames}");
                 Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierFamilyName}");
-                foreach(var pair in deathRecord.CertifierAddress)
-                {
-                    Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");
-                }
                 Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
 
                 // Conditions

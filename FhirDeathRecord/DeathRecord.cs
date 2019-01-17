@@ -1346,10 +1346,11 @@ namespace FhirDeathRecord
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>address.Add("street", "123 Test Street");</para>
-        /// <para>address.Add("city", "Boston");</para>
-        /// <para>address.Add("state", "Massachusetts");</para>
-        /// <para>address.Add("zip", "12345");</para>
+        /// <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+        /// <para>address.Add("certifierAddressCity", "Boston");</para>
+        /// <para>address.Add("certifierAddressCounty", "Suffolk");</para>
+        /// <para>address.Add("certifierAddressState", "Massachusetts");</para>
+        /// <para>address.Add("certifierAddressZip", "12345");</para>
         /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
@@ -1363,22 +1364,25 @@ namespace FhirDeathRecord
             {
                 string street = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.line[0]");
                 string city = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.city");
+                string county = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.district");
                 string state = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.state");
                 string zip = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.postalCode");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("street", street);
-                dictionary.Add("city", city);
-                dictionary.Add("state", state);
-                dictionary.Add("zip", zip);
+                dictionary.Add("certifierAddressStreet", street);
+                dictionary.Add("certifierAddressCity", city);
+                dictionary.Add("certifierAddressCounty", county);
+                dictionary.Add("certifierAddressState", state);
+                dictionary.Add("certifierAddressZip", zip);
                 return dictionary;
             }
             set
             {
                 Address address = new Address();
-                address.LineElement.Add(new FhirString(value["street"]));
-                address.City = value["city"];
-                address.State = value["state"];
-                address.PostalCodeElement = new FhirString(value["zip"]);
+                address.LineElement.Add(new FhirString(GetValue(value, "certifierAddressStreet")));
+                address.City = GetValue(value, "certifierAddressCity");
+                address.District = GetValue(value, "certifierAddressCounty");
+                address.State = GetValue(value, "certifierAddressState");
+                address.PostalCodeElement = new FhirString(GetValue(value, "certifierAddressZip"));
                 Practitioner.Address = new List<Hl7.Fhir.Model.Address>();
                 Practitioner.Address.Add(address);
             }

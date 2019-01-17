@@ -2451,7 +2451,7 @@ namespace FhirDeathRecord
         /// returns an empty array if no matches are found.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>all elements that match the given path, or an empty array if no matches are found.</returns>
-        private object[] GetAll(string path)
+        public object[] GetAll(string path)
         {
             var matches = Navigator.Select(path);
             ArrayList list = new ArrayList();
@@ -2465,7 +2465,7 @@ namespace FhirDeathRecord
         /// <summary>Given a FHIR path, return the first element that matches the given path.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path, or null if no match is found.</returns>
-        private object GetFirst(string path)
+        public object GetFirst(string path)
         {
             var matches = Navigator.Select(path);
             if (matches.Count() > 0)
@@ -2481,7 +2481,7 @@ namespace FhirDeathRecord
         /// <summary>Given a FHIR path, return the last element that matches the given path.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>the last element that matches the given path, or null if no match is found.</returns>
-        private object GetLast(string path)
+        public object GetLast(string path)
         {
             var matches = Navigator.Select(path);
             if (matches.Count() > 0)

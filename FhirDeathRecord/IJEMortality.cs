@@ -563,7 +563,7 @@ namespace FhirDeathRecord
             Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
             List<Tuple<string, string>> ethnicities = new List<Tuple<string, string>>();
             // Check if hispanic origin
-            if (Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
+            if (ethnicityStatus != null && Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
             {
                 foreach(Tuple<string, string> tuple in ethnicityStatus)
                 {
@@ -1745,11 +1745,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (HispanicOrigin().Length == 0)
+                string[] hispanicOrigin = HispanicOrigin();
+                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
+                if (hispanicOrigin != null && hispanicOrigin.Length == 0)
                 {
                     return "U";
                 }
-                else if (HispanicOriginOther().Length > 0)
+                else if (hispanicOriginOther != null && hispanicOriginOther.Length > 0)
                 {
                     return "Y";
                 }

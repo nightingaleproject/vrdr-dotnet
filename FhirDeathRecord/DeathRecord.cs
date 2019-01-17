@@ -1579,7 +1579,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 0);
+                    InsertCOD(Tuple.Create(value.Trim(), (string)null, new Dictionary<string, string>()), 0);
                 }
             }
         }
@@ -1605,7 +1605,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 0);
+                    InsertCOD(Tuple.Create((string)null, value.Trim(), new Dictionary<string, string>()), 0);
                 }
             }
         }
@@ -1631,7 +1631,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", "", value), 0);
+                    InsertCOD(Tuple.Create((string)null, (string)null, value), 0);
                 }
             }
         }
@@ -1657,7 +1657,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 1);
+                    InsertCOD(Tuple.Create(value.Trim(), (string)null, new Dictionary<string, string>()), 1);
                 }
             }
         }
@@ -1683,7 +1683,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 1);
+                    InsertCOD(Tuple.Create((string)null, value.Trim(), new Dictionary<string, string>()), 1);
                 }
             }
         }
@@ -1709,7 +1709,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", "", value), 1);
+                    InsertCOD(Tuple.Create((string)null, (string)null, value), 1);
                 }
             }
         }
@@ -1735,7 +1735,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 2);
+                    InsertCOD(Tuple.Create(value.Trim(), (string)null, new Dictionary<string, string>()), 2);
                 }
             }
         }
@@ -1761,7 +1761,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 2);
+                    InsertCOD(Tuple.Create((string)null, value.Trim(), new Dictionary<string, string>()), 2);
                 }
             }
         }
@@ -1787,7 +1787,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", "", value), 2);
+                    InsertCOD(Tuple.Create((string)null, (string)null, value), 2);
                 }
             }
         }
@@ -1813,7 +1813,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()), 3);
+                    InsertCOD(Tuple.Create(value.Trim(), (string)null, new Dictionary<string, string>()), 3);
                 }
             }
         }
@@ -1839,7 +1839,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", value.Trim(), new Dictionary<string, string>()), 3);
+                    InsertCOD(Tuple.Create((string)null, value.Trim(), new Dictionary<string, string>()), 3);
                 }
             }
         }
@@ -1865,7 +1865,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    InsertCOD(Tuple.Create("", "", value), 3);
+                    InsertCOD(Tuple.Create((string)null, (string)null, value), 3);
                 }
             }
         }

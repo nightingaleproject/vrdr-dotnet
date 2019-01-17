@@ -114,7 +114,7 @@ namespace FhirDeathRecord.CLI
                 dictionary.Add("funeralFacilityCountry", "United States");
                 dictionary.Add("funeralFacilityInsideCityLimits", "False");
                 deathRecord.Disposition = dictionary;
-                deathRecord.FamilyName = "Doctor";
+                deathRecord.CertifierFamilyName = "Doctor";
                 deathRecord.CertifierGivenNames = new string[] { "Certifier", "Middle" };
                 deathRecord.CertifierSuffix = "Sr.";
                 Dictionary<string, string> address = new Dictionary<string, string>();

@@ -120,21 +120,14 @@ namespace FhirDeathRecord
         /// <returns>a string representation of this Death Record in XML format</returns>
         public string ToXML()
         {
-            var serializer = new FhirXmlSerializer();
-            return serializer.SerializeToString(Bundle);
+            return Bundle.ToXml();
         }
 
         /// <summary>Helper method to return a JSON string representation of this Death Record.</summary>
         /// <returns>a string representation of this Death Record in JSON format</returns>
         public string ToJSON()
         {
-            var serializer = new FhirJsonSerializer();
-            // Need to escape "div"s in Causes!
-            // IMPROVEMENT: Look into more efficient ways of doing this.
-            FhirXmlParser parser = new FhirXmlParser();
-            Bundle clonedBundle = parser.Parse<Bundle>(ToXML());
-            EscapeCauses(clonedBundle);
-            return serializer.SerializeToString(clonedBundle);
+            return Bundle.ToJson();
         }
 
 

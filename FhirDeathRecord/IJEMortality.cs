@@ -1638,7 +1638,7 @@ namespace FhirDeathRecord
                 }
                 if (Array.Exists(ethnicities, element => element == "Mexican" || element == "2148-5"))
                 {
-                    return "Y";
+                    return "H";
                 }
                 return "N";
             }
@@ -1647,7 +1647,7 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "Y")
+                    if (value == "H")
                     {
                         ethnicities.Add(Tuple.Create("Mexican", "2148-5"));
                         ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
@@ -1676,7 +1676,7 @@ namespace FhirDeathRecord
                 }
                 if (Array.Exists(ethnicities, element => element == "Puerto Rican" || element == "2180-8"))
                 {
-                    return "Y";
+                    return "H";
                 }
                 return "N";
             }
@@ -1685,7 +1685,7 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "Y")
+                    if (value == "H")
                     {
                         ethnicities.Add(Tuple.Create("Puerto Rican", "2180-8"));
                         ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
@@ -1714,7 +1714,7 @@ namespace FhirDeathRecord
                 }
                 if (Array.Exists(ethnicities, element => element == "Cuban" || element == "2182-4"))
                 {
-                    return "Y";
+                    return "H";
                 }
                 return "N";
             }
@@ -1723,7 +1723,7 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "Y")
+                    if (value == "H")
                     {
                         ethnicities.Add(Tuple.Create("Cuban", "2182-4"));
                         ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
@@ -1746,14 +1746,14 @@ namespace FhirDeathRecord
             get
             {
                 string[] hispanicOrigin = HispanicOrigin();
-                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
                 if (hispanicOrigin != null && hispanicOrigin.Length == 0)
                 {
                     return "U";
                 }
-                else if (hispanicOriginOther != null && hispanicOriginOther.Length > 0)
+                // We need to handle cases where hispanic origin is other with or without write-in
+                else if (hispanicOrigin != null && hispanicOrigin.Length > 0 && DETHNIC1 == "N" && DETHNIC2 == "N" && DETHNIC3 == "N")
                 {
-                    return "Y";
+                    return "H";
                 }
                 else
                 {
@@ -1765,7 +1765,7 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "Y")
+                    if (value == "H")
                     {
                         ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");

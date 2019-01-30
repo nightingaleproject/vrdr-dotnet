@@ -61,6 +61,21 @@
         <member name="F:FhirDeathRecord.DeathRecord.MEContacted">
             <summary>If medical examiner contacted observation.</summary>
         </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InterestedParty">
+            <summary>Interested Party.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DeathCertificateReference">
+            <summary>Death Certificate Reference.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.EducationLevel">
+            <summary>Decedent's Education Level.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.EmploymentHistory">
+            <summary>Decedent's Employment History.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathPathway">
+            <summary>The ordering of causes of death.</summary>
+        </member>
         <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
             <summary>Mortality data for code translations.</summary>
         </member>
@@ -480,19 +495,7 @@
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.Occupation">
             <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-            <value>Decedent’s usual occupation and industry.
-            <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
-            <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-            <para>occupation.Add("jobDescription", "Example occupation");</para>
-            <para>occupation.Add("industryDescription", "Example industry");</para>
-            <para>SetterDeathRecord.Occupation = occupation;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
-            </example>
+            TODO
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.MorticianGivenNames">
             <summary>Given name(s) of Mortician.</summary>
@@ -620,10 +623,11 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-            <para>address.Add("street", "123 Test Street");</para>
-            <para>address.Add("city", "Boston");</para>
-            <para>address.Add("state", "Massachusetts");</para>
-            <para>address.Add("zip", "12345");</para>
+            <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+            <para>address.Add("certifierAddressCity", "Boston");</para>
+            <para>address.Add("certifierAddressCounty", "Suffolk");</para>
+            <para>address.Add("certifierAddressState", "Massachusetts");</para>
+            <para>address.Add("certifierAddressZip", "12345");</para>
             <para>ExampleDeathRecord.CertifierAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
@@ -745,15 +749,22 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AutopsyPerformed">
+        <member name="P:FhirDeathRecord.DeathRecord.AutopsyPerformedAndResultsAvailable">
             <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
             Certificate of Death.</summary>
             <value>Whether an autopsy was performed (true) or not (false)</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.AutopsyPerformed = true;</para>
+            <para>Dictionary&lt;string, string&gt; aperformed = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("performedCode", "N");</para>
+            <para>code.Add("performedSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>code.Add("performedDisplay", "No");</para>
+            <para>code.Add("resultsAvailableCode", "N");</para>
+            <para>code.Add("resultsAvailableSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>code.Add("resultsAvailableDisplay", "No");</para>
+            <para>ExampleDeathRecord.AutopsyPerformedAndResultsAvailable = aperformed;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
+            <para>Console.WriteLine($"\tWas autopsy performed?: {ExampleDeathRecord.AutopsyPerformedAndResultsAvailable["display"]}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.AutopsyResultsAvailable">

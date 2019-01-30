@@ -69,54 +69,169 @@ namespace FhirDeathRecord
         /// <summary>If medical examiner contacted observation.</summary>
         private Observation MEContacted;
 
+        /// <summary>Interested Party.</summary>
+        private Organization InterestedParty;
+
+        /// <summary>Death Certificate Reference.</summary>
+        private DocumentReference DeathCertificateReference;
+
+        /// <summary>Decedent's Education Level.</summary>
+        private Observation EducationLevel;
+
+        /// <summary>Decedent's Employment History.</summary>
+        private Observation EmploymentHistory;
+
+        /// <summary>The ordering of causes of death.</summary>
+        private Hl7.Fhir.Model.List CauseOfDeathPathway;
+
         /// <summary>Mortality data for code translations.</summary>
         private MortalityData MortalityData = MortalityData.Instance;
 
         /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
         public DeathRecord()
         {
-            // Start with an empty Bundle.
             Bundle = new Bundle();
             Bundle.Type = Bundle.BundleType.Document; // By default, Bundle type is "document".
+            Bundle.Identifier = new Identifier();
+            Bundle.Identifier.Value = "1234567890";
+            Bundle.Meta = new Meta();
+            string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
+            Bundle.Meta.Profile = bundle_profile;
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
             Composition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
-            string[] composition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-DeathRecordContents"};
+            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5");
             Composition.Title = "Record of Death";
-            Composition.Date = DateTime.Now.ToString("yyyy-MM-dd"); // By default, set creation date to now.
-            Composition.Section = new List<Composition.SectionComponent>();
-            Composition.SectionComponent section = new Composition.SectionComponent();
-            section.Code = new CodeableConcept("http://loinc.org", "69453-9");
-            Composition.Section.Add(section);
+            Composition.Date = DateTime.Now.ToString("o"); // By default, set creation date to now.
+            Composition.Identifier = new Identifier();
+            Composition.Identifier.Value = "123454"; // TODO
+            Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
+            eventComponent.Code.Add(new CodeableConcept(null, "103693007"));
+            Composition.Event.Add(eventComponent);
+            Hl7.Fhir.Model.Composition.AttesterComponent attesterComponent = new Hl7.Fhir.Model.Composition.AttesterComponent();
+            attesterComponent.Time = "time";
+            List<Hl7.Fhir.Model.Composition.CompositionAttestationMode> modes = new List<Hl7.Fhir.Model.Composition.CompositionAttestationMode>();
+            attesterComponent.ModeElement.Add(new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal));
+            Composition.Attester.Add(attesterComponent);
             Bundle.AddResourceEntry(Composition, Composition.Id);
+
+            InterestedParty = new Organization();
+            InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            InterestedParty.Meta = new Meta();
+            string[] ip_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+            InterestedParty.Meta.Profile = ip_profile;
+            Identifier ipid = new Identifier();
+            ipid.Value = "1234567890";
+            InterestedParty.Identifier.Add(ipid);
+            InterestedParty.Active = true;
+            InterestedParty.Type.Add(new CodeableConcept("http://hl7.org/fhir/ValueSet/organization-type", "dept", "Hospital Department"));
+            InterestedParty.Name = "Example Interested Party";
+            Address address = new Address();
+            address.City = "Worcester";
+            address.State = "Massachusetts";
+            InterestedParty.Address.Add(address);
+            Bundle.AddResourceEntry(InterestedParty, InterestedParty.Id);
+
+
+
 
             // Start with empty Patient to represent Decedent.
             Patient = new Patient();
-            Patient.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Patient.Id = "example-decedent"; //"urn:uuid:" + Guid.NewGuid().ToString(); // TODO
             Composition.Subject = new ResourceReference(Patient.Id);
-            section.Entry.Add(new ResourceReference(Patient.Id));
-            Bundle.AddResourceEntry(Patient, Patient.Id);
+            //section.Entry.Add(new ResourceReference(Patient.Id));
+            //Bundle.AddResourceEntry(Patient, Patient.Id);
+
+
+            DeathCertificateReference = new DocumentReference();
+            DeathCertificateReference.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            DeathCertificateReference.Meta = new Meta();
+            string[] dcr_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference" };
+            DeathCertificateReference.Meta.Profile = dcr_profile;
+            Identifier dcrid = new Identifier();
+            dcrid.Value = "1234567890";
+            DeathCertificateReference.Identifier.Add(dcrid);
+            DeathCertificateReference.Status = DocumentReferenceStatus.Current;
+            DeathCertificateReference.Type = new CodeableConcept("http://loinc.org", "64297-5");
+            DeathCertificateReference.Subject = new ResourceReference(Patient.Id);
+            DeathCertificateReference.Indexed = new DateTimeOffset();
+            DeathCertificateReference.Author.Add(new ResourceReference(InterestedParty.Id));
+            Bundle.AddResourceEntry(DeathCertificateReference, DeathCertificateReference.Id);
+
 
             // Start with empty Practitioner to represent Certifier.
             Practitioner = new Practitioner();
-            Practitioner.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Practitioner.Id = "example-practitioner"; //"urn:uuid:" + Guid.NewGuid().ToString(); // TODO
             Practitioner.Meta = new Meta();
-            string[] practProf = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer" };
+            string[] practProf = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
             Practitioner.Meta.Profile = practProf;
-            ResourceReference[] authors = { new ResourceReference(Practitioner.Id) };
-            Composition.Author = authors.ToList();
-            section.Entry.Add(new ResourceReference(Practitioner.Id));
-            Bundle.AddResourceEntry(Practitioner, Practitioner.Id);
+            //ResourceReference[] authors = { new ResourceReference(Practitioner.Id) };
+            //Composition.Author = authors.ToList();
+            //section.Entry.Add(new ResourceReference(Practitioner.Id));
+            attesterComponent.Party = new ResourceReference(Practitioner.Id);
 
-            // Death date observation
+
+            // VRDR Death Certification
+            Procedure deathCertification = new Procedure();
+            deathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            deathCertification.Meta = new Meta();
+            string[] deathCertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+            deathCertification.Meta.Profile = deathCertification_profile;
+            deathCertification.Status = EventStatus.Completed;
+            deathCertification.Code = new CodeableConcept(null, "308646001");
+            deathCertification.Category = new CodeableConcept(null, "103693007");
+            Procedure.PerformerComponent performer = new Procedure.PerformerComponent();
+            performer.Actor = new ResourceReference(Practitioner.Id);
+            performer.Role = new CodeableConcept("http://hl7.org/fhir/ValueSet/performer-role", "59058001 ", "General physician");
+            deathCertification.Performer.Add(performer);
+            eventComponent.Detail.Add(new ResourceReference(deathCertification.Id));
+            //Bundle.AddResourceEntry(deathCertification, deathCertification.Id);
+
+            // Death Date Observation
             DeathDate = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date", "81956-5", "urn:oid:2.16.840.1.113883.6.1", "Date and time of death");
             ResourceReference[] performers = { new ResourceReference(Practitioner.Id) };
             DeathDate.Performer = performers.ToList();
+
+            RelatedPerson spouse = new RelatedPerson();
+            spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            spouse.Meta = new Meta();
+            string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+            spouse.Meta.Profile = spouse_profile;
+            HumanName spouse_name = new HumanName();
+            spouse_name.Family = "spouse";
+            spouse.Name.Add(spouse_name);
+            spouse.Relationship = new CodeableConcept(null, "SPS");
+            spouse.Patient = new ResourceReference(Patient.Id);
+            Bundle.AddResourceEntry(spouse, spouse.Id);
+
+            RelatedPerson mother = new RelatedPerson();
+            mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            mother.Meta = new Meta();
+            string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+            mother.Meta.Profile = mother_profile;
+            HumanName mother_name = new HumanName();
+            mother_name.Family = "mother";
+            mother.Name.Add(mother_name);
+            mother.Relationship = new CodeableConcept(null, "MTH");
+            mother.Patient = new ResourceReference(Patient.Id);
+            Bundle.AddResourceEntry(mother, mother.Id);
+
+            RelatedPerson father = new RelatedPerson();
+            father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            father.Meta = new Meta();
+            string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+            father.Meta.Profile = father_profile;
+            HumanName father_name = new HumanName();
+            father_name.Family = "father";
+            father.Name.Add(father_name);
+            father.Relationship = new CodeableConcept(null, "FTH");
+            father.Patient = new ResourceReference(Patient.Id);
+            Bundle.AddResourceEntry(father, father.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -1358,22 +1473,22 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.code");
-                string system = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.system");
-                string display = GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension').value.coding.display");
-                Dictionary<string, string> education = new Dictionary<string, string>();
-                education.Add("code", code);
-                education.Add("system", system);
-                education.Add("display", display);
-                return education;
+                if (EducationLevel != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)EducationLevel.Value);
+                }
+                else
+                {
+                    return new Dictionary<string, string>();
+                }
             }
             set
             {
-                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension");
-                Extension education = new Extension();
-                education.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension";
-                education.Value = DictToCodeableConcept(value);
-                Patient.Extension.Add(education);
+                EducationLevel = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level",
+                                                "80913-7",
+                                                null,
+                                                null);
+                EducationLevel.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -1440,48 +1555,39 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>Decedent’s usual occupation and industry.
-        /// <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
-        /// <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>occupation.Add("jobDescription", "Example occupation");</para>
-        /// <para>occupation.Add("industryDescription", "Example industry");</para>
-        /// <para>SetterDeathRecord.Occupation = occupation;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
-        /// </example>
+        /// TODO
         public Dictionary<string, string> Occupation
         {
             get
             {
-                Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("jobDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension').value"));
-                dictionary.Add("industryDescription", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension').value"));
-                return dictionary;
+                if (EmploymentHistory != null)
+                {
+                    return new Dictionary<string, string>();//CodeableConceptToDict((CodeableConcept)EmploymentHistory.Value);
+                }
+                else
+                {
+                    return new Dictionary<string, string>();
+                }
             }
             set
             {
-                // Occupation extension
-                Patient.Extension.RemoveAll(ext => ext.Url == "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension");
-                Extension occupation = new Extension();
-                occupation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension";
-
-                // Job extension
-                Extension jobExt = new Extension();
-                jobExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Job-extension";
-                jobExt.Value = new FhirString(GetValue(value, "jobDescription"));
-                occupation.Extension.Add(jobExt);
-
-                // Industry extension
-                Extension industryExt = new Extension();
-                industryExt.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Industry-extension";
-                industryExt.Value = new FhirString(GetValue(value, "industryDescription"));
-                occupation.Extension.Add(industryExt);
-
-                Patient.Extension.Add(occupation);
+                EmploymentHistory = AddObservation(" http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History",
+                                                "74165-2",
+                                                "http://loinc.org",
+                                                null);
+                Observation.ComponentComponent component1 = new Observation.ComponentComponent();
+                component1.Code = new CodeableConcept("http://loinc.org", "55280-2");
+                component1.Value = new CodeableConcept("http://hl7.org/fhir/ValueSet/v2-0532", "Y", "Yes");
+                EmploymentHistory.Component.Add(component1);
+                Observation.ComponentComponent component2 = new Observation.ComponentComponent();
+                component2.Code = new CodeableConcept("http://loinc.org", "21844-6");
+                component2.Value = new CodeableConcept("http://hl7.org/fhir/ValueSet/industry-cdc-census-2010", "1320", "Aerospace engineers");
+                EmploymentHistory.Component.Add(component2);
+                Observation.ComponentComponent component3 = new Observation.ComponentComponent();
+                component3.Code = new CodeableConcept("http://loinc.org", "21847-9");
+                component3.Value = new CodeableConcept("http://hl7.org/fhir/ValueSet/Usual-occupation", "7280", "Accounting, tax preparation, bookkeeping, and payroll services");
+                EmploymentHistory.Component.Add(component3);
+                Bundle.AddResourceEntry(EmploymentHistory, EmploymentHistory.Id);
             }
         }
 
@@ -2007,10 +2113,11 @@ namespace FhirDeathRecord
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>address.Add("street", "123 Test Street");</para>
-        /// <para>address.Add("city", "Boston");</para>
-        /// <para>address.Add("state", "Massachusetts");</para>
-        /// <para>address.Add("zip", "12345");</para>
+        /// <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+        /// <para>address.Add("certifierAddressCity", "Boston");</para>
+        /// <para>address.Add("certifierAddressCounty", "Suffolk");</para>
+        /// <para>address.Add("certifierAddressState", "Massachusetts");</para>
+        /// <para>address.Add("certifierAddressZip", "12345");</para>
         /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
@@ -2024,22 +2131,25 @@ namespace FhirDeathRecord
             {
                 string street = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.line[0]");
                 string city = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.city");
+                string county = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.district");
                 string state = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.state");
                 string zip = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.postalCode");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("street", street);
-                dictionary.Add("city", city);
-                dictionary.Add("state", state);
-                dictionary.Add("zip", zip);
+                dictionary.Add("certifierAddressStreet", street);
+                dictionary.Add("certifierAddressCity", city);
+                dictionary.Add("certifierAddressCounty", county);
+                dictionary.Add("certifierAddressState", state);
+                dictionary.Add("certifierAddressZip", zip);
                 return dictionary;
             }
             set
             {
                 Address address = new Address();
-                address.LineElement.Add(new FhirString(value["street"]));
-                address.City = value["city"];
-                address.State = value["state"];
-                address.PostalCodeElement = new FhirString(value["zip"]);
+                address.LineElement.Add(new FhirString(GetValue(value, "certifierAddressStreet")));
+                address.City = GetValue(value, "certifierAddressCity");
+                address.District = GetValue(value, "certifierAddressCounty");
+                address.State = GetValue(value, "certifierAddressState");
+                address.PostalCodeElement = new FhirString(GetValue(value, "certifierAddressZip"));
                 Practitioner.Address = new List<Hl7.Fhir.Model.Address>();
                 Practitioner.Address.Add(address);
             }
@@ -2227,6 +2337,29 @@ namespace FhirDeathRecord
                 // Remove all existing Causes
                 RemoveCauseConditions();
 
+                // Create List that will describe the ordering of the Cause Conditions
+                if (CauseOfDeathPathway != null)
+                {
+                    RemoveReferenceFromComposition(CauseOfDeathPathway.Id);
+                }
+                CauseOfDeathPathway = new Hl7.Fhir.Model.List();
+                CauseOfDeathPathway.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                CauseOfDeathPathway.Meta = new Meta();
+                string[] pathway_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
+                CauseOfDeathPathway.Meta.Profile = pathway_profile;
+                CauseOfDeathPathway.Status = Hl7.Fhir.Model.List.ListStatus.Current;
+                CauseOfDeathPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
+                CauseOfDeathPathway.Source = new ResourceReference(Practitioner.Id);
+                CodeableConcept priorities = new CodeableConcept();
+                Coding priority = new Coding();
+                priority.Code = "priority";
+                priorities.Coding.Add(priority);
+                CauseOfDeathPathway.OrderedBy = priorities;
+
+                // Add CauseOfDeathPathway to Composition and Bundle
+                AddReferenceToComposition(CauseOfDeathPathway.Id);
+                Bundle.AddResourceEntry(CauseOfDeathPathway, CauseOfDeathPathway.Id);
+
                 // Add new Conditions for causes
                 foreach (Tuple<string, string, Dictionary<string, string>> cause in value)
                 {
@@ -2235,15 +2368,22 @@ namespace FhirDeathRecord
                     condition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     condition.Subject = new ResourceReference(Patient.Id);
                     condition.Meta = new Meta();
-                    string[] condition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-CauseOfDeathCondition"};
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/-VRDR-Cause-Of-Death-Condition" };
                     condition.Meta.Profile = condition_profile;
-                    condition.ClinicalStatus = Condition.ConditionClinicalStatusCodes.Active;
+                    condition.Asserter = new ResourceReference(Practitioner.Id);
+
                     Narrative narrative = new Narrative();
                     narrative.Div = HttpUtility.HtmlEncode($"<div xmlns='http://www.w3.org/1999/xhtml'>{cause.Item1}</div>");
                     narrative.Status = Narrative.NarrativeStatus.Additional;
                     condition.Text = narrative;
+
                     condition.Onset = new FhirString(cause.Item2);
                     condition.Code = DictToCodeableConcept(cause.Item3); // Optional, literal might not be coded yet.
+
+                    // Add Condition to CauseOfDeathPathway
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(condition.Id);
+                    CauseOfDeathPathway.Entry.Add(entry);
 
                     // Add Condition to Composition and Bundle
                     AddReferenceToComposition(condition.Id);
@@ -2596,9 +2736,8 @@ namespace FhirDeathRecord
                 condition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                 condition.Subject = new ResourceReference(Patient.Id);
                 condition.Meta = new Meta();
-                string[] condition_profile = {"http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-ContributedToDeathCondition"};
+                string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributintg-To-Death" };
                 condition.Meta.Profile = condition_profile;
-                condition.ClinicalStatus = Condition.ConditionClinicalStatusCodes.Active;
                 Narrative narrative = new Narrative();
                 narrative.Div = $"<div xmlns='http://www.w3.org/1999/xhtml'>{value}</div>";
                 narrative.Status = Narrative.NarrativeStatus.Additional;
@@ -2622,23 +2761,59 @@ namespace FhirDeathRecord
         /// <value>Whether an autopsy was performed (true) or not (false)</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutopsyPerformed = true;</para>
+        /// <para>Dictionary&lt;string, string&gt; aperformed = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("performedCode", "N");</para>
+        /// <para>code.Add("performedSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("performedDisplay", "No");</para>
+        /// <para>code.Add("resultsAvailableCode", "N");</para>
+        /// <para>code.Add("resultsAvailableSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("resultsAvailableDisplay", "No");</para>
+        /// <para>ExampleDeathRecord.AutopsyPerformedAndResultsAvailable = aperformed;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
+        /// <para>Console.WriteLine($"\tWas autopsy performed?: {ExampleDeathRecord.AutopsyPerformedAndResultsAvailable["display"]}");</para>
         /// </example>
-        public bool AutopsyPerformed
+        public Dictionary<string, string> AutopsyPerformedAndResultsAvailable
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value") == "True";
+                string performedCode = GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value.coding.code");
+                string performedSystem = GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value.coding.system");
+                string performedDisplay = GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7').value.coding.display");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>(); // TODO! Need to grab embedded component here, or else keep a reference above
+                dictionary.Add("performedCode", performedCode);
+                dictionary.Add("performedSystem", performedSystem);
+                dictionary.Add("performedDisplay", performedDisplay);
+                return dictionary;
             }
             set
             {
-                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-AutopsyPerformed",
+                Observation observation = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator",
                                                          "85699-7",
                                                          "http://loinc.org",
                                                          "Autopsy was performed");
-                observation.Value = new FhirBoolean(value);
+                Coding performedCode = new Coding();
+                performedCode.Code = GetValue(value, "performedCode");
+                performedCode.System = GetValue(value, "performedSystem");
+                performedCode.Display = GetValue(value, "performedDisplay");
+                CodeableConcept performedCodes = new CodeableConcept();
+                performedCodes.Coding.Add(performedCode);
+                observation.Value = performedCodes;
+                Coding availableCode = new Coding();
+                availableCode.Code = GetValue(value, "resultsAvailableCode");
+                availableCode.System = GetValue(value, "resultsAvailableSystem");
+                availableCode.Display = GetValue(value, "resultsAvailableDisplay");
+                CodeableConcept availableCodes = new CodeableConcept();
+                availableCodes.Coding.Add(availableCode);
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Value = availableCodes;
+                Coding coding = new Coding();
+                coding.Code = "69436-4";
+                coding.System = "http://loinc.org";
+                coding.Display = "Autopsy results available";
+                CodeableConcept codings = new CodeableConcept();
+                codings.Coding.Add(coding);
+                component.Code = codings;
+                observation.Component.Add(component);
             }
         }
 
@@ -2698,10 +2873,11 @@ namespace FhirDeathRecord
             }
             set
             {
-                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-MannerOfDeath",
+                Observation observation = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death",
                                                          "69449-7",
                                                          "http://loinc.org",
                                                          "Manner of death");
+                observation.Performer.Add(new ResourceReference(Practitioner.Id));
                 observation.Value = DictToCodeableConcept(value);
             }
         }
@@ -2737,7 +2913,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TobaccoUseContributedToDeath",
+                Observation observation = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death",
                                                          "69443-0",
                                                          "http://loinc.org",
                                                          "Did tobacco use contribute to death");
@@ -2927,6 +3103,7 @@ namespace FhirDeathRecord
             }
         }
 
+
         /// <summary>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</summary>
         /// <value>Whether a medical examiner or coroner was contacted</value>
         /// <example>
@@ -2989,7 +3166,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                Observation observation = AddObservation("http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-TimingOfRecentPregnancyInRelationToDeath",
+                Observation observation = AddObservation("http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy",
                                                          "69442-2",
                                                          "http://loinc.org",
                                                          "Timing of recent pregnancy in relation to death");
@@ -3175,14 +3352,14 @@ namespace FhirDeathRecord
         /// <param name="reference">a reference.</param>
         private void AddReferenceToComposition(string reference)
         {
-            Composition.Section.First().Entry.Add(new ResourceReference(reference));
+            //Composition.Section.First().Entry.Add(new ResourceReference(reference));
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
         private bool RemoveReferenceFromComposition(string reference)
         {
-            return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
+            return true;//Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
         }
 
         /// <summary>Remove an observation entry from the bundle, and remove the reference to it in the Composition.</summary>

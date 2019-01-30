@@ -20,207 +20,7 @@ namespace csharp_fhir_death_record
         {
             if (args.Length == 0)
             {
-                // // Create Bundle
-                // Bundle bundle = new Bundle();
-                // bundle.Type = Bundle.BundleType.Document;
 
-                // // Create Patient
-                // Patient patient = new Patient();
-                // patient.Id = "urn:uuid:" + Guid.NewGuid().ToString();
-
-                // // Create new Extension
-                // Extension extension = new Extension();
-                // extension.Url = "Example-Extension";
-
-                // // Create Address with State and Country
-                // Address address = new Address();
-                // address.State = "New York";
-                // address.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-
-                // // Add Address to Extension
-                // extension.Value = address;
-
-                // // Add Extension to Bundle
-                // patient.Extension.Add(extension);
-
-                // // Add Patient to Bundle
-                // bundle.AddResourceEntry(patient, patient.Id);
-
-                // // Serialize Bundle to JSON
-                // var xmlserializer = new FhirXmlSerializer();
-                // string xml = xmlserializer.SerializeToString(bundle);
-
-                // // Serialize Bundle to XML
-                // var jsonserializer = new FhirJsonSerializer();
-                // string json = jsonserializer.SerializeToString(bundle);
-
-                // Console.WriteLine(FormatJson(json) + "\n");
-
-                // Console.WriteLine(XDocument.Parse(xml).ToString() + "\n");
-
-                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML output...\n");
-                DeathRecord deathRecord = new DeathRecord();
-                deathRecord.Id = "1337";
-                deathRecord.DateOfRegistration = "2018-07-11";
-                deathRecord.FirstName = "Example";
-                deathRecord.MiddleName = "Middle";
-                deathRecord.FamilyName = "Last";
-                deathRecord.MaidenName = "Last Maiden";
-                deathRecord.Suffix = "Sr.";
-                deathRecord.FatherFamilyName = "FTHLast";
-                deathRecord.Gender = "male";
-                Dictionary<string, string> code = new Dictionary<string, string>();
-                code.Add("code", "M");
-                code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-                code.Add("display", "Male");
-                deathRecord.BirthSex = code;
-                Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("residenceLine1", "19 Example Street");
-                dictionary.Add("residenceLine2", "Line 2");
-                dictionary.Add("residenceCity", "Bedford");
-                dictionary.Add("residenceCounty", "Middlesex");
-                dictionary.Add("residenceState", "Massachusetts");
-                dictionary.Add("residenceZip", "01730");
-                dictionary.Add("residenceCountry", "United States");
-                dictionary.Add("residenceInsideCityLimits", "True");
-                deathRecord.Residence = dictionary;
-                deathRecord.SSN = "111223333";
-                Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
-                deathRecord.Ethnicity = ethnicity;
-                Tuple<string, string>[] race = {Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")};
-                deathRecord.Race = race;
-                deathRecord.DateOfBirth = "1970-04-24";
-                deathRecord.DateOfDeath = "1970-04-24";
-                dictionary = new Dictionary<string, string>();
-                dictionary.Add("placeOfBirthLine1", "9 Example Street");
-                dictionary.Add("placeOfBirthLine2", "Line 2");
-                dictionary.Add("placeOfBirthCity", "Bedford");
-                dictionary.Add("placeOfBirthCounty", "Middlesex");
-                dictionary.Add("placeOfBirthState", "Massachusetts");
-                dictionary.Add("placeOfBirthZip", "01730");
-                dictionary.Add("placeOfBirthCountry", "United States");
-                deathRecord.PlaceOfBirth = dictionary;
-                dictionary = new Dictionary<string, string>();
-                dictionary.Add("placeOfDeathTypeCode", "16983000");
-                dictionary.Add("placeOfDeathTypeSystem", "http://snomed.info/sct");
-                dictionary.Add("placeOfDeathTypeDisplay", "Death in hospital");
-                dictionary.Add("placeOfDeathFacilityName", "Example Hospital");
-                dictionary.Add("placeOfDeathLine1", "8 Example Street");
-                dictionary.Add("placeOfDeathLine2", "Line 2");
-                dictionary.Add("placeOfDeathCity", "Bedford");
-                dictionary.Add("placeOfDeathCounty", "Middlesex");
-                dictionary.Add("placeOfDeathState", "Massachusetts");
-                dictionary.Add("placeOfDeathZip", "01730");
-                dictionary.Add("placeOfDeathCountry", "United States");
-                dictionary.Add("placeOfDeathInsideCityLimits", "True");
-                deathRecord.PlaceOfDeath = dictionary;
-                code = new Dictionary<string, string>();
-                code.Add("code", "S");
-                code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
-                code.Add("display", "Never Married");
-                deathRecord.MaritalStatus = code;
-                code = new Dictionary<string, string>();
-                code.Add("code", "PHC1453");
-                code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                code.Add("display", "Bachelor's Degree");
-                deathRecord.Education = code;
-                //deathRecord.Age = "100";
-                Dictionary<string, string> occupation = new Dictionary<string, string>();
-                occupation.Add("jobDescription", "Software Engineer");
-                occupation.Add("industryDescription", "Information Technology");
-                deathRecord.Occupation = occupation;
-                deathRecord.ServedInArmedForces = false;
-                dictionary = new Dictionary<string, string>();
-                dictionary.Add("dispositionTypeCode", "449971000124106");
-                dictionary.Add("dispositionTypeSystem", "http://snomed.info/sct");
-                dictionary.Add("dispositionTypeDisplay", "Burial");
-                dictionary.Add("dispositionPlaceName", "Example disposition place name");
-                dictionary.Add("dispositionPlaceLine1", "100 Example Street");
-                dictionary.Add("dispositionPlaceLine2", "Line 2");
-                dictionary.Add("dispositionPlaceCity", "Bedford");
-                dictionary.Add("dispositionPlaceCounty", "Middlesex");
-                dictionary.Add("dispositionPlaceState", "Massachusetts");
-                dictionary.Add("dispositionPlaceZip", "01730");
-                dictionary.Add("dispositionPlaceCountry", "United States");
-                dictionary.Add("dispositionPlaceInsideCityLimits", "True");
-                dictionary.Add("funeralFacilityName", "Example funeral facility name");
-                dictionary.Add("funeralFacilityLine1", "50 Example Street");
-                dictionary.Add("funeralFacilityLine2", "Line 2a");
-                dictionary.Add("funeralFacilityCity", "Watertown");
-                dictionary.Add("funeralFacilityCounty", "Middlesex");
-                dictionary.Add("funeralFacilityState", "Massachusetts");
-                dictionary.Add("funeralFacilityZip", "02472");
-                dictionary.Add("funeralFacilityCountry", "United States");
-                dictionary.Add("funeralFacilityInsideCityLimits", "False");
-                deathRecord.Disposition = dictionary;
-                deathRecord.FamilyName = "Doctor";
-                deathRecord.CertifierFirstName = "Example";
-                deathRecord.CertifierMiddleName = "Middle";
-                deathRecord.CertifierSuffix = "Sr.";
-                Dictionary<string, string> address = new Dictionary<string, string>();
-                address.Add("street", "123 Test Street");
-                address.Add("city", "Boston");
-                address.Add("state", "Massachusetts");
-                address.Add("zip", "12345");
-                deathRecord.CertifierAddress = address;
-                code = new Dictionary<string, string>();
-                code.Add("code", "434651000124107");
-                code.Add("display", "Physician (Pronouncer and Certifier)");
-                deathRecord.BirthSex = code;
-                deathRecord.ContributingConditions = "Example Contributing Condition";
-                Tuple<string, string, Dictionary<string, string>>[] causes =
-                {
-                    Tuple.Create("Example Immediate COD", "minutes", new Dictionary<string, string>(){ {"code", "1234"}, {"system", "example"} }),
-                    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 4", "30 years", new Dictionary<string, string>()),
-                    Tuple.Create("Example Underlying COD 5", "years", new Dictionary<string, string>())
-                };
-                deathRecord.CausesOfDeath = causes;
-                deathRecord.AutopsyPerformed = false;
-                deathRecord.AutopsyResultsAvailable = false;
-                code = new Dictionary<string, string>();
-                code.Add("code", "7878000");
-                code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");
-                code.Add("display", "Accident");
-                deathRecord.MannerOfDeath = code;
-                code = new Dictionary<string, string>();
-                code.Add("code", "373066001");
-                code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");
-                code.Add("display", "Yes");
-                deathRecord.TobaccoUseContributedToDeath = code;
-                deathRecord.ActualOrPresumedDateOfDeath = "2018-09-01T00:00:00+06:00";
-                deathRecord.DatePronouncedDead = "2018-09-01T00:00:00+04:00";
-                deathRecord.DeathFromWorkInjury = true;
-                code = new Dictionary<string, string>();
-                code.Add("code", "236320001");
-                code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
-                code.Add("display", "Vehicle driver");
-                deathRecord.DeathFromTransportInjury = code;
-                deathRecord.MedicalExaminerContacted = true;
-                code = new Dictionary<string, string>();
-                code.Add("code", "PHC1260");
-                code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");
-                code.Add("display", "Not pregnant within past year");
-                deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
-                Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
-                detailsOfInjury.Add("placeOfInjuryDescription", "Home");
-                detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");
-                detailsOfInjury.Add("description", "Example details of injury");
-                detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
-                detailsOfInjury.Add("placeOfInjuryLine2", "Line 2");
-                detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
-                detailsOfInjury.Add("placeOfInjuryCounty", "Middlesex");
-                detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
-                detailsOfInjury.Add("placeOfInjuryZip", "01730");
-                detailsOfInjury.Add("placeOfInjuryCountry", "United States");
-                detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
-                deathRecord.DetailsOfInjury = detailsOfInjury;
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(FormatJson(deathRecord.ToJSON()) + "\n\n");
-                //IJEMortality ije = new IJEMortality(deathRecord);
-                //Console.WriteLine(ije.ToString() + "\n");
             }
             else if (args.Length == 2 && args[0] == "ije")
             {
@@ -310,11 +110,11 @@ namespace csharp_fhir_death_record
 
                 vrdr.Gender = "male";
 
-                vrdr.DateOfBirth = "1974-12-31";
+                vrdr.DateOfBirth = "1974-12-31T00:00:00+00:00";
 
                 vrdr.SSN = "123-45-6789";
 
-                vrdr.DateOfDeath = "2017-12-31";
+                vrdr.DateOfDeath = "2017-12-31T00:00:00+00:00";
 
                 Dictionary<string, string> mscode = new Dictionary<string, string>();
                 mscode.Add("code", "S");
@@ -353,29 +153,12 @@ namespace csharp_fhir_death_record
                 birthPlace.Add("placeOfBirthCountry", "United States");
                 vrdr.PlaceOfBirth = birthPlace;
 
-
-                // Death Pronouncement Performer
-
-                Dictionary<string, string> cqcode = new Dictionary<string, string>();
-                cqcode.Add("code", "MD");
-                cqcode.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
-                cqcode.Add("display", "Doctor of Medicine");
-                vrdr.CertifierQualification = cqcode;
-
-                vrdr.CertifierId = "123456789";
-
-                vrdr.CertifierFirstName = "Beverly";
-                vrdr.CertifierMiddleName = "Jane";
-                vrdr.CertifierFamilyName = "McCoy";
-
-
                 // Decedent Age
 
                 Dictionary<string, string> age = new Dictionary<string, string>();
                 age.Add("value", "70");
                 age.Add("unit", "a");
                 vrdr.Age = age;
-
 
                 // Decedent Death Location
 
@@ -451,7 +234,7 @@ namespace csharp_fhir_death_record
 
                 Dictionary<string, string> tdictionary = new Dictionary<string, string>();
                 tdictionary.Add("code", "236320001");
-                tdictionary.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");
+                tdictionary.Add("system", "http://hl7.org/fhir/ValueSet/TransportationRelationships");
                 tdictionary.Add("display", "Vehicle driver");
                 vrdr.DeathFromTransportInjury = tdictionary;
 
@@ -460,8 +243,94 @@ namespace csharp_fhir_death_record
                 vrdr.DeathFromWorkInjury = true;
 
                 // Examiner contacted
+
                 vrdr.MedicalExaminerContacted = true;
 
+                // Autopsy performed
+
+                Dictionary<string, string> apdictionary = new Dictionary<string, string>();
+                apdictionary.Add("performedCode", "N");
+                apdictionary.Add("performedSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                apdictionary.Add("performedDisplay", "No");
+                apdictionary.Add("resultsAvailableCode", "N");
+                apdictionary.Add("resultsAvailableSystem", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                apdictionary.Add("resultsAvailableDisplay", "No");
+                vrdr.AutopsyPerformedAndResultsAvailable = apdictionary;
+
+                // Cause Of Death Condition
+                Tuple<string, string, Dictionary<string, string>>[] causes =
+                {
+                    Tuple.Create("Acute transmural myocardial infarction of anterior wall", "minutes", new Dictionary<string, string>(){ {"code", "I21.0"}, {"system", "ICD-10"}, {"display", "Acute transmural myocardial infarction of anterior wall"} })
+                };
+                vrdr.CausesOfDeath = causes;
+
+                // Death Pronouncement Performer & Certifier
+
+                vrdr.CertifierFamilyName = "Doctor";
+                vrdr.CertifierGivenNames = new string[] { "Certifier", "Middle" };
+                vrdr.CertifierSuffix = "MD";
+                Dictionary<string, string> caddress = new Dictionary<string, string>();
+                caddress.Add("certifierAddressStreet", "123 Example Street");
+                caddress.Add("certifierAddressCity", "Boston");
+                caddress.Add("certifierAddressCounty", "Suffolk");
+                caddress.Add("certifierAddressState", "Massachusetts");
+                caddress.Add("certifierAddressZip", "02101");
+                vrdr.CertifierAddress = caddress;
+                Dictionary<string, string> cqcode = new Dictionary<string, string>();
+                cqcode.Add("code", "MD");
+                cqcode.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
+                cqcode.Add("display", "Doctor of Medicine");
+                vrdr.CertifierQualification = cqcode;
+                vrdr.CertifierId = "1234567890";
+
+
+                // Contributing conditions
+
+                vrdr.ContributingConditions = "Example Contributing Conditions";
+
+
+                // Education level
+
+                Dictionary<string, string> ecode = new Dictionary<string, string>();
+                ecode.Add("code", "GD");
+                ecode.Add("system", "http://hl7.org/fhir/ValueSet/v3-EducationLevel");
+                ecode.Add("display", "Graduate or professional Degree complete");
+                vrdr.Education = ecode;
+
+
+                // Employment History
+
+                Dictionary<string, string> ocode = new Dictionary<string, string>();
+                ocode.Add("code", "GD");
+                ocode.Add("system", "http://hl7.org/fhir/ValueSet/v3-EducationLevel");
+                ocode.Add("display", "Graduate or professional Degree complete");
+                vrdr.Occupation = ocode;
+
+
+                // Pregnancy
+
+                Dictionary<string, string> pcode = new Dictionary<string, string>();
+                pcode.Add("code", "PHC1260");
+                pcode.Add("system", "http://hl7.org/fhir/STU3/valueset-PregnancyStatusVS");
+                pcode.Add("display", "Not pregnant within past year");
+                vrdr.TimingOfRecentPregnancyInRelationToDeath = pcode;
+
+
+                // Manner
+
+                Dictionary<string, string> mcode = new Dictionary<string, string>();
+                mcode.Add("code", "7878000");
+                mcode.Add("system", "http://hl7.org/fhir/STU3/valueset-MannerTypeVS");
+                mcode.Add("display", "Accident");
+                vrdr.MannerOfDeath = mcode;
+
+
+                // Tobacco
+                Dictionary<string, string> tcode = new Dictionary<string, string>();
+                tcode.Add("code", "373066001");
+                tcode.Add("system", "http://hl7.org/fhir/STU3/valueset-ContributoryTobaccoUseVS");
+                tcode.Add("display", "Yes");
+                vrdr.TobaccoUseContributedToDeath = tcode;
 
 
                 if (args[1] == "json")
@@ -486,58 +355,7 @@ namespace csharp_fhir_death_record
         {
             if (File.Exists(path))
             {
-                Console.WriteLine($"Reading file '{path}'");
-                string contents = File.ReadAllText(path);
-                DeathRecord deathRecord = new DeathRecord(contents);
 
-                // Record Information
-                Console.WriteLine($"\tRecord ID: {deathRecord.Id}");
-
-                // Decedent Information
-                Console.WriteLine($"\tGiven Name: {string.Join(", ", deathRecord.GivenNames)}");
-                Console.WriteLine($"\tLast Name: {deathRecord.FamilyName}");
-                Console.WriteLine($"\tGender: {deathRecord.Gender}");
-                Console.WriteLine($"\tSSN: {deathRecord.SSN}");
-                Console.WriteLine($"\tEthnicity: {deathRecord.Ethnicity}");
-                Console.WriteLine($"\tDate of Birth: {deathRecord.DateOfBirth}");
-                Console.WriteLine($"\tDate of Death: {deathRecord.DateOfDeath}");
-
-                // Certifier Information
-                Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenNames}");
-                Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierFamilyName}");
-                foreach(var pair in deathRecord.CertifierAddress)
-                {
-                    Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");
-                }
-                Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
-
-                // Conditions
-                Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
-                foreach (var cause in causes)
-                {
-                    Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}, Code: {string.Join(", ", cause.Item3)}");
-                }
-                Console.WriteLine($"\tContributing Conditions: {deathRecord.ContributingConditions}");
-
-                // Observations
-                Console.WriteLine($"\tAutopsy Performed: {deathRecord.AutopsyPerformed}");
-                Console.WriteLine($"\tAutopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
-                Console.WriteLine($"\tActual Or Presumed Date of Death: {deathRecord.ActualOrPresumedDateOfDeath}");
-                Console.WriteLine($"\tDate Pronounced Dead: {deathRecord.DatePronouncedDead}");
-                Console.WriteLine($"\tDeath Resulted from Injury at Work: {deathRecord.DeathFromWorkInjury}");
-                Console.WriteLine($"\tDeath From Transport Injury: {string.Join(", ", deathRecord.DeathFromTransportInjury)}");
-                Console.WriteLine($"\tDetails of Injury: {string.Join(", ", deathRecord.DetailsOfInjury)}");
-                Console.WriteLine($"\tMedical Examiner Contacted: {deathRecord.MedicalExaminerContacted}");
-                Console.WriteLine($"\tTiming of Recent Pregnancy In Relation to Death: {string.Join(", ", deathRecord.TimingOfRecentPregnancyInRelationToDeath)}");
-                foreach(var pair in deathRecord.MannerOfDeath)
-                {
-                    Console.WriteLine($"\tManner of Death key: {pair.Key}: value: {pair.Value}");
-                }
-
-                foreach(var pair in deathRecord.TobaccoUseContributedToDeath)
-                {
-                    Console.WriteLine($"\tTobacco Use Contributed to Death key: {pair.Key}: value: {pair.Value}");
-                }
             }
             else
             {

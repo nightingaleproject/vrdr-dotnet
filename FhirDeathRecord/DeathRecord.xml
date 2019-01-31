@@ -179,7 +179,7 @@
             <para>"residenceState" - residence, state</para>
             <para>"residenceZip" - residence, zip</para>
             <para>"residenceCountry" - residence, country</para>
-            <para>"residenceInsideCityLimits" - residence, inside city limits</para>
+            <para>"residenceInsideCityLimits" - residence, inside city limits?</para>
             </value>
             <example>
             <para>// Setter:</para>
@@ -277,7 +277,6 @@
             <para>"placeOfDeathState" - location of death, state</para>
             <para>"placeOfDeathZip" - location of death, zip</para>
             <para>"placeOfDeathCountry" - location of death, country</para>
-            <para>"placeOfDeathInsideCityLimits" - location of death, whether the address is within city limits (true) or not (false)</para>
             </value>
             <example>
             <para>// Setter:</para>
@@ -293,7 +292,6 @@
             <para>placeOfDeath.Add("placeOfDeathState", "Massachusetts");</para>
             <para>placeOfDeath.Add("placeOfDeathZip", "01730");</para>
             <para>placeOfDeath.Add("placeOfDeathCountry", "United States");</para>
-            <para>placeOfDeath.Add("placeOfDeathInsideCityLimits", "True");</para>
             <para>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</para>
             <para>// Getter:</para>
             <para>string state = ExampleDeathRecord.PlaceOfDeath["placeOfDeathState"];</para>
@@ -332,7 +330,6 @@
             <para>"dispositionPlaceState" - disposition place address, state</para>
             <para>"dispositionPlaceZip" - disposition place address, zip</para>
             <para>"dispositionPlaceCountry" - disposition place address, country</para>
-            <para>"dispositionPlaceInsideCityLimits" - disposition place address, whether the address is within city limits (true) or not (false)</para>
             <para>"funeralFacilityName" - the name of a funeral facility or institution</para>
             <para>"funeralFacilityLine1" - funeral facility address, line one</para>
             <para>"funeralFacilityLine2" - funeral facility address, line two</para>
@@ -341,7 +338,6 @@
             <para>"funeralFacilityState" - funeral facility address, state</para>
             <para>"funeralFacilityZip" - funeral facility address, zip</para>
             <para>"funeralFacilityCountry" - funeral facility address, country</para>
-            <para>"funeralFacilityInsideCityLimits" - funeral facility address, whether the address is within city limits (true) or not (false)</para>
             </value>
             <example>
             <para>// Setter:</para>
@@ -357,7 +353,6 @@
             <para>disposition.Add("dispositionPlaceState", "Massachusetts");</para>
             <para>disposition.Add("dispositionPlaceZip", "01730");</para>
             <para>disposition.Add("dispositionPlaceCountry", "United States");</para>
-            <para>disposition.Add("dispositionPlaceInsideCityLimits", "True");</para>
             <para>disposition.Add("funeralFacilityName", "Example funeral facility name");</para>
             <para>disposition.Add("funeralFacilityLine1", "50 Example Street");</para>
             <para>disposition.Add("funeralFacilityLine2", "Line 2");</para>
@@ -366,7 +361,6 @@
             <para>disposition.Add("funeralFacilityState", "Massachusetts");</para>
             <para>disposition.Add("funeralFacilityZip", "01730");</para>
             <para>disposition.Add("funeralFacilityCountry", "United States");</para>
-            <para>disposition.Add("funeralFacilityInsideCityLimits", "True");</para>
             <para>ExampleDeathRecord.Disposition = disposition;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
@@ -463,7 +457,8 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-            <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+            <para>address.Add("certifierAddressLine1", "123 Test Street");</para>
+            <para>address.Add("certifierAddressLine2", "Unit 3");</para>
             <para>address.Add("certifierAddressCity", "Boston");</para>
             <para>address.Add("certifierAddressCounty", "Suffolk");</para>
             <para>address.Add("certifierAddressState", "Massachusetts");</para>
@@ -504,7 +499,7 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CausesOfDeath">
-            <summary>Conditions that resulted in the underlying cause of death. Corresponds to part 1 of item 32 of the U.S.
+            <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
             Standard Certificate of Death.</summary>
             <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
             appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
@@ -602,8 +597,8 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.MannerOfDeath">
-            <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
-            <value>The manner of the decendents demise. A Dictionary representing a code, containing the following key/value pairs:
+            <summary>The manner of the decendent's demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
+            <value>The manner of the decendent's demise. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code describing this finding</para>
             <para>"system" - the system the given code belongs to</para>
             <para>"display" - the human readable display text that corresponds to the given code</para>
@@ -716,35 +711,33 @@
         <member name="P:FhirDeathRecord.DeathRecord.DetailsOfInjury">
             <summary>Injury incident description.</summary>
             <value>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:
-            <para>"placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
-            <para>"effectiveDateTime" - effective date and time of injury</para>
-            <para>"description" - description of injury</para>
-            <para>"placeOfInjuryLine1" - location of injury, line one</para>
-            <para>"placeOfInjuryLine2" - location of injury, line two</para>
-            <para>"placeOfInjuryCity" - location of injury, city</para>
-            <para>"placeOfInjuryCounty" - location of injury, county</para>
-            <para>"placeOfInjuryState" - location of injury, state</para>
-            <para>"placeOfInjuryZip" - location of injury, zip</para>
-            <para>"placeOfInjuryCountry" - location of injury, country</para>
-            <para>"placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)</para>
+            <para>"detailsOfInjuryPlaceDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
+            <para>"detailsOfInjuryEffectiveDateTime" - effective date and time of injury</para>
+            <para>"detailsOfInjuryDescription" - description of the injury</para>
+            <para>"detailsOfInjuryLine1" - location of injury, line one</para>
+            <para>"detailsOfInjuryLine2" - location of injury, line two</para>
+            <para>"detailsOfInjuryCity" - location of injury, city</para>
+            <para>"detailsOfInjuryCounty" - location of injury, county</para>
+            <para>"detailsOfInjuryState" - location of injury, state</para>
+            <para>"detailsOfInjuryZip" - location of injury, zip</para>
+            <para>"detailsOfInjuryCountry" - location of injury, country</para>
             </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; detailsOfInjury = new Dictionary&lt;string, string&gt;();</para>
-            <para>detailsOfInjury.Add("placeOfInjuryDescription", "Home");</para>
-            <para>detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
-            <para>detailsOfInjury.Add("description", "Example details of injury");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryCity", "Bedford");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryCounty", "Middlesex");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryZip", "01730");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryCountry", "United States");</para>
-            <para>detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryPlaceDescription", "Home");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryEffectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryDescription", "Example details of injury");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryLine1", "7 Example Street");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryLine2", "Unit 1234");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryCity", "Bedford");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryCounty", "Middlesex");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryState", "Massachusetts");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryZip", "01730");</para>
+            <para>detailsOfInjury.Add("detailsOfInjuryCountry", "United States");</para>
             <para>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</para>
             <para>// Getter:</para>
-            <para>string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];</para>
+            <para>string state = ExampleDeathRecord.DetailsOfInjury["detailsOfInjuryState"];</para>
             <para>Console.WriteLine($"State where injury occurred: {state}");</para>
             </example>
         </member>
@@ -825,6 +818,75 @@
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.UnescapeCauses(Hl7.Fhir.Model.Bundle)">
             <summary>HTML un-escape cause of death divs in the given Bundle.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.ToDescription">
+            <summary>Returns a JSON encoded structure that maps to the various property
+            annotations found in the DeathRecord class. This is useful for scenarios
+            where you may want to display the data in user interfaces.</summary>
+            <returns>a string representation of this Death Record in a descriptive format.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.FromDescription(System.String)">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <param name="contents">string that represents </param>
+            <returns>a new DeathRecord that corresponds to the given descriptive format</returns>
+        </member>
+        <member name="T:FhirDeathRecord.Property">
+            <summary>Property attribute used to describe a DeathRecord property.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.Property.Types">
+            <summary>Enum for describing the property type.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.String">
+            <summary>Parameter is a string.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.StringArr">
+            <summary>Parameter is an array of strings.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.StringDateTime">
+            <summary>Parameter is like a string, but should be treated as a date and time.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.Bool">
+            <summary>Parameter is a bool.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.Dictionary">
+            <summary>Parameter is a Dictionary.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.TupleArr">
+            <summary>Parameter is an array of Tuples.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Types.TupleCOD">
+            <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Name">
+            <summary>Name of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Type">
+            <summary>The property type (e.g. string, bool, Dictionary).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Category">
+            <summary>Category of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Description">
+            <summary>Description of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.Property.Serialize">
+            <summary>If this field should be kept when serialzing.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean)">
+            <summary>Constructor.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.PropertyParam">
+            <summary>Property attribute used to describe a DeathRecord property parameter,
+            specifically if the property is a dictionary that has keys.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.PropertyParam.Key">
+            <summary>If the related property is a Dictionary, the key name.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.PropertyParam.Description">
+            <summary>Description of this parameter.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.PropertyParam.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
         </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>

@@ -2749,13 +2749,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_MO", "MM", "DetailsOfInjury", "effectiveDateTime");
+                return DateTime_Dictionary_Get("DOI_MO", "MM", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_MO", "MM", "DetailsOfInjury", "effectiveDateTime", value.Trim());
+                    DateTime_Dictionary_Set("DOI_MO", "MM", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
                 }
             }
         }
@@ -2766,13 +2766,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_DY", "dd", "DetailsOfInjury", "effectiveDateTime");
+                return DateTime_Dictionary_Get("DOI_DY", "dd", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_DY", "dd", "DetailsOfInjury", "effectiveDateTime", value.Trim());
+                    DateTime_Dictionary_Set("DOI_DY", "dd", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
                 }
             }
         }
@@ -2783,13 +2783,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_YR", "yyyy", "DetailsOfInjury", "effectiveDateTime");
+                return DateTime_Dictionary_Get("DOI_YR", "yyyy", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_YR", "yyyy", "DetailsOfInjury", "effectiveDateTime", value.Trim());
+                    DateTime_Dictionary_Set("DOI_YR", "yyyy", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
                 }
             }
         }
@@ -2800,13 +2800,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("TOI_HR", "HHmm", "DetailsOfInjury", "effectiveDateTime");
+                return DateTime_Dictionary_Get("TOI_HR", "HHmm", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("TOI_HR", "HHmm", "DetailsOfInjury", "effectiveDateTime", value.Trim());
+                    DateTime_Dictionary_Set("TOI_HR", "HHmm", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
                 }
             }
         }
@@ -3180,13 +3180,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("POILITRL", "DetailsOfInjury", "placeOfInjuryDescription");
+                return Dictionary_Get("POILITRL", "DetailsOfInjury", "detailsOfInjuryPlaceDescription");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("POILITRL", "DetailsOfInjury", "placeOfInjuryDescription", value);
+                    Dictionary_Set("POILITRL", "DetailsOfInjury", "detailsOfInjuryPlaceDescription", value);
                 }
             }
         }
@@ -3197,13 +3197,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("HOWINJ", "DetailsOfInjury", "description");
+                return Dictionary_Get("HOWINJ", "DetailsOfInjury", "detailsOfInjuryDescription");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("HOWINJ", "DetailsOfInjury", "description", value);
+                    Dictionary_Set("HOWINJ", "DetailsOfInjury", "detailsOfInjuryDescription", value);
                 }
             }
         }
@@ -3258,7 +3258,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYTEXT_I", "DetailsOfInjury", "placeOfInjury", "county", false);
+                return Dictionary_Geo_Get("COUNTYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "county", false);
             }
             set
             {
@@ -3272,13 +3272,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYCODE_I", "DetailsOfInjury", "placeOfInjury", "county", true);
+                return Dictionary_Geo_Get("COUNTYCODE_I", "DetailsOfInjury", "detailsOfInjury", "county", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYCODE_I", "DetailsOfInjury", "placeOfInjury", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYCODE_I", "DetailsOfInjury", "detailsOfInjury", "county", true, value);
                 }
             }
         }
@@ -3289,13 +3289,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYTEXT_I", "DetailsOfInjury", "placeOfInjury", "city", false);
+                return Dictionary_Geo_Get("CITYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("CITYTEXT_I", "DetailsOfInjury", "placeOfInjury", "city", false, value);
+                    Dictionary_Geo_Set("CITYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "city", false, value);
                 }
             }
         }
@@ -3306,7 +3306,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_I", "DetailsOfInjury", "placeOfInjury", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_I", "DetailsOfInjury", "detailsOfInjury", "city", true);
             }
             set
             {
@@ -3320,13 +3320,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATECODE_I", "DetailsOfInjury", "placeOfInjury", "state", true);
+                return Dictionary_Geo_Get("STATECODE_I", "DetailsOfInjury", "detailsOfInjury", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATECODE_I", "DetailsOfInjury", "placeOfInjury", "state", true, value);
+                    Dictionary_Geo_Set("STATECODE_I", "DetailsOfInjury", "detailsOfInjury", "state", true, value);
                 }
             }
         }
@@ -3869,13 +3869,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "certifierAddressStreet");
+                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "certifierAddressLine1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "certifierAddressStreet", value);
+                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "certifierAddressLine1", value);
                 }
             }
         }
@@ -3951,7 +3951,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STINJURY", "DetailsOfInjury", "placeOfInjury", "state", false);
+                return Dictionary_Geo_Get("STINJURY", "DetailsOfInjury", "detailsOfInjury", "state", false);
             }
             set
             {

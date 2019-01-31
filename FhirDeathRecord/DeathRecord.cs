@@ -5,10 +5,13 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
+using System.Reflection;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace FhirDeathRecord
 {
@@ -145,6 +148,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");</para>
         /// </example>
+        [Property("Id", Property.Types.String, "Record Details", "The record ID.", true)]
         public string Id
         {
             get
@@ -165,6 +169,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record was registered on: {ExampleDeathRecord.DateOfRegistration}");</para>
         /// </example>
+        [Property("Date Of Registration", Property.Types.StringDateTime, "Record Details", "Death Record Registration Date.", true)]
         public string DateOfRegistration
         {
             get
@@ -193,6 +198,8 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
+        [Property("Given Names", Property.Types.StringArr, "Demographics", "Decedent's Given Name(s).", true)]
+
         public string[] GivenNames
         {
             get
@@ -224,6 +231,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
+        [Property("Family Name", Property.Types.String, "Demographics", "Decedent's Family Name.", true)]
         public string FamilyName
         {
             get
@@ -255,6 +263,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
         /// </example>
+        [Property("Maiden Name", Property.Types.String, "Demographics", "Decedent's Maiden Name.", true)]
         public string MaidenName
         {
             get
@@ -286,6 +295,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
         /// </example>
+        [Property("Suffix", Property.Types.String, "Demographics", "Decedent's Suffix.", true)]
         public string Suffix
         {
             get
@@ -319,6 +329,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
         /// </example>
+        [Property("Father's Family Name", Property.Types.String, "Demographics", "Decedent's Father's Family Name.", true)]
         public string FatherFamilyName
         {
             get
@@ -361,6 +372,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Gender}");</para>
         /// </example>
+        [Property("Gender", Property.Types.String, "Demographics", "Decedent's Gender.", true)]
         public string Gender
         {
             get
@@ -414,6 +426,10 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
+        [Property("Birth Sex", Property.Types.Dictionary, "Demographics", "Decedent's Birth Sex.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> BirthSex
         {
             get
@@ -445,6 +461,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
+        [Property("Date Of Birth", Property.Types.StringDateTime, "Demographics", "Decedent's Date of Birth.", true)]
 
         public string DateOfBirth
         {
@@ -466,6 +483,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
+        [Property("Date Of Death", Property.Types.StringDateTime, "Demographics", "Decedent's Date and Time of Death.", true)]
         public string DateOfDeath
          {
             get
@@ -487,7 +505,7 @@ namespace FhirDeathRecord
         /// <para>"residenceState" - residence, state</para>
         /// <para>"residenceZip" - residence, zip</para>
         /// <para>"residenceCountry" - residence, country</para>
-        /// <para>"residenceInsideCityLimits" - residence, inside city limits</para>
+        /// <para>"residenceInsideCityLimits" - residence, inside city limits?</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
@@ -505,6 +523,15 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.Residence["residenceState"];</para>
         /// <para>Console.WriteLine($"State of residence: {state}");</para>
         /// </example>
+        [Property("Residence", Property.Types.Dictionary, "Demographics", "Decedent's residence.", true)]
+        [PropertyParam("residenceLine1", "residence, line one")]
+        [PropertyParam("residenceLine2", "residence, line two")]
+        [PropertyParam("residenceCity", "residence, city")]
+        [PropertyParam("residenceCounty", "residence, county")]
+        [PropertyParam("residenceState", "residence, state")]
+        [PropertyParam("residenceZip", "residence, zip")]
+        [PropertyParam("residenceCountry", "residence, country")]
+        [PropertyParam("residenceInsideCityLimits", "residence, inside city limits?")]
         public Dictionary<string, string> Residence
         {
             get
@@ -553,6 +580,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
         /// </example>
+        [Property("SSN", Property.Types.String, "Demographics", "Decedent's Social Security Number.", true)]
         public string SSN
         {
             get
@@ -581,6 +609,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
+        [Property("Ethnicity", Property.Types.TupleArr, "Demographics", "Decedent's Ethnicity.", true)]
         public Tuple<string, string>[] Ethnicity
         {
             get
@@ -641,6 +670,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
+        [Property("Race", Property.Types.TupleArr, "Demographics", "Decedent's Race.", true)]
         public Tuple<string, string>[] Race
         {
             get
@@ -714,6 +744,14 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"];</para>
         /// <para>Console.WriteLine($"State where decedent was born: {state}");</para>
         /// </example>
+        [Property("Place Of Birth", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Birth.", true)]
+        [PropertyParam("placeOfBirthLine1", "location of birth, line one")]
+        [PropertyParam("placeOfBirthLine2", "location of birth, line two")]
+        [PropertyParam("placeOfBirthCity", "location of birth, city")]
+        [PropertyParam("placeOfBirthCounty", "location of birth, county")]
+        [PropertyParam("placeOfBirthState", "location of birth, state")]
+        [PropertyParam("placeOfBirthZip", "location of birth, zip")]
+        [PropertyParam("placeOfBirthCountry", "location of birth, country")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
@@ -767,7 +805,6 @@ namespace FhirDeathRecord
         /// <para>"placeOfDeathState" - location of death, state</para>
         /// <para>"placeOfDeathZip" - location of death, zip</para>
         /// <para>"placeOfDeathCountry" - location of death, country</para>
-        /// <para>"placeOfDeathInsideCityLimits" - location of death, whether the address is within city limits (true) or not (false)</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
@@ -783,12 +820,23 @@ namespace FhirDeathRecord
         /// <para>placeOfDeath.Add("placeOfDeathState", "Massachusetts");</para>
         /// <para>placeOfDeath.Add("placeOfDeathZip", "01730");</para>
         /// <para>placeOfDeath.Add("placeOfDeathCountry", "United States");</para>
-        /// <para>placeOfDeath.Add("placeOfDeathInsideCityLimits", "True");</para>
         /// <para>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</para>
         /// <para>// Getter:</para>
         /// <para>string state = ExampleDeathRecord.PlaceOfDeath["placeOfDeathState"];</para>
         /// <para>Console.WriteLine($"State where death occurred: {state}");</para>
         /// </example>
+        [Property("Place Of Death", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Death.", true)]
+        [PropertyParam("placeOfDeathTypeCode", "place of death type, code")]
+        [PropertyParam("placeOfDeathTypeSystem", "place of death type, code system")]
+        [PropertyParam("placeOfDeathTypeDisplay", "place of death type, code display")]
+        [PropertyParam("placeOfDeathFacilityName", "place of death facility name")]
+        [PropertyParam("placeOfDeathLine1", "location of death, line one")]
+        [PropertyParam("placeOfDeathLine2", "location of death, line two")]
+        [PropertyParam("placeOfDeathCity", "location of death, city")]
+        [PropertyParam("placeOfDeathCounty", "location of death, county")]
+        [PropertyParam("placeOfDeathState", "location of death, state")]
+        [PropertyParam("placeOfDeathZip", "location of death, zip")]
+        [PropertyParam("placeOfDeathCountry", "location of death, country")]
         public Dictionary<string, string> PlaceOfDeath
         {
             get
@@ -811,7 +859,6 @@ namespace FhirDeathRecord
                 dictionary.Add("placeOfDeathState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
                 dictionary.Add("placeOfDeathZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
                 dictionary.Add("placeOfDeathCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
-                dictionary.Add("placeOfDeathInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
 
                 return dictionary;
             }
@@ -852,13 +899,6 @@ namespace FhirDeathRecord
                 placeOfDeathAddress.PostalCode = GetValue(value, "placeOfDeathZip");
                 placeOfDeathAddress.Country = GetValue(value, "placeOfDeathCountry");
                 placeOfDeathAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-                if (value.ContainsKey("placeOfDeathInsideCityLimits") && GetValue(value, "placeOfDeathInsideCityLimits") != null)
-                {
-                    Extension insideCityLimits = new Extension();
-                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfDeathInsideCityLimits") == "true" || GetValue(value, "placeOfDeathInsideCityLimits") == "True");
-                    placeOfDeathAddress.Extension.Add(insideCityLimits);
-                }
                 placeOfDeathAddressExt.Value = placeOfDeathAddress;
                 placeOfDeathExt.Extension.Add(placeOfDeathAddressExt);
 
@@ -882,6 +922,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
+        [Property("Marital Status", Property.Types.Dictionary, "Demographics", "Decedent's Marital Status at the time of death.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> MaritalStatus
         {
             get
@@ -918,7 +962,6 @@ namespace FhirDeathRecord
         /// <para>"dispositionPlaceState" - disposition place address, state</para>
         /// <para>"dispositionPlaceZip" - disposition place address, zip</para>
         /// <para>"dispositionPlaceCountry" - disposition place address, country</para>
-        /// <para>"dispositionPlaceInsideCityLimits" - disposition place address, whether the address is within city limits (true) or not (false)</para>
         /// <para>"funeralFacilityName" - the name of a funeral facility or institution</para>
         /// <para>"funeralFacilityLine1" - funeral facility address, line one</para>
         /// <para>"funeralFacilityLine2" - funeral facility address, line two</para>
@@ -927,7 +970,6 @@ namespace FhirDeathRecord
         /// <para>"funeralFacilityState" - funeral facility address, state</para>
         /// <para>"funeralFacilityZip" - funeral facility address, zip</para>
         /// <para>"funeralFacilityCountry" - funeral facility address, country</para>
-        /// <para>"funeralFacilityInsideCityLimits" - funeral facility address, whether the address is within city limits (true) or not (false)</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
@@ -943,7 +985,6 @@ namespace FhirDeathRecord
         /// <para>disposition.Add("dispositionPlaceState", "Massachusetts");</para>
         /// <para>disposition.Add("dispositionPlaceZip", "01730");</para>
         /// <para>disposition.Add("dispositionPlaceCountry", "United States");</para>
-        /// <para>disposition.Add("dispositionPlaceInsideCityLimits", "True");</para>
         /// <para>disposition.Add("funeralFacilityName", "Example funeral facility name");</para>
         /// <para>disposition.Add("funeralFacilityLine1", "50 Example Street");</para>
         /// <para>disposition.Add("funeralFacilityLine2", "Line 2");</para>
@@ -952,11 +993,29 @@ namespace FhirDeathRecord
         /// <para>disposition.Add("funeralFacilityState", "Massachusetts");</para>
         /// <para>disposition.Add("funeralFacilityZip", "01730");</para>
         /// <para>disposition.Add("funeralFacilityCountry", "United States");</para>
-        /// <para>disposition.Add("funeralFacilityInsideCityLimits", "True");</para>
         /// <para>ExampleDeathRecord.Disposition = disposition;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
         /// </example>
+        [Property("Disposition", Property.Types.Dictionary, "Disposition", "Disposition of the decedent’s body.", true)]
+        [PropertyParam("dispositionTypeCode", "the code describing the method of disposition of the decedent’s remains")]
+        [PropertyParam("dispositionTypeSystem", "the code system describing the method of disposition of the decedent’s remains")]
+        [PropertyParam("dispositionTypeDisplay", "the human readable code display text that describes the method of disposition of the decedent’s remains")]
+        [PropertyParam("dispositionPlaceLine1", "disposition place address, line one")]
+        [PropertyParam("dispositionPlaceLine2", "disposition place address, line two")]
+        [PropertyParam("dispositionPlaceCity", "disposition place address, city")]
+        [PropertyParam("dispositionPlaceCounty", "disposition place address, county")]
+        [PropertyParam("dispositionPlaceState", "disposition place address, state")]
+        [PropertyParam("dispositionPlaceZip", "disposition place address, zip")]
+        [PropertyParam("dispositionPlaceCountry", "disposition place address, country")]
+        [PropertyParam("funeralFacilityName", "the name of a funeral facility or institution")]
+        [PropertyParam("dispositionPlaceLine1", "funeral facility address, line one")]
+        [PropertyParam("dispositionPlaceLine2", "funeral facility address, line two")]
+        [PropertyParam("dispositionPlaceCity", "funeral facility address, city")]
+        [PropertyParam("dispositionPlaceCounty", "funeral facility address, county")]
+        [PropertyParam("dispositionPlaceState", "funeral facility address, state")]
+        [PropertyParam("dispositionPlaceZip", "funeral facility address, zip")]
+        [PropertyParam("dispositionPlaceCountry", "funeral facility address, country")]
         public Dictionary<string, string> Disposition
         {
             get
@@ -979,7 +1038,6 @@ namespace FhirDeathRecord
                 dictionary.Add("dispositionPlaceState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
                 dictionary.Add("dispositionPlaceZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
                 dictionary.Add("dispositionPlaceCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
-                dictionary.Add("dispositionPlaceInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-DispositionFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
 
                 // Disposition Facility name
                 dictionary.Add("funeralFacilityName", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FacilityName-extension').value"));
@@ -992,7 +1050,6 @@ namespace FhirDeathRecord
                 dictionary.Add("funeralFacilityState", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
                 dictionary.Add("funeralFacilityZip", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
                 dictionary.Add("funeralFacilityCountry", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
-                dictionary.Add("funeralFacilityInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-FuneralFacility-extension').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
 
                 return dictionary;
             }
@@ -1036,13 +1093,6 @@ namespace FhirDeathRecord
                 dispositionPlaceAddress.PostalCode = GetValue(value, "dispositionPlaceZip");
                 dispositionPlaceAddress.Country = GetValue(value, "dispositionPlaceCountry");
                 dispositionPlaceAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-                if (value.ContainsKey("dispositionPlaceInsideCityLimits") && GetValue(value, "dispositionPlaceInsideCityLimits") != null)
-                {
-                    Extension insideCityLimits = new Extension();
-                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "dispositionPlaceInsideCityLimits") == "true" || GetValue(value, "dispositionPlaceInsideCityLimits") == "True");
-                    dispositionPlaceAddress.Extension.Add(insideCityLimits);
-                }
                 dispositionPlaceAddressExt.Value = dispositionPlaceAddress;
                 dispositionPlaceExt.Extension.Add(dispositionPlaceAddressExt);
 
@@ -1068,13 +1118,6 @@ namespace FhirDeathRecord
                 funeralFacilityAddress.PostalCode = GetValue(value, "funeralFacilityZip");
                 funeralFacilityAddress.Country = GetValue(value, "funeralFacilityCountry");
                 funeralFacilityAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-                if (value.ContainsKey("funeralFacilityInsideCityLimits") && GetValue(value, "funeralFacilityInsideCityLimits") != null)
-                {
-                    Extension insideCityLimits = new Extension();
-                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "funeralFacilityInsideCityLimits") == "true" || GetValue(value, "funeralFacilityInsideCityLimits") == "True");
-                    funeralFacilityAddress.Extension.Add(insideCityLimits);
-                }
                 funeralFacilityAddressExt.Value = funeralFacilityAddress;
                 funeralFacilityExt.Extension.Add(funeralFacilityAddressExt);
 
@@ -1101,6 +1144,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Degree: {ExampleDeathRecord.Education["display"]}");</para>
         /// </example>
+        [Property("Education", Property.Types.Dictionary, "Demographics", "Decedent’s level of education.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> Education
         {
             get
@@ -1132,6 +1179,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age in years at last birthday.: {ExampleDeathRecord.Age}");</para>
         /// </example>
+        [Property("Age", Property.Types.String, "Demographics", "The decedent’s age in years at last birthday.", true)]
         public string Age
         {
             get
@@ -1169,6 +1217,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}");</para>
         /// </example>
+        [Property("Served In Armed Forces", Property.Types.Bool, "Demographics", "Whether the decedent ever served in the US armed forces.", true)]
         public bool ServedInArmedForces
         {
             get
@@ -1199,6 +1248,9 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
         /// </example>
+        [Property("Occupation", Property.Types.Dictionary, "Demographics", "Decedent’s usual occupation and industry.", true)]
+        [PropertyParam("jobDescription", "Type of work done during most of decedent’s working life.")]
+        [PropertyParam("industryDescription", "Kind of industry or business in which the decedent worked.")]
         public Dictionary<string, string> Occupation
         {
             get
@@ -1247,6 +1299,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
+        [Property("Certifier's Given Names", Property.Types.StringArr, "Medical", "Given name(s) of certifier.", true)]
         public string[] CertifierGivenNames
         {
             get
@@ -1278,6 +1331,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");</para>
         /// </example>
+        [Property("Certifier's Family Names", Property.Types.String, "Medical", "Family name of certifier.", true)]
         public string CertifierFamilyName
         {
             get
@@ -1309,6 +1363,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
+        [Property("Certifier's Suffix", Property.Types.String, "Medical", "Certifier's Suffix.", true)]
         public string CertifierSuffix
         {
             get
@@ -1339,7 +1394,8 @@ namespace FhirDeathRecord
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>address.Add("certifierAddressStreet", "123 Test Street");</para>
+        /// <para>address.Add("certifierAddressLine1", "123 Test Street");</para>
+        /// <para>address.Add("certifierAddressLine2", "Unit 3");</para>
         /// <para>address.Add("certifierAddressCity", "Boston");</para>
         /// <para>address.Add("certifierAddressCounty", "Suffolk");</para>
         /// <para>address.Add("certifierAddressState", "Massachusetts");</para>
@@ -1351,17 +1407,27 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
+        [Property("Certifier's Address", Property.Types.Dictionary, "Medical", "Address of certifier.", true)]
+        [PropertyParam("certifierAddressLine1", "certifier address, line one")]
+        [PropertyParam("certifierAddressLine2", "certifier address, line two")]
+        [PropertyParam("certifierAddressCity", "certifier address, city")]
+        [PropertyParam("certifierAddressCounty", "certifier address, county")]
+        [PropertyParam("certifierAddressState", "certifier address, state")]
+        [PropertyParam("certifierAddressZip", "certifier address, zip")]
+        [PropertyParam("certifierAddressCountry", "certifier address, country")]
         public Dictionary<string, string> CertifierAddress
         {
             get
             {
-                string street = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.line[0]");
+                string line1 = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.line[0]");
+                string line2 = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.line[1]");
                 string city = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.city");
                 string county = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.district");
                 string state = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.state");
                 string zip = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.postalCode");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                dictionary.Add("certifierAddressStreet", street);
+                dictionary.Add("certifierAddressLine1", line1);
+                dictionary.Add("certifierAddressLine2", line2);
                 dictionary.Add("certifierAddressCity", city);
                 dictionary.Add("certifierAddressCounty", county);
                 dictionary.Add("certifierAddressState", state);
@@ -1371,7 +1437,8 @@ namespace FhirDeathRecord
             set
             {
                 Address address = new Address();
-                address.LineElement.Add(new FhirString(GetValue(value, "certifierAddressStreet")));
+                address.LineElement.Add(new FhirString(GetValue(value, "certifierAddressLine1")));
+                address.LineElement.Add(new FhirString(GetValue(value, "certifierAddressLine2")));
                 address.City = GetValue(value, "certifierAddressCity");
                 address.District = GetValue(value, "certifierAddressCounty");
                 address.State = GetValue(value, "certifierAddressState");
@@ -1392,6 +1459,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Type: {ExampleDeathRecord.CertifierType['display']}");</para>
         /// </example>
+        [Property("Certifier Type", Property.Types.Dictionary, "Medical", "Certifier Type.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> CertifierType
         {
             get
@@ -1427,6 +1498,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         /// </example>
+        [Property("Certifier Qualification", Property.Types.Dictionary, "Medical", "Certifier's Qualification.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> CertifierQualification
         {
             get
@@ -1454,7 +1529,7 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Conditions that resulted in the underlying cause of death. Corresponds to part 1 of item 32 of the U.S.
+        /// <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
         /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
@@ -1480,6 +1555,7 @@ namespace FhirDeathRecord
         /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
         /// <para>}</para>
         /// </example>
+        [Property("Causes Of Death", Property.Types.TupleCOD, "Medical", "Conditions that resulted in the cause of death.", true)]
         public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
             get
@@ -1556,6 +1632,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line a.</summary>
+        [Property("COD1A", Property.Types.String, "Medical", "Cause of Death Part I, Line a.", false)]
         public string COD1A
         {
             get
@@ -1582,6 +1659,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line a.</summary>
+        [Property("INTERVAL1A", Property.Types.String, "Medical", "Cause of Death Part I Interval, Line a.", false)]
         public string INTERVAL1A
         {
             get
@@ -1608,6 +1686,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line a.</summary>
+        [Property("CODE1A", Property.Types.String, "Medical", "Cause of Death Part I Code, Line a.", false)]
         public Dictionary<string, string> CODE1A
         {
             get
@@ -1634,6 +1713,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line b.</summary>
+        [Property("COD1B", Property.Types.String, "Medical", "Cause of Death Part I, Line b.", false)]
         public string COD1B
         {
             get
@@ -1660,6 +1740,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line b.</summary>
+        [Property("INTERVAL1B", Property.Types.String, "Medical", "Cause of Death Part I Interval, Line b.", false)]
         public string INTERVAL1B
         {
             get
@@ -1686,6 +1767,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line b.</summary>
+        [Property("CODE1B", Property.Types.String, "Medical", "Cause of Death Part I Code, Line b.", false)]
         public Dictionary<string, string> CODE1B
         {
             get
@@ -1712,6 +1794,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line c.</summary>
+        [Property("COD1C", Property.Types.String, "Medical", "Cause of Death Part I, Line c.", false)]
         public string COD1C
         {
             get
@@ -1738,6 +1821,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line c.</summary>
+        [Property("INTERVAL1C", Property.Types.String, "Medical", "Cause of Death Part I Interval, Line c.", false)]
         public string INTERVAL1C
         {
             get
@@ -1764,6 +1848,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line c.</summary>
+        [Property("CODE1C", Property.Types.String, "Medical", "Cause of Death Part I Code, Line c.", false)]
         public Dictionary<string, string> CODE1C
         {
             get
@@ -1790,6 +1875,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line d.</summary>
+        [Property("COD1D", Property.Types.String, "Medical", "Cause of Death Part I, Line d.", false)]
         public string COD1D
         {
             get
@@ -1816,6 +1902,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line d.</summary>
+        [Property("INTERVAL1D", Property.Types.String, "Medical", "Cause of Death Part I Interval, Line d.", false)]
         public string INTERVAL1D
         {
             get
@@ -1842,6 +1929,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line d.</summary>
+        [Property("CODE1D", Property.Types.String, "Medical", "Cause of Death Part I Code, Line d.", false)]
         public Dictionary<string, string> CODE1D
         {
             get
@@ -1877,6 +1965,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
         /// </example>
+        [Property("Contributing Conditions", Property.Types.String, "Medical", "Contributing Conditions", true)]
         public string ContributingConditions
         {
             get
@@ -1929,6 +2018,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
         /// </example>
+        [Property("Autopsy Performed", Property.Types.Bool, "Medical", "Whether an autopsy was performed or not.", true)]
         public bool AutopsyPerformed
         {
             get
@@ -1954,6 +2044,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");</para>
         /// </example>
+        [Property("Autopsy Results Available", Property.Types.Bool, "Medical", "Were autopsy findings available to complete the cause of death?", true)]
         public bool AutopsyResultsAvailable
         {
             get
@@ -1970,8 +2061,8 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>The manner of the decendents demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
-        /// <value>The manner of the decendents demise. A Dictionary representing a code, containing the following key/value pairs:
+        /// <summary>The manner of the decendent's demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
+        /// <value>The manner of the decendent's demise. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code describing this finding</para>
         /// <para>"system" - the system the given code belongs to</para>
         /// <para>"display" - the human readable display text that corresponds to the given code</para>
@@ -1986,6 +2077,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");</para>
         /// </example>
+        [Property("Manner Of Death", Property.Types.Dictionary, "Medical", "The manner of the decendent's demise.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> MannerOfDeath
         {
             get
@@ -2025,6 +2120,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");</para>
         /// </example>
+        [Property("Tobacco Use Contributed To Death", Property.Types.Dictionary, "Medical", "Did tobacco use contribute to death?", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> TobaccoUseContributedToDeath
         {
             get
@@ -2056,6 +2155,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");</para>
         /// </example>
+        [Property("Actual Or Presumed Date Of Death", Property.Types.String, "Medical", "Actual or presumed date of death.", true)]
         public string ActualOrPresumedDateOfDeath
         {
             get
@@ -2080,6 +2180,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");</para>
         /// </example>
+        [Property("Date Pronounced Dead", Property.Types.StringDateTime, "Medical", "Date pronounced dead.", true)]
         public string DatePronouncedDead
         {
             get
@@ -2104,6 +2205,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");</para>
         /// </example>
+        [Property("Death From Work Injury", Property.Types.Bool, "Medical", "Did death result from injury at work?", true)]
         public bool DeathFromWorkInjury
         {
             get
@@ -2136,6 +2238,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");</para>
         /// </example>
+        [Property("Death From Transport Injury", Property.Types.Dictionary, "Medical", "Injury leading to death associated with transportation event.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> DeathFromTransportInjury
         {
             get
@@ -2167,6 +2273,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");</para>
         /// </example>
+        [Property("Medical Examiner Contacted", Property.Types.Bool, "Medical", "Whether a medical examiner or coroner was contacted.", true)]
         public bool MedicalExaminerContacted
         {
             get
@@ -2199,6 +2306,10 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");</para>
         /// </example>
+        [Property("Timing Of Recent Pregnancy In Relation To Death", Property.Types.Dictionary, "Medical", "Timing Of Recent Pregnancy In Relation To Death.", true)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         public Dictionary<string, string> TimingOfRecentPregnancyInRelationToDeath
         {
             get
@@ -2224,37 +2335,46 @@ namespace FhirDeathRecord
 
         /// <summary>Injury incident description.</summary>
         /// <value>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:
-        /// <para>"placeOfInjuryDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
-        /// <para>"effectiveDateTime" - effective date and time of injury</para>
-        /// <para>"description" - description of injury</para>
-        /// <para>"placeOfInjuryLine1" - location of injury, line one</para>
-        /// <para>"placeOfInjuryLine2" - location of injury, line two</para>
-        /// <para>"placeOfInjuryCity" - location of injury, city</para>
-        /// <para>"placeOfInjuryCounty" - location of injury, county</para>
-        /// <para>"placeOfInjuryState" - location of injury, state</para>
-        /// <para>"placeOfInjuryZip" - location of injury, zip</para>
-        /// <para>"placeOfInjuryCountry" - location of injury, country</para>
-        /// <para>"placeOfInjuryInsideCityLimits" - location of injury, whether the address is within city limits (true) or not (false)</para>
+        /// <para>"detailsOfInjuryPlaceDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
+        /// <para>"detailsOfInjuryEffectiveDateTime" - effective date and time of injury</para>
+        /// <para>"detailsOfInjuryDescription" - description of the injury</para>
+        /// <para>"detailsOfInjuryLine1" - location of injury, line one</para>
+        /// <para>"detailsOfInjuryLine2" - location of injury, line two</para>
+        /// <para>"detailsOfInjuryCity" - location of injury, city</para>
+        /// <para>"detailsOfInjuryCounty" - location of injury, county</para>
+        /// <para>"detailsOfInjuryState" - location of injury, state</para>
+        /// <para>"detailsOfInjuryZip" - location of injury, zip</para>
+        /// <para>"detailsOfInjuryCountry" - location of injury, country</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; detailsOfInjury = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryDescription", "Home");</para>
-        /// <para>detailsOfInjury.Add("effectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
-        /// <para>detailsOfInjury.Add("description", "Example details of injury");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryLine2", "Unit 1234");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryCity", "Bedford");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryCounty", "Middlesex");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryZip", "01730");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryCountry", "United States");</para>
-        /// <para>detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryPlaceDescription", "Home");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryEffectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryDescription", "Example details of injury");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryLine1", "7 Example Street");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryLine2", "Unit 1234");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryCity", "Bedford");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryCounty", "Middlesex");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryState", "Massachusetts");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryZip", "01730");</para>
+        /// <para>detailsOfInjury.Add("detailsOfInjuryCountry", "United States");</para>
         /// <para>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</para>
         /// <para>// Getter:</para>
-        /// <para>string state = ExampleDeathRecord.DetailsOfInjury["placeOfInjuryState"];</para>
+        /// <para>string state = ExampleDeathRecord.DetailsOfInjury["detailsOfInjuryState"];</para>
         /// <para>Console.WriteLine($"State where injury occurred: {state}");</para>
         /// </example>
+        [Property("Details Of Injury", Property.Types.Dictionary, "Medical", "Injury incident description.", true)]
+        [PropertyParam("detailsOfInjuryPlaceDescription", "description of the place of injury")]
+        [PropertyParam("detailsOfInjuryEffectiveDateTime", "effective date and time of injury")]
+        [PropertyParam("detailsOfInjuryDescription", "description of the injury")]
+        [PropertyParam("detailsOfInjuryLine1", "location of injury, line one")]
+        [PropertyParam("detailsOfInjuryLine2", "location of injury, line two")]
+        [PropertyParam("detailsOfInjuryCity", "location of injury, city")]
+        [PropertyParam("detailsOfInjuryCounty", "location of injury, county")]
+        [PropertyParam("detailsOfInjuryState", "location of injury, state")]
+        [PropertyParam("detailsOfInjuryZip", "location of injury, zip")]
+        [PropertyParam("detailsOfInjuryCountry", "location of injury, country")]
         public Dictionary<string, string> DetailsOfInjury
         {
             get
@@ -2262,23 +2382,22 @@ namespace FhirDeathRecord
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
                 // Place of injury - Description of the place of injury, e.g. decedent’s home, restaurant, wooded area
-                dictionary.Add("placeOfInjuryDescription", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension').value"));
+                dictionary.Add("detailsOfInjuryPlaceDescription", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension').value"));
 
                 // Effective date and time of injury
-                dictionary.Add("effectiveDateTime", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').effective"));
+                dictionary.Add("detailsOfInjuryEffectiveDateTime", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').effective"));
 
                 // Description of injury
-                dictionary.Add("description", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').value"));
+                dictionary.Add("detailsOfInjuryDescription", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').value"));
 
                 // Location of injury
-                dictionary.Add("placeOfInjuryLine1", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
-                dictionary.Add("placeOfInjuryLine2", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
-                dictionary.Add("placeOfInjuryCity", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
-                dictionary.Add("placeOfInjuryCounty", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
-                dictionary.Add("placeOfInjuryState", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
-                dictionary.Add("placeOfInjuryZip", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
-                dictionary.Add("placeOfInjuryCountry", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
-                dictionary.Add("placeOfInjuryInsideCityLimits", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension').value"));
+                dictionary.Add("detailsOfInjuryLine1", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[0]"));
+                dictionary.Add("detailsOfInjuryLine2", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.line[1]"));
+                dictionary.Add("detailsOfInjuryCity", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.city"));
+                dictionary.Add("detailsOfInjuryCounty", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.district"));
+                dictionary.Add("detailsOfInjuryState", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.state"));
+                dictionary.Add("detailsOfInjuryZip", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.postalCode"));
+                dictionary.Add("detailsOfInjuryCountry", GetFirstString("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6').extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension').value.country"));
 
                 return dictionary;
             }
@@ -2288,32 +2407,25 @@ namespace FhirDeathRecord
                                                          "11374-6",
                                                          "http://loinc.org",
                                                          "Injury incident description");
-                observation.Value = new FhirString(GetValue(value, "description"));
-                observation.Effective = new FhirDateTime(GetValue(value, "effectiveDateTime"));
-                Extension placeOfInjury = new Extension();
-                placeOfInjury.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension";
-                placeOfInjury.Value = new FhirString(GetValue(value, "placeOfInjuryDescription"));
-                observation.Extension.Add(placeOfInjury);
-                Extension placeOfInjuryLocation = new Extension();
-                placeOfInjuryLocation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
-                Address placeOfInjuryLocationAddress = new Address();
-                string[] lines = {GetValue(value, "placeOfInjuryLine1"), GetValue(value, "placeOfInjuryLine2")};
-                placeOfInjuryLocationAddress.Line = lines.ToArray();
-                placeOfInjuryLocationAddress.City = GetValue(value, "placeOfInjuryCity");
-                placeOfInjuryLocationAddress.District = GetValue(value, "placeOfInjuryCounty");
-                placeOfInjuryLocationAddress.State = GetValue(value, "placeOfInjuryState");
-                placeOfInjuryLocationAddress.PostalCode = GetValue(value, "placeOfInjuryZip");
-                placeOfInjuryLocationAddress.Country = GetValue(value, "placeOfInjuryCountry");
-                placeOfInjuryLocationAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
-                if (!String.IsNullOrWhiteSpace(GetValue(value, "placeOfInjuryInsideCityLimits")))
-                {
-                    Extension insideCityLimits = new Extension();
-                    insideCityLimits.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-InsideCityLimits-extension";
-                    insideCityLimits.Value = new FhirBoolean(GetValue(value, "placeOfInjuryInsideCityLimits") == "true" || GetValue(value, "placeOfInjuryInsideCityLimits") == "True");
-                    placeOfInjuryLocationAddress.Extension.Add(insideCityLimits);
-                }
-                placeOfInjuryLocation.Value = placeOfInjuryLocationAddress;
-                observation.Extension.Add(placeOfInjuryLocation);
+                observation.Value = new FhirString(GetValue(value, "detailsOfInjuryDescription"));
+                observation.Effective = new FhirDateTime(GetValue(value, "detailsOfInjuryEffectiveDateTime"));
+                Extension detailsOfInjury = new Extension();
+                detailsOfInjury.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-causeOfDeath-PlaceOfInjury-extension";
+                detailsOfInjury.Value = new FhirString(GetValue(value, "detailsOfInjuryPlaceDescription"));
+                observation.Extension.Add(detailsOfInjury);
+                Extension detailsOfInjuryLocation = new Extension();
+                detailsOfInjuryLocation.Url = "http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/shr-core-PostalAddress-extension";
+                Address detailsOfInjuryLocationAddress = new Address();
+                string[] lines = {GetValue(value, "detailsOfInjuryLine1"), GetValue(value, "detailsOfInjuryLine2")};
+                detailsOfInjuryLocationAddress.Line = lines.ToArray();
+                detailsOfInjuryLocationAddress.City = GetValue(value, "detailsOfInjuryCity");
+                detailsOfInjuryLocationAddress.District = GetValue(value, "detailsOfInjuryCounty");
+                detailsOfInjuryLocationAddress.State = GetValue(value, "detailsOfInjuryState");
+                detailsOfInjuryLocationAddress.PostalCode = GetValue(value, "detailsOfInjuryZip");
+                detailsOfInjuryLocationAddress.Country = GetValue(value, "detailsOfInjuryCountry");
+                detailsOfInjuryLocationAddress.Type = Hl7.Fhir.Model.Address.AddressType.Postal;
+                detailsOfInjuryLocation.Value = detailsOfInjuryLocationAddress;
+                observation.Extension.Add(detailsOfInjuryLocation);
             }
         }
 
@@ -2591,7 +2703,189 @@ namespace FhirDeathRecord
                 causeEntry.Text = narrative;
             }
         }
+
+        /// <summary>Returns a JSON encoded structure that maps to the various property
+        /// annotations found in the DeathRecord class. This is useful for scenarios
+        /// where you may want to display the data in user interfaces.</summary>
+        /// <returns>a string representation of this Death Record in a descriptive format.</returns>
+        public string ToDescription()
+        {
+            Dictionary<string, Dictionary<string, dynamic>> description = new Dictionary<string, Dictionary<string, dynamic>>();
+            foreach(PropertyInfo property in typeof(DeathRecord).GetProperties())
+            {
+                // Grab property annotation for this property
+                Property info = (Property)property.GetCustomAttributes().First();
+
+                // Skip properties that shouldn't be serialized.
+                if (!info.Serialize)
+                {
+                    continue;
+                }
+
+                // Add category if it doesn't yet exist
+                if (!description.ContainsKey(info.Category))
+                {
+                    description.Add(info.Category, new Dictionary<string, dynamic>());
+                }
+
+                // Add the new property to the category
+                Dictionary<string, dynamic> category = description[info.Category];
+                category[property.Name] = new Dictionary<string, dynamic>();
+
+                // Add the attributes of the property
+                category[property.Name]["Name"] = info.Name;
+                category[property.Name]["Type"] = info.Type.ToString();
+                category[property.Name]["Description"] = info.Description;
+
+                // Add the current value of the property
+                if (info.Type == Property.Types.Dictionary)
+                {
+                    // Special case for Dictionary; we want to be able to describe what each key means
+                    Dictionary<string, string> value = (Dictionary<string, string>)property.GetValue(this);
+                    Dictionary<string, Dictionary<string, string>> moreInfo = new Dictionary<string, Dictionary<string, string>>();
+                    foreach (PropertyParam parameter in property.GetCustomAttributes().Skip(1))
+                    {
+                        moreInfo[parameter.Key] = new Dictionary<string, string>();
+                        moreInfo[parameter.Key]["Description"] = parameter.Description;
+                        if (value.ContainsKey(parameter.Key))
+                        {
+                            moreInfo[parameter.Key]["Value"] = value[parameter.Key];
+                        }
+                        else
+                        {
+                            moreInfo[parameter.Key]["Value"] = null;
+                        }
+
+                    }
+                    category[property.Name]["Value"] = moreInfo;
+                }
+                else
+                {
+                    category[property.Name]["Value"] = property.GetValue(this);
+                }
+            }
+            return JsonConvert.SerializeObject(description);
+        }
+
+        /// <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+        /// <param name="contents">string that represents </param>
+        /// <returns>a new DeathRecord that corresponds to the given descriptive format</returns>
+        public static DeathRecord FromDescription(string contents)
+        {
+            DeathRecord record = new DeathRecord();
+            Dictionary<string, Dictionary<string, dynamic>> description =
+                JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, dynamic>>>(contents,
+                    new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+            // Loop over each category
+            foreach(KeyValuePair<string, Dictionary<string, dynamic>> category in description)
+            {
+                // Loop over each property
+                foreach(KeyValuePair<string, dynamic> property in category.Value)
+                {
+                    // Set the property on the new DeathRecord based on its type
+                    string propertyName = property.Key;
+                    if (property.Value["Type"] == Property.Types.String || property.Value["Type"] == Property.Types.StringDateTime)
+                    {
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, property.Value["Value"].ToString());
+                    }
+                    else if (property.Value["Type"] == Property.Types.StringArr)
+                    {
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, property.Value["Value"].ToObject<String[]>());
+                    }
+                    else if (property.Value["Type"] == Property.Types.Bool)
+                    {
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, property.Value["Value"].ToObject<bool>());
+                    }
+                    else if (property.Value["Type"] == Property.Types.TupleArr)
+                    {
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, property.Value["Value"].ToObject<Tuple<string, string>[]>());
+                    }
+                    else if (property.Value["Type"] == Property.Types.TupleCOD)
+                    {
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, property.Value["Value"].ToObject<Tuple<string, string, Dictionary<string, string>>[]>());
+                    }
+                    else if (property.Value["Type"] == Property.Types.Dictionary)
+                    {
+                        Dictionary<string, Dictionary<string, string>> moreInfo =
+                            property.Value["Value"].ToObject<Dictionary<string, Dictionary<string, string>>>();
+                        Dictionary<string, string> result = new Dictionary<string, string>();
+                        foreach(KeyValuePair<string, Dictionary<string, string>> entry in moreInfo)
+                        {
+                            result[entry.Key] = entry.Value["Value"];
+                        }
+                        typeof(DeathRecord).GetProperty(propertyName).SetValue(record, result);
+                    }
+                }
+            }
+            return record;
+        }
+    }
+
+    /// <summary>Property attribute used to describe a DeathRecord property.</summary>
+    [System.AttributeUsage(System.AttributeTargets.Property)]
+    public class Property : System.Attribute
+    {
+        /// <summary>Enum for describing the property type.</summary>
+        public enum Types
+        {
+            /// <summary>Parameter is a string.</summary>
+            String,
+            /// <summary>Parameter is an array of strings.</summary>
+            StringArr,
+            /// <summary>Parameter is like a string, but should be treated as a date and time.</summary>
+            StringDateTime,
+            /// <summary>Parameter is a bool.</summary>
+            Bool,
+            /// <summary>Parameter is a Dictionary.</summary>
+            Dictionary,
+            /// <summary>Parameter is an array of Tuples.</summary>
+            TupleArr,
+            /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
+            TupleCOD
+        };
+
+        /// <summary>Name of this property.</summary>
+        public string Name;
+
+        /// <summary>The property type (e.g. string, bool, Dictionary).</summary>
+        public Types Type;
+
+        /// <summary>Category of this property.</summary>
+        public string Category;
+
+        /// <summary>Description of this property.</summary>
+        public string Description;
+
+        /// <summary>If this field should be kept when serialzing.</summary>
+        public bool Serialize;
+
+        /// <summary>Constructor.</summary>
+        public Property(string name, Types type, string category, string description, bool serialize)
+        {
+            this.Name = name;
+            this.Type = type;
+            this.Category = category;
+            this.Description = description;
+            this.Serialize = serialize;
+        }
+    }
+
+    /// <summary>Property attribute used to describe a DeathRecord property parameter,
+    /// specifically if the property is a dictionary that has keys.</summary>
+    [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = true)]
+    public class PropertyParam : System.Attribute
+    {
+        /// <summary>If the related property is a Dictionary, the key name.</summary>
+        public string Key;
+
+        /// <summary>Description of this parameter.</summary>
+        public string Description;
+
+        /// <summary>Constructor.</summary>
+        public PropertyParam(string key, string description)
+        {
+            this.Key = key;
+            this.Description = description;
+        }
     }
 }
-
-

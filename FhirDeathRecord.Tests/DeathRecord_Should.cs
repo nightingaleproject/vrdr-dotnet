@@ -36,6 +36,22 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void ToFromDescription()
+        {
+            DeathRecord first = (DeathRecord)XMLRecords[0];
+            string firstDescription = first.ToDescription();
+            DeathRecord second = DeathRecord.FromDescription(firstDescription);
+            Assert.Equal(first.Id, second.Id);
+            Assert.Equal(first.ServedInArmedForces, second.ServedInArmedForces);
+            Assert.Equal(first.GivenNames, second.GivenNames);
+            Assert.Equal(first.AutopsyPerformed, second.AutopsyPerformed);
+            Assert.Equal(first.Race, second.Race);
+            Assert.Equal(first.CausesOfDeath, second.CausesOfDeath);
+            Assert.Equal(first.DeathFromTransportInjury, second.DeathFromTransportInjury);
+            Assert.Equal(first.DetailsOfInjury, second.DetailsOfInjury);
+        }
+
+        [Fact]
         public void SetPatientAfterParse()
         {
             DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
@@ -382,7 +398,6 @@ namespace FhirDeathRecord.Tests
             dictionary.Add("placeOfDeathState", "Massachusetts");
             dictionary.Add("placeOfDeathZip", "01730");
             dictionary.Add("placeOfDeathCountry", "United States");
-            dictionary.Add("placeOfDeathInsideCityLimits", "True");
             SetterDeathRecord.PlaceOfDeath = dictionary;
             Assert.Equal("16983000", SetterDeathRecord.PlaceOfDeath["placeOfDeathTypeCode"]);
             Assert.Equal("http://snomed.info/sct", SetterDeathRecord.PlaceOfDeath["placeOfDeathTypeSystem"]);
@@ -394,7 +409,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", SetterDeathRecord.PlaceOfDeath["placeOfDeathState"]);
             Assert.Equal("01730", SetterDeathRecord.PlaceOfDeath["placeOfDeathZip"]);
             Assert.Equal("United States", SetterDeathRecord.PlaceOfDeath["placeOfDeathCountry"]);
-            Assert.Equal("True", SetterDeathRecord.PlaceOfDeath["placeOfDeathInsideCityLimits"]);
         }
 
         [Fact]
@@ -528,7 +542,6 @@ namespace FhirDeathRecord.Tests
             dictionary.Add("dispositionPlaceState", "Massachusetts");
             dictionary.Add("dispositionPlaceZip", "01730");
             dictionary.Add("dispositionPlaceCountry", "United States");
-            dictionary.Add("dispositionPlaceInsideCityLimits", "True");
             dictionary.Add("funeralFacilityName", "Example funeral facility name");
             dictionary.Add("funeralFacilityLine1", "50 Example Street");
             dictionary.Add("funeralFacilityLine2", "Line 2a");
@@ -537,7 +550,6 @@ namespace FhirDeathRecord.Tests
             dictionary.Add("funeralFacilityState", "Massachusetts");
             dictionary.Add("funeralFacilityZip", "02472");
             dictionary.Add("funeralFacilityCountry", "United States");
-            dictionary.Add("funeralFacilityInsideCityLimits", "False");
             SetterDeathRecord.Disposition = dictionary;
             Assert.Equal("449971000124106", SetterDeathRecord.Disposition["dispositionTypeCode"]);
             Assert.Equal("http://snomed.info/sct", SetterDeathRecord.Disposition["dispositionTypeSystem"]);
@@ -550,7 +562,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", SetterDeathRecord.Disposition["dispositionPlaceState"]);
             Assert.Equal("01730", SetterDeathRecord.Disposition["dispositionPlaceZip"]);
             Assert.Equal("United States", SetterDeathRecord.Disposition["dispositionPlaceCountry"]);
-            Assert.Equal("True", SetterDeathRecord.Disposition["dispositionPlaceInsideCityLimits"]);
             Assert.Equal("Example funeral facility name", SetterDeathRecord.Disposition["funeralFacilityName"]);
             Assert.Equal("50 Example Street", SetterDeathRecord.Disposition["funeralFacilityLine1"]);
             Assert.Equal("Line 2a", SetterDeathRecord.Disposition["funeralFacilityLine2"]);
@@ -559,7 +570,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", SetterDeathRecord.Disposition["funeralFacilityState"]);
             Assert.Equal("02472", SetterDeathRecord.Disposition["funeralFacilityZip"]);
             Assert.Equal("United States", SetterDeathRecord.Disposition["funeralFacilityCountry"]);
-            Assert.Equal("False", SetterDeathRecord.Disposition["funeralFacilityInsideCityLimits"]);
         }
 
         [Fact]
@@ -640,12 +650,12 @@ namespace FhirDeathRecord.Tests
         public void Set_CertifierAddress()
         {
             Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("certifierAddressStreet", "123 Test Street");
+            address.Add("certifierAddressLine1", "123 Test Street");
             address.Add("certifierAddressCity", "Boston");
             address.Add("certifierAddressState", "Massachusetts");
             address.Add("certifierAddressZip", "12345");
             SetterDeathRecord.CertifierAddress = address;
-            Assert.Equal("123 Test Street", SetterDeathRecord.CertifierAddress["certifierAddressStreet"]);
+            Assert.Equal("123 Test Street", SetterDeathRecord.CertifierAddress["certifierAddressLine1"]);
             Assert.Equal("Boston", SetterDeathRecord.CertifierAddress["certifierAddressCity"]);
             Assert.Equal("Massachusetts", SetterDeathRecord.CertifierAddress["certifierAddressState"]);
             Assert.Equal("12345", SetterDeathRecord.CertifierAddress["certifierAddressZip"]);
@@ -655,12 +665,12 @@ namespace FhirDeathRecord.Tests
         public void Get_CertifierAddress()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).CertifierAddress;
-            Assert.Equal("100 Example St.", xmlDictionary["certifierAddressStreet"]);
+            Assert.Equal("100 Example St.", xmlDictionary["certifierAddressLine1"]);
             Assert.Equal("Bedford", xmlDictionary["certifierAddressCity"]);
             Assert.Equal("Massachusetts", xmlDictionary["certifierAddressState"]);
             Assert.Equal("01730", xmlDictionary["certifierAddressZip"]);
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).CertifierAddress;
-            Assert.Equal("100 Example St.", jsonDictionary["certifierAddressStreet"]);
+            Assert.Equal("100 Example St.", jsonDictionary["certifierAddressLine1"]);
             Assert.Equal("Bedford", jsonDictionary["certifierAddressCity"]);
             Assert.Equal("Massachusetts", jsonDictionary["certifierAddressState"]);
             Assert.Equal("01730", jsonDictionary["certifierAddressZip"]);
@@ -1136,48 +1146,44 @@ namespace FhirDeathRecord.Tests
         public void Set_DetailsOfInjury()
         {
             Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
-            detailsOfInjury.Add("placeOfInjuryDescription", "Home");
-            detailsOfInjury.Add("effectiveDateTime", "2018-04-19T11:43:00.0000000+00:00");
-            detailsOfInjury.Add("description", "Example details of injury");
-            detailsOfInjury.Add("placeOfInjuryLine1", "7 Example Street");
-            detailsOfInjury.Add("placeOfInjuryLine2", "Line 2");
-            detailsOfInjury.Add("placeOfInjuryCity", "Bedford");
-            detailsOfInjury.Add("placeOfInjuryState", "Massachusetts");
-            detailsOfInjury.Add("placeOfInjuryZip", "01730");
-            detailsOfInjury.Add("placeOfInjuryCountry", "United States");
-            detailsOfInjury.Add("placeOfInjuryInsideCityLimits", "true");
+            detailsOfInjury.Add("detailsOfInjuryPlaceDescription", "Home");
+            detailsOfInjury.Add("detailsOfInjuryEffectiveDateTime", "2018-04-19T11:43:00.0000000+00:00");
+            detailsOfInjury.Add("detailsOfInjuryDescription", "Example details of injury");
+            detailsOfInjury.Add("detailsOfInjuryLine1", "7 Example Street");
+            detailsOfInjury.Add("detailsOfInjuryLine2", "Line 2");
+            detailsOfInjury.Add("detailsOfInjuryCity", "Bedford");
+            detailsOfInjury.Add("detailsOfInjuryState", "Massachusetts");
+            detailsOfInjury.Add("detailsOfInjuryZip", "01730");
+            detailsOfInjury.Add("detailsOfInjuryCountry", "United States");
             SetterDeathRecord.DetailsOfInjury = detailsOfInjury;
-            Assert.Equal("Home", SetterDeathRecord.DetailsOfInjury["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", SetterDeathRecord.DetailsOfInjury["effectiveDateTime"]);
-            Assert.Equal("Example details of injury", SetterDeathRecord.DetailsOfInjury["description"]);
-            Assert.Equal("7 Example Street", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine1"]);
-            Assert.Equal("Line 2", SetterDeathRecord.DetailsOfInjury["placeOfInjuryLine2"]);
-            Assert.Equal("Bedford", SetterDeathRecord.DetailsOfInjury["placeOfInjuryCity"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.DetailsOfInjury["placeOfInjuryState"]);
-            Assert.Equal("01730", SetterDeathRecord.DetailsOfInjury["placeOfInjuryZip"]);
-            Assert.Equal("United States", SetterDeathRecord.DetailsOfInjury["placeOfInjuryCountry"]);
-            Assert.Equal("True", SetterDeathRecord.DetailsOfInjury["placeOfInjuryInsideCityLimits"]);
+            Assert.Equal("Home", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryPlaceDescription"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryEffectiveDateTime"]);
+            Assert.Equal("Example details of injury", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryDescription"]);
+            Assert.Equal("7 Example Street", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryLine1"]);
+            Assert.Equal("Line 2", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryLine2"]);
+            Assert.Equal("Bedford", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryCity"]);
+            Assert.Equal("Massachusetts", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryState"]);
+            Assert.Equal("01730", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryZip"]);
+            Assert.Equal("United States", SetterDeathRecord.DetailsOfInjury["detailsOfInjuryCountry"]);
         }
 
         [Fact]
         public void Get_DetailsOfInjury()
         {
             Dictionary<string, string> xmlDictionary = ((DeathRecord)XMLRecords[0]).DetailsOfInjury;
-            Assert.Equal("Home", xmlDictionary["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", xmlDictionary["effectiveDateTime"]);
-            Assert.Equal("Example details of injury", xmlDictionary["description"]);
-            Assert.Null(xmlDictionary["placeOfInjuryLine2"]);
-            Assert.Equal("Watertown", xmlDictionary["placeOfInjuryCity"]);
-            Assert.Equal("Massachusetts", xmlDictionary["placeOfInjuryState"]);
-            Assert.Null(xmlDictionary["placeOfInjuryInsideCityLimits"]);
+            Assert.Equal("Home", xmlDictionary["detailsOfInjuryPlaceDescription"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", xmlDictionary["detailsOfInjuryEffectiveDateTime"]);
+            Assert.Equal("Example details of injury", xmlDictionary["detailsOfInjuryDescription"]);
+            Assert.Null(xmlDictionary["detailsOfInjuryLine2"]);
+            Assert.Equal("Watertown", xmlDictionary["detailsOfInjuryCity"]);
+            Assert.Equal("Massachusetts", xmlDictionary["detailsOfInjuryState"]);
             Dictionary<string, string> jsonDictionary = ((DeathRecord)JSONRecords[0]).DetailsOfInjury;
-            Assert.Equal("Home", jsonDictionary["placeOfInjuryDescription"]);
-            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", jsonDictionary["effectiveDateTime"]);
-            Assert.Equal("Example details of injury", jsonDictionary["description"]);
-            Assert.Null(jsonDictionary["placeOfInjuryLine2"]);
-            Assert.Equal("Watertown", jsonDictionary["placeOfInjuryCity"]);
-            Assert.Equal("Massachusetts", jsonDictionary["placeOfInjuryState"]);
-            Assert.Null(jsonDictionary["placeOfInjuryInsideCityLimits"]);
+            Assert.Equal("Home", jsonDictionary["detailsOfInjuryPlaceDescription"]);
+            Assert.Equal("2018-04-19T11:43:00.0000000+00:00", jsonDictionary["detailsOfInjuryEffectiveDateTime"]);
+            Assert.Equal("Example details of injury", jsonDictionary["detailsOfInjuryDescription"]);
+            Assert.Null(jsonDictionary["detailsOfInjuryLine2"]);
+            Assert.Equal("Watertown", jsonDictionary["detailsOfInjuryCity"]);
+            Assert.Equal("Massachusetts", jsonDictionary["detailsOfInjuryState"]);
         }
 
         [Fact]

@@ -4,7 +4,7 @@
     <RootNamespace>FhirDeathRecord</RootNamespace>
     <DocumentationFile>DeathRecord.xml</DocumentationFile>
     <PackageId>FHIRDeathRecord</PackageId>
-    <Version>0.15.0</Version>
+    <Version>0.16.0</Version>
     <ProjectUrl>https://github.com/nightingaleproject/csharp-fhir-death-record</ProjectUrl>
     <RepositoryUrl>https://github.com/nightingaleproject/csharp-fhir-death-record</RepositoryUrl>
     <Title>FHIR Death Record</Title>
@@ -14,7 +14,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.STU3" Version="1.0.0" />
+    <PackageReference Include="Hl7.Fhir.STU3" Version="1.1.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
 </Project>

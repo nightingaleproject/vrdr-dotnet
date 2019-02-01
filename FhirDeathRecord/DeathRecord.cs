@@ -148,7 +148,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");</para>
         /// </example>
-        [Property("Id", Property.Types.String, "Record Details", "The record ID.", true)]
+        [Property("Id", Property.Types.String, "Record Details", "The record ID.", true, 1)]
         public string Id
         {
             get
@@ -169,7 +169,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record was registered on: {ExampleDeathRecord.DateOfRegistration}");</para>
         /// </example>
-        [Property("Date Of Registration", Property.Types.StringDateTime, "Record Details", "Death Record Registration Date.", true)]
+        [Property("Date Of Registration", Property.Types.StringDateTime, "Record Details", "Death Record Registration Date.", true, 2)]
         public string DateOfRegistration
         {
             get
@@ -198,7 +198,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
-        [Property("Given Names", Property.Types.StringArr, "Demographics", "Decedent's Given Name(s).", true)]
+        [Property("Given Names", Property.Types.StringArr, "Demographics", "Decedent's Given Name(s).", true, 3)]
 
         public string[] GivenNames
         {
@@ -231,7 +231,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
-        [Property("Family Name", Property.Types.String, "Demographics", "Decedent's Family Name.", true)]
+        [Property("Family Name", Property.Types.String, "Demographics", "Decedent's Family Name.", true, 4)]
         public string FamilyName
         {
             get
@@ -263,7 +263,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
         /// </example>
-        [Property("Maiden Name", Property.Types.String, "Demographics", "Decedent's Maiden Name.", true)]
+        [Property("Maiden Name", Property.Types.String, "Demographics", "Decedent's Maiden Name.", true, 6)]
         public string MaidenName
         {
             get
@@ -295,7 +295,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
         /// </example>
-        [Property("Suffix", Property.Types.String, "Demographics", "Decedent's Suffix.", true)]
+        [Property("Suffix", Property.Types.String, "Demographics", "Decedent's Suffix.", true, 5)]
         public string Suffix
         {
             get
@@ -329,7 +329,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
         /// </example>
-        [Property("Father's Family Name", Property.Types.String, "Demographics", "Decedent's Father's Family Name.", true)]
+        [Property("Father's Family Name", Property.Types.String, "Demographics", "Decedent's Father's Family Name.", true, 7)]
         public string FatherFamilyName
         {
             get
@@ -372,7 +372,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Gender}");</para>
         /// </example>
-        [Property("Gender", Property.Types.String, "Demographics", "Decedent's Gender.", true)]
+        [Property("Gender", Property.Types.String, "Demographics", "Decedent's Gender.", true, 8)]
         public string Gender
         {
             get
@@ -426,7 +426,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Birth Sex", Property.Types.Dictionary, "Demographics", "Decedent's Birth Sex.", true)]
+        [Property("Birth Sex", Property.Types.Dictionary, "Demographics", "Decedent's Birth Sex.", true, 9)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -461,7 +461,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
-        [Property("Date Of Birth", Property.Types.StringDateTime, "Demographics", "Decedent's Date of Birth.", true)]
+        [Property("Date Of Birth", Property.Types.StringDateTime, "Demographics", "Decedent's Date of Birth.", true, 10)]
 
         public string DateOfBirth
         {
@@ -483,7 +483,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        [Property("Date Of Death", Property.Types.StringDateTime, "Demographics", "Decedent's Date and Time of Death.", true)]
+        [Property("Date Of Death", Property.Types.StringDateTime, "Demographics", "Decedent's Date and Time of Death.", true, 9)]
         public string DateOfDeath
          {
             get
@@ -523,7 +523,7 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.Residence["residenceState"];</para>
         /// <para>Console.WriteLine($"State of residence: {state}");</para>
         /// </example>
-        [Property("Residence", Property.Types.Dictionary, "Demographics", "Decedent's residence.", true)]
+        [Property("Residence", Property.Types.Dictionary, "Demographics", "Decedent's residence.", true, 11)]
         [PropertyParam("residenceLine1", "residence, line one")]
         [PropertyParam("residenceLine2", "residence, line two")]
         [PropertyParam("residenceCity", "residence, city")]
@@ -580,7 +580,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
         /// </example>
-        [Property("SSN", Property.Types.String, "Demographics", "Decedent's Social Security Number.", true)]
+        [Property("SSN", Property.Types.String, "Demographics", "Decedent's Social Security Number.", true, 12)]
         public string SSN
         {
             get
@@ -609,7 +609,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Ethnicity", Property.Types.TupleArr, "Demographics", "Decedent's Ethnicity.", true)]
+        [Property("Ethnicity", Property.Types.TupleArr, "Demographics", "Decedent's Ethnicity.", true, 14)]
         public Tuple<string, string>[] Ethnicity
         {
             get
@@ -670,7 +670,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Race", Property.Types.TupleArr, "Demographics", "Decedent's Race.", true)]
+        [Property("Race", Property.Types.TupleArr, "Demographics", "Decedent's Race.", true, 13)]
         public Tuple<string, string>[] Race
         {
             get
@@ -744,7 +744,7 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"];</para>
         /// <para>Console.WriteLine($"State where decedent was born: {state}");</para>
         /// </example>
-        [Property("Place Of Birth", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Birth.", true)]
+        [Property("Place Of Birth", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Birth.", true, 15)]
         [PropertyParam("placeOfBirthLine1", "location of birth, line one")]
         [PropertyParam("placeOfBirthLine2", "location of birth, line two")]
         [PropertyParam("placeOfBirthCity", "location of birth, city")]
@@ -825,7 +825,7 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.PlaceOfDeath["placeOfDeathState"];</para>
         /// <para>Console.WriteLine($"State where death occurred: {state}");</para>
         /// </example>
-        [Property("Place Of Death", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Death.", true)]
+        [Property("Place Of Death", Property.Types.Dictionary, "Demographics", "Decedent's Place Of Death.", true, 16)]
         [PropertyParam("placeOfDeathTypeCode", "place of death type, code")]
         [PropertyParam("placeOfDeathTypeSystem", "place of death type, code system")]
         [PropertyParam("placeOfDeathTypeDisplay", "place of death type, code display")]
@@ -922,7 +922,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.Dictionary, "Demographics", "Decedent's Marital Status at the time of death.", true)]
+        [Property("Marital Status", Property.Types.Dictionary, "Demographics", "Decedent's Marital Status at the time of death.", true, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -997,7 +997,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
         /// </example>
-        [Property("Disposition", Property.Types.Dictionary, "Disposition", "Disposition of the decedent’s body.", true)]
+        [Property("Disposition", Property.Types.Dictionary, "Disposition", "Disposition of the decedent’s body.", true, 25)]
         [PropertyParam("dispositionTypeCode", "the code describing the method of disposition of the decedent’s remains")]
         [PropertyParam("dispositionTypeSystem", "the code system describing the method of disposition of the decedent’s remains")]
         [PropertyParam("dispositionTypeDisplay", "the human readable code display text that describes the method of disposition of the decedent’s remains")]
@@ -1144,7 +1144,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Degree: {ExampleDeathRecord.Education["display"]}");</para>
         /// </example>
-        [Property("Education", Property.Types.Dictionary, "Demographics", "Decedent’s level of education.", true)]
+        [Property("Education", Property.Types.Dictionary, "Demographics", "Decedent’s level of education.", true, 18)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1179,7 +1179,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age in years at last birthday.: {ExampleDeathRecord.Age}");</para>
         /// </example>
-        [Property("Age", Property.Types.String, "Demographics", "The decedent’s age in years at last birthday.", true)]
+        [Property("Age", Property.Types.String, "Demographics", "The decedent’s age in years at last birthday.", true, 19)]
         public string Age
         {
             get
@@ -1217,7 +1217,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}");</para>
         /// </example>
-        [Property("Served In Armed Forces", Property.Types.Bool, "Demographics", "Whether the decedent ever served in the US armed forces.", true)]
+        [Property("Served In Armed Forces", Property.Types.Bool, "Demographics", "Whether the decedent ever served in the US armed forces.", true, 20)]
         public bool ServedInArmedForces
         {
             get
@@ -1248,7 +1248,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
         /// </example>
-        [Property("Occupation", Property.Types.Dictionary, "Demographics", "Decedent’s usual occupation and industry.", true)]
+        [Property("Occupation", Property.Types.Dictionary, "Demographics", "Decedent’s usual occupation and industry.", true, 21)]
         [PropertyParam("jobDescription", "Type of work done during most of decedent’s working life.")]
         [PropertyParam("industryDescription", "Kind of industry or business in which the decedent worked.")]
         public Dictionary<string, string> Occupation
@@ -1299,7 +1299,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
-        [Property("Certifier's Given Names", Property.Types.StringArr, "Medical", "Given name(s) of certifier.", true)]
+        [Property("Certifier's Given Names", Property.Types.StringArr, "Medical", "Given name(s) of certifier.", true, 31)]
         public string[] CertifierGivenNames
         {
             get
@@ -1331,7 +1331,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");</para>
         /// </example>
-        [Property("Certifier's Family Names", Property.Types.String, "Medical", "Family name of certifier.", true)]
+        [Property("Certifier's Family Name", Property.Types.String, "Medical", "Family name of certifier.", true, 32)]
         public string CertifierFamilyName
         {
             get
@@ -1363,7 +1363,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
-        [Property("Certifier's Suffix", Property.Types.String, "Medical", "Certifier's Suffix.", true)]
+        [Property("Certifier's Suffix", Property.Types.String, "Medical", "Certifier's Suffix.", true, 33)]
         public string CertifierSuffix
         {
             get
@@ -1407,7 +1407,7 @@ namespace FhirDeathRecord
         /// <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Certifier's Address", Property.Types.Dictionary, "Medical", "Address of certifier.", true)]
+        [Property("Certifier's Address", Property.Types.Dictionary, "Medical", "Address of certifier.", true, 34)]
         [PropertyParam("certifierAddressLine1", "certifier address, line one")]
         [PropertyParam("certifierAddressLine2", "certifier address, line two")]
         [PropertyParam("certifierAddressCity", "certifier address, city")]
@@ -1459,7 +1459,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Type: {ExampleDeathRecord.CertifierType['display']}");</para>
         /// </example>
-        [Property("Certifier Type", Property.Types.Dictionary, "Medical", "Certifier Type.", true)]
+        [Property("Certifier Type", Property.Types.Dictionary, "Medical", "Certifier Type.", true, 35)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1498,7 +1498,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         /// </example>
-        [Property("Certifier Qualification", Property.Types.Dictionary, "Medical", "Certifier's Qualification.", true)]
+        [Property("Certifier Qualification", Property.Types.Dictionary, "Medical", "Certifier's Qualification.", true, 36)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1555,7 +1555,7 @@ namespace FhirDeathRecord
         /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Medical", "Conditions that resulted in the cause of death.", true)]
+        [Property("Causes Of Death", Property.Types.TupleCOD, "Medical", "Conditions that resulted in the cause of death.", true, 37)]
         public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
             get
@@ -1965,7 +1965,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
         /// </example>
-        [Property("Contributing Conditions", Property.Types.String, "Medical", "Contributing Conditions", true)]
+        [Property("Contributing Conditions", Property.Types.String, "Medical", "Contributing Conditions", true, 38)]
         public string ContributingConditions
         {
             get
@@ -2018,7 +2018,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
         /// </example>
-        [Property("Autopsy Performed", Property.Types.Bool, "Medical", "Whether an autopsy was performed or not.", true)]
+        [Property("Autopsy Performed", Property.Types.Bool, "Medical", "Whether an autopsy was performed or not.", true, 39)]
         public bool AutopsyPerformed
         {
             get
@@ -2044,7 +2044,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");</para>
         /// </example>
-        [Property("Autopsy Results Available", Property.Types.Bool, "Medical", "Were autopsy findings available to complete the cause of death?", true)]
+        [Property("Autopsy Results Available", Property.Types.Bool, "Medical", "Were autopsy findings available to complete the cause of death?", true, 10)]
         public bool AutopsyResultsAvailable
         {
             get
@@ -2077,7 +2077,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");</para>
         /// </example>
-        [Property("Manner Of Death", Property.Types.Dictionary, "Medical", "The manner of the decendent's demise.", true)]
+        [Property("Manner Of Death", Property.Types.Dictionary, "Medical", "The manner of the decendent's demise.", true, 41)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2120,7 +2120,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");</para>
         /// </example>
-        [Property("Tobacco Use Contributed To Death", Property.Types.Dictionary, "Medical", "Did tobacco use contribute to death?", true)]
+        [Property("Tobacco Use Contributed To Death", Property.Types.Dictionary, "Medical", "Did tobacco use contribute to death?", true, 42)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2155,7 +2155,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");</para>
         /// </example>
-        [Property("Actual Or Presumed Date Of Death", Property.Types.String, "Medical", "Actual or presumed date of death.", true)]
+        [Property("Actual Or Presumed Date Of Death", Property.Types.StringDateTime, "Medical", "Actual or presumed date of death.", true, 43)]
         public string ActualOrPresumedDateOfDeath
         {
             get
@@ -2180,7 +2180,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");</para>
         /// </example>
-        [Property("Date Pronounced Dead", Property.Types.StringDateTime, "Medical", "Date pronounced dead.", true)]
+        [Property("Date Pronounced Dead", Property.Types.StringDateTime, "Medical", "Date pronounced dead.", true, 44)]
         public string DatePronouncedDead
         {
             get
@@ -2205,7 +2205,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");</para>
         /// </example>
-        [Property("Death From Work Injury", Property.Types.Bool, "Medical", "Did death result from injury at work?", true)]
+        [Property("Death From Work Injury", Property.Types.Bool, "Medical", "Did death result from injury at work?", true, 45)]
         public bool DeathFromWorkInjury
         {
             get
@@ -2238,7 +2238,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");</para>
         /// </example>
-        [Property("Death From Transport Injury", Property.Types.Dictionary, "Medical", "Injury leading to death associated with transportation event.", true)]
+        [Property("Death From Transport Injury", Property.Types.Dictionary, "Medical", "Injury leading to death associated with transportation event.", true, 46)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2273,7 +2273,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");</para>
         /// </example>
-        [Property("Medical Examiner Contacted", Property.Types.Bool, "Medical", "Whether a medical examiner or coroner was contacted.", true)]
+        [Property("Medical Examiner Contacted", Property.Types.Bool, "Medical", "Whether a medical examiner or coroner was contacted.", true, 47)]
         public bool MedicalExaminerContacted
         {
             get
@@ -2306,7 +2306,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");</para>
         /// </example>
-        [Property("Timing Of Recent Pregnancy In Relation To Death", Property.Types.Dictionary, "Medical", "Timing Of Recent Pregnancy In Relation To Death.", true)]
+        [Property("Timing Of Recent Pregnancy In Relation To Death", Property.Types.Dictionary, "Medical", "Timing Of Recent Pregnancy In Relation To Death.", true, 48)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2364,7 +2364,7 @@ namespace FhirDeathRecord
         /// <para>string state = ExampleDeathRecord.DetailsOfInjury["detailsOfInjuryState"];</para>
         /// <para>Console.WriteLine($"State where injury occurred: {state}");</para>
         /// </example>
-        [Property("Details Of Injury", Property.Types.Dictionary, "Medical", "Injury incident description.", true)]
+        [Property("Details Of Injury", Property.Types.Dictionary, "Medical", "Injury incident description.", true, 49)]
         [PropertyParam("detailsOfInjuryPlaceDescription", "description of the place of injury")]
         [PropertyParam("detailsOfInjuryEffectiveDateTime", "effective date and time of injury")]
         [PropertyParam("detailsOfInjuryDescription", "description of the injury")]
@@ -2711,7 +2711,7 @@ namespace FhirDeathRecord
         public string ToDescription()
         {
             Dictionary<string, Dictionary<string, dynamic>> description = new Dictionary<string, Dictionary<string, dynamic>>();
-            foreach(PropertyInfo property in typeof(DeathRecord).GetProperties())
+            foreach(PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => ((Property)p.GetCustomAttributes().First()).Priority))
             {
                 // Grab property annotation for this property
                 Property info = (Property)property.GetCustomAttributes().First();
@@ -2859,14 +2859,18 @@ namespace FhirDeathRecord
         /// <summary>If this field should be kept when serialzing.</summary>
         public bool Serialize;
 
+        /// <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
+        public int Priority;
+
         /// <summary>Constructor.</summary>
-        public Property(string name, Types type, string category, string description, bool serialize)
+        public Property(string name, Types type, string category, string description, bool serialize, int priority = 1)
         {
             this.Name = name;
             this.Type = type;
             this.Category = category;
             this.Description = description;
             this.Serialize = serialize;
+            this.Priority = priority;
         }
     }
 

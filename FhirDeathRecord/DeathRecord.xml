@@ -872,7 +872,10 @@
         <member name="F:FhirDeathRecord.Property.Serialize">
             <summary>If this field should be kept when serialzing.</summary>
         </member>
-        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean)">
+        <member name="F:FhirDeathRecord.Property.Priority">
+            <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.Int32)">
             <summary>Constructor.</summary>
         </member>
         <member name="T:FhirDeathRecord.PropertyParam">

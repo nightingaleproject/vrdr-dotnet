@@ -1461,6 +1461,7 @@ namespace FhirDeathRecord
                 string county = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.district");
                 string state = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.state");
                 string zip = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.postalCode");
+                string country = GetFirstString("Bundle.entry.resource.where($this is Practitioner).address.country");
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
                 dictionary.Add("certifierAddressLine1", line1);
                 dictionary.Add("certifierAddressLine2", line2);
@@ -1468,6 +1469,7 @@ namespace FhirDeathRecord
                 dictionary.Add("certifierAddressCounty", county);
                 dictionary.Add("certifierAddressState", state);
                 dictionary.Add("certifierAddressZip", zip);
+                dictionary.Add("certifierAddressCountry", country);
                 return dictionary;
             }
             set
@@ -1479,6 +1481,7 @@ namespace FhirDeathRecord
                 address.District = GetValue(value, "certifierAddressCounty");
                 address.State = GetValue(value, "certifierAddressState");
                 address.PostalCodeElement = new FhirString(GetValue(value, "certifierAddressZip"));
+                address.Country = GetValue(value, "certifierAddressCountry");
                 Practitioner.Address = new List<Hl7.Fhir.Model.Address>();
                 Practitioner.Address.Add(address);
             }

@@ -2819,7 +2819,7 @@ namespace FhirDeathRecord
                                 new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
                         if (jsonRoot != null && jsonRoot.Keys.Contains(path.Element))
                         {
-                            category[property.Name]["SnippetJSON"] = $"\"{path.Element}\": \"{jsonRoot[path.Element]}\"";
+                            category[property.Name]["SnippetJSON"] = "{" + $"\"{path.Element}\": \"{jsonRoot[path.Element]}\"" + "}";
                         }
                         else
                         {
@@ -2890,6 +2890,10 @@ namespace FhirDeathRecord
                     if (property.Value["Type"] == Property.Types.String || property.Value["Type"] == Property.Types.StringDateTime)
                     {
                         value = property.Value["Value"].ToString();
+                        if (String.IsNullOrWhiteSpace((string)value))
+                        {
+                            value = null;
+                        }
                     }
                     else if (property.Value["Type"] == Property.Types.StringArr)
                     {

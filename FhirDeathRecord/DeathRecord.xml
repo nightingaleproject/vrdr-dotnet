@@ -51,6 +51,10 @@
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
+        <member name="M:FhirDeathRecord.DeathRecord.GetITypedElement">
+            <summary>Helper method to return an ITypedElement of the record bundle.</summary>
+            <returns>an ITypedElement of the record bundle</returns>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.Id">
             <summary>Death Record ID.</summary>
             <value>the record identification</value>

@@ -135,6 +135,13 @@ namespace FhirDeathRecord
             return Bundle.ToJson();
         }
 
+        /// <summary>Helper method to return an ITypedElement of the record bundle.</summary>
+        /// <returns>an ITypedElement of the record bundle</returns>
+        public ITypedElement GetITypedElement()
+        {
+            return Navigator;
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -2794,10 +2801,10 @@ namespace FhirDeathRecord
                         foreach(var match in matches)
                         {
                             xml += match.ToXml();
-                            json += match.ToJson();
+                            json += match.ToJson() + ",";
                         }
                         category[property.Name]["SnippetXML"] = xml;
-                        category[property.Name]["SnippetJSON"] = json;
+                        category[property.Name]["SnippetJSON"] = "[" + json + "]";
                     }
                     else if (!String.IsNullOrWhiteSpace(path.Element))
                     {

@@ -9,7 +9,16 @@ This repository includes C# code for producing and consuming the preliminary ver
 This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 #### Usage
-You can include the library by referencing it in your project configuration, for example (taken from FhirDeathRecord.CLI):
+This library is published on NuGet, so including it is as easy as:
+```xml
+<ItemGroup>
+  ...
+  <PackageReference Include="FHIRDeathRecord" Version="0.17.0" />
+  ...
+</ItemGroup>
+```
+
+You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from FhirDeathRecord.CLI):
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   ...

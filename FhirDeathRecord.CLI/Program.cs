@@ -184,6 +184,12 @@ namespace FhirDeathRecord.CLI
                 Console.WriteLine(deathRecord.ToJSON() + "\n\n");
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "description")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(d.ToDescription());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "2ije")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));

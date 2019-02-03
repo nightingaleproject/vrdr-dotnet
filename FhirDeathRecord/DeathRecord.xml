@@ -891,6 +891,18 @@
         <member name="M:FhirDeathRecord.PropertyParam.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
+        <member name="T:FhirDeathRecord.FHIRPath">
+            <summary>Describes a FHIR path that can be used to get to the element.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.FHIRPath.Path">
+            <summary>The relevant FHIR path.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.FHIRPath.Element">
+            <summary>The relevant element.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.FHIRPath.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
+        </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>

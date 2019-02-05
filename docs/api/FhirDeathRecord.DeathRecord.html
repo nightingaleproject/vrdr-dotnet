@@ -1,0 +1,2607 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class DeathRecord
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class DeathRecord
+   ">
+    <meta name="generator" content="docfx 2.38.1.0">
+    
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="FhirDeathRecord.DeathRecord">
+  
+  
+  <h1 id="FhirDeathRecord_DeathRecord" data-uid="FhirDeathRecord.DeathRecord" class="text-break">Class DeathRecord
+  </h1>
+  <div class="markdown level0 summary"><p>Class <code>DeathRecord</code> models a FHIR Standard Death Record (SDR).
+For consuming a FHIR SDR (in either XML or JSON format), there is a constructor that
+takes a string, which will parse the given FHIR SDR and build a new <code>DeathRecord</code> that
+represents it. You can then use the various property getters to infer details about the
+record.
+For producing a new FHIR SDR, there is a default no-param constructor that creates the bare
+bones necessary for a new record. You can then use the various property setters to
+populate details of the record. All <code>DeathRecord</code>s can be converted to FHIR XML or JSON
+suitable for transmission, by making use of the <code>ToXML()</code> and <code>ToJSON()</code> methods.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">DeathRecord</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="FhirDeathRecord.html">FhirDeathRecord</a></h6>
+  <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
+  <h5 id="FhirDeathRecord_DeathRecord_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class DeathRecord</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord__ctor_" data-uid="FhirDeathRecord.DeathRecord.#ctor*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord__ctor" data-uid="FhirDeathRecord.DeathRecord.#ctor">DeathRecord()</h4>
+  <div class="markdown level1 summary"><p>Default constructor that creates a new, empty FHIR SDR.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DeathRecord()</code></pre>
+  </div>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord__ctor_" data-uid="FhirDeathRecord.DeathRecord.#ctor*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord__ctor_System_String_System_Boolean_" data-uid="FhirDeathRecord.DeathRecord.#ctor(System.String,System.Boolean)">DeathRecord(String, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DeathRecord(string record, bool permissive = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">record</span></td>
+        <td><p>represents a FHIR SDR in either XML or JSON format.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">permissive</span></td>
+        <td><p>if the parser should be permissive when parsing the given string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Record is neither valid XML nor JSON.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ActualOrPresumedDateOfDeath_" data-uid="FhirDeathRecord.DeathRecord.ActualOrPresumedDateOfDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ActualOrPresumedDateOfDeath" data-uid="FhirDeathRecord.DeathRecord.ActualOrPresumedDateOfDeath">ActualOrPresumedDateOfDeath</h4>
+  <div class="markdown level1 summary"><p>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Actual Or Presumed Date Of Death&quot;, Property.Types.StringDateTime, &quot;Medical&quot;, &quot;Actual or presumed date of death.&quot;, true, 43)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')&quot;, &quot;&quot;)]
+public string ActualOrPresumedDateOfDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Actual or presumed date of death</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_ActualOrPresumedDateOfDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.ActualOrPresumedDateOfDeath = &quot;2018-04-24T00:00:00+00:00&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Age_" data-uid="FhirDeathRecord.DeathRecord.Age*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Age" data-uid="FhirDeathRecord.DeathRecord.Age">Age</h4>
+  <div class="markdown level1 summary"><p>The decedent’s age in years at last birthday. Corresponds to item 4a of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Age&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;The decedent&#8217;s age in years at last birthday.&quot;, true, 19)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Age-extension')&quot;, &quot;&quot;)]
+public string Age { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The decedent’s age in years at last birthday.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Age_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.Age = &quot;100&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Age in years at last birthday.: {ExampleDeathRecord.Age}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_AutopsyPerformed_" data-uid="FhirDeathRecord.DeathRecord.AutopsyPerformed*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_AutopsyPerformed" data-uid="FhirDeathRecord.DeathRecord.AutopsyPerformed">AutopsyPerformed</h4>
+  <div class="markdown level1 summary"><p>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
+Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Autopsy Performed&quot;, Property.Types.Bool, &quot;Medical&quot;, &quot;Whether an autopsy was performed or not.&quot;, true, 39)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')&quot;, &quot;&quot;)]
+public bool AutopsyPerformed { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Whether an autopsy was performed (true) or not (false)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_AutopsyPerformed_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.AutopsyPerformed = true;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_AutopsyResultsAvailable_" data-uid="FhirDeathRecord.DeathRecord.AutopsyResultsAvailable*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_AutopsyResultsAvailable" data-uid="FhirDeathRecord.DeathRecord.AutopsyResultsAvailable">AutopsyResultsAvailable</h4>
+  <div class="markdown level1 summary"><p>Were autopsy findings available to complete the cause of death? Corresponds to item 34 of the U.S.
+Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Autopsy Results Available&quot;, Property.Types.Bool, &quot;Medical&quot;, &quot;Were autopsy findings available to complete the cause of death?&quot;, true, 10)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69436-4')&quot;, &quot;&quot;)]
+public bool AutopsyResultsAvailable { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Were autopsy findings available to complete the cause of death?</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_AutopsyResultsAvailable_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.AutopsyResultsAvailable = true;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_BirthSex_" data-uid="FhirDeathRecord.DeathRecord.BirthSex*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_BirthSex" data-uid="FhirDeathRecord.DeathRecord.BirthSex">BirthSex</h4>
+  <div class="markdown level1 summary"><p>Decedent's Birth Sex.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Birth Sex&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent's Birth Sex.&quot;, true, 9)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; BirthSex { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>the decedent's birth sex</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_BirthSex_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;M&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Male&quot;);</p>
+<p>ExampleDeathRecord.BirthSex = code;</p>
+<p>// Getter:</p>
+<p>foreach(var pair in ExampleDeathRecord.BirthSex)</p>
+<p>{</p>
+<p>      Console.WriteLine($&quot;\tAddress key: {pair.Key}: value: {pair.Value}&quot;);</p>
+<p>};</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CausesOfDeath_" data-uid="FhirDeathRecord.DeathRecord.CausesOfDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CausesOfDeath" data-uid="FhirDeathRecord.DeathRecord.CausesOfDeath">CausesOfDeath</h4>
+  <div class="markdown level1 summary"><p>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
+Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Causes Of Death&quot;, Property.Types.TupleCOD, &quot;Medical&quot;, &quot;Conditions that resulted in the cause of death.&quot;, true, 37)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Condition).where(onset.empty().not())&quot;, &quot;&quot;)]
+public Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] CausesOfDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;[]</td>
+        <td><p>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
+appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple &quot;Item1&quot;) the
+approximate onset to death (Tuple &quot;Item2&quot;), and an (optional) Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CausesOfDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Tuple&lt;string, string, Dictionary&lt;string, string>>[] causes =</p>
+<p>{</p>
+<p>    Tuple.Create(&quot;Example Immediate COD&quot;, &quot;minutes&quot;, new Dictionary&lt;string, string>(){ {&quot;code&quot;, &quot;1234&quot;}, {&quot;system&quot;, &quot;example&quot;} }),</p>
+<p>    Tuple.Create(&quot;Example Underlying COD 1&quot;, &quot;2 hours&quot;, new Dictionary&lt;string, string>()),</p>
+<p>    Tuple.Create(&quot;Example Underlying COD 2&quot;, &quot;6 months&quot;, new Dictionary&lt;string, string>()),</p>
+<p>    Tuple.Create(&quot;Example Underlying COD 3&quot;, &quot;15 years&quot;, new Dictionary&lt;string, string>())</p>
+<p>};</p>
+<p>ExampleDeathRecord.CausesOfDeath = causes;</p>
+<p>// Getter:</p>
+<p>Tuple&lt;string, string>[] causes = ExampleDeathRecord.CausesOfDeath;</p>
+<p>foreach (var cause in causes)</p>
+<p>{</p>
+<p>    Console.WriteLine($&quot;Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}&quot;);</p>
+<p>}</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierAddress_" data-uid="FhirDeathRecord.DeathRecord.CertifierAddress*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierAddress" data-uid="FhirDeathRecord.DeathRecord.CertifierAddress">CertifierAddress</h4>
+  <div class="markdown level1 summary"><p>Address of certifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier's Address&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Address of certifier.&quot;, true, 34)]
+[PropertyParam(&quot;certifierAddressLine1&quot;, &quot;certifier address, line one&quot;)]
+[PropertyParam(&quot;certifierAddressLine2&quot;, &quot;certifier address, line two&quot;)]
+[PropertyParam(&quot;certifierAddressCity&quot;, &quot;certifier address, city&quot;)]
+[PropertyParam(&quot;certifierAddressCounty&quot;, &quot;certifier address, county&quot;)]
+[PropertyParam(&quot;certifierAddressState&quot;, &quot;certifier address, state&quot;)]
+[PropertyParam(&quot;certifierAddressZip&quot;, &quot;certifier address, zip&quot;)]
+[PropertyParam(&quot;certifierAddressCountry&quot;, &quot;certifier address, country&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner)&quot;, &quot;address&quot;)]
+public Dictionary&lt;string, string&gt; CertifierAddress { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>the certifier's address</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierAddress_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> address = new Dictionary&lt;string, string>();</p>
+<p>address.Add(&quot;certifierAddressLine1&quot;, &quot;123 Test Street&quot;);</p>
+<p>address.Add(&quot;certifierAddressLine2&quot;, &quot;Unit 3&quot;);</p>
+<p>address.Add(&quot;certifierAddressCity&quot;, &quot;Boston&quot;);</p>
+<p>address.Add(&quot;certifierAddressCounty&quot;, &quot;Suffolk&quot;);</p>
+<p>address.Add(&quot;certifierAddressState&quot;, &quot;Massachusetts&quot;);</p>
+<p>address.Add(&quot;certifierAddressZip&quot;, &quot;12345&quot;);</p>
+<p>ExampleDeathRecord.CertifierAddress = address;</p>
+<p>// Getter:</p>
+<p>foreach(var pair in ExampleDeathRecord.CertifierAddress)</p>
+<p>{</p>
+<p>      Console.WriteLine($&quot;\tCertifierAddress key: {pair.Key}: value: {pair.Value}&quot;);</p>
+<p>};</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierFamilyName_" data-uid="FhirDeathRecord.DeathRecord.CertifierFamilyName*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierFamilyName" data-uid="FhirDeathRecord.DeathRecord.CertifierFamilyName">CertifierFamilyName</h4>
+  <div class="markdown level1 summary"><p>Family name of certifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier's Family Name&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Family name of certifier.&quot;, true, 32)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner)&quot;, &quot;name&quot;)]
+public string CertifierFamilyName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the certifier's family name (i.e. last name)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierFamilyName_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.CertifierFamilyName = &quot;Last&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Certifier&apos;s Last Name: {string.Join(&quot;, &quot;, ExampleDeathRecord.CertifierFamilyName)}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierGivenNames_" data-uid="FhirDeathRecord.DeathRecord.CertifierGivenNames*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierGivenNames" data-uid="FhirDeathRecord.DeathRecord.CertifierGivenNames">CertifierGivenNames</h4>
+  <div class="markdown level1 summary"><p>Given name(s) of certifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier's Given Names&quot;, Property.Types.StringArr, &quot;Medical&quot;, &quot;Given name(s) of certifier.&quot;, true, 31)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner)&quot;, &quot;name&quot;)]
+public string[] CertifierGivenNames { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><p>the certifier's name (first, middle, etc.)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierGivenNames_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>string[] names = {&quot;Doctor&quot;, &quot;Middle&quot;};</p>
+<p>ExampleDeathRecord.CertifierGivenNames = names;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Certifier Given Name(s): {string.Join(&quot;, &quot;, ExampleDeathRecord.CertifierGivenNames)}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierQualification_" data-uid="FhirDeathRecord.DeathRecord.CertifierQualification*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierQualification" data-uid="FhirDeathRecord.DeathRecord.CertifierQualification">CertifierQualification</h4>
+  <div class="markdown level1 summary"><p>Certifier Qualification.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier Qualification&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Certifier's Qualification.&quot;, true, 36)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner)&quot;, &quot;qualification&quot;)]
+public Dictionary&lt;string, string&gt; CertifierQualification { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>the certifier qualification</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierQualification_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> qualification = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;MD&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://hl7.org/fhir/v2/0360/2.7&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Doctor of Medicine&quot;);</p>
+<p>ExampleDeathRecord.CertifierQualification = qualification;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification[&apos;display&apos;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierSuffix_" data-uid="FhirDeathRecord.DeathRecord.CertifierSuffix*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierSuffix" data-uid="FhirDeathRecord.DeathRecord.CertifierSuffix">CertifierSuffix</h4>
+  <div class="markdown level1 summary"><p>Certifier's Suffix.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier's Suffix&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Certifier's Suffix.&quot;, true, 33)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner)&quot;, &quot;name&quot;)]
+public string CertifierSuffix { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the certifier's suffix</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierSuffix_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.CertifierSuffix = &quot;Jr.&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CertifierType_" data-uid="FhirDeathRecord.DeathRecord.CertifierType*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CertifierType" data-uid="FhirDeathRecord.DeathRecord.CertifierType">CertifierType</h4>
+  <div class="markdown level1 summary"><p>Certifier Type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Certifier Type&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Certifier Type.&quot;, true, 35)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Practitioner).extension.where(url = 'http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-deathRecord-CertifierType-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; CertifierType { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>the certifier type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_CertifierType_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> type = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;434651000124107&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Physician (Pronouncer and Certifier)&quot;);</p>
+<p>ExampleDeathRecord.CertifierType = type;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;\tCertifier Type: {ExampleDeathRecord.CertifierType[&apos;display&apos;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_COD1A_" data-uid="FhirDeathRecord.DeathRecord.COD1A*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_COD1A" data-uid="FhirDeathRecord.DeathRecord.COD1A">COD1A</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I, Line a.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;COD1A&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I, Line a.&quot;, false, 1)]
+public string COD1A { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_COD1B_" data-uid="FhirDeathRecord.DeathRecord.COD1B*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_COD1B" data-uid="FhirDeathRecord.DeathRecord.COD1B">COD1B</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I, Line b.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;COD1B&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I, Line b.&quot;, false, 1)]
+public string COD1B { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_COD1C_" data-uid="FhirDeathRecord.DeathRecord.COD1C*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_COD1C" data-uid="FhirDeathRecord.DeathRecord.COD1C">COD1C</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I, Line c.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;COD1C&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I, Line c.&quot;, false, 1)]
+public string COD1C { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_COD1D_" data-uid="FhirDeathRecord.DeathRecord.COD1D*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_COD1D" data-uid="FhirDeathRecord.DeathRecord.COD1D">COD1D</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I, Line d.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;COD1D&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I, Line d.&quot;, false, 1)]
+public string COD1D { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CODE1A_" data-uid="FhirDeathRecord.DeathRecord.CODE1A*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CODE1A" data-uid="FhirDeathRecord.DeathRecord.CODE1A">CODE1A</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Code, Line a.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;CODE1A&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Code, Line a.&quot;, false, 1)]
+public Dictionary&lt;string, string&gt; CODE1A { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CODE1B_" data-uid="FhirDeathRecord.DeathRecord.CODE1B*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CODE1B" data-uid="FhirDeathRecord.DeathRecord.CODE1B">CODE1B</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Code, Line b.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;CODE1B&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Code, Line b.&quot;, false, 1)]
+public Dictionary&lt;string, string&gt; CODE1B { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CODE1C_" data-uid="FhirDeathRecord.DeathRecord.CODE1C*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CODE1C" data-uid="FhirDeathRecord.DeathRecord.CODE1C">CODE1C</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Code, Line c.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;CODE1C&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Code, Line c.&quot;, false, 1)]
+public Dictionary&lt;string, string&gt; CODE1C { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_CODE1D_" data-uid="FhirDeathRecord.DeathRecord.CODE1D*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_CODE1D" data-uid="FhirDeathRecord.DeathRecord.CODE1D">CODE1D</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Code, Line d.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;CODE1D&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Code, Line d.&quot;, false, 1)]
+public Dictionary&lt;string, string&gt; CODE1D { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ContributingConditions_" data-uid="FhirDeathRecord.DeathRecord.ContributingConditions*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ContributingConditions" data-uid="FhirDeathRecord.DeathRecord.ContributingConditions">ContributingConditions</h4>
+  <div class="markdown level1 summary"><p>A significant condition that contributed to death but did not result in the underlying cause
+captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Contributing Conditions&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Contributing Conditions&quot;, true, 38)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Condition).where(onset.empty())&quot;, &quot;&quot;)]
+public string ContributingConditions { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>A significant condition that contributed to death but did not result in the underlying cause
+captured by a CauseOfDeathCondition.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_ContributingConditions_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.ContributingConditions = &quot;Example Contributing Condition&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Cause: {ExampleDeathRecord.ContributingConditions}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DateOfBirth_" data-uid="FhirDeathRecord.DeathRecord.DateOfBirth*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DateOfBirth" data-uid="FhirDeathRecord.DeathRecord.DateOfBirth">DateOfBirth</h4>
+  <div class="markdown level1 summary"><p>Decedent's Date of Birth.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Date Of Birth&quot;, Property.Types.StringDateTime, &quot;Demographics&quot;, &quot;Decedent's Date of Birth.&quot;, true, 10)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;birthDate&quot;)]
+public string DateOfBirth { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's date of birth</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DateOfBirth_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.DateOfBirth = &quot;1970-04-24&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Suffix: {ExampleDeathRecord.DateOfBirth}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DateOfDeath_" data-uid="FhirDeathRecord.DeathRecord.DateOfDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DateOfDeath" data-uid="FhirDeathRecord.DeathRecord.DateOfDeath">DateOfDeath</h4>
+  <div class="markdown level1 summary"><p>Decedent's Date and Time of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Date Of Death&quot;, Property.Types.StringDateTime, &quot;Demographics&quot;, &quot;Decedent's Date and Time of Death.&quot;, true, 9)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;deceasedDateTime&quot;)]
+public string DateOfDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's date and time of death</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DateOfDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.DateOfDeath = &quot;1970-04-24&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Suffix: {ExampleDeathRecord.DateOfDeath}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DateOfRegistration_" data-uid="FhirDeathRecord.DeathRecord.DateOfRegistration*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DateOfRegistration" data-uid="FhirDeathRecord.DeathRecord.DateOfRegistration">DateOfRegistration</h4>
+  <div class="markdown level1 summary"><p>Death Record Registration Date.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Date Of Registration&quot;, Property.Types.StringDateTime, &quot;Record Details&quot;, &quot;Death Record Registration Date.&quot;, true, 2)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Composition)&quot;, &quot;date&quot;)]
+public string DateOfRegistration { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>when the record was registered</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DateOfRegistration_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.DateOfRegistration = &quot;2018-07-11&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Record was registered on: {ExampleDeathRecord.DateOfRegistration}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DatePronouncedDead_" data-uid="FhirDeathRecord.DeathRecord.DatePronouncedDead*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DatePronouncedDead" data-uid="FhirDeathRecord.DeathRecord.DatePronouncedDead">DatePronouncedDead</h4>
+  <div class="markdown level1 summary"><p>Date pronounced dead. Corresponds to items 24 and 25 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Date Pronounced Dead&quot;, Property.Types.StringDateTime, &quot;Medical&quot;, &quot;Date pronounced dead.&quot;, true, 44)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')&quot;, &quot;&quot;)]
+public string DatePronouncedDead { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Date pronounced dead</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DatePronouncedDead_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.DatePronouncedDead = &quot;2018-04-24T00:00:00+00:00&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DeathFromTransportInjury_" data-uid="FhirDeathRecord.DeathRecord.DeathFromTransportInjury*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DeathFromTransportInjury" data-uid="FhirDeathRecord.DeathRecord.DeathFromTransportInjury">DeathFromTransportInjury</h4>
+  <div class="markdown level1 summary"><p>Injury leading to death associated with transportation event. Corresponds to item 44 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Death From Transport Injury&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Injury leading to death associated with transportation event.&quot;, true, 46)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69448-9')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; DeathFromTransportInjury { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Injury leading to death associated with transportation event. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DeathFromTransportInjury_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;236320001&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Vehicle driver&quot;);</p>
+<p>ExampleDeathRecord.DeathFromTransportInjury = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury[&quot;display&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DeathFromWorkInjury_" data-uid="FhirDeathRecord.DeathRecord.DeathFromWorkInjury*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DeathFromWorkInjury" data-uid="FhirDeathRecord.DeathRecord.DeathFromWorkInjury">DeathFromWorkInjury</h4>
+  <div class="markdown level1 summary"><p>Did death result from injury at work? Corresponds to item 41 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Death From Work Injury&quot;, Property.Types.Bool, &quot;Medical&quot;, &quot;Did death result from injury at work?&quot;, true, 45)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69444-8')&quot;, &quot;&quot;)]
+public bool DeathFromWorkInjury { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Did death result from injury at work?</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DeathFromWorkInjury_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.DeathFromWorkInjury = true;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_DetailsOfInjury_" data-uid="FhirDeathRecord.DeathRecord.DetailsOfInjury*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_DetailsOfInjury" data-uid="FhirDeathRecord.DeathRecord.DetailsOfInjury">DetailsOfInjury</h4>
+  <div class="markdown level1 summary"><p>Injury incident description.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Details Of Injury&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Injury incident description.&quot;, true, 49)]
+[PropertyParam(&quot;detailsOfInjuryPlaceDescription&quot;, &quot;description of the place of injury&quot;)]
+[PropertyParam(&quot;detailsOfInjuryEffectiveDateTime&quot;, &quot;effective date and time of injury&quot;)]
+[PropertyParam(&quot;detailsOfInjuryDescription&quot;, &quot;description of the injury&quot;)]
+[PropertyParam(&quot;detailsOfInjuryLine1&quot;, &quot;location of injury, line one&quot;)]
+[PropertyParam(&quot;detailsOfInjuryLine2&quot;, &quot;location of injury, line two&quot;)]
+[PropertyParam(&quot;detailsOfInjuryCity&quot;, &quot;location of injury, city&quot;)]
+[PropertyParam(&quot;detailsOfInjuryCounty&quot;, &quot;location of injury, county&quot;)]
+[PropertyParam(&quot;detailsOfInjuryState&quot;, &quot;location of injury, state&quot;)]
+[PropertyParam(&quot;detailsOfInjuryZip&quot;, &quot;location of injury, zip&quot;)]
+[PropertyParam(&quot;detailsOfInjuryCountry&quot;, &quot;location of injury, country&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; DetailsOfInjury { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:</p>
+<p>&quot;detailsOfInjuryPlaceDescription&quot; - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</p>
+<p>&quot;detailsOfInjuryEffectiveDateTime&quot; - effective date and time of injury</p>
+<p>&quot;detailsOfInjuryDescription&quot; - description of the injury</p>
+<p>&quot;detailsOfInjuryLine1&quot; - location of injury, line one</p>
+<p>&quot;detailsOfInjuryLine2&quot; - location of injury, line two</p>
+<p>&quot;detailsOfInjuryCity&quot; - location of injury, city</p>
+<p>&quot;detailsOfInjuryCounty&quot; - location of injury, county</p>
+<p>&quot;detailsOfInjuryState&quot; - location of injury, state</p>
+<p>&quot;detailsOfInjuryZip&quot; - location of injury, zip</p>
+<p>&quot;detailsOfInjuryCountry&quot; - location of injury, country</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_DetailsOfInjury_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> detailsOfInjury = new Dictionary&lt;string, string>();</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryPlaceDescription&quot;, &quot;Home&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryEffectiveDateTime&quot;, &quot;2018-04-19T15:43:00+00:00&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryDescription&quot;, &quot;Example details of injury&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryLine1&quot;, &quot;7 Example Street&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryLine2&quot;, &quot;Unit 1234&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryCity&quot;, &quot;Bedford&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryState&quot;, &quot;Massachusetts&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryZip&quot;, &quot;01730&quot;);</p>
+<p>detailsOfInjury.Add(&quot;detailsOfInjuryCountry&quot;, &quot;United States&quot;);</p>
+<p>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</p>
+<p>// Getter:</p>
+<p>string state = ExampleDeathRecord.DetailsOfInjury[&quot;detailsOfInjuryState&quot;];</p>
+<p>Console.WriteLine($&quot;State where injury occurred: {state}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Disposition_" data-uid="FhirDeathRecord.DeathRecord.Disposition*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Disposition" data-uid="FhirDeathRecord.DeathRecord.Disposition">Disposition</h4>
+  <div class="markdown level1 summary"><p>Disposition of the decedent’s body. Corresponds to items 18, 19, 20, 21, 22 and 23 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Disposition&quot;, Property.Types.Dictionary, &quot;Disposition&quot;, &quot;Disposition of the decedent&#8217;s body.&quot;, true, 25)]
+[PropertyParam(&quot;dispositionTypeCode&quot;, &quot;the code describing the method of disposition of the decedent&#8217;s remains&quot;)]
+[PropertyParam(&quot;dispositionTypeSystem&quot;, &quot;the code system describing the method of disposition of the decedent&#8217;s remains&quot;)]
+[PropertyParam(&quot;dispositionTypeDisplay&quot;, &quot;the human readable code display text that describes the method of disposition of the decedent&#8217;s remains&quot;)]
+[PropertyParam(&quot;dispositionPlaceLine1&quot;, &quot;disposition place address, line one&quot;)]
+[PropertyParam(&quot;dispositionPlaceLine2&quot;, &quot;disposition place address, line two&quot;)]
+[PropertyParam(&quot;dispositionPlaceCity&quot;, &quot;disposition place address, city&quot;)]
+[PropertyParam(&quot;dispositionPlaceCounty&quot;, &quot;disposition place address, county&quot;)]
+[PropertyParam(&quot;dispositionPlaceState&quot;, &quot;disposition place address, state&quot;)]
+[PropertyParam(&quot;dispositionPlaceZip&quot;, &quot;disposition place address, zip&quot;)]
+[PropertyParam(&quot;dispositionPlaceCountry&quot;, &quot;disposition place address, country&quot;)]
+[PropertyParam(&quot;funeralFacilityName&quot;, &quot;the name of a funeral facility or institution&quot;)]
+[PropertyParam(&quot;dispositionPlaceLine1&quot;, &quot;funeral facility address, line one&quot;)]
+[PropertyParam(&quot;dispositionPlaceLine2&quot;, &quot;funeral facility address, line two&quot;)]
+[PropertyParam(&quot;dispositionPlaceCity&quot;, &quot;funeral facility address, city&quot;)]
+[PropertyParam(&quot;dispositionPlaceCounty&quot;, &quot;funeral facility address, county&quot;)]
+[PropertyParam(&quot;dispositionPlaceState&quot;, &quot;funeral facility address, state&quot;)]
+[PropertyParam(&quot;dispositionPlaceZip&quot;, &quot;funeral facility address, zip&quot;)]
+[PropertyParam(&quot;dispositionPlaceCountry&quot;, &quot;funeral facility address, country&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Disposition-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; Disposition { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Disposition of the decedent’s body. A Dictionary representing the disposition, containing the following key/value pairs:</p>
+<p>&quot;dispositionTypeCode&quot; - the code describing the method of disposition of the decedent’s remains</p>
+<p>&quot;dispositionTypeSystem&quot; - the code system describing the method of disposition of the decedent’s remains</p>
+<p>&quot;dispositionTypeDisplay&quot; - the human readable code display text that describes the method of disposition of the decedent’s remains</p>
+<p>&quot;dispositionPlaceName&quot; - the name of the disposition place</p>
+<p>&quot;dispositionPlaceLine1&quot; - disposition place address, line one</p>
+<p>&quot;dispositionPlaceLine2&quot; - disposition place address, line two</p>
+<p>&quot;dispositionPlaceCity&quot; - disposition place address, city</p>
+<p>&quot;dispositionPlaceCounty&quot; - disposition place address, county</p>
+<p>&quot;dispositionPlaceState&quot; - disposition place address, state</p>
+<p>&quot;dispositionPlaceZip&quot; - disposition place address, zip</p>
+<p>&quot;dispositionPlaceCountry&quot; - disposition place address, country</p>
+<p>&quot;funeralFacilityName&quot; - the name of a funeral facility or institution</p>
+<p>&quot;funeralFacilityLine1&quot; - funeral facility address, line one</p>
+<p>&quot;funeralFacilityLine2&quot; - funeral facility address, line two</p>
+<p>&quot;funeralFacilityCity&quot; - funeral facility address, city</p>
+<p>&quot;funeralFacilityCounty&quot; - funeral facility address, county</p>
+<p>&quot;funeralFacilityState&quot; - funeral facility address, state</p>
+<p>&quot;funeralFacilityZip&quot; - funeral facility address, zip</p>
+<p>&quot;funeralFacilityCountry&quot; - funeral facility address, country</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Disposition_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> disposition = new Dictionary&lt;string, string>();</p>
+<p>disposition.Add(&quot;dispositionTypeCode&quot;, &quot;449971000124106&quot;);</p>
+<p>disposition.Add(&quot;dispositionTypeSystem&quot;, &quot;http://snomed.info/sct&quot;);</p>
+<p>disposition.Add(&quot;dispositionTypeDisplay&quot;, &quot;Burial&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceName&quot;, &quot;Example disposition place name&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceLine1&quot;, &quot;100 Example Street&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceLine2&quot;, &quot;Line 2&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceCity&quot;, &quot;Bedford&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceState&quot;, &quot;Massachusetts&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceZip&quot;, &quot;01730&quot;);</p>
+<p>disposition.Add(&quot;dispositionPlaceCountry&quot;, &quot;United States&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityName&quot;, &quot;Example funeral facility name&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityLine1&quot;, &quot;50 Example Street&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityLine2&quot;, &quot;Line 2&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityCity&quot;, &quot;Bedford&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityState&quot;, &quot;Massachusetts&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityZip&quot;, &quot;01730&quot;);</p>
+<p>disposition.Add(&quot;funeralFacilityCountry&quot;, &quot;United States&quot;);</p>
+<p>ExampleDeathRecord.Disposition = disposition;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Funeral Facility name: {ExampleDeathRecord.Disposition[&quot;funeralFacilityName&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Education_" data-uid="FhirDeathRecord.DeathRecord.Education*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Education" data-uid="FhirDeathRecord.DeathRecord.Education">Education</h4>
+  <div class="markdown level1 summary"><p>Decedent’s level of education. Corresponds to item 51 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Education&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent&#8217;s level of education.&quot;, true, 18)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Education-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; Education { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Decedent’s level of education. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Education_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;PHC1453&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS	&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Bachelor&apos;s Degree&quot;);</p>
+<p>ExampleDeathRecord.MaritalStatus = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Degree: {ExampleDeathRecord.Education[&quot;display&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Ethnicity_" data-uid="FhirDeathRecord.DeathRecord.Ethnicity*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Ethnicity" data-uid="FhirDeathRecord.DeathRecord.Ethnicity">Ethnicity</h4>
+  <div class="markdown level1 summary"><p>Decedent's Ethnicity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Ethnicity&quot;, Property.Types.TupleArr, &quot;Demographics&quot;, &quot;Decedent's Ethnicity.&quot;, true, 14)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')&quot;, &quot;&quot;)]
+public Tuple&lt;string, string&gt;[] Ethnicity { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;[]</td>
+        <td><p>the decedent's ethnicity</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Ethnicity_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Tuple&lt;string, string>[] ethnicity = { Tuple.Create(&quot;Non Hispanic or Latino&quot;, &quot;2186-5&quot;), Tuple.Create(&quot;Salvadoran&quot;, &quot;2161-8&quot;) };</p>
+<p>ExampleDeathRecord.Ethnicity = ethnicity;</p>
+<p>// Getter:</p>
+<p>foreach(var pair in deathRecord.Ethnicity)</p>
+<p>{</p>
+<p>      Console.WriteLine($&quot;\tEthnicity text: {pair.Key}: code: {pair.Value}&quot;);</p>
+<p>};</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_FamilyName_" data-uid="FhirDeathRecord.DeathRecord.FamilyName*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_FamilyName" data-uid="FhirDeathRecord.DeathRecord.FamilyName">FamilyName</h4>
+  <div class="markdown level1 summary"><p>Decedent's Family Name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Family Name&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Family Name.&quot;, true, 4)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;name&quot;)]
+public string FamilyName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's family name (i.e. last name)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_FamilyName_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.FamilyName = &quot;Last&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent&apos;s Last Name: {ExampleDeathRecord.FamilyName}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_FatherFamilyName_" data-uid="FhirDeathRecord.DeathRecord.FatherFamilyName*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_FatherFamilyName" data-uid="FhirDeathRecord.DeathRecord.FatherFamilyName">FatherFamilyName</h4>
+  <div class="markdown level1 summary"><p>Decedent's Father's Family Name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Father's Family Name&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Father's Family Name.&quot;, true, 7)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;contact&quot;)]
+public string FatherFamilyName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's father's family name (i.e. last name)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_FatherFamilyName_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.FatherFamilyName = &quot;Last&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent&apos;s Father&apos;s Last Name: {ExampleDeathRecord.FatherFamilyName}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Gender_" data-uid="FhirDeathRecord.DeathRecord.Gender*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Gender" data-uid="FhirDeathRecord.DeathRecord.Gender">Gender</h4>
+  <div class="markdown level1 summary"><p>Decedent's Gender.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Gender&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Gender.&quot;, true, 8)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;gender&quot;)]
+public string Gender { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's gender</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Gender_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.Gender = &quot;female&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Suffix: {ExampleDeathRecord.Gender}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_GivenNames_" data-uid="FhirDeathRecord.DeathRecord.GivenNames*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_GivenNames" data-uid="FhirDeathRecord.DeathRecord.GivenNames">GivenNames</h4>
+  <div class="markdown level1 summary"><p>Decedent's Given Name(s). Middle name should be the last entry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Given Names&quot;, Property.Types.StringArr, &quot;Demographics&quot;, &quot;Decedent's Given Name(s).&quot;, true, 3)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;name&quot;)]
+public string[] GivenNames { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><p>the decedent's name (first, etc., middle)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_GivenNames_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>string[] names = {&quot;Example&quot;, &quot;Something&quot;, &quot;Middle&quot;};</p>
+<p>ExampleDeathRecord.GivenNames = names;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Given Name(s): {string.Join(&quot;, &quot;, ExampleDeathRecord.GivenNames)}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Id_" data-uid="FhirDeathRecord.DeathRecord.Id*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Id" data-uid="FhirDeathRecord.DeathRecord.Id">Id</h4>
+  <div class="markdown level1 summary"><p>Death Record ID.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Id&quot;, Property.Types.String, &quot;Record Details&quot;, &quot;The record ID.&quot;, true, 1)]
+[FHIRPath(&quot;Bundle&quot;, &quot;id&quot;)]
+public string Id { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the record identification</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Id_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.Id = &quot;42&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Record identification: {ExampleDeathRecord.Id}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_INTERVAL1A_" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1A*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_INTERVAL1A" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1A">INTERVAL1A</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Interval, Line a.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;INTERVAL1A&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Interval, Line a.&quot;, false, 1)]
+public string INTERVAL1A { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_INTERVAL1B_" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1B*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_INTERVAL1B" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1B">INTERVAL1B</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Interval, Line b.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;INTERVAL1B&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Interval, Line b.&quot;, false, 1)]
+public string INTERVAL1B { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_INTERVAL1C_" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1C*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_INTERVAL1C" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1C">INTERVAL1C</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Interval, Line c.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;INTERVAL1C&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Interval, Line c.&quot;, false, 1)]
+public string INTERVAL1C { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_INTERVAL1D_" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1D*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_INTERVAL1D" data-uid="FhirDeathRecord.DeathRecord.INTERVAL1D">INTERVAL1D</h4>
+  <div class="markdown level1 summary"><p>An alias for the <code>CausesOfDeath</code> property - Cause of Death Part I Interval, Line d.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;INTERVAL1D&quot;, Property.Types.String, &quot;Medical&quot;, &quot;Cause of Death Part I Interval, Line d.&quot;, false, 1)]
+public string INTERVAL1D { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_MaidenName_" data-uid="FhirDeathRecord.DeathRecord.MaidenName*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_MaidenName" data-uid="FhirDeathRecord.DeathRecord.MaidenName">MaidenName</h4>
+  <div class="markdown level1 summary"><p>Decedent's Maiden Name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Maiden Name&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Maiden Name.&quot;, true, 6)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;name&quot;)]
+public string MaidenName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's maiden name (i.e. last name before marriage)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_MaidenName_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.MaidenName = &quot;Last&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent&apos;s Maiden Name: {ExampleDeathRecord.MaidenName}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_MannerOfDeath_" data-uid="FhirDeathRecord.DeathRecord.MannerOfDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_MannerOfDeath" data-uid="FhirDeathRecord.DeathRecord.MannerOfDeath">MannerOfDeath</h4>
+  <div class="markdown level1 summary"><p>The manner of the decendent's demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Manner Of Death&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;The manner of the decendent's demise.&quot;, true, 41)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; MannerOfDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>The manner of the decendent's demise. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_MannerOfDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;7878000&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Accident&quot;);</p>
+<p>ExampleDeathRecord.MannerOfDeath = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath[&quot;display&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_MaritalStatus_" data-uid="FhirDeathRecord.DeathRecord.MaritalStatus*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_MaritalStatus" data-uid="FhirDeathRecord.DeathRecord.MaritalStatus">MaritalStatus</h4>
+  <div class="markdown level1 summary"><p>The marital status of the decedent at the time of death. Corresponds to item 9 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Marital Status&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent's Marital Status at the time of death.&quot;, true, 17)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-MaritalStatusAtDeath-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; MaritalStatus { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>The marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_MaritalStatus_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;S&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://hl7.org/fhir/v3/MaritalStatus&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Never Married&quot;);</p>
+<p>ExampleDeathRecord.MaritalStatus = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Marital status: {ExampleDeathRecord.MaritalStatus[&quot;display&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_MedicalExaminerContacted_" data-uid="FhirDeathRecord.DeathRecord.MedicalExaminerContacted*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_MedicalExaminerContacted" data-uid="FhirDeathRecord.DeathRecord.MedicalExaminerContacted">MedicalExaminerContacted</h4>
+  <div class="markdown level1 summary"><p>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Medical Examiner Contacted&quot;, Property.Types.Bool, &quot;Medical&quot;, &quot;Whether a medical examiner or coroner was contacted.&quot;, true, 47)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')&quot;, &quot;&quot;)]
+public bool MedicalExaminerContacted { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Whether a medical examiner or coroner was contacted</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_MedicalExaminerContacted_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.MedicalExaminerContacted = true;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Occupation_" data-uid="FhirDeathRecord.DeathRecord.Occupation*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Occupation" data-uid="FhirDeathRecord.DeathRecord.Occupation">Occupation</h4>
+  <div class="markdown level1 summary"><p>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Occupation&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent&#8217;s usual occupation and industry.&quot;, true, 21)]
+[PropertyParam(&quot;jobDescription&quot;, &quot;Type of work done during most of decedent&#8217;s working life.&quot;)]
+[PropertyParam(&quot;industryDescription&quot;, &quot;Kind of industry or business in which the decedent worked.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Occupation-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; Occupation { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Decedent’s usual occupation and industry.</p>
+<p>&quot;jobDescription&quot; - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</p>
+<p>&quot;industryDescription&quot; - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Occupation_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> occupation = new Dictionary&lt;string, string>();</p>
+<p>occupation.Add(&quot;jobDescription&quot;, &quot;Example occupation&quot;);</p>
+<p>occupation.Add(&quot;industryDescription&quot;, &quot;Example industry&quot;);</p>
+<p>SetterDeathRecord.Occupation = occupation;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Job Description: {ExampleDeathRecord.Occupation[&quot;jobDescription&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_PlaceOfBirth_" data-uid="FhirDeathRecord.DeathRecord.PlaceOfBirth*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_PlaceOfBirth" data-uid="FhirDeathRecord.DeathRecord.PlaceOfBirth">PlaceOfBirth</h4>
+  <div class="markdown level1 summary"><p>Decedent's Place Of Birth.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Place Of Birth&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent's Place Of Birth.&quot;, true, 15)]
+[PropertyParam(&quot;placeOfBirthLine1&quot;, &quot;location of birth, line one&quot;)]
+[PropertyParam(&quot;placeOfBirthLine2&quot;, &quot;location of birth, line two&quot;)]
+[PropertyParam(&quot;placeOfBirthCity&quot;, &quot;location of birth, city&quot;)]
+[PropertyParam(&quot;placeOfBirthCounty&quot;, &quot;location of birth, county&quot;)]
+[PropertyParam(&quot;placeOfBirthState&quot;, &quot;location of birth, state&quot;)]
+[PropertyParam(&quot;placeOfBirthZip&quot;, &quot;location of birth, zip&quot;)]
+[PropertyParam(&quot;placeOfBirthCountry&quot;, &quot;location of birth, country&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-Birthplace-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; PlaceOfBirth { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Decedent's Place Of Birth. A Dictionary representing a place of birth address, containing the following key/value pairs:</p>
+<p>&quot;placeOfBirthLine1&quot; - location of birth, line one</p>
+<p>&quot;placeOfBirthLine2&quot; - location of birth, line two</p>
+<p>&quot;placeOfBirthCity&quot; - location of birth, city</p>
+<p>&quot;placeOfBirthCounty&quot; - location of birth, county</p>
+<p>&quot;placeOfBirthState&quot; - location of birth, state</p>
+<p>&quot;placeOfBirthZip&quot; - location of birth, zip</p>
+<p>&quot;placeOfBirthCountry&quot; - location of birth, country</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_PlaceOfBirth_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> placeOfBirth = new Dictionary&lt;string, string>();</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthLine1&quot;, &quot;9 Example Street&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthLine2&quot;, &quot;Line 2&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthCity&quot;, &quot;Bedford&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthState&quot;, &quot;Massachusetts&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthZip&quot;, &quot;01730&quot;);</p>
+<p>placeOfBirth.Add(&quot;placeOfBirthCountry&quot;, &quot;United States&quot;);</p>
+<p>SetterDeathRecord.PlaceOfBirth = placeOfBirth;</p>
+<p>// Getter:</p>
+<p>string state = ExampleDeathRecord.PlaceOfBirth[&quot;placeOfBirthState&quot;];</p>
+<p>Console.WriteLine($&quot;State where decedent was born: {state}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_PlaceOfDeath_" data-uid="FhirDeathRecord.DeathRecord.PlaceOfDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_PlaceOfDeath" data-uid="FhirDeathRecord.DeathRecord.PlaceOfDeath">PlaceOfDeath</h4>
+  <div class="markdown level1 summary"><p>Decedent's Place Of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Place Of Death&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent's Place Of Death.&quot;, true, 16)]
+[PropertyParam(&quot;placeOfDeathTypeCode&quot;, &quot;place of death type, code&quot;)]
+[PropertyParam(&quot;placeOfDeathTypeSystem&quot;, &quot;place of death type, code system&quot;)]
+[PropertyParam(&quot;placeOfDeathTypeDisplay&quot;, &quot;place of death type, code display&quot;)]
+[PropertyParam(&quot;placeOfDeathFacilityName&quot;, &quot;place of death facility name&quot;)]
+[PropertyParam(&quot;placeOfDeathLine1&quot;, &quot;location of death, line one&quot;)]
+[PropertyParam(&quot;placeOfDeathLine2&quot;, &quot;location of death, line two&quot;)]
+[PropertyParam(&quot;placeOfDeathCity&quot;, &quot;location of death, city&quot;)]
+[PropertyParam(&quot;placeOfDeathCounty&quot;, &quot;location of death, county&quot;)]
+[PropertyParam(&quot;placeOfDeathState&quot;, &quot;location of death, state&quot;)]
+[PropertyParam(&quot;placeOfDeathZip&quot;, &quot;location of death, zip&quot;)]
+[PropertyParam(&quot;placeOfDeathCountry&quot;, &quot;location of death, country&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-PlaceOfDeath-extension')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; PlaceOfDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Decedent's Place Of Death. A Dictionary representing a place of death, containing the following key/value pairs:</p>
+<p>&quot;placeOfDeathTypeCode&quot; - place of death type, code</p>
+<p>&quot;placeOfDeathTypeSystem&quot; - place of death type, code system</p>
+<p>&quot;placeOfDeathTypeDisplay&quot; - place of death type, code display</p>
+<p>&quot;placeOfDeathFacilityName&quot; - place of death facility name</p>
+<p>&quot;placeOfDeathLine1&quot; - location of death, line one</p>
+<p>&quot;placeOfDeathLine2&quot; - location of death, line two</p>
+<p>&quot;placeOfDeathCity&quot; - location of death, city</p>
+<p>&quot;placeOfDeathCounty&quot; - location of death, county</p>
+<p>&quot;placeOfDeathState&quot; - location of death, state</p>
+<p>&quot;placeOfDeathZip&quot; - location of death, zip</p>
+<p>&quot;placeOfDeathCountry&quot; - location of death, country</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_PlaceOfDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> placeOfDeath = new Dictionary&lt;string, string>();</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathTypeCode&quot;, &quot;16983000&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathTypeSystem&quot;, &quot;http://snomed.info/sct&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathTypeDisplay&quot;, &quot;Death in hospital&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathFacilityName&quot;, &quot;Example Hospital&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathLine1&quot;, &quot;8 Example Street&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathLine2&quot;, &quot;Line 2&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathCity&quot;, &quot;Bedford&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathState&quot;, &quot;Massachusetts&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathZip&quot;, &quot;01730&quot;);</p>
+<p>placeOfDeath.Add(&quot;placeOfDeathCountry&quot;, &quot;United States&quot;);</p>
+<p>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</p>
+<p>// Getter:</p>
+<p>string state = ExampleDeathRecord.PlaceOfDeath[&quot;placeOfDeathState&quot;];</p>
+<p>Console.WriteLine($&quot;State where death occurred: {state}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Race_" data-uid="FhirDeathRecord.DeathRecord.Race*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Race" data-uid="FhirDeathRecord.DeathRecord.Race">Race</h4>
+  <div class="markdown level1 summary"><p>Decedent's Race.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Race&quot;, Property.Types.TupleArr, &quot;Demographics&quot;, &quot;Decedent's Race.&quot;, true, 13)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')&quot;, &quot;&quot;)]
+public Tuple&lt;string, string&gt;[] Race { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Tuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;[]</td>
+        <td><p>the decedent's race</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Race_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Tuple&lt;string, string>[] race = { Tuple.Create(&quot;Non Hispanic or Latino&quot;, &quot;2186-5&quot;), Tuple.Create(&quot;Salvadoran&quot;, &quot;2161-8&quot;) };</p>
+<p>ExampleDeathRecord.Race = race;</p>
+<p>// Getter:</p>
+<p>foreach(var pair in ExampleDeathRecord.race)</p>
+<p>{</p>
+<p>      Console.WriteLine($&quot;\Race text: {pair.Key}: code: {pair.Value}&quot;);</p>
+<p>};</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Residence_" data-uid="FhirDeathRecord.DeathRecord.Residence*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Residence" data-uid="FhirDeathRecord.DeathRecord.Residence">Residence</h4>
+  <div class="markdown level1 summary"><p>Decedent's residence.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Residence&quot;, Property.Types.Dictionary, &quot;Demographics&quot;, &quot;Decedent's residence.&quot;, true, 11)]
+[PropertyParam(&quot;residenceLine1&quot;, &quot;residence, line one&quot;)]
+[PropertyParam(&quot;residenceLine2&quot;, &quot;residence, line two&quot;)]
+[PropertyParam(&quot;residenceCity&quot;, &quot;residence, city&quot;)]
+[PropertyParam(&quot;residenceCounty&quot;, &quot;residence, county&quot;)]
+[PropertyParam(&quot;residenceState&quot;, &quot;residence, state&quot;)]
+[PropertyParam(&quot;residenceZip&quot;, &quot;residence, zip&quot;)]
+[PropertyParam(&quot;residenceCountry&quot;, &quot;residence, country&quot;)]
+[PropertyParam(&quot;residenceInsideCityLimits&quot;, &quot;residence, inside city limits?&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;address&quot;)]
+public Dictionary&lt;string, string&gt; Residence { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:</p>
+<p>&quot;residenceLine1&quot; - residence, line one</p>
+<p>&quot;residenceLine2&quot; - residence, line two</p>
+<p>&quot;residenceCity&quot; - residence, city</p>
+<p>&quot;residenceCounty&quot; - residence, county</p>
+<p>&quot;residenceState&quot; - residence, state</p>
+<p>&quot;residenceZip&quot; - residence, zip</p>
+<p>&quot;residenceCountry&quot; - residence, country</p>
+<p>&quot;residenceInsideCityLimits&quot; - residence, inside city limits?</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Residence_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> residence = new Dictionary&lt;string, string>();</p>
+<p>residence.Add(&quot;residenceLine1&quot;, &quot;9 Example Street&quot;);</p>
+<p>residence.Add(&quot;residenceLine2&quot;, &quot;Line 2&quot;);</p>
+<p>residence.Add(&quot;residenceCity&quot;, &quot;Bedford&quot;);</p>
+<p>residence.Add(&quot;residenceCounty&quot;, &quot;Middlesex&quot;);</p>
+<p>residence.Add(&quot;residenceState&quot;, &quot;Massachusetts&quot;);</p>
+<p>residence.Add(&quot;residenceZip&quot;, &quot;01730&quot;);</p>
+<p>residence.Add(&quot;residenceCountry&quot;, &quot;United States&quot;);</p>
+<p>residence.Add(&quot;residenceInsideCityLimits&quot;, &quot;True&quot;);</p>
+<p>SetterDeathRecord.Residence = residence;</p>
+<p>// Getter:</p>
+<p>string state = ExampleDeathRecord.Residence[&quot;residenceState&quot;];</p>
+<p>Console.WriteLine($&quot;State of residence: {state}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ServedInArmedForces_" data-uid="FhirDeathRecord.DeathRecord.ServedInArmedForces*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ServedInArmedForces" data-uid="FhirDeathRecord.DeathRecord.ServedInArmedForces">ServedInArmedForces</h4>
+  <div class="markdown level1 summary"><p>Whether the decedent ever served in the US armed forces. Corresponds to item 8 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Served In Armed Forces&quot;, Property.Types.Bool, &quot;Demographics&quot;, &quot;Whether the decedent ever served in the US armed forces.&quot;, true, 20)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient).extension.where(url='http://nightingaleproject.github.io/fhirDeathRecord/StructureDefinition/sdr-decedent-ServedInArmedForces-extension')&quot;, &quot;&quot;)]
+public bool ServedInArmedForces { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Whether the decedent ever served in the US armed forces.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_ServedInArmedForces_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.ServedInArmedForces = False;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_SSN_" data-uid="FhirDeathRecord.DeathRecord.SSN*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_SSN" data-uid="FhirDeathRecord.DeathRecord.SSN">SSN</h4>
+  <div class="markdown level1 summary"><p>Decedent's Social Security Number.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;SSN&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Social Security Number.&quot;, true, 12)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;identifier&quot;)]
+public string SSN { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's social security number</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_SSN_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.SSN = &quot;123-45-678&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Suffix: {ExampleDeathRecord.SSN}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_Suffix_" data-uid="FhirDeathRecord.DeathRecord.Suffix*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_Suffix" data-uid="FhirDeathRecord.DeathRecord.Suffix">Suffix</h4>
+  <div class="markdown level1 summary"><p>Decedent's Suffix.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Suffix&quot;, Property.Types.String, &quot;Demographics&quot;, &quot;Decedent's Suffix.&quot;, true, 5)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Patient)&quot;, &quot;name&quot;)]
+public string Suffix { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>the decedent's suffix</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_Suffix_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>ExampleDeathRecord.Suffix = &quot;Jr.&quot;;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Decedent Suffix: {ExampleDeathRecord.Suffix}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_TimingOfRecentPregnancyInRelationToDeath_" data-uid="FhirDeathRecord.DeathRecord.TimingOfRecentPregnancyInRelationToDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_TimingOfRecentPregnancyInRelationToDeath" data-uid="FhirDeathRecord.DeathRecord.TimingOfRecentPregnancyInRelationToDeath">TimingOfRecentPregnancyInRelationToDeath</h4>
+  <div class="markdown level1 summary"><p>Timing Of Recent Pregnancy In Relation To Death. Corresponds to item 36 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Timing Of Recent Pregnancy In Relation To Death&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Timing Of Recent Pregnancy In Relation To Death.&quot;, true, 48)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; TimingOfRecentPregnancyInRelationToDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Timing Of Recent Pregnancy In Relation To Death. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_TimingOfRecentPregnancyInRelationToDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;PHC1260&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Not pregnant within past year&quot;);</p>
+<p>ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath[&quot;display&quot;]}&quot;);</p>
+
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_TobaccoUseContributedToDeath_" data-uid="FhirDeathRecord.DeathRecord.TobaccoUseContributedToDeath*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_TobaccoUseContributedToDeath" data-uid="FhirDeathRecord.DeathRecord.TobaccoUseContributedToDeath">TobaccoUseContributedToDeath</h4>
+  <div class="markdown level1 summary"><p>Did tobacco use contribute to death. Corresponds to item 35 of the U.S. Standard Certificate of Death.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Property(&quot;Tobacco Use Contributed To Death&quot;, Property.Types.Dictionary, &quot;Medical&quot;, &quot;Did tobacco use contribute to death?&quot;, true, 42)]
+[PropertyParam(&quot;code&quot;, &quot;The code used to describe this concept.&quot;)]
+[PropertyParam(&quot;system&quot;, &quot;The relevant code system.&quot;)]
+[PropertyParam(&quot;display&quot;, &quot;The human readable version of this code.&quot;)]
+[FHIRPath(&quot;Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0')&quot;, &quot;&quot;)]
+public Dictionary&lt;string, string&gt; TobaccoUseContributedToDeath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Did tobacco use contribute to death. A Dictionary representing a code, containing the following key/value pairs:</p>
+<p>&quot;code&quot; - the code describing this finding</p>
+<p>&quot;system&quot; - the system the given code belongs to</p>
+<p>&quot;display&quot; - the human readable display text that corresponds to the given code</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="FhirDeathRecord_DeathRecord_TobaccoUseContributedToDeath_examples">Examples</h5>
+  <p>// Setter:</p>
+<p>Dictionary&lt;string, string> code = new Dictionary&lt;string, string>();</p>
+<p>code.Add(&quot;code&quot;, &quot;373066001&quot;);</p>
+<p>code.Add(&quot;system&quot;, &quot;http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS&quot;);</p>
+<p>code.Add(&quot;display&quot;, &quot;Yes&quot;);</p>
+<p>ExampleDeathRecord.TobaccoUseContributedToDeath = code;</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($&quot;Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath[&quot;display&quot;]}&quot;);</p>
+
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_FromDescription_" data-uid="FhirDeathRecord.DeathRecord.FromDescription*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_FromDescription_System_String_" data-uid="FhirDeathRecord.DeathRecord.FromDescription(System.String)">FromDescription(String)</h4>
+  <div class="markdown level1 summary"><p>Helper method to return a JSON string representation of this Death Record.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DeathRecord FromDescription(string contents)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">contents</span></td>
+        <td><p>string that represents</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="FhirDeathRecord.DeathRecord.html">DeathRecord</a></td>
+        <td><p>a new DeathRecord that corresponds to the given descriptive format</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_GetAll_" data-uid="FhirDeathRecord.DeathRecord.GetAll*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_GetAll_System_String_" data-uid="FhirDeathRecord.DeathRecord.GetAll(System.String)">GetAll(String)</h4>
+  <div class="markdown level1 summary"><p>Given a FHIR path, return the elements that match the given path;
+returns an empty array if no matches are found.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object[] GetAll(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>represents a FHIR path.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><p>all elements that match the given path, or an empty array if no matches are found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_GetFirst_" data-uid="FhirDeathRecord.DeathRecord.GetFirst*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_GetFirst_System_String_" data-uid="FhirDeathRecord.DeathRecord.GetFirst(System.String)">GetFirst(String)</h4>
+  <div class="markdown level1 summary"><p>Given a FHIR path, return the first element that matches the given path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object GetFirst(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>represents a FHIR path.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>the first element that matches the given path, or null if no match is found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_GetITypedElement_" data-uid="FhirDeathRecord.DeathRecord.GetITypedElement*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_GetITypedElement" data-uid="FhirDeathRecord.DeathRecord.GetITypedElement">GetITypedElement()</h4>
+  <div class="markdown level1 summary"><p>Helper method to return an ITypedElement of the record bundle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITypedElement GetITypedElement()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ITypedElement</span></td>
+        <td><p>an ITypedElement of the record bundle</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_GetLast_" data-uid="FhirDeathRecord.DeathRecord.GetLast*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_GetLast_System_String_" data-uid="FhirDeathRecord.DeathRecord.GetLast(System.String)">GetLast(String)</h4>
+  <div class="markdown level1 summary"><p>Given a FHIR path, return the last element that matches the given path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object GetLast(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>represents a FHIR path.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>the last element that matches the given path, or null if no match is found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ToDescription_" data-uid="FhirDeathRecord.DeathRecord.ToDescription*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ToDescription" data-uid="FhirDeathRecord.DeathRecord.ToDescription">ToDescription()</h4>
+  <div class="markdown level1 summary"><p>Returns a JSON encoded structure that maps to the various property
+annotations found in the DeathRecord class. This is useful for scenarios
+where you may want to display the data in user interfaces.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ToDescription()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>a string representation of this Death Record in a descriptive format.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ToJSON_" data-uid="FhirDeathRecord.DeathRecord.ToJSON*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ToJSON" data-uid="FhirDeathRecord.DeathRecord.ToJSON">ToJSON()</h4>
+  <div class="markdown level1 summary"><p>Helper method to return a JSON string representation of this Death Record.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ToJSON()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>a string representation of this Death Record in JSON format</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="FhirDeathRecord_DeathRecord_ToXML_" data-uid="FhirDeathRecord.DeathRecord.ToXML*"></a>
+  <h4 id="FhirDeathRecord_DeathRecord_ToXML" data-uid="FhirDeathRecord.DeathRecord.ToXML">ToXML()</h4>
+  <div class="markdown level1 summary"><p>Helper method to return a XML string representation of this Death Record.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ToXML()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>a string representation of this Death Record in XML format</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

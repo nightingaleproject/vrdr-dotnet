@@ -914,7 +914,7 @@
             <summary>Field number.</summary>
         </member>
         <member name="F:FhirDeathRecord.IJEField.Location">
-            <summary>Beggining location.</summary>
+            <summary>Beginning location.</summary>
         </member>
         <member name="F:FhirDeathRecord.IJEField.Length">
             <summary>Field length.</summary>
@@ -1589,6 +1589,74 @@
         </member>
         <member name="F:FhirDeathRecord.MortalityData.PlaceCodes">
             <summary>Place Codes</summary>
+        </member>
+        <member name="T:FhirDeathRecord.NAACCRField">
+            <summary>Property attribute used to describe a field in the NAACCR format.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Field">
+            <summary>Field number.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Location">
+            <summary>Beginning location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Length">
+            <summary>Field length.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Contents">
+            <summary>Description of what the field contains.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Name">
+            <summary>Field name.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRField.Priority">
+            <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRField.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.String,System.Int32)">
+            <summary>Constructor.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.NAACCRRecord">
+            <summary>A "wrapper" class to convert between a FHIR based <c>DeathRecord</c> and
+            a record in NAACCR format. Each property of this class corresponds exactly
+            with a field in the NAACCR format. The getters convert from the embedded
+            FHIR based <c>DeathRecord</c> to the NAACCR format for a specific field, and
+            the setters convert from NAACCR format for a specific field and set that value
+            on the embedded FHIR based <c>DeathRecord</c>.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRRecord.record">
+            <summary>FHIR based death record.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.NAACCRRecord.dataLookup">
+            <summary>NAACCR data lookup helper. Thread-safe singleton!</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.#ctor(FhirDeathRecord.DeathRecord)">
+            <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.#ctor(System.String)">
+            <summary>Constructor that takes a NAACCR string and builds a corresponding internal <c>DeathRecord</c>.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.ToString">
+            <summary>Converts the internal <c>DeathRecord</c> into a NAACCR string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.ToDeathRecord">
+            <summary>Returns the corresponding <c>DeathRecord</c> for this NAACCR string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.Truncate(System.String,System.Int32)">
+            <summary>Truncates the given string to the given length.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.FieldInfo(System.String)">
+            <summary>Grabs the NAACCRInfo for a specific NAACCR field name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.LeftJustified_Get(System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose NAACCR type is a left justified string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.LeftJustified_Set(System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose NAACCR type is a left justified string.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.nameFirst">
+            <summary>Name--First</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.LNAME">
+            <summary>Name--Last</summary>
         </member>
     </members>
 </doc>

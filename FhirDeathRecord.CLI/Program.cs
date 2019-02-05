@@ -197,6 +197,13 @@ namespace FhirDeathRecord.CLI
                 Console.WriteLine(ije1.ToString());
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "2naaccr")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                NAACCRRecord naaccr = new NAACCRRecord(d);
+                Console.WriteLine(naaccr.ToString());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "ije2xml")
             {
                 IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));

@@ -15,7 +15,7 @@ namespace FhirDeathRecord
         /// <summary>Field number.</summary>
         public int Field;
 
-        /// <summary>Beggining location.</summary>
+        /// <summary>Beginning location.</summary>
         public int Location;
 
         /// <summary>Field length.</summary>

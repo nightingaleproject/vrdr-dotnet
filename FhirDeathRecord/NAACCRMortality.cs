@@ -5,6 +5,10 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FhirDeathRecord
 {
@@ -120,6 +124,31 @@ namespace FhirDeathRecord
         public DeathRecord ToDeathRecord()
         {
             return this.record;
+        }
+
+        ///<summary>Populates additional fields by calling an external NLP service.</summary>
+        // TODO: Very quick proof of concept of calling an external service, clearly not the right place for this
+        public void ConsultNLPService()
+        {
+            // TODO: Update this to use HTTPClient()
+            WebClient client = new WebClient();
+            string proxy = Environment.GetEnvironmentVariable("HTTP_PROXY");
+            if (proxy != null) {
+                WebProxy wp = new WebProxy(proxy);
+                client.Proxy = wp;
+            }
+
+            List<string> causes = new List<string>();
+            foreach(Tuple<string, string, Dictionary<string, string>> cause in record.CausesOfDeath)
+            {
+                causes.Add(cause.Item1);
+            }
+            Dictionary<string,List<string>> reports = new Dictionary<string,List<string>>();
+            reports.Add("reports", causes);
+            string json = JsonConvert.SerializeObject(reports);
+            client.Headers[HttpRequestHeader.ContentType] = "application/json";
+            string result = client.UploadString("http://localhost:5000/", json);
+            Console.WriteLine(result);
         }
 
         /////////////////////////////////////////////////////////////////////////////////

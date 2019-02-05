@@ -1640,6 +1640,9 @@
         <member name="M:FhirDeathRecord.NAACCRRecord.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this NAACCR string.</summary>
         </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.ConsultNLPService">
+            <summary>Populates additional fields by calling an external NLP service.</summary>
+        </member>
         <member name="M:FhirDeathRecord.NAACCRRecord.Truncate(System.String,System.Int32)">
             <summary>Truncates the given string to the given length.</summary>
         </member>

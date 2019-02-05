@@ -190,12 +190,20 @@ namespace FhirDeathRecord
                 int hour;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out hour))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, date.Day, hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // Treat 99 as blank
+                    if (hour != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int minute;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out minute))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // Treat 99 as blank
+                    if (minute != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
             }
             else if (type == "MMddyyyy")
@@ -207,20 +215,32 @@ namespace FhirDeathRecord
                 int month;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out month))
                 {
-                    date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // Treat 99 as blank
+                    if (month != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int day;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out day))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // Treat 99 as blank
+                    if (day != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int year;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(4, 4), out year))
                 {
-                    date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // Treat 9999 as blank
+                    if (year != 9999)
+                    {
+                        date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
             }
-            return date.ToString("o");
+            return date == null ? null : date.ToString("o");
         }
 
         /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>

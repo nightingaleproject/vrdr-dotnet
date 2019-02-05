@@ -190,12 +190,20 @@ namespace FhirDeathRecord
                 int hour;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out hour))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, date.Day, hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // can't have '99' hour
+                    if (hour != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int minute;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out minute))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // can't have a '99' minute
+                    if (minute != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
             }
             else if (type == "MMddyyyy")
@@ -207,17 +215,29 @@ namespace FhirDeathRecord
                 int month;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(0, 2), out month))
                 {
-                    date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // can't do '99' months
+                    if (month != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int day;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(2, 2), out day))
                 {
-                    date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // can't do '99' months
+                    if (day != 99)
+                    {
+                        date = new DateTimeOffset(date.Year, date.Month, day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
                 int year;
                 if (Int32.TryParse(Truncate(value, info.Length).Substring(4, 4), out year))
                 {
-                    date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    // can't do 9999 year
+                    if (year != 9999)
+                    {
+                        date = new DateTimeOffset(year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
+                    }
                 }
             }
             return date.ToString("o");
@@ -297,6 +317,10 @@ namespace FhirDeathRecord
             else
             {
                 date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+                
+                // If "99" comes in, it's not a valid date. Change back to blank.
+                value = "";
+
                 string updated = DateTimeStringHelper(info, value, dateTimeType, date);
                 currentDict[key] = updated;
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, currentDict);

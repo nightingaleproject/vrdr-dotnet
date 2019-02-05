@@ -56,6 +56,10 @@ namespace FhirDeathRecord.HTTP
                     IJEMortality ije = new IJEMortality(requestBody);
                     deathRecord = ije.ToDeathRecord();
                     break;
+                case string naaccrType when new Regex(@"naaccr").IsMatch(naaccrType): // application/naaccr
+                    NAACCRRecord naaccr = new NAACCRRecord(requestBody);
+                    deathRecord = naaccr.ToDeathRecord();
+                    break;
                 case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
                 case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
                 default:
@@ -70,6 +74,10 @@ namespace FhirDeathRecord.HTTP
                 case string url when new Regex(@"(ije|mor)$").IsMatch(url): // .mor or .ije
                     IJEMortality ije = new IJEMortality(deathRecord);
                     result = ije.ToString();
+                    break;
+                case string url when new Regex(@"(naaccr)$").IsMatch(url): // .naaccr
+                    NAACCRRecord naaccr = new NAACCRRecord(deathRecord);
+                    result = naaccr.ToString();
                     break;
                 case string url when new Regex(@"json$").IsMatch(url): // .json
                     result = deathRecord.ToJSON();

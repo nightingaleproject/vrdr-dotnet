@@ -54,6 +54,9 @@ namespace FhirDeathRecord.HTTP
                             {
                                 string rstr = _responderMethod(ctx.Request);
                                 byte[] buf = Encoding.UTF8.GetBytes(rstr);
+                                ctx.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                                ctx.Response.Headers.Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+                                ctx.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);
                             }

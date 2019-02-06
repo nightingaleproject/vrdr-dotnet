@@ -44,6 +44,12 @@ namespace FhirDeathRecord.HTTP
 
         public static string SendResponse(HttpListenerRequest request)
         {
+            // Handle OPTIONS requests for CORS
+            if (request.HttpMethod == "OPTIONS")
+            {
+                return "";
+            }
+
             string requestBody = GetBodyContent(request);
             DeathRecord deathRecord = null;
 
@@ -77,7 +83,7 @@ namespace FhirDeathRecord.HTTP
                     break;
                 case string url when new Regex(@"(naaccr)$").IsMatch(url): // .naaccr
                     NAACCRRecord naaccr = new NAACCRRecord(deathRecord);
-                    naaccr.ConsultNLPService();
+                    //naaccr.ConsultNLPService();
                     result = naaccr.ToString();
                     break;
                 case string url when new Regex(@"json$").IsMatch(url): // .json

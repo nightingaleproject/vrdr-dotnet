@@ -261,6 +261,7 @@ namespace FhirDeathRecord
             }
         }
 
+        // TODO: Question: why is this pulling from this.record first? Shouldn't it just set it from value?
         /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value)
         {

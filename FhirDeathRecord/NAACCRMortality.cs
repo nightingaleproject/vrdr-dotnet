@@ -230,22 +230,153 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Name--Last</summary>
-        [NAACCRField(2230, 4049, 40, "Name--Last", "nameLast", 1)]
-        public string LNAME
+        /// <summary>Name--Middle</summary>
+        [NAACCRField(2250, 4129, 40, "Name--Middle", "nameMiddle", 2)]
+        public string nameMiddle
         {
             get
             {
-                return LeftJustified_Get("LNAME", "FamilyName");
+                string[] names = record.GivenNames;
+                if (names.Length > 1)
+                {
+                    return names[1];
+                }
+                return "";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("LNAME", "FamilyName", value.Trim());
+                    if (record.GivenNames != null)
+                    {
+                        List<string> names = record.GivenNames.ToList();
+                        names.Add(value.Trim());
+                        record.GivenNames = names.ToArray();
+                    }
                 }
             }
         }
+
+        /// <summary>Name--Last</summary>
+        [NAACCRField(2230, 4049, 40, "Name--Last", "nameLast", 1)]
+        public string nameLast
+        {
+            get
+            {
+                return LeftJustified_Get("nameLast", "FamilyName");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("nameLast", "FamilyName", value.Trim());
+                }
+            }
+        }
+
+        /// <summary>Autopsy</summary>
+        [NAACCRField(1930, 2947, 1, "Autopsy", "autopsy", 1)]
+        public string autopsy
+        {
+            get
+            {
+                // TODO: This null check returns a warning (The result of the expression is always 'false'
+                // since a value of type 'bool' is never equal to 'null') which suggests that the abstraction
+                // in IJEMortality.cs may have the same issue (just never warned about because of introspection)
+                if (record.AutopsyPerformed == null)
+                {
+                    return "9";
+                }
+                else if (record.AutopsyPerformed)
+                {
+                    return "1";
+                }
+                else
+                {
+                    return "2";
+                }
+            }
+            set
+            {
+                if (value == "1")
+                {
+                    record.AutopsyPerformed = true;
+                }
+                else if (value == "2")
+                {
+                    record.AutopsyPerformed = false;
+                }
+            }
+        }
+
+        /// <summary>Date of birth</summary>
+        [NAACCRField(240, 226, 8, "Date of birth", "dateOfBirth", 1)]
+        public string dateOfBirth
+        {
+            get
+            {
+                DateTimeOffset date;
+                string dateString = record.DateOfBirth;
+                if (DateTimeOffset.TryParse(dateString, out date))
+                {
+                    return date.ToString("yyyyMMdd");
+                }
+                else
+                {
+                    return new String(' ', 8);
+                }
+            }
+            set
+            {
+                // TODO: Complete this
+            }
+        }
+
+        /// <summary>Type of reporting source</summary>
+        [NAACCRField(500, 577, 1, "Type of reporting source", "typeOfReportingSource", 1)]
+        public string typeOfReportingSource
+        {
+            get
+            {
+                // Always 7 (death certificate)
+                return "7";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Vital status</summary>
+        [NAACCRField(1760, 2785, 1, "Vital status", "vitalStatus", 1)]
+        public string vitalStatus
+        {
+            get
+            {
+                // Always 0 (dead)
+                return "0";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
+        /// <summary>Casefinding source</summary>
+        [NAACCRField(501, 578, 2, "Casefinding source", "casefindingSource", 1)]
+        public string casefindingSource
+        {
+            get
+            {
+                // Always 80 (death certificate)
+                return "80";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
+
 
     }
 }

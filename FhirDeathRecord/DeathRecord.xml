@@ -1658,8 +1658,26 @@
         <member name="P:FhirDeathRecord.NAACCRRecord.nameFirst">
             <summary>Name--First</summary>
         </member>
-        <member name="P:FhirDeathRecord.NAACCRRecord.LNAME">
+        <member name="P:FhirDeathRecord.NAACCRRecord.nameMiddle">
+            <summary>Name--Middle</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.nameLast">
             <summary>Name--Last</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.autopsy">
+            <summary>Autopsy</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.dateOfBirth">
+            <summary>Date of birth</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.typeOfReportingSource">
+            <summary>Type of reporting source</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.vitalStatus">
+            <summary>Vital status</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.casefindingSource">
+            <summary>Casefinding source</summary>
         </member>
     </members>
 </doc>

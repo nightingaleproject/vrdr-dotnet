@@ -60,6 +60,8 @@ namespace FhirDeathRecord
 
         private const int NAACCRRecordLength = 24194;
 
+        private Dictionary<string, string> nlpResults;
+
         /// <summary>FHIR based death record.</summary>
         private DeathRecord record;
 
@@ -145,12 +147,30 @@ namespace FhirDeathRecord
                 {
                     causes.Add(cause.Item1);
                 }
+                string joinedCauses = string.Join(" ", causes);
                 Dictionary<string,List<string>> reports = new Dictionary<string,List<string>>();
-                reports.Add("reports", (new string[] { string.Join(" ", causes) }).ToList());
+                reports.Add("reports", (new string[] { joinedCauses }).ToList());
                 string json = JsonConvert.SerializeObject(reports);
+                Console.WriteLine(json);
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                string result = client.UploadString("https://nlp.hdap.gatech.edu/job/oncology~RCHOP", json);
+                string result = client.UploadString("https://nlp.hdap.gatech.edu/job/oncology~Cancer_laterality", json);
                 Console.WriteLine(result);
+
+                // Pull out laterality info from NLP results
+                JArray parsedResult = JArray.Parse(result);
+                foreach (var child in parsedResult.Children())
+                {
+                    if (child["sentence"].ToString() == joinedCauses)
+                    {
+                        string laterality = parsedResult.Children().First()["concept_code"].ToString();
+                        if (this.nlpResults == null)
+                        {
+                            this.nlpResults = new Dictionary<string, string>();
+                        }
+                        this.nlpResults.Add("laterality", laterality);
+                        break;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -688,6 +708,24 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Laterality</summary>
+        [NAACCRField(410, 558, 1, "Laterality", "laterality", 1)]
+        public string laterality
+        {
+            get
+            {
+                // Note that this field is *not* populated from the mortality data directly, it uses results from an NLP service
+                if (nlpResults != null && nlpResults["laterality"] != null)
+                {
+                    return nlpResults["laterality"];
+                }
+                return "";
+            }
+            set
+            {
+                // NOOP
+            }
+        }
 
     }
 }

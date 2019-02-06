@@ -1712,5 +1712,8 @@
         <member name="P:FhirDeathRecord.NAACCRRecord.addrAtDxState">
             <summary>ADDR AT DX--STATE</summary>
         </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.laterality">
+            <summary>Laterality</summary>
+        </member>
     </members>
 </doc>

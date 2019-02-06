@@ -144,10 +144,10 @@ namespace FhirDeathRecord
                 causes.Add(cause.Item1);
             }
             Dictionary<string,List<string>> reports = new Dictionary<string,List<string>>();
-            reports.Add("reports", causes);
+            reports.Add("reports", (new string[] { string.Join(" ", causes) }).ToList());
             string json = JsonConvert.SerializeObject(reports);
             client.Headers[HttpRequestHeader.ContentType] = "application/json";
-            string result = client.UploadString("http://localhost:5000/", json);
+            string result = client.UploadString("https://nlp.hdap.gatech.edu/job/oncology~RCHOP", json);
             Console.WriteLine(result);
         }
 

@@ -1655,6 +1655,18 @@
         <member name="M:FhirDeathRecord.NAACCRRecord.LeftJustified_Set(System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose NAACCR type is a left justified string.</summary>
         </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.Dictionary_Get(System.String,System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.Dictionary_Set(System.String,System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.Dictionary_Geo_Get(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.NAACCRRecord.Dictionary_Geo_Set(System.String,System.String,System.String,System.String,System.Boolean,System.String)">
+            <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        </member>
         <member name="P:FhirDeathRecord.NAACCRRecord.nameFirst">
             <summary>Name--First</summary>
         </member>
@@ -1678,6 +1690,27 @@
         </member>
         <member name="P:FhirDeathRecord.NAACCRRecord.casefindingSource">
             <summary>Casefinding source</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.socialSecurityNumber">
+            <summary>Social security number</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.textUsualOccupation">
+            <summary>TEXT--USUAL OCCUPATION</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.textUsualIndustry">
+            <summary>TEXT--USUAL INDUSTRY</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.addrAtDxCity">
+            <summary>ADDR AT DX--CITY</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.addrAtDxNoStreet">
+            <summary>ADDR AT DX--NO &amp; STREET</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.addrAtDxPostalCode">
+            <summary>ADDR AT DX--POSTAL CODE</summary>
+        </member>
+        <member name="P:FhirDeathRecord.NAACCRRecord.addrAtDxState">
+            <summary>ADDR AT DX--STATE</summary>
         </member>
     </members>
 </doc>

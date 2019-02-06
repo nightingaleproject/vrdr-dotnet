@@ -198,6 +198,183 @@ namespace FhirDeathRecord
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
         }
 
+        /// <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
+        private string Dictionary_Get(string naaccrFieldName, string fhirFieldName, string key)
+        {
+            NAACCRField info = FieldInfo(naaccrFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string current = Convert.ToString(dictionary[key]);
+            if (current != null)
+            {
+                return Truncate(current, info.Length).PadRight(info.Length, ' ');
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        /// <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
+        private void Dictionary_Set(string naaccrFieldName, string fhirFieldName, string key, string value)
+        {
+            NAACCRField info = FieldInfo(naaccrFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    dictionary[key] = value.Trim();
+                }
+            }
+            else
+            {
+                dictionary = new Dictionary<string, string>();
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    dictionary[key] = value.Trim();
+                }
+            }
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
+        }
+
+        /// <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        private string Dictionary_Geo_Get(string naaccrFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded)
+        {
+            NAACCRField info = FieldInfo(naaccrFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
+            string current = Convert.ToString(dictionary[key]);
+            if (isCoded)
+            {
+                if (geoType == "place"|| geoType == "city")
+                {
+                    string state = null;
+                    string county = null;
+                    dictionary.TryGetValue(keyPrefix + "State", out state);
+                    dictionary.TryGetValue(keyPrefix + "County", out county);
+                    if (state != null && county != null)
+                    {
+                        current = dataLookup.StateNameAndCountyNameAndPlaceNameToPlaceCode(state, county, current);
+                    }
+                }
+                else if (geoType == "county")
+                {
+                    string state = null;
+                    dictionary.TryGetValue(keyPrefix + "State", out state);
+                    if (state != null)
+                    {
+                        current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                    }
+                }
+                else if (geoType == "state")
+                {
+                    current = dataLookup.StateNameToStateCode(current);
+                }
+                else if (geoType == "country")
+                {
+                    current = dataLookup.CountryNameToCountryCode(current);
+                }
+                else if (geoType == "insideCityLimits")
+                {
+                    if (String.IsNullOrWhiteSpace(current))
+                    {
+                        current = "U";
+                    }
+                    else if (current == "true" || current == "True")
+                    {
+                        current = "Y";
+                    }
+                    else if (current == "false" || current == "False")
+                    {
+                        current = "N";
+                    }
+                }
+            }
+            if (current != null)
+            {
+                return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
+            }
+            else
+            {
+                return new String(' ', info.Length);
+            }
+        }
+
+        /// <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        private void Dictionary_Geo_Set(string naaccrFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded, string value)
+        {
+            NAACCRField info = FieldInfo(naaccrFieldName);
+            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
+            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
+            {
+                if (isCoded)
+                {
+                    if (geoType == "place" || geoType == "city") // This is a tricky case, we need to know about county and state!
+                    {
+                        string state = null;
+                        string county = null;
+                        dictionary.TryGetValue(keyPrefix + "State", out state);
+                        dictionary.TryGetValue(keyPrefix + "County", out county);
+                        if (!String.IsNullOrWhiteSpace(state) && !String.IsNullOrWhiteSpace(county))
+                        {
+                            string city = dataLookup.StateNameAndCountyNameAndPlaceCodeToPlaceName(state, county, value);
+                            if (!String.IsNullOrWhiteSpace(city))
+                            {
+                                dictionary[key] = city;
+                            }
+                        }
+                    }
+                    else if (geoType == "county") // This is a tricky case, we need to know about state!
+                    {
+                        string state = null;
+                        dictionary.TryGetValue(keyPrefix + "State", out state);
+                        if (!String.IsNullOrWhiteSpace(state))
+                        {
+                            string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
+                            if (!String.IsNullOrWhiteSpace(county))
+                            {
+                                dictionary[key] = county;
+                            }
+                        }
+                    }
+                    else if (geoType == "state")
+                    {
+                        string state = dataLookup.StateCodeToStateName(value);
+                        if (!String.IsNullOrWhiteSpace(state))
+                        {
+                            dictionary[key] = state;
+                        }
+                    }
+                    else if (geoType == "country")
+                    {
+                        string country = dataLookup.CountryCodeToCountryName(value);
+                        if (!String.IsNullOrWhiteSpace(country))
+                        {
+                            dictionary[key] = country;
+                        }
+                    }
+                    else if (geoType == "insideCityLimits")
+                    {
+                        if (!String.IsNullOrWhiteSpace(value) && value == "N")
+                        {
+                            dictionary[key] = "False";
+                        }
+                    }
+                }
+                else
+                {
+                    dictionary[key] = value.Trim();
+                }
+            }
+            else
+            {
+                dictionary = new Dictionary<string, string>();
+                dictionary[key] = value.Trim();
+            }
+            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
         //
         // Class Properties that provide getters and setters for each of the NAACCR
@@ -374,6 +551,133 @@ namespace FhirDeathRecord
             set
             {
                 // NOOP
+            }
+        }
+
+        /// <summary>Social security number</summary>
+        [NAACCRField(2320, 4328, 9, "Social security number", "socialSecurityNumber", 1)]
+        public string socialSecurityNumber
+        {
+            get
+            {
+                string ssn = record.SSN;
+                if (!String.IsNullOrWhiteSpace(ssn))
+                {
+                    return ssn.Replace("-", string.Empty);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value) && value != "999999999")
+                {
+                    LeftJustified_Set("socialSecurityNumber", "SSN", value);
+                }
+            }
+        }
+
+        /// <summary>TEXT--USUAL OCCUPATION</summary>
+        [NAACCRField(310, 247, 100, "TEXT--USUAL OCCUPATION", "textUsualOccupation", 1)]
+        public string textUsualOccupation
+        {
+            get
+            {
+                return Dictionary_Get("textUsualOccupation", "Occupation", "jobDescription");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Set("textUsualOccupation", "Occupation", "jobDescription", value);
+                }
+            }
+        }
+
+        /// <summary>TEXT--USUAL INDUSTRY</summary>
+        [NAACCRField(320, 347, 100, "TEXT--USUAL INDUSTRY", "textUsualIndustry", 1)]
+        public string textUsualIndustry
+        {
+            get
+            {
+                return Dictionary_Get("textUsualIndustry", "Occupation", "industryDescription");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Set("textUsualIndustry", "Occupation", "industryDescription", value);
+                }
+            }
+        }
+
+        /// <summary>ADDR AT DX--CITY</summary>
+        [NAACCRField(70, 74, 50, "ADDR AT DX--CITY", "addrAtDxCity", 1)]
+        public string addrAtDxCity
+        {
+            get
+            {
+                return Dictionary_Geo_Get("addrAtDxCity", "Residence", "residence", "city", false);
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("addrAtDxCity", "Residence", "residence", "city", false, value);
+                }
+            }
+        }
+
+        /// <summary>ADDR AT DX--NO &amp; STREET</summary>
+        [NAACCRField(2330, 4348, 60, "ADDR AT DX--NO & STREET", "addrAtDxNoStreet", 1)]
+        public string addrAtDxNoStreet
+        {
+            get
+            {
+                return Dictionary_Get("addrAtDxNoStreet", "Residence", "residenceLine1");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Set("addrAtDxNoStreet", "Residence", "residenceLine1", value);
+                }
+            }
+        }
+
+        /// <summary>ADDR AT DX--POSTAL CODE</summary>
+        [NAACCRField(100, 126, 9, "ADDR AT DX--POSTAL CODE", "addrAtDxPostalCode", 1)]
+        public string addrAtDxPostalCode
+        {
+            get
+            {
+                return Dictionary_Geo_Get("addrAtDxPostalCode", "Residence", "residence", "zip", false);
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("addrAtDxPostalCode", "Residence", "residence", "zip", false, value);
+                }
+            }
+        }
+
+        /// <summary>ADDR AT DX--STATE</summary>
+        [NAACCRField(80, 124, 2, "ADDR AT DX--STATE", "addrAtDxState", 1)]
+        public string addrAtDxState
+        {
+            get
+            {
+                return Dictionary_Geo_Get("addrAtDxState", "Residence", "residence", "state", false);
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("addrAtDxState", "Residence", "residence", "state", false, value);
+                }
             }
         }
 

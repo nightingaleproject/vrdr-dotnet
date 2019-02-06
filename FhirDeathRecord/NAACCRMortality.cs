@@ -130,25 +130,32 @@ namespace FhirDeathRecord
         // TODO: Very quick proof of concept of calling an external service, clearly not the right place for this
         public void ConsultNLPService()
         {
-            // TODO: Update this to use HTTPClient()
-            WebClient client = new WebClient();
-            string proxy = Environment.GetEnvironmentVariable("HTTP_PROXY");
-            if (proxy != null) {
-                WebProxy wp = new WebProxy(proxy);
-                client.Proxy = wp;
-            }
-
-            List<string> causes = new List<string>();
-            foreach(Tuple<string, string, Dictionary<string, string>> cause in record.CausesOfDeath)
+            try
             {
-                causes.Add(cause.Item1);
+                // TODO: Update this to use HTTPClient()
+                WebClient client = new WebClient();
+                string proxy = Environment.GetEnvironmentVariable("HTTP_PROXY");
+                if (proxy != null) {
+                    WebProxy wp = new WebProxy(proxy);
+                    client.Proxy = wp;
+                }
+
+                List<string> causes = new List<string>();
+                foreach(Tuple<string, string, Dictionary<string, string>> cause in record.CausesOfDeath)
+                {
+                    causes.Add(cause.Item1);
+                }
+                Dictionary<string,List<string>> reports = new Dictionary<string,List<string>>();
+                reports.Add("reports", (new string[] { string.Join(" ", causes) }).ToList());
+                string json = JsonConvert.SerializeObject(reports);
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                string result = client.UploadString("https://nlp.hdap.gatech.edu/job/oncology~RCHOP", json);
+                Console.WriteLine(result);
             }
-            Dictionary<string,List<string>> reports = new Dictionary<string,List<string>>();
-            reports.Add("reports", (new string[] { string.Join(" ", causes) }).ToList());
-            string json = JsonConvert.SerializeObject(reports);
-            client.Headers[HttpRequestHeader.ContentType] = "application/json";
-            string result = client.UploadString("https://nlp.hdap.gatech.edu/job/oncology~RCHOP", json);
-            Console.WriteLine(result);
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not consult NLP service ({e.Message})");
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////////

@@ -92,6 +92,7 @@ namespace FhirDeathRecord
         {
             // Start with empty IJE Mortality record
             StringBuilder ije = new StringBuilder(new String(' ', 5000), 5000);
+
             // Loop over every property (these are the fields)
             foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
             {
@@ -105,6 +106,7 @@ namespace FhirDeathRecord
                     field = field.Substring(0, info.Length);
                 }
                 // Insert the field value into the record
+                ije.Remove(info.Location - 1, field.Length);
                 ije.Insert(info.Location - 1, field);
             }
             return ije.ToString();

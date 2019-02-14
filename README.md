@@ -186,22 +186,31 @@ http://<server>:8080/ije   <- For requesting a record as IJE
 
 Include a `Content-Type` header indicating what format the record is represented as in the body of the message (e.g. `application/fhir+json`, `application/fhir+xml`, or `application/ije`.).
 
-#### Usage (Local)
-Example usage (executed inside the FhirDeathRecord.HTTP directory):
-```bash
+#### Running
+
+A [Dockerized](https://www.docker.com/get-started) version of this microservice has been published to Docker Hub, so running it is as easy as:
+
+```
+docker run --rm -p 8081:8080 adammitre/vrdr-microservice
+```
+
+This command will pull the latest version of the microservice from Docker Hub, and run it. You can access it from `http://localhost:8081`.
+
+If you want to build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):
+
+```
+dotnet publish
+docker build -t vrdr-microservice .
+docker run -p 8081:8080 vrdr-microservice
+```
+
+If you prefer not to use Docker, you can run it from the root project directory using [.NET Core](https://dotnet.microsoft.com/download):
+
+```
 dotnet run
 ```
 
-This will launch the microservice locally, which will be listening on port 8080.
-
-#### Usage (docker)
-Note, this requires a locally running instance of docker on the machine for the service to be deployed on.
-
-```bash
-dotnet publish
-docker build -t fhirdeath .
-docker run -p 8080:8080 fhirdeath
-```
+The service will be listening locally at `http://localhost:8080`.
 
 ## License
 

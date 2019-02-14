@@ -191,17 +191,17 @@ Include a `Content-Type` header indicating what format the record is represented
 A [Dockerized](https://www.docker.com/get-started) version of this microservice has been published to Docker Hub, so running it is as easy as:
 
 ```
-docker run --rm -p 8081:8080 adammitre/vrdr-microservice
+docker run --rm -p 8080:8080 adammitre/vrdr-microservice
 ```
 
-This command will pull the latest version of the microservice from Docker Hub, and run it. You can access it from `http://localhost:8081`.
+This command will pull the latest version of the microservice from Docker Hub, and run it. You can access it from `http://localhost:8080`.
 
 If you want to build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):
 
 ```
 dotnet publish
 docker build -t vrdr-microservice .
-docker run -p 8081:8080 vrdr-microservice
+docker run -p 8080:8080 vrdr-microservice
 ```
 
 If you prefer not to use Docker, you can run it from the root project directory using [.NET Core](https://dotnet.microsoft.com/download):

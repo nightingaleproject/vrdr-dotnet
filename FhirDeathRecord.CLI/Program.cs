@@ -201,6 +201,7 @@ namespace FhirDeathRecord.CLI
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
                 NAACCRRecord naaccr = new NAACCRRecord(d);
+                naaccr.ConsultNLPService();
                 Console.WriteLine(naaccr.ToString());
                 return 0;
             }

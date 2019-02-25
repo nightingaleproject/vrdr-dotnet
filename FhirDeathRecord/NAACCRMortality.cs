@@ -117,6 +117,7 @@ namespace FhirDeathRecord
                     field = field.Substring(0, info.Length);
                 }
                 // Insert the field value into the record
+                naaccr.Remove(info.Location - 1, field.Length);
                 naaccr.Insert(info.Location - 1, field);
             }
             return naaccr.ToString();

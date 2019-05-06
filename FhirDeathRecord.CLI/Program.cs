@@ -103,6 +103,299 @@ namespace FhirDeathRecord.CLI
                 // ContributingConditions
                 deathRecord.ContributingConditions = "Example Contributing Conditions";
 
+                // COD1A
+                deathRecord.COD1A = "Rupture of myocardium";
+
+                // INTERVAL1A
+                deathRecord.INTERVAL1A = "minutes";
+
+                // CODE1A
+                Dictionary<string, string> code1a = new Dictionary<string, string>();
+                code1a.Add("code", "I21.0");
+                code1a.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                code1a.Add("display", "Acute transmural myocardial infarction of anterior wall");
+                deathRecord.CODE1A = code1a;
+
+                // COD1B
+                deathRecord.COD1B = "Acute myocardial infarction";
+
+                // INTERVAL1B
+                deathRecord.INTERVAL1B = "6 days";
+
+                // CODE1B
+                Dictionary<string, string> code1b = new Dictionary<string, string>();
+                code1b.Add("code", "I21.9");
+                code1b.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                code1b.Add("display", "Acute myocardial infarction, unspecified");
+                deathRecord.CODE1B = code1b;
+
+                // COD1C
+                deathRecord.COD1C = "Coronary artery thrombosis";
+
+                // INTERVAL1C
+                deathRecord.INTERVAL1C = "5 years";
+
+                // COD1D
+                deathRecord.COD1D = "Atherosclerotic coronary artery disease";
+
+                // INTERVAL1D
+                deathRecord.INTERVAL1D = "7 years";
+
+                // GivenNames
+                deathRecord.GivenNames = new string[] { "Example", "Something", "Middle" };
+
+                // FamilyName
+                deathRecord.FamilyName = "Last";
+
+                // Suffix
+                deathRecord.Suffix = "Jr.";
+
+                // Gender
+                deathRecord.Gender = "male";
+
+                // BirthSex
+                Dictionary<string, string> bscode = new Dictionary<string, string>();
+                bscode.Add("code", "M");
+                bscode.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
+                bscode.Add("display", "Male");
+                deathRecord.BirthSex = bscode;
+
+                // DateOfBirth
+                deathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";
+
+                // Residence
+                Dictionary<string, string> raddress = new Dictionary<string, string>();
+                raddress.Add("addressLine1", "101 Example Street");
+                raddress.Add("addressLine2", "Line 2");
+                raddress.Add("addressCity", "Bedford");
+                raddress.Add("addressCounty", "Middlesex");
+                raddress.Add("addressState", "Massachusetts");
+                raddress.Add("addressZip", "01730");
+                raddress.Add("addressCountry", "United States");
+                deathRecord.Residence = raddress;
+
+                // SSN
+                deathRecord.SSN = "123456789";
+
+                // Ethnicity
+                Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
+                deathRecord.Ethnicity = ethnicity;
+
+                // Race
+                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8") };
+                deathRecord.Race = race;
+
+                // PlaceOfBirth
+                Dictionary<string, string> pobaddress = new Dictionary<string, string>();
+                pobaddress.Add("addressLine1", "1011 Example Street");
+                pobaddress.Add("addressLine2", "Line 2");
+                pobaddress.Add("addressCity", "Bedford");
+                pobaddress.Add("addressCounty", "Middlesex");
+                pobaddress.Add("addressState", "Massachusetts");
+                pobaddress.Add("addressZip", "01730");
+                pobaddress.Add("addressCountry", "United States");
+                deathRecord.PlaceOfBirth = pobaddress;
+
+                // MaritalStatus
+                Dictionary<string, string> mscode = new Dictionary<string, string>();
+                mscode.Add("code", "S");
+                mscode.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                mscode.Add("display", "Never Married");
+                deathRecord.MaritalStatus = mscode;
+
+                // FatherGivenNames
+                string[] fnames = { "Father", "Middle" };
+                deathRecord.FatherGivenNames = fnames;
+
+                // FatherFamilyName
+                deathRecord.FatherFamilyName = "Last";
+
+                // FatherSuffix
+                deathRecord.FatherSuffix = "Sr.";
+
+                // MotherGivenNames
+                string[] mnames = { "Mother", "Middle" };
+                deathRecord.MotherGivenNames = mnames;
+
+                // MotherMaidenName
+                deathRecord.MotherMaidenName = "Maiden";
+
+                // MotherSuffix
+                deathRecord.MotherSuffix = "Dr.";
+
+                // SpouseGivenNames
+                string[] spnames = { "Spouse", "Middle" };
+                deathRecord.SpouseGivenNames = spnames;
+
+                // SpouseFamilyName
+                deathRecord.SpouseFamilyName = "Last";
+
+                // SpouseSuffix
+                deathRecord.SpouseSuffix = "Ph.D.";
+
+                // EducationLevel
+                Dictionary<string, string> elevel = new Dictionary<string, string>();
+                elevel.Add("code", "BD");
+                elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                elevel.Add("display", "College or baccalaureate degree complete");
+                deathRecord.EducationLevel = elevel;
+
+                // BirthRecordId
+                deathRecord.BirthRecordId = "4242123";
+
+                // UsualOccupation
+                Dictionary<string, string> uocc = new Dictionary<string, string>();
+                uocc.Add("code", "7280");
+                uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");
+                uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
+                deathRecord.UsualOccupation = uocc;
+
+                // UsualIndustry
+                Dictionary<string, string> uind = new Dictionary<string, string>();
+                uind.Add("code", "1320");
+                uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");
+                uind.Add("display", "Aerospace engineers");
+                deathRecord.UsualIndustry = uind;
+
+                // MilitaryService
+                Dictionary<string, string> mserv = new Dictionary<string, string>();
+                mserv.Add("code", "Y");
+                mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                mserv.Add("display", "Yes");
+                deathRecord.MilitaryService = mserv;
+
+                // MorticianGivenNames
+                string[] fdnames = { "FD", "Middle" };
+                deathRecord.MorticianGivenNames = fdnames;
+
+                // MorticianFamilyName
+                deathRecord.MorticianFamilyName = "Last";
+
+                // MorticianSuffix
+                deathRecord.MorticianSuffix = "Jr.";
+
+                // MorticianIdentifier
+                deathRecord.MorticianIdentifier = "9876543210";
+
+                // FuneralHomeAddress
+                Dictionary<string, string> fdaddress = new Dictionary<string, string>();
+                fdaddress.Add("addressLine1", "1011010 Example Street");
+                fdaddress.Add("addressLine2", "Line 2");
+                fdaddress.Add("addressCity", "Bedford");
+                fdaddress.Add("addressCounty", "Middlesex");
+                fdaddress.Add("addressState", "Massachusetts");
+                fdaddress.Add("addressZip", "01730");
+                fdaddress.Add("addressCountry", "United States");
+                deathRecord.FuneralHomeAddress = fdaddress;
+
+                // FuneralHomeName
+                deathRecord.FuneralHomeName = "Smith Funeral Home";
+
+                // DispositionLocationAddress
+                Dictionary<string, string> dladdress = new Dictionary<string, string>();
+                dladdress.Add("addressLine1", "603 Example Street");
+                dladdress.Add("addressLine2", "Line 2");
+                dladdress.Add("addressCity", "Bedford");
+                dladdress.Add("addressCounty", "Middlesex");
+                dladdress.Add("addressState", "Massachusetts");
+                dladdress.Add("addressZip", "01730");
+                dladdress.Add("addressCountry", "United States");
+                deathRecord.DispositionLocationAddress = dladdress;
+
+                // DispositionLocationName
+                deathRecord.DispositionLocationName = "Bedford Cemetery";
+
+                // DecedentDispositionMethod
+                Dictionary<string, string> ddm = new Dictionary<string, string>();
+                ddm.Add("code", "449971000124106");
+                ddm.Add("system", "http://snomed.info/sct");
+                ddm.Add("display", "Burial");
+                deathRecord.DecedentDispositionMethod = ddm;
+
+                // AutopsyPerformedIndicator
+                Dictionary<string, string> api = new Dictionary<string, string>();
+                api.Add("code", "Y");
+                api.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                api.Add("display", "Yes");
+                deathRecord.AutopsyPerformedIndicator = api;
+
+                // AutopsyResultsAvailable
+                Dictionary<string, string> ara = new Dictionary<string, string>();
+                ara.Add("code", "Y");
+                ara.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                ara.Add("display", "Yes");
+                deathRecord.AutopsyResultsAvailable = ara;
+
+                // AgeAtDeath
+                Dictionary<string, string> aad = new Dictionary<string, string>();
+                aad.Add("unit", "a");
+                aad.Add("value", "100");
+                deathRecord.AgeAtDeath = aad;
+
+                // PregnanacyStatus
+                Dictionary<string, string> ps = new Dictionary<string, string>();
+                ps.Add("code", "PHC1260");
+                ps.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                ps.Add("display", "Not pregnant within past year");
+                deathRecord.PregnanacyStatus = ps;
+
+                // TransportationRole
+                Dictionary<string, string> tr = new Dictionary<string, string>();
+                tr.Add("code", "example-code");
+                tr.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");
+                tr.Add("display", "Example Code");
+                deathRecord.TransportationRole = tr;
+
+                // ExaminerContacted
+                deathRecord.ExaminerContacted = false;
+
+                // TobaccoUse
+                Dictionary<string, string> tbu = new Dictionary<string, string>();
+                tbu.Add("code", "Y");
+                tbu.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                tbu.Add("display", "Yes");
+                deathRecord.TobaccoUse = tbu;
+
+                // InjuryLocationAddress
+                Dictionary<string, string> iladdress = new Dictionary<string, string>();
+                iladdress.Add("addressLine1", "781 Example Street");
+                iladdress.Add("addressLine2", "Line 2");
+                iladdress.Add("addressCity", "Bedford");
+                iladdress.Add("addressCounty", "Middlesex");
+                iladdress.Add("addressState", "Massachusetts");
+                iladdress.Add("addressZip", "01730");
+                iladdress.Add("addressCountry", "United States");
+                deathRecord.InjuryLocationAddress = iladdress;
+
+                // InjuryLocationName
+                deathRecord.InjuryLocationName = "Example Injury Location Name";
+
+                // InjuryLocationDescription
+                deathRecord.InjuryLocationDescription = "Example Injury Location Description";
+
+                // DeathLocationAddress
+                Dictionary<string, string> dtladdress = new Dictionary<string, string>();
+                dtladdress.Add("addressLine1", "671 Example Street");
+                dtladdress.Add("addressLine2", "Line 2");
+                dtladdress.Add("addressCity", "Bedford");
+                dtladdress.Add("addressCounty", "Middlesex");
+                dtladdress.Add("addressState", "Massachusetts");
+                dtladdress.Add("addressZip", "01730");
+                dtladdress.Add("addressCountry", "United States");
+                deathRecord.DeathLocationAddress = dtladdress;
+
+                // DeathLocationName
+                deathRecord.DeathLocationName = "Example Death Location Name";
+
+                // DeathLocationDescription
+                deathRecord.DeathLocationDescription = "Example Death Location Description";
+
+                // DateOfDeath
+                deathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";
+
+                // DateOfDeathPronouncement
+                deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";
+
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
                 //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
                 return 0;

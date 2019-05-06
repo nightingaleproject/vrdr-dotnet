@@ -24,6 +24,9 @@ namespace FhirDeathRecord
     /// </summary>
     public class DeathRecord
     {
+        /// <summary>Mortality data for code translations.</summary>
+        private MortalityData MortalityData = MortalityData.Instance;
+
         /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
         private ITypedElement Navigator;
 
@@ -38,6 +41,9 @@ namespace FhirDeathRecord
 
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;
+
+        /// <summary>The Mortician.</summary>
+        private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
         private Procedure DeathCertification;
@@ -66,6 +72,66 @@ namespace FhirDeathRecord
         /// <summary>Cause Of Death Condition Pathway.</summary>
         private List CauseOfDeathConditionPathway;
 
+        /// <summary>Decedent's Father.</summary>
+        private RelatedPerson Father;
+
+        /// <summary>Decedent's Mother.</summary>
+        private RelatedPerson Mother;
+
+        /// <summary>Decedent's Spouse.</summary>
+        private RelatedPerson Spouse;
+
+        /// <summary>Decedent Education Level.</summary>
+        private Observation DecedentEducationLevel;
+
+        /// <summary>Birth Record Identifier.</summary>
+        private Observation BirthRecordIdentifier;
+
+        /// <summary>Employment History.</summary>
+        private Observation EmploymentHistory;
+
+        /// <summary>The Funeral Home.</summary>
+        private Organization FuneralHome;
+
+        /// <summary>The Funeral Home Director.</summary>
+        private PractitionerRole FuneralHomeDirector;
+
+        /// <summary>Disposition Location.</summary>
+        private Location DispositionLocation;
+
+        /// <summary>Disposition Method.</summary>
+        private Observation DispositionMethod;
+
+        /// <summary>Autopsy Performed.</summary>
+        private Observation AutopsyPerformed;
+
+        /// <summary>Age At Death.</summary>
+        private Observation AgeAtDeathObs;
+
+        /// <summary>Decedent Pregnancy Status.</summary>
+        private Observation PregnancyObs;
+
+        /// <summary>Transportation Role (in death).</summary>
+        private Observation TransportationRoleObs;
+
+        /// <summary>Examiner Contacted.</summary>
+        private Observation ExaminerContactedObs;
+
+        /// <summary>Tobacco Use Contributed To Death.</summary>
+        private Observation TobaccoUseObs;
+
+        /// <summary>Injury Location.</summary>
+        private Location InjuryLocationLoc;
+
+        /// <summary>Injury Incident.</summary>
+        private Observation InjuryIncidentObs;
+
+        /// <summary>Death Location.</summary>
+        private Location DeathLocationLoc;
+
+        /// <summary>Date Of Death.</summary>
+        private Observation DeathDateObs;
+
         /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
         public DeathRecord()
         {
@@ -91,6 +157,13 @@ namespace FhirDeathRecord
             string[] certifier_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
             Certifier.Meta.Profile = certifier_profile;
 
+            // Start with an empty mortician.
+            Mortician = new Practitioner();
+            Mortician.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Mortician.Meta = new Meta();
+            string[] mortician_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+            Mortician.Meta.Profile = mortician_profile;
+
             // Start with an empty certification.
             DeathCertification = new Procedure();
             DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
@@ -108,6 +181,30 @@ namespace FhirDeathRecord
             string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
             InterestedParty.Meta.Profile = interestedparty_profile;
             InterestedParty.Active = true;
+
+            // Start with an empty funeral home.
+            FuneralHome = new Organization();
+            FuneralHome.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            FuneralHome.Meta = new Meta();
+            string[] funeralhome_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
+            FuneralHome.Meta.Profile = funeralhome_profile;
+            FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
+
+            // FuneralHomeDirector Points to Mortician and FuneralHome
+            FuneralHomeDirector = new PractitionerRole();
+            FuneralHomeDirector.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            FuneralHomeDirector.Meta = new Meta();
+            string[] funeralhomedirector_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" };
+            FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
+            FuneralHomeDirector.Practitioner = new ResourceReference(Mortician.Id);
+            FuneralHomeDirector.Organization = new ResourceReference(FuneralHome.Id);
+
+            // Location of Disposition
+            DispositionLocation = new Location();
+            DispositionLocation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            DispositionLocation.Meta = new Meta();
+            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+            DispositionLocation.Meta.Profile = dispositionlocation_profile;
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
@@ -142,14 +239,22 @@ namespace FhirDeathRecord
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
+            AddReferenceToComposition(Mortician.Id);
             AddReferenceToComposition(DeathCertification.Id);
             AddReferenceToComposition(InterestedParty.Id);
+            AddReferenceToComposition(FuneralHome.Id);
+            AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
+            AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, Decedent.Id);
             Bundle.AddResourceEntry(Certifier, Certifier.Id);
+            Bundle.AddResourceEntry(Mortician, Mortician.Id);
             Bundle.AddResourceEntry(DeathCertification, DeathCertification.Id);
             Bundle.AddResourceEntry(InterestedParty, InterestedParty.Id);
+            Bundle.AddResourceEntry(FuneralHome, FuneralHome.Id);
+            Bundle.AddResourceEntry(FuneralHomeDirector, FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, CauseOfDeathConditionPathway.Id);
+            Bundle.AddResourceEntry(DispositionLocation, DispositionLocation.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -181,41 +286,7 @@ namespace FhirDeathRecord
             // Fill out class instance references
             if (Navigator != null)
             {
-                var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
-                if (compositionEntry != null)
-                {
-                    Composition = (Composition)compositionEntry.Resource;
-                }
-                var patientEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Patient );
-                if (patientEntry != null)
-                {
-                    Decedent = (Patient)patientEntry.Resource;
-                }
-                var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner );
-                if (practitionerEntry != null)
-                {
-                    Certifier = (Practitioner)practitionerEntry.Resource;
-                }
-                var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
-                if (procedureEntry != null)
-                {
-                    DeathCertification = (Procedure)procedureEntry.Resource;
-                }
-                var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
-                if (interestedParty != null)
-                {
-                    InterestedParty = (Organization)interestedParty.Resource;
-                }
-                var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
-                if (mannerOfDeath != null)
-                {
-                    MannerOfDeath = (Observation)mannerOfDeath.Resource;
-                }
-                var conditionContributingToDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter == null );
-                if (conditionContributingToDeath != null)
-                {
-                    ConditionContributingToDeath = (Condition)conditionContributingToDeath.Resource;
-                }
+                RestoreReferences();
             }
             else
             {
@@ -359,7 +430,11 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Certifier Role (see http://www.hl7.org/fhir/stu3/valueset-Performer-role.html).</summary>
-        /// <value>the certifier role</value>
+        /// <value>the certifier role. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
@@ -484,7 +559,11 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Interested Party Type (see https://www.hl7.org/fhir/valueset-organization-type.html).</summary>
-        /// <value>the interested party type</value>
+        /// <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
@@ -513,7 +592,11 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Manner of Death Type.</summary>
-        /// <value>the manner of death type</value>
+        /// <value>the manner of death type. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
@@ -551,6 +634,10 @@ namespace FhirDeathRecord
                     AddReferenceToComposition(MannerOfDeath.Id);
                     Bundle.AddResourceEntry(MannerOfDeath, MannerOfDeath.Id);
                 }
+                else
+                {
+                    MannerOfDeath.Value = DictToCodeableConcept(value);
+                }
             }
         }
 
@@ -567,7 +654,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetAllString("Bundle.entry.resource.where($this is Practitioner).name.where(use='official').given");
+                if (Certifier.Name.Count() > 0)
+                {
+                    return Certifier.Name.First().Given.ToArray();
+                }
+                return null;
             }
             set
             {
@@ -592,13 +683,17 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.CertifierFamilyName = "Last";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");</para>
+        /// <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
         /// </example>
         public string CertifierFamilyName
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.where(use='official').family");
+                if (Certifier.Name.Count() > 0)
+                {
+                    return Certifier.Name.First().Family;
+                }
+                return null;
             }
             set
             {
@@ -629,7 +724,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Practitioner).name.suffix");
+                if (Certifier.Name.Count() > 0 && Certifier.Name.First().Suffix.Count() > 0)
+                {
+                    return Certifier.Name.First().Suffix.First();
+                }
+                return null;
             }
             set
             {
@@ -674,7 +773,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
         /// <para>{</para>
-        /// <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>  Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
         public Dictionary<string, string> CertifierAddress
@@ -691,7 +790,11 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Certifier Qualification.</summary>
-        /// <value>the certifier qualification</value>
+        /// <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
@@ -769,6 +872,13 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Cause of Death Part I, Line a.</summary>
+        /// <value>the immediate cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1A = "Rupture of myocardium";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
+        /// </example>
         public string COD1A
         {
             get
@@ -785,6 +895,11 @@ namespace FhirDeathRecord
                 {
                     CauseOfDeathConditionA.Code.Text = value;
                 }
+                else if (CauseOfDeathConditionA != null)
+                {
+                    CauseOfDeathConditionA.Code = new CodeableConcept();
+                    CauseOfDeathConditionA.Code.Text = value;
+                }
                 else
                 {
                     CauseOfDeathConditionA = new Condition();
@@ -798,34 +913,641 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionA.Asserter = new ResourceReference(Certifier.Id);
                     AddReferenceToComposition(CauseOfDeathConditionA.Id);
                     Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
-                    CauseOfDeathConditionPathway.Entry.Add(new List.EntryComponent(new ResourceReference()));
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[0] = entry;
                 }
             }
         }
 
         /// <summary>Cause of Death Part I Interval, Line a.</summary>
+        /// <value>the immediate cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1A = "Minutes";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
+        /// </example>
         public string INTERVAL1A
         {
             get
             {
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Onset != null)
+                {
+                    return CauseOfDeathConditionA.Onset.ToString();
+                }
                 return null;
             }
             set
             {
-
+                if (CauseOfDeathConditionA != null)
+                {
+                    CauseOfDeathConditionA.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionA = new Condition();
+                    CauseOfDeathConditionA.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionA.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Onset = new FhirString(value);
+                    CauseOfDeathConditionA.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionA.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionA.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[0] = entry;
+                }
             }
         }
 
         /// <summary>Cause of Death Part I Code, Line a.</summary>
+        /// <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "I21.0");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        /// <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
+        /// <para>ExampleDeathRecord.CODE1A = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
+        /// </example>
         public Dictionary<string, string> CODE1A
         {
             get
             {
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionA.Code);
+                }
                 return null;
             }
             set
             {
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionA.Code.Text;
+                    CauseOfDeathConditionA.Code = code;
+                }
+                else if (CauseOfDeathConditionA != null)
+                {
+                    CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionA = new Condition();
+                    CauseOfDeathConditionA.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionA.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionA.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionA.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionA.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[0] = entry;
+                }
+            }
+        }
 
+        /// <summary>Cause of Death Part I, Line b.</summary>
+        /// <value>the first underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1B = "Acute myocardial infarction";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
+        /// </example>
+        public string COD1B
+        {
+            get
+            {
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                {
+                    return CauseOfDeathConditionB.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                {
+                    CauseOfDeathConditionB.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionB != null)
+                {
+                    CauseOfDeathConditionB.Code = new CodeableConcept();
+                    CauseOfDeathConditionB.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionB = new Condition();
+                    CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionB.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionB.Code = new CodeableConcept();
+                    CauseOfDeathConditionB.Code.Text = value;
+                    CauseOfDeathConditionB.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionB.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[1] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line b.</summary>
+        /// <value>the first underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1B = "6 days";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
+        /// </example>
+        public string INTERVAL1B
+        {
+            get
+            {
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Onset != null)
+                {
+                    return CauseOfDeathConditionB.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionB != null)
+                {
+                    CauseOfDeathConditionB.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionB = new Condition();
+                    CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionB.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionB.Onset = new FhirString(value);
+                    CauseOfDeathConditionB.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionB.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[1] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line b.</summary>
+        /// <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "I21.9");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        /// <para>ExampleDeathRecord.CODE1B = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> CODE1B
+        {
+            get
+            {
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionB.Code);
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionB.Code.Text;
+                    CauseOfDeathConditionB.Code = code;
+                }
+                else if (CauseOfDeathConditionB != null)
+                {
+                    CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionB = new Condition();
+                    CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionB.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionB.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionB.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[1] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line c.</summary>
+        /// <value>the second underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1C = "Coronary artery thrombosis";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
+        /// </example>
+        public string COD1C
+        {
+            get
+            {
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                {
+                    return CauseOfDeathConditionC.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                {
+                    CauseOfDeathConditionC.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionC != null)
+                {
+                    CauseOfDeathConditionC.Code = new CodeableConcept();
+                    CauseOfDeathConditionC.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionC = new Condition();
+                    CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionC.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionC.Code = new CodeableConcept();
+                    CauseOfDeathConditionC.Code.Text = value;
+                    CauseOfDeathConditionC.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionC.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionC.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[2] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line c.</summary>
+        /// <value>the second underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1C = "5 years";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
+        /// </example>
+        public string INTERVAL1C
+        {
+            get
+            {
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Onset != null)
+                {
+                    return CauseOfDeathConditionC.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionC != null)
+                {
+                    CauseOfDeathConditionC.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionC = new Condition();
+                    CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionC.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionC.Onset = new FhirString(value);
+                    CauseOfDeathConditionC.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionC.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionC.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[2] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line c.</summary>
+        /// <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "I21.9");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        /// <para>ExampleDeathRecord.CODE1C = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> CODE1C
+        {
+            get
+            {
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionC.Code);
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionC.Code.Text;
+                    CauseOfDeathConditionC.Code = code;
+                }
+                else if (CauseOfDeathConditionC != null)
+                {
+                    CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionC = new Condition();
+                    CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionC.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionC.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionC.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionC.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[2] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line d.</summary>
+        /// <value>the third underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1D = "Atherosclerotic coronary artery disease";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
+        /// </example>
+        public string COD1D
+        {
+            get
+            {
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                {
+                    return CauseOfDeathConditionD.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                {
+                    CauseOfDeathConditionD.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionD != null)
+                {
+                    CauseOfDeathConditionD.Code = new CodeableConcept();
+                    CauseOfDeathConditionD.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionD = new Condition();
+                    CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionD.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionD.Code = new CodeableConcept();
+                    CauseOfDeathConditionD.Code.Text = value;
+                    CauseOfDeathConditionD.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionD.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionD.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[3] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line d.</summary>
+        /// <value>the third underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1D = "7 years";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
+        /// </example>
+        public string INTERVAL1D
+        {
+            get
+            {
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Onset != null)
+                {
+                    return CauseOfDeathConditionD.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionD != null)
+                {
+                    CauseOfDeathConditionD.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionD = new Condition();
+                    CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionD.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionD.Onset = new FhirString(value);
+                    CauseOfDeathConditionD.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionD.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionD.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[3] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line d.</summary>
+        /// <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "I21.9");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        /// <para>ExampleDeathRecord.CODE1D = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> CODE1D
+        {
+            get
+            {
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionD.Code);
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionD.Code.Text;
+                    CauseOfDeathConditionD.Code = code;
+                }
+                else if (CauseOfDeathConditionD != null)
+                {
+                    CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionD = new Condition();
+                    CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionD.Meta = new Meta();
+                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionD.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionD.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionD.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    {
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        CauseOfDeathConditionPathway.Entry.Add(null);
+                    }
+                    CauseOfDeathConditionPathway.Entry[3] = entry;
+                }
             }
         }
 
@@ -836,7 +1558,1132 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
+        /// <value>the decedent's name (first, etc., middle)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "Example", "Something", "Middle" };</para>
+        /// <para>ExampleDeathRecord.GivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
+        /// </example>
+        public string[] GivenNames
+        {
+            get
+            {
+                return GetAllString("Bundle.entry.resource.where($this is Patient).name.where(use='official').given");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null)
+                {
+                    name.Given = value;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = value;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
 
+        /// <summary>Decedent's Family Name.</summary>
+        /// <value>the decedent's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
+        /// </example>
+        public string FamilyName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').family");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Family = value;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Suffix.</summary>
+        /// <value>the decedent's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Suffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
+        /// </example>
+        public string Suffix
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.suffix");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Gender.</summary>
+        /// <value>the decedent's gender</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Gender = "female";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
+        /// </example>
+        public string Gender
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
+            }
+            set
+            {
+                switch(value)
+                {
+                    case "male":
+                    case "Male":
+                    case "m":
+                    case "M":
+                        Decedent.Gender = AdministrativeGender.Male;
+                        break;
+                    case "female":
+                    case "Female":
+                    case "f":
+                    case "F":
+                        Decedent.Gender = AdministrativeGender.Female;
+                        break;
+                    case "other":
+                    case "Other":
+                    case "o":
+                    case "O":
+                        Decedent.Gender = AdministrativeGender.Other;
+                        break;
+                    case "unknown":
+                    case "Unknown":
+                    case "u":
+                    case "U":
+                        Decedent.Gender = AdministrativeGender.Unknown;
+                        break;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Birth Sex.</summary>
+        /// <value>the decedent's birth sex A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "M");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
+        /// <para>code.Add("display", "Male");</para>
+        /// <para>ExampleDeathRecord.BirthSex = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
+        /// </example>
+        public Dictionary<string, string> BirthSex
+        {
+            get
+            {
+                Dictionary<string, string> birthsex = new Dictionary<string, string>();
+                birthsex.Add("code", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.code"));
+                birthsex.Add("system", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.system"));
+                birthsex.Add("display", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.display"));
+                return birthsex;
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                Extension birthsex = new Extension();
+                birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                birthsex.Value = DictToCodeableConcept(value);
+                Decedent.Extension.Add(birthsex);
+            }
+        }
+
+        /// <summary>Decedent's Date of Birth.</summary>
+        /// <value>the decedent's date of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
+        /// </example>
+        public string DateOfBirth
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).birthDate");
+            }
+            set
+            {
+                Decedent.BirthDate = value.Trim();
+            }
+        }
+
+        /// <summary>Decedent's residence.</summary>
+        /// <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "123 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>SetterDeathRecord.Residence = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
+        /// </example>
+        public Dictionary<string, string> Residence
+        {
+            get
+            {
+                if (Decedent != null && Decedent.Address != null && Decedent.Address.Count() > 0)
+                {
+                    return AddressToDict(Decedent.Address.First());
+                }
+                return null;
+            }
+            set
+            {
+                Decedent.Address.Clear();
+                Decedent.Address.Add(DictToAddress(value));
+            }
+        }
+
+        /// <summary>Decedent's Social Security Number.</summary>
+        /// <value>the decedent's social security number, without dashes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SSN = "12345678";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
+        /// </example>
+        public string SSN
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).identifier.where(system = 'http://hl7.org/fhir/sid/us-ssn').value");
+            }
+            set
+            {
+                Decedent.Identifier.RemoveAll(iden => iden.System == "http://hl7.org/fhir/sid/us-ssn");
+                Identifier ssn = new Identifier();
+                ssn.Type = new CodeableConcept(null, "BR", "Social Beneficiary Identifier", null);
+                ssn.System = "http://hl7.org/fhir/sid/us-ssn";
+                ssn.Value = value.Replace("-", string.Empty);
+                Decedent.Identifier.Add(ssn);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity.</summary>
+        /// <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
+        /// the code.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Tuple<string, string>[] Ethnicity
+        {
+            get
+            {
+                string[] ombCodes = new string[] { };
+                string[] detailedCodes = new string[] { };
+                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
+                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
+                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
+                for (int i = 0; i < ombCodes.Length; i++)
+                {
+                    ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), ombCodes[i]));
+                }
+                for (int i = 0; i < detailedCodes.Length; i++)
+                {
+                    ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), detailedCodes[i]));
+                }
+                return ethnicityList;
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity");
+                Extension ethnicities = new Extension();
+                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
+                foreach (Tuple<string, string> element in value)
+                {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension textEthnicity = new Extension();
+                    Extension codeEthnicity = new Extension();
+                    textEthnicity.Url = "text";
+                    textEthnicity.Value = new FhirString(display);
+                    if (code == "2135-2" || code == "2186-5")
+                    {
+                        codeEthnicity.Url = "ombCategory";
+                    }
+                    else
+                    {
+                        codeEthnicity.Url = "detailed";
+                    }
+                    codeEthnicity.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
+                    ethnicities.Extension.Add(textEthnicity);
+                    ethnicities.Extension.Add(codeEthnicity);
+                }
+                Decedent.Extension.Add(ethnicities);
+            }
+        }
+
+        /// <summary>Decedent's Race.</summary>
+        /// <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
+        /// the code.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>ExampleDeathRecord.Race = race;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.race)</para>
+        /// <para>{</para>
+        /// <para>   Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Tuple<string, string>[] Race
+        {
+            get
+            {
+                string[] ombCodes = new string[] { };
+                string[] detailedCodes = new string[] { };
+                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
+                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
+                Tuple<string, string>[] raceList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
+                for (int i = 0; i < ombCodes.Length; i++)
+                {
+                    raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), ombCodes[i]));
+                }
+                for (int i = 0; i < detailedCodes.Length; i++)
+                {
+                    raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), detailedCodes[i]));
+                }
+                return raceList;
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race");
+                Extension races = new Extension();
+                races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                foreach(Tuple<string,string> element in value)
+                {
+                    string display = element.Item1;
+                    string code = element.Item2;
+                    Extension textRace = new Extension();
+                    Extension codeRace = new Extension();
+                    textRace.Url = "text";
+                    textRace.Value = new FhirString(display);
+                    if (code == "1002-5" || code == "2028-9" || code == "2054-5" || code == "2076-8" || code == "2106-3")
+                    {
+                        codeRace.Url = "ombCategory";
+                    }
+                    else
+                    {
+                        codeRace.Url = "detailed";
+                    }
+                    codeRace.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
+                    races.Extension.Add(textRace);
+                    races.Extension.Add(codeRace);
+                }
+                Decedent.Extension.Add(races);
+            }
+        }
+
+        /// <summary>Decedent's Place Of Birth.</summary>
+        /// <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "123 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>SetterDeathRecord.PlaceOfBirth = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
+        /// </example>
+        public Dictionary<string, string> PlaceOfBirth
+        {
+            get
+            {
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://www.hl7.org/fhir/StructureDefinition/birthPlace" );
+                Address address = (Address)addressExt.Value;
+                if (address != null)
+                {
+                    return AddressToDict((Address)address);
+                }
+                return null;
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://www.hl7.org/fhir/StructureDefinition/birthPlace");
+                Extension placeOfBirthExt = new Extension();
+                placeOfBirthExt.Url = "http://www.hl7.org/fhir/StructureDefinition/birthPlace";
+                placeOfBirthExt.Value = DictToAddress(value);
+                Decedent.Extension.Add(placeOfBirthExt);
+            }
+        }
+
+        /// <summary>The marital status of the decedent at the time of death.</summary>
+        /// <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "S");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
+        /// <para>code.Add("display", "Never Married");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
+        /// </example>
+        public Dictionary<string, string> MaritalStatus
+        {
+            get
+            {
+                if (Decedent!= null && Decedent.MaritalStatus != null)
+                {
+                    return CodeableConceptToDict(Decedent.MaritalStatus);
+                }
+                return null;
+            }
+            set
+            {
+                Decedent.MaritalStatus = DictToCodeableConcept(value);
+            }
+        }
+
+        /// <summary>Given name(s) of decedent's father.</summary>
+        /// <value>the decedent's father's name (first, middle, etc.)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "Dad", "Middle" };</para>
+        /// <para>ExampleDeathRecord.FatherGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
+        /// </example>
+        public string[] FatherGivenNames
+        {
+            get
+            {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Given != null) {
+                    return Father.Name.First().Given.ToArray();
+                }
+                return null;
+            }
+            set
+            {
+                if (Father == null)
+                {
+                    Father = new RelatedPerson();
+                    Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Father.Meta = new Meta();
+                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    Father.Meta.Profile = father_profile;
+                    Father.Patient = new ResourceReference(Decedent.Id);
+                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    HumanName name = new HumanName();
+                    name.Given = value;
+                    Father.Name.Add(name);
+                    AddReferenceToComposition(Father.Id);
+                    Bundle.AddResourceEntry(Father, Father.Id);
+                }
+                else
+                {
+                    Father.Name.First().Given = value;
+                }
+
+            }
+        }
+
+        /// <summary>Family name of decedent's father.</summary>
+        /// <value>the decedent's father's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FatherFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
+        /// </example>
+        public string FatherFamilyName
+        {
+            get
+            {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Family != null) {
+                    return Father.Name.First().Family;
+                }
+                return null;
+            }
+            set
+            {
+                if (Father == null)
+                {
+                    Father = new RelatedPerson();
+                    Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Father.Meta = new Meta();
+                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    Father.Meta.Profile = father_profile;
+                    Father.Patient = new ResourceReference(Decedent.Id);
+                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    HumanName name = new HumanName();
+                    name.Family = value;
+                    Father.Name.Add(name);
+                    AddReferenceToComposition(Father.Id);
+                    Bundle.AddResourceEntry(Father, Father.Id);
+                }
+                else
+                {
+                    Father.Name.First().Family = value;
+                }
+
+            }
+        }
+
+        /// <summary>Father's Suffix.</summary>
+        /// <value>the decedent's father's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FatherSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
+        /// </example>
+        public string FatherSuffix
+        {
+            get
+            {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Suffix != null) {
+
+                    return Father.Name.First().Suffix.FirstOrDefault();
+                }
+                return null;
+            }
+            set
+            {
+                if (Father == null)
+                {
+                    Father = new RelatedPerson();
+                    Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Father.Meta = new Meta();
+                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    Father.Meta.Profile = father_profile;
+                    Father.Patient = new ResourceReference(Decedent.Id);
+                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    HumanName name = new HumanName();
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Father.Name.Add(name);
+                    AddReferenceToComposition(Father.Id);
+                    Bundle.AddResourceEntry(Father, Father.Id);
+                }
+                else
+                {
+                    string[] suffix = { value };
+                    Father.Name.First().Suffix = suffix;
+                }
+
+            }
+        }
+
+        /// <summary>Given name(s) of decedent's mother.</summary>
+        /// <value>the decedent's mother's name (first, middle, etc.)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "Mom", "Middle" };</para>
+        /// <para>ExampleDeathRecord.MotherGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
+        /// </example>
+        public string[] MotherGivenNames
+        {
+            get
+            {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
+                    return Mother.Name.First().Given.ToArray();
+                }
+                return null;
+            }
+            set
+            {
+                if (Mother == null)
+                {
+                    Mother = new RelatedPerson();
+                    Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Mother.Meta = new Meta();
+                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    Mother.Meta.Profile = mother_profile;
+                    Mother.Patient = new ResourceReference(Decedent.Id);
+                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    HumanName name = new HumanName();
+                    name.Given = value;
+                    Mother.Name.Add(name);
+                    AddReferenceToComposition(Mother.Id);
+                    Bundle.AddResourceEntry(Mother, Mother.Id);
+                }
+                else
+                {
+                    Mother.Name.First().Given = value;
+                }
+
+            }
+        }
+
+        /// <summary>Maiden name of decedent's mother.</summary>
+        /// <value>the decedent's mother's maiden name (i.e. last name before marriage)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MotherMaidenName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
+        /// </example>
+        public string MotherMaidenName
+        {
+            get
+            {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
+                    return Mother.Name.First().Family;
+                }
+                return null;
+            }
+            set
+            {
+                if (Mother == null)
+                {
+                    Mother = new RelatedPerson();
+                    Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Mother.Meta = new Meta();
+                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    Mother.Meta.Profile = mother_profile;
+                    Mother.Patient = new ResourceReference(Decedent.Id);
+                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    HumanName name = new HumanName();
+                    name.Family = value;
+                    Mother.Name.Add(name);
+                    AddReferenceToComposition(Mother.Id);
+                    Bundle.AddResourceEntry(Mother, Mother.Id);
+                }
+                else
+                {
+                    Mother.Name.First().Family = value;
+                }
+
+            }
+        }
+
+        /// <summary>Mother's Suffix.</summary>
+        /// <value>the decedent's mother's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MotherSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
+        /// </example>
+        public string MotherSuffix
+        {
+            get
+            {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null) {
+
+                    return Mother.Name.First().Suffix.FirstOrDefault();
+                }
+                return null;
+            }
+            set
+            {
+                if (Mother == null)
+                {
+                    Mother = new RelatedPerson();
+                    Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Mother.Meta = new Meta();
+                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    Mother.Meta.Profile = mother_profile;
+                    Mother.Patient = new ResourceReference(Decedent.Id);
+                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    HumanName name = new HumanName();
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Mother.Name.Add(name);
+                    AddReferenceToComposition(Mother.Id);
+                    Bundle.AddResourceEntry(Mother, Mother.Id);
+                }
+                else
+                {
+                    string[] suffix = { value };
+                    Mother.Name.First().Suffix = suffix;
+                }
+
+            }
+        }
+
+        /// <summary>Given name(s) of decedent's spouse.</summary>
+        /// <value>the decedent's spouse's name (first, middle, etc.)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "Spouse", "Middle" };</para>
+        /// <para>ExampleDeathRecord.SpouseGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
+        /// </example>
+        public string[] SpouseGivenNames
+        {
+            get
+            {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null) {
+                    return Spouse.Name.First().Given.ToArray();
+                }
+                return null;
+            }
+            set
+            {
+                if (Spouse == null)
+                {
+                    Spouse = new RelatedPerson();
+                    Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Spouse.Meta = new Meta();
+                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    Spouse.Meta.Profile = spouse_profile;
+                    Spouse.Patient = new ResourceReference(Decedent.Id);
+                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    HumanName name = new HumanName();
+                    name.Given = value;
+                    Spouse.Name.Add(name);
+                    AddReferenceToComposition(Spouse.Id);
+                    Bundle.AddResourceEntry(Spouse, Spouse.Id);
+                }
+                else
+                {
+                    Spouse.Name.First().Given = value;
+                }
+
+            }
+        }
+
+        /// <summary>Family name of decedent's spouse.</summary>
+        /// <value>the decedent's spouse's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
+        /// </example>
+        public string SpouseFamilyName
+        {
+            get
+            {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null) {
+                    return Spouse.Name.First().Family;
+                }
+                return null;
+            }
+            set
+            {
+                if (Spouse == null)
+                {
+                    Spouse = new RelatedPerson();
+                    Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Spouse.Meta = new Meta();
+                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    Spouse.Meta.Profile = spouse_profile;
+                    Spouse.Patient = new ResourceReference(Decedent.Id);
+                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    HumanName name = new HumanName();
+                    name.Family = value;
+                    Spouse.Name.Add(name);
+                    AddReferenceToComposition(Spouse.Id);
+                    Bundle.AddResourceEntry(Spouse, Spouse.Id);
+                }
+                else
+                {
+                    Spouse.Name.First().Family = value;
+                }
+
+            }
+        }
+
+        /// <summary>Spouse's Suffix.</summary>
+        /// <value>the decedent's spouse's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
+        /// </example>
+        public string SpouseSuffix
+        {
+            get
+            {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null) {
+
+                    return Spouse.Name.First().Suffix.FirstOrDefault();
+                }
+                return null;
+            }
+            set
+            {
+                if (Spouse == null)
+                {
+                    Spouse = new RelatedPerson();
+                    Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    Spouse.Meta = new Meta();
+                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    Spouse.Meta.Profile = spouse_profile;
+                    Spouse.Patient = new ResourceReference(Decedent.Id);
+                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    HumanName name = new HumanName();
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Spouse.Name.Add(name);
+                    AddReferenceToComposition(Spouse.Id);
+                    Bundle.AddResourceEntry(Spouse, Spouse.Id);
+                }
+                else
+                {
+                    string[] suffix = { value };
+                    Spouse.Name.First().Suffix = suffix;
+                }
+
+            }
+        }
+
+        /// <summary>Decedent's Education Level.</summary>
+        /// <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "BD");</para>
+        /// <para>elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");</para>
+        /// <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
+        /// <para>ExampleDeathRecord.EducationLevel = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> EducationLevel
+        {
+            get
+            {
+                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (DecedentEducationLevel == null)
+                {
+                    DecedentEducationLevel = new Observation();
+                    DecedentEducationLevel.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DecedentEducationLevel.Meta = new Meta();
+                    string[] educationlevel_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
+                    DecedentEducationLevel.Meta.Profile = educationlevel_profile;
+                    DecedentEducationLevel.Status = ObservationStatus.Final;
+                    DecedentEducationLevel.Code = new CodeableConcept("http://loinc.org", "80913-7", "Highest level of education", null);
+                    DecedentEducationLevel.Subject = new ResourceReference(Decedent.Id);
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(DecedentEducationLevel.Id);
+                    Bundle.AddResourceEntry(DecedentEducationLevel, DecedentEducationLevel.Id);
+                }
+                else
+                {
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
+
+        /// <summary>Birth Record Identifier.</summary>
+        /// <value>a birth record identification string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthRecordId = "4242123";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
+        /// </example>
+        public string BirthRecordId
+        {
+            get
+            {
+                if (BirthRecordIdentifier != null && BirthRecordIdentifier.Value != null)
+                {
+                    return Convert.ToString(BirthRecordIdentifier.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (BirthRecordIdentifier == null)
+                {
+                    BirthRecordIdentifier = new Observation();
+                    BirthRecordIdentifier.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    BirthRecordIdentifier.Meta = new Meta();
+                    string[] br_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
+                    BirthRecordIdentifier.Meta.Profile = br_profile;
+                    BirthRecordIdentifier.Status = ObservationStatus.Final;
+                    BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
+                    BirthRecordIdentifier.Subject = new ResourceReference(Decedent.Id);
+                    BirthRecordIdentifier.Value = new FhirString(value);
+                    AddReferenceToComposition(BirthRecordIdentifier.Id);
+                    Bundle.AddResourceEntry(BirthRecordIdentifier, BirthRecordIdentifier.Id);
+                }
+                else
+                {
+                    BirthRecordIdentifier.Value = new FhirString(value);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Usual Occupation.</summary>
+        /// <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>uocc.Add("code", "7280");</para>
+        /// <para>uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");</para>
+        /// <para>uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
+        /// <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> UsualOccupation
+        {
+            get
+            {
+                if (EmploymentHistory != null)
+                {
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
+                    if (component != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)component.Value);
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                if (EmploymentHistory == null)
+                {
+                    EmploymentHistory = new Observation();
+                    EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    EmploymentHistory.Meta = new Meta();
+                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
+                    EmploymentHistory.Status = ObservationStatus.Final;
+                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
+                    EmploymentHistory.Subject = new ResourceReference(Decedent.Id);
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                    AddReferenceToComposition(EmploymentHistory.Id);
+                    Bundle.AddResourceEntry(EmploymentHistory, EmploymentHistory.Id);
+                }
+                else
+                {
+                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Usual Industry.</summary>
+        /// <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>uind.Add("code", "1320");</para>
+        /// <para>uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
+        /// <para>uind.Add("display", "Aerospace engineers");</para>
+        /// <para>ExampleDeathRecord.UsualIndustry = uind;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> UsualIndustry
+        {
+            get
+            {
+                if (EmploymentHistory != null)
+                {
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    if (component != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)component.Value);
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                if (EmploymentHistory == null)
+                {
+                    EmploymentHistory = new Observation();
+                    EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    EmploymentHistory.Meta = new Meta();
+                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
+                    EmploymentHistory.Status = ObservationStatus.Final;
+                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
+                    EmploymentHistory.Subject = new ResourceReference(Decedent.Id);
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                    AddReferenceToComposition(EmploymentHistory.Id);
+                    Bundle.AddResourceEntry(EmploymentHistory, EmploymentHistory.Id);
+                }
+                else
+                {
+                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Military Service.</summary>
+        /// <value>the decedent's military service. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>mserv.Add("code", "Y");</para>
+        /// <para>mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>mserv.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.MilitaryService = uind;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> MilitaryService
+        {
+            get
+            {
+                if (EmploymentHistory != null)
+                {
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    if (component != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)component.Value);
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                if (EmploymentHistory == null)
+                {
+                    EmploymentHistory = new Observation();
+                    EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    EmploymentHistory.Meta = new Meta();
+                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
+                    EmploymentHistory.Status = ObservationStatus.Final;
+                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
+                    EmploymentHistory.Subject = new ResourceReference(Decedent.Id);
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                    AddReferenceToComposition(EmploymentHistory.Id);
+                    Bundle.AddResourceEntry(EmploymentHistory, EmploymentHistory.Id);
+                }
+                else
+                {
+                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
+                    component.Value = DictToCodeableConcept(value);
+                    EmploymentHistory.Component.Add(component);
+                }
+            }
+        }
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -845,8 +2692,326 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        // TODO
+        /// <summary>Given name(s) of mortician.</summary>
+        /// <value>the mortician's name (first, middle, etc.)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "FD", "Middle" };</para>
+        /// <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
+        /// </example>
+        public string[] MorticianGivenNames
+        {
+            get
+            {
+                if (Mortician.Name.Count() > 0)
+                {
+                    return Mortician.Name.First().Given.ToArray();
+                }
+                return null;
+            }
+            set
+            {
+                HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null)
+                {
+                    name.Given = value;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = value;
+                    Mortician.Name.Add(name);
+                }
+            }
+        }
 
+        /// <summary>Family name of mortician.</summary>
+        /// <value>the mortician's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
+        /// </example>
+        public string MorticianFamilyName
+        {
+            get
+            {
+                if (Mortician.Name.Count() > 0)
+                {
+                    return Mortician.Name.First().Family;
+                }
+                return null;
+            }
+            set
+            {
+                HumanName name = Mortician.Name.FirstOrDefault();
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Family = value;
+                    Mortician.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Mortician's Suffix.</summary>
+        /// <value>the mortician's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
+        /// </example>
+        public string MorticianSuffix
+        {
+            get
+            {
+                if (Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
+                {
+                    return Mortician.Name.First().Suffix.First();
+                }
+                return null;
+            }
+            set
+            {
+                HumanName name = Mortician.Name.FirstOrDefault();
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Mortician.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Mortician Identifier.</summary>
+        /// <value>the mortician's identifier</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MorticianIdentifier = "9876543210";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
+        /// </example>
+        public string MorticianIdentifier
+        {
+            get
+            {
+                Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
+                if (qualification != null && qualification.Identifier.Count() > 0)
+                {
+                    return qualification.Identifier.First().Value;
+                }
+                return null;
+            }
+            set
+            {
+                Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
+                if (qualification != null)
+                {
+                    qualification.Identifier.Clear();
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    qualification.Identifier.Add(identifier);
+                }
+                else
+                {
+                    qualification = new Practitioner.QualificationComponent();
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    qualification.Identifier.Add(identifier);
+                    Mortician.Qualification.Add(qualification);
+                }
+            }
+        }
+
+        /// <summary>Funeral Home Address.</summary>
+        /// <value>the funeral home address. A Dictionary representing an address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "1234 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>ExampleDeathRecord.FuneralHomeAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.FuneralHomeAddress)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\FuneralHomeAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Dictionary<string, string> FuneralHomeAddress
+        {
+            get
+            {
+                return AddressToDict(FuneralHome.Address.FirstOrDefault());
+            }
+            set
+            {
+                FuneralHome.Address.Clear();
+                FuneralHome.Address.Add(DictToAddress(value));
+            }
+        }
+
+        /// <summary>Name of Funeral Home.</summary>
+        /// <value>the funeral home name.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FuneralHomeName = "Smith Funeral Home";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
+        /// </example>
+        public string FuneralHomeName
+        {
+            get
+            {
+                return FuneralHome.Name;
+            }
+            set
+            {
+                FuneralHome.Name = value;
+            }
+        }
+
+        /// <summary>Disposition Location Address.</summary>
+        /// <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "1234 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>ExampleDeathRecord.DispositionLocationAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.DispositionLocationAddress)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\DispositionLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Dictionary<string, string> DispositionLocationAddress
+        {
+            get
+            {
+                return AddressToDict(DispositionLocation.Address);
+            }
+            set
+            {
+                DispositionLocation.Address = DictToAddress(value);
+            }
+        }
+
+        /// <summary>Name of Disposition Location.</summary>
+        /// <value>the displosition location name.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DispositionLocationName = "Bedford Cemetery";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
+        /// </example>
+        public string DispositionLocationName
+        {
+            get
+            {
+                return DispositionLocation.Name;
+            }
+            set
+            {
+                DispositionLocation.Name = value;
+            }
+        }
+
+        /// <summary>Decedent's Disposition Method.</summary>
+        /// <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>dmethod.Add("code", "449971000124106");</para>
+        /// <para>dmethod.Add("system", "http://snomed.info/sct");</para>
+        /// <para>dmethod.Add("display", "Burial");</para>
+        /// <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> DecedentDispositionMethod
+        {
+            get
+            {
+                if (DispositionMethod != null && DispositionMethod.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)DispositionMethod.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (DispositionMethod == null)
+                {
+                    DispositionMethod = new Observation();
+                    DispositionMethod.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DispositionMethod.Meta = new Meta();
+                    string[] dispositionmethod_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" };
+                    DispositionMethod.Meta.Profile = dispositionmethod_profile;
+                    DispositionMethod.Status = ObservationStatus.Final;
+                    DispositionMethod.Code = new CodeableConcept("http://loinc.org", "80905-3", "Body disposition method", null);
+                    DispositionMethod.Subject = new ResourceReference(Decedent.Id);
+                    DispositionMethod.Performer.Add(new ResourceReference(Mortician.Id));
+                    Extension extension = new Extension();
+                    extension.Url = "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location";
+                    extension.Value = new ResourceReference(DispositionLocation.Id);
+                    DispositionMethod.Extension.Add(extension);
+                    DispositionMethod.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(DispositionMethod.Id);
+                    Bundle.AddResourceEntry(DispositionMethod, DispositionMethod.Id);
+                }
+                else
+                {
+                    DispositionMethod.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -855,7 +3020,716 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        // TODO
+        /// <summary>Autopsy Performed Indicator.</summary>
+        /// <value>autopsy performed indicator. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "Y");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> AutopsyPerformedIndicator
+        {
+            get
+            {
+                if (AutopsyPerformed != null && AutopsyPerformed.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (AutopsyPerformed == null)
+                {
+                    AutopsyPerformed = new Observation();
+                    AutopsyPerformed.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    AutopsyPerformed.Meta = new Meta();
+                    string[] autopsyperformed_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
+                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
+                    AutopsyPerformed.Status = ObservationStatus.Final;
+                    AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
+                    AutopsyPerformed.Subject = new ResourceReference(Decedent.Id);
+                    AutopsyPerformed.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(AutopsyPerformed.Id);
+                    Bundle.AddResourceEntry(AutopsyPerformed, AutopsyPerformed.Id);
+                }
+                else
+                {
+                    AutopsyPerformed.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Date/Time of Death.</summary>
+        /// <value>the decedent's date and time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
+        /// </example>
+        public string DateOfDeath
+        {
+            get
+            {
+                if (DeathDateObs != null)
+                {
+                    return Convert.ToString(DeathDateObs.Effective);
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathDateObs == null)
+                {
+                    DeathDateObs = new Observation();
+                    DeathDateObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathDateObs.Meta = new Meta();
+                    string[] deathdate_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+                    DeathDateObs.Meta.Profile = deathdate_profile;
+                    DeathDateObs.Status = ObservationStatus.Final;
+                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
+                    DeathDateObs.Subject = new ResourceReference(Decedent.Id);
+                    DeathDateObs.Performer.Add(new ResourceReference(Certifier.Id));
+                    DeathDateObs.Effective = new FhirDateTime(value);
+                    AddReferenceToComposition(DeathDateObs.Id);
+                    Bundle.AddResourceEntry(DeathDateObs, DeathDateObs.Id);
+                }
+                else
+                {
+                    DeathDateObs.Effective = new FhirDateTime(value);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
+        /// <value>the decedent's date and time of death pronouncement</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
+        /// </example>
+        public string DateOfDeathPronouncement
+        {
+            get
+            {
+                if (DeathDateObs != null)
+                {
+                    Observation.ComponentComponent component = DeathDateObs.Component.FirstOrDefault();
+                    if (component != null)
+                    {
+                        return Convert.ToString(component.Value);
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathDateObs == null)
+                {
+                    DeathDateObs = new Observation();
+                    DeathDateObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathDateObs.Meta = new Meta();
+                    string[] deathdate_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+                    DeathDateObs.Meta.Profile = deathdate_profile;
+                    DeathDateObs.Status = ObservationStatus.Final;
+                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
+                    DeathDateObs.Subject = new ResourceReference(Decedent.Id);
+                    DeathDateObs.Performer.Add(new ResourceReference(Certifier.Id));
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead", null);
+                    component.Value = new FhirDateTime(value);
+                    DeathDateObs.Component.Add(component);
+                    AddReferenceToComposition(DeathDateObs.Id);
+                    Bundle.AddResourceEntry(DeathDateObs, DeathDateObs.Id);
+                }
+                else
+                {
+                    DeathDateObs.Component.Clear();
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead", null);
+                    component.Value = new FhirDateTime(value);
+                    DeathDateObs.Component.Add(component);
+                }
+            }
+        }
+
+        /// <summary>Autopsy Results Available.</summary>
+        /// <value>autopsy results available. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "Y");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailable = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailable['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> AutopsyResultsAvailable
+        {
+            get
+            {
+                if (AutopsyPerformed != null && AutopsyPerformed.Component.Count() > 0)
+                {
+                    return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Component.First().Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (AutopsyPerformed == null)
+                {
+                    AutopsyPerformed = new Observation();
+                    AutopsyPerformed.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    AutopsyPerformed.Meta = new Meta();
+                    string[] autopsyperformed_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
+                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
+                    AutopsyPerformed.Status = ObservationStatus.Final;
+                    AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
+                    AutopsyPerformed.Subject = new ResourceReference(Decedent.Id);
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "69436-4", "Autopsy results available", null);
+                    component.Value = DictToCodeableConcept(value);
+                    AutopsyPerformed.Component.Clear();
+                    AutopsyPerformed.Component.Add(component);
+                    AddReferenceToComposition(AutopsyPerformed.Id);
+                    Bundle.AddResourceEntry(AutopsyPerformed, AutopsyPerformed.Id);
+                }
+                else
+                {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "69436-4", "Autopsy results available", null);
+                    component.Value = DictToCodeableConcept(value);
+                    AutopsyPerformed.Component.Clear();
+                    AutopsyPerformed.Component.Add(component);
+                }
+            }
+        }
+
+        /// <summary>Location of Death.</summary>
+        /// <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "123456789 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Dictionary<string, string> DeathLocationAddress
+        {
+            get
+            {
+                if (DeathLocationLoc != null)
+                {
+                    return AddressToDict(DeathLocationLoc.Address);
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    DeathLocationLoc = new Location();
+                    DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathLocationLoc.Meta = new Meta();
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
+                    DeathLocationLoc.Address = DictToAddress(value);
+                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    Bundle.AddResourceEntry(DeathLocationLoc, DeathLocationLoc.Id);
+                }
+                else
+                {
+                    DeathLocationLoc.Address = DictToAddress(value);
+                }
+            }
+        }
+
+        /// <summary>Name of Death Location.</summary>
+        /// <value>the death location name.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationName = "Example Death Location Name";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
+        /// </example>
+        public string DeathLocationName
+        {
+            get
+            {
+                if (DeathLocationLoc != null)
+                {
+                    return DeathLocationLoc.Name;
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    DeathLocationLoc = new Location();
+                    DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathLocationLoc.Meta = new Meta();
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
+                    DeathLocationLoc.Name = value;
+                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    Bundle.AddResourceEntry(DeathLocationLoc, DeathLocationLoc.Id);
+                }
+                else
+                {
+                    DeathLocationLoc.Name = value;
+                }
+            }
+        }
+
+        /// <summary>Description of Death Location.</summary>
+        /// <value>the death location description.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationDescription = "Bedford Cemetery";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
+        /// </example>
+        public string DeathLocationDescription
+        {
+            get
+            {
+                if (DeathLocationLoc != null)
+                {
+                    return DeathLocationLoc.Description;
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    DeathLocationLoc = new Location();
+                    DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathLocationLoc.Meta = new Meta();
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
+                    DeathLocationLoc.Description = value;
+                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    Bundle.AddResourceEntry(DeathLocationLoc, DeathLocationLoc.Id);
+                }
+                else
+                {
+                    DeathLocationLoc.Description = value;
+                }
+            }
+        }
+
+        /// <summary>Age At Death.</summary>
+        /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
+        /// <para>"value" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>age.Add("value", "100");</para>
+        /// <para>age.Add("unit", "a"); // USE: http://www.hl7.org/fhir/stu3/valueset-age-units.html</para>
+        /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
+        /// </example>
+        public Dictionary<string, string> AgeAtDeath
+        {
+            get
+            {
+                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null)
+                {
+                    Dictionary<string, string> age = new Dictionary<string, string>();
+                    age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
+                    age.Add("unit", ((Quantity)AgeAtDeathObs.Value).Unit);
+                    return age;
+                }
+                return null;
+            }
+            set
+            {
+                if (AgeAtDeathObs == null)
+                {
+                    AgeAtDeathObs = new Observation();
+                    AgeAtDeathObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    AgeAtDeathObs.Meta = new Meta();
+                    string[] age_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
+                    AgeAtDeathObs.Meta.Profile = age_profile;
+                    AgeAtDeathObs.Status = ObservationStatus.Final;
+                    AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
+                    AgeAtDeathObs.Subject = new ResourceReference(Decedent.Id);
+                    Quantity quant = new Quantity();
+                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    quant.Unit = GetValue(value, "unit");
+                    AgeAtDeathObs.Value = quant;
+                    AddReferenceToComposition(AgeAtDeathObs.Id);
+                    Bundle.AddResourceEntry(AgeAtDeathObs, AgeAtDeathObs.Id);
+                }
+                else
+                {
+                    Quantity quant = new Quantity();
+                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    quant.Unit = GetValue(value, "unit");
+                    AgeAtDeathObs.Value = quant;
+                }
+            }
+        }
+
+        /// <summary>Pregnanacy Status At Death.</summary>
+        /// <value>pregnanacy status at death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "PHC1260");</para>
+        /// <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
+        /// <para>code.Add("display", "Not pregnant within past year");</para>
+        /// <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> PregnanacyStatus
+        {
+            get
+            {
+                if (PregnancyObs != null && PregnancyObs.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)PregnancyObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (PregnancyObs == null)
+                {
+                    PregnancyObs = new Observation();
+                    PregnancyObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    PregnancyObs.Meta = new Meta();
+                    string[] p_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
+                    PregnancyObs.Meta.Profile = p_profile;
+                    PregnancyObs.Status = ObservationStatus.Final;
+                    PregnancyObs.Code = new CodeableConcept("http://loinc.org", "69442-2", "Timing of recent pregnancy in relation to death", null);
+                    PregnancyObs.Subject = new ResourceReference(Decedent.Id);
+                    PregnancyObs.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(PregnancyObs.Id);
+                    Bundle.AddResourceEntry(PregnancyObs, PregnancyObs.Id);
+                }
+                else
+                {
+                    PregnancyObs.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
+
+        /// <summary>Transportation Role in death.</summary>
+        /// <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example-code");</para>
+        /// <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
+        /// <para>code.Add("display", "Example Code");</para>
+        /// <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> TransportationRole
+        {
+            get
+            {
+                if (TransportationRoleObs != null && TransportationRoleObs.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)TransportationRoleObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (TransportationRoleObs == null)
+                {
+                    TransportationRoleObs = new Observation();
+                    TransportationRoleObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    TransportationRoleObs.Meta = new Meta();
+                    string[] t_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
+                    TransportationRoleObs.Meta.Profile = t_profile;
+                    TransportationRoleObs.Status = ObservationStatus.Final;
+                    TransportationRoleObs.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent", null);
+                    TransportationRoleObs.Subject = new ResourceReference(Decedent.Id);
+                    TransportationRoleObs.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(TransportationRoleObs.Id);
+                    Bundle.AddResourceEntry(TransportationRoleObs, TransportationRoleObs.Id);
+                }
+                else
+                {
+                    TransportationRoleObs.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
+
+        /// <summary>Examiner Contacted</summary>
+        /// <value>if a medical examiner was contacted.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+        /// </example>
+        public bool ExaminerContacted
+        {
+            get
+            {
+                if (ExaminerContactedObs != null && ExaminerContactedObs.Value != null)
+                {
+                    return ((FhirBoolean)ExaminerContactedObs.Value).Value == true;
+                }
+                return false;
+            }
+            set
+            {
+                if (ExaminerContactedObs == null)
+                {
+                    ExaminerContactedObs = new Observation();
+                    ExaminerContactedObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    ExaminerContactedObs.Meta = new Meta();
+                    string[] ec_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
+                    ExaminerContactedObs.Meta.Profile = ec_profile;
+                    ExaminerContactedObs.Status = ObservationStatus.Final;
+                    ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted", null);
+                    ExaminerContactedObs.Subject = new ResourceReference(Decedent.Id);
+                    ExaminerContactedObs.Value = new FhirBoolean(value);
+                    AddReferenceToComposition(ExaminerContactedObs.Id);
+                    Bundle.AddResourceEntry(ExaminerContactedObs, ExaminerContactedObs.Id);
+                }
+                else
+                {
+                    ExaminerContactedObs.Value = new FhirBoolean(value);
+                }
+            }
+        }
+
+        /// <summary>Location of Injury.</summary>
+        /// <value>location of injury. A Dictionary representing an address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "123456 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>ExampleDeathRecord.InjuryLocationAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.InjuryLocationAddress)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\InjuryLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        public Dictionary<string, string> InjuryLocationAddress
+        {
+            get
+            {
+                if (InjuryLocationLoc != null)
+                {
+                    return AddressToDict(InjuryLocationLoc.Address);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    InjuryLocationLoc = new Location();
+                    InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InjuryLocationLoc.Meta = new Meta();
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+                    InjuryLocationLoc.Address = DictToAddress(value);
+                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    Bundle.AddResourceEntry(InjuryLocationLoc, InjuryLocationLoc.Id);
+                }
+                else
+                {
+                    InjuryLocationLoc.Address = DictToAddress(value);
+                }
+            }
+        }
+
+        /// <summary>Name of Injury Location.</summary>
+        /// <value>the injury location name.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationName = "Bedford Cemetery";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
+        /// </example>
+        public string InjuryLocationName
+        {
+            get
+            {
+                if (InjuryLocationLoc != null)
+                {
+                    return InjuryLocationLoc.Name;
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    InjuryLocationLoc = new Location();
+                    InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InjuryLocationLoc.Meta = new Meta();
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+                    InjuryLocationLoc.Name = value;
+                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    Bundle.AddResourceEntry(InjuryLocationLoc, InjuryLocationLoc.Id);
+                }
+                else
+                {
+                    InjuryLocationLoc.Name = value;
+                }
+            }
+        }
+
+        /// <summary>Description of Injury Location.</summary>
+        /// <value>the injury location description.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationDescription = "Bedford Cemetery";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
+        /// </example>
+        public string InjuryLocationDescription
+        {
+            get
+            {
+                if (InjuryLocationLoc != null)
+                {
+                    return InjuryLocationLoc.Description;
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    InjuryLocationLoc = new Location();
+                    InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InjuryLocationLoc.Meta = new Meta();
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+                    InjuryLocationLoc.Description = value;
+                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    Bundle.AddResourceEntry(InjuryLocationLoc, InjuryLocationLoc.Id);
+                }
+                else
+                {
+                    InjuryLocationLoc.Description = value;
+                }
+            }
+        }
+
+        /// <summary>Tobacco Use Contributed To Death.</summary>
+        /// <value>if tobacco use contributed to death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "Y");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.TobaccoUse = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
+        /// </example>
+        public Dictionary<string, string> TobaccoUse
+        {
+            get
+            {
+                if (TobaccoUseObs != null && TobaccoUseObs.Value != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)TobaccoUseObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (TobaccoUseObs == null)
+                {
+                    TobaccoUseObs = new Observation();
+                    TobaccoUseObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    TobaccoUseObs.Meta = new Meta();
+                    string[] tb_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
+                    TobaccoUseObs.Meta.Profile = tb_profile;
+                    TobaccoUseObs.Status = ObservationStatus.Final;
+                    TobaccoUseObs.Code = new CodeableConcept("http://loinc.org", "69443-0", "Did tobacco use contribute to death", null);
+                    TobaccoUseObs.Subject = new ResourceReference(Decedent.Id);
+                    TobaccoUseObs.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(TobaccoUseObs.Id);
+                    Bundle.AddResourceEntry(TobaccoUseObs, TobaccoUseObs.Id);
+                }
+                else
+                {
+                    TobaccoUseObs.Value = DictToCodeableConcept(value);
+                }
+            }
+        }
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -876,6 +3750,171 @@ namespace FhirDeathRecord
         private bool RemoveReferenceFromComposition(string reference)
         {
             return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
+        }
+
+        /// <summary>Restores class references from a newly parsed record.</summary>
+        private void RestoreReferences()
+        {
+            var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
+            if (compositionEntry != null)
+            {
+                Composition = (Composition)compositionEntry.Resource;
+            }
+            var patientEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Patient );
+            if (patientEntry != null)
+            {
+                Decedent = (Patient)patientEntry.Resource;
+            }
+            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Address.Count() > 0 );
+            if (practitionerEntry != null)
+            {
+                Certifier = (Practitioner)practitionerEntry.Resource;
+            }
+            var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            if (morticianEntry != null)
+            {
+                Mortician = (Practitioner)morticianEntry.Resource;
+            }
+            var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
+            if (procedureEntry != null)
+            {
+                DeathCertification = (Procedure)procedureEntry.Resource;
+            }
+            var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
+            if (interestedParty != null)
+            {
+                InterestedParty = (Organization)interestedParty.Resource;
+            }
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Id != InterestedParty.Id );
+            if (funeralHome != null)
+            {
+                FuneralHome = (Organization)funeralHome.Resource;
+            }
+            var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
+            if (funeralHomeDirector != null)
+            {
+                FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
+            }
+            var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
+            if (mannerOfDeath != null)
+            {
+                MannerOfDeath = (Observation)mannerOfDeath.Resource;
+            }
+            var conditionContributingToDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter == null );
+            if (conditionContributingToDeath != null)
+            {
+                ConditionContributingToDeath = (Condition)conditionContributingToDeath.Resource;
+            }
+            var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
+            if (causeOfDeathConditionPathway != null)
+            {
+                CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
+            }
+            List<Bundle.EntryComponent> causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter != null ).ToList();
+            if (causes != null && causes.Count() > 0)
+            {
+                CauseOfDeathConditionA = (Condition)causes[0].Resource;
+            }
+            if (causes != null && causes.Count() > 1)
+            {
+                CauseOfDeathConditionB = (Condition)causes[1].Resource;
+            }
+            if (causes != null && causes.Count() > 2)
+            {
+                CauseOfDeathConditionC = (Condition)causes[2].Resource;
+            }
+            if (causes != null && causes.Count() > 3)
+            {
+                CauseOfDeathConditionD = (Condition)causes[3].Resource;
+            }
+            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "FTH" );
+            if (father != null)
+            {
+                Father = (RelatedPerson)father.Resource;
+            }
+            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "MTH" );
+            if (mother != null)
+            {
+                Mother = (RelatedPerson)mother.Resource;
+            }
+            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "SPS" );
+            if (spouse != null)
+            {
+                Spouse = (RelatedPerson)spouse.Resource;
+            }
+            var decedentEducationLevel = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7" );
+            if (decedentEducationLevel != null)
+            {
+                DecedentEducationLevel = (Observation)decedentEducationLevel.Resource;
+            }
+            var birthRecordIdentifier = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR" );
+            if (birthRecordIdentifier != null)
+            {
+                BirthRecordIdentifier = (Observation)birthRecordIdentifier.Resource;
+            }
+            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74165-2" );
+            if (employmentHistory != null)
+            {
+                EmploymentHistory = (Observation)employmentHistory.Resource;
+            }
+            // TODO, No clear way to differentiate Locations, using meta profile for now.
+            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
+            if (dispositionLocation != null)
+            {
+                DispositionLocation = (Location)dispositionLocation.Resource;
+            }
+            // TODO, No clear way to differentiate Locations, using meta profile for now.
+            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
+            if (injuryLocation != null)
+            {
+                InjuryLocationLoc = (Location)injuryLocation.Resource;
+            }
+            // TODO, No clear way to differentiate Locations, using meta profile for now.
+            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
+            if (deathLocation != null)
+            {
+                DeathLocationLoc = (Location)deathLocation.Resource;
+            }
+            var autopsyPerformed = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7" );
+            if (autopsyPerformed != null)
+            {
+                AutopsyPerformed = (Observation)autopsyPerformed.Resource;
+            }
+            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0" );
+            if (ageAtDeath != null)
+            {
+                AgeAtDeathObs = (Observation)ageAtDeath.Resource;
+            }
+            var pregnanacyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
+            if (pregnanacyStatus != null)
+            {
+                PregnancyObs = (Observation)pregnanacyStatus.Resource;
+            }
+            var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
+            if (transportationRole != null)
+            {
+                TransportationRoleObs = (Observation)transportationRole.Resource;
+            }
+            var examinerContacted = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9" );
+            if (examinerContacted != null)
+            {
+                ExaminerContactedObs = (Observation)examinerContacted.Resource;
+            }
+            var tobaccoUse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0" );
+            if (tobaccoUse != null)
+            {
+                TobaccoUseObs = (Observation)tobaccoUse.Resource;
+            }
+            var injuryIncident = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6" );
+            if (injuryIncident != null)
+            {
+                InjuryIncidentObs = (Observation)injuryIncident.Resource;
+            }
+            var dateOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5" );
+            if (dateOfDeath != null)
+            {
+                DeathDateObs = (Observation)dateOfDeath.Resource;
+            }
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>

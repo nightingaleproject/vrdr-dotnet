@@ -203,7 +203,7 @@ namespace FhirDeathRecord
             DispositionLocation = new Location();
             DispositionLocation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             DispositionLocation.Meta = new Meta();
-            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+            string[] dispositionlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
@@ -2931,7 +2931,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return AddressToDict(DispositionLocation.Address);
+                if (DispositionLocation != null)
+                {
+                    return AddressToDict(DispositionLocation.Address);
+                }
+                return null;
             }
             set
             {
@@ -2951,7 +2955,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DispositionLocation.Name;
+                if (DispositionLocation != null)
+                {
+                    return DispositionLocation.Name;
+                }
+                return null;
             }
             set
             {
@@ -3265,7 +3273,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Address = DictToAddress(value);
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3303,7 +3311,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Name = value;
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3341,7 +3349,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3593,7 +3601,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Address = DictToAddress(value);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -3631,7 +3639,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Name = value;
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -3669,7 +3677,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Description = value;
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -3800,6 +3808,11 @@ namespace FhirDeathRecord
             {
                 MannerOfDeath = (Observation)mannerOfDeath.Resource;
             }
+            var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );
+            if (dispositionMethod != null)
+            {
+                DispositionMethod = (Observation)dispositionMethod.Resource;
+            }
             var conditionContributingToDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter == null );
             if (conditionContributingToDeath != null)
             {
@@ -3810,6 +3823,7 @@ namespace FhirDeathRecord
             {
                 CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
             }
+            // TODO: May need to dig into cause pathway for particularly un-ordered records.
             List<Bundle.EntryComponent> causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter != null ).ToList();
             if (causes != null && causes.Count() > 0)
             {

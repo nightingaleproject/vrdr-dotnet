@@ -479,7 +479,7 @@
       <Location>
         <id value="urn:uuid:ba2d026b-eaf3-4c13-ac80-7f9bf619a6cf" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
+          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
         </meta>
         <name value="Bedford Cemetery" />
         <address>
@@ -1077,7 +1077,7 @@
       <Location>
         <id value="urn:uuid:f6fbbca2-7596-43a7-974c-a97da9ba7a09" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
+          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
         </meta>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />

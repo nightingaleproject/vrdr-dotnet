@@ -603,7 +603,7 @@
             "id":"urn:uuid:1df79086-a6f9-4c18-b12f-4231e932de0f",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+                  "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
                ]
             },
             "name":"Bedford Cemetery",
@@ -1317,7 +1317,7 @@
             "id":"urn:uuid:6c501f48-640b-4c5c-887d-8a7e3b1c85ec",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+                  "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
                ]
             },
             "name":"Example Death Location Name",

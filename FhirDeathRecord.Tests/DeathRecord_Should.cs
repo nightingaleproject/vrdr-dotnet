@@ -112,7 +112,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifiedTime()
         {
-            // TODO
+            Assert.Equal("2019-01-29T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).CertifiedTime);
+            Assert.Equal("2019-01-29T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).CertifiedTime);
         }
 
         [Fact]
@@ -125,7 +126,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CreatedTime()
         {
-            // TODO
+            Assert.Equal("2019-01-20T16:47:04.4988220-05:00", ((DeathRecord)JSONRecords[0]).CreatedTime);
+            Assert.Equal("2019-01-20T16:47:04.4988220-05:00", ((DeathRecord)XMLRecords[0]).CreatedTime);
         }
 
         [Fact]
@@ -144,7 +146,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierRole()
         {
-            // TODO
+            Assert.Equal("309343006", ((DeathRecord)JSONRecords[0]).CertifierRole["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertifierRole["system"]);
+            Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertifierRole["display"]);
+            Assert.Equal("309343006", ((DeathRecord)XMLRecords[0]).CertifierRole["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertifierRole["system"]);
+            Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertifierRole["display"]);
         }
 
         [Fact]
@@ -157,7 +164,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyIdentifier()
         {
-            // TODO
+            Assert.Equal("2e7302aa-32a2-4d14-8669-19e49396adcf", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("0ee7d156-051f-4f58-ba22-7060333c599b", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
         }
 
         [Fact]
@@ -170,7 +178,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyName()
         {
-            // TODO
+            Assert.Equal("Example Hospital", ((DeathRecord)JSONRecords[0]).InterestedPartyName);
+            Assert.Equal("Example Hospital", ((DeathRecord)XMLRecords[0]).InterestedPartyName);
         }
 
         [Fact]
@@ -197,7 +206,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyAddress()
         {
-            // TODO
+            Assert.Equal("10 Example Street", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
+            Assert.Equal("10 Example Street", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
         }
 
         [Fact]
@@ -216,7 +238,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyType()
         {
-            // TODO
+            Assert.Equal("prov", ((DeathRecord)JSONRecords[0]).InterestedPartyType["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
+            Assert.Equal("Healthcare Provider", ((DeathRecord)JSONRecords[0]).InterestedPartyType["display"]);
+            Assert.Equal("prov", ((DeathRecord)XMLRecords[0]).InterestedPartyType["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
+            Assert.Equal("Healthcare Provider", ((DeathRecord)XMLRecords[0]).InterestedPartyType["display"]);
         }
 
         [Fact]
@@ -233,7 +260,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MannerOfDeathType()
         {
-            // TODO
+            Assert.Equal("7878000", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal("Accident", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
+            Assert.Equal("7878000", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal("Accident", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
         }
 
         [Fact]
@@ -248,7 +278,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierGivenNames()
         {
-            // TODO
+            string[] cnamesjson = ((DeathRecord)JSONRecords[0]).CertifierGivenNames;
+            Assert.Equal("Doctor", cnamesjson[0]);
+            Assert.Equal("Middle", cnamesjson[1]);
+            string[] cnamesxml = ((DeathRecord)XMLRecords[0]).CertifierGivenNames;
+            Assert.Equal("Doctor", cnamesxml[0]);
+            Assert.Equal("Middle", cnamesxml[1]);
         }
 
         [Fact]
@@ -261,7 +296,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierFamilyName()
         {
-            // TODO
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).CertifierFamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).CertifierFamilyName);
         }
 
         [Fact]
@@ -274,7 +310,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierSuffix()
         {
-            // TODO
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).CertifierSuffix);
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).CertifierSuffix);
         }
 
         [Fact]
@@ -301,7 +338,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierAddress()
         {
-            // TODO
+            Assert.Equal("11 Example Street", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCountry"]);
+            Assert.Equal("11 Example Street", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCountry"]);
         }
 
         [Fact]
@@ -320,7 +370,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CertifierQualification()
         {
-            // TODO
+            Assert.Equal("MD", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://hl7.org/fhir/v2/0360/2.7", ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
+            Assert.Equal("Doctor of Medicine", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("MD", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://hl7.org/fhir/v2/0360/2.7", ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
+            Assert.Equal("Doctor of Medicine", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
         }
 
         [Fact]
@@ -333,7 +388,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_ContributingConditions()
         {
-            // TODO
+            Assert.Equal("Example Contributing Conditions", ((DeathRecord)JSONRecords[0]).ContributingConditions);
+            Assert.Equal("Example Contributing Conditions", ((DeathRecord)XMLRecords[0]).ContributingConditions);
         }
 
         [Fact]
@@ -346,7 +402,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_COD1A()
         {
-            // TODO
+            Assert.Equal("Rupture of myocardium", ((DeathRecord)JSONRecords[0]).COD1A);
+            Assert.Equal("Rupture of myocardium", ((DeathRecord)XMLRecords[0]).COD1A);
         }
 
         [Fact]
@@ -359,7 +416,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_INTERVAL1A()
         {
-            // TODO
+            Assert.Equal("minutes", ((DeathRecord)JSONRecords[0]).INTERVAL1A);
+            Assert.Equal("minutes", ((DeathRecord)XMLRecords[0]).INTERVAL1A);
         }
 
         [Fact]
@@ -378,7 +436,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1A()
         {
-            // TODO
+            Assert.Equal("I21.0", ((DeathRecord)JSONRecords[0]).CODE1A["code"]);
+            Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)XMLRecords[0]).CODE1A["system"]);
+            Assert.Equal("Acute transmural myocardial infarction of anterior wall", ((DeathRecord)JSONRecords[0]).CODE1A["display"]);
+            Assert.Equal("I21.0", ((DeathRecord)XMLRecords[0]).CODE1A["code"]);
+            Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)JSONRecords[0]).CODE1A["system"]);
+            Assert.Equal("Acute transmural myocardial infarction of anterior wall", ((DeathRecord)XMLRecords[0]).CODE1A["display"]);
         }
 
         [Fact]
@@ -391,20 +454,22 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_COD1B()
         {
-            // TODO
+            Assert.Equal("Acute myocardial infarction", ((DeathRecord)JSONRecords[0]).COD1B);
+            Assert.Equal("Acute myocardial infarction", ((DeathRecord)XMLRecords[0]).COD1B);
         }
 
         [Fact]
         public void Set_INTERVAL1B()
         {
-            SetterDeathRecord.INTERVAL1B = "interval 2";
-            Assert.Equal("interval 2", SetterDeathRecord.INTERVAL1B);
+            SetterDeathRecord.INTERVAL1B = "days";
+            Assert.Equal("days", SetterDeathRecord.INTERVAL1B);
         }
 
         [Fact]
         public void Get_INTERVAL1B()
         {
-            // TODO
+            Assert.Equal("6 days", ((DeathRecord)JSONRecords[0]).INTERVAL1B);
+            Assert.Equal("6 days", ((DeathRecord)XMLRecords[0]).INTERVAL1B);
         }
 
         [Fact]
@@ -423,7 +488,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_CODE1B()
         {
-            // TODO
+            Assert.Equal("I21.9", ((DeathRecord)JSONRecords[0]).CODE1B["code"]);
+            Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)XMLRecords[0]).CODE1B["system"]);
+            Assert.Equal("Acute myocardial infarction, unspecified", ((DeathRecord)JSONRecords[0]).CODE1B["display"]);
+            Assert.Equal("I21.9", ((DeathRecord)XMLRecords[0]).CODE1B["code"]);
+            Assert.Equal("http://hl7.org/fhir/sid/icd-10", ((DeathRecord)JSONRecords[0]).CODE1B["system"]);
+            Assert.Equal("Acute myocardial infarction, unspecified", ((DeathRecord)XMLRecords[0]).CODE1B["display"]);
         }
 
         [Fact]
@@ -436,7 +506,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_COD1C()
         {
-            // TODO
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[0]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[0]).COD1C);
         }
 
         [Fact]
@@ -449,7 +520,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_INTERVAL1C()
         {
-            // TODO
+            Assert.Equal("5 years", ((DeathRecord)JSONRecords[0]).INTERVAL1C);
+            Assert.Equal("5 years", ((DeathRecord)XMLRecords[0]).INTERVAL1C);
         }
 
         [Fact]
@@ -466,35 +538,31 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Get_CODE1C()
-        {
-            // TODO
-        }
-
-        [Fact]
         public void Set_COD1D()
         {
-            SetterDeathRecord.COD1A = "cause 4";
-            Assert.Equal("cause 4", SetterDeathRecord.COD1A);
+            SetterDeathRecord.COD1D = "cause 4";
+            Assert.Equal("cause 4", SetterDeathRecord.COD1D);
         }
 
         [Fact]
         public void Get_COD1D()
         {
-            // TODO
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[0]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[0]).COD1D);
         }
 
         [Fact]
         public void Set_INTERVAL1D()
         {
-            SetterDeathRecord.INTERVAL1A = "interval 4";
-            Assert.Equal("interval 4", SetterDeathRecord.INTERVAL1A);
+            SetterDeathRecord.INTERVAL1D = "interval 4";
+            Assert.Equal("interval 4", SetterDeathRecord.INTERVAL1D);
         }
 
         [Fact]
         public void Get_INTERVAL1D()
         {
-            // TODO
+            Assert.Equal("7 years", ((DeathRecord)JSONRecords[0]).INTERVAL1D);
+            Assert.Equal("7 years", ((DeathRecord)XMLRecords[0]).INTERVAL1D);
         }
 
         [Fact]
@@ -504,16 +572,10 @@ namespace FhirDeathRecord.Tests
             code.Add("code", "code 4");
             code.Add("system", "system 4");
             code.Add("display", "display 4");
-            SetterDeathRecord.CODE1A = code;
-            Assert.Equal("code 4", SetterDeathRecord.CODE1A["code"]);
-            Assert.Equal("system 4", SetterDeathRecord.CODE1A["system"]);
-            Assert.Equal("display 4", SetterDeathRecord.CODE1A["display"]);
-        }
-
-        [Fact]
-        public void Get_CODE1D()
-        {
-            // TODO
+            SetterDeathRecord.CODE1D = code;
+            Assert.Equal("code 4", SetterDeathRecord.CODE1D["code"]);
+            Assert.Equal("system 4", SetterDeathRecord.CODE1D["system"]);
+            Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
         }
 
         [Fact]
@@ -528,7 +590,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_GivenNames()
         {
-            // TODO
+            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).GivenNames[0]);
+            Assert.Equal("Something", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[2]);
+            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
+            Assert.Equal("Something", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[2]);
         }
 
         [Fact]
@@ -541,7 +608,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FamilyName()
         {
-            // TODO
+            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).FamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).FamilyName);
         }
 
         [Fact]
@@ -554,7 +622,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Suffix()
         {
-            // TODO
+            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).Suffix);
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
         }
 
         [Fact]
@@ -567,7 +636,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Gender()
         {
-            // TODO
+            Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
+            Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
         }
 
         [Fact]
@@ -586,7 +656,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_BirthSex()
         {
-            // TODO
+            Assert.Equal("M", ((DeathRecord)JSONRecords[0]).BirthSex["code"]);
+            Assert.Equal("http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex", ((DeathRecord)XMLRecords[0]).BirthSex["system"]);
+            Assert.Equal("Male", ((DeathRecord)JSONRecords[0]).BirthSex["display"]);
+            Assert.Equal("M", ((DeathRecord)XMLRecords[0]).BirthSex["code"]);
+            Assert.Equal("http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex", ((DeathRecord)JSONRecords[0]).BirthSex["system"]);
+            Assert.Equal("Male", ((DeathRecord)XMLRecords[0]).BirthSex["display"]);
         }
 
         [Fact]
@@ -599,7 +674,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DateOfBirth()
         {
-            // TODO
+            Assert.Equal("1940-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+            Assert.Equal("1940-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfBirth);
         }
 
         [Fact]
@@ -626,7 +702,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Residence()
         {
-            // TODO
+            Assert.Equal("101 Example Street", ((DeathRecord)JSONRecords[0]).Residence["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).Residence["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).Residence["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).Residence["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).Residence["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).Residence["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).Residence["addressCountry"]);
+            Assert.Equal("101 Example Street", ((DeathRecord)XMLRecords[0]).Residence["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).Residence["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).Residence["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).Residence["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).Residence["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).Residence["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).Residence["addressCountry"]);
         }
 
         [Fact]
@@ -639,7 +728,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_SSN()
         {
-            // TODO
+            Assert.Equal("123456789", ((DeathRecord)JSONRecords[0]).SSN);
+            Assert.Equal("123456789", ((DeathRecord)XMLRecords[0]).SSN);
         }
 
         [Fact]
@@ -654,7 +744,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Ethnicity()
         {
-            // TODO
+            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)JSONRecords[0]).Ethnicity[0]);
+            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)JSONRecords[0]).Ethnicity[1]);
+            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)XMLRecords[0]).Ethnicity[0]);
+            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)XMLRecords[0]).Ethnicity[1]);
         }
 
         [Fact]
@@ -669,7 +762,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Race()
         {
-            // TODO
+            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)JSONRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)JSONRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)XMLRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)XMLRecords[0]).Race[1]);
         }
 
         [Fact]
@@ -696,7 +792,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_PlaceOfBirth()
         {
-            // TODO
+            Assert.Equal("1011 Example Street", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCountry"]);
+            Assert.Equal("1011 Example Street", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCountry"]);
         }
 
         [Fact]
@@ -715,7 +824,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MaritalStatus()
         {
-            // TODO
+            Assert.Equal("S", ((DeathRecord)JSONRecords[0]).MaritalStatus["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", ((DeathRecord)JSONRecords[0]).MaritalStatus["system"]);
+            Assert.Equal("Never Married", ((DeathRecord)JSONRecords[0]).MaritalStatus["display"]);
+            Assert.Equal("S", ((DeathRecord)XMLRecords[0]).MaritalStatus["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/MaritalStatus", ((DeathRecord)XMLRecords[0]).MaritalStatus["system"]);
+            Assert.Equal("Never Married", ((DeathRecord)XMLRecords[0]).MaritalStatus["display"]);
         }
 
         [Fact]
@@ -730,7 +844,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FatherGivenNames()
         {
-            // TODO
+            Assert.Equal("Father", ((DeathRecord)JSONRecords[0]).FatherGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).FatherGivenNames[1]);
+            Assert.Equal("Father", ((DeathRecord)XMLRecords[0]).FatherGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).FatherGivenNames[1]);
         }
 
         [Fact]
@@ -743,7 +860,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FatherFamilyName()
         {
-            // TODO
+            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).FatherFamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).FatherFamilyName);
         }
 
         [Fact]
@@ -756,7 +874,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FatherSuffix()
         {
-            // TODO
+            Assert.Equal("Sr.", ((DeathRecord)JSONRecords[0]).FatherSuffix);
+            Assert.Equal("Sr.", ((DeathRecord)XMLRecords[0]).FatherSuffix);
         }
 
         [Fact]
@@ -771,7 +890,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MotherGivenNames()
         {
-            // TODO
+            Assert.Equal("Mother", ((DeathRecord)JSONRecords[0]).MotherGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MotherGivenNames[1]);
+            Assert.Equal("Mother", ((DeathRecord)XMLRecords[0]).MotherGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MotherGivenNames[1]);
         }
 
         [Fact]
@@ -784,7 +906,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MotherMaidenName()
         {
-            // TODO
+            Assert.Equal("Maiden", ((DeathRecord)JSONRecords[0]).MotherMaidenName);
+            Assert.Equal("Maiden", ((DeathRecord)XMLRecords[0]).MotherMaidenName);
         }
 
         [Fact]
@@ -797,7 +920,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MotherSuffix()
         {
-            // TODO
+            Assert.Equal("Dr.", ((DeathRecord)JSONRecords[0]).MotherSuffix);
+            Assert.Equal("Dr.", ((DeathRecord)XMLRecords[0]).MotherSuffix);
         }
 
         [Fact]
@@ -812,7 +936,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_SpouseGivenNames()
         {
-            // TODO
+            Assert.Equal("Spouse", ((DeathRecord)JSONRecords[0]).SpouseGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).SpouseGivenNames[1]);
+            Assert.Equal("Spouse", ((DeathRecord)XMLRecords[0]).SpouseGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).SpouseGivenNames[1]);
         }
 
         [Fact]
@@ -825,7 +952,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_SpouseFamilyName()
         {
-            // TODO
+            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).SpouseFamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).SpouseFamilyName);
         }
 
         [Fact]
@@ -838,7 +966,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_SpouseSuffix()
         {
-            // TODO
+            Assert.Equal("Ph.D.", ((DeathRecord)JSONRecords[0]).SpouseSuffix);
+            Assert.Equal("Ph.D.", ((DeathRecord)XMLRecords[0]).SpouseSuffix);
         }
 
         [Fact]
@@ -857,7 +986,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_EducationLevel()
         {
-            // TODO
+            Assert.Equal("BD", ((DeathRecord)JSONRecords[0]).EducationLevel["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/EducationLevel", ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
+            Assert.Equal("College or baccalaureate degree complete", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
+            Assert.Equal("BD", ((DeathRecord)XMLRecords[0]).EducationLevel["code"]);
+            Assert.Equal("http://hl7.org/fhir/v3/EducationLevel", ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
+            Assert.Equal("College or baccalaureate degree complete", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
         }
 
         [Fact]
@@ -870,7 +1004,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_BirthRecordId()
         {
-            // TODO
+            Assert.Equal("4242123", ((DeathRecord)JSONRecords[0]).BirthRecordId);
+            Assert.Equal("4242123", ((DeathRecord)XMLRecords[0]).BirthRecordId);
         }
 
         [Fact]
@@ -889,7 +1024,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_UsualOccupation()
         {
-            // TODO
+            Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualOccupation["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/Usual-occupation", ((DeathRecord)JSONRecords[0]).UsualOccupation["system"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualOccupation["display"]);
+            Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualOccupation["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/Usual-occupation", ((DeathRecord)XMLRecords[0]).UsualOccupation["system"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualOccupation["display"]);
         }
 
         [Fact]
@@ -908,7 +1048,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_UsualIndustry()
         {
-            // TODO
+            Assert.Equal("1320", ((DeathRecord)JSONRecords[0]).UsualIndustry["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)JSONRecords[0]).UsualIndustry["system"]);
+            Assert.Equal("Aerospace engineers", ((DeathRecord)JSONRecords[0]).UsualIndustry["display"]);
+            Assert.Equal("1320", ((DeathRecord)XMLRecords[0]).UsualIndustry["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)XMLRecords[0]).UsualIndustry["system"]);
+            Assert.Equal("Aerospace engineers", ((DeathRecord)XMLRecords[0]).UsualIndustry["display"]);
         }
 
         [Fact]
@@ -927,7 +1072,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MilitaryService()
         {
-            // TODO
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
         }
 
         [Fact]
@@ -942,7 +1092,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MorticianGivenNames()
         {
-            // TODO
+            Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[1]);
+            Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[1]);
         }
 
         [Fact]
@@ -955,7 +1108,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MorticianFamilyName()
         {
-            // TODO
+            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).MorticianFamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).MorticianFamilyName);
         }
 
         [Fact]
@@ -968,7 +1122,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MorticianSuffix()
         {
-            // TODO
+            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).MorticianSuffix);
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).MorticianSuffix);
         }
 
         [Fact]
@@ -981,7 +1136,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_MorticianIdentifier()
         {
-            // TODO
+            Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier);
+            Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier);
         }
 
         [Fact]
@@ -1008,7 +1164,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FuneralHomeAddress()
         {
-            // TODO
+            Assert.Equal("1011010 Example Street", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("1011010 Example Street", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1021,7 +1190,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_FuneralHomeName()
         {
-            // TODO
+            Assert.Equal("Smith Funeral Home", ((DeathRecord)JSONRecords[0]).FuneralHomeName);
+            Assert.Equal("Smith Funeral Home", ((DeathRecord)XMLRecords[0]).FuneralHomeName);
         }
 
         [Fact]
@@ -1048,7 +1218,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DispositionLocationAddress()
         {
-            // TODO
+            Assert.Equal("603 Example Street", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("603 Example Street", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1061,7 +1244,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DispositionLocationName()
         {
-            // TODO
+            Assert.Equal("Bedford Cemetery", ((DeathRecord)JSONRecords[0]).DispositionLocationName);
+            Assert.Equal("Bedford Cemetery", ((DeathRecord)XMLRecords[0]).DispositionLocationName);
         }
 
         [Fact]
@@ -1080,7 +1264,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DecedentDispositionMethod()
         {
-            // TODO
+            Assert.Equal("449971000124106", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["system"]);
+            Assert.Equal("Burial", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["display"]);
+            Assert.Equal("449971000124106", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["system"]);
+            Assert.Equal("Burial", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["display"]);
         }
 
         [Fact]
@@ -1099,7 +1288,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_AutopsyPerformedIndicator()
         {
-            // TODO
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
         }
 
         [Fact]
@@ -1118,7 +1312,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_AutopsyResultsAvailable()
         {
-            // TODO
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
         }
 
         [Fact]
@@ -1135,7 +1334,10 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_AgeAtDeath()
         {
-            // TODO
+            Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["unit"]);
+            Assert.Equal("100", ((DeathRecord)JSONRecords[0]).AgeAtDeath["value"]);
+            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["unit"]);
+            Assert.Equal("100", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -1154,7 +1356,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_PregnanacyStatus()
         {
-            // TODO
+            Assert.Equal("PHC1260", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["display"]);
+            Assert.Equal("PHC1260", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["display"]);
         }
 
         [Fact]
@@ -1173,7 +1380,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_TransportationRole()
         {
-            // TODO
+            Assert.Equal("example-code", ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
+            Assert.Equal("Example Code", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
+            Assert.Equal("example-code", ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
+            Assert.Equal("Example Code", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
         }
 
         [Fact]
@@ -1188,7 +1400,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_ExaminerContacted()
         {
-            // TODO
+            Assert.False(((DeathRecord)JSONRecords[0]).ExaminerContacted);
+            Assert.False(((DeathRecord)XMLRecords[0]).ExaminerContacted);
         }
 
         [Fact]
@@ -1207,7 +1420,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_TobaccoUse()
         {
-            // TODO
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TobaccoUse["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TobaccoUse["display"]);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TobaccoUse["code"]);
+            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TobaccoUse["display"]);
         }
 
         [Fact]
@@ -1234,7 +1452,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InjuryLocationAddress()
         {
-            // TODO
+            Assert.Equal("99912 Example Street", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("99912 Example Street", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1247,7 +1478,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InjuryLocationName()
         {
-            // TODO
+            Assert.Equal("Example Injury Location Name", ((DeathRecord)JSONRecords[0]).InjuryLocationName);
+            Assert.Equal("Example Injury Location Name", ((DeathRecord)XMLRecords[0]).InjuryLocationName);
         }
 
         [Fact]
@@ -1260,7 +1492,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InjuryLocationDescription()
         {
-            // TODO
+            Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
+            Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
         }
 
         [Fact]
@@ -1287,7 +1520,20 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DeathLocationAddress()
         {
-            // TODO
+            Assert.Equal("671 Example Street", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountry"]);
+            Assert.Equal("671 Example Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine1"]);
+            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine2"]);
+            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCity"]);
+            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCounty"]);
+            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
+            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressZip"]);
+            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1300,7 +1546,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DeathLocationName()
         {
-            // TODO
+            Assert.Equal("Example Death Location Name", ((DeathRecord)JSONRecords[0]).DeathLocationName);
+            Assert.Equal("Example Death Location Name", ((DeathRecord)XMLRecords[0]).DeathLocationName);
         }
 
         [Fact]
@@ -1313,13 +1560,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_DeathLocationDescription()
         {
-            // TODO
-        }
-
-        [Fact]
-        public void Get_DateOfDeath()
-        {
-            // TODO
+            Assert.Equal("Example Death Location Description", ((DeathRecord)JSONRecords[0]).DeathLocationDescription);
+            Assert.Equal("Example Death Location Description", ((DeathRecord)XMLRecords[0]).DeathLocationDescription);
         }
 
         [Fact]
@@ -1330,9 +1572,10 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Get_DateOfDeathPronouncement()
+        public void Get_DateOfDeath()
         {
-            // TODO
+            Assert.Equal("2019-01-30T16:48:07.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2019-01-30T16:48:07.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]
@@ -1340,6 +1583,13 @@ namespace FhirDeathRecord.Tests
         {
             SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.4988220-05:00";
             Assert.Equal("2019-01-31T17:48:07.4988220-05:00", SetterDeathRecord.DateOfDeathPronouncement);
+        }
+
+        [Fact]
+        public void Get_DateOfDeathPronouncement()
+        {
+            Assert.Equal("2018-02-20T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
         }
 
         private string FixturePath(string filePath)

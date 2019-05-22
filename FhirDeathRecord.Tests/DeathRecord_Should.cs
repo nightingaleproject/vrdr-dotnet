@@ -32,21 +32,22 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Invalid Json encountered. Details: Error parsing boolean value. Path '', line 1, position 1.", ex.Message);
         }
 
-        // [Fact]
-        // public void ToFromDescription()
-        // {
-        //     DeathRecord first = (DeathRecord)XMLRecords[0];
-        //     string firstDescription = first.ToDescription();
-        //     DeathRecord second = DeathRecord.FromDescription(firstDescription);
-        //     Assert.Equal(first.Id, second.Id);
-        //     Assert.Equal(first.ServedInArmedForces, second.ServedInArmedForces);
-        //     Assert.Equal(first.GivenNames, second.GivenNames);
-        //     Assert.Equal(first.AutopsyPerformed, second.AutopsyPerformed);
-        //     Assert.Equal(first.Race, second.Race);
-        //     Assert.Equal(first.CausesOfDeath, second.CausesOfDeath);
-        //     Assert.Equal(first.DeathFromTransportInjury, second.DeathFromTransportInjury);
-        //     Assert.Equal(first.DetailsOfInjury, second.DetailsOfInjury);
-        // }
+        [Fact]
+        public void ToFromDescription()
+        {
+            DeathRecord first = (DeathRecord)XMLRecords[0];
+            string firstDescription = first.ToDescription();
+            DeathRecord second = DeathRecord.FromDescription(firstDescription);
+            Assert.Equal(first.Identifier, second.Identifier);
+            Assert.Equal(first.GivenNames, second.GivenNames);
+            Assert.Equal(first.AutopsyResultsAvailable, second.AutopsyResultsAvailable);
+            Assert.Equal(first.Race, second.Race);
+            Assert.Equal(first.COD1A, second.COD1A);
+            Assert.Equal(first.INTERVAL1B, second.INTERVAL1B);
+            Assert.Equal(first.CODE1A, second.CODE1A);
+            Assert.Equal(first.CertifierAddress, second.CertifierAddress);
+            Assert.Equal(first.CausesOfDeath, second.CausesOfDeath);
+        }
 
         [Fact]
         public void SetPatientAfterParse()
@@ -1452,14 +1453,14 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InjuryLocationAddress()
         {
-            Assert.Equal("99912 Example Street", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("781 Example Street", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCounty"]);
             Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressZip"]);
             Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCountry"]);
-            Assert.Equal("99912 Example Street", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine1"]);
+            Assert.Equal("781 Example Street", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCounty"]);
@@ -1567,15 +1568,15 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_DateOfDeath()
         {
-            SetterDeathRecord.DateOfDeath = "2019-01-30T16:48:07.4988220-05:00";
-            Assert.Equal("2019-01-30T16:48:07.4988220-05:00", SetterDeathRecord.DateOfDeath);
+            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2019-01-30T16:48:07.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
-            Assert.Equal("2019-01-30T16:48:07.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]

@@ -189,7 +189,7 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierRole">
-            <summary>Certifier Role (see http://www.hl7.org/fhir/stu3/valueset-Performer-role.html).</summary>
+            <summary>Certifier Role.</summary>
             <value>the certifier role. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -245,7 +245,7 @@
             <para>address.Add("addressCity", "Bedford");</para>
             <para>address.Add("addressCounty", "Middlesex");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressZip", "01730");</para>
+            <para>address.Add("addressZip", "12345");</para>
             <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
             <para>// Getter:</para>
@@ -253,7 +253,7 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyType">
-            <summary>Interested Party Type (see https://www.hl7.org/fhir/valueset-organization-type.html).</summary>
+            <summary>Interested Party Type.</summary>
             <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -338,8 +338,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.CertifierAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
@@ -367,15 +367,43 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
-            <summary>A significant condition that contributed to death but did not result in the underlying cause
-            captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
-            <value>A significant condition that contributed to death but did not result in the underlying cause
-            captured by a CauseOfDeathCondition.</value>
+            <summary>Significant conditions that contributed to death but did not result in the underlying cause.
+            Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
+            <value>A string containing the significant conditions that contributed to death but did not result in
+            the underlying cause captured by a CauseOfDeathCondition.</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CausesOfDeath">
+            <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
+            Standard Certificate of Death.</summary>
+            <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
+            appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
+            approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code describing this finding</para>
+            <para>"system" - the system the given code belongs to</para>
+            <para>"display" - the human readable display text that corresponds to the given code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
+            <para>{</para>
+            <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary&lt;string, string&gt;(){ {"code", "1234"}, {"system", "example"} }),</para>
+            <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary&lt;string, string&gt;()),</para>
+            <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary&lt;string, string&gt;()),</para>
+            <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary&lt;string, string&gt;())</para>
+            <para>};</para>
+            <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
+            <para>// Getter:</para>
+            <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
+            <para>foreach (var cause in causes)</para>
+            <para>{</para>
+            <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
+            <para>}</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.COD1A">
@@ -618,8 +646,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>SetterDeathRecord.Residence = address;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
@@ -684,8 +712,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>SetterDeathRecord.PlaceOfBirth = address;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
@@ -944,8 +972,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.FuneralHomeAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.FuneralHomeAddress)</para>
@@ -983,8 +1011,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.DispositionLocationAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.DispositionLocationAddress)</para>
@@ -1096,8 +1124,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
@@ -1129,8 +1157,8 @@
         <member name="P:FhirDeathRecord.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
             <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
-            <para>"value" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
+            <para>"value" - the quantity value</para>
+            <para>"system" - the quantity unit</para>
             </value>
             <example>
             <para>// Setter:</para>
@@ -1179,7 +1207,7 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.ExaminerContacted">
-            <summary>Examiner Contacted</summary>
+            <summary>Examiner Contacted.</summary>
             <value>if a medical examiner was contacted.</value>
             <example>
             <para>// Setter:</para>
@@ -1207,8 +1235,8 @@
             <para>address.Add("addressCity", "Boston");</para>
             <para>address.Add("addressCounty", "Suffolk");</para>
             <para>address.Add("addressState", "Massachusetts");</para>
-            <para>address.Add("addressCountry", "United States");</para>
             <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.InjuryLocationAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.InjuryLocationAddress)</para>

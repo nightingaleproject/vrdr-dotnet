@@ -400,12 +400,12 @@ namespace FhirDeathRecord.CLI
                 //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
                 return 0;
             }
-            // else if (args.Length == 2 && args[0] == "description")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-            //     Console.WriteLine(d.ToDescription());
-            //     return 0;
-            // }
+            else if (args.Length == 2 && args[0] == "description")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(d.ToDescription());
+                return 0;
+            }
             // else if (args.Length == 2 && args[0] == "2ije")
             // {
             //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
@@ -427,64 +427,64 @@ namespace FhirDeathRecord.CLI
             //     Console.WriteLine(d.ToJSON());
             //     return 0;
             // }
-            // else if (args.Length == 2 && args[0] == "json2xml")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-            //     Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "checkXml")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
-            //     Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "checkJson")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
-            //     Console.WriteLine(d.ToJSON());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "xml2json")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-            //     Console.WriteLine(d.ToJSON());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "xml2xml")
-            // {
-            //     // Forces record through getters and then setters, prints as xml
-            //     DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
-            //     DeathRecord outdr = new DeathRecord();
-            //     List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
-            //     foreach(PropertyInfo property in properties)
-            //     {
-            //         if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
-            //         {
-            //             continue;
-            //         }
-            //         property.SetValue(outdr, property.GetValue(indr));
-            //     }
-            //     Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "json2json")
-            // {
-            //     // Forces record through getters and then setters, prints as JSON
-            //     DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
-            //     DeathRecord outdr = new DeathRecord();
-            //     List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
-            //     foreach(PropertyInfo property in properties)
-            //     {
-            //         if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
-            //         {
-            //             continue;
-            //         }
-            //         property.SetValue(outdr, property.GetValue(indr));
-            //     }
-            //     Console.WriteLine(outdr.ToJSON());
-            //     return 0;
-            // }
+            else if (args.Length == 2 && args[0] == "json2xml")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "checkXml")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "checkJson")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]), true);
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "xml2json")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "xml2xml")
+            {
+                // Forces record through getters and then setters, prints as xml
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(XDocument.Parse(outdr.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "json2json")
+            {
+                // Forces record through getters and then setters, prints as JSON
+                DeathRecord indr = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord outdr = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(outdr, property.GetValue(indr));
+                }
+                Console.WriteLine(outdr.ToJSON());
+                return 0;
+            }
             // else if (args.Length == 2 && args[0] == "roundtrip-ije")
             // {
             //     Console.WriteLine("Converting FHIR to IJE...\n");
@@ -613,77 +613,9 @@ namespace FhirDeathRecord.CLI
             //         Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
             //     }
             // }
-            // else
-            // {
-            //     foreach (var path in args)
-            //     {
-            //         return ReadFile(path);
-            //     }
-            // }
             return 0;
         }
 
-        private static int ReadFile(string path)
-        {
-            if (File.Exists(path))
-            {
-                // Console.WriteLine($"Reading file '{path}'");
-                // string contents = File.ReadAllText(path);
-                // DeathRecord deathRecord = new DeathRecord(contents);
-
-                // // Record Information
-                // Console.WriteLine($"\tRecord ID: {deathRecord.Id}");
-
-                // // Decedent Information
-                // Console.WriteLine($"\tGiven Name: {string.Join(", ", deathRecord.GivenNames)}");
-                // Console.WriteLine($"\tLast Name: {deathRecord.FamilyName}");
-                // Console.WriteLine($"\tGender: {deathRecord.Gender}");
-                // Console.WriteLine($"\tSSN: {deathRecord.SSN}");
-                // Console.WriteLine($"\tEthnicity: {deathRecord.Ethnicity}");
-                // Console.WriteLine($"\tDate of Birth: {deathRecord.DateOfBirth}");
-                // Console.WriteLine($"\tDate of Death: {deathRecord.DateOfDeath}");
-
-                // // Certifier Information
-                // Console.WriteLine($"\tCertifier Given Name: {deathRecord.CertifierGivenNames}");
-                // Console.WriteLine($"\tCertifier Last Name: {deathRecord.CertifierFamilyName}");
-                // Console.WriteLine($"\tCertifier Type: {deathRecord.CertifierType}");
-
-                // // Conditions
-                // Tuple<string, string, Dictionary<string, string>>[] causes = deathRecord.CausesOfDeath;
-                // foreach (var cause in causes)
-                // {
-                //     Console.WriteLine($"\tCause: {cause.Item1}, Onset: {cause.Item2}, Code: {string.Join(", ", cause.Item3)}");
-                // }
-                // Console.WriteLine($"\tContributing Conditions: {deathRecord.ContributingConditions}");
-
-                // // Observations
-                // Console.WriteLine($"\tAutopsy Performed: {deathRecord.AutopsyPerformed}");
-                // Console.WriteLine($"\tAutopsy Results Available: {deathRecord.AutopsyResultsAvailable}");
-                // Console.WriteLine($"\tActual Or Presumed Date of Death: {deathRecord.ActualOrPresumedDateOfDeath}");
-                // Console.WriteLine($"\tDate Pronounced Dead: {deathRecord.DatePronouncedDead}");
-                // Console.WriteLine($"\tDeath Resulted from Injury at Work: {deathRecord.DeathFromWorkInjury}");
-                // Console.WriteLine($"\tDeath From Transport Injury: {string.Join(", ", deathRecord.DeathFromTransportInjury)}");
-                // Console.WriteLine($"\tDetails of Injury: {string.Join(", ", deathRecord.DetailsOfInjury)}");
-                // Console.WriteLine($"\tMedical Examiner Contacted: {deathRecord.MedicalExaminerContacted}");
-                // Console.WriteLine($"\tTiming of Recent Pregnancy In Relation to Death: {string.Join(", ", deathRecord.TimingOfRecentPregnancyInRelationToDeath)}");
-                // foreach(var pair in deathRecord.MannerOfDeath)
-                // {
-                //     Console.WriteLine($"\tManner of Death key: {pair.Key}: value: {pair.Value}");
-                // }
-
-                // foreach(var pair in deathRecord.TobaccoUseContributedToDeath)
-                // {
-                //     Console.WriteLine($"\tTobacco Use Contributed to Death key: {pair.Key}: value: {pair.Value}");
-                // }
-
-                return 0;
-            }
-            else
-            {
-                Console.WriteLine($"Error: File '{path}' does not exist");
-                return 1;
-            }
-        }
         private static string Truncate(string value, int length)
         {
             if (String.IsNullOrWhiteSpace(value) || value.Length <= length)

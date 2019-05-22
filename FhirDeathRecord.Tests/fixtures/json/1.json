@@ -1292,7 +1292,7 @@
             "id":"urn:uuid:3e96f957-2070-4f0b-b4f4-c55bf7d96328",
             "meta":{
                "profile":[
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+                  "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
                ]
             },
             "name":"Example Injury Location Name",

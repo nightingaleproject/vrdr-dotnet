@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record.svg?branch=master)](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record)
-![Nuget](https://img.shields.io/nuget/v/FHIRDeathRecord.svg)
+[![Nuget](https://img.shields.io/nuget/v/FHIRDeathRecord.svg)](https://www.nuget.org/packages/FHIRDeathRecord)
 
 # csharp-fhir-death-record
 This repository includes C# code for producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/). This code also includes support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.

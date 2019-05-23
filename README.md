@@ -1,19 +1,19 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record.svg?branch=master)](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record)
 
 # csharp-fhir-death-record
-This repository includes C# code for producing and consuming the preliminary version of the Standard Death Record (SDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR). [Click here to view the generated FHIR IG](https://nightingaleproject.github.io/fhir-death-record). This code also includes support for converting FHIR SDRs to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
+This repository includes C# code for producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/). This code also includes support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
 ## Project Organization
 
 ### FhirDeathRecord
-This directory contains a FHIR Death Record library for consuming and producing Standard Death Records. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
+This directory contains a FHIR Death Record library for consuming and producing VRDR FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 #### Usage
 This library is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="FHIRDeathRecord" Version="1.0.0" />
+  <PackageReference Include="FHIRDeathRecord" Version="2.0.0" />
   ...
 </ItemGroup>
 ```
@@ -30,19 +30,18 @@ You can also include the library by referencing `DeathRecord.csproj` in your pro
 ```
 
 #### Consuming Example
-A quick example of consuming a SDR FHIR document (in XML format) using this library, and printing some details from it:
+An example of consuming a VRDR FHIR document (in XML format) using this library, and printing some details from it:
 ```cs
 // Read in FHIR Death Record XML file as a string
-string xml = File.ReadAllText("./example_sdr_fhir.xml");
+string xml = File.ReadAllText("./example_vrdr_fhir_record.xml");
 
 // Construct a new DeathRecord object from the SDR XML string
 DeathRecord deathRecord = new DeathRecord(xml);
 
 // Print out some details from the record
-Console.WriteLine($"Decedent's First Name: {deathRecord.FirstName}");
 Console.WriteLine($"Decedent's Last Name: {deathRecord.FamilyName}");
 
-Console.WriteLine($"Was an Autopsy Performed?: {deathRecord.AutopsyPerformed}");
+Console.WriteLine($"Date/Time of Death: {deathRecord.DateOfDeath}");
 
 Console.WriteLine($"Cause of Death Part I, Line a: {deathRecord.COD1A}");
 Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}");
@@ -55,10 +54,10 @@ A quick example of producing a from-scratch SDR FHIR document using this library
 DeathRecord deathRecord = new DeathRecord();
 
 // Set Death Record ID
-deathRecord.Id = "42";
+deathRecord.Identifier = "42";
 
 // Add Decedent Given Names
-string[] givenNames = {"First", "Middle"};
+string[] givenNames = { "First", "Middle" };
 deathRecord.GivenNames = givenNames;
 
 // Add Decedent Last Name
@@ -77,28 +76,28 @@ code.Add("system", "ICD-10");
 code.Add("display", "Acute transmural myocardial infarction of anterior wall");
 deathRecord.CODE1A = exampleCode;
 
-// Add TimingOfRecentPregnancyInRelationToDeath
+// Add PregnanacyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
 code.Add("code", "PHC1260");
 code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
 code.Add("display", "Not pregnant within past year");
-deathRecord.TimingOfRecentPregnancyInRelationToDeath = code;
+deathRecord.PregnanacyStatus = code;
 
-// Add MedicalExaminerContacted
-deathRecord.MedicalExaminerContacted = false;
+// Add ExaminerContacted
+deathRecord.ExaminerContacted = false;
 
-// Add DatePronouncedDead
-deathRecord.DatePronouncedDead = "2018-07-10T10:04:00.0000000+00:00";
+// Add DateOfDeath
+deathRecord.DateOfDeath = "2018-07-10T10:04:00.0000000+00:00";
 
 // Print record as a JSON string
 Console.WriteLine(deathRecord.ToJSON());
 ```
 
 #### FHIR SDR to/from IJE Mortality format
-A quick example of converting a FHIR Death Record to an IJE string:
+An example of converting a FHIR Death Record to an IJE string:
 ```cs
 // Read in FHIR Death Record XML file as a string
-string xml = File.ReadAllText("./example_sdr_fhir.xml");
+string xml = File.ReadAllText("./example_vrdr_fhir_record.xml");
 
 // Construct a new DeathRecord object from the string
 DeathRecord deathRecord = new DeathRecord(xml);
@@ -111,7 +110,7 @@ string ijeString = ije.ToString(); // Converts DeathRecord to IJE
 Console.WriteLine(ijeString);
 ```
 
-A quick example of converting an IJE string to a FHIR Death Record:
+An example of converting an IJE string to a FHIR Death Record:
 ```cs
 // Construct a new IJEMortality instance from an IJE string
 IJEMortality ije = new IJEMortality("..."); // This will convert the IJE string to a DeathRecord

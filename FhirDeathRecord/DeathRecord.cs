@@ -410,8 +410,26 @@ namespace FhirDeathRecord
             }
             set
             {
-                Composition.Attester.First().Time = value;
-                DeathCertification.Performed = new FhirString(value);
+                if (DeathCertification == null)
+                {
+                    DeathCertification = new Procedure();
+                    DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathCertification.Meta = new Meta();
+                    string[] deathcertification_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+                    DeathCertification.Meta.Profile = deathcertification_profile;
+                    DeathCertification.Status = EventStatus.Completed;
+                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
+                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    AddReferenceToComposition(DeathCertification.Id);
+                    Bundle.AddResourceEntry(DeathCertification, DeathCertification.Id);
+                    Composition.Attester.First().Time = value;
+                    DeathCertification.Performed = new FhirString(value);
+                }
+                else
+                {
+                    Composition.Attester.First().Time = value;
+                    DeathCertification.Performed = new FhirString(value);
+                }
             }
         }
 
@@ -471,11 +489,32 @@ namespace FhirDeathRecord
             }
             set
             {
-                Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                performer.Role = DictToCodeableConcept(value);
-                performer.Actor = new ResourceReference(Certifier.Id);
-                DeathCertification.Performer.Clear();
-                DeathCertification.Performer.Add(performer);
+                if (DeathCertification == null)
+                {
+                    DeathCertification = new Procedure();
+                    DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    DeathCertification.Meta = new Meta();
+                    string[] deathcertification_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+                    DeathCertification.Meta.Profile = deathcertification_profile;
+                    DeathCertification.Status = EventStatus.Completed;
+                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
+                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    AddReferenceToComposition(DeathCertification.Id);
+                    Bundle.AddResourceEntry(DeathCertification, DeathCertification.Id);
+                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
+                    performer.Role = DictToCodeableConcept(value);
+                    performer.Actor = new ResourceReference(Certifier.Id);
+                    DeathCertification.Performer.Clear();
+                    DeathCertification.Performer.Add(performer);
+                }
+                else
+                {
+                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
+                    performer.Role = DictToCodeableConcept(value);
+                    performer.Actor = new ResourceReference(Certifier.Id);
+                    DeathCertification.Performer.Clear();
+                    DeathCertification.Performer.Add(performer);
+                }
             }
         }
 
@@ -501,10 +540,27 @@ namespace FhirDeathRecord
             }
             set
             {
-                Identifier identifier = new Identifier();
-                identifier.Value = value;
-                InterestedParty.Identifier.Clear();
-                InterestedParty.Identifier.Add(identifier);
+                if (InterestedParty == null)
+                {
+                    InterestedParty = new Organization();
+                    InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InterestedParty.Meta = new Meta();
+                    string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+                    InterestedParty.Meta.Profile = interestedparty_profile;
+                    InterestedParty.Active = true;
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    InterestedParty.Identifier.Add(identifier);
+                    AddReferenceToComposition(InterestedParty.Id);
+                    Bundle.AddResourceEntry(InterestedParty, InterestedParty.Id);
+                }
+                else
+                {
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    InterestedParty.Identifier.Clear();
+                    InterestedParty.Identifier.Add(identifier);
+                }
             }
         }
 
@@ -522,7 +578,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (InterestedParty != null && InterestedParty.Name != null)
+                if (InterestedParty != null)
                 {
                     return InterestedParty.Name;
                 }
@@ -530,7 +586,22 @@ namespace FhirDeathRecord
             }
             set
             {
-                InterestedParty.Name = value;
+                if (InterestedParty == null)
+                {
+                    InterestedParty = new Organization();
+                    InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InterestedParty.Meta = new Meta();
+                    string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+                    InterestedParty.Meta.Profile = interestedparty_profile;
+                    InterestedParty.Active = true;
+                    InterestedParty.Name = value;
+                    AddReferenceToComposition(InterestedParty.Id);
+                    Bundle.AddResourceEntry(InterestedParty, InterestedParty.Id);
+                }
+                else
+                {
+                    InterestedParty.Name = value;
+                }
             }
         }
 
@@ -1790,6 +1861,39 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Family Name.</summary>
+        /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaidenName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
+        /// </example>
+        [Property("MaidenName", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
+        public string MaidenName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').family");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
+                    name.Family = value;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Decedent's Suffix.</summary>
         /// <value>the decedent's suffix</value>
         /// <example>
@@ -2177,10 +2281,14 @@ namespace FhirDeathRecord
             get
             {
                 Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://www.hl7.org/fhir/StructureDefinition/birthPlace" );
-                Address address = (Address)addressExt.Value;
-                if (address != null)
+                if (addressExt != null)
                 {
-                    return AddressToDict((Address)address);
+                    Address address = (Address)addressExt.Value;
+                    if (address != null)
+                    {
+                        return AddressToDict((Address)address);
+                    }
+                    return null;
                 }
                 return null;
             }
@@ -3849,7 +3957,7 @@ namespace FhirDeathRecord
         /// <para>code.Add("code", "example-code");</para>
         /// <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
         /// <para>code.Add("display", "Example Code");</para>
-        /// <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+        /// <para>ExampleDeathRecord.TransportationRole = code;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
         /// </example>
@@ -4076,6 +4184,49 @@ namespace FhirDeathRecord
                 else
                 {
                     InjuryLocationLoc.Description = value;
+                }
+            }
+        }
+
+        /// <summary>Date/Time of Injury.</summary>
+        /// <value>the date and time of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
+        /// </example>
+        [Property("InjuryDate", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", 4)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryDate
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return Convert.ToString(InjuryIncidentObs.Effective);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    InjuryIncidentObs = new Observation();
+                    InjuryIncidentObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    InjuryIncidentObs.Meta = new Meta();
+                    string[] iio_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
+                    InjuryIncidentObs.Meta.Profile = iio_profile;
+                    InjuryIncidentObs.Status = ObservationStatus.Final;
+                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description", null);
+                    InjuryIncidentObs.Subject = new ResourceReference(Decedent.Id);
+                    InjuryIncidentObs.Effective = new FhirDateTime(value);
+                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    Bundle.AddResourceEntry(InjuryIncidentObs, InjuryIncidentObs.Id);
+                }
+                else
+                {
+                    InjuryIncidentObs.Effective = new FhirDateTime(value);
                 }
             }
         }
@@ -4441,26 +4592,11 @@ namespace FhirDeathRecord
                 {
                     dictionary.Add("addressLine2", addr.Line.Last());
                 }
-                if (!String.IsNullOrEmpty(addr.City))
-                {
-                    dictionary.Add("addressCity", addr.City);
-                }
-                if (!String.IsNullOrEmpty(addr.District))
-                {
-                    dictionary.Add("addressCounty", addr.District);
-                }
-                if (!String.IsNullOrEmpty(addr.State))
-                {
-                    dictionary.Add("addressState", addr.State);
-                }
-                if (!String.IsNullOrEmpty(addr.PostalCode))
-                {
-                    dictionary.Add("addressZip", addr.PostalCode);
-                }
-                if (!String.IsNullOrEmpty(addr.Country))
-                {
-                    dictionary.Add("addressCountry", addr.Country);
-                }
+                dictionary.Add("addressCity", addr.City);
+                dictionary.Add("addressCounty", addr.District);
+                dictionary.Add("addressState", addr.State);
+                dictionary.Add("addressZip", addr.PostalCode);
+                dictionary.Add("addressCountry", addr.Country);
             }
             return dictionary;
         }

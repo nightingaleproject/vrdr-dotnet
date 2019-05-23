@@ -579,6 +579,16 @@
             <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
             </example>
         </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
+            <summary>Decedent's Family Name.</summary>
+            <value>the decedent's maiden name (i.e. last name before marriage)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MaidenName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
+            </example>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.Suffix">
             <summary>Decedent's Suffix.</summary>
             <value>the decedent's suffix</value>
@@ -1201,7 +1211,7 @@
             <para>code.Add("code", "example-code");</para>
             <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
             <para>code.Add("display", "Example Code");</para>
-            <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+            <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
@@ -1263,6 +1273,16 @@
             <para>ExampleDeathRecord.InjuryLocationDescription = "Bedford Cemetery";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryDate">
+            <summary>Date/Time of Injury.</summary>
+            <value>the date and time of injury</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.TobaccoUse">
@@ -1490,6 +1510,522 @@
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Truncate(System.String,System.Int32)">
+            <summary>Truncates the given string to the given length.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.FieldInfo(System.String)">
+            <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTimeOffset)">
+            <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Set(System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose IJE type is a right justified, zeroed filled string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.LeftJustified_Get(System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.LeftJustified_Set(System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Get(System.String,System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Get_Full(System.String,System.String,System.String)">
+            <summary>Get a value on the DeathRecord whose property is a Dictionary type, with NO truncating.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Set(System.String,System.String,System.String,System.String)">
+            <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Geo_Get(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Geo_Set(System.String,System.String,System.String,System.String,System.Boolean,System.String)">
+            <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.HispanicOrigin">
+            <summary>If the decedent was of hispanic origin, returns a list of ethnicities.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.HispanicOriginOther">
+            <summary>If the decedent was of hispanic origin, returns a list of OTHER ethnicities (not Mexican, Cuban, or Puerto Rican).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race(System.String,System.String)">
+            <summary>Checks if the given race exists in the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_AIAN_Literals">
+            <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_A_Literals">
+            <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_BAA_Literals">
+            <summary>Retrieves Black or African American Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_NHOPI_Literals">
+            <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_W_Literals">
+            <summary>Retrieves White Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_OTHER_Literals">
+            <summary>Retrieves OTHER Race literals on the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Set_Race(System.String,System.String)">
+            <summary>Adds the given race to the record.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Get_YNU(System.String)">
+            <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.IJEMortality.Set_YNU(System.String,System.String)">
+            <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOD_YR">
+            <summary>Date of Death--Year</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DSTATE">
+            <summary>State, U.S. Territory or Canadian Province of Death - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FILENO">
+            <summary>Certificate Number</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.VOID">
+            <summary>Void flag</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AUXNO">
+            <summary>Auxiliary State file number</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.MFILED">
+            <summary>Source flag: paper/electronic</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.GNAME">
+            <summary>Decedent's Legal Name--Given</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.MNAME">
+            <summary>Decedent's Legal Name--Middle</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.LNAME">
+            <summary>Decedent's Legal Name--Last</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.SUFF">
+            <summary>Decedent's Legal Name--Suffix</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ALIAS">
+            <summary>Decedent's Legal Name--Alias</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FLNAME">
+            <summary>Father's Surname</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.SEX">
+            <summary>Sex</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.SEX_BYPASS">
+            <summary>Sex--Edit Flag</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.SSN">
+            <summary>Social Security Number</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AGETYPE">
+            <summary>Decedent's Age--Type</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AGE">
+            <summary>Decedent's Age--Units</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AGE_BYPASS">
+            <summary>Decedent's Age--Edit Flag</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOB_YR">
+            <summary>Date of Birth--Year</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOB_MO">
+            <summary>Date of Birth--Month</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOB_DY">
+            <summary>Date of Birth--Day</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.BPLACE_CNT">
+            <summary>Birthplace--Country</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.BPLACE_ST">
+            <summary>State, U.S. Territory or Canadian Province of Birth - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYC">
+            <summary>Decedent's Residence--City</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTYC">
+            <summary>Decedent's Residence--County</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STATEC">
+            <summary>State, U.S. Territory or Canadian Province of Decedent's residence - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTRYC">
+            <summary>Decedent's Residence--Country</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.MARITAL">
+            <summary>Marital Status</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.MARITAL_BYPASS">
+            <summary>Marital Status--Edit Flag</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COD">
+            <summary>County of Death Occurrence</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DISP">
+            <summary>Method of Disposition</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOD_MO">
+            <summary>Date of Death--Month</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOD_DY">
+            <summary>Date of Death--Day</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.TOD">
+            <summary>Time of Death</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DEDUC">
+            <summary>Decedent's Education</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DEDUC_BYPASS">
+            <summary>Decedent's Education--Edit Flag</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC1">
+            <summary>Decedent of Hispanic Origin?--Mexican</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC2">
+            <summary>Decedent of Hispanic Origin?--Puerto Rican</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC3">
+            <summary>Decedent of Hispanic Origin?--Cuban</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC4">
+            <summary>Decedent of Hispanic Origin?--Other</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC5">
+            <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE1">
+            <summary>Decedent's Race--White</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE2">
+            <summary>Decedent's Race--Black or African American</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE3">
+            <summary>Decedent's Race--American Indian or Alaska Native</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE4">
+            <summary>Decedent's Race--Asian Indian</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE5">
+            <summary>Decedent's Race--Chinese</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE6">
+            <summary>Decedent's Race--Filipino</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE7">
+            <summary>Decedent's Race--Japanese</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE8">
+            <summary>Decedent's Race--Korean</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE9">
+            <summary>Decedent's Race--Vietnamese</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE10">
+            <summary>Decedent's Race--Other Asian</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE11">
+            <summary>Decedent's Race--Native Hawaiian</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE12">
+            <summary>Decedent's Race--Guamanian or Chamorro</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE13">
+            <summary>Decedent's Race--Samoan</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE14">
+            <summary>Decedent's Race--Other Pacific Islander</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE15">
+            <summary>Decedent's Race--Other</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE16">
+            <summary>Decedent's Race--First American Indian or Alaska Native Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE17">
+            <summary>Decedent's Race--Second American Indian or Alaska Native Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE18">
+            <summary>Decedent's Race--First Other Asian Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE19">
+            <summary>Decedent's Race--Second Other Asian Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE20">
+            <summary>Decedent's Race--First Other Pacific Islander Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE21">
+            <summary>Decedent's Race--Second Other Pacific Islander Literalr</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE22">
+            <summary>Decedent's Race--First Other Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE23">
+            <summary>Decedent's Race--Second Other Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.RACE_MVR">
+            <summary>Decedent's Race--Missing</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.OCCUP">
+            <summary>Occupation -- Literal (OPTIONAL)</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INDUST">
+            <summary>Industry -- Literal (OPTIONAL)</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.BCNO">
+            <summary>Infant Death/Birth Linking - birth certificate number</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.IDOB_YR">
+            <summary>Infant Death/Birth Linking - year of birth</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.BSTATE">
+            <summary>Infant Death/Birth Linking - year of birth</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOR_YR">
+            <summary>Date of Registration--Year</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOR_MO">
+            <summary>Date of Registration--Month</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOR_DY">
+            <summary>Date of Registration--Day</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.MANNER">
+            <summary>Manner of Death</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INJPL">
+            <summary>Place of Injury (computer generated)</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AUTOP">
+            <summary>Was Autopsy performed</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.AUTOPF">
+            <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.TOBAC">
+            <summary>Did Tobacco Use Contribute to Death?</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.PREG">
+            <summary>Pregnancy</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.PREG_BYPASS">
+            <summary>If Female--Edit Flag: From EDR only</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOI_MO">
+            <summary>Date of injury--month</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOI_DY">
+            <summary>Date of injury--day</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DOI_YR">
+            <summary>Date of injury--year</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.TOI_HR">
+            <summary>Time of injury</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTL">
+            <summary>Title of Certifier</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INACT">
+            <summary>Activity at time of death (computer generated)</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.TOI_UNIT">
+            <summary>Time of Injury Unit</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ARMEDF">
+            <summary>Decedent ever served in Armed Forces?</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DINSTI">
+            <summary>Death Institution name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ADDRESS_D">
+            <summary>Long String address for place of death</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_D">
+            <summary>Place of death. City or Town name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STATETEXT_D">
+            <summary>Place of death. State name literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ZIP9_D">
+            <summary>Place of death. Zip code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_D">
+            <summary>Place of death. County of Death</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYCODE_D">
+            <summary>Place of death. City FIPS code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_R">
+            <summary>Decedent's Residence - City or Town name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ZIP9_R">
+            <summary>Decedent's Residence - ZIP code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_R">
+            <summary>Decedent's Residence - County</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STATETEXT_R">
+            <summary>Decedent's Residence - State name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTRYTEXT_R">
+            <summary>Decedent's Residence - COUNTRY name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.ADDRESS_R">
+            <summary>Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DMIDDLE">
+            <summary>Middle Name of Decedent</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.REFERRED">
+            <summary>Was case Referred to Medical Examiner/Coroner?</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.POILITRL">
+            <summary>Place of Injury- literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.HOWINJ">
+            <summary>Describe How Injury Occurred</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.TRANSPRT">
+            <summary>If Transportation Accident, Specify</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_I">
+            <summary>County of Injury - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COUNTYCODE_I">
+            <summary>County of Injury code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_I">
+            <summary>Town/city of Injury - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CITYCODE_I">
+            <summary>Town/city of Injury code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STATECODE_I">
+            <summary>State, U.S. Territory or Canadian Province of Injury - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COD1A">
+            <summary>Cause of Death Part I Line a</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1A">
+            <summary>Cause of Death Part I Interval, Line a</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COD1B">
+            <summary>Cause of Death Part I Line b</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1B">
+            <summary>Cause of Death Part I Interval, Line b</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COD1C">
+            <summary>Cause of Death Part I Line c</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1C">
+            <summary>Cause of Death Part I Interval, Line c</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.COD1D">
+            <summary>Cause of Death Part I Line d</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1D">
+            <summary>Cause of Death Part I Interval, Line d</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.OTHERCONDITION">
+            <summary>Cause of Death Part II</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DMAIDEN">
+            <summary>Decedent's Maiden Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DBPLACECITY">
+            <summary>Decedent's Birth Place City - Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DISPSTATECD">
+            <summary>State, U.S. Territory or Canadian Province of Disposition - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DISPSTATE">
+            <summary>Disposition State or Territory - Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DISPCITY">
+            <summary>Disposition City - Literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNFACNAME">
+            <summary>Funeral Facility Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNFACADDRESS">
+            <summary>Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNCITYTEXT">
+            <summary>Funeral Facility - City or Town name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNSTATECD">
+            <summary>State, U.S. Territory or Canadian Province of Funeral Facility - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNSTATE">
+            <summary>State, U.S. Territory or Canadian Province of Funeral Facility - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.FUNZIP">
+            <summary>Funeral Facility - ZIP</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.PPDATESIGNED">
+            <summary>Person Pronouncing Date Signed</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.PPTIME">
+            <summary>Person Pronouncing Time Pronounced</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTFIRST">
+            <summary>Certifier's First Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTMIDDLE">
+            <summary>Certifier's Middle Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTLAST">
+            <summary>Certifier's Last Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTSUFFIX">
+            <summary>Certifier's Suffix Name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTADDRESS">
+            <summary>Long string address for Certifier same as above but allows states to choose the way they capture information.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTCITYTEXT">
+            <summary>Certifier - City or Town name</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTSTATECD">
+            <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTSTATE">
+            <summary>State, U.S. Territory or Canadian Province of Certifier - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.CERTZIP">
+            <summary>Certifier - Zip</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STINJURY">
+            <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.STATEBTH">
+            <summary>State, U.S. Territory or Canadian Province of Birth - literal</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DTHCOUNTRYCD">
+            <summary>Country of Death - Code</summary>
+        </member>
+        <member name="P:FhirDeathRecord.IJEMortality.DTHCOUNTRY">
+            <summary>Country of Death - Literal</summary>
         </member>
         <member name="T:FhirDeathRecord.MortalityData">
             <summary>Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</summary>

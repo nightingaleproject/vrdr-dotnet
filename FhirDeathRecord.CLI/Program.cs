@@ -20,14 +20,13 @@ namespace FhirDeathRecord.CLI
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("No filepath given; Constructing a fake record and printing its XML and JSON output...\n");
                 DeathRecord deathRecord = new DeathRecord();
 
                 // Identifier
-                deathRecord.Identifier = Guid.NewGuid().ToString();
+                deathRecord.Identifier = "1";
 
                 // BundleIdentifier
-                deathRecord.BundleIdentifier = Guid.NewGuid().ToString();
+                deathRecord.BundleIdentifier = "42";
 
                 // CertifiedTime
                 deathRecord.CertifiedTime = "2019-01-29T16:48:06.4988220-05:00";
@@ -43,7 +42,7 @@ namespace FhirDeathRecord.CLI
                 deathRecord.CertifierRole = certifierRole;
 
                 // InterestedPartyIdentifier
-                deathRecord.InterestedPartyIdentifier = Guid.NewGuid().ToString();
+                deathRecord.InterestedPartyIdentifier = "1010101";
 
                 // InterestedPartyName
                 deathRecord.InterestedPartyName = "Example Hospital";
@@ -373,6 +372,9 @@ namespace FhirDeathRecord.CLI
                 // InjuryLocationDescription
                 deathRecord.InjuryLocationDescription = "Example Injury Location Description";
 
+                // InjuryDate
+                deathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";
+
                 // DeathLocationAddress
                 Dictionary<string, string> dtladdress = new Dictionary<string, string>();
                 dtladdress.Add("addressLine1", "671 Example Street");
@@ -396,8 +398,8 @@ namespace FhirDeathRecord.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(deathRecord.ToJSON() + "\n\n");
+                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")
@@ -406,27 +408,27 @@ namespace FhirDeathRecord.CLI
                 Console.WriteLine(d.ToDescription());
                 return 0;
             }
-            // else if (args.Length == 2 && args[0] == "2ije")
-            // {
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-            //     IJEMortality ije1 = new IJEMortality(d);
-            //     Console.WriteLine(ije1.ToString());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "ije2xml")
-            // {
-            //     IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
-            //     DeathRecord d = ije1.ToDeathRecord();
-            //     Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "ije2json")
-            // {
-            //     IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
-            //     DeathRecord d = ije1.ToDeathRecord();
-            //     Console.WriteLine(d.ToJSON());
-            //     return 0;
-            // }
+            else if (args.Length == 2 && args[0] == "2ije")
+            {
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                IJEMortality ije1 = new IJEMortality(d);
+                Console.WriteLine(ije1.ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "ije2xml")
+            {
+                IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
+                DeathRecord d = ije1.ToDeathRecord();
+                Console.WriteLine(XDocument.Parse(d.ToXML()).ToString());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "ije2json")
+            {
+                IJEMortality ije1 = new IJEMortality(File.ReadAllText(args[1]));
+                DeathRecord d = ije1.ToDeathRecord();
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "json2xml")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
@@ -485,134 +487,116 @@ namespace FhirDeathRecord.CLI
                 Console.WriteLine(outdr.ToJSON());
                 return 0;
             }
-            // else if (args.Length == 2 && args[0] == "roundtrip-ije")
-            // {
-            //     Console.WriteLine("Converting FHIR to IJE...\n");
-            //     DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-            //     //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
-            //     IJEMortality ije1 = new IJEMortality(d);
-            //     //Console.WriteLine(ije1.ToString() + "\n\n");
-            //     IJEMortality ije2 = new IJEMortality(ije1.ToString());
-            //     //Console.WriteLine(ije2.ToString() + "\n\n");
-            //     //Console.WriteLine(XDocument.Parse(ije2.ToDeathRecord().ToXML()).ToString() + "\n");
-            //     IJEMortality ije3 = new IJEMortality(new DeathRecord(ije2.ToDeathRecord().ToXML()));
-            //     int issues = 0;
-            //     int total = 0;
-            //     foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
-            //     {
-            //         string val1 = Convert.ToString(property.GetValue(ije1, null));
-            //         string val2 = Convert.ToString(property.GetValue(ije2, null));
-            //         string val3 = Convert.ToString(property.GetValue(ije3, null));
+            else if (args.Length == 2 && args[0] == "roundtrip-ije")
+            {
+                Console.WriteLine("Converting FHIR to IJE...\n");
+                DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
+                //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
+                IJEMortality ije1 = new IJEMortality(d);
+                //Console.WriteLine(ije1.ToString() + "\n\n");
+                IJEMortality ije2 = new IJEMortality(ije1.ToString());
+                //Console.WriteLine(ije2.ToString() + "\n\n");
+                //Console.WriteLine(XDocument.Parse(ije2.ToDeathRecord().ToXML()).ToString() + "\n");
+                IJEMortality ije3 = new IJEMortality(new DeathRecord(ije2.ToDeathRecord().ToXML()));
+                int issues = 0;
+                int total = 0;
+                foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
+                {
+                    string val1 = Convert.ToString(property.GetValue(ije1, null));
+                    string val2 = Convert.ToString(property.GetValue(ije2, null));
+                    string val3 = Convert.ToString(property.GetValue(ije3, null));
 
-            //         IJEField info = (IJEField)property.GetCustomAttributes().First();
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
 
-            //         if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
-            //         {
-            //             issues++;
-            //             Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
-            //         }
-            //         total++;
-            //     }
-            //     Console.WriteLine($"\n{issues} issues out of {total} total fields.");
-            //     return 0;
-            // }
-            // else if (args.Length == 2 && args[0] == "roundtrip-all")
-            // {
-            //     DeathRecord d1 = new DeathRecord(File.ReadAllText(args[1]));
-            //     DeathRecord d2 = new DeathRecord(d1.ToJSON());
-            //     DeathRecord d3 = new DeathRecord();
-            //     List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
-            //     foreach(PropertyInfo property in properties)
-            //     {
-            //         if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
-            //         {
-            //             continue;
-            //         }
-            //         property.SetValue(d3, property.GetValue(d2));
-            //     }
-            //     IJEMortality ije1 = new IJEMortality(d3);
-            //     IJEMortality ije2 = new IJEMortality(ije1.ToString());
-            //     DeathRecord d4 = ije2.ToDeathRecord();
+                    if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
+                    {
+                        issues++;
+                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
+                    }
+                    total++;
+                }
+                Console.WriteLine($"\n{issues} issues out of {total} total fields.");
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "roundtrip-all")
+            {
+                DeathRecord d1 = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecord d2 = new DeathRecord(d1.ToJSON());
+                DeathRecord d3 = new DeathRecord();
+                List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
+                foreach(PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    property.SetValue(d3, property.GetValue(d2));
+                }
 
-            //     // We KNOW certain fields just aren't in the IJE, so make sure to ignore them.
-            //     string[] ignoreKeys = { "placeOfDeathFacilityName" };
+                int good = 0;
+                int bad = 0;
 
-            //     int good = 0;
-            //     int bad = 0;
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.Name.Contains("CausesOfDeath"))
+                    {
+                        continue;
+                    }
+                    string one;
+                    string two;
+                    string three;
+                    if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
+                    {
+                        Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
+                        one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
+                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
+                    }
+                    else if (property.PropertyType.ToString() == "System.String[]")
+                    {
+                        one = String.Join(", ", (string[])property.GetValue(d1));
+                        two = String.Join(", ", (string[])property.GetValue(d2));
+                        three = String.Join(", ", (string[])property.GetValue(d3));
+                    }
+                    else
+                    {
+                        one = Convert.ToString(property.GetValue(d1));
+                        two = Convert.ToString(property.GetValue(d2));
+                        three = Convert.ToString(property.GetValue(d3));
+                    }
+                    if (one.ToLower() != three.ToLower())
+                    {
+                        Console.WriteLine("[MISMATCH]\t" + $"\"{one}\" (property: {property.Name}) does not equal \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
+                        bad++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("[MATCH]\t" + $"\"{one}\" (property: {property.Name}) equals \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
+                        good++;
+                    }
+                }
+                Console.WriteLine($"\n{bad} mismatches out of {good + bad} total properties checked.");
+                if (bad > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else if (args.Length == 2 && args[0] == "ije")
+            {
+                string ijeString = File.ReadAllText(args[1]);
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Field).ToList();
 
-            //     foreach (PropertyInfo property in properties)
-            //     {
-            //         if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("CertifierQualification"))
-            //         {
-            //             continue;
-            //         }
-            //         string one;
-            //         string two;
-            //         string three;
-            //         string four;
-            //         if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
-            //         {
-            //             Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
-            //             foreach (string ignoreKey in ignoreKeys)
-            //             {
-            //                 if (oneDict.ContainsKey(ignoreKey))
-            //                 {
-            //                     oneDict[ignoreKey] = "";
-            //                 }
-            //             }
-            //             one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
-            //             two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
-            //             three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
-            //             four = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d4)).Select(x => x.Key + "=" + x.Value).ToArray());
-            //         }
-            //         else if (property.PropertyType.ToString() == "System.String[]")
-            //         {
-            //             one = String.Join(", ", (string[])property.GetValue(d1));
-            //             two = String.Join(", ", (string[])property.GetValue(d2));
-            //             three = String.Join(", ", (string[])property.GetValue(d3));
-            //             four = String.Join(", ", (string[])property.GetValue(d4));
-            //         }
-            //         else
-            //         {
-            //             one = Convert.ToString(property.GetValue(d1));
-            //             two = Convert.ToString(property.GetValue(d2));
-            //             three = Convert.ToString(property.GetValue(d3));
-            //             four = Convert.ToString(property.GetValue(d4));
-            //         }
-            //         if (one.ToLower() != four.ToLower())
-            //         {
-            //             Console.WriteLine("[MISMATCH]\t" + $"\"{one}\" (property: {property.Name}) does not equal \"{four}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\" 4:\"{four}\"");
-            //             bad++;
-            //             //return 1;
-            //         }
-            //         else
-            //         {
-            //             Console.WriteLine("[MATCH]\t" + $"\"{one}\" (property: {property.Name}) equals \"{four}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\" 4:\"{four}\"");
-            //             good++;
-            //         }
-            //     }
-            //     Console.WriteLine($"\n{bad} mismatches out of {good + bad} total properties checked.");
-            //     if (bad > 0)
-            //     {
-            //         return 1;
-            //     }
-            //     else
-            //     {
-            //         return 0;
-            //     }
-            // }
-            // else if (args.Length == 2 && args[0] == "ije")
-            // {
-            //     string ijeString = File.ReadAllText(args[1]);
-            //     List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Field).ToList();
-
-            //     foreach(PropertyInfo property in properties)
-            //     {
-            //         IJEField info = (IJEField)property.GetCustomAttributes().First();
-            //         string field = ijeString.Substring(info.Location - 1, info.Length);
-            //         Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
-            //     }
-            // }
+                foreach(PropertyInfo property in properties)
+                {
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
+                    string field = ijeString.Substring(info.Location - 1, info.Length);
+                    Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
+                }
+            }
             return 0;
         }
 

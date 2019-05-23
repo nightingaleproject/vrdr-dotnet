@@ -85,8 +85,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Identifier()
         {
-            Assert.Equal("25e016fb-e93b-47a4-bc6a-293ae125e078", ((DeathRecord)JSONRecords[0]).Identifier);
-            Assert.Equal("78ec4209-c593-4fe7-858b-26740b0bb56e", ((DeathRecord)XMLRecords[0]).Identifier);
+            Assert.Equal("e6833f9e-2025-46fd-9f67-949275ab8c78", ((DeathRecord)JSONRecords[0]).Identifier);
+            Assert.Equal("f985146b-0ae8-46fd-a9dc-b379c0c5af7c", ((DeathRecord)XMLRecords[0]).Identifier);
         }
 
         [Fact]
@@ -99,8 +99,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_BundleIdentifier()
         {
-            Assert.Equal("b7849468-710e-4d8b-9e25-49451b4c12ac", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("22089b3e-c6e5-41e5-95ca-d56fcb94149b", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("d0b8740f-e31b-42d6-abf7-a3f6967b00e8", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
+            Assert.Equal("061334c1-c250-4cc3-8b2d-0b44e38c6644", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
         }
 
         [Fact]
@@ -165,8 +165,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyIdentifier()
         {
-            Assert.Equal("2e7302aa-32a2-4d14-8669-19e49396adcf", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
-            Assert.Equal("0ee7d156-051f-4f58-ba22-7060333c599b", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("c49569fb-5721-427a-b357-9dc6a2bae33f", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("7b253383-9bed-4fa2-9a78-d435c8e18a94", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
         }
 
         [Fact]
@@ -1495,6 +1495,20 @@ namespace FhirDeathRecord.Tests
         {
             Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
             Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
+        }
+
+        [Fact]
+        public void Set_InjuryDate()
+        {
+            SetterDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", SetterDeathRecord.InjuryDate);
+        }
+
+        [Fact]
+        public void Get_InjuryDate()
+        {
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
+            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).InjuryDate);
         }
 
         [Fact]

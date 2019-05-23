@@ -5,16 +5,14 @@
     </assembly>
     <members>
         <member name="T:FhirDeathRecord.DeathRecord">
-            <summary>Class <c>DeathRecord</c> models a FHIR Standard Death Record (SDR).
-            For consuming a FHIR SDR (in either XML or JSON format), there is a constructor that
-            takes a string, which will parse the given FHIR SDR and build a new <c>DeathRecord</c> that
-            represents it. You can then use the various property getters to infer details about the
-            record.
-            For producing a new FHIR SDR, there is a default no-param constructor that creates the bare
-            bones necessary for a new record. You can then use the various property setters to
-            populate details of the record. All <c>DeathRecord</c>s can be converted to FHIR XML or JSON
-            suitable for transmission, by making use of the <c>ToXML()</c> and <c>ToJSON()</c> methods.
+            <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record. This class was designed to help consume and produce death records that follow the
+            HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
+            http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
             </summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
+            <summary>Mortality data for code translations.</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.Navigator">
             <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
@@ -25,14 +23,101 @@
         <member name="F:FhirDeathRecord.DeathRecord.Composition">
             <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Patient">
-            <summary>The decedent.</summary>
+        <member name="F:FhirDeathRecord.DeathRecord.Decedent">
+            <summary>The Decedent.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Practitioner">
+        <member name="F:FhirDeathRecord.DeathRecord.Certifier">
             <summary>The Certifier.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
-            <summary>Mortality data for code translations.</summary>
+        <member name="F:FhirDeathRecord.DeathRecord.Mortician">
+            <summary>The Mortician.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DeathCertification">
+            <summary>The Certification.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InterestedParty">
+            <summary>The Interested Party.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.MannerOfDeath">
+            <summary>The Manner of Death Observation.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.ConditionContributingToDeath">
+            <summary>Condition Contributing to Death.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionA">
+            <summary>Cause Of Death Condition Line A.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionB">
+            <summary>Cause Of Death Condition Line B.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionC">
+            <summary>Cause Of Death Condition Line C.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionD">
+            <summary>Cause Of Death Condition Line D.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionPathway">
+            <summary>Cause Of Death Condition Pathway.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.Father">
+            <summary>Decedent's Father.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.Mother">
+            <summary>Decedent's Mother.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.Spouse">
+            <summary>Decedent's Spouse.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DecedentEducationLevel">
+            <summary>Decedent Education Level.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.BirthRecordIdentifier">
+            <summary>Birth Record Identifier.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.EmploymentHistory">
+            <summary>Employment History.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.FuneralHome">
+            <summary>The Funeral Home.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.FuneralHomeDirector">
+            <summary>The Funeral Home Director.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DispositionLocation">
+            <summary>Disposition Location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DispositionMethod">
+            <summary>Disposition Method.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.AutopsyPerformed">
+            <summary>Autopsy Performed.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.AgeAtDeathObs">
+            <summary>Age At Death.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.PregnancyObs">
+            <summary>Decedent Pregnancy Status.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.TransportationRoleObs">
+            <summary>Transportation Role (in death).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.ExaminerContactedObs">
+            <summary>Examiner Contacted.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.TobaccoUseObs">
+            <summary>Tobacco Use Contributed To Death.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InjuryLocationLoc">
+            <summary>Injury Location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.InjuryIncidentObs">
+            <summary>Injury Incident.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DeathLocationLoc">
+            <summary>Death Location.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.DeathDateObs">
+            <summary>Date Of Death.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.#ctor">
             <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
@@ -47,7 +132,15 @@
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
         </member>
+        <member name="M:FhirDeathRecord.DeathRecord.ToXml">
+            <summary>Helper method to return a XML string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in XML format</returns>
+        </member>
         <member name="M:FhirDeathRecord.DeathRecord.ToJSON">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in JSON format</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.ToJson">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
@@ -55,373 +148,144 @@
             <summary>Helper method to return an ITypedElement of the record bundle.</summary>
             <returns>an ITypedElement of the record bundle</returns>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Id">
-            <summary>Death Record ID.</summary>
-            <value>the record identification</value>
+        <member name="P:FhirDeathRecord.DeathRecord.Identifier">
+            <summary>Death Record Identifier.</summary>
+            <value>a record identification string.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.Id = "42";</para>
+            <para>ExampleDeathRecord.Identifier = "42";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Id}");</para>
+            <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfRegistration">
-            <summary>Death Record Registration Date.</summary>
-            <value>when the record was registered</value>
+        <member name="P:FhirDeathRecord.DeathRecord.BundleIdentifier">
+            <summary>Death Record Bundle Identifier.</summary>
+            <value>a record bundle identification string.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfRegistration = "2018-07-11";</para>
+            <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Record was registered on: {ExampleDeathRecord.DateOfRegistration}");</para>
+            <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.GivenNames">
-            <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
-            <value>the decedent's name (first, etc., middle)</value>
+        <member name="P:FhirDeathRecord.DeathRecord.CertifiedTime">
+            <summary>Certified time.</summary>
+            <value>time when the record was certified.</value>
             <example>
             <para>// Setter:</para>
-            <para>string[] names = {"Example", "Something", "Middle"};</para>
-            <para>ExampleDeathRecord.GivenNames = names;</para>
+            <para>ExampleDeathRecord.CertifiedTime = "2019-01-29T16:48:06.4988220-05:00";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
+            <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FamilyName">
-            <summary>Decedent's Family Name.</summary>
-            <value>the decedent's family name (i.e. last name)</value>
+        <member name="P:FhirDeathRecord.DeathRecord.CreatedTime">
+            <summary>Created time.</summary>
+            <value>time when the record was created.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.FamilyName = "Last";</para>
+            <para>ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06.4988220-05:00";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
+            <para>Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
-            <summary>Decedent's Maiden Name.</summary>
-            <value>the decedent's maiden name (i.e. last name before marriage)</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.MaidenName = "Last";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Suffix">
-            <summary>Decedent's Suffix.</summary>
-            <value>the decedent's suffix</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.Suffix = "Jr.";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FatherFamilyName">
-            <summary>Decedent's Father's Family Name.</summary>
-            <value>the decedent's father's family name (i.e. last name)</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.FatherFamilyName = "Last";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Gender">
-            <summary>Decedent's Gender.</summary>
-            <value>the decedent's gender</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.Gender = "female";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Gender}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BirthSex">
-            <summary>Decedent's Birth Sex.</summary>
-            <value>the decedent's birth sex</value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "M");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
-            <para>code.Add("display", "Male");</para>
-            <para>ExampleDeathRecord.BirthSex = code;</para>
-            <para>// Getter:</para>
-            <para>foreach(var pair in ExampleDeathRecord.BirthSex)</para>
-            <para>{</para>
-            <para>      Console.WriteLine($"\tAddress key: {pair.Key}: value: {pair.Value}");</para>
-            <para>};</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfBirth">
-            <summary>Decedent's Date of Birth.</summary>
-            <value>the decedent's date of birth</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfBirth = "1970-04-24";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfBirth}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfDeath">
-            <summary>Decedent's Date and Time of Death.</summary>
-            <value>the decedent's date and time of death</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfDeath = "1970-04-24";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.DateOfDeath}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Residence">
-            <summary>Decedent's residence.</summary>
-            <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
-            <para>"residenceLine1" - residence, line one</para>
-            <para>"residenceLine2" - residence, line two</para>
-            <para>"residenceCity" - residence, city</para>
-            <para>"residenceCounty" - residence, county</para>
-            <para>"residenceState" - residence, state</para>
-            <para>"residenceZip" - residence, zip</para>
-            <para>"residenceCountry" - residence, country</para>
-            <para>"residenceInsideCityLimits" - residence, inside city limits?</para>
+        <member name="P:FhirDeathRecord.DeathRecord.CertifierRole">
+            <summary>Certifier Role.</summary>
+            <value>the certifier role. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; residence = new Dictionary&lt;string, string&gt;();</para>
-            <para>residence.Add("residenceLine1", "9 Example Street");</para>
-            <para>residence.Add("residenceLine2", "Line 2");</para>
-            <para>residence.Add("residenceCity", "Bedford");</para>
-            <para>residence.Add("residenceCounty", "Middlesex");</para>
-            <para>residence.Add("residenceState", "Massachusetts");</para>
-            <para>residence.Add("residenceZip", "01730");</para>
-            <para>residence.Add("residenceCountry", "United States");</para>
-            <para>residence.Add("residenceInsideCityLimits", "True");</para>
-            <para>SetterDeathRecord.Residence = residence;</para>
+            <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
+            <para>role.Add("code", "309343006");</para>
+            <para>role.Add("system", "http://snomed.info/sct");</para>
+            <para>role.Add("display", "Physician");</para>
+            <para>ExampleDeathRecord.CertifierRole = role;</para>
             <para>// Getter:</para>
-            <para>string state = ExampleDeathRecord.Residence["residenceState"];</para>
-            <para>Console.WriteLine($"State of residence: {state}");</para>
+            <para>Console.WriteLine($"Certifier Role: {ExampleDeathRecord.CertifierRole['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.SSN">
-            <summary>Decedent's Social Security Number.</summary>
-            <value>the decedent's social security number</value>
+        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyIdentifier">
+            <summary>Interested Party Identifier.</summary>
+            <value>an interested party identification string.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.SSN = "123-45-678";</para>
+            <para>ExampleDeathRecord.InterestedPartyIdentifier = "42";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
+            <para>Console.WriteLine($"Interested Party identification: {ExampleDeathRecord.InterestedPartyIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Ethnicity">
-            <summary>Decedent's Ethnicity.</summary>
-            <value>the decedent's ethnicity</value>
+        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyName">
+            <summary>Interested Party Name.</summary>
+            <value>an interested party name string.</value>
             <example>
             <para>// Setter:</para>
-            <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
-            <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
+            <para>ExampleDeathRecord.InterestedPartyName = "Fourty Two";</para>
             <para>// Getter:</para>
-            <para>foreach(var pair in deathRecord.Ethnicity)</para>
-            <para>{</para>
-            <para>      Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
-            <para>};</para>
+            <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Race">
-            <summary>Decedent's Race.</summary>
-            <value>the decedent's race</value>
-            <example>
-            <para>// Setter:</para>
-            <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
-            <para>ExampleDeathRecord.Race = race;</para>
-            <para>// Getter:</para>
-            <para>foreach(var pair in ExampleDeathRecord.race)</para>
-            <para>{</para>
-            <para>      Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
-            <para>};</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.PlaceOfBirth">
-            <summary>Decedent's Place Of Birth.</summary>
-            <value>Decedent's Place Of Birth. A Dictionary representing a place of birth address, containing the following key/value pairs:
-            <para>"placeOfBirthLine1" - location of birth, line one</para>
-            <para>"placeOfBirthLine2" - location of birth, line two</para>
-            <para>"placeOfBirthCity" - location of birth, city</para>
-            <para>"placeOfBirthCounty" - location of birth, county</para>
-            <para>"placeOfBirthState" - location of birth, state</para>
-            <para>"placeOfBirthZip" - location of birth, zip</para>
-            <para>"placeOfBirthCountry" - location of birth, country</para>
+        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyAddress">
+            <summary>Interested Party's address.</summary>
+            <value>Interested Party's address. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; placeOfBirth = new Dictionary&lt;string, string&gt;();</para>
-            <para>placeOfBirth.Add("placeOfBirthLine1", "9 Example Street");</para>
-            <para>placeOfBirth.Add("placeOfBirthLine2", "Line 2");</para>
-            <para>placeOfBirth.Add("placeOfBirthCity", "Bedford");</para>
-            <para>placeOfBirth.Add("placeOfBirthCounty", "Middlesex");</para>
-            <para>placeOfBirth.Add("placeOfBirthState", "Massachusetts");</para>
-            <para>placeOfBirth.Add("placeOfBirthZip", "01730");</para>
-            <para>placeOfBirth.Add("placeOfBirthCountry", "United States");</para>
-            <para>SetterDeathRecord.PlaceOfBirth = placeOfBirth;</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "9 Example Street");</para>
+            <para>address.Add("addressLine2", "Line 2");</para>
+            <para>address.Add("addressCity", "Bedford");</para>
+            <para>address.Add("addressCounty", "Middlesex");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
             <para>// Getter:</para>
-            <para>string state = ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"];</para>
-            <para>Console.WriteLine($"State where decedent was born: {state}");</para>
+            <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.PlaceOfDeath">
-            <summary>Decedent's Place Of Death.</summary>
-            <value>Decedent's Place Of Death. A Dictionary representing a place of death, containing the following key/value pairs:
-            <para>"placeOfDeathTypeCode" - place of death type, code</para>
-            <para>"placeOfDeathTypeSystem" - place of death type, code system</para>
-            <para>"placeOfDeathTypeDisplay" - place of death type, code display</para>
-            <para>"placeOfDeathFacilityName" - place of death facility name</para>
-            <para>"placeOfDeathLine1" - location of death, line one</para>
-            <para>"placeOfDeathLine2" - location of death, line two</para>
-            <para>"placeOfDeathCity" - location of death, city</para>
-            <para>"placeOfDeathCounty" - location of death, county</para>
-            <para>"placeOfDeathState" - location of death, state</para>
-            <para>"placeOfDeathZip" - location of death, zip</para>
-            <para>"placeOfDeathCountry" - location of death, country</para>
+        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyType">
+            <summary>Interested Party Type.</summary>
+            <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; placeOfDeath = new Dictionary&lt;string, string&gt;();</para>
-            <para>placeOfDeath.Add("placeOfDeathTypeCode", "16983000");</para>
-            <para>placeOfDeath.Add("placeOfDeathTypeSystem", "http://snomed.info/sct");</para>
-            <para>placeOfDeath.Add("placeOfDeathTypeDisplay", "Death in hospital");</para>
-            <para>placeOfDeath.Add("placeOfDeathFacilityName", "Example Hospital");</para>
-            <para>placeOfDeath.Add("placeOfDeathLine1", "8 Example Street");</para>
-            <para>placeOfDeath.Add("placeOfDeathLine2", "Line 2");</para>
-            <para>placeOfDeath.Add("placeOfDeathCity", "Bedford");</para>
-            <para>placeOfDeath.Add("placeOfDeathCounty", "Middlesex");</para>
-            <para>placeOfDeath.Add("placeOfDeathState", "Massachusetts");</para>
-            <para>placeOfDeath.Add("placeOfDeathZip", "01730");</para>
-            <para>placeOfDeath.Add("placeOfDeathCountry", "United States");</para>
-            <para>SetterDeathRecord.PlaceOfDeath = placeOfDeath;</para>
+            <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
+            <para>type.Add("code", "prov");</para>
+            <para>type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");</para>
+            <para>type.Add("display", "Healthcare Provider");</para>
+            <para>ExampleDeathRecord.InterestedPartyType = type;</para>
             <para>// Getter:</para>
-            <para>string state = ExampleDeathRecord.PlaceOfDeath["placeOfDeathState"];</para>
-            <para>Console.WriteLine($"State where death occurred: {state}");</para>
+            <para>Console.WriteLine($"Interested Party Type: {ExampleDeathRecord.InterestedPartyType['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MaritalStatus">
-            <summary>The marital status of the decedent at the time of death. Corresponds to item 9 of the U.S. Standard Certificate of Death.</summary>
-            <value>The marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
+        <member name="P:FhirDeathRecord.DeathRecord.MannerOfDeathType">
+            <summary>Manner of Death Type.</summary>
+            <value>the manner of death type. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "S");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
-            <para>code.Add("display", "Never Married");</para>
-            <para>ExampleDeathRecord.MaritalStatus = code;</para>
+            <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
+            <para>manner.Add("code", "7878000");</para>
+            <para>manner.Add("system", "");</para>
+            <para>manner.Add("display", "Accident");</para>
+            <para>ExampleDeathRecord.MannerOfDeathType = manner;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Disposition">
-            <summary>Disposition of the decedent’s body. Corresponds to items 18, 19, 20, 21, 22 and 23 of the U.S. Standard Certificate of Death.</summary>
-            <value>Disposition of the decedent’s body. A Dictionary representing the disposition, containing the following key/value pairs:
-            <para>"dispositionTypeCode" - the code describing the method of disposition of the decedent’s remains</para>
-            <para>"dispositionTypeSystem" - the code system describing the method of disposition of the decedent’s remains</para>
-            <para>"dispositionTypeDisplay" - the human readable code display text that describes the method of disposition of the decedent’s remains</para>
-            <para>"dispositionPlaceName" - the name of the disposition place</para>
-            <para>"dispositionPlaceLine1" - disposition place address, line one</para>
-            <para>"dispositionPlaceLine2" - disposition place address, line two</para>
-            <para>"dispositionPlaceCity" - disposition place address, city</para>
-            <para>"dispositionPlaceCounty" - disposition place address, county</para>
-            <para>"dispositionPlaceState" - disposition place address, state</para>
-            <para>"dispositionPlaceZip" - disposition place address, zip</para>
-            <para>"dispositionPlaceCountry" - disposition place address, country</para>
-            <para>"funeralFacilityName" - the name of a funeral facility or institution</para>
-            <para>"funeralFacilityLine1" - funeral facility address, line one</para>
-            <para>"funeralFacilityLine2" - funeral facility address, line two</para>
-            <para>"funeralFacilityCity" - funeral facility address, city</para>
-            <para>"funeralFacilityCounty" - funeral facility address, county</para>
-            <para>"funeralFacilityState" - funeral facility address, state</para>
-            <para>"funeralFacilityZip" - funeral facility address, zip</para>
-            <para>"funeralFacilityCountry" - funeral facility address, country</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; disposition = new Dictionary&lt;string, string&gt;();</para>
-            <para>disposition.Add("dispositionTypeCode", "449971000124106");</para>
-            <para>disposition.Add("dispositionTypeSystem", "http://snomed.info/sct");</para>
-            <para>disposition.Add("dispositionTypeDisplay", "Burial");</para>
-            <para>disposition.Add("dispositionPlaceName", "Example disposition place name");</para>
-            <para>disposition.Add("dispositionPlaceLine1", "100 Example Street");</para>
-            <para>disposition.Add("dispositionPlaceLine2", "Line 2");</para>
-            <para>disposition.Add("dispositionPlaceCity", "Bedford");</para>
-            <para>disposition.Add("dispositionPlaceCounty", "Middlesex");</para>
-            <para>disposition.Add("dispositionPlaceState", "Massachusetts");</para>
-            <para>disposition.Add("dispositionPlaceZip", "01730");</para>
-            <para>disposition.Add("dispositionPlaceCountry", "United States");</para>
-            <para>disposition.Add("funeralFacilityName", "Example funeral facility name");</para>
-            <para>disposition.Add("funeralFacilityLine1", "50 Example Street");</para>
-            <para>disposition.Add("funeralFacilityLine2", "Line 2");</para>
-            <para>disposition.Add("funeralFacilityCity", "Bedford");</para>
-            <para>disposition.Add("funeralFacilityCounty", "Middlesex");</para>
-            <para>disposition.Add("funeralFacilityState", "Massachusetts");</para>
-            <para>disposition.Add("funeralFacilityZip", "01730");</para>
-            <para>disposition.Add("funeralFacilityCountry", "United States");</para>
-            <para>ExampleDeathRecord.Disposition = disposition;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Funeral Facility name: {ExampleDeathRecord.Disposition["funeralFacilityName"]}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Education">
-            <summary>Decedent’s level of education. Corresponds to item 51 of the U.S. Standard Certificate of Death.</summary>
-            <value>Decedent’s level of education. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "PHC1453");</para>
-            <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS	");</para>
-            <para>code.Add("display", "Bachelor's Degree");</para>
-            <para>ExampleDeathRecord.MaritalStatus = code;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Degree: {ExampleDeathRecord.Education["display"]}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Age">
-            <summary>The decedent’s age in years at last birthday. Corresponds to item 4a of the U.S. Standard Certificate of Death.</summary>
-            <value>The decedent’s age in years at last birthday.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.Age = "100";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Age in years at last birthday.: {ExampleDeathRecord.Age}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.ServedInArmedForces">
-            <summary>Whether the decedent ever served in the US armed forces. Corresponds to item 8 of the U.S. Standard Certificate of Death.</summary>
-            <value>Whether the decedent ever served in the US armed forces.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ServedInArmedForces = False;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Served In Armed Forces?: {ExampleDeathRecord.ServedInArmedForces}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Occupation">
-            <summary>Decedent’s usual occupation and industry. Corresponds to items 54 and 55 of the U.S. Standard Certificate of Death.</summary>
-            <value>Decedent’s usual occupation and industry.
-            <para>"jobDescription" - Type of work done during most of decedent’s working life. Corresponds to item 54 of the U.S. Standard Certificate of Death.</para>
-            <para>"industryDescription" - Kind of industry or business in which the decedent worked. Corresponds to item 55 of the U.S. Standard Certificate of Death.</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; occupation = new Dictionary&lt;string, string&gt;();</para>
-            <para>occupation.Add("jobDescription", "Example occupation");</para>
-            <para>occupation.Add("industryDescription", "Example industry");</para>
-            <para>SetterDeathRecord.Occupation = occupation;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Job Description: {ExampleDeathRecord.Occupation["jobDescription"]}");</para>
+            <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierGivenNames">
@@ -429,7 +293,7 @@
             <value>the certifier's name (first, middle, etc.)</value>
             <example>
             <para>// Setter:</para>
-            <para>string[] names = {"Doctor", "Middle"};</para>
+            <para>string[] names = { "Doctor", "Middle" };</para>
             <para>ExampleDeathRecord.CertifierGivenNames = names;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
@@ -442,7 +306,7 @@
             <para>// Setter:</para>
             <para>ExampleDeathRecord.CertifierFamilyName = "Last";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Certifier's Last Name: {string.Join(", ", ExampleDeathRecord.CertifierFamilyName)}");</para>
+            <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierSuffix">
@@ -456,50 +320,62 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierAddress">
-            <summary>Address of certifier.</summary>
-            <value>the certifier's address</value>
+            <summary>Certifier's Address.</summary>
+            <value>the certifier's address. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-            <para>address.Add("certifierAddressLine1", "123 Test Street");</para>
-            <para>address.Add("certifierAddressLine2", "Unit 3");</para>
-            <para>address.Add("certifierAddressCity", "Boston");</para>
-            <para>address.Add("certifierAddressCounty", "Suffolk");</para>
-            <para>address.Add("certifierAddressState", "Massachusetts");</para>
-            <para>address.Add("certifierAddressZip", "12345");</para>
+            <para>address.Add("addressLine1", "123 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
             <para>ExampleDeathRecord.CertifierAddress = address;</para>
             <para>// Getter:</para>
             <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
             <para>{</para>
-            <para>      Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
+            <para>  Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
             <para>};</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierType">
-            <summary>Certifier Type.</summary>
-            <value>the certifier type</value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "434651000124107");</para>
-            <para>code.Add("display", "Physician (Pronouncer and Certifier)");</para>
-            <para>ExampleDeathRecord.CertifierType = type;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"\tCertifier Type: {ExampleDeathRecord.CertifierType['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CertifierQualification">
             <summary>Certifier Qualification.</summary>
-            <value>the certifier qualification</value>
+            <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "MD");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/v2/0360/2.7");</para>
-            <para>code.Add("display", "Doctor of Medicine");</para>
+            <para>qualification.Add("code", "MD");</para>
+            <para>qualification.Add("system", "http://hl7.org/fhir/v2/0360/2.7");</para>
+            <para>qualification.Add("display", "Doctor of Medicine");</para>
             <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
+            <summary>Significant conditions that contributed to death but did not result in the underlying cause.
+            Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
+            <value>A string containing the significant conditions that contributed to death but did not result in
+            the underlying cause captured by a CauseOfDeathCondition.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.CausesOfDeath">
@@ -531,226 +407,901 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.COD1A">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line a.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1A">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line a.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1A">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line a.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1B">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line b.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1B">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line b.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1B">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line b.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1C">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line c.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1C">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line c.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1C">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line c.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1D">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I, Line d.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1D">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Interval, Line d.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1D">
-            <summary>An alias for the <c>CausesOfDeath</c> property - Cause of Death Part I Code, Line d.</summary>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
-            <summary>A significant condition that contributed to death but did not result in the underlying cause
-            captured by a CauseOfDeathCondition. Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
-            <value>A significant condition that contributed to death but did not result in the underlying cause
-            captured by a CauseOfDeathCondition.</value>
+            <summary>Cause of Death Part I, Line a.</summary>
+            <value>the immediate cause of death literal.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";</para>
+            <para>ExampleDeathRecord.COD1A = "Rupture of myocardium";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AutopsyPerformed">
-            <summary>Whether an autopsy was performed (true) or not (false). Corresponds to item 33 of the U.S. Standard
-            Certificate of Death.</summary>
-            <value>Whether an autopsy was performed (true) or not (false)</value>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1A">
+            <summary>Cause of Death Part I Interval, Line a.</summary>
+            <value>the immediate cause of death approximate interval: onset to death.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.AutopsyPerformed = true;</para>
+            <para>ExampleDeathRecord.INTERVAL1A = "Minutes";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Was autopsy was performed?: {ExampleDeathRecord.AutopsyPerformed}");</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1A">
+            <summary>Cause of Death Part I Code, Line a.</summary>
+            <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "I21.0");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+            <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
+            <para>ExampleDeathRecord.CODE1A = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1B">
+            <summary>Cause of Death Part I, Line b.</summary>
+            <value>the first underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1B = "Acute myocardial infarction";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1B">
+            <summary>Cause of Death Part I Interval, Line b.</summary>
+            <value>the first underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1B = "6 days";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1B">
+            <summary>Cause of Death Part I Code, Line b.</summary>
+            <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "I21.9");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+            <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+            <para>ExampleDeathRecord.CODE1B = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1C">
+            <summary>Cause of Death Part I, Line c.</summary>
+            <value>the second underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1C = "Coronary artery thrombosis";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1C">
+            <summary>Cause of Death Part I Interval, Line c.</summary>
+            <value>the second underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1C = "5 years";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1C">
+            <summary>Cause of Death Part I Code, Line c.</summary>
+            <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "I21.9");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+            <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+            <para>ExampleDeathRecord.CODE1C = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1D">
+            <summary>Cause of Death Part I, Line d.</summary>
+            <value>the third underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1D = "Atherosclerotic coronary artery disease";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1D">
+            <summary>Cause of Death Part I Interval, Line d.</summary>
+            <value>the third underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1D = "7 years";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1D">
+            <summary>Cause of Death Part I Code, Line d.</summary>
+            <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "I21.9");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+            <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+            <para>ExampleDeathRecord.CODE1D = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.GivenNames">
+            <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
+            <value>the decedent's name (first, etc., middle)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "Example", "Something", "Middle" };</para>
+            <para>ExampleDeathRecord.GivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FamilyName">
+            <summary>Decedent's Family Name.</summary>
+            <value>the decedent's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
+            <summary>Decedent's Family Name.</summary>
+            <value>the decedent's maiden name (i.e. last name before marriage)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MaidenName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.Suffix">
+            <summary>Decedent's Suffix.</summary>
+            <value>the decedent's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.Suffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.Gender">
+            <summary>Decedent's Gender.</summary>
+            <value>the decedent's gender</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.Gender = "female";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.BirthSex">
+            <summary>Decedent's Birth Sex.</summary>
+            <value>the decedent's birth sex A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "M");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
+            <para>code.Add("display", "Male");</para>
+            <para>ExampleDeathRecord.BirthSex = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DateOfBirth">
+            <summary>Decedent's Date of Birth.</summary>
+            <value>the decedent's date of birth</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.Residence">
+            <summary>Decedent's residence.</summary>
+            <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "123 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>SetterDeathRecord.Residence = address;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.SSN">
+            <summary>Decedent's Social Security Number.</summary>
+            <value>the decedent's social security number, without dashes.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SSN = "12345678";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.Ethnicity">
+            <summary>Decedent's Ethnicity.</summary>
+            <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
+            the code.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+            <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
+            <para>// Getter:</para>
+            <para>foreach(var pair in deathRecord.Ethnicity)</para>
+            <para>{</para>
+            <para>  Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
+            <para>};</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.Race">
+            <summary>Decedent's Race.</summary>
+            <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
+            the code.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+            <para>ExampleDeathRecord.Race = race;</para>
+            <para>// Getter:</para>
+            <para>foreach(var pair in ExampleDeathRecord.race)</para>
+            <para>{</para>
+            <para>   Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
+            <para>};</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.PlaceOfBirth">
+            <summary>Decedent's Place Of Birth.</summary>
+            <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "123 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>SetterDeathRecord.PlaceOfBirth = address;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MaritalStatus">
+            <summary>The marital status of the decedent at the time of death.</summary>
+            <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code describing this finding</para>
+            <para>"system" - the system the given code belongs to</para>
+            <para>"display" - the human readable display text that corresponds to the given code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "S");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
+            <para>code.Add("display", "Never Married");</para>
+            <para>ExampleDeathRecord.MaritalStatus = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FatherGivenNames">
+            <summary>Given name(s) of decedent's father.</summary>
+            <value>the decedent's father's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "Dad", "Middle" };</para>
+            <para>ExampleDeathRecord.FatherGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FatherFamilyName">
+            <summary>Family name of decedent's father.</summary>
+            <value>the decedent's father's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FatherFamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FatherSuffix">
+            <summary>Father's Suffix.</summary>
+            <value>the decedent's father's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FatherSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MotherGivenNames">
+            <summary>Given name(s) of decedent's mother.</summary>
+            <value>the decedent's mother's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "Mom", "Middle" };</para>
+            <para>ExampleDeathRecord.MotherGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MotherMaidenName">
+            <summary>Maiden name of decedent's mother.</summary>
+            <value>the decedent's mother's maiden name (i.e. last name before marriage)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MotherMaidenName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MotherSuffix">
+            <summary>Mother's Suffix.</summary>
+            <value>the decedent's mother's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MotherSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.SpouseGivenNames">
+            <summary>Given name(s) of decedent's spouse.</summary>
+            <value>the decedent's spouse's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "Spouse", "Middle" };</para>
+            <para>ExampleDeathRecord.SpouseGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.SpouseFamilyName">
+            <summary>Family name of decedent's spouse.</summary>
+            <value>the decedent's spouse's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SpouseFamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.SpouseSuffix">
+            <summary>Spouse's Suffix.</summary>
+            <value>the decedent's spouse's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.SpouseSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.EducationLevel">
+            <summary>Decedent's Education Level.</summary>
+            <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+            <para>elevel.Add("code", "BD");</para>
+            <para>elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");</para>
+            <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
+            <para>ExampleDeathRecord.EducationLevel = elevel;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordId">
+            <summary>Birth Record Identifier.</summary>
+            <value>a birth record identification string.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.BirthRecordId = "4242123";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.UsualOccupation">
+            <summary>Decedent's Usual Occupation.</summary>
+            <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
+            <para>uocc.Add("code", "7280");</para>
+            <para>uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");</para>
+            <para>uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
+            <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.UsualIndustry">
+            <summary>Decedent's Usual Industry.</summary>
+            <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
+            <para>uind.Add("code", "1320");</para>
+            <para>uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
+            <para>uind.Add("display", "Aerospace engineers");</para>
+            <para>ExampleDeathRecord.UsualIndustry = uind;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MilitaryService">
+            <summary>Decedent's Military Service.</summary>
+            <value>the decedent's military service. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
+            <para>mserv.Add("code", "Y");</para>
+            <para>mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>mserv.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.MilitaryService = uind;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianGivenNames">
+            <summary>Given name(s) of mortician.</summary>
+            <value>the mortician's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "FD", "Middle" };</para>
+            <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianFamilyName">
+            <summary>Family name of mortician.</summary>
+            <value>the mortician's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianSuffix">
+            <summary>Mortician's Suffix.</summary>
+            <value>the mortician's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MorticianIdentifier">
+            <summary>Mortician Identifier.</summary>
+            <value>the mortician's identifier</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MorticianIdentifier = "9876543210";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FuneralHomeAddress">
+            <summary>Funeral Home Address.</summary>
+            <value>the funeral home address. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "1234 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>ExampleDeathRecord.FuneralHomeAddress = address;</para>
+            <para>// Getter:</para>
+            <para>foreach(var pair in ExampleDeathRecord.FuneralHomeAddress)</para>
+            <para>{</para>
+            <para>  Console.WriteLine($"\FuneralHomeAddress key: {pair.Key}: value: {pair.Value}");</para>
+            <para>};</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.FuneralHomeName">
+            <summary>Name of Funeral Home.</summary>
+            <value>the funeral home name.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FuneralHomeName = "Smith Funeral Home";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DispositionLocationAddress">
+            <summary>Disposition Location Address.</summary>
+            <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "1234 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>ExampleDeathRecord.DispositionLocationAddress = address;</para>
+            <para>// Getter:</para>
+            <para>foreach(var pair in ExampleDeathRecord.DispositionLocationAddress)</para>
+            <para>{</para>
+            <para>  Console.WriteLine($"\DispositionLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+            <para>};</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DispositionLocationName">
+            <summary>Name of Disposition Location.</summary>
+            <value>the displosition location name.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DispositionLocationName = "Bedford Cemetery";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DecedentDispositionMethod">
+            <summary>Decedent's Disposition Method.</summary>
+            <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
+            <para>dmethod.Add("code", "449971000124106");</para>
+            <para>dmethod.Add("system", "http://snomed.info/sct");</para>
+            <para>dmethod.Add("display", "Burial");</para>
+            <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.AutopsyPerformedIndicator">
+            <summary>Autopsy Performed Indicator.</summary>
+            <value>autopsy performed indicator. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "Y");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>code.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DateOfDeath">
+            <summary>Decedent's Date/Time of Death.</summary>
+            <value>the decedent's date and time of death</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.DateOfDeathPronouncement">
+            <summary>Decedent's Date/Time of Death Pronouncement.</summary>
+            <value>the decedent's date and time of death pronouncement</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.AutopsyResultsAvailable">
-            <summary>Were autopsy findings available to complete the cause of death? Corresponds to item 34 of the U.S.
-            Standard Certificate of Death.</summary>
-            <value>Were autopsy findings available to complete the cause of death?</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.AutopsyResultsAvailable = true;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Were autopsy findings available to complete the cause of death?: {ExampleDeathRecord.AutopsyResultsAvailable}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MannerOfDeath">
-            <summary>The manner of the decendent's demise. Corresponds to item 37 of the U.S. Standard Certificate of Death.</summary>
-            <value>The manner of the decendent's demise. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
+            <summary>Autopsy Results Available.</summary>
+            <value>autopsy results available. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "7878000");</para>
-            <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/MannerOfDeathVS");</para>
-            <para>code.Add("display", "Accident");</para>
-            <para>ExampleDeathRecord.MannerOfDeath = code;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Manner of the decendents demise: {ExampleDeathRecord.MannerOfDeath["display"]}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.TobaccoUseContributedToDeath">
-            <summary>Did tobacco use contribute to death. Corresponds to item 35 of the U.S. Standard Certificate of Death.</summary>
-            <value>Did tobacco use contribute to death. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "373066001");</para>
-            <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/ContributoryTobaccoUseVS");</para>
+            <para>code.Add("code", "Y");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
             <para>code.Add("display", "Yes");</para>
-            <para>ExampleDeathRecord.TobaccoUseContributedToDeath = code;</para>
+            <para>ExampleDeathRecord.AutopsyResultsAvailable = code;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Did tobacco use contribute to death: {ExampleDeathRecord.TobaccoUseContributedToDeath["display"]}");</para>
+            <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailable['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.ActualOrPresumedDateOfDeath">
-            <summary>Actual or presumed date of death. Corresponds to item 29 of the U.S. Standard Certificate of Death.</summary>
-            <value>Actual or presumed date of death</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.ActualOrPresumedDateOfDeath = "2018-04-24T00:00:00+00:00";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Actual or presumed date of death: {ExampleDeathRecord.ActualOrPresumedDateOfDeath}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DatePronouncedDead">
-            <summary>Date pronounced dead. Corresponds to items 24 and 25 of the U.S. Standard Certificate of Death.</summary>
-            <value>Date pronounced dead</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.DatePronouncedDead = "2018-04-24T00:00:00+00:00";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Date pronounced dead: {ExampleDeathRecord.DatePronouncedDead}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DeathFromWorkInjury">
-            <summary>Did death result from injury at work? Corresponds to item 41 of the U.S. Standard Certificate of Death.</summary>
-            <value>Did death result from injury at work?</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.DeathFromWorkInjury = true;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Did death result from injury at work?: {ExampleDeathRecord.DeathFromWorkInjury}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DeathFromTransportInjury">
-            <summary>Injury leading to death associated with transportation event. Corresponds to item 44 of the U.S. Standard Certificate of Death.</summary>
-            <value>Injury leading to death associated with transportation event. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
+        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationAddress">
+            <summary>Location of Death.</summary>
+            <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "236320001");</para>
-            <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/TransportRelationshipsVS");</para>
-            <para>code.Add("display", "Vehicle driver");</para>
-            <para>ExampleDeathRecord.DeathFromTransportInjury = code;</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "123456789 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Injury leading to death associated with transportation event: {ExampleDeathRecord.DeathFromTransportInjury["display"]}");</para>
+            <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
+            <para>{</para>
+            <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+            <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MedicalExaminerContacted">
-            <summary>Whether a medical examiner or coroner was contacted. Corresponds to item 31 of the U.S. Standard Certificate of Death.</summary>
-            <value>Whether a medical examiner or coroner was contacted</value>
+        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationName">
+            <summary>Name of Death Location.</summary>
+            <value>the death location name.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.MedicalExaminerContacted = true;</para>
+            <para>ExampleDeathRecord.DeathLocationName = "Example Death Location Name";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Medical examiner or coroner was contacted?: {ExampleDeathRecord.MedicalExaminerContacted}");</para>
+            <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.TimingOfRecentPregnancyInRelationToDeath">
-            <summary>Timing Of Recent Pregnancy In Relation To Death. Corresponds to item 36 of the U.S. Standard Certificate of Death.</summary>
-            <value>Timing Of Recent Pregnancy In Relation To Death. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code describing this finding</para>
-            <para>"system" - the system the given code belongs to</para>
-            <para>"display" - the human readable display text that corresponds to the given code</para>
+        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationDescription">
+            <summary>Description of Death Location.</summary>
+            <value>the death location description.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathLocationDescription = "Bedford Cemetery";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.AgeAtDeath">
+            <summary>Age At Death.</summary>
+            <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
+            <para>"value" - the quantity value</para>
+            <para>"system" - the quantity unit</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
+            <para>age.Add("value", "100");</para>
+            <para>age.Add("unit", "a"); // USE: http://www.hl7.org/fhir/stu3/valueset-age-units.html</para>
+            <para>ExampleDeathRecord.AgeAtDeath = age;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.PregnanacyStatus">
+            <summary>Pregnanacy Status At Death.</summary>
+            <value>pregnanacy status at death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "PHC1260");</para>
-            <para>code.Add("system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/causeOfDeath/vs/PregnancyStatusVS");</para>
+            <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
             <para>code.Add("display", "Not pregnant within past year");</para>
-            <para>ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath = code;</para>
+            <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Timing Of Recent Pregnancy In Relation To Death: {ExampleDeathRecord.TimingOfRecentPregnancyInRelationToDeath["display"]}");</para>
+            <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DetailsOfInjury">
-            <summary>Injury incident description.</summary>
-            <value>Injury incident description. A Dictionary representing a description of an injury incident, containing the following key/value pairs:
-            <para>"detailsOfInjuryPlaceDescription" - description of the place of injury, e.g. decedent’s home, restaurant, wooded area</para>
-            <para>"detailsOfInjuryEffectiveDateTime" - effective date and time of injury</para>
-            <para>"detailsOfInjuryDescription" - description of the injury</para>
-            <para>"detailsOfInjuryLine1" - location of injury, line one</para>
-            <para>"detailsOfInjuryLine2" - location of injury, line two</para>
-            <para>"detailsOfInjuryCity" - location of injury, city</para>
-            <para>"detailsOfInjuryCounty" - location of injury, county</para>
-            <para>"detailsOfInjuryState" - location of injury, state</para>
-            <para>"detailsOfInjuryZip" - location of injury, zip</para>
-            <para>"detailsOfInjuryCountry" - location of injury, country</para>
+        <member name="P:FhirDeathRecord.DeathRecord.TransportationRole">
+            <summary>Transportation Role in death.</summary>
+            <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; detailsOfInjury = new Dictionary&lt;string, string&gt;();</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryPlaceDescription", "Home");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryEffectiveDateTime", "2018-04-19T15:43:00+00:00");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryDescription", "Example details of injury");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryLine1", "7 Example Street");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryLine2", "Unit 1234");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryCity", "Bedford");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryCounty", "Middlesex");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryState", "Massachusetts");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryZip", "01730");</para>
-            <para>detailsOfInjury.Add("detailsOfInjuryCountry", "United States");</para>
-            <para>ExampleDeathRecord.DetailsOfInjury = detailsOfInjury;</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example-code");</para>
+            <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
+            <para>code.Add("display", "Example Code");</para>
+            <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>
-            <para>string state = ExampleDeathRecord.DetailsOfInjury["detailsOfInjuryState"];</para>
-            <para>Console.WriteLine($"State where injury occurred: {state}");</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.AddObservation(System.String,System.String,System.String,System.String)">
-            <summary>Add a new (or replaces a) observation on the Death Record.</summary>
-            <param name="profile">the observation profile.</param>
-            <param name="code">the observation code.</param>
-            <param name="system">the observation code system.</param>
-            <param name="display">the observation code display.</param>
+        <member name="P:FhirDeathRecord.DeathRecord.ExaminerContacted">
+            <summary>Examiner Contacted.</summary>
+            <value>if a medical examiner was contacted.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationAddress">
+            <summary>Location of Injury.</summary>
+            <value>location of injury. A Dictionary representing an address, containing the following key/value pairs:
+            <para>"addressLine1" - address, line one</para>
+            <para>"addressLine2" - address, line two</para>
+            <para>"addressCity" - address, city</para>
+            <para>"addressCounty" - address, county</para>
+            <para>"addressState" - address, state</para>
+            <para>"addressZip" - address, zip</para>
+            <para>"addressCountry" - address, country</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+            <para>address.Add("addressLine1", "123456 Test Street");</para>
+            <para>address.Add("addressLine2", "Unit 3");</para>
+            <para>address.Add("addressCity", "Boston");</para>
+            <para>address.Add("addressCounty", "Suffolk");</para>
+            <para>address.Add("addressState", "Massachusetts");</para>
+            <para>address.Add("addressZip", "12345");</para>
+            <para>address.Add("addressCountry", "United States");</para>
+            <para>ExampleDeathRecord.InjuryLocationAddress = address;</para>
+            <para>// Getter:</para>
+            <para>foreach(var pair in ExampleDeathRecord.InjuryLocationAddress)</para>
+            <para>{</para>
+            <para>  Console.WriteLine($"\InjuryLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+            <para>};</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationName">
+            <summary>Name of Injury Location.</summary>
+            <value>the injury location name.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryLocationName = "Bedford Cemetery";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationDescription">
+            <summary>Description of Injury Location.</summary>
+            <value>the injury location description.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryLocationDescription = "Bedford Cemetery";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryDate">
+            <summary>Date/Time of Injury.</summary>
+            <value>the date and time of injury</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.TobaccoUse">
+            <summary>Tobacco Use Contributed To Death.</summary>
+            <value>if tobacco use contributed to death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "Y");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>code.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.TobaccoUse = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
+            </example>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.AddReferenceToComposition(System.String)">
             <summary>Add a reference to the Death Record Composition.</summary>
@@ -760,22 +1311,28 @@
             <summary>Remove a reference from the Death Record Composition.</summary>
             <param name="reference">a reference.</param>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.RemoveObservation(System.String)">
-            <summary>Remove an observation entry from the bundle, and remove the reference to it in the Composition.</summary>
-            <param name="code">the code that describes the type of observation.</param>
-        </member>
-        <member name="M:FhirDeathRecord.DeathRecord.RemoveCauseConditions">
-            <summary>Remove Cause of Death Condition entries from the bundle, and remove their references in the Composition.</summary>
+        <member name="M:FhirDeathRecord.DeathRecord.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.InsertCOD(System.Tuple{System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String}},System.Int32)">
-            <summary>Inserts a single COD line into the CausesOfDeath property.</summary>
-            <param name="cod">cause of death to add.</param>
-            <param name="index">what index the cause of death should appear.</param>
+        <member name="M:FhirDeathRecord.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)">
+            <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
+            <param name="codeableConcept">a FHIR CodeableConcept.</param>
+            <returns>the corresponding Dictionary representation of the code.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.DictToAddress(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Convert an "address" dictionary to a FHIR Address.</summary>
+            <param name="dict">represents an address.</param>
+            <returns>the corresponding FHIR Address representation of the address.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
+            <summary>Convert a FHIR Address to an "address" Dictionary</summary>
+            <param name="addr">a FHIR Address.</param>
+            <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;
@@ -816,12 +1373,6 @@
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Combine the given dictionaries and return the combined result.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.DeathRecord.EscapeCauses(Hl7.Fhir.Model.Bundle)">
-            <summary>HTML escape cause of death divs in the given Bundle.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.DeathRecord.UnescapeCauses(Hl7.Fhir.Model.Bundle)">
-            <summary>HTML un-escape cause of death divs in the given Bundle.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.ToDescription">
             <summary>Returns a JSON encoded structure that maps to the various property
@@ -876,10 +1427,13 @@
         <member name="F:FhirDeathRecord.Property.Serialize">
             <summary>If this field should be kept when serialzing.</summary>
         </member>
+        <member name="F:FhirDeathRecord.Property.IGUrl">
+            <summary>URL that links to the IG description for this property.</summary>
+        </member>
         <member name="F:FhirDeathRecord.Property.Priority">
             <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
         </member>
-        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.Int32)">
+        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.String,System.Int32)">
             <summary>Constructor.</summary>
         </member>
         <member name="T:FhirDeathRecord.PropertyParam">
@@ -970,12 +1524,6 @@
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String)">
-            <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Dictionary_Get(System.String,System.String,System.String,System.String)">
-            <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Dictionary_Set(System.String,System.String,System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">
@@ -1122,17 +1670,11 @@
         <member name="P:FhirDeathRecord.IJEMortality.COUNTRYC">
             <summary>Decedent's Residence--Country</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.LIMITS">
-            <summary>Decedent's Residence--Inside City Limits</summary>
-        </member>
         <member name="P:FhirDeathRecord.IJEMortality.MARITAL">
             <summary>Marital Status</summary>
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.MARITAL_BYPASS">
             <summary>Marital Status--Edit Flag</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DPLACE">
-            <summary>Place of Death</summary>
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.COD">
             <summary>County of Death Occurrence</summary>
@@ -1298,9 +1840,6 @@
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.TOI_HR">
             <summary>Time of injury</summary>
-        </member>
-        <member name="P:FhirDeathRecord.IJEMortality.WORKINJ">
-            <summary>Injury at work</summary>
         </member>
         <member name="P:FhirDeathRecord.IJEMortality.CERTL">
             <summary>Title of Certifier</summary>

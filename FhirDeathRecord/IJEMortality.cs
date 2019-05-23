@@ -282,49 +282,6 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
-        private string DateTime_Dictionary_Get(string ijeFieldName, string dateTimeType, string fhirFieldName, string key)
-        {
-            IJEField info = FieldInfo(ijeFieldName);
-            DateTimeOffset date;
-            Dictionary<string, string> currentDict = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            string current = currentDict[key];
-            if (DateTimeOffset.TryParse(current, out date))
-            {
-                date = date.ToUniversalTime();
-                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
-                return Truncate(date.ToString(dateTimeType), info.Length);
-            }
-            else
-            {
-                return new String(' ', info.Length);
-            }
-        }
-
-        /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
-        private void DateTime_Dictionary_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string key, string value)
-        {
-            IJEField info = FieldInfo(ijeFieldName);
-            Dictionary<string, string> currentDict = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            string current = currentDict[key];
-            DateTimeOffset date;
-            if (current != null && DateTimeOffset.TryParse(current, out date))
-            {
-                date = date.ToUniversalTime();
-                date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
-                string updated = DateTimeStringHelper(info, value, dateTimeType, date);
-                currentDict[key] = updated;
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, currentDict);
-            }
-            else
-            {
-                date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
-                string updated = DateTimeStringHelper(info, value, dateTimeType, date);
-                currentDict[key] = updated;
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, currentDict);
-            }
-        }
-
         /// <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private string RightJustifiedZeroed_Get(string ijeFieldName, string fhirFieldName)
         {
@@ -390,15 +347,19 @@ namespace FhirDeathRecord
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            string current = Convert.ToString(dictionary[key]);
-            if (current != null)
+            if (dictionary != null && dictionary.ContainsKey(key))
             {
-                return current;
+                string current = Convert.ToString(dictionary[key]);
+                if (current != null)
+                {
+                    return current;
+                }
+                else
+                {
+                    return "";
+                }
             }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         /// <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
@@ -711,14 +672,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath") ?? DateTime_Get("DOD_YR", "yyyy", "ActualOrPresumedDateOfDeath");
+                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value);
-                    DateTime_Set("DOD_YR", "yyyy", "ActualOrPresumedDateOfDeath", value);
                 }
             }
         }
@@ -729,13 +689,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DSTATE", "PlaceOfDeath", "placeOfDeath", "state", true);
+                return Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("DSTATE", "PlaceOfDeath", "placeOfDeath", "state", true, value);
+                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", dataLookup.StateCodeToStateName(value));
                 }
             }
         }
@@ -746,11 +706,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(record.Id))
+                if (String.IsNullOrWhiteSpace(record.Identifier))
                 {
                     return "".PadLeft(6, '0');
                 }
-                string id_str = record.Id;
+                string id_str = record.Identifier;
                 if (id_str.Length > 6)
                 {
                     id_str = id_str.Substring(id_str.Length - 6);
@@ -761,7 +721,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("FILENO", "Id", value);
+                    RightJustifiedZeroed_Set("FILENO", "Identifier", value);
                 }
             }
         }
@@ -786,11 +746,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return RightJustifiedZeroed_Get("AUXNO", "Id");
+                return RightJustifiedZeroed_Get("AUXNO", "BundleIdentifier");
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    RightJustifiedZeroed_Set("AUXNO", "BundleIdentifier", value);
+                }
             }
         }
 
@@ -1030,27 +993,9 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.Age != null)
+                if (record.AgeAtDeath != null)
                 {
-                    return "1"; // Years
-                }
-                return "";
-            }
-            set
-            {
-                // NOOP
-            }
-        }
-
-        /// <summary>Decedent's Age--Units</summary>
-        [IJEField(17, 201, 3, "Decedent's Age--Units", "AGE", 1)]
-        public string AGE
-        {
-            get
-            {
-                if (record.Age != null)
-                {
-                    return RightJustifiedZeroed_Get("AGE", "Age");
+                    return record.AgeAtDeath["unit"];
                 }
                 return "";
             }
@@ -1058,7 +1003,32 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AGE", "Age", value);
+                    Dictionary<string, string> ageAtDeath = new Dictionary<string, string>();
+                    ageAtDeath["unit"] = value;
+                    record.AgeAtDeath = ageAtDeath;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Age--Units</summary>
+        [IJEField(17, 201, 3, "Decedent's Age--Units", "AGE", 2)]
+        public string AGE
+        {
+            get
+            {
+                if (record.AgeAtDeath != null)
+                {
+                    return record.AgeAtDeath["value"];
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary<string, string> ageAtDeath = record.AgeAtDeath;
+                    ageAtDeath["value"] = value;
+                    record.AgeAtDeath = ageAtDeath;
                 }
             }
         }
@@ -1134,13 +1104,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("BPLACE_CNT", "PlaceOfBirth", "placeOfBirth", "country", true);
+                return Dictionary_Geo_Get("BPLACE_CNT", "PlaceOfBirth", "address", "country", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("BPLACE_CNT", "PlaceOfBirth", "placeOfBirth", "country", true, value);
+                    Dictionary_Set("STATEC", "PlaceOfBirth", "addressCountry", dataLookup.CountryCodeToCountryName(value));
                 }
             }
         }
@@ -1151,13 +1121,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "placeOfBirth", "state", true);
+                return Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("BPLACE_ST", "PlaceOfBirth", "placeOfBirth", "state", true, value);
+                    Dictionary_Geo_Set("BPLACE_ST", "PlaceOfBirth", "address", "state", true, value);
                 }
             }
         }
@@ -1168,7 +1138,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYC", "Residence", "residence", "city", true);
+                return Dictionary_Geo_Get("CITYC", "Residence", "address", "city", true);
             }
             set
             {
@@ -1182,13 +1152,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYC", "Residence", "residence", "county", true);
+                return Dictionary_Geo_Get("COUNTYC", "Residence", "address", "county", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYC", "Residence", "residence", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYC", "Residence", "address", "county", true, value);
                 }
             }
         }
@@ -1199,13 +1169,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATEC", "Residence", "residence", "state", true);
+                return Dictionary_Geo_Get("STATEC", "Residence", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATEC", "Residence", "residence", "state", true, value);
+                    Dictionary_Set("STATEC", "Residence", "addressState", dataLookup.StateCodeToStateName(value));
                 }
             }
         }
@@ -1216,30 +1186,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYC", "Residence", "residence", "country", true);
+                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTRYC", "Residence", "residence", "country", true, value);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Residence--Inside City Limits</summary>
-        [IJEField(28, 229, 1, "Decedent's Residence--Inside City Limits", "LIMITS", 1)]
-        public string LIMITS
-        {
-            get
-            {
-                return Dictionary_Geo_Get("LIMITS", "Residence", "residence", "insideCityLimits", true);
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Dictionary_Geo_Set("LIMITS", "Residence", "residence", "insideCityLimits", true, value);
+                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value);
                 }
             }
         }
@@ -1324,98 +1277,19 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Place of Death</summary>
-        [IJEField(31, 232, 1, "Place of Death", "DPLACE", 1)]
-        public string DPLACE
-        {
-            get
-            {
-                string code = Dictionary_Get_Full("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode");
-                switch (code)
-                {
-                    case "63238001": // Dead on arrival at hospital
-                        return "3";
-                    case "440081000124100": // Death in home
-                        return "4";
-                    case "440071000124103": // Death in hospice
-                        return "5";
-                    case "16983000": // Death in hospital
-                        return "1";
-                    case "450391000124102": // Death in hospital-based emergency department or outpatient department
-                        return "2";
-                    case "450381000124100": // Death in nursing home or long term care facility
-                        return "6";
-                    case "UNK": // Unknown
-                        return "9";
-                    case "OTH": // Other
-                        return "7";
-                }
-                return "";
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "16983000");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Death in hospital");
-                            break;
-                        case "2":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "450391000124102");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Death in hospital-based emergency department or outpatient department");
-                            break;
-                        case "3":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "63238001");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Dead on arrival at hospital");
-                            break;
-                        case "4":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "440081000124100");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Death in home");
-                            break;
-                        case "5":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "440071000124103");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Death in hospice");
-                            break;
-                        case "6":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "450381000124100");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Death in nursing home or long term care facility");
-                            break;
-                        case "7":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "UNK");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeSystem", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Unknown");
-                            break;
-                        case "9":
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeCode", "OTH");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("DPLACE", "PlaceOfDeath", "placeOfDeathTypeDisplay", "Other");
-                            break;
-                    }
-                }
-            }
-        }
-
         /// <summary>County of Death Occurrence</summary>
         [IJEField(32, 233, 3, "County of Death Occurrence", "COD", 2)]
         public string COD
         {
             get
             {
-                return Dictionary_Geo_Get("COD", "PlaceOfDeath", "placeOfDeath", "county", true);
+                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "county", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COD", "PlaceOfDeath", "placeOfDeath", "county", true, value);
+                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "county", true, value);
                 }
             }
         }
@@ -1426,7 +1300,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("DISP", "Disposition", "dispositionTypeCode");
+                string code = Dictionary_Get_Full("DISP", "DecedentDispositionMethod", "code");
                 switch (code)
                 {
                     case "449951000124101": // Donation
@@ -1454,39 +1328,39 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "D":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "449951000124101");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Donation");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Donation");
                             break;
                         case "B":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "449971000124106");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Burial");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Burial");
                             break;
                         case "C":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "449961000124104");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Cremation");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Cremation");
                             break;
                         case "E":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "449931000124108");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Entombment");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Entombment");
                             break;
                         case "R":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "449941000124103");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Removal from state");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Removal from state");
                             break;
                         case "U":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "UNK");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Unknown");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
                             break;
                         case "O":
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeCode", "OTH");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeSystem", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("DISP", "Disposition", "dispositionTypeDisplay", "Other");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
                             break;
                     }
                 }
@@ -1499,14 +1373,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_MO", "MM", "DateOfDeath") ?? DateTime_Get("DOD_MO", "MM", "ActualOrPresumedDateOfDeath");
+                return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_MO", "MM", "DateOfDeath", value);
-                    DateTime_Set("DOD_MO", "MM", "ActualOrPresumedDateOfDeath", value);
                 }
             }
         }
@@ -1517,14 +1390,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOD_DY", "dd", "DateOfDeath") ?? DateTime_Get("DOD_DY", "dd", "ActualOrPresumedDateOfDeath");
+                return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_DY", "dd", "DateOfDeath", value);
-                    DateTime_Set("DOD_DY", "dd", "ActualOrPresumedDateOfDeath", value);
                 }
             }
         }
@@ -1535,14 +1407,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("TOD", "HHmm", "ActualOrPresumedDateOfDeath") ?? DateTime_Get("TOD", "HHmm", "DateOfDeath");
+                return DateTime_Get("TOD", "HHmm", "DateOfDeath");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("TOD", "HHmm", "DateOfDeath", value);
-                    DateTime_Set("TOD", "HHmm", "ActualOrPresumedDateOfDeath", value);
                 }
             }
         }
@@ -1553,7 +1424,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("DEDUC", "Education", "code");
+                string code = Dictionary_Get_Full("DEDUC", "EducationLevel", "code");
                 switch (code)
                 {
                     case "PHC1448": // 8th grade or less
@@ -1584,49 +1455,49 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "1":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1448");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "8th grade or less");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1448");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "8th grade or less");
                             break;
                         case "2":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1449");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "9th through 12th grade; no diploma");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1449");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "9th through 12th grade; no diploma");
                             break;
                         case "3":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1450");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "High School Graduate or GED Completed");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1450");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School Graduate or GED Completed");
                             break;
                         case "4":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1451");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "Some college credit, but no degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1451");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some college credit, but no degree");
                             break;
                         case "5":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1452");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "Associate Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1452");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate Degree");
                             break;
                         case "6":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1453");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "Bachelor's Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1453");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Bachelor's Degree");
                             break;
                         case "7":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1454");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "Master's Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1454");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Master's Degree");
                             break;
                         case "8":
-                            Dictionary_Set("DEDUC", "Education", "code", "PHC1455");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "Education", "display", "Doctorate Degree or Professional Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1455");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctorate Degree or Professional Degree");
                             break;
                         case "9":
-                            Dictionary_Set("DEDUC", "Education", "code", "UNK");
-                            Dictionary_Set("DEDUC", "Education", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("DEDUC", "Education", "display", "Unknown");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "UNK");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Unknown");
                             break;
                     }
                 }
@@ -2359,13 +2230,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("OCCUP", "Occupation", "jobDescription");
+                return Dictionary_Get("OCCUP", "UsualOccupation", "display");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("OCCUP", "Occupation", "jobDescription", value);
+                    Dictionary_Set("OCCUP", "UsualOccupation", "display", value);
                 }
             }
         }
@@ -2376,13 +2247,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("INDUST", "Occupation", "industryDescription");
+                return Dictionary_Get("INDUST", "UsualIndustry", "display");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("INDUST", "Occupation", "industryDescription", value);
+                    Dictionary_Set("INDUST", "UsualIndustry", "display", value);
                 }
             }
         }
@@ -2393,11 +2264,23 @@ namespace FhirDeathRecord
         {
             get
             {
-                return "";
+                if (String.IsNullOrWhiteSpace(record.BirthRecordId))
+                {
+                    return "".PadLeft(6, '0');
+                }
+                string id_str = record.BirthRecordId;
+                if (id_str.Length > 6)
+                {
+                    id_str = id_str.Substring(id_str.Length - 6);
+                }
+                return id_str.PadLeft(6, '0');
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
+                }
             }
         }
 
@@ -2435,7 +2318,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "placeOfBirth", "state", true);
+                    return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
                 }
                 return ""; // Blank
             }
@@ -2451,13 +2334,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOR_YR", "yyyy", "DateOfRegistration");
+                return DateTime_Get("DOR_YR", "yyyy", "CreatedTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_YR", "yyyy", "DateOfRegistration", value);
+                    DateTime_Set("DOR_YR", "yyyy", "CreatedTime", value);
                 }
             }
         }
@@ -2468,13 +2351,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOR_MO", "MM", "DateOfRegistration");
+                return DateTime_Get("DOR_MO", "MM", "CreatedTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_MO", "MM", "DateOfRegistration", value);
+                    DateTime_Set("DOR_MO", "MM", "CreatedTime", value);
                 }
             }
         }
@@ -2485,13 +2368,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("DOR_DY", "dd", "DateOfRegistration");
+                return DateTime_Get("DOR_DY", "dd", "CreatedTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_DY", "dd", "DateOfRegistration", value);
+                    DateTime_Set("DOR_DY", "dd", "CreatedTime", value);
                 }
             }
         }
@@ -2502,7 +2385,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("MANNER", "MannerOfDeath", "code");
+                string code = Dictionary_Get_Full("MANNER", "MannerOfDeathType", "code");
                 switch (code)
                 {
                     case "38605008": // Natural
@@ -2527,34 +2410,34 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "N":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "38605008");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Natural");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "38605008");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural");
                             break;
                         case "A":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "7878000");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Accident");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "7878000");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accident");
                             break;
                         case "S":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "44301001");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Suicide");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "44301001");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Suicide");
                             break;
                         case "H":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "27935005");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Homicide");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "27935005");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Homicide");
                             break;
                         case "P":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "185973002");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Pending Investigation");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "185973002");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Pending Investigation");
                             break;
                         case "C":
-                            Dictionary_Set("MANNER", "MannerOfDeath", "code", "65037004");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeath", "display", "Could not be determined");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "65037004");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Could not be determined");
                             break;
                     }
                 }
@@ -2600,53 +2483,15 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Get_YNU("AutopsyPerformed");
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("AutopsyPerformed", value);
-                }
-            }
-        }
-
-        /// <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
-        [IJEField(109, 977, 1, "Were Autopsy Findings Available to Complete the Cause of Death?", "AUTOPF", 1)]
-        public string AUTOPF
-        {
-            get
-            {
-                return Get_YNU("AutopsyResultsAvailable");
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("AutopsyResultsAvailable", value);
-                }
-            }
-        }
-
-        /// <summary>Did Tobacco Use Contribute to Death?</summary>
-        [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
-        public string TOBAC
-        {
-            get
-            {
-                string code = Dictionary_Get_Full("TOBAC", "TobaccoUseContributedToDeath", "code");
+                string code = Dictionary_Get_Full("AUTOP", "AutopsyPerformedIndicator", "code");
                 switch (code)
                 {
-                    case "373066001": // Yes
+                    case "Y": // Yes
                         return "Y";
-                    case "373067005": // No
+                    case "N": // No
                         return "N";
-                    case "2931005": // Probably
-                        return "P";
                     case "UNK": // Unknown
                         return "U";
-                    case "NASK": // Pending Investigation
-                        return "C";
                 }
                 return "";
             }
@@ -2657,29 +2502,107 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "Y":
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373066001");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Yes");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
                             break;
                         case "N":
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "373067005");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "No");
-                            break;
-                        case "P":
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "2931005");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Probably");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
                             break;
                         case "U":
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Unknown");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "unknown");
                             break;
-                        case "C":
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "code", "NASK");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("TOBAC", "TobaccoUseContributedToDeath", "display", "Not asked");
+                    }
+                }
+            }
+        }
+
+        /// <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
+        [IJEField(109, 977, 1, "Were Autopsy Findings Available to Complete the Cause of Death?", "AUTOPF", 1)]
+        public string AUTOPF
+        {
+            get
+            {
+                string code = Dictionary_Get_Full("AUTOPF", "AutopsyResultsAvailable", "code");
+                switch (code)
+                {
+                    case "Y": // Yes
+                        return "Y";
+                    case "N": // No
+                        return "N";
+                    case "UNK": // Unknown
+                        return "U";
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "Y":
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
+                            break;
+                        case "N":
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
+                            break;
+                        case "U":
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "unknown");
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>Did Tobacco Use Contribute to Death?</summary>
+        [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
+        public string TOBAC
+        {
+            get
+            {
+                string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");
+                switch (code)
+                {
+                    case "Y": // Yes
+                        return "Y";
+                    case "N": // No
+                        return "N";
+                    case "UNK": // Unknown
+                        return "U";
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "Y":
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "Y");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
+                            break;
+                        case "N":
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "N");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
+                            break;
+                        case "U":
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "unknown");
                             break;
                     }
                 }
@@ -2692,7 +2615,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code");
+                string code = Dictionary_Get_Full("PREG", "PregnanacyStatus", "code");
                 switch (code)
                 {
                     case "PHC1260": // Not pregnant within past year
@@ -2717,34 +2640,34 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "1":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1260");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant within past year");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1260");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant within past year");
                             break;
                         case "2":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1261");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Pregnant at time of death");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1261");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Pregnant at time of death");
                             break;
                         case "3":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1262");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant within 42 days of death");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1262");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
                             break;
                         case "4":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1263");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1263");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
                             break;
                         case "9":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "PHC1264");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Unknown if pregnant within the past year");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1264");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Unknown if pregnant within the past year");
                             break;
                         case "8":
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "code", "NA");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("PREG", "TimingOfRecentPregnancyInRelationToDeath", "display", "Not applicable");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "NA");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not applicable");
                             break;
                     }
                 }
@@ -2771,13 +2694,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_MO", "MM", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
+                return DateTime_Get("DOI_MO", "MM", "InjuryDate");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_MO", "MM", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
+                    DateTime_Set("DOI_MO", "MM", "InjuryDate", value.Trim());
                 }
             }
         }
@@ -2788,13 +2711,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_DY", "dd", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
+                return DateTime_Get("DOI_DY", "dd", "InjuryDate");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_DY", "dd", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
+                    DateTime_Set("DOI_DY", "dd", "InjuryDate", value.Trim());
                 }
             }
         }
@@ -2805,13 +2728,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("DOI_YR", "yyyy", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
+                return DateTime_Get("DOI_YR", "yyyy", "InjuryDate");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("DOI_YR", "yyyy", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
+                    DateTime_Set("DOI_YR", "yyyy", "InjuryDate", value.Trim());
                 }
             }
         }
@@ -2822,30 +2745,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Dictionary_Get("TOI_HR", "HHmm", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime");
+                return DateTime_Get("TOI_HR", "HHmm", "InjuryDate");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Dictionary_Set("TOI_HR", "HHmm", "DetailsOfInjury", "detailsOfInjuryEffectiveDateTime", value.Trim());
-                }
-            }
-        }
-
-        /// <summary>Injury at work</summary>
-        [IJEField(117, 993, 1, "Injury at work", "WORKINJ", 1)]
-        public string WORKINJ
-        {
-            get
-            {
-                return Get_YNU("DeathFromWorkInjury");
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("DeathFromWorkInjury", value);
+                    DateTime_Set("TOI_HR", "HHmm", "InjuryDate", value.Trim());
                 }
             }
         }
@@ -2856,7 +2762,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("CERTL", "CertifierType", "code");
+                string code = Dictionary_Get_Full("CERTL", "CertifierRole", "code");
                 switch (code)
                 {
                     case "434641000124105": // Physician (Certifier)
@@ -2877,19 +2783,19 @@ namespace FhirDeathRecord
                     switch (value.Trim())
                     {
                         case "D":
-                            Dictionary_Set("CERTL", "CertifierType", "code", "434641000124105");
-                            Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierType", "display", "Physician (Certifier)");
+                            Dictionary_Set("CERTL", "CertifierRole", "code", "434641000124105");
+                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertifierRole", "display", "Physician (Certifier)");
                             break;
                         case "P":
-                            Dictionary_Set("CERTL", "CertifierType", "code", "434651000124107");
-                            Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierType", "display", "Physician (Pronouncer and Certifier)");
+                            Dictionary_Set("CERTL", "CertifierRole", "code", "434651000124107");
+                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertifierRole", "display", "Physician (Pronouncer and Certifier)");
                             break;
                         case "M":
-                            Dictionary_Set("CERTL", "CertifierType", "code", "440051000124108");
-                            Dictionary_Set("CERTL", "CertifierType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierType", "display", "Medical Examiner");
+                            Dictionary_Set("CERTL", "CertifierRole", "code", "440051000124108");
+                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertifierRole", "display", "Medical Examiner");
                             break;
                     }
                 }
@@ -2938,13 +2844,40 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Get_YNU("ServedInArmedForces");
+                string code = Dictionary_Get_Full("ARMEDF", "MilitaryService", "code");
+                switch (code)
+                {
+                    case "Y": // Yes
+                        return "Y";
+                    case "N": // No
+                        return "N";
+                    case "UNK": // Unknown
+                        return "U";
+                }
+                return "";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_YNU("ServedInArmedForces", value);
+                    switch (value)
+                    {
+                        case "Y":
+                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "Y");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Yes");
+                            break;
+                        case "N":
+                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "N");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "No");
+                            break;
+                        case "U":
+                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "unknown");
+                            break;
+                    }
                 }
             }
         }
@@ -2955,13 +2888,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("DINSTI", "Disposition", "dispositionPlaceName");
+                return LeftJustified_Get("DINSTI", "FuneralHomeName");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("DINSTI", "Disposition", "dispositionPlaceName", value);
+                    LeftJustified_Set("DINSTI", "FuneralHomeName", value.Trim());
                 }
             }
         }
@@ -2972,13 +2905,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("ADDRESS_D", "PlaceOfDeath", "placeOfDeathLine1");
+                return Dictionary_Get("ADDRESS_D", "DeathLocationAddress", "addressLine1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("ADDRESS_D", "PlaceOfDeath", "placeOfDeathLine1", value);
+                    Dictionary_Set("ADDRESS_D", "DeathLocationAddress", "addressLine1", value);
                 }
             }
         }
@@ -2989,13 +2922,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYTEXT_D", "PlaceOfDeath", "placeOfDeath", "city", false);
+                return Dictionary_Geo_Get("CITYTEXT_D", "DeathLocationAddress", "address", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("CITYTEXT_D", "PlaceOfDeath", "placeOfDeath", "city", false, value);
+                    Dictionary_Geo_Set("CITYTEXT_D", "DeathLocationAddress", "address", "city", false, value);
                 }
             }
         }
@@ -3006,7 +2939,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATETEXT_D", "PlaceOfDeath", "placeOfDeath", "state", false);
+                return Dictionary_Geo_Get("STATETEXT_D", "DeathLocationAddress", "address", "state", false);
             }
             set
             {
@@ -3020,13 +2953,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("ZIP9_D", "PlaceOfDeath", "placeOfDeathZip");
+                return Dictionary_Get("ZIP9_D", "DeathLocationAddress", "addressZip");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("ZIP9_D", "PlaceOfDeath", "placeOfDeathZip", value);
+                    Dictionary_Set("ZIP9_D", "DeathLocationAddress", "addressZip", value);
                 }
             }
         }
@@ -3037,7 +2970,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYTEXT_D", "PlaceOfDeath", "placeOfDeath", "county", false);
+                return Dictionary_Geo_Get("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", false);
             }
             set
             {
@@ -3051,7 +2984,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_D", "PlaceOfDeath", "placeOfDeath", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_D", "DeathLocationAddress", "address", "city", true);
             }
             set
             {
@@ -3065,13 +2998,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYTEXT_R", "Residence", "residence", "city", false);
+                return Dictionary_Geo_Get("CITYTEXT_R", "Residence", "address", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("CITYTEXT_R", "Residence", "residence", "city", false, value);
+                    Dictionary_Geo_Set("CITYTEXT_R", "Residence", "address", "city", false, value);
                 }
             }
         }
@@ -3082,13 +3015,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("ZIP9_R", "Residence", "residence", "zip", false);
+                return Dictionary_Geo_Get("ZIP9_R", "Residence", "address", "zip", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("ZIP9_R", "Residence", "residence", "zip", false, value);
+                    Dictionary_Geo_Set("ZIP9_R", "Residence", "address", "zip", false, value);
                 }
             }
         }
@@ -3099,7 +3032,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYTEXT_R", "Residence", "residence", "county", false);
+                return Dictionary_Geo_Get("COUNTYTEXT_R", "Residence", "address", "county", false);
             }
             set
             {
@@ -3113,7 +3046,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATETEXT_R", "Residence", "residence", "state", false);
+                return Dictionary_Geo_Get("STATETEXT_R", "Residence", "address", "state", false);
             }
             set
             {
@@ -3127,7 +3060,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "residence", "country", false);
+                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false);
             }
             set
             {
@@ -3141,13 +3074,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("ADDRESS_R", "Residence", "residenceLine1");
+                return Dictionary_Get("ADDRESS_R", "Residence", "addressLine1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("ADDRESS_R", "Residence", "residenceLine1", value);
+                    Dictionary_Set("ADDRESS_R", "Residence", "addressLine1", value);
                 }
             }
         }
@@ -3185,13 +3118,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Get_YNU("MedicalExaminerContacted");
+                return Get_YNU("ExaminerContacted");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_YNU("MedicalExaminerContacted", value);
+                    Set_YNU("ExaminerContacted", value);
                 }
             }
         }
@@ -3202,13 +3135,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("POILITRL", "DetailsOfInjury", "detailsOfInjuryPlaceDescription");
+                return LeftJustified_Get("POILITRL", "InjuryLocationName");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("POILITRL", "DetailsOfInjury", "detailsOfInjuryPlaceDescription", value);
+                    LeftJustified_Set("POILITRL", "InjuryLocationName", value.Trim());
                 }
             }
         }
@@ -3219,13 +3152,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("HOWINJ", "DetailsOfInjury", "detailsOfInjuryDescription");
+                return LeftJustified_Get("HOWINJ", "InjuryLocationDescription");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("HOWINJ", "DetailsOfInjury", "detailsOfInjuryDescription", value);
+                    LeftJustified_Set("HOWINJ", "InjuryLocationDescription", value.Trim());
                 }
             }
         }
@@ -3236,7 +3169,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("TRANSPRT", "DeathFromTransportInjury", "code");
+                string code = Dictionary_Get_Full("TRANSPRT", "TransportationRole", "code");
                 switch (code)
                 {
                     case "236320001": // Vehicle driver
@@ -3255,19 +3188,19 @@ namespace FhirDeathRecord
                     switch (value.Trim())
                     {
                         case "DR":
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "236320001");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Vehicle driver");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "236320001");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Vehicle driver");
                             break;
                         case "PA":
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "257500003");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Passenger");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257500003");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Passenger");
                             break;
                         case "PE":
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "code", "257518000");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "system", "http://snomed.info/sct");
-                            Dictionary_Set("TRANSPRT", "DeathFromTransportInjury", "display", "Pedestrian");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257518000");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Pedestrian");
                             break;
                     }
                 }
@@ -3280,7 +3213,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "county", false);
+                return Dictionary_Geo_Get("COUNTYTEXT_I", "InjuryLocationAddress", "address", "county", false);
             }
             set
             {
@@ -3294,13 +3227,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYCODE_I", "DetailsOfInjury", "detailsOfInjury", "county", true);
+                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYCODE_I", "DetailsOfInjury", "detailsOfInjury", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true, value);
                 }
             }
         }
@@ -3311,13 +3244,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "city", false);
+                return Dictionary_Geo_Get("CITYTEXT_I", "InjuryLocationAddress", "address", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("CITYTEXT_I", "DetailsOfInjury", "detailsOfInjury", "city", false, value);
+                    Dictionary_Geo_Set("CITYTEXT_I", "InjuryLocationAddress", "address", "city", false, value);
                 }
             }
         }
@@ -3328,7 +3261,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_I", "DetailsOfInjury", "detailsOfInjury", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_I", "InjuryLocationAddress", "address", "city", true);
             }
             set
             {
@@ -3342,13 +3275,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATECODE_I", "DetailsOfInjury", "detailsOfInjury", "state", true);
+                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATECODE_I", "DetailsOfInjury", "detailsOfInjury", "state", true, value);
+                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "state", true, value);
                 }
             }
         }
@@ -3585,19 +3518,19 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "city", false);
+                return Dictionary_Geo_Get("DBPLACECITY", "PlaceOfBirth", "address", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "city", false, value);
+                    Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "city", false, value);
                     // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "placeOfBirth", "state", false);
+                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", false);
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
                     {
-                        Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "placeOfBirth", "county", false, county);
+                        Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "county", false, county);
                     }
                 }
             }
@@ -3609,13 +3542,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DISPSTATECD", "Disposition", "dispositionPlace", "state", true);
+                return Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("DISPSTATECD", "Disposition", "dispositionPlace", "state", true, value);
+                    Dictionary_Geo_Set("DISPSTATECD", "DispositionLocationAddress", "address", "state", true, value);
                 }
             }
         }
@@ -3626,7 +3559,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DISPSTATE", "Disposition", "dispositionPlace", "state", false);
+                return Dictionary_Geo_Get("DISPSTATE", "DispositionLocationAddress", "address", "state", false);
             }
             set
             {
@@ -3640,21 +3573,21 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DISPCITY", "Disposition", "dispositionPlace", "city", false);
+                return Dictionary_Geo_Get("DISPCITY", "DispositionLocationAddress", "address", "city", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "city", false, value);
+                    Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "city", false, value);
                     // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("DISPSTATECD", "Disposition", "dispositionPlace", "state", false);
+                    string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", false);
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
                     {
-                        Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "county", false, county);
+                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "county", false, county);
                         // If we found a county, we know the country.
-                        Dictionary_Geo_Set("DISPCITY", "Disposition", "dispositionPlace", "country", false, "United States");
+                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "United States");
                     }
                 }
             }
@@ -3666,13 +3599,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("FUNFACNAME", "Disposition", "funeralFacilityName");
+                return LeftJustified_Get("FUNFACNAME", "FuneralHomeName");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNFACNAME", "Disposition", "funeralFacilityName", value);
+                    LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value.Trim());
                 }
             }
         }
@@ -3683,13 +3616,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("FUNFACADDRESS", "Disposition", "funeralFacilityLine1");
+                return Dictionary_Get("FUNFACADDRESS", "FuneralHomeAddress", "addressLine1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNFACADDRESS", "Disposition", "funeralFacilityLine1", value);
+                    Dictionary_Set("FUNFACADDRESS", "FuneralHomeAddress", "addressLine1", value);
                 }
             }
         }
@@ -3700,21 +3633,21 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("FUNCITYTEXT", "Disposition", "funeralFacilityCity");
+                return Dictionary_Get("FUNCITYTEXT", "FuneralHomeAddress", "addressCity");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCity", value);
+                    Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCity", value);
                     // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "Disposition", "funeralFacilityState"));
+                    string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState"));
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
                     {
-                        Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCounty", county);
+                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCounty", county);
                         // If we found a county, we know the country.
-                        Dictionary_Set("FUNCITYTEXT", "Disposition", "funeralFacilityCountry", "United States");
+                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "United States");
                     }
                 }
             }
@@ -3726,13 +3659,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("FUNSTATECD", "Disposition", "funeralFacilityState"));
+                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("FUNSTATECD", "FuneralHomeAddress", "addressState"));
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "Disposition", "funeralFacilityState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "addressState", dataLookup.StateCodeToStateName(value));
                 }
             }
         }
@@ -3743,7 +3676,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("FUNSTATE", "Disposition", "funeralFacilityState");
+                return Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState");
             }
             set
             {
@@ -3757,13 +3690,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("FUNZIP", "Disposition", "funeralFacilityZip");
+                return Dictionary_Get("FUNZIP", "FuneralHomeAddress", "addressZip");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNZIP", "Disposition", "funeralFacilityZip", value);
+                    Dictionary_Set("FUNZIP", "FuneralHomeAddress", "addressZip", value);
                 }
             }
         }
@@ -3774,13 +3707,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DatePronouncedDead");
+                return DateTime_Get("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DatePronouncedDead", value);
+                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value);
                 }
             }
         }
@@ -3791,13 +3724,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return DateTime_Get("PPTIME", "HHmm", "DatePronouncedDead");
+                return DateTime_Get("PPTIME", "HHmm", "DateOfDeathPronouncement");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPTIME", "HHmm", "DatePronouncedDead", value);
+                    DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value);
                 }
             }
         }
@@ -3891,13 +3824,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "certifierAddressLine1");
+                return Dictionary_Get("CERTADDRESS", "CertifierAddress", "addressLine1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "certifierAddressLine1", value);
+                    Dictionary_Set("CERTADDRESS", "CertifierAddress", "addressLine1", value);
                 }
             }
         }
@@ -3908,13 +3841,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTCITYTEXT", "CertifierAddress", "certifierAddressCity");
+                return Dictionary_Get("CERTCITYTEXT", "CertifierAddress", "addressCity");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "certifierAddressCity", value);
+                    Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "addressCity", value);
                 }
             }
         }
@@ -3925,13 +3858,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "certifierAddressState"));
+                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "addressState"));
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "certifierAddressState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "addressState", dataLookup.StateCodeToStateName(value));
                 }
             }
         }
@@ -3942,7 +3875,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTSTATE", "CertifierAddress", "certifierAddressState");
+                return Dictionary_Get("CERTSTATE", "CertifierAddress", "addressState");
             }
             set
             {
@@ -3956,13 +3889,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Get("CERTZIP", "CertifierAddress", "certifierAddressZip");
+                return Dictionary_Get("CERTZIP", "CertifierAddress", "addressZip");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTZIP", "CertifierAddress", "certifierAddressZip", value);
+                    Dictionary_Set("CERTZIP", "CertifierAddress", "addressZip", value);
                 }
             }
         }
@@ -3973,7 +3906,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STINJURY", "DetailsOfInjury", "detailsOfInjury", "state", false);
+                return Dictionary_Geo_Get("STINJURY", "InjuryLocationAddress", "address", "state", false);
             }
             set
             {
@@ -3987,7 +3920,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("STATEBTH", "PlaceOfBirth", "placeOfBirth", "state", false);
+                return Dictionary_Geo_Get("STATEBTH", "PlaceOfBirth", "address", "state", false);
             }
             set
             {
@@ -4001,13 +3934,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DTHCOUNTRYCD", "PlaceOfDeath", "placeOfDeath", "country", true);
+                return Dictionary_Geo_Get("DTHCOUNTRYCD", "DeathLocationAddress", "address", "country", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("DTHCOUNTRYCD", "PlaceOfDeath", "placeOfDeath", "country", true, value);
+                    Dictionary_Geo_Set("DTHCOUNTRYCD", "DeathLocationAddress", "address", "country", true, value);
                 }
             }
         }
@@ -4018,7 +3951,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Dictionary_Geo_Get("DTHCOUNTRY", "PlaceOfDeath", "placeOfDeath", "country", false);
+                return Dictionary_Geo_Get("DTHCOUNTRY", "DeathLocationAddress", "address", "country", false);
             }
             set
             {

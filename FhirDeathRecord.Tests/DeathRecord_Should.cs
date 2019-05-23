@@ -85,8 +85,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_Identifier()
         {
-            Assert.Equal("e6833f9e-2025-46fd-9f67-949275ab8c78", ((DeathRecord)JSONRecords[0]).Identifier);
-            Assert.Equal("f985146b-0ae8-46fd-a9dc-b379c0c5af7c", ((DeathRecord)XMLRecords[0]).Identifier);
+            Assert.Equal("1", ((DeathRecord)JSONRecords[0]).Identifier);
+            Assert.Equal("1", ((DeathRecord)XMLRecords[0]).Identifier);
         }
 
         [Fact]
@@ -99,35 +99,35 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_BundleIdentifier()
         {
-            Assert.Equal("d0b8740f-e31b-42d6-abf7-a3f6967b00e8", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("061334c1-c250-4cc3-8b2d-0b44e38c6644", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("42", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
+            Assert.Equal("42", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
         }
 
         [Fact]
         public void Set_CertifiedTime()
         {
-            SetterDeathRecord.CertifiedTime = "2019-01-28T16:48:06.4988220-05:00";
-            Assert.Equal("2019-01-28T16:48:06.4988220-05:00", SetterDeathRecord.CertifiedTime);
+            SetterDeathRecord.CertifiedTime = "2019-01-28T16:48:06.498822-05:00";
+            Assert.Equal("2019-01-28T16:48:06.498822-05:00", SetterDeathRecord.CertifiedTime);
         }
 
         [Fact]
         public void Get_CertifiedTime()
         {
-            Assert.Equal("2019-01-29T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).CertifiedTime);
+            Assert.Equal("2019-01-29T16:48:06.498822-05:00", ((DeathRecord)JSONRecords[0]).CertifiedTime);
             Assert.Equal("2019-01-29T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).CertifiedTime);
         }
 
         [Fact]
         public void Set_CreatedTime()
         {
-            SetterDeathRecord.CreatedTime = "2019-01-29T16:48:06.4988220-05:00";
-            Assert.Equal("2019-01-29T16:48:06.4988220-05:00", SetterDeathRecord.CreatedTime);
+            SetterDeathRecord.CreatedTime = "2019-01-29T16:48:06.498822-05:00";
+            Assert.Equal("2019-01-29T16:48:06.498822-05:00", SetterDeathRecord.CreatedTime);
         }
 
         [Fact]
         public void Get_CreatedTime()
         {
-            Assert.Equal("2019-01-20T16:47:04.4988220-05:00", ((DeathRecord)JSONRecords[0]).CreatedTime);
+            Assert.Equal("2019-01-20T16:47:04.498822-05:00", ((DeathRecord)JSONRecords[0]).CreatedTime);
             Assert.Equal("2019-01-20T16:47:04.4988220-05:00", ((DeathRecord)XMLRecords[0]).CreatedTime);
         }
 
@@ -165,8 +165,8 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_InterestedPartyIdentifier()
         {
-            Assert.Equal("c49569fb-5721-427a-b357-9dc6a2bae33f", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
-            Assert.Equal("7b253383-9bed-4fa2-9a78-d435c8e18a94", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
         }
 
         [Fact]
@@ -668,14 +668,14 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_DateOfBirth()
         {
-            SetterDeathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";
-            Assert.Equal("1940-02-19T16:48:06.4988220-05:00", SetterDeathRecord.DateOfBirth);
+            SetterDeathRecord.DateOfBirth = "1940-02-19T16:48:06.498822-05:00";
+            Assert.Equal("1940-02-19T16:48:06.498822-05:00", SetterDeathRecord.DateOfBirth);
         }
 
         [Fact]
         public void Get_DateOfBirth()
         {
-            Assert.Equal("1940-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfBirth);
+            Assert.Equal("1940-02-19T16:48:06.498822-05:00", ((DeathRecord)JSONRecords[0]).DateOfBirth);
             Assert.Equal("1940-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfBirth);
         }
 
@@ -1500,14 +1500,14 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_InjuryDate()
         {
-            SetterDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";
-            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", SetterDeathRecord.InjuryDate);
+            SetterDeathRecord.InjuryDate = "2018-02-19T16:48:06.498822-05:00";
+            Assert.Equal("2018-02-19T16:48:06.498822-05:00", SetterDeathRecord.InjuryDate);
         }
 
         [Fact]
         public void Get_InjuryDate()
         {
-            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
+            Assert.Equal("2018-02-19T16:48:06.498822-05:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
             Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).InjuryDate);
         }
 
@@ -1582,28 +1582,28 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Set_DateOfDeath()
         {
-            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";
-            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", SetterDeathRecord.DateOfDeath);
+            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:06.498822-05:00";
+            Assert.Equal("2018-02-19T16:48:06.498822-05:00", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2018-02-19T16:48:06.498822-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
             Assert.Equal("2018-02-19T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]
         public void Set_DateOfDeathPronouncement()
         {
-            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.4988220-05:00";
-            Assert.Equal("2019-01-31T17:48:07.4988220-05:00", SetterDeathRecord.DateOfDeathPronouncement);
+            SetterDeathRecord.DateOfDeathPronouncement = "2019-01-31T17:48:07.498822-05:00";
+            Assert.Equal("2019-01-31T17:48:07.498822-05:00", SetterDeathRecord.DateOfDeathPronouncement);
         }
 
         [Fact]
         public void Get_DateOfDeathPronouncement()
         {
-            Assert.Equal("2018-02-20T16:48:06.4988220-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06.498822-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
             Assert.Equal("2018-02-20T16:48:06.4988220-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
         }
 

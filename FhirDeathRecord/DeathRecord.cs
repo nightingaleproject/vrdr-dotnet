@@ -423,12 +423,12 @@ namespace FhirDeathRecord
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, DeathCertification.Id);
                     Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirString(value);
+                    DeathCertification.Performed = new FhirDateTime(value);
                 }
                 else
                 {
                     Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirString(value);
+                    DeathCertification.Performed = new FhirDateTime(value);
                 }
             }
         }

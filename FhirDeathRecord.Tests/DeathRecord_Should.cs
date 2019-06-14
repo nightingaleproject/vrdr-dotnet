@@ -33,6 +33,14 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void EmptyRecordToIJE()
+        {
+            DeathRecord deathRecord = new DeathRecord();
+            string ije = new IJEMortality(deathRecord).ToString();
+            Assert.NotNull(ije);
+        }
+
+        [Fact]
         public void ToFromDescription()
         {
             DeathRecord first = (DeathRecord)XMLRecords[0];

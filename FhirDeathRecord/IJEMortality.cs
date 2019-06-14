@@ -331,6 +331,10 @@ namespace FhirDeathRecord
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (dictionary == null || !dictionary.ContainsKey(key))
+            {
+                return "";
+            }
             string current = Convert.ToString(dictionary[key]);
             if (current != null)
             {
@@ -391,6 +395,10 @@ namespace FhirDeathRecord
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
+            if (dictionary == null || !dictionary.ContainsKey(key))
+            {
+                return "";
+            }
             string current = Convert.ToString(dictionary[key]);
             if (isCoded)
             {
@@ -3742,7 +3750,7 @@ namespace FhirDeathRecord
             get
             {
                 string[] names = record.CertifierGivenNames;
-                if (names.Length > 0)
+                if (names != null && names.Length > 0)
                 {
                     return names[0];
                 }
@@ -3764,7 +3772,7 @@ namespace FhirDeathRecord
             get
             {
                 string[] names = record.CertifierGivenNames;
-                if (names.Length > 1)
+                if (names != null && names.Length > 1)
                 {
                     return names[1];
                 }

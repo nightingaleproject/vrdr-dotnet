@@ -33,6 +33,14 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void EmptyRecordToDescription()
+        {
+            DeathRecord deathRecord = new DeathRecord();
+            string description = deathRecord.ToDescription();
+            Assert.NotNull(description);
+        }
+
+        [Fact]
         public void EmptyRecordToIJE()
         {
             DeathRecord deathRecord = new DeathRecord();

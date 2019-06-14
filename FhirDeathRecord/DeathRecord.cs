@@ -4816,20 +4816,23 @@ namespace FhirDeathRecord
                 {
                     // Special case for Dictionary; we want to be able to describe what each key means
                     Dictionary<string, string> value = (Dictionary<string, string>)property.GetValue(this);
-                    Dictionary<string, Dictionary<string, string>> moreInfo = new Dictionary<string, Dictionary<string, string>>();
-                    foreach (PropertyParam parameter in property.GetCustomAttributes().Reverse().Skip(1).Reverse().Skip(1))
+                    if (value == null)
                     {
-                        moreInfo[parameter.Key] = new Dictionary<string, string>();
-                        moreInfo[parameter.Key]["Description"] = parameter.Description;
-                        if (value.ContainsKey(parameter.Key))
+                        continue;
+                    }
+                    Dictionary<string, Dictionary<string, string>> moreInfo = new Dictionary<string, Dictionary<string, string>>();
+                    foreach (PropertyParam propParameter in property.GetCustomAttributes().Reverse().Skip(1).Reverse().Skip(1))
+                    {
+                        moreInfo[propParameter.Key] = new Dictionary<string, string>();
+                        moreInfo[propParameter.Key]["Description"] = propParameter.Description;
+                        if (value.ContainsKey(propParameter.Key))
                         {
-                            moreInfo[parameter.Key]["Value"] = value[parameter.Key];
+                            moreInfo[propParameter.Key]["Value"] = value[propParameter.Key];
                         }
                         else
                         {
-                            moreInfo[parameter.Key]["Value"] = null;
+                            moreInfo[propParameter.Key]["Value"] = null;
                         }
-
                     }
                     category[property.Name]["Value"] = moreInfo;
                 }

@@ -4751,6 +4751,7 @@ namespace FhirDeathRecord
                 category[property.Name]["Name"] = info.Name;
                 category[property.Name]["Type"] = info.Type.ToString();
                 category[property.Name]["Description"] = info.Description;
+                category[property.Name]["IGUrl"] = info.IGUrl;
 
                 // Add snippets
                 FHIRPath path = (FHIRPath)property.GetCustomAttributes().Last();

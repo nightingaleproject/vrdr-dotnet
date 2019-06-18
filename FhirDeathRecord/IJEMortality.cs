@@ -3858,10 +3858,6 @@ namespace FhirDeathRecord
                     Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "addressCity", value);
                     // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
                     string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
-                    Console.WriteLine("1: " + CERTSTATECD);
-                    Console.WriteLine("2: " + county);
-                    Console.WriteLine("3: " + value);
-                    Console.WriteLine("4: " + Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "addressState"));
                     if (!String.IsNullOrWhiteSpace(county))
                     {
                         Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);

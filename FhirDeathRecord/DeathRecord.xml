@@ -1330,9 +1330,13 @@
             <returns>the corresponding FHIR Address representation of the address.</returns>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
-            <summary>Convert a FHIR Address to an "address" Dictionary</summary>
+            <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
             <param name="addr">a FHIR Address.</param>
             <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.EmptyAddrDict">
+            <summary>Returns an empty "address" Dictionary.</summary>
+            <returns>an empty "address" Dictionary.</returns>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;
@@ -1430,10 +1434,13 @@
         <member name="F:FhirDeathRecord.Property.IGUrl">
             <summary>URL that links to the IG description for this property.</summary>
         </member>
+        <member name="F:FhirDeathRecord.Property.CapturedInIJE">
+            <summary>If this field has an equivalent in IJE.</summary>
+        </member>
         <member name="F:FhirDeathRecord.Property.Priority">
             <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
         </member>
-        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.String,System.Int32)">
+        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
             <summary>Constructor.</summary>
         </member>
         <member name="T:FhirDeathRecord.PropertyParam">

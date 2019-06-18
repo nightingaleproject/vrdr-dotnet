@@ -2511,17 +2511,17 @@ namespace FhirDeathRecord
                     {
                         case "Y":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "unknown");
                             break;
                     }
@@ -2555,17 +2555,17 @@ namespace FhirDeathRecord
                     {
                         case "Y":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "unknown");
                             break;
                     }
@@ -2599,17 +2599,17 @@ namespace FhirDeathRecord
                     {
                         case "Y":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "Y");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "N");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "unknown");
                             break;
                     }
@@ -2872,17 +2872,17 @@ namespace FhirDeathRecord
                     {
                         case "Y":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "Y");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "N");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "unknown");
                             break;
                     }
@@ -3533,8 +3533,8 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "city", false, value);
-                    // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", false);
+                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
                     {
@@ -3588,8 +3588,8 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "city", false, value);
-                    // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", false);
+                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", true);
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
                     {
@@ -3648,7 +3648,7 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCity", value);
-                    // We've got city, so we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
                     string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState"));
                     string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
                     if (!String.IsNullOrWhiteSpace(county))
@@ -3844,7 +3844,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Certifier - City or Town name</summary>
-        [IJEField(230, 4187, 28, "Certifier - City or Town name", "CERTCITYTEXT", 1)]
+        [IJEField(230, 4187, 28, "Certifier - City or Town name", "CERTCITYTEXT", 2)]
         public string CERTCITYTEXT
         {
             get
@@ -3856,12 +3856,24 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "addressCity", value);
+                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
+                    Console.WriteLine("1: " + CERTSTATECD);
+                    Console.WriteLine("2: " + county);
+                    Console.WriteLine("3: " + value);
+                    Console.WriteLine("4: " + Dictionary_Get_Full("CERTSTATECD", "CertifierAddress", "addressState"));
+                    if (!String.IsNullOrWhiteSpace(county))
+                    {
+                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
+                        // If we found a county, we know the country.
+                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "United States");
+                    }
                 }
             }
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
-        [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 2)]
+        [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 1)]
         public string CERTSTATECD
         {
             get

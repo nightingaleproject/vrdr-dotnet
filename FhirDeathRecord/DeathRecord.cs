@@ -2157,14 +2157,13 @@ namespace FhirDeathRecord
                 Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity");
                 Extension ethnicities = new Extension();
                 ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
+                List<string> textEthStrs = new List<string>();
                 foreach (Tuple<string, string> element in value)
                 {
                     string display = element.Item1;
                     string code = element.Item2;
-                    Extension textEthnicity = new Extension();
+                    textEthStrs.Add(display);
                     Extension codeEthnicity = new Extension();
-                    textEthnicity.Url = "text";
-                    textEthnicity.Value = new FhirString(display);
                     if (code == "2135-2" || code == "2186-5")
                     {
                         codeEthnicity.Url = "ombCategory";
@@ -2174,9 +2173,12 @@ namespace FhirDeathRecord
                         codeEthnicity.Url = "detailed";
                     }
                     codeEthnicity.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
-                    ethnicities.Extension.Add(textEthnicity);
                     ethnicities.Extension.Add(codeEthnicity);
                 }
+                Extension textEth = new Extension();
+                textEth.Url = "text";
+                textEth.Value = new FhirString(String.Join(", ", textEthStrs));
+                ethnicities.Extension.Add(textEth);
                 Decedent.Extension.Add(ethnicities);
             }
         }
@@ -2220,14 +2222,13 @@ namespace FhirDeathRecord
                 Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race");
                 Extension races = new Extension();
                 races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                List<string> textRaceStrs = new List<string>();
                 foreach(Tuple<string,string> element in value)
                 {
                     string display = element.Item1;
                     string code = element.Item2;
-                    Extension textRace = new Extension();
+                    textRaceStrs.Add(display);
                     Extension codeRace = new Extension();
-                    textRace.Url = "text";
-                    textRace.Value = new FhirString(display);
                     if (code == "1002-5" || code == "2028-9" || code == "2054-5" || code == "2076-8" || code == "2106-3")
                     {
                         codeRace.Url = "ombCategory";
@@ -2237,9 +2238,12 @@ namespace FhirDeathRecord
                         codeRace.Url = "detailed";
                     }
                     codeRace.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
-                    races.Extension.Add(textRace);
                     races.Extension.Add(codeRace);
                 }
+                Extension textRace = new Extension();
+                textRace.Url = "text";
+                textRace.Value = new FhirString(String.Join(", ", textRaceStrs));
+                races.Extension.Add(textRace);
                 Decedent.Extension.Add(races);
             }
         }

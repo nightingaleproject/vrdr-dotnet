@@ -1029,48 +1029,48 @@ namespace FhirDeathRecord.Tests
         public void Set_UsualOccupation()
         {
             Dictionary<string, string> uocc = new Dictionary<string, string>();
-            uocc.Add("code", "7280");
-            uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");
-            uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
+            uocc.Add("code", "1340");
+            uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");
+            uocc.Add("display", "Biomedical engineers");
             SetterDeathRecord.UsualOccupation = uocc;
-            Assert.Equal("7280", SetterDeathRecord.UsualOccupation["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/Usual-occupation", SetterDeathRecord.UsualOccupation["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", SetterDeathRecord.UsualOccupation["display"]);
+            Assert.Equal("1340", SetterDeathRecord.UsualOccupation["code"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010", SetterDeathRecord.UsualOccupation["system"]);
+            Assert.Equal("Biomedical engineers", SetterDeathRecord.UsualOccupation["display"]);
         }
 
         [Fact]
         public void Get_UsualOccupation()
         {
-            Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualOccupation["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/Usual-occupation", ((DeathRecord)JSONRecords[0]).UsualOccupation["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualOccupation["display"]);
-            Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualOccupation["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/Usual-occupation", ((DeathRecord)XMLRecords[0]).UsualOccupation["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualOccupation["display"]);
+            Assert.Equal("1340", ((DeathRecord)JSONRecords[0]).UsualOccupation["code"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010", ((DeathRecord)JSONRecords[0]).UsualOccupation["system"]);
+            Assert.Equal("Biomedical engineers", ((DeathRecord)JSONRecords[0]).UsualOccupation["display"]);
+            Assert.Equal("1340", ((DeathRecord)XMLRecords[0]).UsualOccupation["code"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010", ((DeathRecord)XMLRecords[0]).UsualOccupation["system"]);
+            Assert.Equal("Biomedical engineers", ((DeathRecord)XMLRecords[0]).UsualOccupation["display"]);
         }
 
         [Fact]
         public void Set_UsualIndustry()
         {
             Dictionary<string, string> uind = new Dictionary<string, string>();
-            uind.Add("code", "1320");
+            uind.Add("code", "7280");
             uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");
-            uind.Add("display", "Aerospace engineers");
+            uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
             SetterDeathRecord.UsualIndustry = uind;
-            Assert.Equal("1320", SetterDeathRecord.UsualIndustry["code"]);
+            Assert.Equal("7280", SetterDeathRecord.UsualIndustry["code"]);
             Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", SetterDeathRecord.UsualIndustry["system"]);
-            Assert.Equal("Aerospace engineers", SetterDeathRecord.UsualIndustry["display"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", SetterDeathRecord.UsualIndustry["display"]);
         }
 
         [Fact]
         public void Get_UsualIndustry()
         {
-            Assert.Equal("1320", ((DeathRecord)JSONRecords[0]).UsualIndustry["code"]);
+            Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualIndustry["code"]);
             Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)JSONRecords[0]).UsualIndustry["system"]);
-            Assert.Equal("Aerospace engineers", ((DeathRecord)JSONRecords[0]).UsualIndustry["display"]);
-            Assert.Equal("1320", ((DeathRecord)XMLRecords[0]).UsualIndustry["code"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualIndustry["display"]);
+            Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualIndustry["code"]);
             Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)XMLRecords[0]).UsualIndustry["system"]);
-            Assert.Equal("Aerospace engineers", ((DeathRecord)XMLRecords[0]).UsualIndustry["display"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualIndustry["display"]);
         }
 
         [Fact]

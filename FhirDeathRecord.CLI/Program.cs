@@ -244,16 +244,16 @@ namespace FhirDeathRecord.CLI
 
                 // UsualOccupation
                 Dictionary<string, string> uocc = new Dictionary<string, string>();
-                uocc.Add("code", "7280");
-                uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");
-                uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
+                uocc.Add("code", "1340");
+                uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");
+                uocc.Add("display", "Biomedical engineers");
                 deathRecord.UsualOccupation = uocc;
 
                 // UsualIndustry
                 Dictionary<string, string> uind = new Dictionary<string, string>();
-                uind.Add("code", "1320");
+                uind.Add("code", "7280");
                 uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");
-                uind.Add("display", "Aerospace engineers");
+                uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
                 deathRecord.UsualIndustry = uind;
 
                 // MilitaryService

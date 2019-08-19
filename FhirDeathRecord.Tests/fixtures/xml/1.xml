@@ -787,9 +787,9 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://www.hl7.org/fhir/ValueSet/Usual-occupation" />
-              <code value="7280" />
-              <display value="Accounting, tax preparation, bookkeeping, and payroll services" />
+              <system value="http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010" />
+              <code value="1340" />
+              <display value="Biomedical engineers" />
             </coding>
           </valueCodeableConcept>
         </component>
@@ -804,8 +804,8 @@
           <valueCodeableConcept>
             <coding>
               <system value="http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010" />
-              <code value="1320" />
-              <display value="Aerospace engineers" />
+              <code value="7280" />
+              <display value="Accounting, tax preparation, bookkeeping, and payroll services" />
             </coding>
           </valueCodeableConcept>
         </component>

@@ -878,9 +878,9 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
-            <para>uocc.Add("code", "7280");</para>
-            <para>uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");</para>
-            <para>uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
+            <para>uocc.Add("code", "1340");</para>
+            <para>uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");</para>
+            <para>uocc.Add("display", "Biomedical engineers");</para>
             <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
@@ -896,9 +896,9 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
-            <para>uind.Add("code", "1320");</para>
+            <para>uind.Add("code", "7280");</para>
             <para>uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
-            <para>uind.Add("display", "Aerospace engineers");</para>
+            <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
             <para>ExampleDeathRecord.UsualIndustry = uind;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>

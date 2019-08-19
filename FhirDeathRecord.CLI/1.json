@@ -970,9 +970,9 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://www.hl7.org/fhir/ValueSet/Usual-occupation",
-                  "code": "7280",
-                  "display": "Accounting, tax preparation, bookkeeping, and payroll services"
+                  "system": "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010",
+                  "code": "1340",
+                  "display": "Biomedical engineers"
                 }
               ]
             }
@@ -991,8 +991,8 @@
               "coding": [
                 {
                   "system": "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010",
-                  "code": "1320",
-                  "display": "Aerospace engineers"
+                  "code": "7280",
+                  "display": "Accounting, tax preparation, bookkeeping, and payroll services"
                 }
               ]
             }

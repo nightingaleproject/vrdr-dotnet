@@ -1054,11 +1054,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> uind = new Dictionary<string, string>();
             uind.Add("code", "7280");
-            uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");
+            uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");
             uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
             SetterDeathRecord.UsualIndustry = uind;
             Assert.Equal("7280", SetterDeathRecord.UsualIndustry["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", SetterDeathRecord.UsualIndustry["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/industry-cdc-census-2010", SetterDeathRecord.UsualIndustry["system"]);
             Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", SetterDeathRecord.UsualIndustry["display"]);
         }
 
@@ -1066,10 +1066,10 @@ namespace FhirDeathRecord.Tests
         public void Get_UsualIndustry()
         {
             Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualIndustry["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)JSONRecords[0]).UsualIndustry["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)JSONRecords[0]).UsualIndustry["system"]);
             Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualIndustry["display"]);
             Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualIndustry["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)XMLRecords[0]).UsualIndustry["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/industry-cdc-census-2010", ((DeathRecord)XMLRecords[0]).UsualIndustry["system"]);
             Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualIndustry["display"]);
         }
 
@@ -1078,11 +1078,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> mserv = new Dictionary<string, string>();
             mserv.Add("code", "Y");
-            mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+            mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
             mserv.Add("display", "Yes");
             SetterDeathRecord.MilitaryService = mserv;
             Assert.Equal("Y", SetterDeathRecord.MilitaryService["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.MilitaryService["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.MilitaryService["system"]);
             Assert.Equal("Yes", SetterDeathRecord.MilitaryService["display"]);
         }
 
@@ -1090,10 +1090,10 @@ namespace FhirDeathRecord.Tests
         public void Get_MilitaryService()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
         }
 
@@ -1294,11 +1294,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> api = new Dictionary<string, string>();
             api.Add("code", "Y");
-            api.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+            api.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
             api.Add("display", "Yes");
             SetterDeathRecord.AutopsyPerformedIndicator = api;
             Assert.Equal("Y", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
         }
 
@@ -1306,10 +1306,10 @@ namespace FhirDeathRecord.Tests
         public void Get_AutopsyPerformedIndicator()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
         }
 
@@ -1318,11 +1318,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> ara = new Dictionary<string, string>();
             ara.Add("code", "Y");
-            ara.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+            ara.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
             ara.Add("display", "Yes");
             SetterDeathRecord.AutopsyResultsAvailable = ara;
             Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
         }
 
@@ -1330,10 +1330,10 @@ namespace FhirDeathRecord.Tests
         public void Get_AutopsyResultsAvailable()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
         }
 
@@ -1362,11 +1362,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> ps = new Dictionary<string, string>();
             ps.Add("code", "PHC1260");
-            ps.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+            ps.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
             ps.Add("display", "Not pregnant within past year");
             SetterDeathRecord.PregnanacyStatus = ps;
             Assert.Equal("PHC1260", SetterDeathRecord.PregnanacyStatus["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS", SetterDeathRecord.PregnanacyStatus["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS", SetterDeathRecord.PregnanacyStatus["system"]);
             Assert.Equal("Not pregnant within past year", SetterDeathRecord.PregnanacyStatus["display"]);
         }
 
@@ -1374,10 +1374,10 @@ namespace FhirDeathRecord.Tests
         public void Get_PregnanacyStatus()
         {
             Assert.Equal("PHC1260", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["system"]);
             Assert.Equal("Not pregnant within past year", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["display"]);
             Assert.Equal("PHC1260", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["system"]);
             Assert.Equal("Not pregnant within past year", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["display"]);
         }
 
@@ -1386,11 +1386,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> tr = new Dictionary<string, string>();
             tr.Add("code", "example-code");
-            tr.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");
+            tr.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");
             tr.Add("display", "Example Code");
             SetterDeathRecord.TransportationRole = tr;
             Assert.Equal("example-code", SetterDeathRecord.TransportationRole["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships", SetterDeathRecord.TransportationRole["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-TransportationRelationships", SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Example Code", SetterDeathRecord.TransportationRole["display"]);
         }
 
@@ -1398,10 +1398,10 @@ namespace FhirDeathRecord.Tests
         public void Get_TransportationRole()
         {
             Assert.Equal("example-code", ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
             Assert.Equal("Example Code", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
             Assert.Equal("example-code", ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
+            Assert.Equal("http://hl7.org/fhir/stu3/valueset-TransportationRelationships", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
             Assert.Equal("Example Code", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
         }
 
@@ -1426,11 +1426,11 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> tbu = new Dictionary<string, string>();
             tbu.Add("code", "Y");
-            tbu.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+            tbu.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
             tbu.Add("display", "Yes");
             SetterDeathRecord.TobaccoUse = tbu;
             Assert.Equal("Y", SetterDeathRecord.TobaccoUse["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.TobaccoUse["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", SetterDeathRecord.TobaccoUse["system"]);
             Assert.Equal("Yes", SetterDeathRecord.TobaccoUse["display"]);
         }
 
@@ -1438,10 +1438,10 @@ namespace FhirDeathRecord.Tests
         public void Get_TobaccoUse()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TobaccoUse["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TobaccoUse["display"]);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TobaccoUse["code"]);
-            Assert.Equal("http://www.hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
+            Assert.Equal("http://hl7.org/fhir/ValueSet/v2-0532", ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TobaccoUse["display"]);
         }
 

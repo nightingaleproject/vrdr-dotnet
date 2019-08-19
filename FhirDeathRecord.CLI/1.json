@@ -3,7 +3,7 @@
   "id": "urn:uuid:e79232fb-817f-41d1-8a44-b7e212419957",
   "meta": {
     "profile": [
-      "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
+      "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
     ]
   },
   "identifier": {
@@ -18,7 +18,7 @@
         "id": "urn:uuid:79d3c69e-d110-48cd-80a3-8bb1f2625ab0",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
           ]
         },
         "identifier": {
@@ -180,7 +180,7 @@
         "id": "urn:uuid:11ef119d-6838-4e35-921c-1e54d24495a9",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"
           ]
         },
         "extension": [
@@ -247,7 +247,7 @@
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
           },
           {
-            "url": "http://www.hl7.org/fhir/StructureDefinition/birthPlace",
+            "url": "http://hl7.org/fhir/StructureDefinition/birthPlace",
             "valueAddress": {
               "line": [
                 "1011 Example Street",
@@ -322,7 +322,7 @@
         "id": "urn:uuid:b246458c-aaf7-4741-b96d-9d27d7a5efd0",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
           ]
         },
         "name": [
@@ -373,7 +373,7 @@
         "id": "urn:uuid:fdf43f0b-1536-4fd7-ab14-83f256628fd5",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
           ]
         },
         "name": [
@@ -407,7 +407,7 @@
         "id": "urn:uuid:ffc6dc11-0897-4e7d-9331-0bbe51b47981",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
           ]
         },
         "status": "completed",
@@ -455,7 +455,7 @@
         "id": "urn:uuid:0cdd8726-9972-47fa-bd52-1592d0f0e9ce",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party"
           ]
         },
         "identifier": [
@@ -498,7 +498,7 @@
         "id": "urn:uuid:6ae78a96-0f01-486d-afce-87a2d6913a8e",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
           ]
         },
         "type": [
@@ -534,7 +534,7 @@
         "id": "urn:uuid:e06e64c8-44fb-4e4f-8883-b87d5f293ba9",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director"
           ]
         },
         "practitioner": {
@@ -552,7 +552,7 @@
         "id": "urn:uuid:ac8f8cf4-2c15-4901-8739-b8e1051838ab",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
           ]
         },
         "status": "current",
@@ -598,7 +598,7 @@
         "id": "urn:uuid:58e0e871-cd29-4271-9b52-6baa0e05b0fc",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
           ]
         },
         "name": "Bedford Cemetery",
@@ -622,7 +622,7 @@
         "id": "urn:uuid:b4acda15-ff66-4714-816b-86bfa2469a6a",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
           ]
         },
         "status": "final",
@@ -660,7 +660,7 @@
         "id": "urn:uuid:41f61603-7587-41a4-9f79-6631142fd569",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"
           ]
         },
         "code": {
@@ -678,7 +678,7 @@
         "id": "urn:uuid:7c1a0c7b-2053-47a8-8699-83e3b1b8633e",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
           ]
         },
         "code": {
@@ -707,7 +707,7 @@
         "id": "urn:uuid:4636cb51-17dc-4a05-a556-f8d2a7996b98",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
           ]
         },
         "code": {
@@ -736,7 +736,7 @@
         "id": "urn:uuid:dc846ff2-5cef-43c8-8fc8-547ded32cfe8",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
           ]
         },
         "code": {
@@ -758,7 +758,7 @@
         "id": "urn:uuid:4dc86e29-22ac-430d-a11b-773b205a79ed",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
           ]
         },
         "code": {
@@ -780,7 +780,7 @@
         "id": "urn:uuid:f4f9c3ae-e733-4896-b038-ca3aac319480",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
           ]
         },
         "patient": {
@@ -814,7 +814,7 @@
         "id": "urn:uuid:a4450793-cc91-4074-ac58-f0b9b02f008a",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
           ]
         },
         "patient": {
@@ -848,7 +848,7 @@
         "id": "urn:uuid:15fb109a-9a7a-4dc0-a160-897e39ddab74",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"
           ]
         },
         "patient": {
@@ -882,7 +882,7 @@
         "id": "urn:uuid:560d81b9-a1c3-4e2c-9ae8-7bdecbdba3fb",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level"
           ]
         },
         "status": "final",
@@ -916,7 +916,7 @@
         "id": "urn:uuid:5a26b139-482c-4d88-9a3e-b35830c5887b",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier"
           ]
         },
         "status": "final",
@@ -940,7 +940,7 @@
         "id": "urn:uuid:e4161cf5-41e1-430f-9f77-9d6f8654be77",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"
           ]
         },
         "status": "final",
@@ -990,7 +990,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010",
+                  "system": "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010",
                   "code": "7280",
                   "display": "Accounting, tax preparation, bookkeeping, and payroll services"
                 }
@@ -1010,7 +1010,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://www.hl7.org/fhir/ValueSet/v2-0532",
+                  "system": "http://hl7.org/fhir/ValueSet/v2-0532",
                   "code": "Y",
                   "display": "Yes"
                 }
@@ -1027,12 +1027,12 @@
         "id": "urn:uuid:4e4c1928-0d66-45b9-8c47-eff425d88c00",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
           ]
         },
         "extension": [
           {
-            "url": "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
             "valueReference": {
               "reference": "urn:uuid:58e0e871-cd29-4271-9b52-6baa0e05b0fc"
             }
@@ -1074,7 +1074,7 @@
         "id": "urn:uuid:c1b24749-5dbe-4d82-8e92-92ac9ef410b9",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
           ]
         },
         "status": "final",
@@ -1093,7 +1093,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://www.hl7.org/fhir/ValueSet/v2-0532",
+              "system": "http://hl7.org/fhir/ValueSet/v2-0532",
               "code": "Y",
               "display": "Yes"
             }
@@ -1113,7 +1113,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://www.hl7.org/fhir/ValueSet/v2-0532",
+                  "system": "http://hl7.org/fhir/ValueSet/v2-0532",
                   "code": "Y",
                   "display": "Yes"
                 }
@@ -1130,7 +1130,7 @@
         "id": "urn:uuid:fdc09339-8687-460a-9fcf-4f2338c22809",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
           ]
         },
         "status": "final",
@@ -1159,7 +1159,7 @@
         "id": "urn:uuid:1c463fa4-dce3-4af2-b9d1-cdd39905445f",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"
           ]
         },
         "status": "final",
@@ -1178,7 +1178,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS",
+              "system": "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS",
               "code": "PHC1260",
               "display": "Not pregnant within past year"
             }
@@ -1193,7 +1193,7 @@
         "id": "urn:uuid:89b02986-8797-44ea-b779-0a407495d6ae",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role"
           ]
         },
         "status": "final",
@@ -1212,7 +1212,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships",
+              "system": "http://hl7.org/fhir/stu3/valueset-TransportationRelationships",
               "code": "example-code",
               "display": "Example Code"
             }
@@ -1227,7 +1227,7 @@
         "id": "urn:uuid:232c6765-7149-484d-88f8-fb1d8605c03c",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted"
           ]
         },
         "status": "final",
@@ -1253,7 +1253,7 @@
         "id": "urn:uuid:1b71bd58-a3c0-4e9d-8416-d2c02a53bcf7",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
           ]
         },
         "status": "final",
@@ -1272,7 +1272,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://www.hl7.org/fhir/ValueSet/v2-0532",
+              "system": "http://hl7.org/fhir/ValueSet/v2-0532",
               "code": "Y",
               "display": "Yes"
             }
@@ -1287,7 +1287,7 @@
         "id": "urn:uuid:dc812f4c-b54c-4f5b-8838-6bd900336ac2",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
           ]
         },
         "name": "Example Injury Location Name",
@@ -1312,7 +1312,7 @@
         "id": "urn:uuid:ca7c2a07-68bb-4171-97c8-2a6cb5b0e4db",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"
           ]
         },
         "status": "final",
@@ -1338,7 +1338,7 @@
         "id": "urn:uuid:bb108c6a-307a-4ce1-aae9-b59b6bd6b401",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
           ]
         },
         "name": "Example Death Location Name",
@@ -1363,7 +1363,7 @@
         "id": "urn:uuid:6784e92f-54b9-457a-bb26-ef371dfe7be9",
         "meta": {
           "profile": [
-            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
           ]
         },
         "status": "final",

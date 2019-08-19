@@ -897,7 +897,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
             <para>uind.Add("code", "7280");</para>
-            <para>uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
+            <para>uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
             <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
             <para>ExampleDeathRecord.UsualIndustry = uind;</para>
             <para>// Getter:</para>
@@ -915,7 +915,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
             <para>mserv.Add("code", "Y");</para>
-            <para>mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
             <para>mserv.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.MilitaryService = uind;</para>
             <para>// Getter:</para>
@@ -1174,7 +1174,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
             <para>age.Add("value", "100");</para>
-            <para>age.Add("unit", "a"); // USE: http://www.hl7.org/fhir/stu3/valueset-age-units.html</para>
+            <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/stu3/valueset-age-units.html</para>
             <para>ExampleDeathRecord.AgeAtDeath = age;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
@@ -1191,7 +1191,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "PHC1260");</para>
-            <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
             <para>code.Add("display", "Not pregnant within past year");</para>
             <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
             <para>// Getter:</para>
@@ -1209,7 +1209,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "example-code");</para>
-            <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
+            <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
             <para>code.Add("display", "Example Code");</para>
             <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>

@@ -252,14 +252,14 @@ namespace FhirDeathRecord.CLI
                 // UsualIndustry
                 Dictionary<string, string> uind = new Dictionary<string, string>();
                 uind.Add("code", "7280");
-                uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");
+                uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");
                 uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
                 deathRecord.UsualIndustry = uind;
 
                 // MilitaryService
                 Dictionary<string, string> mserv = new Dictionary<string, string>();
                 mserv.Add("code", "Y");
-                mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
@@ -314,14 +314,14 @@ namespace FhirDeathRecord.CLI
                 // AutopsyPerformedIndicator
                 Dictionary<string, string> api = new Dictionary<string, string>();
                 api.Add("code", "Y");
-                api.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                api.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
                 api.Add("display", "Yes");
                 deathRecord.AutopsyPerformedIndicator = api;
 
                 // AutopsyResultsAvailable
                 Dictionary<string, string> ara = new Dictionary<string, string>();
                 ara.Add("code", "Y");
-                ara.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                ara.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
                 ara.Add("display", "Yes");
                 deathRecord.AutopsyResultsAvailable = ara;
 
@@ -334,14 +334,14 @@ namespace FhirDeathRecord.CLI
                 // PregnanacyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "PHC1260");
-                ps.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                ps.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
                 ps.Add("display", "Not pregnant within past year");
                 deathRecord.PregnanacyStatus = ps;
 
                 // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();
                 tr.Add("code", "example-code");
-                tr.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");
+                tr.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");
                 tr.Add("display", "Example Code");
                 deathRecord.TransportationRole = tr;
 
@@ -351,7 +351,7 @@ namespace FhirDeathRecord.CLI
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();
                 tbu.Add("code", "Y");
-                tbu.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");
+                tbu.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
                 tbu.Add("display", "Yes");
                 deathRecord.TobaccoUse = tbu;
 

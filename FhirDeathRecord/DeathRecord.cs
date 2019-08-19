@@ -140,35 +140,35 @@ namespace FhirDeathRecord
             Bundle.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Bundle.Type = Bundle.BundleType.Document; // By default, Bundle type is "document".
             Bundle.Meta = new Meta();
-            string[] bundle_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
+            string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
             Bundle.Meta.Profile = bundle_profile;
 
             // Start with an empty decedent.
             Decedent = new Patient();
             Decedent.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Decedent.Meta = new Meta();
-            string[] decedent_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent" };
+            string[] decedent_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent" };
             Decedent.Meta.Profile = decedent_profile;
 
             // Start with an empty certifier.
             Certifier = new Practitioner();
             Certifier.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Certifier.Meta = new Meta();
-            string[] certifier_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
+            string[] certifier_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
             Certifier.Meta.Profile = certifier_profile;
 
             // Start with an empty mortician.
             Mortician = new Practitioner();
             Mortician.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Mortician.Meta = new Meta();
-            string[] mortician_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+            string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
             Mortician.Meta.Profile = mortician_profile;
 
             // Start with an empty certification.
             DeathCertification = new Procedure();
             DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             DeathCertification.Meta = new Meta();
-            string[] deathcertification_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+            string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
             DeathCertification.Meta.Profile = deathcertification_profile;
             DeathCertification.Status = EventStatus.Completed;
             DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
@@ -178,7 +178,7 @@ namespace FhirDeathRecord
             InterestedParty = new Organization();
             InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             InterestedParty.Meta = new Meta();
-            string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+            string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
             InterestedParty.Meta.Profile = interestedparty_profile;
             InterestedParty.Active = true;
 
@@ -186,7 +186,7 @@ namespace FhirDeathRecord
             FuneralHome = new Organization();
             FuneralHome.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             FuneralHome.Meta = new Meta();
-            string[] funeralhome_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
+            string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
             FuneralHome.Meta.Profile = funeralhome_profile;
             FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
 
@@ -194,7 +194,7 @@ namespace FhirDeathRecord
             FuneralHomeDirector = new PractitionerRole();
             FuneralHomeDirector.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             FuneralHomeDirector.Meta = new Meta();
-            string[] funeralhomedirector_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" };
+            string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" };
             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
             FuneralHomeDirector.Practitioner = new ResourceReference(Mortician.Id);
             FuneralHomeDirector.Organization = new ResourceReference(FuneralHome.Id);
@@ -203,7 +203,7 @@ namespace FhirDeathRecord
             DispositionLocation = new Location();
             DispositionLocation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             DispositionLocation.Meta = new Meta();
-            string[] dispositionlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
@@ -211,7 +211,7 @@ namespace FhirDeathRecord
             Composition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
-            string[] composition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
+            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
             Composition.Section.Add(new Composition.SectionComponent());
@@ -229,7 +229,7 @@ namespace FhirDeathRecord
             CauseOfDeathConditionPathway = new List();
             CauseOfDeathConditionPathway.Id = "urn:uuid:" + Guid.NewGuid().ToString();
             CauseOfDeathConditionPathway.Meta = new Meta();
-            string[] causeofdeathconditionpathway_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
+            string[] causeofdeathconditionpathway_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
             CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
             CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
             CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
@@ -415,7 +415,7 @@ namespace FhirDeathRecord
                     DeathCertification = new Procedure();
                     DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
                     DeathCertification.Meta.Profile = deathcertification_profile;
                     DeathCertification.Status = EventStatus.Completed;
                     DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
@@ -494,7 +494,7 @@ namespace FhirDeathRecord
                     DeathCertification = new Procedure();
                     DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
+                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
                     DeathCertification.Meta.Profile = deathcertification_profile;
                     DeathCertification.Status = EventStatus.Completed;
                     DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
@@ -527,7 +527,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Interested Party identification: {ExampleDeathRecord.InterestedPartyIdentifier}");</para>
         /// </example>
         [Property("Interested Party Identifier", Property.Types.String, "Death Certification", "Interested Party Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
         public string InterestedPartyIdentifier
         {
             get
@@ -545,7 +545,7 @@ namespace FhirDeathRecord
                     InterestedParty = new Organization();
                     InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
                     InterestedParty.Meta.Profile = interestedparty_profile;
                     InterestedParty.Active = true;
                     Identifier identifier = new Identifier();
@@ -573,7 +573,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
         /// </example>
         [Property("Interested Party Name", Property.Types.String, "Death Certification", "Interested Party Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "name")]
         public string InterestedPartyName
         {
             get
@@ -591,7 +591,7 @@ namespace FhirDeathRecord
                     InterestedParty = new Organization();
                     InterestedParty.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
+                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
                     InterestedParty.Meta.Profile = interestedparty_profile;
                     InterestedParty.Active = true;
                     InterestedParty.Name = value;
@@ -637,7 +637,7 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "address")]
         public Dictionary<string, string> InterestedPartyAddress
         {
             get
@@ -675,7 +675,7 @@ namespace FhirDeathRecord
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "type")]
         public Dictionary<string, string> InterestedPartyType
         {
             get
@@ -731,7 +731,7 @@ namespace FhirDeathRecord
                     MannerOfDeath = new Observation();
                     MannerOfDeath.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     MannerOfDeath.Meta = new Meta();
-                    string[] mannerofdeath_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" };
+                    string[] mannerofdeath_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" };
                     MannerOfDeath.Meta.Profile = mannerofdeath_profile;
                     MannerOfDeath.Status = ObservationStatus.Final;
                     MannerOfDeath.Code = new CodeableConcept("http://loinc.org", "69449-7", "Manner of death", null);
@@ -758,7 +758,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
         [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string[] CertifierGivenNames
         {
             get
@@ -795,7 +795,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
         /// </example>
         [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string CertifierFamilyName
         {
             get
@@ -832,7 +832,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
         [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string CertifierSuffix
         {
             get
@@ -897,7 +897,7 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "address")]
         public Dictionary<string, string> CertifierAddress
         {
             get
@@ -931,7 +931,7 @@ namespace FhirDeathRecord
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
         public Dictionary<string, string> CertifierQualification
         {
             get
@@ -990,7 +990,7 @@ namespace FhirDeathRecord
                     ConditionContributingToDeath.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     ConditionContributingToDeath.Subject = new ResourceReference(Decedent.Id);
                     ConditionContributingToDeath.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Code = new CodeableConcept();
                     ConditionContributingToDeath.Code.Text = value;
@@ -1118,7 +1118,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionA = new Condition();
                     CauseOfDeathConditionA.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
                     CauseOfDeathConditionA.Code = new CodeableConcept();
                     CauseOfDeathConditionA.Code.Text = value;
@@ -1170,7 +1170,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionA = new Condition();
                     CauseOfDeathConditionA.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
                     CauseOfDeathConditionA.Onset = new FhirString(value);
                     CauseOfDeathConditionA.Subject = new ResourceReference(Decedent.Id);
@@ -1238,7 +1238,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionA = new Condition();
                     CauseOfDeathConditionA.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
                     CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionA.Subject = new ResourceReference(Decedent.Id);
@@ -1294,7 +1294,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionB = new Condition();
                     CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionB.Meta.Profile = condition_profile;
                     CauseOfDeathConditionB.Code = new CodeableConcept();
                     CauseOfDeathConditionB.Code.Text = value;
@@ -1346,7 +1346,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionB = new Condition();
                     CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionB.Meta.Profile = condition_profile;
                     CauseOfDeathConditionB.Onset = new FhirString(value);
                     CauseOfDeathConditionB.Subject = new ResourceReference(Decedent.Id);
@@ -1414,7 +1414,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionB = new Condition();
                     CauseOfDeathConditionB.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionB.Meta.Profile = condition_profile;
                     CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionB.Subject = new ResourceReference(Decedent.Id);
@@ -1470,7 +1470,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionC = new Condition();
                     CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionC.Meta.Profile = condition_profile;
                     CauseOfDeathConditionC.Code = new CodeableConcept();
                     CauseOfDeathConditionC.Code.Text = value;
@@ -1522,7 +1522,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionC = new Condition();
                     CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionC.Meta.Profile = condition_profile;
                     CauseOfDeathConditionC.Onset = new FhirString(value);
                     CauseOfDeathConditionC.Subject = new ResourceReference(Decedent.Id);
@@ -1590,7 +1590,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionC = new Condition();
                     CauseOfDeathConditionC.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionC.Meta.Profile = condition_profile;
                     CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionC.Subject = new ResourceReference(Decedent.Id);
@@ -1646,7 +1646,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionD = new Condition();
                     CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionD.Meta.Profile = condition_profile;
                     CauseOfDeathConditionD.Code = new CodeableConcept();
                     CauseOfDeathConditionD.Code.Text = value;
@@ -1698,7 +1698,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionD = new Condition();
                     CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionD.Meta.Profile = condition_profile;
                     CauseOfDeathConditionD.Onset = new FhirString(value);
                     CauseOfDeathConditionD.Subject = new ResourceReference(Decedent.Id);
@@ -1766,7 +1766,7 @@ namespace FhirDeathRecord
                     CauseOfDeathConditionD = new Condition();
                     CauseOfDeathConditionD.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
-                    string[] condition_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionD.Meta.Profile = condition_profile;
                     CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionD.Subject = new ResourceReference(Decedent.Id);
@@ -2280,12 +2280,12 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://www.hl7.org/fhir/StructureDefinition/birthPlace')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace')", "")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://www.hl7.org/fhir/StructureDefinition/birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace" );
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -2299,9 +2299,9 @@ namespace FhirDeathRecord
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://www.hl7.org/fhir/StructureDefinition/birthPlace");
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace");
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://www.hl7.org/fhir/StructureDefinition/birthPlace";
+                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/birthPlace";
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
             }
@@ -2371,7 +2371,7 @@ namespace FhirDeathRecord
                     Father = new RelatedPerson();
                     Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Father.Meta = new Meta();
-                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference(Decedent.Id);
                     Father.Relationship = new CodeableConcept(null, "FTH", null, null);
@@ -2415,7 +2415,7 @@ namespace FhirDeathRecord
                     Father = new RelatedPerson();
                     Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Father.Meta = new Meta();
-                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference(Decedent.Id);
                     Father.Relationship = new CodeableConcept(null, "FTH", null, null);
@@ -2460,7 +2460,7 @@ namespace FhirDeathRecord
                     Father = new RelatedPerson();
                     Father.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Father.Meta = new Meta();
-                    string[] father_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
+                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference(Decedent.Id);
                     Father.Relationship = new CodeableConcept(null, "FTH", null, null);
@@ -2507,7 +2507,7 @@ namespace FhirDeathRecord
                     Mother = new RelatedPerson();
                     Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference(Decedent.Id);
                     Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
@@ -2551,7 +2551,7 @@ namespace FhirDeathRecord
                     Mother = new RelatedPerson();
                     Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference(Decedent.Id);
                     Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
@@ -2596,7 +2596,7 @@ namespace FhirDeathRecord
                     Mother = new RelatedPerson();
                     Mother.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
+                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference(Decedent.Id);
                     Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
@@ -2643,7 +2643,7 @@ namespace FhirDeathRecord
                     Spouse = new RelatedPerson();
                     Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference(Decedent.Id);
                     Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
@@ -2687,7 +2687,7 @@ namespace FhirDeathRecord
                     Spouse = new RelatedPerson();
                     Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference(Decedent.Id);
                     Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
@@ -2732,7 +2732,7 @@ namespace FhirDeathRecord
                     Spouse = new RelatedPerson();
                     Spouse.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
+                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference(Decedent.Id);
                     Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
@@ -2790,7 +2790,7 @@ namespace FhirDeathRecord
                     DecedentEducationLevel = new Observation();
                     DecedentEducationLevel.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DecedentEducationLevel.Meta = new Meta();
-                    string[] educationlevel_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
+                    string[] educationlevel_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
                     DecedentEducationLevel.Meta.Profile = educationlevel_profile;
                     DecedentEducationLevel.Status = ObservationStatus.Final;
                     DecedentEducationLevel.Code = new CodeableConcept("http://loinc.org", "80913-7", "Highest level of education", null);
@@ -2833,7 +2833,7 @@ namespace FhirDeathRecord
                     BirthRecordIdentifier = new Observation();
                     BirthRecordIdentifier.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
+                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
@@ -2858,9 +2858,9 @@ namespace FhirDeathRecord
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>uocc.Add("code", "7280");</para>
-        /// <para>uocc.Add("system", "http://www.hl7.org/fhir/ValueSet/Usual-occupation");</para>
-        /// <para>uocc.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
+        /// <para>uocc.Add("code", "1340");</para>
+        /// <para>uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");</para>
+        /// <para>uocc.Add("display", "Biomedical engineers");</para>
         /// <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
@@ -2892,7 +2892,7 @@ namespace FhirDeathRecord
                     EmploymentHistory = new Observation();
                     EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
                     EmploymentHistory.Meta.Profile = employmenthistory_profile;
                     EmploymentHistory.Status = ObservationStatus.Final;
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
@@ -2924,9 +2924,9 @@ namespace FhirDeathRecord
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>uind.Add("code", "1320");</para>
-        /// <para>uind.Add("system", "http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
-        /// <para>uind.Add("display", "Aerospace engineers");</para>
+        /// <para>uind.Add("code", "7280");</para>
+        /// <para>uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
+        /// <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
         /// <para>ExampleDeathRecord.UsualIndustry = uind;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>
@@ -2958,7 +2958,7 @@ namespace FhirDeathRecord
                     EmploymentHistory = new Observation();
                     EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
                     EmploymentHistory.Meta.Profile = employmenthistory_profile;
                     EmploymentHistory.Status = ObservationStatus.Final;
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
@@ -2991,7 +2991,7 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
         /// <para>mserv.Add("code", "Y");</para>
-        /// <para>mserv.Add("system", "http://www.hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
         /// <para>mserv.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.MilitaryService = uind;</para>
         /// <para>// Getter:</para>
@@ -3024,7 +3024,7 @@ namespace FhirDeathRecord
                     EmploymentHistory = new Observation();
                     EmploymentHistory.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
+                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
                     EmploymentHistory.Meta.Profile = employmenthistory_profile;
                     EmploymentHistory.Status = ObservationStatus.Final;
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
@@ -3064,7 +3064,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
         /// </example>
         [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
         public string[] MorticianGivenNames
         {
             get
@@ -3101,7 +3101,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
         /// </example>
         [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
         public string MorticianFamilyName
         {
             get
@@ -3138,7 +3138,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
         /// </example>
         [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
         public string MorticianSuffix
         {
             get
@@ -3177,7 +3177,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
         /// </example>
         [Property("Mortician Identifier", Property.Types.String, "Decedent Disposition", "Mortician Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
         public string MorticianIdentifier
         {
             get
@@ -3259,7 +3259,7 @@ namespace FhirDeathRecord
                     FuneralHome = new Organization();
                     FuneralHome.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
+                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
                     FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
                     FuneralHome.Address.Add(DictToAddress(value));
@@ -3295,7 +3295,7 @@ namespace FhirDeathRecord
                     FuneralHome = new Organization();
                     FuneralHome.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
+                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
                     FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
                     FuneralHome.Name = value;
@@ -3342,7 +3342,7 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
             get
@@ -3360,7 +3360,7 @@ namespace FhirDeathRecord
                     DispositionLocation = new Location();
                     DispositionLocation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
                     DispositionLocation.Address = DictToAddress(value);
                 }
@@ -3380,7 +3380,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
         [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", false, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
         public string DispositionLocationName
         {
             get
@@ -3398,7 +3398,7 @@ namespace FhirDeathRecord
                     DispositionLocation = new Location();
                     DispositionLocation.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
                     DispositionLocation.Name = value;
                 }
@@ -3447,14 +3447,14 @@ namespace FhirDeathRecord
                     DispositionMethod = new Observation();
                     DispositionMethod.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DispositionMethod.Meta = new Meta();
-                    string[] dispositionmethod_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" };
+                    string[] dispositionmethod_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" };
                     DispositionMethod.Meta.Profile = dispositionmethod_profile;
                     DispositionMethod.Status = ObservationStatus.Final;
                     DispositionMethod.Code = new CodeableConcept("http://loinc.org", "80905-3", "Body disposition method", null);
                     DispositionMethod.Subject = new ResourceReference(Decedent.Id);
                     DispositionMethod.Performer.Add(new ResourceReference(Mortician.Id));
                     Extension extension = new Extension();
-                    extension.Url = "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location";
+                    extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location";
                     extension.Value = new ResourceReference(DispositionLocation.Id);
                     DispositionMethod.Extension.Add(extension);
                     DispositionMethod.Value = DictToCodeableConcept(value);
@@ -3513,7 +3513,7 @@ namespace FhirDeathRecord
                     AutopsyPerformed = new Observation();
                     AutopsyPerformed.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
+                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
                     AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
                     AutopsyPerformed.Status = ObservationStatus.Final;
                     AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
@@ -3556,7 +3556,7 @@ namespace FhirDeathRecord
                     DeathDateObs = new Observation();
                     DeathDateObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathDateObs.Meta = new Meta();
-                    string[] deathdate_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+                    string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
                     DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
@@ -3604,7 +3604,7 @@ namespace FhirDeathRecord
                     DeathDateObs = new Observation();
                     DeathDateObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathDateObs.Meta = new Meta();
-                    string[] deathdate_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+                    string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
                     DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
@@ -3666,7 +3666,7 @@ namespace FhirDeathRecord
                     AutopsyPerformed = new Observation();
                     AutopsyPerformed.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
+                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
                     AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
                     AutopsyPerformed.Status = ObservationStatus.Final;
                     AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
@@ -3725,7 +3725,7 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
             get
@@ -3743,7 +3743,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Address = DictToAddress(value);
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3765,7 +3765,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
         [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
         public string DeathLocationName
         {
             get
@@ -3783,7 +3783,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Name = value;
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3805,7 +3805,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
         [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "description")]
         public string DeathLocationDescription
         {
             get
@@ -3823,7 +3823,7 @@ namespace FhirDeathRecord
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
                     AddReferenceToComposition(DeathLocationLoc.Id);
@@ -3845,7 +3845,7 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://www.hl7.org/fhir/stu3/valueset-age-units.html</para>
+        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/stu3/valueset-age-units.html</para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
@@ -3874,7 +3874,7 @@ namespace FhirDeathRecord
                     AgeAtDeathObs = new Observation();
                     AgeAtDeathObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     AgeAtDeathObs.Meta = new Meta();
-                    string[] age_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
+                    string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
                     AgeAtDeathObs.Meta.Profile = age_profile;
                     AgeAtDeathObs.Status = ObservationStatus.Final;
                     AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
@@ -3906,7 +3906,7 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "PHC1260");</para>
-        /// <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
         /// <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
         /// <para>// Getter:</para>
@@ -3934,7 +3934,7 @@ namespace FhirDeathRecord
                     PregnancyObs = new Observation();
                     PregnancyObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     PregnancyObs.Meta = new Meta();
-                    string[] p_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
+                    string[] p_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
                     PregnancyObs.Meta.Profile = p_profile;
                     PregnancyObs.Status = ObservationStatus.Final;
                     PregnancyObs.Code = new CodeableConcept("http://loinc.org", "69442-2", "Timing of recent pregnancy in relation to death", null);
@@ -3960,7 +3960,7 @@ namespace FhirDeathRecord
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "example-code");</para>
-        /// <para>code.Add("system", "http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
+        /// <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
         /// <para>code.Add("display", "Example Code");</para>
         /// <para>ExampleDeathRecord.TransportationRole = code;</para>
         /// <para>// Getter:</para>
@@ -3988,7 +3988,7 @@ namespace FhirDeathRecord
                     TransportationRoleObs = new Observation();
                     TransportationRoleObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     TransportationRoleObs.Meta = new Meta();
-                    string[] t_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
+                    string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
                     TransportationRoleObs.Meta.Profile = t_profile;
                     TransportationRoleObs.Status = ObservationStatus.Final;
                     TransportationRoleObs.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent", null);
@@ -4031,7 +4031,7 @@ namespace FhirDeathRecord
                     ExaminerContactedObs = new Observation();
                     ExaminerContactedObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     ExaminerContactedObs.Meta = new Meta();
-                    string[] ec_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
+                    string[] ec_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
                     ExaminerContactedObs.Meta.Profile = ec_profile;
                     ExaminerContactedObs.Status = ObservationStatus.Final;
                     ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted", null);
@@ -4082,7 +4082,7 @@ namespace FhirDeathRecord
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -4100,7 +4100,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Address = DictToAddress(value);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -4122,7 +4122,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
         public string InjuryLocationName
         {
             get
@@ -4140,7 +4140,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Name = value;
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -4162,7 +4162,7 @@ namespace FhirDeathRecord
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
         [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -4180,7 +4180,7 @@ namespace FhirDeathRecord
                     InjuryLocationLoc = new Location();
                     InjuryLocationLoc.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Description = value;
                     AddReferenceToComposition(InjuryLocationLoc.Id);
@@ -4220,7 +4220,7 @@ namespace FhirDeathRecord
                     InjuryIncidentObs = new Observation();
                     InjuryIncidentObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
+                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description", null);
@@ -4274,7 +4274,7 @@ namespace FhirDeathRecord
                     TobaccoUseObs = new Observation();
                     TobaccoUseObs.Id = "urn:uuid:" + Guid.NewGuid().ToString();
                     TobaccoUseObs.Meta = new Meta();
-                    string[] tb_profile = { "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
+                    string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
                     TobaccoUseObs.Meta.Profile = tb_profile;
                     TobaccoUseObs.Status = ObservationStatus.Final;
                     TobaccoUseObs.Code = new CodeableConcept("http://loinc.org", "69443-0", "Did tobacco use contribute to death", null);
@@ -4423,19 +4423,19 @@ namespace FhirDeathRecord
                 EmploymentHistory = (Observation)employmentHistory.Resource;
             }
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
+            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
             if (dispositionLocation != null)
             {
                 DispositionLocation = (Location)dispositionLocation.Resource;
             }
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
+            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
             if (injuryLocation != null)
             {
                 InjuryLocationLoc = (Location)injuryLocation.Resource;
             }
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
+            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
             if (deathLocation != null)
             {
                 DeathLocationLoc = (Location)deathLocation.Resource;

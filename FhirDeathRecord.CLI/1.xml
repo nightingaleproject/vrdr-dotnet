@@ -1,7 +1,7 @@
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="urn:uuid:12d48f7c-0357-4dce-bfa5-15c34fb6ad8c" />
   <meta>
-    <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" />
+    <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" />
   </meta>
   <identifier>
     <value value="42" />
@@ -13,7 +13,7 @@
       <Composition>
         <id value="urn:uuid:74f4ffb4-2e84-4d94-9ca7-d079c68cc6c9" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" />
         </meta>
         <identifier>
           <value value="1" />
@@ -156,7 +156,7 @@
       <Patient>
         <id value="urn:uuid:2ef69827-51e7-40f9-bee1-4319524f123b" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent" />
         </meta>
         <extension url="http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex">
           <valueCodeableConcept>
@@ -205,7 +205,7 @@
             <valueString value="White, Native Hawaiian or Other Pacific Islander" />
           </extension>
         </extension>
-        <extension url="http://www.hl7.org/fhir/StructureDefinition/birthPlace">
+        <extension url="http://hl7.org/fhir/StructureDefinition/birthPlace">
           <valueAddress>
             <line value="1011 Example Street" />
             <line value="Line 2" />
@@ -261,7 +261,7 @@
       <Practitioner>
         <id value="urn:uuid:de7b784d-56cd-49b7-a8fe-6665006f1f5e" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" />
         </meta>
         <name>
           <use value="official" />
@@ -297,7 +297,7 @@
       <Practitioner>
         <id value="urn:uuid:3076c531-9e84-4eaf-8102-86c10e5e020b" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" />
         </meta>
         <name>
           <use value="official" />
@@ -320,7 +320,7 @@
       <Procedure>
         <id value="urn:uuid:36536c18-78d5-4684-bc6c-1f75adc69655" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" />
         </meta>
         <status value="completed" />
         <category>
@@ -359,7 +359,7 @@
       <Organization>
         <id value="urn:uuid:f686e6ab-3bc0-4818-b233-93df4a4956a4" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" />
         </meta>
         <identifier>
           <value value="1010101" />
@@ -391,7 +391,7 @@
       <Organization>
         <id value="urn:uuid:94d46f0c-0630-4256-9b9f-6121f668a6ff" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" />
         </meta>
         <type>
           <coding>
@@ -418,7 +418,7 @@
       <PractitionerRole>
         <id value="urn:uuid:eb64ef59-010a-4644-ad46-f0cb146f4e6a" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" />
         </meta>
         <practitioner>
           <reference value="urn:uuid:3076c531-9e84-4eaf-8102-86c10e5e020b" />
@@ -435,7 +435,7 @@
       <List>
         <id value="urn:uuid:4be2a5cf-da90-4c4a-bd29-787a8006ea2c" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" />
         </meta>
         <status value="current" />
         <mode value="snapshot" />
@@ -476,7 +476,7 @@
       <Location>
         <id value="urn:uuid:1c7c6aa9-6f76-4ff8-a64c-28a82bf9cbdf" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
         </meta>
         <name value="Bedford Cemetery" />
         <address>
@@ -497,7 +497,7 @@
       <Observation>
         <id value="urn:uuid:773e877a-bcd3-4065-b50e-641a4ca4e801" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" />
         </meta>
         <status value="final" />
         <code>
@@ -528,7 +528,7 @@
       <Condition>
         <id value="urn:uuid:7ba1af7d-e549-45c0-9d5e-b6fbe4fc416e" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" />
         </meta>
         <code>
           <text value="Example Contributing Conditions" />
@@ -545,7 +545,7 @@
       <Condition>
         <id value="urn:uuid:8e318c96-96ac-4ff7-965a-1ae1137b0910" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
         </meta>
         <code>
           <coding>
@@ -571,7 +571,7 @@
       <Condition>
         <id value="urn:uuid:d3b14ec7-fddc-43b0-a926-e42a12a19faf" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
         </meta>
         <code>
           <coding>
@@ -597,7 +597,7 @@
       <Condition>
         <id value="urn:uuid:f1bef7de-47ed-4aa4-83cd-15414dffd811" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
         </meta>
         <code>
           <text value="Coronary artery thrombosis" />
@@ -618,7 +618,7 @@
       <Condition>
         <id value="urn:uuid:6951c2c5-36c7-4154-a0e7-f9b5af384772" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
         </meta>
         <code>
           <text value="Atherosclerotic coronary artery disease" />
@@ -639,7 +639,7 @@
       <RelatedPerson>
         <id value="urn:uuid:47189bb7-128e-417c-a76a-5988b7ffe8cf" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" />
         </meta>
         <patient>
           <reference value="urn:uuid:2ef69827-51e7-40f9-bee1-4319524f123b" />
@@ -664,7 +664,7 @@
       <RelatedPerson>
         <id value="urn:uuid:688a1792-7be9-4359-a3ee-3fb309fbfddd" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" />
         </meta>
         <patient>
           <reference value="urn:uuid:2ef69827-51e7-40f9-bee1-4319524f123b" />
@@ -689,7 +689,7 @@
       <RelatedPerson>
         <id value="urn:uuid:0c20e69c-d1fd-479d-b685-3407cdf62dbf" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" />
         </meta>
         <patient>
           <reference value="urn:uuid:2ef69827-51e7-40f9-bee1-4319524f123b" />
@@ -714,7 +714,7 @@
       <Observation>
         <id value="urn:uuid:0d5b06e3-c4fb-41e3-bf48-3781bf42e62f" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" />
         </meta>
         <status value="final" />
         <code>
@@ -743,7 +743,7 @@
       <Observation>
         <id value="urn:uuid:9e271764-f02d-4b65-b75d-702253bbc8e6" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" />
         </meta>
         <status value="final" />
         <code>
@@ -764,7 +764,7 @@
       <Observation>
         <id value="urn:uuid:4acfebf8-c836-4ba9-845f-29909246e631" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" />
         </meta>
         <status value="final" />
         <code>
@@ -787,9 +787,9 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://www.hl7.org/fhir/ValueSet/Usual-occupation" />
-              <code value="7280" />
-              <display value="Accounting, tax preparation, bookkeeping, and payroll services" />
+              <system value="http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010" />
+              <code value="1340" />
+              <display value="Biomedical engineers" />
             </coding>
           </valueCodeableConcept>
         </component>
@@ -803,9 +803,9 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://www.hl7.org/fhir/ValueSet/industry-cdc-census-2010" />
-              <code value="1320" />
-              <display value="Aerospace engineers" />
+              <system value="http://hl7.org/fhir/ValueSet/industry-cdc-census-2010" />
+              <code value="7280" />
+              <display value="Accounting, tax preparation, bookkeeping, and payroll services" />
             </coding>
           </valueCodeableConcept>
         </component>
@@ -819,7 +819,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://www.hl7.org/fhir/ValueSet/v2-0532" />
+              <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -834,9 +834,9 @@
       <Observation>
         <id value="urn:uuid:e33a9eed-6139-4f8a-8f09-ba37de89ed8f" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" />
         </meta>
-        <extension url="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location">
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location">
           <valueReference>
             <reference value="urn:uuid:1c7c6aa9-6f76-4ff8-a64c-28a82bf9cbdf" />
           </valueReference>
@@ -871,7 +871,7 @@
       <Observation>
         <id value="urn:uuid:c44182b6-b191-41d8-a090-011de72449a3" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" />
         </meta>
         <status value="final" />
         <code>
@@ -886,7 +886,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://www.hl7.org/fhir/ValueSet/v2-0532" />
+            <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -901,7 +901,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://www.hl7.org/fhir/ValueSet/v2-0532" />
+              <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -916,7 +916,7 @@
       <Observation>
         <id value="urn:uuid:ff27ed42-4df3-43fb-b96e-06de0df4ff45" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" />
         </meta>
         <status value="final" />
         <code>
@@ -942,7 +942,7 @@
       <Observation>
         <id value="urn:uuid:773e159a-82e9-43dc-a246-81b7dd263596" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" />
         </meta>
         <status value="final" />
         <code>
@@ -957,7 +957,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://www.hl7.org/fhir/stu3/valueset-PregnancyStatusVS" />
+            <system value="http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS" />
             <code value="PHC1260" />
             <display value="Not pregnant within past year" />
           </coding>
@@ -971,7 +971,7 @@
       <Observation>
         <id value="urn:uuid:5a3fdd48-b731-4cd5-869f-6146bcef6b50" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" />
         </meta>
         <status value="final" />
         <code>
@@ -986,7 +986,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://www.hl7.org/fhir/stu3/valueset-TransportationRelationships" />
+            <system value="http://hl7.org/fhir/stu3/valueset-TransportationRelationships" />
             <code value="example-code" />
             <display value="Example Code" />
           </coding>
@@ -1000,7 +1000,7 @@
       <Observation>
         <id value="urn:uuid:34088e6f-9224-4f15-9a86-7007bd5388c9" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" />
         </meta>
         <status value="final" />
         <code>
@@ -1023,7 +1023,7 @@
       <Observation>
         <id value="urn:uuid:db8a0e2d-f66e-42f2-8f42-eee7215bdc52" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" />
         </meta>
         <status value="final" />
         <code>
@@ -1038,7 +1038,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://www.hl7.org/fhir/ValueSet/v2-0532" />
+            <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1052,7 +1052,7 @@
       <Location>
         <id value="urn:uuid:0b285905-4153-4064-8f94-c175dcc7d8ac" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" />
         </meta>
         <name value="Example Injury Location Name" />
         <description value="Example Injury Location Description" />
@@ -1074,7 +1074,7 @@
       <Observation>
         <id value="urn:uuid:bb6d46d6-2b3d-469e-9a45-5903d9b2dec7" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" />
         </meta>
         <status value="final" />
         <code>
@@ -1097,7 +1097,7 @@
       <Location>
         <id value="urn:uuid:ddb0b505-c99c-42fd-a1ce-bf32ff20c329" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
         </meta>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
@@ -1119,7 +1119,7 @@
       <Observation>
         <id value="urn:uuid:bb2809be-1dd4-47e3-9b86-f6ca8b8440d9" />
         <meta>
-          <profile value="http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" />
         </meta>
         <status value="final" />
         <code>

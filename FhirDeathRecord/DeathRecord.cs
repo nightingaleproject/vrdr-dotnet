@@ -1,19 +1,14 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Web;
 using System.Reflection;
-using System.Xml;
 using System.Xml.Linq;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace FhirDeathRecord
 {
@@ -132,7 +127,7 @@ namespace FhirDeathRecord
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
 
-        /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
+        /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
             // Start with an empty Bundle.
@@ -260,8 +255,8 @@ namespace FhirDeathRecord
             Navigator = Bundle.ToTypedElement();
         }
 
-        /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
-        /// <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
+        /// <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
+        /// <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record, bool permissive = false)
@@ -269,19 +264,63 @@ namespace FhirDeathRecord
             ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = permissive,
                                                                  AllowUnrecognizedEnums = permissive,
                                                                  PermissiveParsing = permissive };
-            // Check if XML
+            // XML?
             if (!String.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
             {
-                FhirXmlParser parser = new FhirXmlParser(parserSettings);
-                Bundle = parser.Parse<Bundle>(record);
-                Navigator = Bundle.ToTypedElement();
+                // Grab all errors found by visiting all nodes and report if not permissive
+                if (!permissive)
+                {
+                    List<string> entries = new List<string>();
+                    ISourceNode node = FhirXmlNode.Parse(record, new FhirXmlParsingSettings { PermissiveParsing = permissive });
+                    foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
+                    {
+                        entries.Add(problem.Message);
+                    }
+                    if (entries.Count > 0)
+                    {
+                        throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                    }
+                }
+                // Try Parse
+                try
+                {
+                    FhirXmlParser parser = new FhirXmlParser(parserSettings);
+                    Bundle = parser.Parse<Bundle>(record);
+                    Navigator = Bundle.ToTypedElement();
+                }
+                catch (Exception e)
+                {
+                    throw new System.ArgumentException(e.Message);
+                }
             }
-            else
+            // JSON?
+            if (!String.IsNullOrEmpty(record) && record.TrimStart().StartsWith("{"))
             {
-                // Assume JSON
-                FhirJsonParser parser = new FhirJsonParser(parserSettings);
-                Bundle = parser.Parse<Bundle>(record);
-                Navigator = Bundle.ToTypedElement();
+                // Grab all errors found by visiting all nodes and report if not permissive
+                if (!permissive)
+                {
+                    List<string> entries = new List<string>();
+                    ISourceNode node = FhirJsonNode.Parse(record, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
+                    foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
+                    {
+                        entries.Add(problem.Message);
+                    }
+                    if (entries.Count > 0)
+                    {
+                        throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                    }
+                }
+                // Try Parse
+                try
+                {
+                    FhirJsonParser parser = new FhirJsonParser(parserSettings);
+                    Bundle = parser.Parse<Bundle>(record);
+                    Navigator = Bundle.ToTypedElement();
+                }
+                catch (Exception e)
+                {
+                    throw new System.ArgumentException(e.Message);
+                }
             }
             // Fill out class instance references
             if (Navigator != null)
@@ -290,7 +329,7 @@ namespace FhirDeathRecord
             }
             else
             {
-                throw new System.ArgumentException("Record is neither valid XML nor JSON.", "record");
+                throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR record.");
             }
         }
 
@@ -4314,67 +4353,123 @@ namespace FhirDeathRecord
         /// <summary>Restores class references from a newly parsed record.</summary>
         private void RestoreReferences()
         {
+            // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
             if (compositionEntry != null)
             {
                 Composition = (Composition)compositionEntry.Resource;
+            }
+            else
+            {
+                throw new System.ArgumentException("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.");
+            }
+
+            // Grab Patient
+            if (Composition.Subject == null || String.IsNullOrWhiteSpace(Composition.Subject.Reference))
+            {
+                throw new System.ArgumentException("The Composition is missing a subject (a reference to the Decedent resource).");
             }
             var patientEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Patient );
             if (patientEntry != null)
             {
                 Decedent = (Patient)patientEntry.Resource;
             }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Address.Count() > 0 );
+            else
+            {
+                throw new System.ArgumentException("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).");
+            }
+
+            // Grab Certifier
+            if (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference))
+            {
+                throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
+            }
+            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.FullUrl == Composition.Attester.First().Party.Reference);
             if (practitionerEntry != null)
             {
                 Certifier = (Practitioner)practitionerEntry.Resource;
             }
+            else
+            {
+                throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
+            }
+
+            // Grab Mortician
             var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
             if (morticianEntry != null)
             {
                 Mortician = (Practitioner)morticianEntry.Resource;
             }
+
+            // Grab Death Certification
             var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
             if (procedureEntry != null)
             {
                 DeathCertification = (Procedure)procedureEntry.Resource;
             }
+
+            // Grab Interested Party
             var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
             if (interestedParty != null)
             {
                 InterestedParty = (Organization)interestedParty.Resource;
             }
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Id != InterestedParty.Id );
+
+            // Grab Funeral Home
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id) );
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
             }
+
+            // Grab Funeral Home Director
             var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
             if (funeralHomeDirector != null)
             {
                 FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
             }
+
+            // Scan through all Observations to make sure they all have codes!
+            foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
+            {
+                Observation obs = (Observation)ob.Resource;
+                if (obs.Code == null || obs.Code.Coding == null || obs.Code.Coding.FirstOrDefault() == null || obs.Code.Coding.First().Code == null)
+                {
+                    throw new System.ArgumentException("Found an Observation resource that did not contain a code. All Observations must include a code to specify what the Observation is referring to.");
+                }
+            }
+
+            // Grab Manner of Death
             var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
             if (mannerOfDeath != null)
             {
                 MannerOfDeath = (Observation)mannerOfDeath.Resource;
             }
+
+            // Grab Disposition Method
             var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );
             if (dispositionMethod != null)
             {
                 DispositionMethod = (Observation)dispositionMethod.Resource;
             }
+
+            // Grab Condition Contributing To Death
             var conditionContributingToDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter == null );
             if (conditionContributingToDeath != null)
             {
                 ConditionContributingToDeath = (Condition)conditionContributingToDeath.Resource;
             }
+
+            // Grab Cause Of Death Condition Pathway
             var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
             if (causeOfDeathConditionPathway != null)
             {
                 CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
             }
+
+            // Grab Causes of Death
             // IMPROVEMENT: Look at using cause pathway to handle circumstances where input has un-ordered cause entries.
+            // IMPROVEMENT: Support more than four causes.
             List<Bundle.EntryComponent> causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter != null ).ToList();
             if (causes != null && causes.Count() > 0)
             {
@@ -4392,89 +4487,133 @@ namespace FhirDeathRecord
             {
                 CauseOfDeathConditionD = (Condition)causes[3].Resource;
             }
+
+            // Scan through all RelatedPerson to make sure they all have relationship codes!
+            foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
+            {
+                RelatedPerson rpn = (RelatedPerson)rp.Resource;
+                if (rpn.Relationship == null || rpn.Relationship.Coding == null || rpn.Relationship.Coding.FirstOrDefault() == null || rpn.Relationship.Coding.First().Code == null)
+                {
+                    throw new System.ArgumentException("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.");
+                }
+            }
+
+            // Grab Father
             var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "FTH" );
             if (father != null)
             {
                 Father = (RelatedPerson)father.Resource;
             }
+
+            // Grab Mother
             var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "MTH" );
             if (mother != null)
             {
                 Mother = (RelatedPerson)mother.Resource;
             }
+
+            // Grab Spouse
             var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "SPS" );
             if (spouse != null)
             {
                 Spouse = (RelatedPerson)spouse.Resource;
             }
+
+            // Grab Decedent Education Level
             var decedentEducationLevel = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7" );
             if (decedentEducationLevel != null)
             {
                 DecedentEducationLevel = (Observation)decedentEducationLevel.Resource;
             }
+
+            // Grab Birth Record Identifier
             var birthRecordIdentifier = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR" );
             if (birthRecordIdentifier != null)
             {
                 BirthRecordIdentifier = (Observation)birthRecordIdentifier.Resource;
             }
+
+            // Grab Employment History
             var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74165-2" );
             if (employmentHistory != null)
             {
                 EmploymentHistory = (Observation)employmentHistory.Resource;
             }
+
+            // Grab Disposition Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
+            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
             if (dispositionLocation != null)
             {
                 DispositionLocation = (Location)dispositionLocation.Resource;
             }
+
+            // Grab Injury Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
+            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
             if (injuryLocation != null)
             {
                 InjuryLocationLoc = (Location)injuryLocation.Resource;
             }
+
+            // Grab Death Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
+            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
             if (deathLocation != null)
             {
                 DeathLocationLoc = (Location)deathLocation.Resource;
             }
+
+            // Grab Autopsy Performed
             var autopsyPerformed = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7" );
             if (autopsyPerformed != null)
             {
                 AutopsyPerformed = (Observation)autopsyPerformed.Resource;
             }
+
+            // Grab Age At Death
             var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0" );
             if (ageAtDeath != null)
             {
                 AgeAtDeathObs = (Observation)ageAtDeath.Resource;
             }
+
+            // Grab Pregnancy
             var pregnanacyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
             if (pregnanacyStatus != null)
             {
                 PregnancyObs = (Observation)pregnanacyStatus.Resource;
             }
+
+            // Grab Transportation Role
             var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
             if (transportationRole != null)
             {
                 TransportationRoleObs = (Observation)transportationRole.Resource;
             }
+
+            // Grab Examiner Contacted
             var examinerContacted = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9" );
             if (examinerContacted != null)
             {
                 ExaminerContactedObs = (Observation)examinerContacted.Resource;
             }
+
+            // Grab Tobacco Use
             var tobaccoUse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0" );
             if (tobaccoUse != null)
             {
                 TobaccoUseObs = (Observation)tobaccoUse.Resource;
             }
+
+            // Grab Injury Incident
             var injuryIncident = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6" );
             if (injuryIncident != null)
             {
                 InjuryIncidentObs = (Observation)injuryIncident.Resource;
             }
+
+            // Grab Death Date
             var dateOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5" );
             if (dateOfDeath != null)
             {

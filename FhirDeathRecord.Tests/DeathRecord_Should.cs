@@ -26,10 +26,82 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void FailGivenInvalidRecord()
+        public void FailInvalidInput()
         {
-            Exception ex = Assert.Throws<System.FormatException>(() => new DeathRecord("foobar"));
-            Assert.Equal("Invalid Json encountered. Details: Error parsing boolean value. Path '', line 1, position 1.", ex.Message);
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));
+            Assert.Equal("The given input does not appear to be a valid XML or JSON FHIR record.", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingArray()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingArray.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Parser: Since element 'identifier' repeats, an array must be used here.", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingValue()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/xml/MissingValue.xml"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Parser: The attribute 'value' in element 'status' has an empty value, which is not allowed. (at line 21, 17)", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingComposition()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingComposition.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingCompositionSubject()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionSubject.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("The Composition is missing a subject (a reference to the Decedent resource).", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingCompositionAttestor()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionAttestor.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingDecedent()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingDecedent.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingCertifier()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCertifier.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingObservationCode()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingObservationCode.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Found an Observation resource that did not contain a code. All Observations must include a code to specify what the Observation is referring to.", ex.Message);
+        }
+
+        [Fact]
+        public void FailMissingRelatedPersonRelationshipCode()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingRelatedPersonRelationshipCode.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.", ex.Message);
         }
 
         [Fact]

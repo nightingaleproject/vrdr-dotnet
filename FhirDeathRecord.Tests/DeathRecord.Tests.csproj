@@ -16,5 +16,14 @@
   <ItemGroup>
     <None Update="fixtures/json/1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingComposition.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCompositionSubject.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCompositionAttestor.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingDecedent.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCertifier.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

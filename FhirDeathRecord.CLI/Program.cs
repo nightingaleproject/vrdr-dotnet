@@ -453,6 +453,28 @@ namespace FhirDeathRecord.CLI
                 Console.WriteLine(d.ToJSON());
                 return 0;
             }
+            else if (args.Length == 1 && args[0] == "fakejson")
+            {
+                DeathRecordFaker faker = new DeathRecordFaker();
+                DeathRecord d = faker.Generate();
+                Console.WriteLine(d.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 1 && args[0] == "fakexml")
+            {
+                DeathRecordFaker faker = new DeathRecordFaker();
+                DeathRecord d = faker.Generate();
+                Console.WriteLine(d.ToXML());
+                return 0;
+            }
+            else if (args.Length == 1 && args[0] == "fakeije")
+            {
+                DeathRecordFaker faker = new DeathRecordFaker();
+                DeathRecord d = faker.Generate();
+                IJEMortality ije = new IJEMortality(d);
+                Console.WriteLine(ije.ToString());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "xml2xml")
             {
                 // Forces record through getters and then setters, prints as xml

@@ -120,11 +120,11 @@
             <summary>Date Of Death.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.#ctor">
-            <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
+            <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
-            <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
+            <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
+            <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
         </member>
@@ -1468,6 +1468,29 @@
         <member name="M:FhirDeathRecord.FHIRPath.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
+        <member name="T:FhirDeathRecord.DeathRecordFaker">
+            <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
+            options are available to tailoring the records generated to specific use case by the class.
+            </summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecordFaker.MortalityData">
+            <summary>Mortality data for code translations.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecordFaker.state">
+            <summary>State to use when generating records.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecordFaker.type">
+            <summary>Type of Cause of Death; Natural or Injury.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecordFaker.sex">
+            <summary>Decedent Sex to use.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecordFaker.#ctor(System.String,System.String,System.String)">
+            <summary>Constructor with optional arguments to customize the records generated.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecordFaker.Generate">
+            <summary>Return a new record populated with fake data.</summary>
+        </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>
@@ -2039,6 +2062,9 @@
         </member>
         <member name="P:FhirDeathRecord.MortalityData.Instance">
             <summary>Instance get method for singleton.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.MortalityData.StateCodeToRandomPlace(System.String)">
+            <summary>Given a State code, return a random place Tuple.</summary>
         </member>
         <member name="M:FhirDeathRecord.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
-using System.Text;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace FhirDeathRecord
 {
@@ -16,6 +15,15 @@ namespace FhirDeathRecord
         {
             static Nested() {}
             internal static readonly MortalityData instance = new MortalityData();
+        }
+
+        /// <summary>Given a State code, return a random place Tuple.</summary>
+        public Tuple<string, string, string, string, string, string> StateCodeToRandomPlace(string state)
+        {
+            Random random = new Random();
+            List<Tuple<string, string, string, string, string, string>> places =
+                PlaceCodes.ToList().Where(t => t.Item1.ToUpper() == state.ToUpper()).ToList();
+            return places[random.Next(places.Count)];
         }
 
         /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
@@ -1402,7 +1410,7 @@ namespace FhirDeathRecord
         };
 
         /// <summary>CDC Ethnicity Codes</summary>
-        private Tuple<string, string>[] CDCEthnicityCodes =
+        public Tuple<string, string>[] CDCEthnicityCodes =
         {
             Tuple.Create("2186-5", "Not Hispanic or Latino"),
             Tuple.Create("2135-2", "Hispanic or Latino"),

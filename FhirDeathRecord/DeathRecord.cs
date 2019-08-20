@@ -1,19 +1,14 @@
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Web;
 using System.Reflection;
-using System.Xml;
 using System.Xml.Linq;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace FhirDeathRecord
 {
@@ -132,7 +127,7 @@ namespace FhirDeathRecord
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
 
-        /// <summary>Default constructor that creates a new, empty FHIR SDR.</summary>
+        /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
             // Start with an empty Bundle.
@@ -260,8 +255,8 @@ namespace FhirDeathRecord
             Navigator = Bundle.ToTypedElement();
         }
 
-        /// <summary>Constructor that takes a string that represents a FHIR SDR in either XML or JSON format.</summary>
-        /// <param name="record">represents a FHIR SDR in either XML or JSON format.</param>
+        /// <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
+        /// <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record, bool permissive = false)

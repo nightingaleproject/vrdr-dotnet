@@ -3942,10 +3942,6 @@ namespace FhirDeathRecord
             }
             set
             {
-                if (String.IsNullOrWhiteSpace(GetValue(value, "value")))
-                {
-                    return;
-                }
                 if (AgeAtDeathObs == null)
                 {
                     AgeAtDeathObs = new Observation();
@@ -3957,8 +3953,14 @@ namespace FhirDeathRecord
                     AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
                     AgeAtDeathObs.Subject = new ResourceReference(Decedent.Id);
                     Quantity quant = new Quantity();
-                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    quant.Unit = GetValue(value, "unit");
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
+                    {
+                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    }
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
+                    {
+                        quant.Unit = GetValue(value, "unit");
+                    }
                     AgeAtDeathObs.Value = quant;
                     AddReferenceToComposition(AgeAtDeathObs.Id);
                     Bundle.AddResourceEntry(AgeAtDeathObs, AgeAtDeathObs.Id);
@@ -3966,8 +3968,14 @@ namespace FhirDeathRecord
                 else
                 {
                     Quantity quant = new Quantity();
-                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    quant.Unit = GetValue(value, "unit");
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
+                    {
+                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    }
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
+                    {
+                        quant.Unit = GetValue(value, "unit");
+                    }
                     AgeAtDeathObs.Value = quant;
                 }
             }

@@ -445,7 +445,15 @@ namespace FhirDeathRecord
         {
             get
             {
-                return Composition.Attester.First().Time != null ? Composition.Attester.First().Time : Convert.ToString(DeathCertification.Performed);
+                if (Composition.Attester != null && Composition.Attester.FirstOrDefault() != null && Composition.Attester.First().Time != null)
+                {
+                    return Composition.Attester.First().Time;
+                }
+                else if (DeathCertification != null && DeathCertification.Performed != null)
+                {
+                    Convert.ToString(DeathCertification.Performed);
+                }
+                return null;
             }
             set
             {

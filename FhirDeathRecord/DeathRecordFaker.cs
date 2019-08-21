@@ -31,7 +31,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Return a new record populated with fake data.</summary>
-        public DeathRecord Generate()
+        public DeathRecord Generate(bool simple = false)
         {
             DeathRecord record = new DeathRecord();
 
@@ -153,7 +153,7 @@ namespace FhirDeathRecord
 
             // Ethnicity
 
-            if (faker.Random.Bool())
+            if (faker.Random.Bool() && !simple)
             {
                 Tuple<string, string> ethnicityDetailed = dataHelper.CDCEthnicityCodes[2 + faker.Random.Number(15)];
                 Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create(ethnicityDetailed.Item2, ethnicityDetailed.Item1) };
@@ -167,17 +167,24 @@ namespace FhirDeathRecord
 
             // Race
 
-            Tuple<string, string>[] ombRaces =
+            if (!simple)
             {
-                Tuple.Create("Black or African American", "2054-5"),
-                Tuple.Create("Asian", "2028-9"),
-                Tuple.Create("American Indian or Alaska Native", "1002-5"),
-                Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")
-            };
-            Tuple<string, string> ombRace = faker.Random.ArrayElement<Tuple<string, string>>(ombRaces);
-            Tuple<string, string> cdcRaceW = dataHelper.CDCRaceWCodes[1 + faker.Random.Number(10)];
-            Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create(cdcRaceW.Item2, cdcRaceW.Item1), ombRace };
-            record.Race = race;
+                Tuple<string, string>[] ombRaces =
+                {
+                    Tuple.Create("Black or African American", "2054-5"),
+                    Tuple.Create("Asian", "2028-9"),
+                    Tuple.Create("American Indian or Alaska Native", "1002-5"),
+                    Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")
+                };
+                Tuple<string, string> ombRace = faker.Random.ArrayElement<Tuple<string, string>>(ombRaces);
+                Tuple<string, string> cdcRaceW = dataHelper.CDCRaceWCodes[1 + faker.Random.Number(10)];
+                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create(cdcRaceW.Item2, cdcRaceW.Item1), ombRace };
+                record.Race = race;
+            }
+            else
+            {
+                record.Race = new Tuple<string, string>[]{ Tuple.Create("White", "2106-3") };
+            }
 
             // Education level
 

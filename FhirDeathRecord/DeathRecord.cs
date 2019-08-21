@@ -3221,10 +3221,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
-                if (qualification != null && qualification.Identifier.Count() > 0)
+                if (Mortician != null)
                 {
-                    return qualification.Identifier.First().Value;
+                    Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
+                    if (qualification != null && qualification.Identifier.Count() > 0)
+                    {
+                        return qualification.Identifier.First().Value;
+                    }
                 }
                 return null;
             }
@@ -3289,7 +3292,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                return AddressToDict(FuneralHome.Address.FirstOrDefault());
+                if (FuneralHome != null)
+                {
+                    return AddressToDict(FuneralHome.Address.FirstOrDefault());
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
@@ -3325,7 +3335,11 @@ namespace FhirDeathRecord
         {
             get
             {
-                return FuneralHome.Name;
+                if (FuneralHome != null)
+                {
+                    return FuneralHome.Name;
+                }
+                return null;
             }
             set
             {

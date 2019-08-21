@@ -3108,7 +3108,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mortician.Name.Count() > 0)
+                if (Mortician != null && Mortician.Name.Count() > 0)
                 {
                     return Mortician.Name.First().Given.ToArray();
                 }
@@ -3145,7 +3145,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mortician.Name.Count() > 0)
+                if (Mortician != null && Mortician.Name.Count() > 0)
                 {
                     return Mortician.Name.First().Family;
                 }
@@ -3182,7 +3182,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
+                if (Mortician != null && Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
                 {
                     return Mortician.Name.First().Suffix.First();
                 }

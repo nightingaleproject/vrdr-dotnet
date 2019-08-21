@@ -538,7 +538,7 @@ namespace FhirDeathRecord.CLI
                     total++;
                 }
                 Console.WriteLine($"\n{issues} issues out of {total} total fields.");
-                return 0;
+                return issues;
             }
             else if (args.Length == 2 && args[0] == "roundtrip-all")
             {

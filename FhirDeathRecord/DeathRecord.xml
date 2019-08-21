@@ -1338,6 +1338,10 @@
             <summary>Returns an empty "address" Dictionary.</summary>
             <returns>an empty "address" Dictionary.</returns>
         </member>
+        <member name="M:FhirDeathRecord.DeathRecord.EmptyCodeDict">
+            <summary>Returns an empty "code" Dictionary.</summary>
+            <returns>an empty "code" Dictionary.</returns>
+        </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;
             returns an empty array if no matches are found.</summary>

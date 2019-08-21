@@ -527,12 +527,16 @@ namespace FhirDeathRecord
         {
             get
             {
+                if (DeathCertification == null)
+                {
+                    return EmptyCodeDict();
+                }
                 Hl7.Fhir.Model.Procedure.PerformerComponent performer = DeathCertification.Performer.FirstOrDefault();
                 if (performer != null && performer.Role != null)
                 {
                     return CodeableConceptToDict(performer.Role);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -731,7 +735,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(InterestedParty.Type.First());
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -769,7 +773,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)MannerOfDeath.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -992,7 +996,7 @@ namespace FhirDeathRecord
                     dictionary.Add("system", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().System : ""));
                     return dictionary;
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -2084,6 +2088,10 @@ namespace FhirDeathRecord
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 Decedent.BirthDate = value.Trim();
             }
         }
@@ -2156,6 +2164,10 @@ namespace FhirDeathRecord
             }
             set
             {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 Decedent.Identifier.RemoveAll(iden => iden.System == "http://hl7.org/fhir/sid/us-ssn");
                 Identifier ssn = new Identifier();
                 ssn.Type = new CodeableConcept(null, "BR", "Social Beneficiary Identifier", null);
@@ -2383,7 +2395,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(Decedent.MaritalStatus);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -2828,7 +2840,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -2928,9 +2940,9 @@ namespace FhirDeathRecord
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
-                    return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                    return EmptyCodeDict();
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -2994,9 +3006,9 @@ namespace FhirDeathRecord
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
-                    return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                    return EmptyCodeDict();
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -3060,9 +3072,9 @@ namespace FhirDeathRecord
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
-                    return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                    return EmptyCodeDict();
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -3499,7 +3511,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)DispositionMethod.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -3565,7 +3577,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -3718,7 +3730,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Component.First().Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -3941,8 +3953,14 @@ namespace FhirDeathRecord
                     AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
                     AgeAtDeathObs.Subject = new ResourceReference(Decedent.Id);
                     Quantity quant = new Quantity();
-                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    quant.Unit = GetValue(value, "unit");
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
+                    {
+                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    }
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
+                    {
+                        quant.Unit = GetValue(value, "unit");
+                    }
                     AgeAtDeathObs.Value = quant;
                     AddReferenceToComposition(AgeAtDeathObs.Id);
                     Bundle.AddResourceEntry(AgeAtDeathObs, AgeAtDeathObs.Id);
@@ -3950,8 +3968,14 @@ namespace FhirDeathRecord
                 else
                 {
                     Quantity quant = new Quantity();
-                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    quant.Unit = GetValue(value, "unit");
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
+                    {
+                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    }
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
+                    {
+                        quant.Unit = GetValue(value, "unit");
+                    }
                     AgeAtDeathObs.Value = quant;
                 }
             }
@@ -3986,7 +4010,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)PregnancyObs.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -4040,7 +4064,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)TransportationRoleObs.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -4326,7 +4350,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict((CodeableConcept)TobaccoUseObs.Value);
                 }
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             set
             {
@@ -4707,12 +4731,12 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                    return EmptyCodeDict();
                 }
             }
             else
             {
-                return new Dictionary<string, string>() { { "code", "" }, { "system", "" }, { "display", "" } };
+                return EmptyCodeDict();
             }
             return dictionary;
         }
@@ -4820,6 +4844,16 @@ namespace FhirDeathRecord
             return dictionary;
         }
 
+        /// <summary>Returns an empty "code" Dictionary.</summary>
+        /// <returns>an empty "code" Dictionary.</returns>
+        private Dictionary<string, string> EmptyCodeDict()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("code", "");
+            dictionary.Add("system", "");
+            dictionary.Add("display", "");
+            return dictionary;
+        }
 
         /// <summary>Given a FHIR path, return the elements that match the given path;
         /// returns an empty array if no matches are found.</summary>

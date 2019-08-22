@@ -1001,9 +1001,26 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.AgeAtDeath != null)
+                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]))
                 {
-                    return record.AgeAtDeath["unit"];
+                    switch (record.AgeAtDeath["unit"].ToLower().Trim())
+                    {
+                        case "a":
+                            return "1";
+                        case "d":
+                            return "4";
+                        case "h":
+                            return "5";
+                        case "min":
+                            return "6";
+                        case "mo":
+                            return "2";
+                        case "unk":
+                            return "9";
+                        case "wk":
+                            return "3";
+                    }
+                    return "";
                 }
                 return "";
             }
@@ -1012,7 +1029,30 @@ namespace FhirDeathRecord
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary<string, string> ageAtDeath = new Dictionary<string, string>();
-                    ageAtDeath["unit"] = value;
+                    switch (value.Trim())
+                    {
+                        case "1":
+                            ageAtDeath["unit"] = "a";
+                            break;
+                        case "4":
+                            ageAtDeath["unit"] = "d";
+                            break;
+                        case "5":
+                            ageAtDeath["unit"] = "h";
+                            break;
+                        case "6":
+                            ageAtDeath["unit"] = "min";
+                            break;
+                        case "2":
+                            ageAtDeath["unit"] = "mo";
+                            break;
+                        case "9":
+                            ageAtDeath["unit"] = "unk";
+                            break;
+                        case "3":
+                            ageAtDeath["unit"] = "wk";
+                            break;
+                    }
                     record.AgeAtDeath = ageAtDeath;
                 }
             }

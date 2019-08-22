@@ -1492,7 +1492,7 @@
         <member name="M:FhirDeathRecord.DeathRecordFaker.#ctor(System.String,System.String,System.String)">
             <summary>Constructor with optional arguments to customize the records generated.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecordFaker.Generate">
+        <member name="M:FhirDeathRecord.DeathRecordFaker.Generate(System.Boolean)">
             <summary>Return a new record populated with fake data.</summary>
         </member>
         <member name="T:FhirDeathRecord.IJEField">

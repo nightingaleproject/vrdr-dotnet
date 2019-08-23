@@ -64,6 +64,9 @@ namespace FhirDeathRecord
                 record.MaidenName = faker.Name.LastName(gender);
             }
 
+            record.AliasGivenNames = new string[] { faker.Name.FirstName(gender) };
+            record.AliasFamilyName = faker.Name.LastName(gender);
+
             record.FatherFamilyName = record.FamilyName;
             record.FatherGivenNames = new string[] { faker.Name.FirstName(Bogus.DataSets.Name.Gender.Male), faker.Name.FirstName(Bogus.DataSets.Name.Gender.Male) };
             record.FatherSuffix = faker.Name.Suffix();
@@ -319,6 +322,9 @@ namespace FhirDeathRecord
             certifierType.Add("code", "309343006");
             certifierType.Add("display", "Physician");
             record.CertifierRole = certifierType;
+
+            // CertifierLicenseNumber
+            record.CertifierLicenseNumber = Convert.ToString(faker.Random.Number(999999));
 
             // Certifier qualification
 

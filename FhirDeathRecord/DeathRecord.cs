@@ -1000,10 +1000,61 @@ namespace FhirDeathRecord
             }
             set
             {
-                Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-                qualification.Code = DictToCodeableConcept(value);
-                Certifier.Qualification.Clear();
-                Certifier.Qualification.Add(qualification);
+                if (Certifier.Qualification.FirstOrDefault() == null)
+                {
+                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+                    qualification.Code = DictToCodeableConcept(value);
+                    Certifier.Qualification.Add(qualification);
+                }
+                else
+                {
+                    Certifier.Qualification.First().Code = DictToCodeableConcept(value);
+                }
+            }
+        }
+
+        /// <summary>Certifier License Number.</summary>
+        /// <value>A string containing the certifier license number.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+        /// </example>
+        [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 4)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        public string CertifierLicenseNumber
+        {
+            get
+            {
+                Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
+                if (qualification != null && qualification.Identifier.FirstOrDefault() != null)
+                {
+                    if (!String.IsNullOrWhiteSpace(qualification.Identifier.First().Value))
+                    {
+                        return qualification.Identifier.First().Value;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                if (Certifier.Qualification.FirstOrDefault() == null)
+                {
+                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    qualification.Identifier.Add(identifier);
+                    Certifier.Qualification.Add(qualification);
+                }
+                else
+                {
+                    Certifier.Qualification.First().Identifier.Clear();
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    Certifier.Qualification.First().Identifier.Add(identifier);
+                }
             }
         }
 
@@ -1913,39 +1964,6 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Decedent's Family Name.</summary>
-        /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MaidenName = "Last";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
-        /// </example>
-        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='maiden')", "family")]
-        public string MaidenName
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').family");
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    name.Family = value;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Maiden;
-                    name.Family = value;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
         /// <summary>Decedent's Suffix.</summary>
         /// <value>the decedent's suffix</value>
         /// <example>
@@ -1976,6 +1994,107 @@ namespace FhirDeathRecord
                     name.Use = HumanName.NameUse.Official;
                     string[] suffix = { value };
                     name.Suffix = suffix;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Alias Name(s). Middle name should be the last entry.</summary>
+        /// <value>the decedent's alias name (first, etc., middle)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "FirstAlias", "MiddleAlias" };</para>
+        /// <para>ExampleDeathRecord.AliasGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
+        /// </example>
+        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "first")]
+        public string[] AliasGivenNames
+        {
+            get
+            {
+                string[] names = GetAllString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').given");
+                return names != null ? names : new string[0];
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
+                if (name != null)
+                {
+                    name.Given = value;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Nickname;
+                    name.Given = value;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Alias Family Name.</summary>
+        /// <value>the decedent's alias family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AliasFamilyName = "AliasLast";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
+        /// </example>
+        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "family")]
+        public string AliasFamilyName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').family");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Nickname;
+                    name.Family = value;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Decedent's Maiden Name.</summary>
+        /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaidenName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
+        /// </example>
+        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='maiden')", "family")]
+        public string MaidenName
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').family");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
+                    name.Family = value;
                     Decedent.Name.Add(name);
                 }
             }

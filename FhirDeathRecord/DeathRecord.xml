@@ -366,6 +366,16 @@
             <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
             </example>
         </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CertifierLicenseNumber">
+            <summary>Certifier License Number.</summary>
+            <value>A string containing the certifier license number.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+            </example>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
             <summary>Significant conditions that contributed to death but did not result in the underlying cause.
             Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
@@ -579,16 +589,6 @@
             <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
-            <summary>Decedent's Family Name.</summary>
-            <value>the decedent's maiden name (i.e. last name before marriage)</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.MaidenName = "Last";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
-            </example>
-        </member>
         <member name="P:FhirDeathRecord.DeathRecord.Suffix">
             <summary>Decedent's Suffix.</summary>
             <value>the decedent's suffix</value>
@@ -597,6 +597,37 @@
             <para>ExampleDeathRecord.Suffix = "Jr.";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.AliasGivenNames">
+            <summary>Decedent's Alias Name(s). Middle name should be the last entry.</summary>
+            <value>the decedent's alias name (first, etc., middle)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "FirstAlias", "MiddleAlias" };</para>
+            <para>ExampleDeathRecord.AliasGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.AliasFamilyName">
+            <summary>Decedent's Alias Family Name.</summary>
+            <value>the decedent's alias family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AliasFamilyName = "AliasLast";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
+            <summary>Decedent's Maiden Name.</summary>
+            <value>the decedent's maiden name (i.e. last name before marriage)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MaidenName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.Gender">

@@ -92,6 +92,9 @@ namespace FhirDeathRecord.CLI
                 caddress.Add("addressCountry", "United States");
                 deathRecord.CertifierAddress = caddress;
 
+                // CertifierLicenseNumber
+                deathRecord.CertifierLicenseNumber = "789123456";
+
                 // CertifierQualification
                 Dictionary<string, string> qualification = new Dictionary<string, string>();
                 qualification.Add("code", "MD");
@@ -145,6 +148,12 @@ namespace FhirDeathRecord.CLI
 
                 // FamilyName
                 deathRecord.FamilyName = "Last";
+
+                // AliasGivenNames
+                deathRecord.AliasGivenNames = new string[] { "FirstNameAlias", "MiddleAlias" };
+
+                // AliasFamilyName
+                deathRecord.AliasFamilyName = "LastNameAlias";
 
                 // Suffix
                 deathRecord.Suffix = "Jr.";
@@ -398,8 +407,8 @@ namespace FhirDeathRecord.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
+                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")

@@ -468,6 +468,20 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_CertifierLicenseNumber()
+        {
+            SetterDeathRecord.CertifierLicenseNumber = "789123456";
+            Assert.Equal("789123456", SetterDeathRecord.CertifierLicenseNumber);
+        }
+
+        [Fact]
+        public void Get_CertifierLicenseNumber()
+        {
+            Assert.Equal("789123456", ((DeathRecord)JSONRecords[0]).CertifierLicenseNumber);
+            Assert.Equal("789123456", ((DeathRecord)XMLRecords[0]).CertifierLicenseNumber);
+        }
+
+        [Fact]
         public void Set_ContributingConditions()
         {
             SetterDeathRecord.ContributingConditions = "Example Contributing Condition";
@@ -713,6 +727,37 @@ namespace FhirDeathRecord.Tests
         {
             Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).Suffix);
             Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
+        }
+
+        [Fact]
+        public void Set_AliasGivenNames()
+        {
+            SetterDeathRecord.AliasGivenNames = new string[] { "FirstNameAlias", "MiddleAlias" };
+            Assert.Equal("FirstNameAlias", SetterDeathRecord.AliasGivenNames[0]);
+            Assert.Equal("MiddleAlias", SetterDeathRecord.AliasGivenNames[1]);
+        }
+
+        [Fact]
+        public void Get_AliasGivenNames()
+        {
+            Assert.Equal("FirstNameAlias", ((DeathRecord)JSONRecords[0]).AliasGivenNames[0]);
+            Assert.Equal("MiddleAlias", ((DeathRecord)JSONRecords[0]).AliasGivenNames[1]);
+            Assert.Equal("FirstNameAlias", ((DeathRecord)XMLRecords[0]).AliasGivenNames[0]);
+            Assert.Equal("MiddleAlias", ((DeathRecord)XMLRecords[0]).AliasGivenNames[1]);
+        }
+
+        [Fact]
+        public void Set_AliasFamilyName()
+        {
+            SetterDeathRecord.AliasFamilyName = "LastNameAlias";
+            Assert.Equal("LastNameAlias", SetterDeathRecord.AliasFamilyName);
+        }
+
+        [Fact]
+        public void Get_AliasFamilyName()
+        {
+            Assert.Equal("LastNameAlias", ((DeathRecord)JSONRecords[0]).AliasFamilyName);
+            Assert.Equal("LastNameAlias", ((DeathRecord)XMLRecords[0]).AliasFamilyName);
         }
 
         [Fact]

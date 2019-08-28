@@ -761,6 +761,20 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void Set_AliasSuffix()
+        {
+            SetterDeathRecord.AliasSuffix = "Jr.";
+            Assert.Equal("Jr.", SetterDeathRecord.AliasSuffix);
+        }
+
+        [Fact]
+        public void Get_AliasSuffix()
+        {
+            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).AliasSuffix);
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).AliasSuffix);
+        }
+
+        [Fact]
         public void Set_Gender()
         {
             SetterDeathRecord.Gender = "male";

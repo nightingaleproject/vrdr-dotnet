@@ -620,6 +620,16 @@
             <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
             </example>
         </member>
+        <member name="P:FhirDeathRecord.DeathRecord.AliasSuffix">
+            <summary>Decedent's Alias Suffix.</summary>
+            <value>the decedent's alias suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AliasSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
+            </example>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
             <summary>Decedent's Maiden Name.</summary>
             <value>the decedent's maiden name (i.e. last name before marriage)</value>

@@ -56,6 +56,9 @@ namespace FhirDeathRecord.HTTP
                     IJEMortality ije = new IJEMortality(requestBody);
                     deathRecord = ije.ToDeathRecord();
                     break;
+                case string nightingaleType when new Regex(@"nightingale").IsMatch(nightingaleType):
+                    deathRecord = Nightingale.FromNightingale(requestBody);
+                    break;
                 case string jsonType when new Regex(@"json").IsMatch(jsonType): // application/fhir+json
                 case string xmlType when new Regex(@"xml").IsMatch(xmlType): // application/fhir+xml
                 default:
@@ -76,6 +79,9 @@ namespace FhirDeathRecord.HTTP
                     break;
                 case string url when new Regex(@"xml$").IsMatch(url): // .xml
                     result = deathRecord.ToXML();
+                    break;
+                case string url when new Regex(@"nightingale$").IsMatch(url): // .nightingale
+                    result = Nightingale.ToNightingale(deathRecord);
                     break;
             }
 

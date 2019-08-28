@@ -2,9 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using System.Collections;
 using System.Collections.Generic;
-using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord
 {

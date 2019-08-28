@@ -2067,6 +2067,41 @@ namespace FhirDeathRecord
             }
         }
 
+        /// <summary>Decedent's Alias Suffix.</summary>
+        /// <value>the decedent's alias suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AliasSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
+        /// </example>
+        [Property("Alias", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "suffix")]
+        public string AliasSuffix
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').suffix");
+            }
+            set
+            {
+                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Nickname;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Decedent.Name.Add(name);
+                }
+            }
+        }
+
         /// <summary>Decedent's Maiden Name.</summary>
         /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
         /// <example>

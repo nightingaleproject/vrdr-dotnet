@@ -105,6 +105,22 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void FailMissingCauseOfDeathPathway()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCauseOfDeathPathway.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("Failed to find a Cause of Death Pathway. This resource is necessary to properly keep track of any Cause Of Death Conditions.", ex.Message);
+        }
+
+        [Fact]
+        public void FailBadConditions()
+        {
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
+            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+            Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource; please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
+        }
+
+        [Fact]
         public void EmptyRecordToDescription()
         {
             DeathRecord deathRecord = new DeathRecord();
@@ -679,6 +695,168 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("code 4", SetterDeathRecord.CODE1D["code"]);
             Assert.Equal("system 4", SetterDeathRecord.CODE1D["system"]);
             Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1E()
+        {
+            SetterDeathRecord.COD1E = "exampleE";
+            Assert.Equal("exampleE", SetterDeathRecord.COD1E);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1E()
+        {
+            SetterDeathRecord.INTERVAL1E = "exampleE";
+            Assert.Equal("exampleE", SetterDeathRecord.INTERVAL1E);
+        }
+
+        [Fact]
+        public void Set_CODE1E()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleE");
+            code.Add("system", "exampleE");
+            code.Add("display", "exampleE");
+            SetterDeathRecord.CODE1E = code;
+            Assert.Equal("exampleE", SetterDeathRecord.CODE1E["code"]);
+            Assert.Equal("exampleE", SetterDeathRecord.CODE1E["system"]);
+            Assert.Equal("exampleE", SetterDeathRecord.CODE1E["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1F()
+        {
+            SetterDeathRecord.COD1F = "exampleF";
+            Assert.Equal("exampleF", SetterDeathRecord.COD1F);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1F()
+        {
+            SetterDeathRecord.INTERVAL1F = "exampleF";
+            Assert.Equal("exampleF", SetterDeathRecord.INTERVAL1F);
+        }
+
+        [Fact]
+        public void Set_CODE1F()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleF");
+            code.Add("system", "exampleF");
+            code.Add("display", "exampleF");
+            SetterDeathRecord.CODE1F = code;
+            Assert.Equal("exampleF", SetterDeathRecord.CODE1F["code"]);
+            Assert.Equal("exampleF", SetterDeathRecord.CODE1F["system"]);
+            Assert.Equal("exampleF", SetterDeathRecord.CODE1F["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1G()
+        {
+            SetterDeathRecord.COD1G = "exampleG";
+            Assert.Equal("exampleG", SetterDeathRecord.COD1G);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1G()
+        {
+            SetterDeathRecord.INTERVAL1G = "exampleG";
+            Assert.Equal("exampleG", SetterDeathRecord.INTERVAL1G);
+        }
+
+        [Fact]
+        public void Set_CODE1G()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleG");
+            code.Add("system", "exampleG");
+            code.Add("display", "exampleG");
+            SetterDeathRecord.CODE1G = code;
+            Assert.Equal("exampleG", SetterDeathRecord.CODE1G["code"]);
+            Assert.Equal("exampleG", SetterDeathRecord.CODE1G["system"]);
+            Assert.Equal("exampleG", SetterDeathRecord.CODE1G["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1H()
+        {
+            SetterDeathRecord.COD1H = "exampleH";
+            Assert.Equal("exampleH", SetterDeathRecord.COD1H);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1H()
+        {
+            SetterDeathRecord.INTERVAL1H = "exampleH";
+            Assert.Equal("exampleH", SetterDeathRecord.INTERVAL1H);
+        }
+
+        [Fact]
+        public void Set_CODE1H()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleH");
+            code.Add("system", "exampleH");
+            code.Add("display", "exampleH");
+            SetterDeathRecord.CODE1H = code;
+            Assert.Equal("exampleH", SetterDeathRecord.CODE1H["code"]);
+            Assert.Equal("exampleH", SetterDeathRecord.CODE1H["system"]);
+            Assert.Equal("exampleH", SetterDeathRecord.CODE1H["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1I()
+        {
+            SetterDeathRecord.COD1I = "exampleI";
+            Assert.Equal("exampleI", SetterDeathRecord.COD1I);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1I()
+        {
+            SetterDeathRecord.INTERVAL1I = "exampleI";
+            Assert.Equal("exampleI", SetterDeathRecord.INTERVAL1I);
+        }
+
+        [Fact]
+        public void Set_CODE1I()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleI");
+            code.Add("system", "exampleI");
+            code.Add("display", "exampleI");
+            SetterDeathRecord.CODE1I = code;
+            Assert.Equal("exampleI", SetterDeathRecord.CODE1I["code"]);
+            Assert.Equal("exampleI", SetterDeathRecord.CODE1I["system"]);
+            Assert.Equal("exampleI", SetterDeathRecord.CODE1I["display"]);
+        }
+
+        [Fact]
+        public void Set_COD1J()
+        {
+            SetterDeathRecord.COD1J = "exampleJ";
+            Assert.Equal("exampleJ", SetterDeathRecord.COD1J);
+        }
+
+        [Fact]
+        public void Set_INTERVAL1J()
+        {
+            SetterDeathRecord.INTERVAL1J = "exampleJ";
+            Assert.Equal("exampleJ", SetterDeathRecord.INTERVAL1J);
+        }
+
+        [Fact]
+        public void Set_CODE1J()
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code.Add("code", "exampleJ");
+            code.Add("system", "exampleJ");
+            code.Add("display", "exampleJ");
+            SetterDeathRecord.CODE1J = code;
+            Assert.Equal("exampleJ", SetterDeathRecord.CODE1J["code"]);
+            Assert.Equal("exampleJ", SetterDeathRecord.CODE1J["system"]);
+            Assert.Equal("exampleJ", SetterDeathRecord.CODE1J["display"]);
         }
 
         [Fact]
@@ -1473,19 +1651,19 @@ namespace FhirDeathRecord.Tests
         {
             Dictionary<string, string> aad = new Dictionary<string, string>();
             aad.Add("unit", "a");
-            aad.Add("value", "100");
+            aad.Add("value", "79");
             SetterDeathRecord.AgeAtDeath = aad;
             Assert.Equal("a", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("100", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["value"]);
         }
 
         [Fact]
         public void Get_AgeAtDeath()
         {
             Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["unit"]);
-            Assert.Equal("100", ((DeathRecord)JSONRecords[0]).AgeAtDeath["value"]);
+            Assert.Equal("79", ((DeathRecord)JSONRecords[0]).AgeAtDeath["value"]);
             Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["unit"]);
-            Assert.Equal("100", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
+            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
         }
 
         [Fact]
@@ -1504,12 +1682,12 @@ namespace FhirDeathRecord.Tests
         [Fact]
         public void Get_PregnanacyStatus()
         {
-            Assert.Equal("PHC1260", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["code"]);
+            Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["code"]);
             Assert.Equal("http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["system"]);
-            Assert.Equal("Not pregnant within past year", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["display"]);
-            Assert.Equal("PHC1260", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["code"]);
+            Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["display"]);
+            Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["code"]);
             Assert.Equal("http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["system"]);
-            Assert.Equal("Not pregnant within past year", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["display"]);
+            Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["display"]);
         }
 
         [Fact]

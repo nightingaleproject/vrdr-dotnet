@@ -193,7 +193,7 @@ namespace FhirDeathRecord.CLI
                 deathRecord.Ethnicity = ethnicity;
 
                 // Race
-                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8") };
+                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), Tuple.Create("Native Hawaiian", "2079-2") };
                 deathRecord.Race = race;
 
                 // PlaceOfBirth
@@ -340,14 +340,14 @@ namespace FhirDeathRecord.CLI
                 // AgeAtDeath
                 Dictionary<string, string> aad = new Dictionary<string, string>();
                 aad.Add("unit", "a");
-                aad.Add("value", "100");
+                aad.Add("value", "79");
                 deathRecord.AgeAtDeath = aad;
 
                 // PregnanacyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
-                ps.Add("code", "PHC1260");
+                ps.Add("code", "NA");
                 ps.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
-                ps.Add("display", "Not pregnant within past year");
+                ps.Add("display", "not applicable");
                 deathRecord.PregnanacyStatus = ps;
 
                 // TransportationRole
@@ -410,8 +410,8 @@ namespace FhirDeathRecord.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
+                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")

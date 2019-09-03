@@ -8,7 +8,6 @@ install:
 script:
  - dotnet build
  - dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
- - dotnet run -p FhirDeathRecord.CLI json2json FhirDeathRecord.CLI/bare.json
  - dotnet run -p FhirDeathRecord.CLI json2json FhirDeathRecord.CLI/1.json
  - dotnet run -p FhirDeathRecord.CLI xml2xml FhirDeathRecord.CLI/1.xml
  - dotnet run -p FhirDeathRecord.CLI description FhirDeathRecord.CLI/1.xml

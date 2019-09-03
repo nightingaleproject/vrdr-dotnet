@@ -5704,10 +5704,6 @@ namespace FhirDeathRecord
             {
                 CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
             }
-            else
-            {
-                throw new System.ArgumentException("Failed to find a Cause of Death Pathway. This resource is necessary to properly keep track of any Cause Of Death Conditions.");
-            }
 
             // Grab Causes of Death using CauseOfDeathConditionPathway
             List<Condition> causeConditions = new List<Condition>();

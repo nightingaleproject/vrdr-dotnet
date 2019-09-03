@@ -105,14 +105,6 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void FailMissingCauseOfDeathPathway()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCauseOfDeathPathway.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Cause of Death Pathway. This resource is necessary to properly keep track of any Cause Of Death Conditions.", ex.Message);
-        }
-
-        [Fact]
         public void FailBadConditions()
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));

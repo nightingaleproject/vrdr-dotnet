@@ -555,6 +555,14 @@ namespace FhirDeathRecord
                 pregnanacyStatus.Add("display", "Not pregnant within past year");
                 record.PregnanacyStatus = pregnanacyStatus;
             }
+            else
+            {
+                Dictionary<string, string> pregnanacyStatus = new Dictionary<string, string>();
+                pregnanacyStatus.Add("code", "NA");
+                pregnanacyStatus.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                pregnanacyStatus.Add("display", "not applicable");
+                record.PregnanacyStatus = pregnanacyStatus;
+            }
 
             return record;
         }

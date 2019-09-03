@@ -52,17 +52,36 @@ namespace FhirDeathRecord
         /// <summary>Condition Contributing to Death.</summary>
         private Condition ConditionContributingToDeath;
 
-        /// <summary>Cause Of Death Condition Line A.</summary>
+        /// <summary>Cause Of Death Condition Line A (#1).</summary>
         private Condition CauseOfDeathConditionA;
 
-        /// <summary>Cause Of Death Condition Line B.</summary>
+        /// <summary>Cause Of Death Condition Line B (#2).</summary>
         private Condition CauseOfDeathConditionB;
 
-        /// <summary>Cause Of Death Condition Line C.</summary>
+        /// <summary>Cause Of Death Condition Line C (#3).</summary>
         private Condition CauseOfDeathConditionC;
 
-        /// <summary>Cause Of Death Condition Line D.</summary>
+        /// <summary>Cause Of Death Condition Line D (#4).</summary>
         private Condition CauseOfDeathConditionD;
+
+        /// <summary>Cause Of Death Condition Line E (#5).</summary>
+        private Condition CauseOfDeathConditionE;
+
+        /// <summary>Cause Of Death Condition Line F (#6).</summary>
+        private Condition CauseOfDeathConditionF;
+
+        /// <summary>Cause Of Death Condition Line G (#7).</summary>
+        private Condition CauseOfDeathConditionG;
+
+        /// <summary>Cause Of Death Condition Line H (#8).</summary>
+        private Condition CauseOfDeathConditionH;
+
+        /// <summary>Cause Of Death Condition Line I (#9).</summary>
+        private Condition CauseOfDeathConditionI;
+
+        /// <summary>Cause Of Death Condition Line J (#10).</summary>
+        private Condition CauseOfDeathConditionJ;
+
 
         /// <summary>Cause Of Death Condition Pathway.</summary>
         private List CauseOfDeathConditionPathway;
@@ -1135,21 +1154,45 @@ namespace FhirDeathRecord
             get
             {
                 List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || CODE1A != null)
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"])))
                 {
                     results.Add(Tuple.Create(COD1A, INTERVAL1A, CODE1A));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || CODE1B != null)
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])))
                 {
                     results.Add(Tuple.Create(COD1B, INTERVAL1B, CODE1B));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || CODE1C != null)
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])))
                 {
                     results.Add(Tuple.Create(COD1C, INTERVAL1C, CODE1C));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || CODE1D != null)
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])))
                 {
-                    results.Add(Tuple.Create(COD1D, INTERVAL1A, CODE1D));
+                    results.Add(Tuple.Create(COD1D, INTERVAL1D, CODE1D));
+                }
+                if (!String.IsNullOrEmpty(COD1E) || !String.IsNullOrEmpty(INTERVAL1E) || (CODE1E != null && !String.IsNullOrEmpty(CODE1E["code"])))
+                {
+                    results.Add(Tuple.Create(COD1E, INTERVAL1E, CODE1E));
+                }
+                if (!String.IsNullOrEmpty(COD1F) || !String.IsNullOrEmpty(INTERVAL1F) || (CODE1F != null && !String.IsNullOrEmpty(CODE1F["code"])))
+                {
+                    results.Add(Tuple.Create(COD1F, INTERVAL1F, CODE1F));
+                }
+                if (!String.IsNullOrEmpty(COD1G) || !String.IsNullOrEmpty(INTERVAL1G) || (CODE1G != null && !String.IsNullOrEmpty(CODE1G["code"])))
+                {
+                    results.Add(Tuple.Create(COD1G, INTERVAL1G, CODE1G));
+                }
+                if (!String.IsNullOrEmpty(COD1H) || !String.IsNullOrEmpty(INTERVAL1H) || (CODE1H != null && !String.IsNullOrEmpty(CODE1H["code"])))
+                {
+                    results.Add(Tuple.Create(COD1H, INTERVAL1H, CODE1H));
+                }
+                if (!String.IsNullOrEmpty(COD1I) || !String.IsNullOrEmpty(INTERVAL1I) || (CODE1I != null && !String.IsNullOrEmpty(CODE1I["code"])))
+                {
+                    results.Add(Tuple.Create(COD1I, INTERVAL1I, CODE1I));
+                }
+                if (!String.IsNullOrEmpty(COD1J) || !String.IsNullOrEmpty(INTERVAL1J) || (CODE1J != null && !String.IsNullOrEmpty(CODE1J["code"])))
+                {
+                    results.Add(Tuple.Create(COD1J, INTERVAL1J, CODE1J));
                 }
                 return results.ToArray();
             }
@@ -1180,6 +1223,42 @@ namespace FhirDeathRecord
                         COD1D = value[3].Item1;
                         INTERVAL1D = value[3].Item2;
                         CODE1D = value[3].Item3;
+                    }
+                    if (value.Length > 4)
+                    {
+                        COD1E = value[4].Item1;
+                        INTERVAL1E = value[4].Item2;
+                        CODE1E = value[4].Item3;
+                    }
+                    if (value.Length > 5)
+                    {
+                        COD1F = value[5].Item1;
+                        INTERVAL1F = value[5].Item2;
+                        CODE1F = value[5].Item3;
+                    }
+                    if (value.Length > 6)
+                    {
+                        COD1G = value[6].Item1;
+                        INTERVAL1G = value[6].Item2;
+                        CODE1G = value[6].Item3;
+                    }
+                    if (value.Length > 7)
+                    {
+                        COD1H = value[7].Item1;
+                        INTERVAL1H = value[7].Item2;
+                        CODE1H = value[7].Item3;
+                    }
+                    if (value.Length > 8)
+                    {
+                        COD1I = value[8].Item1;
+                        INTERVAL1I = value[8].Item2;
+                        CODE1I = value[8].Item3;
+                    }
+                    if (value.Length > 9)
+                    {
+                        COD1J = value[9].Item1;
+                        INTERVAL1J = value[9].Item2;
+                        CODE1J = value[9].Item3;
                     }
                 }
             }
@@ -1230,12 +1309,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[0] = entry;
                 }
@@ -1281,12 +1357,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[0] = entry;
                 }
@@ -1321,7 +1394,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionA.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1349,12 +1422,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionA, CauseOfDeathConditionA.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[0] = entry;
                 }
@@ -1406,12 +1476,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[1] = entry;
                 }
@@ -1457,12 +1524,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[1] = entry;
                 }
@@ -1497,7 +1561,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionB.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1525,12 +1589,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionB, CauseOfDeathConditionB.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[1] = entry;
                 }
@@ -1582,12 +1643,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[2] = entry;
                 }
@@ -1633,12 +1691,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[2] = entry;
                 }
@@ -1673,7 +1728,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionC.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1701,12 +1756,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionC, CauseOfDeathConditionC.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionC.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[2] = entry;
                 }
@@ -1758,12 +1810,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[3] = entry;
                 }
@@ -1809,12 +1858,9 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[3] = entry;
                 }
@@ -1849,7 +1895,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionD.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1877,14 +1923,1013 @@ namespace FhirDeathRecord
                     Bundle.AddResourceEntry(CauseOfDeathConditionD, CauseOfDeathConditionD.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference(CauseOfDeathConditionD.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
                     {
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
-                        CauseOfDeathConditionPathway.Entry.Add(null);
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[3] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line e.</summary>
+        /// <value>the fourth underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1E = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
+        /// </example>
+        [Property("COD1E", Property.Types.String, "Death Certification", "Cause of Death Part I, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1E
+        {
+            get
+            {
+                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
+                {
+                    return CauseOfDeathConditionE.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
+                {
+                    CauseOfDeathConditionE.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionE != null)
+                {
+                    CauseOfDeathConditionE.Code = new CodeableConcept();
+                    CauseOfDeathConditionE.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionE = new Condition();
+                    CauseOfDeathConditionE.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionE.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionE.Code = new CodeableConcept();
+                    CauseOfDeathConditionE.Code.Text = value;
+                    CauseOfDeathConditionE.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionE.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionE.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionE, CauseOfDeathConditionE.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionE.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[4] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line e.</summary>
+        /// <value>the fourth underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1E = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
+        /// </example>
+        [Property("INTERVAL1E", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1E
+        {
+            get
+            {
+                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Onset != null)
+                {
+                    return CauseOfDeathConditionE.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionE != null)
+                {
+                    CauseOfDeathConditionE.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionE = new Condition();
+                    CauseOfDeathConditionE.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionE.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionE.Onset = new FhirString(value);
+                    CauseOfDeathConditionE.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionE.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionE.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionE, CauseOfDeathConditionE.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionE.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[4] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line e.</summary>
+        /// <value>the fourth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1E = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
+        /// </example>
+        [Property("CODE1E", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1E
+        {
+            get
+            {
+                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionE.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionE.Code.Text;
+                    CauseOfDeathConditionE.Code = code;
+                }
+                else if (CauseOfDeathConditionE != null)
+                {
+                    CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionE = new Condition();
+                    CauseOfDeathConditionE.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionE.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionE.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionE.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionE.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionE, CauseOfDeathConditionE.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionE.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[4] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line f.</summary>
+        /// <value>the fifth underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1F = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
+        /// </example>
+        [Property("COD1F", Property.Types.String, "Death Certification", "Cause of Death Part I, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1F
+        {
+            get
+            {
+                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
+                {
+                    return CauseOfDeathConditionF.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
+                {
+                    CauseOfDeathConditionF.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionF != null)
+                {
+                    CauseOfDeathConditionF.Code = new CodeableConcept();
+                    CauseOfDeathConditionF.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionF = new Condition();
+                    CauseOfDeathConditionF.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionF.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionF.Code = new CodeableConcept();
+                    CauseOfDeathConditionF.Code.Text = value;
+                    CauseOfDeathConditionF.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionF.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionF.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionF, CauseOfDeathConditionF.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionF.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[5] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line f.</summary>
+        /// <value>the fifth underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1F = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
+        /// </example>
+        [Property("INTERVAL1F", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1F
+        {
+            get
+            {
+                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Onset != null)
+                {
+                    return CauseOfDeathConditionF.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionF != null)
+                {
+                    CauseOfDeathConditionF.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionF = new Condition();
+                    CauseOfDeathConditionF.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionF.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionF.Onset = new FhirString(value);
+                    CauseOfDeathConditionF.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionF.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionF.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionF, CauseOfDeathConditionF.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionF.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[5] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line f.</summary>
+        /// <value>the fifth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1F = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
+        /// </example>
+        [Property("CODE1F", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1F
+        {
+            get
+            {
+                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionF.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionF.Code.Text;
+                    CauseOfDeathConditionF.Code = code;
+                }
+                else if (CauseOfDeathConditionF != null)
+                {
+                    CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionF = new Condition();
+                    CauseOfDeathConditionF.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionF.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionF.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionF.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionF.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionF, CauseOfDeathConditionF.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionF.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[5] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line g.</summary>
+        /// <value>the sixth underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1G = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
+        /// </example>
+        [Property("COD1G", Property.Types.String, "Death Certification", "Cause of Death Part I, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1G
+        {
+            get
+            {
+                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
+                {
+                    return CauseOfDeathConditionG.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
+                {
+                    CauseOfDeathConditionG.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionG != null)
+                {
+                    CauseOfDeathConditionG.Code = new CodeableConcept();
+                    CauseOfDeathConditionG.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionG = new Condition();
+                    CauseOfDeathConditionG.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionG.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionG.Code = new CodeableConcept();
+                    CauseOfDeathConditionG.Code.Text = value;
+                    CauseOfDeathConditionG.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionG.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionG.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionG, CauseOfDeathConditionG.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionG.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[6] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line g.</summary>
+        /// <value>the sixth underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1G = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
+        /// </example>
+        [Property("INTERVAL1G", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1G
+        {
+            get
+            {
+                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Onset != null)
+                {
+                    return CauseOfDeathConditionG.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionG != null)
+                {
+                    CauseOfDeathConditionG.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionG = new Condition();
+                    CauseOfDeathConditionG.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionG.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionG.Onset = new FhirString(value);
+                    CauseOfDeathConditionG.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionG.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionG.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionG, CauseOfDeathConditionG.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionG.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[6] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line g.</summary>
+        /// <value>the sixth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1G = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
+        /// </example>
+        [Property("CODE1G", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1G
+        {
+            get
+            {
+                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionG.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionG.Code.Text;
+                    CauseOfDeathConditionG.Code = code;
+                }
+                else if (CauseOfDeathConditionG != null)
+                {
+                    CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionG = new Condition();
+                    CauseOfDeathConditionG.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionG.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionG.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionG.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionG.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionG, CauseOfDeathConditionG.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionG.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[6] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line h.</summary>
+        /// <value>the seventh underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1H = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
+        /// </example>
+        [Property("COD1H", Property.Types.String, "Death Certification", "Cause of Death Part I, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1H
+        {
+            get
+            {
+                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
+                {
+                    return CauseOfDeathConditionH.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
+                {
+                    CauseOfDeathConditionH.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionH != null)
+                {
+                    CauseOfDeathConditionH.Code = new CodeableConcept();
+                    CauseOfDeathConditionH.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionH = new Condition();
+                    CauseOfDeathConditionH.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionH.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionH.Code = new CodeableConcept();
+                    CauseOfDeathConditionH.Code.Text = value;
+                    CauseOfDeathConditionH.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionH.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionH.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionH, CauseOfDeathConditionH.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionH.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[7] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line h.</summary>
+        /// <value>the seventh underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1H = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
+        /// </example>
+        [Property("INTERVAL1H", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1H
+        {
+            get
+            {
+                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Onset != null)
+                {
+                    return CauseOfDeathConditionH.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionH != null)
+                {
+                    CauseOfDeathConditionH.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionH = new Condition();
+                    CauseOfDeathConditionH.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionH.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionH.Onset = new FhirString(value);
+                    CauseOfDeathConditionH.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionH.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionH.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionH, CauseOfDeathConditionH.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionH.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[7] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line h.</summary>
+        /// <value>the seventh underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1H = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
+        /// </example>
+        [Property("CODE1H", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1H
+        {
+            get
+            {
+                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionH.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionH.Code.Text;
+                    CauseOfDeathConditionH.Code = code;
+                }
+                else if (CauseOfDeathConditionH != null)
+                {
+                    CauseOfDeathConditionH.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionH = new Condition();
+                    CauseOfDeathConditionH.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionH.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionH.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionH.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionH.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionH.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionH, CauseOfDeathConditionH.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionH.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[7] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line i.</summary>
+        /// <value>the eighth underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1I = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
+        /// </example>
+        [Property("COD1I", Property.Types.String, "Death Certification", "Cause of Death Part I, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1I
+        {
+            get
+            {
+                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
+                {
+                    return CauseOfDeathConditionI.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
+                {
+                    CauseOfDeathConditionI.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionI != null)
+                {
+                    CauseOfDeathConditionI.Code = new CodeableConcept();
+                    CauseOfDeathConditionI.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionI = new Condition();
+                    CauseOfDeathConditionI.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionI.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionI.Code = new CodeableConcept();
+                    CauseOfDeathConditionI.Code.Text = value;
+                    CauseOfDeathConditionI.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionI.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionI.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionI, CauseOfDeathConditionI.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionI.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[8] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line i.</summary>
+        /// <value>the eighth underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1I = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
+        /// </example>
+        [Property("INTERVAL1I", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1I
+        {
+            get
+            {
+                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Onset != null)
+                {
+                    return CauseOfDeathConditionI.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionI != null)
+                {
+                    CauseOfDeathConditionI.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionI = new Condition();
+                    CauseOfDeathConditionI.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionI.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionI.Onset = new FhirString(value);
+                    CauseOfDeathConditionI.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionI.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionI.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionI, CauseOfDeathConditionI.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionI.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[8] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line i.</summary>
+        /// <value>the eighth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1I = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
+        /// </example>
+        [Property("CODE1I", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1I
+        {
+            get
+            {
+                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionI.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionI.Code.Text;
+                    CauseOfDeathConditionI.Code = code;
+                }
+                else if (CauseOfDeathConditionI != null)
+                {
+                    CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionI = new Condition();
+                    CauseOfDeathConditionI.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionI.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionI.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionI.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionI.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionI, CauseOfDeathConditionI.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionI.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[8] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I, Line j.</summary>
+        /// <value>the ninth underlying cause of death literal.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.COD1J = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
+        /// </example>
+        [Property("COD1J", Property.Types.String, "Death Certification", "Cause of Death Part I, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string COD1J
+        {
+            get
+            {
+                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
+                {
+                    return CauseOfDeathConditionJ.Code.Text;
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
+                {
+                    CauseOfDeathConditionJ.Code.Text = value;
+                }
+                else if (CauseOfDeathConditionJ != null)
+                {
+                    CauseOfDeathConditionJ.Code = new CodeableConcept();
+                    CauseOfDeathConditionJ.Code.Text = value;
+                }
+                else
+                {
+                    CauseOfDeathConditionJ = new Condition();
+                    CauseOfDeathConditionJ.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionJ.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionJ.Code = new CodeableConcept();
+                    CauseOfDeathConditionJ.Code.Text = value;
+                    CauseOfDeathConditionJ.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionJ.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionJ.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionJ, CauseOfDeathConditionJ.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionJ.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[9] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Interval, Line j.</summary>
+        /// <value>the ninth underlying cause of death approximate interval: onset to death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.INTERVAL1J = "example";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
+        /// </example>
+        [Property("INTERVAL1J", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        public string INTERVAL1J
+        {
+            get
+            {
+                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Onset != null)
+                {
+                    return CauseOfDeathConditionJ.Onset.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (CauseOfDeathConditionJ != null)
+                {
+                    CauseOfDeathConditionJ.Onset = new FhirString(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionJ = new Condition();
+                    CauseOfDeathConditionJ.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionJ.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionJ.Onset = new FhirString(value);
+                    CauseOfDeathConditionJ.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionJ.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionJ.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionJ, CauseOfDeathConditionJ.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionJ.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[9] = entry;
+                }
+            }
+        }
+
+        /// <summary>Cause of Death Part I Code, Line j.</summary>
+        /// <value>the ninth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "example");</para>
+        /// <para>code.Add("system", "example");</para>
+        /// <para>code.Add("display", "example");</para>
+        /// <para>ExampleDeathRecord.CODE1J = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
+        /// </example>
+        [Property("CODE1J", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        public Dictionary<string, string> CODE1J
+        {
+            get
+            {
+                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
+                {
+                    return CodeableConceptToDict(CauseOfDeathConditionJ.Code);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
+                {
+                    CodeableConcept code = DictToCodeableConcept(value);
+                    code.Text = CauseOfDeathConditionJ.Code.Text;
+                    CauseOfDeathConditionJ.Code = code;
+                }
+                else if (CauseOfDeathConditionJ != null)
+                {
+                    CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    CauseOfDeathConditionJ = new Condition();
+                    CauseOfDeathConditionJ.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    CauseOfDeathConditionJ.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
+                    CauseOfDeathConditionJ.Subject = new ResourceReference(Decedent.Id);
+                    CauseOfDeathConditionJ.Asserter = new ResourceReference(Certifier.Id);
+                    AddReferenceToComposition(CauseOfDeathConditionJ.Id);
+                    Bundle.AddResourceEntry(CauseOfDeathConditionJ, CauseOfDeathConditionJ.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference(CauseOfDeathConditionJ.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[9] = entry;
                 }
             }
         }
@@ -4653,13 +5698,6 @@ namespace FhirDeathRecord
                 DispositionMethod = (Observation)dispositionMethod.Resource;
             }
 
-            // Grab Condition Contributing To Death
-            var conditionContributingToDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter == null );
-            if (conditionContributingToDeath != null)
-            {
-                ConditionContributingToDeath = (Condition)conditionContributingToDeath.Resource;
-            }
-
             // Grab Cause Of Death Condition Pathway
             var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
             if (causeOfDeathConditionPathway != null)
@@ -4667,25 +5705,82 @@ namespace FhirDeathRecord
                 CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
             }
 
-            // Grab Causes of Death
-            // IMPROVEMENT: Look at using cause pathway to handle circumstances where input has un-ordered cause entries.
-            // IMPROVEMENT: Support more than four causes.
-            List<Bundle.EntryComponent> causes = Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Asserter != null ).ToList();
-            if (causes != null && causes.Count() > 0)
+            // Grab Causes of Death using CauseOfDeathConditionPathway
+            List<Condition> causeConditions = new List<Condition>();
+            if (CauseOfDeathConditionPathway != null)
             {
-                CauseOfDeathConditionA = (Condition)causes[0].Resource;
+                foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
+                {
+                    if (condition != null && condition.Item != null && condition.Item.Reference != null)
+                    {
+                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && ((Condition)entry.Resource).Id == condition.Item.Reference );
+                        if (codCond != null)
+                        {
+                            causeConditions.Add((Condition)codCond.Resource);
+                        }
+                    }
+                }
+                if (causeConditions.Count() > 0)
+                {
+                    CauseOfDeathConditionA = causeConditions[0];
+                }
+                if (causeConditions.Count() > 1)
+                {
+                    CauseOfDeathConditionB = causeConditions[1];
+                }
+                if (causeConditions.Count() > 2)
+                {
+                    CauseOfDeathConditionC = causeConditions[2];
+                }
+                if (causeConditions.Count() > 3)
+                {
+                    CauseOfDeathConditionD = causeConditions[3];
+                }
+                if (causeConditions.Count() > 4)
+                {
+                    CauseOfDeathConditionE = causeConditions[4];
+                }
+                if (causeConditions.Count() > 5)
+                {
+                    CauseOfDeathConditionF = causeConditions[5];
+                }
+                if (causeConditions.Count() > 6)
+                {
+                    CauseOfDeathConditionG = causeConditions[6];
+                }
+                if (causeConditions.Count() > 7)
+                {
+                    CauseOfDeathConditionH = causeConditions[7];
+                }
+                if (causeConditions.Count() > 8)
+                {
+                    CauseOfDeathConditionI = causeConditions[8];
+                }
+                if (causeConditions.Count() > 9)
+                {
+                    CauseOfDeathConditionJ = causeConditions[9];
+                }
             }
-            if (causes != null && causes.Count() > 1)
+
+            // Grab Condition Contributing To Death
+            List<Condition> remainingConditions = new List<Condition>();
+            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition ))
             {
-                CauseOfDeathConditionB = (Condition)causes[1].Resource;
+                if (condition != null)
+                {
+                    if (!causeConditions.Contains((Condition)condition.Resource))
+                    {
+                        remainingConditions.Add((Condition)condition.Resource);
+                    }
+                }
             }
-            if (causes != null && causes.Count() > 2)
+            if (remainingConditions.Count() > 1)
             {
-                CauseOfDeathConditionC = (Condition)causes[2].Resource;
+                throw new System.ArgumentException("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource; please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.");
             }
-            if (causes != null && causes.Count() > 3)
+            else if (remainingConditions.Count() == 1)
             {
-                CauseOfDeathConditionD = (Condition)causes[3].Resource;
+                ConditionContributingToDeath = remainingConditions[0];
             }
 
             // Scan through all RelatedPerson to make sure they all have relationship codes!

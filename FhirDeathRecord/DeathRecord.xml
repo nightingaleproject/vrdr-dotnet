@@ -45,16 +45,34 @@
             <summary>Condition Contributing to Death.</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionA">
-            <summary>Cause Of Death Condition Line A.</summary>
+            <summary>Cause Of Death Condition Line A (#1).</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionB">
-            <summary>Cause Of Death Condition Line B.</summary>
+            <summary>Cause Of Death Condition Line B (#2).</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionC">
-            <summary>Cause Of Death Condition Line C.</summary>
+            <summary>Cause Of Death Condition Line C (#3).</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionD">
-            <summary>Cause Of Death Condition Line D.</summary>
+            <summary>Cause Of Death Condition Line D (#4).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionE">
+            <summary>Cause Of Death Condition Line E (#5).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionF">
+            <summary>Cause Of Death Condition Line F (#6).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionG">
+            <summary>Cause Of Death Condition Line G (#7).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionH">
+            <summary>Cause Of Death Condition Line H (#8).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionI">
+            <summary>Cause Of Death Condition Line I (#9).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionJ">
+            <summary>Cause Of Death Condition Line J (#10).</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionPathway">
             <summary>Cause Of Death Condition Pathway.</summary>
@@ -566,6 +584,234 @@
             <para>ExampleDeathRecord.CODE1D = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1E">
+            <summary>Cause of Death Part I, Line e.</summary>
+            <value>the fourth underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1E = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1E">
+            <summary>Cause of Death Part I Interval, Line e.</summary>
+            <value>the fourth underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1E = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1E">
+            <summary>Cause of Death Part I Code, Line e.</summary>
+            <value>the fourth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1E = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1F">
+            <summary>Cause of Death Part I, Line f.</summary>
+            <value>the fifth underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1F = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1F">
+            <summary>Cause of Death Part I Interval, Line f.</summary>
+            <value>the fifth underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1F = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1F">
+            <summary>Cause of Death Part I Code, Line f.</summary>
+            <value>the fifth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1F = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1G">
+            <summary>Cause of Death Part I, Line g.</summary>
+            <value>the sixth underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1G = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1G">
+            <summary>Cause of Death Part I Interval, Line g.</summary>
+            <value>the sixth underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1G = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1G">
+            <summary>Cause of Death Part I Code, Line g.</summary>
+            <value>the sixth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1G = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1H">
+            <summary>Cause of Death Part I, Line h.</summary>
+            <value>the seventh underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1H = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1H">
+            <summary>Cause of Death Part I Interval, Line h.</summary>
+            <value>the seventh underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1H = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1H">
+            <summary>Cause of Death Part I Code, Line h.</summary>
+            <value>the seventh underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1H = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1I">
+            <summary>Cause of Death Part I, Line i.</summary>
+            <value>the eighth underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1I = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1I">
+            <summary>Cause of Death Part I Interval, Line i.</summary>
+            <value>the eighth underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1I = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1I">
+            <summary>Cause of Death Part I Code, Line i.</summary>
+            <value>the eighth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1I = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.COD1J">
+            <summary>Cause of Death Part I, Line j.</summary>
+            <value>the ninth underlying cause of death literal.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.COD1J = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1J">
+            <summary>Cause of Death Part I Interval, Line j.</summary>
+            <value>the ninth underlying cause of death approximate interval: onset to death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.INTERVAL1J = "example";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.CODE1J">
+            <summary>Cause of Death Part I Code, Line j.</summary>
+            <value>the ninth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "example");</para>
+            <para>code.Add("system", "example");</para>
+            <para>code.Add("display", "example");</para>
+            <para>ExampleDeathRecord.CODE1J = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.GivenNames">

@@ -3339,7 +3339,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 1) {
-                    return record.CausesOfDeath[0].Item1.Trim();
+                    return record.COD1A.Trim();
                 }
                 return "";
             }
@@ -3361,7 +3361,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 1) {
-                    return record.CausesOfDeath[0].Item2.Trim();
+                    return record.INTERVAL1A.Trim();
                 }
                 return "";
             }
@@ -3386,7 +3386,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 2) {
-                    return record.CausesOfDeath[1].Item1.Trim();
+                    return record.COD1B.Trim();
                 }
                 return "";
             }
@@ -3408,7 +3408,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 2) {
-                    return record.CausesOfDeath[1].Item2.Trim();
+                    return record.INTERVAL1B.Trim();
                 }
                 return "";
             }
@@ -3433,7 +3433,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 3) {
-                    return record.CausesOfDeath[2].Item1.Trim();
+                    return record.COD1C.Trim();
                 }
                 return "";
             }
@@ -3455,7 +3455,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 3) {
-                    return record.CausesOfDeath[2].Item2.Trim();
+                    return record.INTERVAL1C.Trim();
                 }
                 return "";
             }
@@ -3480,7 +3480,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 4) {
-                    return record.CausesOfDeath[3].Item1.Trim();
+                    return record.COD1D.Trim();
                 }
                 return "";
             }
@@ -3502,7 +3502,7 @@ namespace FhirDeathRecord
             get
             {
                 if (record.CausesOfDeath.Count() >= 4) {
-                    return record.CausesOfDeath[3].Item2.Trim();
+                    return record.INTERVAL1D.Trim();
                 }
                 return "";
             }

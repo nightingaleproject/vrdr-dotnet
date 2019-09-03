@@ -1154,43 +1154,43 @@ namespace FhirDeathRecord
             get
             {
                 List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || CODE1A != null)
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"])))
                 {
                     results.Add(Tuple.Create(COD1A, INTERVAL1A, CODE1A));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || CODE1B != null)
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])))
                 {
                     results.Add(Tuple.Create(COD1B, INTERVAL1B, CODE1B));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || CODE1C != null)
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])))
                 {
                     results.Add(Tuple.Create(COD1C, INTERVAL1C, CODE1C));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || CODE1D != null)
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])))
                 {
                     results.Add(Tuple.Create(COD1D, INTERVAL1D, CODE1D));
                 }
-                if (!String.IsNullOrEmpty(COD1E) || !String.IsNullOrEmpty(INTERVAL1E) || CODE1E != null)
+                if (!String.IsNullOrEmpty(COD1E) || !String.IsNullOrEmpty(INTERVAL1E) || (CODE1E != null && !String.IsNullOrEmpty(CODE1E["code"])))
                 {
                     results.Add(Tuple.Create(COD1E, INTERVAL1E, CODE1E));
                 }
-                if (!String.IsNullOrEmpty(COD1F) || !String.IsNullOrEmpty(INTERVAL1F) || CODE1F != null)
+                if (!String.IsNullOrEmpty(COD1F) || !String.IsNullOrEmpty(INTERVAL1F) || (CODE1F != null && !String.IsNullOrEmpty(CODE1F["code"])))
                 {
                     results.Add(Tuple.Create(COD1F, INTERVAL1F, CODE1F));
                 }
-                if (!String.IsNullOrEmpty(COD1G) || !String.IsNullOrEmpty(INTERVAL1G) || CODE1G != null)
+                if (!String.IsNullOrEmpty(COD1G) || !String.IsNullOrEmpty(INTERVAL1G) || (CODE1G != null && !String.IsNullOrEmpty(CODE1G["code"])))
                 {
                     results.Add(Tuple.Create(COD1G, INTERVAL1G, CODE1G));
                 }
-                if (!String.IsNullOrEmpty(COD1H) || !String.IsNullOrEmpty(INTERVAL1H) || CODE1H != null)
+                if (!String.IsNullOrEmpty(COD1H) || !String.IsNullOrEmpty(INTERVAL1H) || (CODE1H != null && !String.IsNullOrEmpty(CODE1H["code"])))
                 {
                     results.Add(Tuple.Create(COD1H, INTERVAL1H, CODE1H));
                 }
-                if (!String.IsNullOrEmpty(COD1I) || !String.IsNullOrEmpty(INTERVAL1I) || CODE1I != null)
+                if (!String.IsNullOrEmpty(COD1I) || !String.IsNullOrEmpty(INTERVAL1I) || (CODE1I != null && !String.IsNullOrEmpty(CODE1I["code"])))
                 {
                     results.Add(Tuple.Create(COD1I, INTERVAL1I, CODE1I));
                 }
-                if (!String.IsNullOrEmpty(COD1J) || !String.IsNullOrEmpty(INTERVAL1J) || CODE1J != null)
+                if (!String.IsNullOrEmpty(COD1J) || !String.IsNullOrEmpty(INTERVAL1J) || (CODE1J != null && !String.IsNullOrEmpty(CODE1J["code"])))
                 {
                     results.Add(Tuple.Create(COD1J, INTERVAL1J, CODE1J));
                 }
@@ -1394,7 +1394,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionA.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1561,7 +1561,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionB.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1728,7 +1728,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionC.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -1895,7 +1895,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionD.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2062,7 +2062,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionE.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2229,7 +2229,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionF.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2396,7 +2396,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionG.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2563,7 +2563,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionH.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2730,7 +2730,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionI.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -2897,7 +2897,7 @@ namespace FhirDeathRecord
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionJ.Code);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {

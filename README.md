@@ -14,7 +14,7 @@ This library is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="FHIRDeathRecord" Version="2.4.5" />
+  <PackageReference Include="FHIRDeathRecord" Version="2.4.6" />
   ...
 </ItemGroup>
 ```

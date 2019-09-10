@@ -32,7 +32,7 @@ namespace FhirDeathRecord
         private Composition Composition;
 
         /// <summary>The Decedent.</summary>
-        private Patient Decedent;
+        public Patient Decedent;
 
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;

@@ -1782,6 +1782,12 @@
         <member name="M:FhirDeathRecord.DeathRecordFaker.Generate(System.Boolean)">
             <summary>Return a new record populated with fake data.</summary>
         </member>
+        <member name="T:FhirDeathRecord.DeathRecordValidator">
+            <summary>Validator utility for a <c>DeathRecord</c>.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecordValidator.Validate(FhirDeathRecord.DeathRecord)">
+            <summary>Validate the given <c>DeathRecord</c>.</summary>
+        </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>

@@ -26,6 +26,13 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
+        public void DeathRecordValidator()
+        {
+            DeathRecordValidator validator = new DeathRecordValidator();
+            validator.Validate(((DeathRecord)JSONRecords[0]));
+        }
+
+        [Fact]
         public void FailInvalidInput()
         {
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord("foobar"));

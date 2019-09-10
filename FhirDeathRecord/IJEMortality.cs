@@ -1573,7 +1573,7 @@ namespace FhirDeathRecord
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
-                    return "U";
+                    return "N";
                 }
                 if (Array.Exists(ethnicities, element => element == "Mexican" || element == "2148-5"))
                 {
@@ -1611,7 +1611,7 @@ namespace FhirDeathRecord
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
-                    return "U";
+                    return "N";
                 }
                 if (Array.Exists(ethnicities, element => element == "Puerto Rican" || element == "2180-8"))
                 {
@@ -1649,7 +1649,7 @@ namespace FhirDeathRecord
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
-                    return "U";
+                    return "N";
                 }
                 if (Array.Exists(ethnicities, element => element == "Cuban" || element == "2182-4"))
                 {
@@ -1687,7 +1687,7 @@ namespace FhirDeathRecord
                 string[] hispanicOrigin = HispanicOrigin();
                 if (hispanicOrigin != null && hispanicOrigin.Length == 0)
                 {
-                    return "U";
+                    return "N";
                 }
                 // We need to handle cases where hispanic origin is other with or without write-in
                 else if (hispanicOrigin != null && hispanicOrigin.Length > 0 && DETHNIC1 == "N" && DETHNIC2 == "N" && DETHNIC3 == "N")
@@ -3338,7 +3338,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 1) {
+                if (!String.IsNullOrWhiteSpace(record.COD1A)) {
                     return record.COD1A.Trim();
                 }
                 return "";
@@ -3360,7 +3360,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 1) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1A)) {
                     return record.INTERVAL1A.Trim();
                 }
                 return "";
@@ -3385,7 +3385,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 2) {
+                if (!String.IsNullOrWhiteSpace(record.COD1B)) {
                     return record.COD1B.Trim();
                 }
                 return "";
@@ -3407,7 +3407,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 2) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1B)) {
                     return record.INTERVAL1B.Trim();
                 }
                 return "";
@@ -3432,7 +3432,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 3) {
+                if (!String.IsNullOrWhiteSpace(record.COD1C)) {
                     return record.COD1C.Trim();
                 }
                 return "";
@@ -3454,7 +3454,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 3) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1C)) {
                     return record.INTERVAL1C.Trim();
                 }
                 return "";
@@ -3479,7 +3479,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 4) {
+                if (!String.IsNullOrWhiteSpace(record.COD1D)) {
                     return record.COD1D.Trim();
                 }
                 return "";
@@ -3501,7 +3501,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (record.CausesOfDeath.Count() >= 4) {
+                if (!String.IsNullOrWhiteSpace(record.INTERVAL1D)) {
                     return record.INTERVAL1D.Trim();
                 }
                 return "";

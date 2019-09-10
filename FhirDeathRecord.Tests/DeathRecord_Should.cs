@@ -109,7 +109,7 @@ namespace FhirDeathRecord.Tests
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource; please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
+            Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
         }
 
         [Fact]

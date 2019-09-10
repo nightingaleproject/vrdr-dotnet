@@ -2312,7 +2312,7 @@ namespace FhirDeathRecord
             {
                 if (String.IsNullOrWhiteSpace(record.BirthRecordId))
                 {
-                    return "".PadLeft(6, '0');
+                    return "";
                 }
                 string id_str = record.BirthRecordId;
                 if (id_str.Length > 6)
@@ -3347,9 +3347,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
-                    record.CausesOfDeath = results.ToArray();
+                    record.COD1A = value.Trim();
                 }
             }
         }
@@ -3369,12 +3367,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    Tuple<string, string, Dictionary<string, string>> last = results.Last();
-                    Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
-                    Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
-                    updatedCauses[0] = updated;
-                    record.CausesOfDeath = updatedCauses;
+                    record.INTERVAL1A = value.Trim();
                 }
             }
         }
@@ -3394,9 +3387,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
-                    record.CausesOfDeath = results.ToArray();
+                    record.COD1B = value.Trim();
                 }
             }
         }
@@ -3416,12 +3407,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    Tuple<string, string, Dictionary<string, string>> last = results.Last();
-                    Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
-                    Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
-                    updatedCauses[1] = updated;
-                    record.CausesOfDeath = updatedCauses;
+                    record.INTERVAL1B = value.Trim();
                 }
             }
         }
@@ -3441,9 +3427,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
-                    record.CausesOfDeath = results.ToArray();
+                    record.COD1C = value.Trim();
                 }
             }
         }
@@ -3463,12 +3447,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    Tuple<string, string, Dictionary<string, string>> last = results.Last();
-                    Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
-                    Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
-                    updatedCauses[2] = updated;
-                    record.CausesOfDeath = updatedCauses;
+                    record.INTERVAL1C = value.Trim();
                 }
             }
         }
@@ -3488,9 +3467,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    results.Add(Tuple.Create(value.Trim(), "", new Dictionary<string, string>()));
-                    record.CausesOfDeath = results.ToArray();
+                    record.COD1D = value.Trim();
                 }
             }
         }
@@ -3510,12 +3487,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string, Dictionary<string, string>>> results = record.CausesOfDeath.ToList();
-                    Tuple<string, string, Dictionary<string, string>> last = results.Last();
-                    Tuple<string, string, Dictionary<string, string>> updated = Tuple.Create(last.Item1, value.Trim(), last.Item3);
-                    Tuple<string, string, Dictionary<string, string>>[] updatedCauses = results.ToArray();
-                    updatedCauses[3] = updated;
-                    record.CausesOfDeath = updatedCauses;
+                    record.INTERVAL1D = value.Trim();
                 }
             }
         }

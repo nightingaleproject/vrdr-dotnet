@@ -394,7 +394,7 @@ namespace FhirDeathRecord
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Death Record Identifier.</summary>
+        /// <summary>Death Record Identifier, Death Certificate Number.</summary>
         /// <value>a record identification string.</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -402,7 +402,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
-        [Property("Identifier", Property.Types.String, "Death Certification", "Death Record Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 1)]
+        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 1)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
         public string Identifier
         {
@@ -422,7 +422,7 @@ namespace FhirDeathRecord
             }
         }
 
-        /// <summary>Death Record Bundle Identifier.</summary>
+        /// <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
         /// <value>a record bundle identification string.</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -430,7 +430,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "Death Record Bundle Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 1)]
+        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "Auxiliary State File Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 1)]
         [FHIRPath("Bundle", "identifier")]
         public string BundleIdentifier
         {
@@ -5837,7 +5837,7 @@ namespace FhirDeathRecord
 
             // Grab Disposition Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" );
+            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (dispositionLocation != null)
             {
                 DispositionLocation = (Location)dispositionLocation.Resource;
@@ -5845,7 +5845,7 @@ namespace FhirDeathRecord
 
             // Grab Injury Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" );
+            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Injury-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (injuryLocation != null)
             {
                 InjuryLocationLoc = (Location)injuryLocation.Resource;
@@ -5853,7 +5853,7 @@ namespace FhirDeathRecord
 
             // Grab Death Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" );
+            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (deathLocation != null)
             {
                 DeathLocationLoc = (Location)deathLocation.Resource;
@@ -6205,6 +6205,16 @@ namespace FhirDeathRecord
             string value;
             dict.TryGetValue(key, out value);
             return value;
+        }
+
+        /// <summary>Check to make sure the given profile contains the given resource.</summary>
+        private static bool MatchesProfile(string resource, string profile)
+        {
+            if (!String.IsNullOrWhiteSpace(profile) && profile.Contains(resource))
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>Combine the given dictionaries and return the combined result.</summary>

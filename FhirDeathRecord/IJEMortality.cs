@@ -1473,21 +1473,21 @@ namespace FhirDeathRecord
                 string code = Dictionary_Get_Full("DEDUC", "EducationLevel", "code");
                 switch (code)
                 {
-                    case "PHC1448": // 8th grade or less
+                    case "ELEM": // Elementary School
                         return "1";
-                    case "PHC1449": // 9th through 12th grade; no diploma
+                    case "SEC": // Some secondary or high school education
                         return "2";
-                    case "PHC1450": // High School Graduate or GED Completed
+                    case "HS": // High School Graduate or GED Completed
                         return "3";
-                    case "PHC1451": // Some college credit, but no degree
+                    case "SCOL": // Some College education
                         return "4";
-                    case "PHC1452": // Associate Degree
+                    case "ASSOC": // Associate's or technical degree complete
                         return "5";
-                    case "PHC1453": // Bachelor's Degree
+                    case "BD": // College or baccalaureate degree complete
                         return "6";
-                    case "PHC1454": // Master's Degree
+                    case "GD": // Graduate or professional Degree complete
                         return "7";
-                    case "PHC1455": // Doctorate Degree or Professional Degree
+                    case "POSTG": // Doctoral or post graduate education
                         return "8";
                     case "UNK": // Unknown
                         return "9";
@@ -1501,44 +1501,44 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "1":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1448");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "8th grade or less");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "ELEM");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Elementary School");
                             break;
                         case "2":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1449");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "9th through 12th grade; no diploma");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "SEC");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some secondary or high school education");
                             break;
                         case "3":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1450");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School Graduate or GED Completed");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "HS");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School or secondary school degree complete");
                             break;
                         case "4":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1451");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some college credit, but no degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "SCOL");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some College education");
                             break;
                         case "5":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1452");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "ASSOC");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate's or technical degree complete");
                             break;
                         case "6":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1453");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Bachelor's Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "BD");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "College or baccalaureate degree complete");
                             break;
                         case "7":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1454");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Master's Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "GD");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Graduate or professional Degree complete");
                             break;
                         case "8":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1455");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://github.com/nightingaleproject/fhirDeathRecord/sdr/decedent/cs/EducationCS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctorate Degree or Professional Degree");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "POSTG");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/EducationLevel");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctoral or post graduate education");
                             break;
                         case "9":
                             Dictionary_Set("DEDUC", "EducationLevel", "code", "UNK");

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using Xunit;
-using Hl7.Fhir.ElementModel;
-using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord.Tests
 {

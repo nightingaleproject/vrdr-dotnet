@@ -138,6 +138,30 @@ DeathRecord deathRecord2 = faker.Generate();
 Console.WriteLine(deathRecord2.ToXML());
 ```
 
+#### CauseCodes
+This package also includes a class for handling the preliminary return message from NCHS containing coded causes.
+```cs
+// Initialize a new CauseCodes; fill with ids and codes
+CauseCodes causeCodes = new CauseCodes();
+causeCodes.Identifier = "42";
+causeCodes.BundleIdentifier = "MA000000";
+
+List<string> codes = new List<string>();
+codes.Add("I251");
+codes.Add("I259");
+codes.Add("I250");
+causeCodes.Codes = codes.ToArray();
+
+// Serialize to a JSON string
+string json = causeCodes.ToJSON();
+
+// Deserizlie back into a CauseCodes object
+CauseCodes example = new CauseCodes(json);
+
+// Print out as XML
+Console.WriteLine(example.ToXML());
+```
+
 ### FhirDeathRecord.Tests
 This directory contains unit and functional tests for the FhirDeathRecord library.
 

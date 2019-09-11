@@ -4,6 +4,184 @@
         <name>DeathRecord</name>
     </assembly>
     <members>
+        <member name="T:FhirDeathRecord.CauseCodes">
+            <summary>Class <c>CauseCodes</c> models a FHIR Vital Records Death Reporting (VRDR) Death
+            Record return record. This can be used to consume or produce coded records that are typically
+            returned from NCHS to a jurisdiction.
+            </summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Navigator">
+            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Bundle">
+            <summary>Bundle that contains the death record.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.DeathCertification">
+            <summary>The Certification.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Composition">
+            <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.CauseOfDeathConditionPathway">
+            <summary>Cause Of Death Condition Pathway.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.CauseOfDeathConditions">
+            <summary>Cause Of Death Conditions.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.#ctor">
+            <summary>Default constructor that creates a new, empty CauseCodes.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a CauseCodes record in either XML or JSON format.</summary>
+            <param name="record">represents a CauseCodes record in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.ToXML">
+            <summary>Helper method to return a XML string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in XML format</returns>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.ToXml">
+            <summary>Helper method to return a XML string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in XML format</returns>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.ToJSON">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in JSON format</returns>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.ToJson">
+            <summary>Helper method to return a JSON string representation of this Death Record.</summary>
+            <returns>a string representation of this Death Record in JSON format</returns>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.GetITypedElement">
+            <summary>Helper method to return an ITypedElement of the record bundle.</summary>
+            <returns>an ITypedElement of the record bundle</returns>
+        </member>
+        <member name="P:FhirDeathRecord.CauseCodes.Identifier">
+            <summary>Death Record Identifier, Death Certificate Number.</summary>
+            <value>a record identification string.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.Identifier = "42";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.CauseCodes.BundleIdentifier">
+            <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
+            <value>a record bundle identification string.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.CauseCodes.Codes">
+            <summary>Cause Codes - an ordered array of ICD-10 codes for cause of death.</summary>
+            <value>an ordered array of ICD-10 codes for cause of death.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
+            </example>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.AddReferenceToComposition(System.String)">
+            <summary>Add a reference to the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.RemoveReferenceFromComposition(System.String)">
+            <summary>Remove a reference from the Death Record Composition.</summary>
+            <param name="reference">a reference.</param>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+            <param name="dict">represents a code.</param>
+            <returns>the corresponding CodeableConcept representation of the code.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.CauseCodes.Property">
+            <summary>Property attribute used to describe a DeathRecord property.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.CauseCodes.Property.Types">
+            <summary>Enum for describing the property type.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.String">
+            <summary>Parameter is a string.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.StringArr">
+            <summary>Parameter is an array of strings.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.StringDateTime">
+            <summary>Parameter is like a string, but should be treated as a date and time.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.Bool">
+            <summary>Parameter is a bool.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.Dictionary">
+            <summary>Parameter is a Dictionary.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.TupleArr">
+            <summary>Parameter is an array of Tuples.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.TupleCOD">
+            <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Name">
+            <summary>Name of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Type">
+            <summary>The property type (e.g. string, bool, Dictionary).</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Category">
+            <summary>Category of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Description">
+            <summary>Description of this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Serialize">
+            <summary>If this field should be kept when serialzing.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.IGUrl">
+            <summary>URL that links to the IG description for this property.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.CapturedInIJE">
+            <summary>If this field has an equivalent in IJE.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.Property.Priority">
+            <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.Property.#ctor(System.String,FhirDeathRecord.CauseCodes.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
+            <summary>Constructor.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.CauseCodes.PropertyParam">
+            <summary>Property attribute used to describe a DeathRecord property parameter,
+            specifically if the property is a dictionary that has keys.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.PropertyParam.Key">
+            <summary>If the related property is a Dictionary, the key name.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.PropertyParam.Description">
+            <summary>Description of this parameter.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.PropertyParam.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.CauseCodes.FHIRPath">
+            <summary>Describes a FHIR path that can be used to get to the element.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.FHIRPath.Path">
+            <summary>The relevant FHIR path.</summary>
+        </member>
+        <member name="F:FhirDeathRecord.CauseCodes.FHIRPath.Element">
+            <summary>The relevant element.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.CauseCodes.FHIRPath.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
+        </member>
         <member name="T:FhirDeathRecord.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the
@@ -167,7 +345,7 @@
             <returns>an ITypedElement of the record bundle</returns>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.Identifier">
-            <summary>Death Record Identifier.</summary>
+            <summary>Death Record Identifier, Death Certificate Number.</summary>
             <value>a record identification string.</value>
             <example>
             <para>// Setter:</para>
@@ -177,7 +355,7 @@
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.BundleIdentifier">
-            <summary>Death Record Bundle Identifier.</summary>
+            <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
             <value>a record bundle identification string.</value>
             <example>
             <para>// Setter:</para>
@@ -1665,6 +1843,9 @@
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.GetValue(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecord.MatchesProfile(System.String,System.String)">
+            <summary>Check to make sure the given profile contains the given resource.</summary>
         </member>
         <member name="M:FhirDeathRecord.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Combine the given dictionaries and return the combined result.</summary>

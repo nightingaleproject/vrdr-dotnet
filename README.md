@@ -14,7 +14,7 @@ This library is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="FHIRDeathRecord" Version="2.5.0" />
+  <PackageReference Include="FHIRDeathRecord" Version="2.6.0" />
   ...
 </ItemGroup>
 ```
@@ -136,6 +136,30 @@ Console.WriteLine(deathRecord1.ToJSON());
 // Generate another fake record and print out as XML
 DeathRecord deathRecord2 = faker.Generate();
 Console.WriteLine(deathRecord2.ToXML());
+```
+
+#### CauseCodes
+This package also includes a class for handling the preliminary return message from NCHS containing coded causes.
+```cs
+// Initialize a new CauseCodes; fill with ids and codes
+CauseCodes causeCodes = new CauseCodes();
+causeCodes.Identifier = "42";
+causeCodes.BundleIdentifier = "MA000000";
+
+List<string> codes = new List<string>();
+codes.Add("I251");
+codes.Add("I259");
+codes.Add("I250");
+causeCodes.Codes = codes.ToArray();
+
+// Serialize to a JSON string
+string json = causeCodes.ToJSON();
+
+// Deserizlie back into a CauseCodes object
+CauseCodes example = new CauseCodes(json);
+
+// Print out as XML
+Console.WriteLine(example.ToXML());
 ```
 
 ### FhirDeathRecord.Tests

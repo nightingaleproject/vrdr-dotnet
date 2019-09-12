@@ -24,8 +24,25 @@ tr '[:upper:]' '[:lower:]' < 4.tmp > ije2.tmp
 # Test that IJE records are the same
 if diff ije1.tmp ije2.tmp; then
   echo "IJE matched! Roundtrip passed!"
-  exit 0
 else
   echo "IJE was different! Roundtrip failed!"
+  exit 1
+fi
+
+# Convert FHIR JSON => Nightingale
+curl --data-binary "@../FhirDeathRecord.Tests/fixtures/json/1.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 1.nightingale
+
+# Convert Nightingale => FHIR JSON
+curl --data-binary "@1.nightingale" -H "Content-Type: application/nightingale" -X POST http://localhost:8080/json > 1.nightingale.json
+
+# Convert FHIR JSON => Nightingale
+curl --data-binary "@1.nightingale.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 2.nightingale
+
+# Test that nightingale records are the same
+if diff ije1.tmp ije2.tmp; then
+  echo "Nightingale matched! Roundtrip passed!"
+  exit 0
+else
+  echo "Nightingale was different! Roundtrip failed!"
   exit 1
 fi

@@ -25,7 +25,220 @@ namespace FhirDeathRecord.HTTP
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
             SetYesNoValueDictionary(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath", record, "AutopsyResultsAvailable");
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
-            SetYesNoValueDictionary(values, "meOrCoronerContacted.meOrCoronerContacted", record, "ExaminerContacted");
+
+            if (record.ExaminerContacted == true)
+            {
+                values["meOrCoronerContacted.meOrCoronerContacted"] = "Yes";
+            }
+            if (record.ExaminerContacted == false)
+            {
+                values["meOrCoronerContacted.meOrCoronerContacted"] = "No";
+            }
+
+            if (GetValueDict(record.CertifierRole, "code") == "434641000124105")
+            {
+                values["certifierType.certifierType"] = "Physician (Certifier)";
+            }
+            else if (GetValueDict(record.CertifierRole, "code") == "434651000124107")
+            {
+                values["certifierType.certifierType"] = "Physician (Pronouncer and Certifier)";
+            }
+            else if (GetValueDict(record.CertifierRole, "code") == "440051000124108")
+            {
+                values["certifierType.certifierType"] = "Medical Examiner";
+            }
+
+            SetStringValueDictionary(values, "cod.immediate", record.COD1A);
+            SetStringValueDictionary(values, "cod.immediateInt", record.INTERVAL1A);
+            SetStringValueDictionary(values, "cod.under1", record.COD1B);
+            SetStringValueDictionary(values, "cod.under1Int", record.INTERVAL1B);
+            SetStringValueDictionary(values, "cod.under2", record.COD1C);
+            SetStringValueDictionary(values, "cod.under2Int", record.INTERVAL1C);
+            SetStringValueDictionary(values, "cod.under3", record.COD1D);
+            SetStringValueDictionary(values, "cod.under3Int", record.INTERVAL1D);
+
+            SetStringValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
+            SetStringValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
+            SetStringValueDictionary(values, "datePronouncedDead.datePronouncedDead", record.DateOfDeathPronouncement);
+
+            SetDictionaryValueDictionary(record.Residence, "addressLine1", values, "decedentAddress.street");
+            SetDictionaryValueDictionary(record.Residence, "addressCity", values, "decedentAddress.city");
+            SetDictionaryValueDictionary(record.Residence, "addressState", values, "decedentAddress.state");
+            SetDictionaryValueDictionary(record.Residence, "addressZip", values, "decedentAddress.zip");
+
+            SetStringValueDictionary(values, "detailsOfInjuryLocation.name", record.InjuryLocationName);
+            SetDictionaryValueDictionary(record.InjuryLocationAddress, "addressLine1", values, "detailsOfInjuryLocation.street");
+            SetDictionaryValueDictionary(record.InjuryLocationAddress, "addressCity", values, "detailsOfInjuryLocation.city");
+            SetDictionaryValueDictionary(record.InjuryLocationAddress, "addressState", values, "detailsOfInjuryLocation.state");
+            SetDictionaryValueDictionary(record.InjuryLocationAddress, "addressZip", values, "detailsOfInjuryLocation.zip");
+
+            SetStringValueDictionary(values, "locationOfDeath.name", record.DeathLocationName);
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressLine1", values, "locationOfDeath.street");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressCity", values, "locationOfDeath.city");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressState", values, "locationOfDeath.state");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressZip", values, "locationOfDeath.zip");
+
+            SetStringValueDictionary(values, "funeralFacility.name", record.FuneralHomeName);
+            SetDictionaryValueDictionary(record.FuneralHomeAddress, "addressLine1", values, "funeralFacility.street");
+            SetDictionaryValueDictionary(record.FuneralHomeAddress, "addressCity", values, "funeralFacility.city");
+            SetDictionaryValueDictionary(record.FuneralHomeAddress, "addressState", values, "funeralFacility.state");
+            SetDictionaryValueDictionary(record.FuneralHomeAddress, "addressZip", values, "funeralFacility.zip");
+
+            SetDictionaryValueDictionary(record.CertifierAddress, "addressLine1", values, "personCompletingCauseOfDeathAddress.street");
+            SetDictionaryValueDictionary(record.CertifierAddress, "addressCity", values, "personCompletingCauseOfDeathAddress.city");
+            SetDictionaryValueDictionary(record.CertifierAddress, "addressState", values, "personCompletingCauseOfDeathAddress.state");
+            SetDictionaryValueDictionary(record.CertifierAddress, "addressZip", values, "locatiopersonCompletingCauseOfDeathAddressnOfDeath.zip");
+
+            SetDictionaryValueDictionary(record.PlaceOfBirth, "addressCity", values, "placeOfBirth.city");
+            SetDictionaryValueDictionary(record.PlaceOfBirth, "addressState", values, "placeOfBirth.state");
+            SetDictionaryValueDictionary(record.PlaceOfBirth, "addressCountry", values, "placeOfBirth.country");
+
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressLine1", values, "locationOfDeath.street");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressCity", values, "locationOfDeath.city");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressState", values, "locationOfDeath.state");
+            SetDictionaryValueDictionary(record.DeathLocationAddress, "addressZip", values, "locationOfDeath.zip");
+
+            SetStringValueDictionary(values, "placeOfDisposition.name", record.DispositionLocationName);
+            SetDictionaryValueDictionary(record.DispositionLocationAddress, "addressCity", values, "placeOfDisposition.city");
+            SetDictionaryValueDictionary(record.DispositionLocationAddress, "addressState", values, "placeOfDisposition.state");
+            SetDictionaryValueDictionary(record.DispositionLocationAddress, "addressCountry", values, "placeOfDisposition.country");
+
+            if (record.GivenNames != null)
+            {
+                if (record.GivenNames.Count() > 0)
+                {
+                    values["decedentName.firstName"] = record.GivenNames[0];
+                }
+                if (record.GivenNames.Count() > 1)
+                {
+                    values["decedentName.middleName"] = record.GivenNames[1];
+                }
+            }
+
+            SetStringValueDictionary(values, "decedentName.lastName", record.FamilyName);
+
+            if (record.CertifierGivenNames != null)
+            {
+                if (record.CertifierGivenNames.Count() > 0)
+                {
+                    values["personCompletingCauseOfDeathName.firstName"] = record.CertifierGivenNames[0];
+                }
+                if (record.CertifierGivenNames.Count() > 1)
+                {
+                    values["personCompletingCauseOfDeathName.middleName"] = record.CertifierGivenNames[1];
+                }
+            }
+
+            SetStringValueDictionary(values, "personCompletingCauseOfDeathName.lastName", record.CertifierFamilyName);
+
+            SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
+
+            if (record.EducationLevel != null && record.EducationLevel.ContainsKey("code"))
+            {
+                switch (record.EducationLevel["code"])
+                {
+                    case "SEC":
+                        values["education.education"] = "9th through 12th grade; no diploma";
+                        break;
+                    case "HS":
+                        values["education.education"] = "High School Graduate or GED Completed";
+                        break;
+                    case "PB":
+                        values["education.education"] = "Some college credit, but no degree";
+                        break;
+                    case "ASSOC":
+                        values["education.education"] = "Associate Degree";
+                        break;
+                    case "BD":
+                        values["education.education"] = "Bachelor's Degree";
+                        break;
+                    case "GD":
+                        values["education.education"] = "Master's Degree";
+                        break;
+                    case "POSTG":
+                        values["education.education"] = "Doctorate Degree or Professional Degree";
+                        break;
+                }
+            }
+
+            SetStringValueDictionary(values, "motherName.lastName", record.MotherMaidenName);
+
+            if (record.MannerOfDeathType != null && record.MannerOfDeathType.ContainsKey("code"))
+            {
+                switch (record.MannerOfDeathType["code"])
+                {
+                    case "38605008":
+                        values["mannerOfDeath.mannerOfDeath"] = "Natural";
+                        break;
+                    case "7878000":
+                        values["mannerOfDeath.mannerOfDeath"] = "Accident";
+                        break;
+                    case "44301001":
+                        values["mannerOfDeath.mannerOfDeath"] = "Suicide";
+                        break;
+                    case "27935005":
+                        values["mannerOfDeath.mannerOfDeath"] = "Homicide";
+                        break;
+                    case "185973002":
+                        values["mannerOfDeath.mannerOfDeath"] = "Pending Investigation";
+                        break;
+                    case "65037004":
+                        values["mannerOfDeath.mannerOfDeath"] = "Could not be determined";
+                        break;
+                }
+            }
+
+            if (record.MaritalStatus != null && record.MaritalStatus.ContainsKey("code"))
+            {
+                switch (record.MaritalStatus["code"])
+                {
+                    case "M":
+                        values["maritalStatus.maritalStatus"] = "Married";
+                        break;
+                    case "L":
+                        values["maritalStatus.maritalStatus"] = "Legally Separated";
+                        break;
+                    case "W":
+                        values["maritalStatus.maritalStatus"] = "Widowed";
+                        break;
+                    case "D":
+                        values["maritalStatus.maritalStatus"] = "Divorced";
+                        break;
+                    case "S":
+                        values["maritalStatus.maritalStatus"] = "Never Married";
+                        break;
+                    case "UNK":
+                        values["maritalStatus.maritalStatus"] = "unknown";
+                        break;
+                }
+            }
+
+            if (record.BirthSex != null && record.BirthSex.ContainsKey("code"))
+            {
+                if (record.BirthSex["code"] == "M")
+                {
+                    values["sex.sex"] = "Male";
+                }
+                else if (record.BirthSex["code"] == "F")
+                {
+                    values["sex.sex"] = "Female";
+                }
+            }
+
+            if (record.SSN != null && record.SSN.Length == 9)
+            {
+                values["ssn.ssn1"] = record.SSN.Substring(0, 3);
+                values["ssn.ssn2"] = record.SSN.Substring(3, 2);
+                values["ssn.ssn3"] = record.SSN.Substring(5, 4);
+            }
+
+            values["race.race.option"] = "Known";
+            List<string> names = new List<string>();
+            foreach (Tuple<string, string> race in record.Race)
+            {
+                names.Add(race.Item1);
+            }
+            values["race.race.specify"] = JsonConvert.SerializeObject(names.ToArray());
 
             return JsonConvert.SerializeObject(values, Formatting.Indented);
         }
@@ -81,33 +294,39 @@ namespace FhirDeathRecord.HTTP
             SetStringValueDeathRecordDictionary(deathRecord, "Residence", "addressCity", GetValue(values, "decedentAddress.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "Residence", "addressState", GetValue(values, "decedentAddress.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "Residence", "addressZip", GetValue(values, "decedentAddress.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "Residence", "addressCountry", "United States");
 
             SetStringValueDeathRecordString(deathRecord, "InjuryLocationName", GetValue(values, "detailsOfInjuryLocation.name"));
             SetStringValueDeathRecordDictionary(deathRecord, "InjuryLocationAddress", "addressLine1", GetValue(values, "detailsOfInjuryLocation.street"));
             SetStringValueDeathRecordDictionary(deathRecord, "InjuryLocationAddress", "addressCity", GetValue(values, "detailsOfInjuryLocation.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "InjuryLocationAddress", "addressState", GetValue(values, "detailsOfInjuryLocation.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "InjuryLocationAddress", "addressZip", GetValue(values, "detailsOfInjuryLocation.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "InjuryLocationAddress", "addressCountry", "United States");
 
             SetStringValueDeathRecordString(deathRecord, "DeathLocationName", GetValue(values, "locationOfDeath.name"));
             SetStringValueDeathRecordDictionary(deathRecord, "DeathLocationAddress", "addressLine1", GetValue(values, "locationOfDeath.street"));
             SetStringValueDeathRecordDictionary(deathRecord, "DeathLocationAddress", "addressCity", GetValue(values, "locationOfDeath.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "DeathLocationAddress", "addressState", GetValue(values, "locationOfDeath.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "DeathLocationAddress", "addressZip", GetValue(values, "locationOfDeath.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "DeathLocationAddress", "addressCountry", "United States");
 
             SetStringValueDeathRecordString(deathRecord, "FuneralHomeName", GetValue(values, "funeralFacility.name"));
             SetStringValueDeathRecordDictionary(deathRecord, "FuneralHomeAddress", "addressLine1", GetValue(values, "funeralFacility.street"));
             SetStringValueDeathRecordDictionary(deathRecord, "FuneralHomeAddress", "addressCity", GetValue(values, "funeralFacility.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "FuneralHomeAddress", "addressState", GetValue(values, "funeralFacility.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "FuneralHomeAddress", "addressZip", GetValue(values, "funeralFacility.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "FuneralHomeAddress", "addressCountry", "United States");
 
             SetStringValueDeathRecordDictionary(deathRecord, "CertifierAddress", "addressLine1", GetValue(values, "personCompletingCauseOfDeathAddress.street"));
             SetStringValueDeathRecordDictionary(deathRecord, "CertifierAddress", "addressCity", GetValue(values, "personCompletingCauseOfDeathAddress.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "CertifierAddress", "addressState", GetValue(values, "personCompletingCauseOfDeathAddress.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "CertifierAddress", "addressZip", GetValue(values, "personCompletingCauseOfDeathAddress.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "CertifierAddress", "addressCountry", "United States");
 
             SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressCity", GetValue(values, "placeOfBirth.city"));
             SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressState", GetValue(values, "placeOfBirth.state"));
-            SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressZip", GetValue(values, "placeOfBirth.country"));
+            SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressZip", GetValue(values, "placeOfBirth.zip"));
+            SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressCountry", "United States");
 
             SetStringValueDeathRecordString(deathRecord, "DispositionLocationName", GetValue(values, "placeOfDisposition.name"));
             SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressLine1", GetValue(values, "placeOfDisposition.city"));
@@ -200,7 +419,7 @@ namespace FhirDeathRecord.HTTP
                 case "Natural":
                     Dictionary<string, string> mod = new Dictionary<string, string>();
                     mod.Add("code", "38605008");
-                    mod.Add("display", "Doctoral or post graduate education");
+                    mod.Add("display", "Natural");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Accident":
@@ -323,7 +542,7 @@ namespace FhirDeathRecord.HTTP
             return deathRecord;
         }
 
-        /// <summary>Set a a Yes/No (coded) value on a Dictionary.</summary>
+        /// <summary>Set a Yes/No (coded) value on a Dictionary.</summary>
         private static void SetYesNoValueDictionary(Dictionary<string, string> dict, string key, DeathRecord deathRecord, string property)
         {
             Type type = deathRecord.GetType();
@@ -332,6 +551,24 @@ namespace FhirDeathRecord.HTTP
             if (value.ContainsKey("display"))
             {
                 dict[key] = value["display"];
+            }
+        }
+
+        /// <summary>Set a string value on a Dictionary.</summary>
+        private static void SetStringValueDictionary(Dictionary<string, string> dict, string key, string value)
+        {
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                dict["key"] = value;
+            }
+        }
+
+        /// <summary>Set a Dictionary value on a Dictionary.</summary>
+        private static void SetDictionaryValueDictionary(Dictionary<string, string> dict1, string key1, Dictionary<string, string> dict2, string key2)
+        {
+            if (dict1 != null && dict1.ContainsKey(key1) && dict2 != null && key2 != null)
+            {
+                dict2[key2] = dict1[key1];
             }
         }
 
@@ -427,6 +664,10 @@ namespace FhirDeathRecord.HTTP
         /// <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
         private static string GetValueDict(Dictionary<string, string> dict, string key)
         {
+            if (dict == null || key == null)
+            {
+                return null;
+            }
             string value;
             dict.TryGetValue(key, out value);
             return value;

@@ -57,9 +57,9 @@ namespace FhirDeathRecord.HTTP
             SetStringValueDictionary(values, "cod.under3", record.COD1D);
             SetStringValueDictionary(values, "cod.under3Int", record.INTERVAL1D);
 
-            SetStringValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
-            SetStringValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
-            SetStringValueDictionary(values, "datePronouncedDead.datePronouncedDead", record.DateOfDeathPronouncement);
+            SetDateValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
+            SetDateValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
+            SetDateValueDictionary(values, "datePronouncedDead.datePronouncedDead", record.DateOfDeathPronouncement);
 
             SetDictionaryValueDictionary(record.Residence, "addressLine1", values, "decedentAddress.street");
             SetDictionaryValueDictionary(record.Residence, "addressCity", values, "decedentAddress.city");
@@ -87,7 +87,7 @@ namespace FhirDeathRecord.HTTP
             SetDictionaryValueDictionary(record.CertifierAddress, "addressLine1", values, "personCompletingCauseOfDeathAddress.street");
             SetDictionaryValueDictionary(record.CertifierAddress, "addressCity", values, "personCompletingCauseOfDeathAddress.city");
             SetDictionaryValueDictionary(record.CertifierAddress, "addressState", values, "personCompletingCauseOfDeathAddress.state");
-            SetDictionaryValueDictionary(record.CertifierAddress, "addressZip", values, "locatiopersonCompletingCauseOfDeathAddressnOfDeath.zip");
+            SetDictionaryValueDictionary(record.CertifierAddress, "addressZip", values, "personCompletingCauseOfDeathAddress.zip");
 
             SetDictionaryValueDictionary(record.PlaceOfBirth, "addressCity", values, "placeOfBirth.city");
             SetDictionaryValueDictionary(record.PlaceOfBirth, "addressState", values, "placeOfBirth.state");
@@ -559,7 +559,16 @@ namespace FhirDeathRecord.HTTP
         {
             if (!String.IsNullOrWhiteSpace(value))
             {
-                dict["key"] = value;
+                dict[key] = value;
+            }
+        }
+
+        /// <summary>Set a date value on a Dictionary.</summary>
+        private static void SetDateValueDictionary(Dictionary<string, string> dict, string key, string value)
+        {
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                dict[key] = value.Substring(0, 10);
             }
         }
 
@@ -568,7 +577,10 @@ namespace FhirDeathRecord.HTTP
         {
             if (dict1 != null && dict1.ContainsKey(key1) && dict2 != null && key2 != null)
             {
-                dict2[key2] = dict1[key1];
+                if (!String.IsNullOrWhiteSpace(dict1[key1]))
+                {
+                    dict2[key2] = dict1[key1];
+                }
             }
         }
 

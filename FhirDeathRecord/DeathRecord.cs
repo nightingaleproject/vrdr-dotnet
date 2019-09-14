@@ -5629,7 +5629,7 @@ namespace FhirDeathRecord
             {
                 throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
             }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.FullUrl == Composition.Attester.First().Party.Reference);
+            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
             if (practitionerEntry != null)
             {
                 Certifier = (Practitioner)practitionerEntry.Resource;

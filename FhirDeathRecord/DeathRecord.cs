@@ -5713,7 +5713,7 @@ namespace FhirDeathRecord
                 {
                     if (condition != null && condition.Item != null && condition.Item.Reference != null)
                     {
-                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && entry.FullUrl == condition.Item.Reference );
+                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
                         if (codCond != null)
                         {
                             causeConditions.Add((Condition)codCond.Resource);

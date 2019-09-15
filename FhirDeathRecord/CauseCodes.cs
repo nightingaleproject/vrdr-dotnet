@@ -36,7 +36,7 @@ namespace FhirDeathRecord
         {
             // Start with an empty Bundle.
             Bundle = new Bundle();
-            Bundle.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Bundle.Id = Guid.NewGuid().ToString();
             Bundle.Type = Bundle.BundleType.Document; // By default, Bundle type is "document".
             Bundle.Meta = new Meta();
             string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
@@ -44,7 +44,7 @@ namespace FhirDeathRecord
 
             // Start with an empty certification.
             DeathCertification = new Procedure();
-            DeathCertification.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            DeathCertification.Id = Guid.NewGuid().ToString();
             DeathCertification.Meta = new Meta();
             string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
             DeathCertification.Meta.Profile = deathcertification_profile;
@@ -54,7 +54,7 @@ namespace FhirDeathRecord
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
-            Composition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            Composition.Id = Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
             string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
@@ -65,11 +65,11 @@ namespace FhirDeathRecord
             eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null));
             eventComponent.Detail.Add(new ResourceReference(DeathCertification.Id));
             Composition.Event.Add(eventComponent);
-            Bundle.AddResourceEntry(Composition, Composition.Id);
+            Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
             // Start with an empty Cause of Death Pathway
             CauseOfDeathConditionPathway = new List();
-            CauseOfDeathConditionPathway.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+            CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
             CauseOfDeathConditionPathway.Meta = new Meta();
             string[] causeofdeathconditionpathway_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
             CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
@@ -295,7 +295,7 @@ namespace FhirDeathRecord
                 foreach (string code in value)
                 {
                     Condition condition = new Condition();
-                    condition.Id = "urn:uuid:" + Guid.NewGuid().ToString();
+                    condition.Id = Guid.NewGuid().ToString();
                     condition.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     condition.Meta.Profile = condition_profile;
@@ -304,9 +304,9 @@ namespace FhirDeathRecord
                     dictionary.Add("code", code);
                     condition.Code = DictToCodeableConcept(dictionary);
                     AddReferenceToComposition(condition.Id);
-                    Bundle.AddResourceEntry(condition, condition.Id);
+                    Bundle.AddResourceEntry(condition, "urn:uuid:" + condition.Id);
                     List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference(condition.Id);
+                    entry.Item = new ResourceReference("urn:uuid:" + condition.Id);
                     CauseOfDeathConditionPathway.Entry.Add(entry);
                     CauseOfDeathConditions.Add(condition);
                 }
@@ -323,7 +323,7 @@ namespace FhirDeathRecord
         /// <param name="reference">a reference.</param>
         private void AddReferenceToComposition(string reference)
         {
-            Composition.Section.First().Entry.Add(new ResourceReference(reference));
+            Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>

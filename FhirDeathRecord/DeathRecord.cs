@@ -1010,9 +1010,9 @@ namespace FhirDeathRecord
                 if (qualification != null)
                 {
                     Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                    dictionary.Add("display", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Display : ""));
-                    dictionary.Add("code", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Code : ""));
-                    dictionary.Add("system", ((qualification != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().System : ""));
+                    dictionary.Add("display", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Display : ""));
+                    dictionary.Add("code", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Code : ""));
+                    dictionary.Add("system", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().System : ""));
                     return dictionary;
                 }
                 return EmptyCodeDict();

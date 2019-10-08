@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record.svg?branch=master)](https://travis-ci.org/nightingaleproject/csharp-fhir-death-record)
+[![Build Status](https://travis-ci.org/nightingaleproject/vrdr-dotnet.svg?branch=master)](https://travis-ci.org/nightingaleproject/vrdr-dotnet)
 [![Nuget](https://img.shields.io/nuget/v/FHIRDeathRecord.svg)](https://www.nuget.org/packages/FHIRDeathRecord)
 
 # vrdr-dotnet

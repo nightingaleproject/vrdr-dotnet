@@ -179,14 +179,7 @@ namespace FhirDeathRecord
             Mortician.Meta.Profile = mortician_profile;
 
             // Start with an empty certification.
-            DeathCertification = new Procedure();
-            DeathCertification.Id = Guid.NewGuid().ToString();
-            DeathCertification.Meta = new Meta();
-            string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-            DeathCertification.Meta.Profile = deathcertification_profile;
-            DeathCertification.Status = EventStatus.Completed;
-            DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-            DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+            DeathCertification = new DeathCertification();
 
             // Start with an empty interested party.
             InterestedParty = new Organization();
@@ -478,24 +471,13 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure();
-                    DeathCertification.Id = Guid.NewGuid().ToString();
-                    DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-                    DeathCertification.Meta.Profile = deathcertification_profile;
-                    DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    DeathCertification = new DeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                    Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirDateTime(value);
                 }
-                else
-                {
-                    Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirDateTime(value);
-                }
+
+                Composition.Attester.First().Time = value;
+                DeathCertification.Performed = new FhirDateTime(value);
             }
         }
 
@@ -561,30 +543,19 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure();
-                    DeathCertification.Id = Guid.NewGuid().ToString();
-                    DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-                    DeathCertification.Meta.Profile = deathcertification_profile;
-                    DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    DeathCertification = new DeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Role = DictToCodeableConcept(value);
-                    performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    DeathCertification.Performer.Clear();
-                    DeathCertification.Performer.Add(performer);
                 }
-                else
+
+                var performer = new Procedure.PerformerComponent
                 {
-                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Role = DictToCodeableConcept(value);
-                    performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    DeathCertification.Performer.Clear();
-                    DeathCertification.Performer.Add(performer);
-                }
+                    Role = DictToCodeableConcept(value),
+                    Actor = new ResourceReference("urn:uuid:" + Certifier.Id)
+                };
+                
+                DeathCertification.Performer.Clear();
+                DeathCertification.Performer.Add(performer);
             }
         }
 
@@ -5648,7 +5619,7 @@ namespace FhirDeathRecord
 
             // Grab Death Certification
             var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
-            if (procedureEntry != null)
+            if (procedureEntry?.Resource != null)
             {
                 DeathCertification = (Procedure)procedureEntry.Resource;
             }

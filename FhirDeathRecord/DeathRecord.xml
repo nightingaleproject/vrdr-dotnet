@@ -182,6 +182,16 @@
         <member name="M:FhirDeathRecord.CauseCodes.FHIRPath.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
+        <member name="T:FhirDeathRecord.DeathCertification">
+            <summary>Class <c>DeathCertification</c> models a Death Cerfication used in FHIR Vital Records Death Reporting (VRDR) Death
+            Record. 
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathCertification.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
         <member name="T:FhirDeathRecord.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the

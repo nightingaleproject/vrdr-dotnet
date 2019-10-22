@@ -187,11 +187,6 @@
             Record. 
             </summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathCertification.#ctor">
-            <summary>
-            Default Constructor
-            </summary>
-        </member>
         <member name="T:FhirDeathRecord.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the

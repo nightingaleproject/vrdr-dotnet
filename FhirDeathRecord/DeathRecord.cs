@@ -179,7 +179,7 @@ namespace FhirDeathRecord
             Mortician.Meta.Profile = mortician_profile;
 
             // Start with an empty certification.
-            DeathCertification = new DeathCertification();
+            DeathCertification = new Procedure().CreateDeathCertification();
 
             // Start with an empty interested party.
             InterestedParty = new Organization();
@@ -471,7 +471,7 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new DeathCertification();
+                    DeathCertification = new Procedure().CreateDeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                 }
@@ -543,7 +543,7 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new DeathCertification();
+                    DeathCertification = new Procedure().CreateDeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                 }

@@ -179,7 +179,8 @@ namespace FhirDeathRecord
             Mortician.Meta.Profile = mortician_profile;
 
             // Start with an empty certification.
-            DeathCertification = new Procedure().CreateDeathCertification();
+            //DeathCertification = new Procedure().CreateDeathCertification();
+            DeathCertification = new DeathCertification();
 
             // Start with an empty interested party.
             InterestedParty = new Organization();
@@ -345,6 +346,12 @@ namespace FhirDeathRecord
             }
         }
 
+        public DeathRecord(Bundle bundle)
+        {
+            Bundle = bundle;
+                    Navigator = Bundle.ToTypedElement();
+                    RestoreReferences();
+        }
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
         /// <returns>a string representation of this Death Record in XML format</returns>
         public string ToXML()
@@ -471,7 +478,8 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure().CreateDeathCertification();
+                    //DeathCertification = new Procedure().CreateDeathCertification();
+                    DeathCertification = new DeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                 }
@@ -543,7 +551,8 @@ namespace FhirDeathRecord
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure().CreateDeathCertification();
+                    //DeathCertification = new Procedure().CreateDeathCertification();
+                    DeathCertification = new DeathCertification();
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                 }
@@ -2961,7 +2970,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').family");
+                return Decedent.Name.FirstOrDefault(n => n.Use == HumanName.NameUse.Official)?.Family;
+                //return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').family");
             }
             set
             {

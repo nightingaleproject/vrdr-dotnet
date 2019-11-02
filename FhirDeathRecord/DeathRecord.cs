@@ -42,7 +42,7 @@ namespace FhirDeathRecord
         private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
-        private Section.DeathCertification DeathCertification;
+        private Section.DeathCertification DeathCertification {get; set;}
 
         /// <summary>The Interested Party.</summary>
         private Organization InterestedParty;

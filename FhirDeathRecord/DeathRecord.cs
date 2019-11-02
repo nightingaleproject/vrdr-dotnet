@@ -346,12 +346,6 @@ namespace FhirDeathRecord
             }
         }
 
-        public DeathRecord(Bundle bundle)
-        {
-            Bundle = bundle;
-                    Navigator = Bundle.ToTypedElement();
-                    RestoreReferences();
-        }
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
         /// <returns>a string representation of this Death Record in XML format</returns>
         public string ToXML()

@@ -137,52 +137,18 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_InterestedPartyIdentifier()
-        {
-            SetterDeathRecord.InterestedPartyIdentifier = "123abc";
-            Assert.Equal("123abc", SetterDeathRecord.InterestedPartyIdentifier);
-        }
-
-        [Fact]
         public void Get_InterestedPartyIdentifier()
         {
             Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
             Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
         }
 
-        [Fact]
-        public void Set_InterestedPartyName()
-        {
-            SetterDeathRecord.InterestedPartyName = "123abc123xyz";
-            Assert.Equal("123abc123xyz", SetterDeathRecord.InterestedPartyName);
-        }
 
         [Fact]
         public void Get_InterestedPartyName()
         {
             Assert.Equal("Example Hospital", ((DeathRecord)JSONRecords[0]).InterestedPartyName);
             Assert.Equal("Example Hospital", ((DeathRecord)XMLRecords[0]).InterestedPartyName);
-        }
-
-        [Fact]
-        public void Set_InterestedPartyAddress()
-        {
-            Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("addressLine1", "12 Example Street");
-            address.Add("addressLine2", "Line 2");
-            address.Add("addressCity", "Bedford");
-            address.Add("addressCounty", "Middlesex");
-            address.Add("addressState", "Massachusetts");
-            address.Add("addressZip", "01730");
-            address.Add("addressCountry", "United States");
-            SetterDeathRecord.InterestedPartyAddress = address;
-            Assert.Equal("12 Example Street", SetterDeathRecord.InterestedPartyAddress["addressLine1"]);
-            Assert.Equal("Line 2", SetterDeathRecord.InterestedPartyAddress["addressLine2"]);
-            Assert.Equal("Bedford", SetterDeathRecord.InterestedPartyAddress["addressCity"]);
-            Assert.Equal("Middlesex", SetterDeathRecord.InterestedPartyAddress["addressCounty"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.InterestedPartyAddress["addressState"]);
-            Assert.Equal("01730", SetterDeathRecord.InterestedPartyAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.InterestedPartyAddress["addressCountry"]);
         }
 
         [Fact]
@@ -202,19 +168,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
             Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
-        }
-
-        [Fact]
-        public void Set_InterestedPartyType()
-        {
-            Dictionary<string, string> type = new Dictionary<string, string>();
-            type.Add("code", "prov");
-            type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
-            type.Add("display", "Healthcare Provider");
-            SetterDeathRecord.InterestedPartyType = type;
-            Assert.Equal("prov", SetterDeathRecord.InterestedPartyType["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", SetterDeathRecord.InterestedPartyType["system"]);
-            Assert.Equal("Healthcare Provider", SetterDeathRecord.InterestedPartyType["display"]);
         }
 
         [Fact]

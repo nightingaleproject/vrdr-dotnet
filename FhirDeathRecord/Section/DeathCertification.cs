@@ -11,10 +11,16 @@ namespace FhirDeathRecord.Section
     /// </summary>
     public class DeathCertification
     {
-        /// <summary>
-        /// The wrapped FHIR Procedure resouce
-        /// </summary>
-        internal Procedure Resource { get; private set; }
+        private Procedure _resource;
+        internal Procedure Resource
+        {
+            get { return _resource; }
+            set
+            {
+                if (value != null)
+                    _resource = value;
+            }
+        }
 
         /// <summary>
         /// Reference used in Bundle/Composition
@@ -31,7 +37,7 @@ namespace FhirDeathRecord.Section
         {
             get
             {
-                if (Resource?.Performed == null)
+                if (Resource.Performed == null)
                 {
                     return null;
                 }
@@ -51,7 +57,7 @@ namespace FhirDeathRecord.Section
         {
             get
             {
-                var performerRole = Resource?.Performer?.FirstOrDefault()?.Role;
+                var performerRole = Resource.Performer?.FirstOrDefault()?.Role;
                 return performerRole.ToDictionary();
             }
         }
@@ -74,6 +80,9 @@ namespace FhirDeathRecord.Section
             };
         }
 
+        /// <summary>
+        /// Create Instance
+        /// </summary>
         public static DeathCertification CreateInstance(DeathRecord record = null)
         {
             var source = new DeathCertification();

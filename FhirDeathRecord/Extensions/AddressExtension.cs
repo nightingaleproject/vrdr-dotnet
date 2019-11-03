@@ -4,6 +4,9 @@ using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord.Extensions
 {
+    /// <summary>
+    /// Extension methos for HL7.Fhir.Model.Address
+    /// </summary>
     public static class AddressExtension
     {
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
@@ -40,51 +43,34 @@ namespace FhirDeathRecord.Extensions
             return dictionary;
         }
 
-                /// <summary>Convert an "address" dictionary to a FHIR Address.</summary>
+        /// <summary>Convert an "address" dictionary to a FHIR Address.</summary>
         /// <param name="source">represents an address.</param>
         /// <param name="target">the corresponding FHIR Address representation of the address.</param>
         public static void FromDictionary(this Address target, Dictionary<string, string> source)
         {
-            target = null;
-            // Address address = new Address();
-            // if (dict != null)
-            // {
-            //     List<string> lines = new List<string>();
-            //     if (dict.ContainsKey("addressLine1") && !String.IsNullOrEmpty(dict["addressLine1"]))
-            //     {
-            //         lines.Add(dict["addressLine1"]);
-            //     }
-            //     if (dict.ContainsKey("addressLine2") && !String.IsNullOrEmpty(dict["addressLine2"]))
-            //     {
-            //         lines.Add(dict["addressLine2"]);
-            //     }
-            //     if (lines.Count() > 0)
-            //     {
-            //         address.Line = lines.ToArray();
-            //     }
-            //     if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
-            //     {
-            //         address.City = dict["addressCity"];
-            //     }
-            //     if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
-            //     {
-            //         address.District = dict["addressCounty"];
-            //     }
-            //     if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
-            //     {
-            //         address.State = dict["addressState"];
-            //     }
-            //     if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
-            //     {
-            //         address.PostalCode = dict["addressZip"];
-            //     }
-            //     if (dict.ContainsKey("addressCountry") && !String.IsNullOrEmpty(dict["addressCountry"]))
-            //     {
-            //         address.Country = dict["addressCountry"];
-            //     }
-            // }
-            // return address;
-        }
+            if (source == null)
+                return;
 
+            if (source.HasStringValue("addressLine1"))
+                target.LineElement.Add(new FhirString(source["addressLine1"]));
+
+            if (source.HasStringValue("addressLine2"))
+                target.LineElement.Add(new FhirString(source["addressLine2"]));
+
+            if (source.HasStringValue("addressCity"))
+                target.City = source["addressCity"];
+
+            if (source.HasStringValue("addressCounty"))
+                target.District = source["addressCounty"];
+
+            if (source.HasStringValue("addressState"))
+                target.State = source["addressState"];
+
+            if (source.HasStringValue("addressZip"))
+                target.PostalCode = source["addressZip"];
+
+            if (source.HasStringValue("addressCountry"))
+                target.Country = source["addressCountry"];
+        }
     }
 }

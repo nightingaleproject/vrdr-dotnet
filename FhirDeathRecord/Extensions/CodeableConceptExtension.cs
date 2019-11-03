@@ -4,6 +4,9 @@ using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord.Extensions
 {
+    /// <summary>
+    /// Extension methos for HL7.Fhir.Model.CodeableConcept
+    /// </summary>
     public static class CodeableConceptExtension
     {
         /// <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
@@ -37,30 +40,24 @@ namespace FhirDeathRecord.Extensions
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
-        /// <param name="target">the target codeable concept</param>
+        /// <param name="target">the corresponding CodeableConcept representation of the code</param>
         /// <param name="source">represents a code.</param>
-        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
         public static void FromDictionary(this CodeableConcept target, Dictionary<string, string> source)
         {
             if (source == null)
                 return;
 
             var coding = new Coding();
-            if (source != null)
-            {
-                if (source.ContainsKey("code") && !string.IsNullOrEmpty(source["code"]))
-                {
-                    coding.Code = source["code"];
-                }
-                if (source.ContainsKey("system") && !string.IsNullOrEmpty(source["system"]))
-                {
-                    coding.System = source["system"];
-                }
-                if (source.ContainsKey("display") && !string.IsNullOrEmpty(source["display"]))
-                {
-                    coding.Display = source["display"];
-                }
-            }
+
+            if (source.HasStringValue("code"))
+                coding.Code = source["code"];
+
+            if (source.HasStringValue("system"))
+                coding.System = source["system"];
+
+            if (source.HasStringValue("display"))
+                coding.Display = source["display"];
+
             target.Coding.Add(coding);
         }
     }

@@ -629,8 +629,9 @@ namespace FhirDeathRecord
             }
             set
             {
-                // InterestedParty.Address.Clear();
-                // InterestedParty.Address.Add(DictToAddress(value));
+                if (InterestedParty == null)
+                    InterestedParty = Section.InterestedParty.CreateInstance(this);
+
                 InterestedParty.Address = value;
             }
         }
@@ -660,16 +661,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (InterestedParty != null && InterestedParty.Type != null && InterestedParty.Type.Count() > 0)
-                {
-                    return CodeableConceptToDict(InterestedParty.Type.First());
-                }
-                return EmptyCodeDict();
+                return InterestedParty?.Type;
             }
             set
             {
-                InterestedParty.Type.Clear();
-                InterestedParty.Type.Add(DictToCodeableConcept(value));
+                if (InterestedParty == null)
+                    InterestedParty = Section.InterestedParty.CreateInstance(this);
+
+                InterestedParty.Type = value;
             }
         }
 
@@ -5580,11 +5579,14 @@ namespace FhirDeathRecord
             var interestedParty = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null);
             if (interestedParty != null)
             {
-                InterestedParty = (Organization)interestedParty.Resource;
+                InterestedParty = new Section.InterestedParty
+                {
+                    Resource = (Organization)interestedParty.Resource
+                };
             }
 
             // Grab Funeral Home
-            var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id));
+            var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || entry.Resource.Id != InterestedParty.Resource.Id));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;

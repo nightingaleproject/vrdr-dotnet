@@ -1963,20 +1963,44 @@
         <member name="M:FhirDeathRecord.DeathRecordFaker.Generate(System.Boolean)">
             <summary>Return a new record populated with fake data.</summary>
         </member>
+        <member name="T:FhirDeathRecord.Extensions.AddressExtension">
+            <summary>
+            Extension methos for HL7.Fhir.Model.Address
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Extensions.AddressExtension.ToDictionary(Hl7.Fhir.Model.Address)">
+            <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
+            <param name="source">a FHIR Address.</param>
+            <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
+        </member>
+        <member name="M:FhirDeathRecord.Extensions.AddressExtension.FromDictionary(Hl7.Fhir.Model.Address,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Convert an "address" dictionary to a FHIR Address.</summary>
+            <param name="source">represents an address.</param>
+            <param name="target">the corresponding FHIR Address representation of the address.</param>
+        </member>
+        <member name="T:FhirDeathRecord.Extensions.CodeableConceptExtension">
+            <summary>
+            Extension methos for HL7.Fhir.Model.CodeableConcept
+            </summary>
+        </member>
         <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.ToDictionary(Hl7.Fhir.Model.CodeableConcept)">
             <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
-            <param name="codeableConcept">a FHIR CodeableConcept.</param>
+            <param name="source">a FHIR CodeableConcept.</param>
             <returns>the corresponding Dictionary representation of the code.</returns>
         </member>
         <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.FromDictionary(Hl7.Fhir.Model.CodeableConcept,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
-            <param name="codeableConcept">the target codeable concept</param>
-            <param name="dict">represents a code.</param>
-            <returns>the corresponding CodeableConcept representation of the code.</returns>
+            <param name="target">the corresponding CodeableConcept representation of the code</param>
+            <param name="source">represents a code.</param>
         </member>
-        <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.EmptyCodeDictionary">
-            <summary>Returns an empty "code" Dictionary.</summary>
-            <returns>an empty "code" Dictionary.</returns>
+        <member name="T:FhirDeathRecord.Extensions.DictioanryExtension">
+            <summary>
+            Extension methos for System.Collections.Generic.Dictionary
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Extensions.DictioanryExtension.HasStringValue(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            </summary>
         </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
@@ -2654,11 +2678,6 @@
             Class <c>DeathCertification</c> models the Death Certification used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
             </summary>
         </member>
-        <member name="P:FhirDeathRecord.Section.DeathCertification.Resource">
-            <summary>
-            The wrapped FHIR Procedure resouce
-            </summary>
-        </member>
         <member name="P:FhirDeathRecord.Section.DeathCertification.Url">
             <summary>
             Reference used in Bundle/Composition
@@ -2677,19 +2696,41 @@
         <member name="M:FhirDeathRecord.Section.DeathCertification.#ctor">
             <summary>Constructor</summary>
         </member>
+        <member name="M:FhirDeathRecord.Section.DeathCertification.CreateInstance(FhirDeathRecord.DeathRecord)">
+            <summary>
+            Create Instance
+            </summary>
+        </member>
         <member name="T:FhirDeathRecord.Section.InterestedParty">
             <summary>
             Class <c>DeathCertification</c> models the Interested Party used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
             </summary>
         </member>
-        <member name="P:FhirDeathRecord.Section.InterestedParty.Resource">
-            <summary>
-            The wrapped FHIR Organization resouce
-            </summary>
-        </member>
         <member name="P:FhirDeathRecord.Section.InterestedParty.Url">
             <summary>
             Reference used in Bundle/Composition
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Identifier">
+            <summary>Interested Party's Identifier.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Name">
+            <summary>Interested Party's Name.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Address">
+            <summary>Interested Party's Address.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Type">
+            <summary>Interested Party's Type.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.InterestedParty.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.InterestedParty.CreateInstance(FhirDeathRecord.DeathRecord)">
+            <summary>
+            Create Instance
             </summary>
         </member>
     </members>

@@ -210,7 +210,7 @@
         <member name="F:FhirDeathRecord.DeathRecord.Mortician">
             <summary>The Mortician.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DeathCertification">
+        <member name="P:FhirDeathRecord.DeathRecord.DeathCertification">
             <summary>The Certification.</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.InterestedParty">
@@ -1970,10 +1970,11 @@
         </member>
         <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.FromDictionary(Hl7.Fhir.Model.CodeableConcept,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+            <param name="codeableConcept">the target codeable concept</param>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
-        <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.EmptyCodeDict">
+        <member name="M:FhirDeathRecord.Extensions.CodeableConceptExtension.EmptyCodeDictionary">
             <summary>Returns an empty "code" Dictionary.</summary>
             <returns>an empty "code" Dictionary.</returns>
         </member>
@@ -2649,23 +2650,47 @@
             <summary>Place Codes</summary>
         </member>
         <member name="T:FhirDeathRecord.Section.DeathCertification">
-            <summary>Class <c>DeathCertification</c> models a Death Cerfication used in FHIR Vital Records Death Reporting (VRDR) Death
-            Record. 
+            <summary>
+            Class <c>DeathCertification</c> models the Death Certification used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.DeathCertification.Resource">
+            <summary>
+            The wrapped FHIR Procedure resouce
             </summary>
         </member>
         <member name="P:FhirDeathRecord.Section.DeathCertification.Url">
             <summary>
-            Get Reference url
+            Reference used in Bundle/Composition
             </summary>
         </member>
         <member name="P:FhirDeathRecord.Section.DeathCertification.CertifiedTime">
-            <summary>Certified time.</summary>
+            <summary>
+            Certified time.
+            </summary>
         </member>
         <member name="P:FhirDeathRecord.Section.DeathCertification.CertifierRole">
-            <summary>Certifier Role.</summary>
+            <summary>
+            Certifier Role.
+            </summary>
         </member>
         <member name="M:FhirDeathRecord.Section.DeathCertification.#ctor">
             <summary>Constructor</summary>
+        </member>
+        <member name="T:FhirDeathRecord.Section.InterestedParty">
+            <summary>
+            Class <c>DeathCertification</c> models the Interested Party used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Resource">
+            <summary>
+            The wrapped FHIR Organization resouce
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.InterestedParty.Url">
+            <summary>
+            Reference used in Bundle/Composition
+            </summary>
         </member>
     </members>
 </doc>

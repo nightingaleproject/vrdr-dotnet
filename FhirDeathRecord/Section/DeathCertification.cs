@@ -6,20 +6,27 @@ using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord.Section
 {
-    /// <summary>Class <c>DeathCertification</c> models a Death Cerfication used in FHIR Vital Records Death Reporting (VRDR) Death
-    /// Record. 
+    /// <summary>
+    /// Class <c>DeathCertification</c> models the Death Certification used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
     /// </summary>
     public class DeathCertification
     {
-        ///<summary>
-        ///Get Reference url
-        ///</summary>
+        /// <summary>
+        /// The wrapped FHIR Procedure resouce
+        /// </summary>
+        internal Procedure Resource { get; private set; }
+
+        /// <summary>
+        /// Reference used in Bundle/Composition
+        /// </summary>
         public string Url
         {
             get { return "urn:uuid:" + Resource.Id; }
         }
 
-        /// <summary>Certified time.</summary>
+        /// <summary>
+        /// Certified time.
+        /// </summary>
         public string CertifiedTime
         {
             get
@@ -37,7 +44,9 @@ namespace FhirDeathRecord.Section
             }
         }
 
-        /// <summary>Certifier Role.</summary>
+        /// <summary>
+        /// Certifier Role.
+        /// </summary>
         public Dictionary<string, string> CertifierRole
         {
             get
@@ -47,7 +56,7 @@ namespace FhirDeathRecord.Section
             }
         }
 
-        internal Procedure Resource { get; set; }
+
 
         ///<summary>Constructor</summary>
         public DeathCertification()

@@ -7,74 +7,61 @@ namespace FhirDeathRecord.Extensions
     public static class CodeableConceptExtension
     {
         /// <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
-        /// <param name="codeableConcept">a FHIR CodeableConcept.</param>
+        /// <param name="source">a FHIR CodeableConcept.</param>
         /// <returns>the corresponding Dictionary representation of the code.</returns>
-        public static Dictionary<string, string> ToDictionary(this CodeableConcept codeableConcept)
+        public static Dictionary<string, string> ToDictionary(this CodeableConcept source)
         {
 
-            var dictionary = EmptyCodeDict();
+            var dictionary = new Dictionary<string, string>
+            {
+                { "code", string.Empty },
+                { "system", string.Empty },
+                { "display", string.Empty }
+            };
 
-            if (codeableConcept?.Coding == null || !codeableConcept.Coding.Any())
+            if (source?.Coding == null || !source.Coding.Any())
                 return dictionary;
 
-            Coding coding = codeableConcept.Coding.First();
+            Coding coding = source.Coding.First();
 
             if (!string.IsNullOrEmpty(coding.Code))
-            {
                 dictionary["code"] = coding.Code;
-            }
 
             if (!string.IsNullOrEmpty(coding.System))
-            {
                 dictionary["system"] = coding.System;
-            }
 
             if (!string.IsNullOrEmpty(coding.Display))
-            {
                 dictionary["display"] = coding.Display;
-            }
 
             return dictionary;
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
-        /// <param name="dict">represents a code.</param>
+        /// <param name="target">the target codeable concept</param>
+        /// <param name="source">represents a code.</param>
         /// <returns>the corresponding CodeableConcept representation of the code.</returns>
-        public static void FromDictionary(this CodeableConcept codeableConcept, Dictionary<string, string> dict)
+        public static void FromDictionary(this CodeableConcept target, Dictionary<string, string> source)
         {
-            if (dict == null)
+            if (source == null)
                 return;
 
             var coding = new Coding();
-            if (dict != null)
+            if (source != null)
             {
-                if (dict.ContainsKey("code") && !string.IsNullOrEmpty(dict["code"]))
+                if (source.ContainsKey("code") && !string.IsNullOrEmpty(source["code"]))
                 {
-                    coding.Code = dict["code"];
+                    coding.Code = source["code"];
                 }
-                if (dict.ContainsKey("system") && !string.IsNullOrEmpty(dict["system"]))
+                if (source.ContainsKey("system") && !string.IsNullOrEmpty(source["system"]))
                 {
-                    coding.System = dict["system"];
+                    coding.System = source["system"];
                 }
-                if (dict.ContainsKey("display") && !string.IsNullOrEmpty(dict["display"]))
+                if (source.ContainsKey("display") && !string.IsNullOrEmpty(source["display"]))
                 {
-                    coding.Display = dict["display"];
+                    coding.Display = source["display"];
                 }
             }
-            codeableConcept.Coding.Add(coding);
+            target.Coding.Add(coding);
         }
-
-
-        /// <summary>Returns an empty "code" Dictionary.</summary>
-        /// <returns>an empty "code" Dictionary.</returns>
-        private static Dictionary<string, string> EmptyCodeDict()
-        {
-            var dictionary = new Dictionary<string, string>();
-            dictionary.Add("code", "");
-            dictionary.Add("system", "");
-            dictionary.Add("display", "");
-            return dictionary;
-        }
-
     }
 }

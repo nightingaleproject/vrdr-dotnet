@@ -42,10 +42,10 @@ namespace FhirDeathRecord
         private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
-        private Section.DeathCertification DeathCertification {get; set;}
+        private Section.DeathCertification DeathCertification { get; set; }
 
         /// <summary>The Interested Party.</summary>
-        private Organization InterestedParty;
+        private Section.InterestedParty InterestedParty;
 
         /// <summary>The Manner of Death Observation.</summary>
         private Observation MannerOfDeath;
@@ -189,16 +189,8 @@ namespace FhirDeathRecord
             string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
             Mortician.Meta.Profile = mortician_profile;
 
-            // Start with an empty certification.
             DeathCertification = Section.DeathCertification.CreateInstance(this);
-
-            // Start with an empty interested party.
-            InterestedParty = new Organization();
-            InterestedParty.Id = Guid.NewGuid().ToString();
-            InterestedParty.Meta = new Meta();
-            string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-            InterestedParty.Meta.Profile = interestedparty_profile;
-            InterestedParty.Active = true;
+            InterestedParty = Section.InterestedParty.CreateInstance(this);
 
             // Start with an empty funeral home.
             FuneralHome = new Organization();
@@ -249,7 +241,6 @@ namespace FhirDeathRecord
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(InterestedParty.Id);
             AddReferenceToComposition(FuneralHome.Id);
             AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
@@ -257,7 +248,6 @@ namespace FhirDeathRecord
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-            Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
@@ -530,7 +520,8 @@ namespace FhirDeathRecord
             }
             set
             {
-                DeathCertification = DeathCertification ?? Section.DeathCertification.CreateInstance(this);
+                if (DeathCertification == null)
+                    DeathCertification = Section.DeathCertification.CreateInstance(this);
 
                 var performer = new Procedure.PerformerComponent
                 {
@@ -561,35 +552,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (InterestedParty != null && InterestedParty.Identifier != null && InterestedParty.Identifier.Count() > 0)
-                {
-                    return InterestedParty.Identifier.FirstOrDefault().Value;
-                }
-                return null;
+                return InterestedParty?.Identifier;
             }
             set
             {
                 if (InterestedParty == null)
-                {
-                    InterestedParty = new Organization();
-                    InterestedParty.Id = Guid.NewGuid().ToString();
-                    InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-                    InterestedParty.Meta.Profile = interestedparty_profile;
-                    InterestedParty.Active = true;
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    InterestedParty.Identifier.Add(identifier);
-                    AddReferenceToComposition(InterestedParty.Id);
-                    Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
-                }
-                else
-                {
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    InterestedParty.Identifier.Clear();
-                    InterestedParty.Identifier.Add(identifier);
-                }
+                    InterestedParty = Section.InterestedParty.CreateInstance(this);
+
+                InterestedParty.Identifier = value;
             }
         }
 
@@ -607,30 +577,14 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (InterestedParty != null)
-                {
-                    return InterestedParty.Name;
-                }
-                return null;
+                return InterestedParty?.Name;
             }
             set
             {
                 if (InterestedParty == null)
-                {
-                    InterestedParty = new Organization();
-                    InterestedParty.Id = Guid.NewGuid().ToString();
-                    InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-                    InterestedParty.Meta.Profile = interestedparty_profile;
-                    InterestedParty.Active = true;
-                    InterestedParty.Name = value;
-                    AddReferenceToComposition(InterestedParty.Id);
-                    Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
-                }
-                else
-                {
-                    InterestedParty.Name = value;
-                }
+                    InterestedParty = Section.InterestedParty.CreateInstance(this);
+
+                InterestedParty.Name = value;
             }
         }
 
@@ -671,16 +625,13 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (InterestedParty != null && InterestedParty.Address != null && InterestedParty.Address.Count() > 0)
-                {
-                    return AddressToDict(InterestedParty.Address.First());
-                }
-                return EmptyAddrDict();
+                return InterestedParty?.Address;
             }
             set
             {
-                InterestedParty.Address.Clear();
-                InterestedParty.Address.Add(DictToAddress(value));
+                // InterestedParty.Address.Clear();
+                // InterestedParty.Address.Add(DictToAddress(value));
+                InterestedParty.Address = value;
             }
         }
 

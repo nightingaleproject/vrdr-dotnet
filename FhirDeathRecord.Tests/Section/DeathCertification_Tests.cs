@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using FhirDeathRecord.Extensions;
 using FhirDeathRecord.Section;
+using Hl7.Fhir.Model;
 using Xunit;
 
 namespace FhirDeathRecord.Tests.Section
@@ -8,16 +11,16 @@ namespace FhirDeathRecord.Tests.Section
         [Fact]
         public void UrlShallBeUuid()
         {
-            var target = new DeathCertification();
-            Assert.True(target.Url.StartsWith("urn:uuid:"));
+            var instance = new DeathCertification();
+            Assert.True(instance.Url.StartsWith("urn:uuid:"));
         }
 
        [Fact]
         public void CertifiedTimeShallBeString()
         {
-            var target = new DeathCertification();
-            target.CertifiedTime = "2019-01-29T16:48:06.498822-05:00";
-            Assert.Equal("2019-01-29T16:48:06.498822-05:00", target.CertifiedTime);
+            var instance = new DeathCertification();
+            instance.CertifiedTime = "2019-01-29T16:48:06.498822-05:00";
+            Assert.Equal("2019-01-29T16:48:06.498822-05:00", instance.CertifiedTime);
         }
     }
 }

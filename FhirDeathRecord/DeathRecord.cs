@@ -9,6 +9,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
+using FhirDeathRecord.Extensions;
 
 namespace FhirDeathRecord
 {
@@ -26,10 +27,10 @@ namespace FhirDeathRecord
         private ITypedElement Navigator;
 
         /// <summary>Bundle that contains the death record.</summary>
-        private Bundle Bundle;
+        internal Bundle Bundle { get; private set; }
 
         /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
-        private Composition Composition;
+        internal Composition Composition { get; private set; }
 
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
@@ -41,7 +42,7 @@ namespace FhirDeathRecord
         private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
-        private Procedure DeathCertification;
+        private Section.DeathCertification DeathCertification {get; set;}
 
         /// <summary>The Interested Party.</summary>
         private Organization InterestedParty;
@@ -157,6 +158,16 @@ namespace FhirDeathRecord
             string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
             Bundle.Meta.Profile = bundle_profile;
 
+            // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
+            Composition = new Composition();
+            Composition.Id = Guid.NewGuid().ToString();
+            Composition.Status = CompositionStatus.Final;
+            Composition.Meta = new Meta();
+            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
+            Composition.Meta.Profile = composition_profile;
+            Composition.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
+            Composition.Section.Add(new Composition.SectionComponent());
+
             // Start with an empty decedent.
             Decedent = new Patient();
             Decedent.Id = Guid.NewGuid().ToString();
@@ -179,8 +190,7 @@ namespace FhirDeathRecord
             Mortician.Meta.Profile = mortician_profile;
 
             // Start with an empty certification.
-            //DeathCertification = new Procedure().CreateDeathCertification();
-            DeathCertification = new DeathCertification();
+            DeathCertification = Section.DeathCertification.CreateInstance(this);
 
             // Start with an empty interested party.
             InterestedParty = new Organization();
@@ -214,22 +224,13 @@ namespace FhirDeathRecord
             string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
 
-            // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
-            Composition = new Composition();
-            Composition.Id = Guid.NewGuid().ToString();
-            Composition.Status = CompositionStatus.Final;
-            Composition.Meta = new Meta();
-            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
-            Composition.Meta.Profile = composition_profile;
-            Composition.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
-            Composition.Section.Add(new Composition.SectionComponent());
             Composition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             Composition.Attester.Add(new Composition.AttesterComponent());
             Composition.Attester.First().Party = new ResourceReference("urn:uuid:" + Certifier.Id);
             Composition.Attester.First().ModeElement.Add(new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal));
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
             eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null));
-            eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
+            eventComponent.Detail.Add(new ResourceReference(DeathCertification.Url));
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
@@ -248,7 +249,6 @@ namespace FhirDeathRecord
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(DeathCertification.Id);
             AddReferenceToComposition(InterestedParty.Id);
             AddReferenceToComposition(FuneralHome.Id);
             AddReferenceToComposition(FuneralHomeDirector.Id);
@@ -257,7 +257,6 @@ namespace FhirDeathRecord
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
             Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
@@ -274,9 +273,12 @@ namespace FhirDeathRecord
         /// <exception cref="ArgumentException">Record is neither valid XML nor JSON.</exception>
         public DeathRecord(string record, bool permissive = false)
         {
-            ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = permissive,
-                                                                 AllowUnrecognizedEnums = permissive,
-                                                                 PermissiveParsing = permissive };
+            ParserSettings parserSettings = new ParserSettings
+            {
+                AcceptUnknownMembers = permissive,
+                AllowUnrecognizedEnums = permissive,
+                PermissiveParsing = permissive
+            };
             // XML?
             if (!String.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
             {
@@ -406,7 +408,7 @@ namespace FhirDeathRecord
                 {
                     return Composition.Identifier.Value;
                 }
-                return null; 
+                return null;
             }
             set
             {
@@ -462,24 +464,18 @@ namespace FhirDeathRecord
                 {
                     return Composition.Attester.First().Time;
                 }
-                else if (DeathCertification != null && DeathCertification.Performed != null)
+                else if (DeathCertification != null)
                 {
-                    Convert.ToString(DeathCertification.Performed);
+                    return DeathCertification.CertifiedTime;
                 }
                 return null;
             }
             set
             {
-                if (DeathCertification == null)
-                {
-                    //DeathCertification = new Procedure().CreateDeathCertification();
-                    DeathCertification = new DeathCertification();
-                    AddReferenceToComposition(DeathCertification.Id);
-                    Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                }
+                DeathCertification = DeathCertification ?? Section.DeathCertification.CreateInstance(this);
 
                 Composition.Attester.First().Time = value;
-                DeathCertification.Performed = new FhirDateTime(value);
+                DeathCertification.CertifiedTime = value;
             }
         }
 
@@ -530,35 +526,24 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (DeathCertification == null)
-                {
-                    return EmptyCodeDict();
-                }
-                Hl7.Fhir.Model.Procedure.PerformerComponent performer = DeathCertification.Performer.FirstOrDefault();
-                if (performer != null && performer.Role != null)
-                {
-                    return CodeableConceptToDict(performer.Role);
-                }
-                return EmptyCodeDict();
+                return DeathCertification.CertifierRole;
             }
             set
             {
-                if (DeathCertification == null)
-                {
-                    //DeathCertification = new Procedure().CreateDeathCertification();
-                    DeathCertification = new DeathCertification();
-                    AddReferenceToComposition(DeathCertification.Id);
-                    Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                }
+                DeathCertification = DeathCertification ?? Section.DeathCertification.CreateInstance(this);
 
                 var performer = new Procedure.PerformerComponent
                 {
-                    Role = DictToCodeableConcept(value),
+                    Role = new CodeableConcept(),
                     Actor = new ResourceReference("urn:uuid:" + Certifier.Id)
                 };
-                
-                DeathCertification.Performer.Clear();
-                DeathCertification.Performer.Add(performer);
+
+                performer.Role.FromDictionary(value);
+
+                DeathCertification.Resource.Performer = new List<Procedure.PerformerComponent>
+                {
+                    performer
+                };
             }
         }
 
@@ -3173,7 +3158,7 @@ namespace FhirDeathRecord
             }
             set
             {
-                switch(value)
+                switch (value)
                 {
                     case "male":
                     case "Male":
@@ -3456,7 +3441,7 @@ namespace FhirDeathRecord
                 Extension races = new Extension();
                 races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
                 List<string> textRaceStrs = new List<string>();
-                foreach(Tuple<string,string> element in value)
+                foreach (Tuple<string, string> element in value)
                 {
                     string display = element.Item1;
                     string code = element.Item2;
@@ -3518,7 +3503,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace");
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -3592,7 +3577,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Given != null) {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Given != null)
+                {
                     return Father.Name.First().Given.ToArray();
                 }
                 return new string[0];
@@ -3636,7 +3622,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Family != null) {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Family != null)
+                {
                     return Father.Name.First().Family;
                 }
                 return null;
@@ -3680,7 +3667,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Suffix != null) {
+                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Suffix != null)
+                {
 
                     return Father.Name.First().Suffix.FirstOrDefault();
                 }
@@ -3728,7 +3716,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null)
+                {
                     return Mother.Name.First().Given.ToArray();
                 }
                 return new string[0];
@@ -3772,7 +3761,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null)
+                {
                     return Mother.Name.First().Family;
                 }
                 return null;
@@ -3816,7 +3806,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null) {
+                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null)
+                {
 
                     return Mother.Name.First().Suffix.FirstOrDefault();
                 }
@@ -3864,7 +3855,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null) {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null)
+                {
                     return Spouse.Name.First().Given.ToArray();
                 }
                 return new string[0];
@@ -3908,7 +3900,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null) {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null)
+                {
                     return Spouse.Name.First().Family;
                 }
                 return null;
@@ -3952,7 +3945,8 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null) {
+                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null)
+                {
 
                     return Spouse.Name.First().Suffix.FirstOrDefault();
                 }
@@ -4109,7 +4103,7 @@ namespace FhirDeathRecord
             {
                 if (EmploymentHistory != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9");
                     if (component != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4139,7 +4133,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
+                    EmploymentHistory.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9");
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
                     component.Value = DictToCodeableConcept(value);
@@ -4175,7 +4169,7 @@ namespace FhirDeathRecord
             {
                 if (EmploymentHistory != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                     if (component != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4205,7 +4199,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    EmploymentHistory.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
@@ -4241,7 +4235,7 @@ namespace FhirDeathRecord
             {
                 if (EmploymentHistory != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2");
                     if (component != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4271,7 +4265,7 @@ namespace FhirDeathRecord
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    EmploymentHistory.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2");
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
                     component.Value = DictToCodeableConcept(value);
@@ -5574,7 +5568,7 @@ namespace FhirDeathRecord
         private void RestoreReferences()
         {
             // Grab Composition
-            var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
+            var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
             if (compositionEntry != null)
             {
                 Composition = (Composition)compositionEntry.Resource;
@@ -5589,7 +5583,7 @@ namespace FhirDeathRecord
             {
                 throw new System.ArgumentException("The Composition is missing a subject (a reference to the Decedent resource).");
             }
-            var patientEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Patient );
+            var patientEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Patient);
             if (patientEntry != null)
             {
                 Decedent = (Patient)patientEntry.Resource;
@@ -5604,7 +5598,7 @@ namespace FhirDeathRecord
             {
                 throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
             }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
+            var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
             if (practitionerEntry != null)
             {
                 Certifier = (Practitioner)practitionerEntry.Resource;
@@ -5615,42 +5609,45 @@ namespace FhirDeathRecord
             }
 
             // Grab Mortician
-            var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            var morticianEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id);
             if (morticianEntry != null)
             {
                 Mortician = (Practitioner)morticianEntry.Resource;
             }
 
             // Grab Death Certification
-            var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
+            var procedureEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Procedure);
             if (procedureEntry?.Resource != null)
             {
-                DeathCertification = (Procedure)procedureEntry.Resource;
+                DeathCertification = new Section.DeathCertification
+                {
+                    Resource = (Procedure)procedureEntry.Resource
+                };
             }
 
             // Grab Interested Party
-            var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
+            var interestedParty = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null);
             if (interestedParty != null)
             {
                 InterestedParty = (Organization)interestedParty.Resource;
             }
 
             // Grab Funeral Home
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id) );
+            var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
             }
 
             // Grab Funeral Home Director
-            var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
+            var funeralHomeDirector = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.PractitionerRole);
             if (funeralHomeDirector != null)
             {
                 FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
             }
 
             // Scan through all Observations to make sure they all have codes!
-            foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
+            foreach (var ob in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.Observation))
             {
                 Observation obs = (Observation)ob.Resource;
                 if (obs.Code == null || obs.Code.Coding == null || obs.Code.Coding.FirstOrDefault() == null || obs.Code.Coding.First().Code == null)
@@ -5660,21 +5657,21 @@ namespace FhirDeathRecord
             }
 
             // Grab Manner of Death
-            var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
+            var mannerOfDeath = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7");
             if (mannerOfDeath != null)
             {
                 MannerOfDeath = (Observation)mannerOfDeath.Resource;
             }
 
             // Grab Disposition Method
-            var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );
+            var dispositionMethod = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3");
             if (dispositionMethod != null)
             {
                 DispositionMethod = (Observation)dispositionMethod.Resource;
             }
 
             // Grab Cause Of Death Condition Pathway
-            var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
+            var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.List);
             if (causeOfDeathConditionPathway != null)
             {
                 CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
@@ -5688,7 +5685,7 @@ namespace FhirDeathRecord
                 {
                     if (condition != null && condition.Item != null && condition.Item.Reference != null)
                     {
-                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
+                        var codCond = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Condition && (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)));
                         if (codCond != null)
                         {
                             causeConditions.Add((Condition)codCond.Resource);
@@ -5739,7 +5736,7 @@ namespace FhirDeathRecord
 
             // Grab Condition Contributing To Death
             List<Condition> remainingConditions = new List<Condition>();
-            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition ))
+            foreach (var condition in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.Condition))
             {
                 if (condition != null)
                 {
@@ -5759,7 +5756,7 @@ namespace FhirDeathRecord
             }
 
             // Scan through all RelatedPerson to make sure they all have relationship codes!
-            foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
+            foreach (var rp in Bundle.Entry.Where(entry => entry.Resource.ResourceType == ResourceType.RelatedPerson))
             {
                 RelatedPerson rpn = (RelatedPerson)rp.Resource;
                 if (rpn.Relationship == null || rpn.Relationship.Coding == null || rpn.Relationship.Coding.FirstOrDefault() == null || rpn.Relationship.Coding.First().Code == null)
@@ -5769,42 +5766,42 @@ namespace FhirDeathRecord
             }
 
             // Grab Father
-            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "FTH" );
+            var father = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "FTH");
             if (father != null)
             {
                 Father = (RelatedPerson)father.Resource;
             }
 
             // Grab Mother
-            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "MTH" );
+            var mother = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "MTH");
             if (mother != null)
             {
                 Mother = (RelatedPerson)mother.Resource;
             }
 
             // Grab Spouse
-            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "SPS" );
+            var spouse = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "SPS");
             if (spouse != null)
             {
                 Spouse = (RelatedPerson)spouse.Resource;
             }
 
             // Grab Decedent Education Level
-            var decedentEducationLevel = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7" );
+            var decedentEducationLevel = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7");
             if (decedentEducationLevel != null)
             {
                 DecedentEducationLevel = (Observation)decedentEducationLevel.Resource;
             }
 
             // Grab Birth Record Identifier
-            var birthRecordIdentifier = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR" );
+            var birthRecordIdentifier = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR");
             if (birthRecordIdentifier != null)
             {
                 BirthRecordIdentifier = (Observation)birthRecordIdentifier.Resource;
             }
 
             // Grab Employment History
-            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74165-2" );
+            var employmentHistory = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74165-2");
             if (employmentHistory != null)
             {
                 EmploymentHistory = (Observation)employmentHistory.Resource;
@@ -5812,7 +5809,7 @@ namespace FhirDeathRecord
 
             // Grab Disposition Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var dispositionLocation = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (dispositionLocation != null)
             {
                 DispositionLocation = (Location)dispositionLocation.Resource;
@@ -5820,7 +5817,7 @@ namespace FhirDeathRecord
 
             // Grab Injury Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Injury-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var injuryLocation = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Injury-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (injuryLocation != null)
             {
                 InjuryLocationLoc = (Location)injuryLocation.Resource;
@@ -5828,63 +5825,63 @@ namespace FhirDeathRecord
 
             // Grab Death Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var deathLocation = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (deathLocation != null)
             {
                 DeathLocationLoc = (Location)deathLocation.Resource;
             }
 
             // Grab Autopsy Performed
-            var autopsyPerformed = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7" );
+            var autopsyPerformed = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7");
             if (autopsyPerformed != null)
             {
                 AutopsyPerformed = (Observation)autopsyPerformed.Resource;
             }
 
             // Grab Age At Death
-            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0" );
+            var ageAtDeath = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0");
             if (ageAtDeath != null)
             {
                 AgeAtDeathObs = (Observation)ageAtDeath.Resource;
             }
 
             // Grab Pregnancy
-            var pregnanacyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
+            var pregnanacyStatus = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2");
             if (pregnanacyStatus != null)
             {
                 PregnancyObs = (Observation)pregnanacyStatus.Resource;
             }
 
             // Grab Transportation Role
-            var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
+            var transportationRole = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3");
             if (transportationRole != null)
             {
                 TransportationRoleObs = (Observation)transportationRole.Resource;
             }
 
             // Grab Examiner Contacted
-            var examinerContacted = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9" );
+            var examinerContacted = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9");
             if (examinerContacted != null)
             {
                 ExaminerContactedObs = (Observation)examinerContacted.Resource;
             }
 
             // Grab Tobacco Use
-            var tobaccoUse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0" );
+            var tobaccoUse = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0");
             if (tobaccoUse != null)
             {
                 TobaccoUseObs = (Observation)tobaccoUse.Resource;
             }
 
             // Grab Injury Incident
-            var injuryIncident = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6" );
+            var injuryIncident = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6");
             if (injuryIncident != null)
             {
                 InjuryIncidentObs = (Observation)injuryIncident.Resource;
             }
 
             // Grab Death Date
-            var dateOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5" );
+            var dateOfDeath = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5");
             if (dateOfDeath != null)
             {
                 DeathDateObs = (Observation)dateOfDeath.Resource;
@@ -6196,11 +6193,11 @@ namespace FhirDeathRecord
         private static Dictionary<string, string> UpdateDictionary(Dictionary<string, string> a, Dictionary<string, string> b)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach(KeyValuePair<string, string> entry in a)
+            foreach (KeyValuePair<string, string> entry in a)
             {
                 dictionary[entry.Key] = entry.Value;
             }
-            foreach(KeyValuePair<string, string> entry in b)
+            foreach (KeyValuePair<string, string> entry in b)
             {
                 dictionary[entry.Key] = entry.Value;
             }
@@ -6214,7 +6211,7 @@ namespace FhirDeathRecord
         public string ToDescription()
         {
             Dictionary<string, Dictionary<string, dynamic>> description = new Dictionary<string, Dictionary<string, dynamic>>();
-            foreach(PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => ((Property)p.GetCustomAttributes().First()).Priority))
+            foreach (PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => ((Property)p.GetCustomAttributes().First()).Priority))
             {
                 // Grab property annotation for this property
                 Property info = (Property)property.GetCustomAttributes().First();
@@ -6252,7 +6249,7 @@ namespace FhirDeathRecord
                         // Make sure to grab all of the Conditions for COD
                         string xml = "";
                         string json = "";
-                        foreach(var match in matches)
+                        foreach (var match in matches)
                         {
                             xml += match.ToXml();
                             json += match.ToJson() + ",";
@@ -6275,9 +6272,9 @@ namespace FhirDeathRecord
                         {
                             category[property.Name]["SnippetXML"] = "";
                         }
-                         Dictionary<string, dynamic> jsonRoot =
-                            JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(matches.First().ToJson(),
-                                new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                        Dictionary<string, dynamic> jsonRoot =
+                           JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(matches.First().ToJson(),
+                               new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
                         if (jsonRoot != null && jsonRoot.Keys.Contains(path.Element))
                         {
                             category[property.Name]["SnippetJSON"] = "{" + $"\"{path.Element}\": \"{jsonRoot[path.Element]}\"" + "}";
@@ -6343,10 +6340,10 @@ namespace FhirDeathRecord
                 JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, dynamic>>>(contents,
                     new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
             // Loop over each category
-            foreach(KeyValuePair<string, Dictionary<string, dynamic>> category in description)
+            foreach (KeyValuePair<string, Dictionary<string, dynamic>> category in description)
             {
                 // Loop over each property
-                foreach(KeyValuePair<string, dynamic> property in category.Value)
+                foreach (KeyValuePair<string, dynamic> property in category.Value)
                 {
                     if (!property.Value.ContainsKey("Value") || property.Value["Value"] == null)
                     {
@@ -6384,7 +6381,7 @@ namespace FhirDeathRecord
                         Dictionary<string, Dictionary<string, string>> moreInfo =
                             property.Value["Value"].ToObject<Dictionary<string, Dictionary<string, string>>>();
                         Dictionary<string, string> result = new Dictionary<string, string>();
-                        foreach(KeyValuePair<string, Dictionary<string, string>> entry in moreInfo)
+                        foreach (KeyValuePair<string, Dictionary<string, string>> entry in moreInfo)
                         {
                             result[entry.Key] = entry.Value["Value"];
                         }

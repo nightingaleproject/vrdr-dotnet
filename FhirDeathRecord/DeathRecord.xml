@@ -1941,7 +1941,7 @@
             <summary>Constructor.</summary>
         </member>
         <member name="T:FhirDeathRecord.DeathRecordFaker">
-            <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
+            <summary>Class <c>DeathRecordFaker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
             options are available to tailoring the records generated to specific use case by the class.
             </summary>
         </member>
@@ -1962,6 +1962,17 @@
         </member>
         <member name="M:FhirDeathRecord.DeathRecordFaker.Generate(System.Boolean)">
             <summary>Return a new record populated with fake data.</summary>
+        </member>
+        <member name="T:FhirDeathRecord.DeathRecordValidator">
+            <summary>Class <c>DeathRecordValidator</c> can be used to validate <c>DeathRecord</c>s. Against the
+            published Vital Records Death Reporting FHIR Implementation Guide.
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecordValidator.#ctor">
+            <summary>Default constructor.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.DeathRecordValidator.Validate(FhirDeathRecord.DeathRecord)">
+            <summary>Validate the given record.</summary>
         </member>
         <member name="T:FhirDeathRecord.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>

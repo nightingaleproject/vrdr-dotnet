@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StructureDefinition
+    xmlns="http://hl7.org/fhir">
+    <id value="VRDR-Certifier"/>
+    <meta>
+        <versionId value="2"/>
+        <lastUpdated value="2019-08-13T21:33:42.000-04:00"/>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^write"/>
+        </security>
+    </meta>
+    <url value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"/>
+    <version value="1.0"/>
+    <name value="VRDR_Certifier"/>
+    <title value="VRDR Certifier"/>
+    <status value="draft"/>
+    <publisher value="Hi3 Solutions"/>
+    <contact>
+        <name value="AbdulMalik Shakir"/>
+        <telecom>
+            <system value="phone"/>
+            <value value="6266444491"/>
+            <use value="work"/>
+        </telecom>
+        <telecom>
+            <system value="email"/>
+            <value value="abdulmalik.shakir@hi3solutions.com"/>
+            <use value="work"/>
+        </telecom>
+    </contact>
+    <kind value="resource"/>
+    <abstract value="false"/>
+    <contextType value="resource"/>
+    <context value="Practitioner"/>
+    <type value="Practitioner"/>
+    <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Practitioner"/>
+    <derivation value="constraint"/>
+    <differential>
+        <element id="Practitioner">
+            <path value="Practitioner"/>
+        </element>
+        <element id="Practitioner.id">
+            <path value="Practitioner.id"/>
+            <short value="id"/>
+            <definition value="MAY contain zero or one [0..1] id (CONF:4393-300)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Practitioner.meta">
+            <path value="Practitioner.meta"/>
+            <short value="meta"/>
+            <definition value="MAY contain zero or one [0..1] meta (CONF:4393-299)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Practitioner.meta.profile">
+            <path value="Practitioner.meta.profile"/>
+            <short value="profile"/>
+            <definition value="The meta, if present, SHALL contain exactly one [1..1] profile=&quot;http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier&quot; (CONF:4393-301)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <patternString value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"/>
+        </element>
+        <element id="Practitioner.name">
+            <path value="Practitioner.name"/>
+            <short value="name"/>
+            <definition value="SHALL contain exactly one [1..1] name (CONF:4393-303)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Practitioner.address">
+            <path value="Practitioner.address"/>
+            <short value="address"/>
+            <definition value="SHALL contain exactly one [1..1] address (CONF:4393-302)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Practitioner.qualification">
+            <path value="Practitioner.qualification"/>
+            <short value="qualification"/>
+            <definition value="SHALL contain exactly one [1..1] qualification, which SHALL be selected from ValueSet v2table0360,Version2.7 http://hl7.org/fhir/ValueSet/v2table0360,Version2.7 DYNAMIC (CONF:4393-304)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="BackboneElement"/>
+            </type>
+        </element>
+        <element id="Practitioner.qualification.identifier">
+            <path value="Practitioner.qualification.identifier"/>
+            <short value="identifier"/>
+            <definition value="This qualification SHALL contain exactly one [1..1] identifier (CONF:4393-305)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Practitioner.qualification.code">
+            <path value="Practitioner.qualification.code"/>
+            <min value="1"/>
+            <max value="1"/>
+            <binding>
+                <strength value="required"/>
+                <valueSetUri value="PHVS_DeathReportingDecedentIdentifierType_HL70203_NCHS_DR"/>
+            </binding>
+        </element>
+    </differential>
+</StructureDefinition>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StructureDefinition
+    xmlns="http://hl7.org/fhir">
+    <id value="VRDR-Condition-Contributing-To-Death"/>
+    <meta>
+        <versionId value="2"/>
+        <lastUpdated value="2019-08-13T21:33:42.000-04:00"/>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^read"/>
+        </security>
+    </meta>
+    <url value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"/>
+    <version value="1.0"/>
+    <name value="VRDR_ConditionContributingToDeath"/>
+    <title value="VRDR Condition Contributing To Death"/>
+    <status value="draft"/>
+    <publisher value="Hi3 Solutions"/>
+    <contact>
+        <name value="AbdulMalik Shakir"/>
+        <telecom>
+            <system value="phone"/>
+            <value value="6266444491"/>
+            <use value="work"/>
+        </telecom>
+        <telecom>
+            <system value="email"/>
+            <value value="abdulmalik.shakir@hi3solutions.com"/>
+            <use value="work"/>
+        </telecom>
+    </contact>
+    <kind value="resource"/>
+    <abstract value="false"/>
+    <contextType value="resource"/>
+    <context value="Condition"/>
+    <type value="Condition"/>
+    <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Condition"/>
+    <derivation value="constraint"/>
+    <differential>
+        <element id="Condition">
+            <path value="Condition"/>
+        </element>
+        <element id="Condition.id">
+            <path value="Condition.id"/>
+            <short value="id"/>
+            <definition value="MAY contain zero or one [0..1] id (CONF:4393-326)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Condition.meta">
+            <path value="Condition.meta"/>
+            <short value="meta"/>
+            <definition value="MAY contain zero or one [0..1] meta (CONF:4393-325)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Condition.meta.profile">
+            <path value="Condition.meta.profile"/>
+            <short value="profile"/>
+            <definition value="The meta, if present, SHALL contain exactly one [1..1] profile=&quot;http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death&quot;(CONF:4393-327)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <patternString value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"/>
+        </element>
+        <element id="Condition.code">
+            <path value="Condition.code"/>
+            <short value="code"/>
+            <definition value="SHALL contain exactly one [1..1] code, which SHALL be selected from ValueSet Condition-code http://hl7.org/fhir/ValueSet/Condition-code DYNAMIC (CONF:4393-332)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="CodeableConcept"/>
+            </type>
+            <binding>
+                <strength value="required"/>
+                <valueSetReference>
+                    <reference value="http://hl7.org/fhir/ValueSet/condition-code"/>
+                    <display value="Condition-code"/>
+                </valueSetReference>
+            </binding>
+        </element>
+        <element id="Condition.subject">
+            <path value="Condition.subject"/>
+        </element>
+        <element id="Condition.subject.reference">
+            <path value="Condition.subject.reference"/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="string"/>
+                <targetProfile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"/>
+            </type>
+        </element>
+        <element id="Condition.code.coding">
+            <path value="Condition.code.coding"/>
+            <short value="coding"/>
+            <definition value="This code MAY contain zero or more [0..*] coding (CONF:4393-333)."/>
+            <min value="0"/>
+            <max value="*"/>
+        </element>
+        <element id="Condition.code.coding.code">
+            <path value="Condition.code.coding.code"/>
+            <short value="code"/>
+            <definition value="The coding, if present, SHALL contain exactly one [1..1] code (ValueSet: Condition-code http://hl7.org/fhir/ValueSet/Condition-code DYNAMIC) (CONF:4393-334)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <binding>
+                <strength value="required"/>
+                <valueSetReference>
+                    <reference value="http://hl7.org/fhir/ValueSet/condition-code"/>
+                    <display value="Condition-code"/>
+                </valueSetReference>
+            </binding>
+        </element>
+        <element id="Condition.code.text">
+            <path value="Condition.code.text"/>
+            <short value="text"/>
+            <definition value="This code SHALL contain exactly one [1..1] text (CONF:4393-335)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Condition.asserter">
+            <path value="Condition.asserter"/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="Reference"/>
+                <targetProfile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"/>
+            </type>
+        </element>
+    </differential>
+</StructureDefinition>

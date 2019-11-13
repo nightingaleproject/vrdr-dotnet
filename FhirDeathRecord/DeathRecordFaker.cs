@@ -5,7 +5,7 @@ using Bogus.Extensions.UnitedStates;
 
 namespace FhirDeathRecord
 {
-    /// <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
+    /// <summary>Class <c>DeathRecordFaker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
     /// options are available to tailoring the records generated to specific use case by the class.
     /// </summary>
     public class DeathRecordFaker

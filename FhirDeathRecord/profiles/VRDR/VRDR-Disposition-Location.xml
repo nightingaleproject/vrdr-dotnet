@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StructureDefinition
+    xmlns="http://hl7.org/fhir">
+    <id value="VRDR-Disposition-Location"/>
+    <meta>
+        <versionId value="6"/>
+        <lastUpdated value="2019-10-04T18:58:55.000-04:00"/>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t395^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^bPWMtW9H^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t395^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^bPWMtW9H^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^read"/>
+        </security>
+    </meta>
+    <url value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR_DispositionLocation"/>
+    <version value="1.0"/>
+    <name value="VRDR_DispositionLocation"/>
+    <title value="VRDR Disposition Location"/>
+    <status value="draft"/>
+    <publisher value="Hi3 Solutions"/>
+    <contact>
+        <name value="AbdulMalik Shakir"/>
+        <telecom>
+            <system value="email"/>
+            <value value="abdulmalik.shakir@hi3solutions.com"/>
+            <use value="work"/>
+        </telecom>
+    </contact>
+    <kind value="resource"/>
+    <abstract value="false"/>
+    <contextType value="resource"/>
+    <context value="Location"/>
+    <type value="Location"/>
+    <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Location"/>
+    <derivation value="constraint"/>
+    <differential>
+        <element id="Location">
+            <path value="Location"/>
+        </element>
+        <element id="Location.id">
+            <path value="Location.id"/>
+            <short value="id"/>
+            <definition value="SHOULD contain zero or one [0..1] id (CONF:4393-144)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Location.meta">
+            <path value="Location.meta"/>
+            <short value="meta"/>
+            <definition value="SHOULD contain zero or one [0..1] meta (CONF:4393-141)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Location.meta.profile">
+            <path value="Location.meta.profile"/>
+            <short value="profile"/>
+            <definition value="The meta, if present, SHALL contain exactly one [1..1] profile=&quot;http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location&quot; (CONF:4393-145)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <patternString value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"/>
+        </element>
+        <element id="Location.name">
+            <path value="Location.name"/>
+            <short value="name"/>
+            <definition value="SHALL contain exactly one [1..1] name (CONF:4393-146)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Location.description">
+            <path value="Location.description"/>
+            <short value="description"/>
+            <definition value="SHOULD contain zero or one [0..1] description (CONF:4393-147)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Location.address">
+            <path value="Location.address"/>
+            <short value="address"/>
+            <definition value="SHALL contain exactly one [1..1] address (CONF:4393-149)."/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+    </differential>
+</StructureDefinition>

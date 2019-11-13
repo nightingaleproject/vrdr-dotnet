@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StructureDefinition
+    xmlns="http://hl7.org/fhir">
+    <id value="VRDR-Decedent-Pregnancy"/>
+    <meta>
+        <versionId value="6"/>
+        <lastUpdated value="2019-10-04T19:25:59.000-04:00"/>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^bPWMtW9H^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t395^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t370^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^bPWMtW9H^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="user^t395^write"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^read"/>
+        </security>
+        <security>
+            <system value="https://trifolia-fhir.lantanagroup.com/security"/>
+            <code value="everyone^write"/>
+        </security>
+    </meta>
+    <url value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR_DecedentPregnancy"/>
+    <version value="1.0"/>
+    <name value="VRDR_DecedentPregnancy"/>
+    <title value="VRDR Decedent Pregnancy"/>
+    <status value="draft"/>
+    <publisher value="Hi3 Solutions"/>
+    <contact>
+        <name value="AbdulMalik Shakir"/>
+        <telecom>
+            <system value="phone"/>
+            <value value="6266444491"/>
+            <use value="work"/>
+        </telecom>
+        <telecom>
+            <system value="email"/>
+            <value value="abdulmalik.shakir@hi3solutions.com"/>
+            <use value="work"/>
+        </telecom>
+    </contact>
+    <kind value="resource"/>
+    <abstract value="false"/>
+    <contextType value="resource"/>
+    <context value="Observation"/>
+    <type value="Observation"/>
+    <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Observation"/>
+    <derivation value="constraint"/>
+    <differential>
+        <element id="Observation">
+            <path value="Observation"/>
+        </element>
+        <element id="Observation.id">
+            <path value="Observation.id"/>
+            <short value="id"/>
+            <definition value="MAY contain zero or one [0..1] id (CONF:4393-292)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Observation.meta">
+            <path value="Observation.meta"/>
+            <short value="meta"/>
+            <definition value="MAY contain zero or one [0..1] meta (CONF:4393-291)."/>
+            <min value="0"/>
+            <max value="1"/>
+        </element>
+        <element id="Observation.meta.profile">
+            <path value="Observation.meta.profile"/>
+            <short value="profile"/>
+            <definition value="The meta, if present, SHALL contain exactly one [1..1] profile=&quot;http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy&quot;(CONF:4393-293)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <patternString value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"/>
+        </element>
+        <element id="Observation.status">
+            <path value="Observation.status"/>
+            <short value="status"/>
+            <definition value="SHALL contain exactly one [1..1] status=&quot;&quot;final&quot;&quot;(CONF:4393-295)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="code"/>
+            </type>
+            <fixedString value="&quot;final&quot;"/>
+        </element>
+        <element id="Observation.code">
+            <path value="Observation.code"/>
+            <short value="code"/>
+            <definition value="SHALL contain exactly one [1..1] code=&quot;&quot;69442-2&quot;&quot;(CONF:4393-294)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="CodeableConcept"/>
+            </type>
+            <fixedCodeableConcept>
+                <coding>
+                    <code value="&quot;69442-2&quot;"/>
+                </coding>
+            </fixedCodeableConcept>
+        </element>
+        <element id="Observation.subject">
+            <path value="Observation.subject"/>
+            <short value="subject"/>
+            <definition value="SHALL contain exactly one [1..1] subject=&quot;VRDR Decedent&quot; (CONF:4393-296)."/>
+            <min value="1"/>
+            <max value="1"/>
+            <type>
+                <code value="Reference"/>
+                <targetProfile value="http://hl7.org/fhir/StructureDefinition/Patient"/>
+            </type>
+            <patternString value="VRDR Decedent"/>
+        </element>
+        <element id="Observation.value[x]">
+            <path value="Observation.value[x]"/>
+            <slicing>
+                <discriminator>
+                    <type value="type"/>
+                    <path value="$this"/>
+                </discriminator>
+                <rules value="open"/>
+            </slicing>
+            <short value="value[x]"/>
+            <definition value="SHALL contain exactly one [1..1] value[x], where value[x] is (CONF:4393-297)"/>
+            <min value="1"/>
+            <max value="1"/>
+        </element>
+        <element id="Observation.value[x]:valueCodeableConcept">
+            <path value="Observation.valueCodeableConcept"/>
+            <sliceName value="valueCodeableConcept"/>
+            <short value="valueCodeableConcept"/>
+            <definition value="valueCodeableConcept, which SHALL be selected from ValueSet PregnancyStatusVS http://hl7.org/fhir/us/vrdr/ValueSet/pregnancy-status DYNAMIC (CONF:4393-298)"/>
+            <min value="1"/>
+            <binding>
+                <strength value="required"/>
+                <valueSetUri value="https://phinvads.cdc.gov/vads/ViewValueSet.action?oid=2.16.840.1.114222.4.11.6003"/>
+            </binding>
+        </element>
+    </differential>
+</StructureDefinition>

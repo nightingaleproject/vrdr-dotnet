@@ -109,7 +109,7 @@ namespace FhirDeathRecord
         private Section.FuneralHome FuneralHome;
 
         /// <summary>The Funeral Home Director.</summary>
-        private PractitionerRole FuneralHomeDirector;
+        private Section.FuneralHomeDirector FuneralHomeDirector;
 
         /// <summary>Disposition Location.</summary>
         private Location DispositionLocation;
@@ -192,15 +192,9 @@ namespace FhirDeathRecord
             DeathCertification = Section.DeathCertification.CreateInstance(this);
             InterestedParty = Section.InterestedParty.CreateInstance(this);
             FuneralHome = Section.FuneralHome.CreateInstance(this);
-
-            // FuneralHomeDirector Points to Mortician and FuneralHome
-            FuneralHomeDirector = new PractitionerRole();
-            FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-            FuneralHomeDirector.Meta = new Meta();
-            string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" };
-            FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-            FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
-            FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Resource.Id);
+            FuneralHomeDirector = Section.FuneralHomeDirector.CreateInstance(this,
+                "urn:uuid:" + Mortician.Id,
+                FuneralHome.Url);
 
             // Location of Disposition
             DispositionLocation = new Location();
@@ -234,13 +228,11 @@ namespace FhirDeathRecord
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
             AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-            Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, DispositionLocation.Id);
 
@@ -4449,7 +4441,7 @@ namespace FhirDeathRecord
             set
             {
                 FuneralHome = FuneralHome ?? Section.FuneralHome.CreateInstance(this);
-                    FuneralHome.Resource.Name = value;
+                FuneralHome.Resource.Name = value;
             }
         }
 
@@ -5554,7 +5546,10 @@ namespace FhirDeathRecord
             var funeralHomeDirector = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.PractitionerRole);
             if (funeralHomeDirector != null)
             {
-                FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
+                FuneralHomeDirector = new Section.FuneralHomeDirector
+                {
+                    Resource = (PractitionerRole)funeralHomeDirector.Resource
+                };
             }
 
             // Scan through all Observations to make sure they all have codes!

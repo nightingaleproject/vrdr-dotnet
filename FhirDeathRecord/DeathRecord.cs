@@ -106,7 +106,7 @@ namespace FhirDeathRecord
         private Observation EmploymentHistory;
 
         /// <summary>The Funeral Home.</summary>
-        private Organization FuneralHome;
+        private Section.FuneralHome FuneralHome;
 
         /// <summary>The Funeral Home Director.</summary>
         private PractitionerRole FuneralHomeDirector;
@@ -191,14 +191,7 @@ namespace FhirDeathRecord
 
             DeathCertification = Section.DeathCertification.CreateInstance(this);
             InterestedParty = Section.InterestedParty.CreateInstance(this);
-
-            // Start with an empty funeral home.
-            FuneralHome = new Organization();
-            FuneralHome.Id = Guid.NewGuid().ToString();
-            FuneralHome.Meta = new Meta();
-            string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-            FuneralHome.Meta.Profile = funeralhome_profile;
-            FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
+            FuneralHome = Section.FuneralHome.CreateInstance(this);
 
             // FuneralHomeDirector Points to Mortician and FuneralHome
             FuneralHomeDirector = new PractitionerRole();
@@ -207,7 +200,7 @@ namespace FhirDeathRecord
             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home-Director" };
             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
             FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
-            FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
+            FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Resource.Id);
 
             // Location of Disposition
             DispositionLocation = new Location();
@@ -241,14 +234,12 @@ namespace FhirDeathRecord
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(FuneralHome.Id);
             AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
             AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-            Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, DispositionLocation.Id);
@@ -4430,32 +4421,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (FuneralHome != null)
-                {
-                    return AddressToDict(FuneralHome.Address.FirstOrDefault());
-                }
-                else
-                {
-                    return null;
-                }
+                return FuneralHome.Address;
             }
             set
             {
-                if (FuneralHome == null)
-                {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Address.Add(DictToAddress(value));
-                }
-                else
-                {
-                    FuneralHome.Address.Clear();
-                    FuneralHome.Address.Add(DictToAddress(value));
-                }
+                FuneralHome = FuneralHome ?? Section.FuneralHome.CreateInstance(this);
+                FuneralHome.Address = value;
             }
         }
 
@@ -4473,28 +4444,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (FuneralHome != null)
-                {
-                    return FuneralHome.Name;
-                }
-                return null;
+                return FuneralHome?.Resource?.Name;
             }
             set
             {
-                if (FuneralHome == null)
-                {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Name = value;
-                }
-                else
-                {
-                    FuneralHome.Name = value;
-                }
+                FuneralHome = FuneralHome ?? Section.FuneralHome.CreateInstance(this);
+                    FuneralHome.Resource.Name = value;
             }
         }
 
@@ -5589,7 +5544,10 @@ namespace FhirDeathRecord
             var funeralHome = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || entry.Resource.Id != InterestedParty.Resource.Id));
             if (funeralHome != null)
             {
-                FuneralHome = (Organization)funeralHome.Resource;
+                FuneralHome = new Section.FuneralHome
+                {
+                    Resource = (Organization)funeralHome.Resource
+                };
             }
 
             // Grab Funeral Home Director

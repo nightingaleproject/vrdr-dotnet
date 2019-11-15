@@ -1297,27 +1297,6 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_FuneralHomeAddress()
-        {
-            Dictionary<string, string> fdaddress = new Dictionary<string, string>();
-            fdaddress.Add("addressLine1", "1011010 Example Street");
-            fdaddress.Add("addressLine2", "Line 2");
-            fdaddress.Add("addressCity", "Bedford");
-            fdaddress.Add("addressCounty", "Middlesex");
-            fdaddress.Add("addressState", "Massachusetts");
-            fdaddress.Add("addressZip", "01730");
-            fdaddress.Add("addressCountry", "United States");
-            SetterDeathRecord.FuneralHomeAddress = fdaddress;
-            Assert.Equal("1011010 Example Street", SetterDeathRecord.FuneralHomeAddress["addressLine1"]);
-            Assert.Equal("Line 2", SetterDeathRecord.FuneralHomeAddress["addressLine2"]);
-            Assert.Equal("Bedford", SetterDeathRecord.FuneralHomeAddress["addressCity"]);
-            Assert.Equal("Middlesex", SetterDeathRecord.FuneralHomeAddress["addressCounty"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.FuneralHomeAddress["addressState"]);
-            Assert.Equal("01730", SetterDeathRecord.FuneralHomeAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.FuneralHomeAddress["addressCountry"]);
-        }
-
-        [Fact]
         public void Get_FuneralHomeAddress()
         {
             Assert.Equal("1011010 Example Street", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine1"]);
@@ -1334,13 +1313,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressZip"]);
             Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCountry"]);
-        }
-
-        [Fact]
-        public void Set_FuneralHomeName()
-        {
-            SetterDeathRecord.FuneralHomeName = "Smith Funeral Home";
-            Assert.Equal("Smith Funeral Home", SetterDeathRecord.FuneralHomeName);
         }
 
         [Fact]

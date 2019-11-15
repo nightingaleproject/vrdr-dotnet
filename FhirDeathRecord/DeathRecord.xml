@@ -2701,6 +2701,27 @@
             Create Instance
             </summary>
         </member>
+        <member name="T:FhirDeathRecord.Section.FuneralHome">
+            <summary>The Funeral Home.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.FuneralHome.Url">
+            <summary>
+            Reference used in Bundle/Composition
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.FuneralHome.Address">
+            <summary>Funeral Home Address.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.FuneralHome.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.FuneralHome.CreateInstance(FhirDeathRecord.DeathRecord)">
+            <summary>
+            Create Instance
+            </summary>
+        </member>
         <member name="T:FhirDeathRecord.Section.InterestedParty">
             <summary>
             Class <c>DeathCertification</c> models the Interested Party used in FHIR Vital Records Death Reporting (VRDR) Death Record. 

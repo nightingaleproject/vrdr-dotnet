@@ -1323,27 +1323,6 @@ namespace FhirDeathRecord.Tests
         }
 
         [Fact]
-        public void Set_DispositionLocationAddress()
-        {
-            Dictionary<string, string> dladdress = new Dictionary<string, string>();
-            dladdress.Add("addressLine1", "999 Example Street");
-            dladdress.Add("addressLine2", "Line 2");
-            dladdress.Add("addressCity", "Bedford");
-            dladdress.Add("addressCounty", "Middlesex");
-            dladdress.Add("addressState", "Massachusetts");
-            dladdress.Add("addressZip", "01730");
-            dladdress.Add("addressCountry", "United States");
-            SetterDeathRecord.DispositionLocationAddress = dladdress;
-            Assert.Equal("999 Example Street", SetterDeathRecord.DispositionLocationAddress["addressLine1"]);
-            Assert.Equal("Line 2", SetterDeathRecord.DispositionLocationAddress["addressLine2"]);
-            Assert.Equal("Bedford", SetterDeathRecord.DispositionLocationAddress["addressCity"]);
-            Assert.Equal("Middlesex", SetterDeathRecord.DispositionLocationAddress["addressCounty"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.DispositionLocationAddress["addressState"]);
-            Assert.Equal("01730", SetterDeathRecord.DispositionLocationAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.DispositionLocationAddress["addressCountry"]);
-        }
-
-        [Fact]
         public void Get_DispositionLocationAddress()
         {
             Assert.Equal("603 Example Street", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressLine1"]);
@@ -1360,13 +1339,6 @@ namespace FhirDeathRecord.Tests
             Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressZip"]);
             Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCountry"]);
-        }
-
-        [Fact]
-        public void Set_DispositionLocationName()
-        {
-            SetterDeathRecord.DispositionLocationName = "Bedford Cemetery";
-            Assert.Equal("Bedford Cemetery", SetterDeathRecord.DispositionLocationName);
         }
 
         [Fact]

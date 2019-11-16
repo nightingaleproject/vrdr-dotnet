@@ -6,14 +6,16 @@ using Hl7.Fhir.Model;
 
 namespace FhirDeathRecord.Section
 {
-    /// <summary>The Funeral Home.</summary>
-    public class FuneralHome
+    /// <summary>
+    /// Class <c>DeathCertification</c> models the Interested Party used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
+    /// </summary>
+    public class DispositionLocation
     {
-        private Organization _resource;
-        internal Organization Resource
+        private Location _resource;
+        internal Location Resource
         {
             get { return _resource; }
-            set
+            set 
             {
                 if (value != null)
                     _resource = value;
@@ -28,44 +30,38 @@ namespace FhirDeathRecord.Section
             get { return "urn:uuid:" + Resource.Id; }
         }
 
-        /// <summary>Funeral Home Address.</summary>
-        public Dictionary<string, string> Address
-        {
-            get { return Resource.Address?.FirstOrDefault()?.ToDictionary(); }
-            set
-            {
-                if (value == null)
-                    return;
-
-                var address = new Address();
-                address.FromDictionary(value);
-
-                Resource.Address = new List<Address> { address };
-            }
-        }
-
-        /// <summary>Funeral Home's Name.</summary>
+        /// <summary>Disposition Location's Name.</summary>
         public string Name
         {
             get { return Resource.Name; }
             set { Resource.Name = value; }
         }
 
+        /// <summary>Disposition Location's Address.</summary>
+        public Dictionary<string, string> Address
+        {
+            get { return Resource.Address?.ToDictionary(); }
+            set
+            {
+                if (value == null)
+                    return;
+
+                Resource.Address = new Hl7.Fhir.Model.Address();
+                Resource.Address.FromDictionary(value);
+            }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public FuneralHome()
+        public DispositionLocation()
         {
-            Resource = new Organization
+            Resource = new Location
             {
                 Id = Guid.NewGuid().ToString(),
                 Meta = new Meta
                 {
-                    Profile = new List<string> { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" }
-                },
-                Type = new List<CodeableConcept>
-                {
-                    new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null)
+                    Profile = new List<string> { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" }
                 }
             };
         }
@@ -73,9 +69,9 @@ namespace FhirDeathRecord.Section
         /// <summary>
         /// Create Instance
         /// </summary>
-        public static FuneralHome CreateInstance(DeathRecord record = null)
+        public static DispositionLocation CreateInstance(DeathRecord record = null)
         {
-            var source = new FuneralHome();
+            var source = new DispositionLocation();
 
             if (record != null)
             {

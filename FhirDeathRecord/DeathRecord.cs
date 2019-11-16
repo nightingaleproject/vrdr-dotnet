@@ -45,7 +45,7 @@ namespace FhirDeathRecord
         private Section.DeathCertification DeathCertification { get; set; }
 
         /// <summary>The Interested Party.</summary>
-        private Section.InterestedParty InterestedParty;
+        private Section.InterestedParty InterestedParty { get; set; }
 
         /// <summary>The Manner of Death Observation.</summary>
         private Observation MannerOfDeath;
@@ -106,13 +106,13 @@ namespace FhirDeathRecord
         private Observation EmploymentHistory;
 
         /// <summary>The Funeral Home.</summary>
-        private Section.FuneralHome FuneralHome;
+        private Section.FuneralHome FuneralHome { get; set; }
 
         /// <summary>The Funeral Home Director.</summary>
-        private Section.FuneralHomeDirector FuneralHomeDirector;
+        private Section.FuneralHomeDirector FuneralHomeDirector { get; set; }
 
         /// <summary>Disposition Location.</summary>
-        private Location DispositionLocation;
+        private Section.DispositionLocation DispositionLocation { get; set; }
 
         /// <summary>Disposition Method.</summary>
         private Observation DispositionMethod;
@@ -195,13 +195,7 @@ namespace FhirDeathRecord
             FuneralHomeDirector = Section.FuneralHomeDirector.CreateInstance(this,
                 "urn:uuid:" + Mortician.Id,
                 FuneralHome.Url);
-
-            // Location of Disposition
-            DispositionLocation = new Location();
-            DispositionLocation.Id = Guid.NewGuid().ToString();
-            DispositionLocation.Meta = new Meta();
-            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-            DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            DispositionLocation = Section.DispositionLocation.CreateInstance(this);
 
             Composition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             Composition.Attester.Add(new Composition.AttesterComponent());
@@ -229,12 +223,10 @@ namespace FhirDeathRecord
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Mortician.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
-            AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
-            Bundle.AddResourceEntry(DispositionLocation, DispositionLocation.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -4436,12 +4428,12 @@ namespace FhirDeathRecord
         {
             get
             {
-                return FuneralHome?.Resource?.Name;
+                return FuneralHome?.Name;
             }
             set
             {
                 FuneralHome = FuneralHome ?? Section.FuneralHome.CreateInstance(this);
-                FuneralHome.Resource.Name = value;
+                FuneralHome.Name = value;
             }
         }
 
@@ -4483,29 +4475,11 @@ namespace FhirDeathRecord
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
-            get
-            {
-                if (DispositionLocation != null)
-                {
-                    return AddressToDict(DispositionLocation.Address);
-                }
-                return EmptyAddrDict();
-            }
+            get { return DispositionLocation?.Address; }
             set
             {
-                if (DispositionLocation == null)
-                {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    DispositionLocation.Address = DictToAddress(value);
-                }
-                else
-                {
-                    DispositionLocation.Address = DictToAddress(value);
-                }
+                DispositionLocation = DispositionLocation ?? Section.DispositionLocation.CreateInstance(this);
+                DispositionLocation.Address = value;
             }
         }
 
@@ -4521,29 +4495,11 @@ namespace FhirDeathRecord
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
         public string DispositionLocationName
         {
-            get
-            {
-                if (DispositionLocation != null)
-                {
-                    return DispositionLocation.Name;
-                }
-                return null;
-            }
+            get { return DispositionLocation?.Name; }
             set
             {
-                if (DispositionLocation == null)
-                {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    DispositionLocation.Name = value;
-                }
-                else
-                {
-                    DispositionLocation.Name = value;
-                }
+                DispositionLocation = DispositionLocation ?? Section.DispositionLocation.CreateInstance(this);
+                DispositionLocation.Name = value;
             }
         }
 
@@ -4593,7 +4549,7 @@ namespace FhirDeathRecord
                     DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     Extension extension = new Extension();
                     extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location";
-                    extension.Value = new ResourceReference("urn:uuid:" + DispositionLocation.Id);
+                    extension.Value = new ResourceReference(DispositionLocation.Url);
                     DispositionMethod.Extension.Add(extension);
                     DispositionMethod.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(DispositionMethod.Id);
@@ -5718,7 +5674,10 @@ namespace FhirDeathRecord
             var dispositionLocation = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (dispositionLocation != null)
             {
-                DispositionLocation = (Location)dispositionLocation.Resource;
+                DispositionLocation = new Section.DispositionLocation
+                {
+                    Resource = (Location)dispositionLocation.Resource
+                };
             }
 
             // Grab Injury Location

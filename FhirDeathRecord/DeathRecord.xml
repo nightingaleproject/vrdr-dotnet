@@ -213,7 +213,7 @@
         <member name="P:FhirDeathRecord.DeathRecord.DeathCertification">
             <summary>The Certification.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.InterestedParty">
+        <member name="P:FhirDeathRecord.DeathRecord.InterestedParty">
             <summary>The Interested Party.</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.MannerOfDeath">
@@ -273,13 +273,13 @@
         <member name="F:FhirDeathRecord.DeathRecord.EmploymentHistory">
             <summary>Employment History.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.FuneralHome">
+        <member name="P:FhirDeathRecord.DeathRecord.FuneralHome">
             <summary>The Funeral Home.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.FuneralHomeDirector">
+        <member name="P:FhirDeathRecord.DeathRecord.FuneralHomeDirector">
             <summary>The Funeral Home Director.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DispositionLocation">
+        <member name="P:FhirDeathRecord.DeathRecord.DispositionLocation">
             <summary>Disposition Location.</summary>
         </member>
         <member name="F:FhirDeathRecord.DeathRecord.DispositionMethod">
@@ -2701,6 +2701,32 @@
             Create Instance
             </summary>
         </member>
+        <member name="T:FhirDeathRecord.Section.DispositionLocation">
+            <summary>
+            Class <c>DeathCertification</c> models the Interested Party used in FHIR Vital Records Death Reporting (VRDR) Death Record. 
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.DispositionLocation.Url">
+            <summary>
+            Reference used in Bundle/Composition
+            </summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.DispositionLocation.Name">
+            <summary>Disposition Location's Name.</summary>
+        </member>
+        <member name="P:FhirDeathRecord.Section.DispositionLocation.Address">
+            <summary>Disposition Location's Address.</summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.DispositionLocation.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.DispositionLocation.CreateInstance(FhirDeathRecord.DeathRecord)">
+            <summary>
+            Create Instance
+            </summary>
+        </member>
         <member name="T:FhirDeathRecord.Section.FuneralHome">
             <summary>The Funeral Home.</summary>
         </member>
@@ -2712,12 +2738,33 @@
         <member name="P:FhirDeathRecord.Section.FuneralHome.Address">
             <summary>Funeral Home Address.</summary>
         </member>
+        <member name="P:FhirDeathRecord.Section.FuneralHome.Name">
+            <summary>Funeral Home's Name.</summary>
+        </member>
         <member name="M:FhirDeathRecord.Section.FuneralHome.#ctor">
             <summary>
             Constructor
             </summary>
         </member>
         <member name="M:FhirDeathRecord.Section.FuneralHome.CreateInstance(FhirDeathRecord.DeathRecord)">
+            <summary>
+            Create Instance
+            </summary>
+        </member>
+        <member name="T:FhirDeathRecord.Section.FuneralHomeDirector">
+            <summary>The Funeral Home Director.</summary>    
+        </member>
+        <member name="P:FhirDeathRecord.Section.FuneralHomeDirector.Url">
+            <summary>
+            Reference used in Bundle/Composition
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.FuneralHomeDirector.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:FhirDeathRecord.Section.FuneralHomeDirector.CreateInstance(FhirDeathRecord.DeathRecord,System.String,System.String)">
             <summary>
             Create Instance
             </summary>

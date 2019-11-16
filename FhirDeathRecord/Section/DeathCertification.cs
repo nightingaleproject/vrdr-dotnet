@@ -62,8 +62,6 @@ namespace FhirDeathRecord.Section
             }
         }
 
-
-
         ///<summary>Constructor</summary>
         public DeathCertification()
         {

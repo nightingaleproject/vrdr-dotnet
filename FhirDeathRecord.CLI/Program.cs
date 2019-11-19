@@ -29,17 +29,17 @@ namespace FhirDeathRecord.CLI
                 deathRecord.BundleIdentifier = "42";
 
                 // CertifiedTime
-                deathRecord.CertifiedTime = "2019-01-29T16:48:06.4988220-05:00";
+                deathRecord.CertifiedTime = "2019-01-29T16:48:06-05:00";
 
                 // CreatedTime
-                deathRecord.CreatedTime = "2019-01-20T16:47:04.4988220-05:00";
+                deathRecord.CreatedTime = "2019-01-20T16:47:04-05:00";
 
-                // CertifierRole
-                Dictionary<string, string> certifierRole = new Dictionary<string, string>();
-                certifierRole.Add("code", "309343006");
-                certifierRole.Add("system", "http://snomed.info/sct");
-                certifierRole.Add("display", "Physician");
-                deathRecord.CertifierRole = certifierRole;
+                // CertificationRole
+                Dictionary<string, string> certificationRole = new Dictionary<string, string>();
+                certificationRole.Add("code", "76899008");
+                certificationRole.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");
+                certificationRole.Add("display", "Infectious diseases physician");
+                deathRecord.CertificationRole = certificationRole;
 
                 // InterestedPartyIdentifier
                 deathRecord.InterestedPartyIdentifier = "1010101";
@@ -97,9 +97,9 @@ namespace FhirDeathRecord.CLI
 
                 // CertifierQualification
                 Dictionary<string, string> qualification = new Dictionary<string, string>();
-                qualification.Add("code", "MD");
-                qualification.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
-                qualification.Add("display", "Doctor of Medicine");
+                qualification.Add("code", "3060");
+                qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
+                qualification.Add("display", "Physicians and surgeons");
                 deathRecord.CertifierQualification = qualification;
 
                 // ContributingConditions
@@ -172,7 +172,7 @@ namespace FhirDeathRecord.CLI
                 deathRecord.BirthSex = bscode;
 
                 // DateOfBirth
-                deathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";
+                deathRecord.DateOfBirth = "1940-02-19";
 
                 // Residence
                 Dictionary<string, string> raddress = new Dictionary<string, string>();
@@ -254,17 +254,27 @@ namespace FhirDeathRecord.CLI
                 // BirthRecordId
                 deathRecord.BirthRecordId = "4242123";
 
+                // BirthRecordState
+                Dictionary<string, string> brs = new Dictionary<string, string>();
+                brs.Add("code", "MA");
+                brs.Add("system", "urn:iso:std:iso:3166:-2");
+                brs.Add("display", "Massachusetts");
+                deathRecord.BirthRecordState = brs;
+
+                // BirthRecordYear
+                deathRecord.BirthRecordYear = "1940";
+
                 // UsualOccupation
                 Dictionary<string, string> uocc = new Dictionary<string, string>();
                 uocc.Add("code", "1340");
-                uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");
+                uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
                 uocc.Add("display", "Biomedical engineers");
                 deathRecord.UsualOccupation = uocc;
 
                 // UsualIndustry
                 Dictionary<string, string> uind = new Dictionary<string, string>();
                 uind.Add("code", "7280");
-                uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");
+                uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
                 uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
                 deathRecord.UsualIndustry = uind;
 
@@ -319,7 +329,7 @@ namespace FhirDeathRecord.CLI
                 // DecedentDispositionMethod
                 Dictionary<string, string> ddm = new Dictionary<string, string>();
                 ddm.Add("code", "449971000124106");
-                ddm.Add("system", "http://snomed.info/sct");
+                ddm.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");
                 ddm.Add("display", "Burial");
                 deathRecord.DecedentDispositionMethod = ddm;
 
@@ -346,15 +356,15 @@ namespace FhirDeathRecord.CLI
                 // PregnanacyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "NA");
-                ps.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                ps.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
                 ps.Add("display", "not applicable");
                 deathRecord.PregnanacyStatus = ps;
 
                 // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();
-                tr.Add("code", "example-code");
-                tr.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");
-                tr.Add("display", "Example Code");
+                tr.Add("code", "257500003");
+                tr.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");
+                tr.Add("display", "Passenger");
                 deathRecord.TransportationRole = tr;
 
                 // ExaminerContacted
@@ -362,8 +372,8 @@ namespace FhirDeathRecord.CLI
 
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();
-                tbu.Add("code", "Y");
-                tbu.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                tbu.Add("code", "373066001");
+                tbu.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");
                 tbu.Add("display", "Yes");
                 deathRecord.TobaccoUse = tbu;
 
@@ -385,7 +395,14 @@ namespace FhirDeathRecord.CLI
                 deathRecord.InjuryLocationDescription = "Example Injury Location Description";
 
                 // InjuryDate
-                deathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";
+                deathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";
+
+                // InjuryPlace
+                Dictionary<string, string> ip = new Dictionary<string, string>();
+                ip.Add("code", "0");
+                ip.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");
+                ip.Add("display", "Home");
+                deathRecord.InjuryPlace = ip;
 
                 // DeathLocationAddress
                 Dictionary<string, string> dtladdress = new Dictionary<string, string>();
@@ -405,10 +422,10 @@ namespace FhirDeathRecord.CLI
                 deathRecord.DeathLocationDescription = "Example Death Location Description";
 
                 // DateOfDeath
-                deathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";
+                deathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";
 
                 // DateOfDeathPronouncement
-                deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";
+                deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");

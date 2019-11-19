@@ -2808,7 +2808,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                string code = Dictionary_Get_Full("CERTL", "CertifierRole", "code");
+                string code = Dictionary_Get_Full("CERTL", "CertificationRole", "code");
                 switch (code)
                 {
                     case "434641000124105": // Physician (Certifier)
@@ -2829,19 +2829,19 @@ namespace FhirDeathRecord
                     switch (value.Trim())
                     {
                         case "D":
-                            Dictionary_Set("CERTL", "CertifierRole", "code", "434641000124105");
-                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierRole", "display", "Physician (Certifier)");
+                            Dictionary_Set("CERTL", "CertificationRole", "code", "434641000124105");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician (Certifier)");
                             break;
                         case "P":
-                            Dictionary_Set("CERTL", "CertifierRole", "code", "434651000124107");
-                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierRole", "display", "Physician (Pronouncer and Certifier)");
+                            Dictionary_Set("CERTL", "CertificationRole", "code", "434651000124107");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
                             break;
                         case "M":
-                            Dictionary_Set("CERTL", "CertifierRole", "code", "440051000124108");
-                            Dictionary_Set("CERTL", "CertifierRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertifierRole", "display", "Medical Examiner");
+                            Dictionary_Set("CERTL", "CertificationRole", "code", "440051000124108");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Medical Examiner");
                             break;
                     }
                 }

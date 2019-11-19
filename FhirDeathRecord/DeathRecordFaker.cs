@@ -51,8 +51,8 @@ namespace FhirDeathRecord
             record.Identifier = Convert.ToString(faker.Random.Number(999999));
             record.BundleIdentifier = Convert.ToString(faker.Random.Number(999999));
             DateTime date = faker.Date.Recent();
-            record.CertifiedTime = date.ToString("o");
-            record.CreatedTime = new DateTimeOffset(date.AddDays(-1).Year, date.AddDays(-1).Month, date.AddDays(-1).Day, 0, 0, 0, TimeSpan.Zero).ToString("o");
+            record.CertifiedTime = date.ToString("s");
+            record.CreatedTime = new DateTimeOffset(date.AddDays(-1).Year, date.AddDays(-1).Month, date.AddDays(-1).Day, 0, 0, 0, TimeSpan.Zero).ToString("s");
 
             // Basic Decedent information
 
@@ -87,8 +87,8 @@ namespace FhirDeathRecord
             DateTime death = faker.Date.Recent();
             DateTimeOffset birthUtc = new DateTimeOffset(birth.Year, birth.Month, birth.Day, 0, 0, 0, TimeSpan.Zero);
             DateTimeOffset deathUtc = new DateTimeOffset(death.Year, death.Month, death.Day, 0, 0, 0, TimeSpan.Zero);
-            record.DateOfBirth = birthUtc.ToString("o");
-            record.DateOfDeath = deathUtc.ToString("o");
+            record.DateOfBirth = birthUtc.ToString("YYYY-MM-DD");
+            record.DateOfDeath = deathUtc.ToString("YYYY-MM-DD");
             int age = death.Year - birth.Year;
             if (birthUtc > deathUtc.AddYears(-age)) age--;
             record.AgeAtDeath = new Dictionary<string, string>() { { "value", age.ToString() }, { "unit", "a" } };
@@ -216,7 +216,7 @@ namespace FhirDeathRecord
             };
             Tuple<string, string> occupationCode = faker.Random.ArrayElement<Tuple<string, string>>(occupationCodes);
             occupation.Add("code", occupationCode.Item1);
-            occupation.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");
+            occupation.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
             occupation.Add("display", occupationCode.Item2);
             record.UsualOccupation = occupation;
 
@@ -231,7 +231,7 @@ namespace FhirDeathRecord
             };
             Tuple<string, string> industryCode = faker.Random.ArrayElement<Tuple<string, string>>(industryCodes);
             industry.Add("code", industryCode.Item1);
-            industry.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");
+            industry.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
             industry.Add("display", industryCode.Item2);
             record.UsualIndustry = industry;
 
@@ -289,7 +289,7 @@ namespace FhirDeathRecord
             };
             Tuple<string, string> dispositionTypeCode = faker.Random.ArrayElement<Tuple<string, string>>(dispositionTypeCodes);
             disposition.Add("code", dispositionTypeCode.Item1);
-            disposition.Add("system", "http://snomed.info/sct");
+            disposition.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");
             disposition.Add("display", dispositionTypeCode.Item2);
             record.DecedentDispositionMethod = disposition;
 
@@ -316,22 +316,20 @@ namespace FhirDeathRecord
             record.CertifierAddress = certifierAddress;
 
             // Certifier type
-
-            Dictionary<string, string> certifierType = new Dictionary<string, string>();
-            certifierType.Add("system", "http://snomed.info/sct");
-            certifierType.Add("code", "309343006");
-            certifierType.Add("display", "Physician");
-            record.CertifierRole = certifierType;
+            Dictionary<string, string> certificationType = new Dictionary<string, string>();
+            certificationType.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");
+            certificationType.Add("code", "76899008");
+            certificationType.Add("display", "Infectious diseases physician");
+            record.CertificationRole = certificationType;
 
             // CertifierLicenseNumber
             record.CertifierLicenseNumber = Convert.ToString(faker.Random.Number(999999));
 
             // Certifier qualification
-
             Dictionary<string, string> qualification = new Dictionary<string, string>();
-            qualification.Add("code", "MD");
-            qualification.Add("system", "http://hl7.org/fhir/v2/0360/2.7");
-            qualification.Add("display", "Doctor of Medicine");
+            qualification.Add("code", "3060");
+            qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
+            qualification.Add("display", "Physicians and surgeons");
             record.CertifierQualification = qualification;
 
             // Interested Party
@@ -355,8 +353,8 @@ namespace FhirDeathRecord
                 mannerOfDeath.Add("display", "Natural");
                 record.MannerOfDeathType = mannerOfDeath;
 
-                record.DateOfDeath = deathUtc.ToString("o");
-                record.DateOfDeathPronouncement = deathUtc.AddHours(1).ToString("o");
+                record.DateOfDeath = deathUtc.ToString("s");
+                record.DateOfDeathPronouncement = deathUtc.AddHours(1).ToString("s");
 
                 // Randomly pick one of four possible natural causes
                 int choice = faker.Random.Number(3);
@@ -375,7 +373,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };;
                     record.ExaminerContacted = false;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373067005" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "No" } };
                 }
                 else if (choice == 1)
                 {
@@ -392,7 +390,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };;
                     record.ExaminerContacted = false;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373067005" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "No" } };
                 }
                 else if (choice == 2)
                 {
@@ -410,7 +408,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };;
                     record.ExaminerContacted = false;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "Y" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "Yes" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373066001" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "Yes" } };
                 }
                 else if (choice == 3)
                 {
@@ -428,7 +426,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "Y" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "Yes" } };;
                     record.ExaminerContacted = true;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "Y" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "Yes" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373066001" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "Yes" } };
                 }
             }
             if (type == "Injury")
@@ -450,7 +448,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "Y" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "Yes" } };;
                     record.ExaminerContacted = true;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "UNK" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "unknown" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "UNK" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "unknown" } };
 
                     Dictionary<string, string> mannerOfDeath = new Dictionary<string, string>();
                     mannerOfDeath.Add("code", "44301001");
@@ -460,7 +458,7 @@ namespace FhirDeathRecord
 
                     Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
                     record.InjuryLocationName = "Own home garage";
-                    record.InjuryDate = new DateTimeOffset(deathUtc.Year, deathUtc.Month, deathUtc.Day, 0, 0, 0, TimeSpan.Zero).ToString("o");
+                    record.InjuryDate = new DateTimeOffset(deathUtc.Year, deathUtc.Month, deathUtc.Day, 0, 0, 0, TimeSpan.Zero).ToString("s");
                     record.InjuryLocationDescription = "Inhaled carbon monoxide from auto exhaust through hose in an enclosed garage";
 
                     Dictionary<string, string> detailsOfInjuryAddr = new Dictionary<string, string>();
@@ -471,7 +469,7 @@ namespace FhirDeathRecord
                     detailsOfInjuryAddr.Add("addressCountry", "United States");
                     record.InjuryLocationAddress = detailsOfInjuryAddr;
 
-                    record.DateOfDeath = new DateTimeOffset(deathUtc.Year, deathUtc.Month, deathUtc.Day, 0, 0, 0, TimeSpan.Zero).ToString("o");
+                    record.DateOfDeath = new DateTimeOffset(deathUtc.Year, deathUtc.Month, deathUtc.Day, 0, 0, 0, TimeSpan.Zero).ToString("s");
                 }
                 else if (choice == 1)
                 {
@@ -487,7 +485,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "Y" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "Yes" } };
                     record.ExaminerContacted = true;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373067005" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "No" } };
 
                     Dictionary<string, string> mannerOfDeath = new Dictionary<string, string>();
                     mannerOfDeath.Add("code", "27935005");
@@ -497,7 +495,7 @@ namespace FhirDeathRecord
 
                     Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
                     record.InjuryLocationName = "restaurant";
-                    record.InjuryDate = deathUtc.AddMinutes(-20).ToString("o");
+                    record.InjuryDate = deathUtc.AddMinutes(-20).ToString("s");
                     record.InjuryLocationDescription = "Shot by another person using a handgun";
 
                     Dictionary<string, string> detailsOfInjuryAddr = new Dictionary<string, string>();
@@ -523,7 +521,7 @@ namespace FhirDeathRecord
                     record.AutopsyResultsAvailable = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };
                     record.ExaminerContacted = true;
 
-                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "N" }, { "system", "http://hl7.org/fhir/ValueSet/v2-0532" }, { "display", "No" } };
+                    record.TobaccoUse = new Dictionary<string, string>() { { "code", "373067005" }, { "system", "urn:oid:2.16.840.1.114222.4.11.6004" }, { "display", "No" } };
 
                     Dictionary<string, string> mannerOfDeath = new Dictionary<string, string>();
                     mannerOfDeath.Add("code", "7878000");
@@ -533,7 +531,7 @@ namespace FhirDeathRecord
 
                     Dictionary<string, string> detailsOfInjury = new Dictionary<string, string>();
                     record.InjuryLocationName = "Highway";
-                    record.InjuryDate = deathUtc.ToString("o");
+                    record.InjuryDate = deathUtc.ToString("s");
                     record.InjuryLocationDescription = "Automobile accident. Car slid off wet road and struck tree.";
 
                     Dictionary<string, string> detailsOfInjuryAddr = new Dictionary<string, string>();
@@ -551,7 +549,7 @@ namespace FhirDeathRecord
             {
                 Dictionary<string, string> pregnanacyStatus = new Dictionary<string, string>();
                 pregnanacyStatus.Add("code", "PHC1260");
-                pregnanacyStatus.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                pregnanacyStatus.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
                 pregnanacyStatus.Add("display", "Not pregnant within past year");
                 record.PregnanacyStatus = pregnanacyStatus;
             }
@@ -559,7 +557,7 @@ namespace FhirDeathRecord
             {
                 Dictionary<string, string> pregnanacyStatus = new Dictionary<string, string>();
                 pregnanacyStatus.Add("code", "NA");
-                pregnanacyStatus.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");
+                pregnanacyStatus.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
                 pregnanacyStatus.Add("display", "not applicable");
                 record.PregnanacyStatus = pregnanacyStatus;
             }

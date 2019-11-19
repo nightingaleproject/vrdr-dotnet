@@ -3020,7 +3020,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.suffix");
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='official').suffix");
             }
             set
             {

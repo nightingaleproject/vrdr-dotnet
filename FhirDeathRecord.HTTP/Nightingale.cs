@@ -35,15 +35,15 @@ namespace FhirDeathRecord.HTTP
                 values["meOrCoronerContacted.meOrCoronerContacted"] = "No";
             }
 
-            if (GetValueDict(record.CertifierRole, "code") == "434641000124105")
+            if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
             {
                 values["certifierType.certifierType"] = "Physician (Certifier)";
             }
-            else if (GetValueDict(record.CertifierRole, "code") == "434651000124107")
+            else if (GetValueDict(record.CertificationRole, "code") == "434651000124107")
             {
                 values["certifierType.certifierType"] = "Physician (Pronouncer and Certifier)";
             }
-            else if (GetValueDict(record.CertifierRole, "code") == "440051000124108")
+            else if (GetValueDict(record.CertificationRole, "code") == "440051000124108")
             {
                 values["certifierType.certifierType"] = "Medical Examiner";
             }
@@ -260,21 +260,21 @@ namespace FhirDeathRecord.HTTP
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "code", "434641000124105");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "display", "Physician (Certifier)");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Certifier)");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "code", "434651000124107");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "display", "Physician (Pronouncer and Certifier)");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
             }
             else if (GetValue(values, "certifierType.certifierType") == "Medical Examiner")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "code", "440051000124108");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "display", "Medical Examiner");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertifierRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "440051000124108");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Medical Examiner");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
             }
 
             SetStringValueDeathRecordString(deathRecord, "COD1A", GetValue(values, "cod.immediate"));

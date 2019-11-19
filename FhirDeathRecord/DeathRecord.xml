@@ -294,9 +294,6 @@
         <member name="F:FhirDeathRecord.DeathRecord.PregnancyObs">
             <summary>Decedent Pregnancy Status.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.TransportationRoleObs">
-            <summary>Transportation Role (in death).</summary>
-        </member>
         <member name="F:FhirDeathRecord.DeathRecord.ExaminerContactedObs">
             <summary>Examiner Contacted.</summary>
         </member>
@@ -369,7 +366,7 @@
             <value>time when the record was certified.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.CertifiedTime = "2019-01-29T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.CertifiedTime = "2019-01-29T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
             </example>
@@ -379,14 +376,14 @@
             <value>time when the record was created.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierRole">
-            <summary>Certifier Role.</summary>
-            <value>the certifier role. A Dictionary representing a code, containing the following key/value pairs:
+        <member name="P:FhirDeathRecord.DeathRecord.CertificationRole">
+            <summary>Certification Role.</summary>
+            <value>the role/qualification of the person who certified the death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
             <para>"display" - a human readable meaning of the code</para>
@@ -394,12 +391,12 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
-            <para>role.Add("code", "309343006");</para>
-            <para>role.Add("system", "http://snomed.info/sct");</para>
-            <para>role.Add("display", "Physician");</para>
-            <para>ExampleDeathRecord.CertifierRole = role;</para>
+            <para>role.Add("code", "76899008");</para>
+            <para>role.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");</para>
+            <para>role.Add("display", "Infectious diseases physician");</para>
+            <para>ExampleDeathRecord.CertificationRole = role;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Certifier Role: {ExampleDeathRecord.CertifierRole['display']}");</para>
+            <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyIdentifier">
@@ -554,9 +551,9 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-            <para>qualification.Add("code", "MD");</para>
-            <para>qualification.Add("system", "http://hl7.org/fhir/v2/0360/2.7");</para>
-            <para>qualification.Add("display", "Doctor of Medicine");</para>
+            <para>qualification.Add("code", "3060");</para>
+            <para>qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
+            <para>qualification.Add("display", "Physicians and surgeons");</para>
             <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
@@ -1097,7 +1094,7 @@
             <value>the decedent's date of birth</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfBirth = "1940-02-19T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.DateOfBirth = "1940-02-19";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
             </example>
@@ -1333,6 +1330,34 @@
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
             </example>
         </member>
+        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordState">
+            <summary>Birth Record State.</summary>
+            <value>the state of the decedent's birth certificate. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
+            <para>brs.Add("code", "MA");</para>
+            <para>brs.Add("system", "urn:iso:std:iso:3166:-2");</para>
+            <para>brs.Add("display", "Massachusetts");</para>
+            <para>ExampleDeathRecord.BirthRecordState = brs;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordYear">
+            <summary>Birth Record Year.</summary>
+            <value>the year found on the decedent's birth certificate.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.BirthRecordYear = "1940";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
+            </example>
+        </member>
         <member name="P:FhirDeathRecord.DeathRecord.UsualOccupation">
             <summary>Decedent's Usual Occupation.</summary>
             <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
@@ -1344,7 +1369,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
             <para>uocc.Add("code", "1340");</para>
-            <para>uocc.Add("system", "http://hl7.org/fhir/ValueSet/occupation-cdc-census-2010");</para>
+            <para>uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
             <para>uocc.Add("display", "Biomedical engineers");</para>
             <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
             <para>// Getter:</para>
@@ -1362,7 +1387,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
             <para>uind.Add("code", "7280");</para>
-            <para>uind.Add("system", "http://hl7.org/fhir/ValueSet/industry-cdc-census-2010");</para>
+            <para>uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");</para>
             <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
             <para>ExampleDeathRecord.UsualIndustry = uind;</para>
             <para>// Getter:</para>
@@ -1517,7 +1542,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
             <para>dmethod.Add("code", "449971000124106");</para>
-            <para>dmethod.Add("system", "http://snomed.info/sct");</para>
+            <para>dmethod.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");</para>
             <para>dmethod.Add("display", "Burial");</para>
             <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
             <para>// Getter:</para>
@@ -1547,7 +1572,7 @@
             <value>the decedent's date and time of death</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfDeath = "2018-02-19T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
@@ -1557,7 +1582,7 @@
             <value>the decedent's date and time of death pronouncement</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
             </example>
@@ -1656,29 +1681,11 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "PHC1260");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");</para>
             <para>code.Add("display", "Not pregnant within past year");</para>
             <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
-            </example>
-        </member>
-        <member name="P:FhirDeathRecord.DeathRecord.TransportationRole">
-            <summary>Transportation Role in death.</summary>
-            <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "example-code");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/stu3/valueset-TransportationRelationships");</para>
-            <para>code.Add("display", "Example Code");</para>
-            <para>ExampleDeathRecord.TransportationRole = code;</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.ExaminerContacted">
@@ -1745,9 +1752,45 @@
             <value>the date and time of injury</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06.4988220-05:00";</para>
+            <para>ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.InjuryPlace">
+            <summary>Place of Injury.</summary>
+            <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "0");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");</para>
+            <para>code.Add("display", "Home");</para>
+            <para>ExampleDeathRecord.InjuryPlace = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
+            </example>
+        </member>
+        <member name="P:FhirDeathRecord.DeathRecord.TransportationRole">
+            <summary>Transportation Role in death.</summary>
+            <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "257500003");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");</para>
+            <para>code.Add("display", "Passenger");</para>
+            <para>ExampleDeathRecord.TransportationRole = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
         </member>
         <member name="P:FhirDeathRecord.DeathRecord.TobaccoUse">
@@ -1760,8 +1803,8 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "Y");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>code.Add("code", "373066001");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.TobaccoUse = code;</para>
             <para>// Getter:</para>

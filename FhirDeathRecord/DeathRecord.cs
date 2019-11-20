@@ -3050,7 +3050,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
         /// </example>
-        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "first")]
         public string[] AliasGivenNames
         {
@@ -3084,7 +3084,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
         /// </example>
-        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "family")]
         public string AliasFamilyName
         {
@@ -3117,7 +3117,7 @@ namespace FhirDeathRecord
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
         /// </example>
-        [Property("Alias", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Alias Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "suffix")]
         public string AliasSuffix
         {
@@ -4138,7 +4138,7 @@ namespace FhirDeathRecord
                         return CodeableConceptToDict((CodeableConcept)stateComp.Value);
                     }
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {

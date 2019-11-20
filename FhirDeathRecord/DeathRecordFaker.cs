@@ -87,8 +87,8 @@ namespace FhirDeathRecord
             DateTime death = faker.Date.Recent();
             DateTimeOffset birthUtc = new DateTimeOffset(birth.Year, birth.Month, birth.Day, 0, 0, 0, TimeSpan.Zero);
             DateTimeOffset deathUtc = new DateTimeOffset(death.Year, death.Month, death.Day, 0, 0, 0, TimeSpan.Zero);
-            record.DateOfBirth = birthUtc.ToString("YYYY-MM-DD");
-            record.DateOfDeath = deathUtc.ToString("YYYY-MM-DD");
+            record.DateOfBirth = birthUtc.ToString("yyyy-MM-dd");
+            record.DateOfDeath = deathUtc.ToString("yyyy-MM-dd");
             int age = death.Year - birth.Year;
             if (birthUtc > deathUtc.AddYears(-age)) age--;
             record.AgeAtDeath = new Dictionary<string, string>() { { "value", age.ToString() }, { "unit", "a" } };
@@ -353,8 +353,8 @@ namespace FhirDeathRecord
                 mannerOfDeath.Add("display", "Natural");
                 record.MannerOfDeathType = mannerOfDeath;
 
-                record.DateOfDeath = deathUtc.ToString("s");
-                record.DateOfDeathPronouncement = deathUtc.AddHours(1).ToString("s");
+                record.DateOfDeath = deathUtc.ToString("o");
+                record.DateOfDeathPronouncement = deathUtc.AddHours(1).ToString("o");
 
                 // Randomly pick one of four possible natural causes
                 int choice = faker.Random.Number(3);

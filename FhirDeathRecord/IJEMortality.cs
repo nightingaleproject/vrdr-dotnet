@@ -143,7 +143,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
-        private string DateTimeStringHelper(IJEField info, string value, string type, DateTimeOffset date)
+        private string DateTimeStringHelper(IJEField info, string value, string type, DateTimeOffset date, bool dateOnly = false, bool withTimezoneOffset = false)
         {
             if (type == "yyyy")
             {
@@ -240,7 +240,18 @@ namespace FhirDeathRecord
                     }
                 }
             }
-            return date == null ? null : date.ToString("o");
+            if (dateOnly)
+            {
+                return date == null ? null : date.ToString("yyyy-MM-dd");
+            }
+            else if (withTimezoneOffset)
+            {
+                return date == null ? null : date.ToString("o");
+            }
+            else
+            {
+                return date == null ? null : date.ToString("s");
+            }
         }
 
         /// <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
@@ -262,7 +273,7 @@ namespace FhirDeathRecord
         }
 
         /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
-        private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value)
+        private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value, bool dateOnly = false, bool withTimezoneOffset = false)
         {
             IJEField info = FieldInfo(ijeFieldName);
             string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
@@ -271,12 +282,12 @@ namespace FhirDeathRecord
             {
                 date = date.ToUniversalTime();
                 date = new DateTimeOffset(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond, TimeSpan.Zero);
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date));
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
             }
             else
             {
                 date = new DateTimeOffset(1, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date));
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, DateTimeStringHelper(info, value, dateTimeType, date, dateOnly, withTimezoneOffset));
             }
         }
 
@@ -684,7 +695,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value);
+                    DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value, false, true);
                 }
             }
         }
@@ -1105,7 +1116,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value);
+                    DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value, true);
                 }
             }
         }
@@ -1122,7 +1133,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOB_MO", "MM", "DateOfBirth", value);
+                    DateTime_Set("DOB_MO", "MM", "DateOfBirth", value, true);
                 }
             }
         }
@@ -1139,7 +1150,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOB_DY", "dd", "DateOfBirth", value);
+                    DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
             }
         }
@@ -1375,37 +1386,37 @@ namespace FhirDeathRecord
                     {
                         case "D":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Donation");
                             break;
                         case "B":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Burial");
                             break;
                         case "C":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Cremation");
                             break;
                         case "E":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Entombment");
                             break;
                         case "R":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Removal from state");
                             break;
                         case "U":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
                             break;
                         case "O":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "urn:oid:2.16.840.1.114222.4.11.7379");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
                             break;
                     }
@@ -1425,7 +1436,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOD_MO", "MM", "DateOfDeath", value);
+                    DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
                 }
             }
         }
@@ -1442,7 +1453,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOD_DY", "dd", "DateOfDeath", value);
+                    DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
                 }
             }
         }
@@ -1459,7 +1470,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("TOD", "HHmm", "DateOfDeath", value);
+                    DateTime_Set("TOD", "HHmm", "DateOfDeath", value, false, true);
                 }
             }
         }
@@ -2386,7 +2397,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_YR", "yyyy", "CreatedTime", value);
+                    DateTime_Set("DOR_YR", "yyyy", "CreatedTime", value, true);
                 }
             }
         }
@@ -2403,7 +2414,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_MO", "MM", "CreatedTime", value);
+                    DateTime_Set("DOR_MO", "MM", "CreatedTime", value, true);
                 }
             }
         }
@@ -2420,7 +2431,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_DY", "dd", "CreatedTime", value);
+                    DateTime_Set("DOR_DY", "dd", "CreatedTime", value, true);
                 }
             }
         }
@@ -2620,9 +2631,9 @@ namespace FhirDeathRecord
                 string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");
                 switch (code)
                 {
-                    case "Y": // Yes
+                    case "373066001": // Yes
                         return "Y";
-                    case "N": // No
+                    case "373067005": // No
                         return "N";
                     case "UNK": // Unknown
                         return "U";
@@ -2636,19 +2647,19 @@ namespace FhirDeathRecord
                     switch (value)
                     {
                         case "Y":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "Y");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373066001");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "urn:oid:2.16.840.1.114222.4.11.6004");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
                             break;
                         case "N":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "N");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373067005");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "urn:oid:2.16.840.1.114222.4.11.6004");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/ValueSet/v2-0532");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "unknown");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "urn:oid:2.16.840.1.114222.4.11.6004");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Unknown");
                             break;
                     }
                 }
@@ -2712,7 +2723,7 @@ namespace FhirDeathRecord
                             break;
                         case "8":
                             Dictionary_Set("PREG", "PregnanacyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
                             Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not applicable");
                             break;
                     }
@@ -3731,7 +3742,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value);
+                    DateTime_Set("PPDATESIGNED", "MMddyyyy", "DateOfDeathPronouncement", value, false, true);
                 }
             }
         }
@@ -3748,7 +3759,7 @@ namespace FhirDeathRecord
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value);
+                    DateTime_Set("PPTIME", "HHmm", "DateOfDeathPronouncement", value, false, true);
                 }
             }
         }

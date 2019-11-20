@@ -2062,13 +2062,13 @@
         <member name="M:FhirDeathRecord.IJEMortality.FieldInfo(System.String)">
             <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTimeOffset)">
+        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTimeOffset,System.Boolean,System.Boolean)">
             <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String)">
+        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
         <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">

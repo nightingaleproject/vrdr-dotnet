@@ -69,7 +69,7 @@ deathRecord.PregnanacyStatus = code;
 deathRecord.ExaminerContacted = false;
 
 // Add DateOfDeath
-deathRecord.DateOfDeath = "2018-07-10T10:04:00.0000000+00:00";
+deathRecord.DateOfDeath = "2018-07-10T10:04:00+00:00";
 
 // Print record as a JSON string
 Console.WriteLine(deathRecord.ToJSON());
@@ -144,7 +144,7 @@ This package also includes a class for handling the preliminary return message f
 // Initialize a new CauseCodes; fill with ids and codes
 CauseCodes causeCodes = new CauseCodes();
 causeCodes.Identifier = "42";
-causeCodes.BundleIdentifier = "MA000000";
+causeCodes.BundleIdentifier = "MA000001";
 
 List<string> codes = new List<string>();
 codes.Add("I251");

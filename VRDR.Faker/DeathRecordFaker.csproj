@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>VRDR</RootNamespace>
-    <DocumentationFile>DeathRecord.xml</DocumentationFile>
-    <PackageId>VRDR</PackageId>
+    <RootNamespace>VRDR.Faker</RootNamespace>
+    <DocumentationFile>DeathRecordFaker.xml</DocumentationFile>
+    <PackageId>VRDR.Faker</PackageId>
     <Version>2.8.0</Version>
     <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
     <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
-    <Title>FHIR VRDR Death Record</Title>
-    <PackageDescription>A library for producing and consuming VRDR FHIR death records.</PackageDescription>
+    <Title>FHIR VRDR Death Record Faker</Title>
+    <PackageDescription>A utility for generating synthetic VRDR FHIR death records.</PackageDescription>
     <Authors>aholmes@mitre.org</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.STU3" Version="1.3.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="VRDR" Version="2.8.0" />
+    <PackageReference Include="Bogus" Version="25.0.3" />
   </ItemGroup>
 </Project>

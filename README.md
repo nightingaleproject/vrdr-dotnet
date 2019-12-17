@@ -12,7 +12,7 @@ This directory contains a FHIR Death Record library for consuming and producing 
 For API documentation for the DeathRecord class, [click here](VRDR/DeathRecord.md).
 
 #### Usage
-This library is published on NuGet, so including it is as easy as:
+This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
@@ -159,7 +159,30 @@ dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 ```
 
 ### VRDR.Faker
-This package contains a utility that can be used to generate synthetic VRDR records by using the DeathRecordFaker class:
+This package contains a utility that can be used to generate synthetic VRDR records by using the DeathRecordFaker class.
+
+#### Usage
+This package is published on NuGet, so including it is as easy as:
+```xml
+<ItemGroup>
+  ...
+  <PackageReference Include="VRDR.Faker" Version="2.8.0" />
+  ...
+</ItemGroup>
+```
+
+You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from VRDR.CLI):
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  ...
+  <ItemGroup>
+    <ProjectReference Include="..\VRDR.Faker\DeathRecordFaker.csproj" />
+    ...
+  </ItemGroup>
+</Project>
+```
+
+#### Example Usage
 ```cs
 // Initialize a faker using some customization options
 DeathRecordFaker faker = new DeathRecordFaker(state: "MA", type: "Injury");

@@ -5,5 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
+    <ProjectReference Include="..\VRDR.Faker\DeathRecordFaker.csproj" />
   </ItemGroup>
 </Project>

@@ -219,7 +219,7 @@ namespace VRDR.Faker
             occupation.Add("code", occupationCode.Item1);
             occupation.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
             occupation.Add("display", occupationCode.Item2);
-            record.UsualOccupation = occupation;
+            record.UsualOccupationCode = occupation;
 
             // Industry
 
@@ -234,7 +234,7 @@ namespace VRDR.Faker
             industry.Add("code", industryCode.Item1);
             industry.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
             industry.Add("display", industryCode.Item2);
-            record.UsualIndustry = industry;
+            record.UsualIndustryCode = industry;
 
             // Military Service
 

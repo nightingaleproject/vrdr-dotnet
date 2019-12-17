@@ -1358,8 +1358,8 @@
             <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.UsualOccupation">
-            <summary>Decedent's Usual Occupation.</summary>
+        <member name="P:VRDR.DeathRecord.UsualOccupationCode">
+            <summary>Decedent's Usual Occupation (Code).</summary>
             <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -1371,13 +1371,23 @@
             <para>uocc.Add("code", "1340");</para>
             <para>uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
             <para>uocc.Add("display", "Biomedical engineers");</para>
-            <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
+            <para>ExampleDeathRecord.UsualOccupationCode = uocc;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.UsualOccupation">
+            <summary>Decedent's Usual Occupation.</summary>
+            <value>the decedent's usual occupation.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.UsualIndustry">
-            <summary>Decedent's Usual Industry.</summary>
+        <member name="P:VRDR.DeathRecord.UsualIndustryCode">
+            <summary>Decedent's Usual Industry (Code).</summary>
             <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -1389,9 +1399,19 @@
             <para>uind.Add("code", "7280");</para>
             <para>uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");</para>
             <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
-            <para>ExampleDeathRecord.UsualIndustry = uind;</para>
+            <para>ExampleDeathRecord.UsualIndustryCode = uind;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>
+            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.UsualIndustry">
+            <summary>Decedent's Usual Industry (Text).</summary>
+            <value>the decedent's usual industry.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualIndustry = "Accounting";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.MilitaryService">

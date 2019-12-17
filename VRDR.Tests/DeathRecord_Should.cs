@@ -1363,51 +1363,51 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_UsualOccupation()
+        public void Set_UsualOccupationCode()
         {
             Dictionary<string, string> uocc = new Dictionary<string, string>();
             uocc.Add("code", "1340");
             uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
             uocc.Add("display", "Biomedical engineers");
-            SetterDeathRecord.UsualOccupation = uocc;
-            Assert.Equal("1340", SetterDeathRecord.UsualOccupation["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", SetterDeathRecord.UsualOccupation["system"]);
-            Assert.Equal("Biomedical engineers", SetterDeathRecord.UsualOccupation["display"]);
+            SetterDeathRecord.UsualOccupationCode = uocc;
+            Assert.Equal("1340", SetterDeathRecord.UsualOccupationCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", SetterDeathRecord.UsualOccupationCode["system"]);
+            Assert.Equal("Biomedical engineers", SetterDeathRecord.UsualOccupationCode["display"]);
         }
 
         [Fact]
-        public void Get_UsualOccupation()
+        public void Get_UsualOccupationCode()
         {
-            Assert.Equal("1340", ((DeathRecord)JSONRecords[0]).UsualOccupation["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)JSONRecords[0]).UsualOccupation["system"]);
-            Assert.Equal("Biomedical engineers", ((DeathRecord)JSONRecords[0]).UsualOccupation["display"]);
-            Assert.Equal("1340", ((DeathRecord)XMLRecords[0]).UsualOccupation["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)XMLRecords[0]).UsualOccupation["system"]);
-            Assert.Equal("Biomedical engineers", ((DeathRecord)XMLRecords[0]).UsualOccupation["display"]);
+            Assert.Equal("1340", ((DeathRecord)JSONRecords[0]).UsualOccupationCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)JSONRecords[0]).UsualOccupationCode["system"]);
+            Assert.Equal("Biomedical engineers", ((DeathRecord)JSONRecords[0]).UsualOccupationCode["display"]);
+            Assert.Equal("1340", ((DeathRecord)XMLRecords[0]).UsualOccupationCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)XMLRecords[0]).UsualOccupationCode["system"]);
+            Assert.Equal("Biomedical engineers", ((DeathRecord)XMLRecords[0]).UsualOccupationCode["display"]);
         }
 
         [Fact]
-        public void Set_UsualIndustry()
+        public void Set_UsualIndustryCode()
         {
             Dictionary<string, string> uind = new Dictionary<string, string>();
             uind.Add("code", "7280");
             uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
             uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
-            SetterDeathRecord.UsualIndustry = uind;
-            Assert.Equal("7280", SetterDeathRecord.UsualIndustry["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", SetterDeathRecord.UsualIndustry["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", SetterDeathRecord.UsualIndustry["display"]);
+            SetterDeathRecord.UsualIndustryCode = uind;
+            Assert.Equal("7280", SetterDeathRecord.UsualIndustryCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", SetterDeathRecord.UsualIndustryCode["system"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", SetterDeathRecord.UsualIndustryCode["display"]);
         }
 
         [Fact]
-        public void Get_UsualIndustry()
+        public void Get_UsualIndustryCode()
         {
-            Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualIndustry["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", ((DeathRecord)JSONRecords[0]).UsualIndustry["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualIndustry["display"]);
-            Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualIndustry["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", ((DeathRecord)XMLRecords[0]).UsualIndustry["system"]);
-            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualIndustry["display"]);
+            Assert.Equal("7280", ((DeathRecord)JSONRecords[0]).UsualIndustryCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", ((DeathRecord)JSONRecords[0]).UsualIndustryCode["system"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)JSONRecords[0]).UsualIndustryCode["display"]);
+            Assert.Equal("7280", ((DeathRecord)XMLRecords[0]).UsualIndustryCode["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7187", ((DeathRecord)XMLRecords[0]).UsualIndustryCode["system"]);
+            Assert.Equal("Accounting, tax preparation, bookkeeping, and payroll services", ((DeathRecord)XMLRecords[0]).UsualIndustryCode["display"]);
         }
 
         [Fact]

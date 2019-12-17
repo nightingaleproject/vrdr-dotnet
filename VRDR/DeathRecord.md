@@ -173,7 +173,9 @@
   - [TobaccoUse](#P-VRDR-DeathRecord-TobaccoUse 'VRDR.DeathRecord.TobaccoUse')
   - [TransportationRole](#P-VRDR-DeathRecord-TransportationRole 'VRDR.DeathRecord.TransportationRole')
   - [UsualIndustry](#P-VRDR-DeathRecord-UsualIndustry 'VRDR.DeathRecord.UsualIndustry')
+  - [UsualIndustryCode](#P-VRDR-DeathRecord-UsualIndustryCode 'VRDR.DeathRecord.UsualIndustryCode')
   - [UsualOccupation](#P-VRDR-DeathRecord-UsualOccupation 'VRDR.DeathRecord.UsualOccupation')
+  - [UsualOccupationCode](#P-VRDR-DeathRecord-UsualOccupationCode 'VRDR.DeathRecord.UsualOccupationCode')
   - [AddReferenceToComposition(reference)](#M-VRDR-DeathRecord-AddReferenceToComposition-System-String- 'VRDR.DeathRecord.AddReferenceToComposition(System.String)')
   - [AddressToDict(addr)](#M-VRDR-DeathRecord-AddressToDict-Hl7-Fhir-Model-Address- 'VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)')
   - [CodeableConceptToDict(codeableConcept)](#M-VRDR-DeathRecord-CodeableConceptToDict-Hl7-Fhir-Model-CodeableConcept- 'VRDR.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)')
@@ -3271,7 +3273,24 @@ Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole[
 
 ##### Summary
 
-Decedent's Usual Industry.
+Decedent's Usual Industry (Text).
+
+##### Example
+
+// Setter:
+
+ExampleDeathRecord.UsualIndustry = "Accounting";
+
+// Getter:
+
+Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");
+
+<a name='P-VRDR-DeathRecord-UsualIndustryCode'></a>
+### UsualIndustryCode `property`
+
+##### Summary
+
+Decedent's Usual Industry (Code).
 
 ##### Example
 
@@ -3285,11 +3304,11 @@ uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
 
 uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
 
-ExampleDeathRecord.UsualIndustry = uind;
+ExampleDeathRecord.UsualIndustryCode = uind;
 
 // Getter:
 
-Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");
+Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");
 
 <a name='P-VRDR-DeathRecord-UsualOccupation'></a>
 ### UsualOccupation `property`
@@ -3297,6 +3316,23 @@ Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']
 ##### Summary
 
 Decedent's Usual Occupation.
+
+##### Example
+
+// Setter:
+
+ExampleDeathRecord.UsualOccupation = "Biomedical engineering";
+
+// Getter:
+
+Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");
+
+<a name='P-VRDR-DeathRecord-UsualOccupationCode'></a>
+### UsualOccupationCode `property`
+
+##### Summary
+
+Decedent's Usual Occupation (Code).
 
 ##### Example
 
@@ -3310,11 +3346,11 @@ uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
 
 uocc.Add("display", "Biomedical engineers");
 
-ExampleDeathRecord.UsualOccupation = uocc;
+ExampleDeathRecord.UsualOccupationCode = uocc;
 
 // Getter:
 
-Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");
+Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");
 
 <a name='M-VRDR-DeathRecord-AddReferenceToComposition-System-String-'></a>
 ### AddReferenceToComposition(reference) `method`

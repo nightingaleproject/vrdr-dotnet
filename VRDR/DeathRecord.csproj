@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>FhirDeathRecord</RootNamespace>
+    <RootNamespace>VRDR</RootNamespace>
     <DocumentationFile>DeathRecord.xml</DocumentationFile>
-    <PackageId>FHIRDeathRecord</PackageId>
-    <Version>2.7.0</Version>
+    <PackageId>VRDR</PackageId>
+    <Version>2.8.0</Version>
     <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
     <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
-    <Title>FHIR Death Record</Title>
+    <Title>FHIR VRDR Death Record</Title>
     <PackageDescription>A FHIR Death Record model for producing and consuming FHIR death records.</PackageDescription>
     <Authors>aholmes@mitre.org</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

@@ -4,7 +4,7 @@ using System.Collections;
 using System.IO;
 using Xunit;
 
-namespace FhirDeathRecord.Tests
+namespace VRDR.Tests
 {
     public class DeathRecord_Should
     {

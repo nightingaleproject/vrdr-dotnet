@@ -5,7 +5,7 @@ using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 
-namespace FhirDeathRecord
+namespace VRDR
 {
     /// <summary>Class <c>CauseCodes</c> models a FHIR Vital Records Death Reporting (VRDR) Death
     /// Record return record. This can be used to consume or produce coded records that are typically

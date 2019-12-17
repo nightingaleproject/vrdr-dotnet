@@ -7,13 +7,13 @@ install:
 
 script:
  - dotnet build
- - dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
- - dotnet run -p FhirDeathRecord.CLI json2json FhirDeathRecord.CLI/1.json
- - dotnet run -p FhirDeathRecord.CLI xml2xml FhirDeathRecord.CLI/1.xml
- - dotnet run -p FhirDeathRecord.CLI description FhirDeathRecord.CLI/1.xml
- - dotnet run -p FhirDeathRecord.CLI description FhirDeathRecord.CLI/1.json
- - dotnet run -p FhirDeathRecord.CLI roundtrip-ije FhirDeathRecord.CLI/1.xml
- - dotnet run -p FhirDeathRecord.CLI roundtrip-ije FhirDeathRecord.CLI/1.json
- - dotnet run -p FhirDeathRecord.CLI roundtrip-all FhirDeathRecord.CLI/1.xml
- - dotnet run -p FhirDeathRecord.CLI roundtrip-all FhirDeathRecord.CLI/1.json
- - ./FhirDeathRecord.Tests/test_translation_service.sh
+ - dotnet test VRDR.Tests/DeathRecord.Tests.csproj
+ - dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json
+ - dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml
+ - dotnet run -p VRDR.CLI description VRDR.CLI/1.xml
+ - dotnet run -p VRDR.CLI description VRDR.CLI/1.json
+ - dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
+ - dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json
+ - dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml
+ - dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json
+ - ./VRDR.Tests/test_translation_service.sh

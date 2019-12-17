@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Bogus;
 using Bogus.Extensions.UnitedStates;
 
-namespace FhirDeathRecord
+namespace VRDR
 {
     /// <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
     /// options are available to tailoring the records generated to specific use case by the class.

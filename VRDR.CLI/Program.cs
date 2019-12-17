@@ -10,9 +10,9 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
-using FhirDeathRecord;
+using VRDR;
 
-namespace FhirDeathRecord.CLI
+namespace VRDR.CLI
 {
     class Program
     {

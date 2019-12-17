@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/vrdr-dotnet.svg?branch=master)](https://travis-ci.org/nightingaleproject/vrdr-dotnet)
-[![Nuget](https://img.shields.io/nuget/v/FHIRDeathRecord.svg)](https://www.nuget.org/packages/FHIRDeathRecord)
+[![Nuget](https://img.shields.io/nuget/v/VRDR.svg)](https://www.nuget.org/packages/VRDR)
 
 # vrdr-dotnet
 This repository includes .NET (C#) code for producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/). This code also includes support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
 ## Project Organization
 
-### FhirDeathRecord
+### VRDR
 This directory contains a FHIR Death Record library for consuming and producing VRDR FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format. In addition, there is a utility included for generating synthetic death records in the VRDR FHIR XML VRDR FHIR JSON, and IJE mortality formats, for experimentation use.
 
 #### Usage
@@ -14,24 +14,24 @@ This library is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="FHIRDeathRecord" Version="2.7.0" />
+  <PackageReference Include="VRDR" Version="2.8.0" />
   ...
 </ItemGroup>
 ```
 
-You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from FhirDeathRecord.CLI):
+You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from VRDR.CLI):
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   ...
   <ItemGroup>
-    <ProjectReference Include="..\FhirDeathRecord\DeathRecord.csproj" />
+    <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
     ...
   </ItemGroup>
 </Project>
 ```
 
 #### Producing Example
-The following snippet is a quick example of producing a from-scratch FHIR VRDR record using this library, and then printing it out as a JSON string. For a complete example, [click here](https://github.com/nightingaleproject/csharp-fhir-death-record/blob/master/FhirDeathRecord.CLI/Program.cs#L23).
+The following snippet is a quick example of producing a from-scratch FHIR VRDR record using this library, and then printing it out as a JSON string. For a complete example, [click here](https://github.com/nightingaleproject/csharp-fhir-death-record/blob/master/VRDR.CLI/Program.cs#L23).
 ```cs
 DeathRecord deathRecord = new DeathRecord();
 
@@ -162,17 +162,17 @@ CauseCodes example = new CauseCodes(json);
 Console.WriteLine(example.ToXML());
 ```
 
-### FhirDeathRecord.Tests
-This directory contains unit and functional tests for the FhirDeathRecord library.
+### VRDR.Tests
+This directory contains unit and functional tests for the VRDR library.
 
 #### Usage
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
 ```bash
-dotnet test FhirDeathRecord.Tests/DeathRecord.Tests.csproj
+dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 ```
 
-### FhirDeathRecord.CLI
-This directory contains a sample command line interface app that uses the FhirDeathRecord library to do a few different things.
+### VRDR.CLI
+This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
 #### Example Usages
 ```bash
@@ -219,7 +219,7 @@ dotnet run fakexml
 dotnet run fakeije
 ```
 
-### FhirDeathRecord.HTTP
+### VRDR.HTTP
 This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.
 
 The current available endpoints to `POST` to are:

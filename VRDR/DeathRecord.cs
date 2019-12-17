@@ -10,7 +10,7 @@ using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Newtonsoft.Json;
 
-namespace FhirDeathRecord
+namespace VRDR
 {
     /// <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
     /// Record. This class was designed to help consume and produce death records that follow the
@@ -784,7 +784,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (MannerOfDeath != null && MannerOfDeath.Value != null)
+                if (MannerOfDeath != null && MannerOfDeath.Value != null && MannerOfDeath.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)MannerOfDeath.Value);
                 }
@@ -1003,13 +1003,9 @@ namespace FhirDeathRecord
             get
             {
                 Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-                if (qualification != null)
+                if (qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null)
                 {
-                    Dictionary<string, string> dictionary = new Dictionary<string, string>();
-                    dictionary.Add("display", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Display : ""));
-                    dictionary.Add("code", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().Code : ""));
-                    dictionary.Add("system", ((qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null) ? qualification.Code.Coding.FirstOrDefault().System : ""));
-                    return dictionary;
+                    return CodeableConceptToDict(qualification.Code);
                 }
                 return EmptyCodeDict();
             }
@@ -4032,7 +4028,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null)
+                if (DecedentEducationLevel != null && DecedentEducationLevel.Value != null && DecedentEducationLevel.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)DecedentEducationLevel.Value);
                 }
@@ -4133,7 +4129,7 @@ namespace FhirDeathRecord
                 {
                     // Find correct component
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
-                    if (stateComp != null)
+                    if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)stateComp.Value);
                     }
@@ -4269,7 +4265,7 @@ namespace FhirDeathRecord
                 if (EmploymentHistory != null)
                 {
                     Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21843-8" );
-                    if (component != null)
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
@@ -4335,7 +4331,7 @@ namespace FhirDeathRecord
                 if (EmploymentHistory != null)
                 {
                     Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
-                    if (component != null)
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
@@ -4401,7 +4397,7 @@ namespace FhirDeathRecord
                 if (EmploymentHistory != null)
                 {
                     Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
-                    if (component != null)
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
@@ -4840,7 +4836,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (DispositionMethod != null && DispositionMethod.Value != null)
+                if (DispositionMethod != null && DispositionMethod.Value != null && DispositionMethod.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)DispositionMethod.Value);
                 }
@@ -4906,7 +4902,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (AutopsyPerformed != null && AutopsyPerformed.Value != null)
+                if (AutopsyPerformed != null && AutopsyPerformed.Value != null && AutopsyPerformed.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Value);
                 }
@@ -5059,7 +5055,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (AutopsyPerformed != null && AutopsyPerformed.Component.Count() > 0)
+                if (AutopsyPerformed != null && AutopsyPerformed.Component.Count() > 0 && AutopsyPerformed.Component.First().Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Component.First().Value);
                 }
@@ -5339,7 +5335,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (PregnancyObs != null && PregnancyObs.Value != null)
+                if (PregnancyObs != null && PregnancyObs.Value != null && PregnancyObs.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)PregnancyObs.Value);
                 }
@@ -5629,7 +5625,7 @@ namespace FhirDeathRecord
                 {
                     // Find correct component
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp != null)
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)placeComp.Value);
                     }
@@ -5703,7 +5699,7 @@ namespace FhirDeathRecord
                 {
                     // Find correct component
                     var transpComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
-                    if (transpComp != null)
+                    if (transpComp != null && transpComp.Value != null && transpComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)transpComp.Value);
                     }
@@ -5773,7 +5769,7 @@ namespace FhirDeathRecord
         {
             get
             {
-                if (TobaccoUseObs != null && TobaccoUseObs.Value != null)
+                if (TobaccoUseObs != null && TobaccoUseObs.Value != null && TobaccoUseObs.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)TobaccoUseObs.Value);
                 }

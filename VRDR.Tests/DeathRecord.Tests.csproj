@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>FhirDeathRecord.Tests</RootNamespace>
+    <RootNamespace>VRDR.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -11,7 +11,7 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FhirDeathRecord\DeathRecord.csproj" />
+    <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="fixtures/json/1.json" CopyToOutputDirectory="PreserveNewest" />

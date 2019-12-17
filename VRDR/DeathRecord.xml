@@ -1983,29 +1983,6 @@
         <member name="M:VRDR.FHIRPath.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:VRDR.DeathRecordFaker">
-            <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
-            options are available to tailoring the records generated to specific use case by the class.
-            </summary>
-        </member>
-        <member name="F:VRDR.DeathRecordFaker.MortalityData">
-            <summary>Mortality data for code translations.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecordFaker.state">
-            <summary>State to use when generating records.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecordFaker.type">
-            <summary>Type of Cause of Death; Natural or Injury.</summary>
-        </member>
-        <member name="F:VRDR.DeathRecordFaker.sex">
-            <summary>Decedent Sex to use.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecordFaker.#ctor(System.String,System.String,System.String)">
-            <summary>Constructor with optional arguments to customize the records generated.</summary>
-        </member>
-        <member name="M:VRDR.DeathRecordFaker.Generate(System.Boolean)">
-            <summary>Return a new record populated with fake data.</summary>
-        </member>
         <member name="T:VRDR.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>

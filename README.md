@@ -9,6 +9,8 @@ This repository includes .NET (C#) code for producing and consuming the Vital Re
 ### VRDR
 This directory contains a FHIR Death Record library for consuming and producing VRDR FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format. In addition, there is a utility included for generating synthetic death records in the VRDR FHIR XML VRDR FHIR JSON, and IJE mortality formats, for experimentation use.
 
+For API documentation for the DeathRecord class, [click here](VRDR/DeathRecord.md).
+
 #### Usage
 This library is published on NuGet, so including it is as easy as:
 ```xml

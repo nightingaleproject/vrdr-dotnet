@@ -37,7 +37,7 @@ namespace VRDR.Faker
             DeathRecord record = new DeathRecord();
 
             Random random = new Random();
-            Faker faker = new Faker("en");
+            Bogus.Faker faker = new Bogus.Faker("en");
             MortalityData dataHelper = MortalityData;
 
             // Grab Gender enum value

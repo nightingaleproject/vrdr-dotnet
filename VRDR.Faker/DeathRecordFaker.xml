@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DeathRecordFaker</name>
+    </assembly>
+    <members>
+        <member name="T:VRDR.Faker.DeathRecordFaker">
+            <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
+            options are available to tailoring the records generated to specific use case by the class.
+            </summary>
+        </member>
+        <member name="F:VRDR.Faker.DeathRecordFaker.MortalityData">
+            <summary>Mortality data for code translations.</summary>
+        </member>
+        <member name="F:VRDR.Faker.DeathRecordFaker.state">
+            <summary>State to use when generating records.</summary>
+        </member>
+        <member name="F:VRDR.Faker.DeathRecordFaker.type">
+            <summary>Type of Cause of Death; Natural or Injury.</summary>
+        </member>
+        <member name="F:VRDR.Faker.DeathRecordFaker.sex">
+            <summary>Decedent Sex to use.</summary>
+        </member>
+        <member name="M:VRDR.Faker.DeathRecordFaker.#ctor(System.String,System.String,System.String)">
+            <summary>Constructor with optional arguments to customize the records generated.</summary>
+        </member>
+        <member name="M:VRDR.Faker.DeathRecordFaker.Generate(System.Boolean)">
+            <summary>Return a new record populated with fake data.</summary>
+        </member>
+    </members>
+</doc>

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Bogus;
 using Bogus.Extensions.UnitedStates;
+using VRDR;
 
-namespace FhirDeathRecord
+namespace VRDR.Faker
 {
     /// <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
     /// options are available to tailoring the records generated to specific use case by the class.
@@ -218,7 +219,7 @@ namespace FhirDeathRecord
             occupation.Add("code", occupationCode.Item1);
             occupation.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
             occupation.Add("display", occupationCode.Item2);
-            record.UsualOccupation = occupation;
+            record.UsualOccupationCode = occupation;
 
             // Industry
 
@@ -233,7 +234,7 @@ namespace FhirDeathRecord
             industry.Add("code", industryCode.Item1);
             industry.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
             industry.Add("display", industryCode.Item2);
-            record.UsualIndustry = industry;
+            record.UsualIndustryCode = industry;
 
             // Military Service
 

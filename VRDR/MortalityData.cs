@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace FhirDeathRecord
+namespace VRDR
 {
     /// <summary>Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</summary>
     public sealed class MortalityData

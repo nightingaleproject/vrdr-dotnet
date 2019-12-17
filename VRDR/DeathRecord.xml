@@ -4,60 +4,60 @@
         <name>DeathRecord</name>
     </assembly>
     <members>
-        <member name="T:FhirDeathRecord.CauseCodes">
+        <member name="T:VRDR.CauseCodes">
             <summary>Class <c>CauseCodes</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record return record. This can be used to consume or produce coded records that are typically
             returned from NCHS to a jurisdiction.
             </summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Navigator">
+        <member name="F:VRDR.CauseCodes.Navigator">
             <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Bundle">
+        <member name="F:VRDR.CauseCodes.Bundle">
             <summary>Bundle that contains the death record.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.DeathCertification">
+        <member name="F:VRDR.CauseCodes.DeathCertification">
             <summary>The Certification.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Composition">
+        <member name="F:VRDR.CauseCodes.Composition">
             <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.CauseOfDeathConditionPathway">
+        <member name="F:VRDR.CauseCodes.CauseOfDeathConditionPathway">
             <summary>Cause Of Death Condition Pathway.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.CauseOfDeathConditions">
+        <member name="F:VRDR.CauseCodes.CauseOfDeathConditions">
             <summary>Cause Of Death Conditions.</summary>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.#ctor">
+        <member name="M:VRDR.CauseCodes.#ctor">
             <summary>Default constructor that creates a new, empty CauseCodes.</summary>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.#ctor(System.String,System.Boolean)">
+        <member name="M:VRDR.CauseCodes.#ctor(System.String,System.Boolean)">
             <summary>Constructor that takes a string that represents a CauseCodes record in either XML or JSON format.</summary>
             <param name="record">represents a CauseCodes record in either XML or JSON format.</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.ToXML">
+        <member name="M:VRDR.CauseCodes.ToXML">
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.ToXml">
+        <member name="M:VRDR.CauseCodes.ToXml">
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.ToJSON">
+        <member name="M:VRDR.CauseCodes.ToJSON">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.ToJson">
+        <member name="M:VRDR.CauseCodes.ToJson">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.GetITypedElement">
+        <member name="M:VRDR.CauseCodes.GetITypedElement">
             <summary>Helper method to return an ITypedElement of the record bundle.</summary>
             <returns>an ITypedElement of the record bundle</returns>
         </member>
-        <member name="P:FhirDeathRecord.CauseCodes.Identifier">
+        <member name="P:VRDR.CauseCodes.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>
             <value>a record identification string.</value>
             <example>
@@ -67,7 +67,7 @@
             <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.CauseCodes.BundleIdentifier">
+        <member name="P:VRDR.CauseCodes.BundleIdentifier">
             <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
             <value>a record bundle identification string.</value>
             <example>
@@ -77,7 +77,7 @@
             <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.CauseCodes.Codes">
+        <member name="P:VRDR.CauseCodes.Codes">
             <summary>Cause Codes - an ordered array of ICD-10 codes for cause of death.</summary>
             <value>an ordered array of ICD-10 codes for cause of death.</value>
             <example>
@@ -87,261 +87,261 @@
             <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
             </example>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.AddReferenceToComposition(System.String)">
+        <member name="M:VRDR.CauseCodes.AddReferenceToComposition(System.String)">
             <summary>Add a reference to the Death Record Composition.</summary>
             <param name="reference">a reference.</param>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.RemoveReferenceFromComposition(System.String)">
+        <member name="M:VRDR.CauseCodes.RemoveReferenceFromComposition(System.String)">
             <summary>Remove a reference from the Death Record Composition.</summary>
             <param name="reference">a reference.</param>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:VRDR.CauseCodes.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.RestoreReferences">
+        <member name="M:VRDR.CauseCodes.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
         </member>
-        <member name="T:FhirDeathRecord.CauseCodes.Property">
+        <member name="T:VRDR.CauseCodes.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>
-        <member name="T:FhirDeathRecord.CauseCodes.Property.Types">
+        <member name="T:VRDR.CauseCodes.Property.Types">
             <summary>Enum for describing the property type.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.String">
+        <member name="F:VRDR.CauseCodes.Property.Types.String">
             <summary>Parameter is a string.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.StringArr">
+        <member name="F:VRDR.CauseCodes.Property.Types.StringArr">
             <summary>Parameter is an array of strings.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.StringDateTime">
+        <member name="F:VRDR.CauseCodes.Property.Types.StringDateTime">
             <summary>Parameter is like a string, but should be treated as a date and time.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.Bool">
+        <member name="F:VRDR.CauseCodes.Property.Types.Bool">
             <summary>Parameter is a bool.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.Dictionary">
+        <member name="F:VRDR.CauseCodes.Property.Types.Dictionary">
             <summary>Parameter is a Dictionary.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.TupleArr">
+        <member name="F:VRDR.CauseCodes.Property.Types.TupleArr">
             <summary>Parameter is an array of Tuples.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Types.TupleCOD">
+        <member name="F:VRDR.CauseCodes.Property.Types.TupleCOD">
             <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Name">
+        <member name="F:VRDR.CauseCodes.Property.Name">
             <summary>Name of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Type">
+        <member name="F:VRDR.CauseCodes.Property.Type">
             <summary>The property type (e.g. string, bool, Dictionary).</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Category">
+        <member name="F:VRDR.CauseCodes.Property.Category">
             <summary>Category of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Description">
+        <member name="F:VRDR.CauseCodes.Property.Description">
             <summary>Description of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Serialize">
+        <member name="F:VRDR.CauseCodes.Property.Serialize">
             <summary>If this field should be kept when serialzing.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.IGUrl">
+        <member name="F:VRDR.CauseCodes.Property.IGUrl">
             <summary>URL that links to the IG description for this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.CapturedInIJE">
+        <member name="F:VRDR.CauseCodes.Property.CapturedInIJE">
             <summary>If this field has an equivalent in IJE.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.Property.Priority">
+        <member name="F:VRDR.CauseCodes.Property.Priority">
             <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.Property.#ctor(System.String,FhirDeathRecord.CauseCodes.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
+        <member name="M:VRDR.CauseCodes.Property.#ctor(System.String,VRDR.CauseCodes.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.CauseCodes.PropertyParam">
+        <member name="T:VRDR.CauseCodes.PropertyParam">
             <summary>Property attribute used to describe a DeathRecord property parameter,
             specifically if the property is a dictionary that has keys.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.PropertyParam.Key">
+        <member name="F:VRDR.CauseCodes.PropertyParam.Key">
             <summary>If the related property is a Dictionary, the key name.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.PropertyParam.Description">
+        <member name="F:VRDR.CauseCodes.PropertyParam.Description">
             <summary>Description of this parameter.</summary>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.PropertyParam.#ctor(System.String,System.String)">
+        <member name="M:VRDR.CauseCodes.PropertyParam.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.CauseCodes.FHIRPath">
+        <member name="T:VRDR.CauseCodes.FHIRPath">
             <summary>Describes a FHIR path that can be used to get to the element.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.FHIRPath.Path">
+        <member name="F:VRDR.CauseCodes.FHIRPath.Path">
             <summary>The relevant FHIR path.</summary>
         </member>
-        <member name="F:FhirDeathRecord.CauseCodes.FHIRPath.Element">
+        <member name="F:VRDR.CauseCodes.FHIRPath.Element">
             <summary>The relevant element.</summary>
         </member>
-        <member name="M:FhirDeathRecord.CauseCodes.FHIRPath.#ctor(System.String,System.String)">
+        <member name="M:VRDR.CauseCodes.FHIRPath.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.DeathRecord">
+        <member name="T:VRDR.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the
             HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
             http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
             </summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.MortalityData">
+        <member name="F:VRDR.DeathRecord.MortalityData">
             <summary>Mortality data for code translations.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Navigator">
+        <member name="F:VRDR.DeathRecord.Navigator">
             <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Bundle">
+        <member name="F:VRDR.DeathRecord.Bundle">
             <summary>Bundle that contains the death record.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Composition">
+        <member name="F:VRDR.DeathRecord.Composition">
             <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Decedent">
+        <member name="F:VRDR.DeathRecord.Decedent">
             <summary>The Decedent.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Certifier">
+        <member name="F:VRDR.DeathRecord.Certifier">
             <summary>The Certifier.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Mortician">
+        <member name="F:VRDR.DeathRecord.Mortician">
             <summary>The Mortician.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DeathCertification">
+        <member name="F:VRDR.DeathRecord.DeathCertification">
             <summary>The Certification.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.InterestedParty">
+        <member name="F:VRDR.DeathRecord.InterestedParty">
             <summary>The Interested Party.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.MannerOfDeath">
+        <member name="F:VRDR.DeathRecord.MannerOfDeath">
             <summary>The Manner of Death Observation.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.ConditionContributingToDeath">
+        <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
             <summary>Condition Contributing to Death.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionA">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
             <summary>Cause Of Death Condition Line A (#1).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionB">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionB">
             <summary>Cause Of Death Condition Line B (#2).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionC">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionC">
             <summary>Cause Of Death Condition Line C (#3).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionD">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionD">
             <summary>Cause Of Death Condition Line D (#4).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionE">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionE">
             <summary>Cause Of Death Condition Line E (#5).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionF">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionF">
             <summary>Cause Of Death Condition Line F (#6).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionG">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionG">
             <summary>Cause Of Death Condition Line G (#7).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionH">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionH">
             <summary>Cause Of Death Condition Line H (#8).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionI">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionI">
             <summary>Cause Of Death Condition Line I (#9).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionJ">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionJ">
             <summary>Cause Of Death Condition Line J (#10).</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.CauseOfDeathConditionPathway">
+        <member name="F:VRDR.DeathRecord.CauseOfDeathConditionPathway">
             <summary>Cause Of Death Condition Pathway.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Father">
+        <member name="F:VRDR.DeathRecord.Father">
             <summary>Decedent's Father.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Mother">
+        <member name="F:VRDR.DeathRecord.Mother">
             <summary>Decedent's Mother.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.Spouse">
+        <member name="F:VRDR.DeathRecord.Spouse">
             <summary>Decedent's Spouse.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DecedentEducationLevel">
+        <member name="F:VRDR.DeathRecord.DecedentEducationLevel">
             <summary>Decedent Education Level.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.BirthRecordIdentifier">
+        <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
             <summary>Birth Record Identifier.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.EmploymentHistory">
+        <member name="F:VRDR.DeathRecord.EmploymentHistory">
             <summary>Employment History.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.FuneralHome">
+        <member name="F:VRDR.DeathRecord.FuneralHome">
             <summary>The Funeral Home.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.FuneralHomeDirector">
+        <member name="F:VRDR.DeathRecord.FuneralHomeDirector">
             <summary>The Funeral Home Director.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DispositionLocation">
+        <member name="F:VRDR.DeathRecord.DispositionLocation">
             <summary>Disposition Location.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DispositionMethod">
+        <member name="F:VRDR.DeathRecord.DispositionMethod">
             <summary>Disposition Method.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.AutopsyPerformed">
+        <member name="F:VRDR.DeathRecord.AutopsyPerformed">
             <summary>Autopsy Performed.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.AgeAtDeathObs">
+        <member name="F:VRDR.DeathRecord.AgeAtDeathObs">
             <summary>Age At Death.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.PregnancyObs">
+        <member name="F:VRDR.DeathRecord.PregnancyObs">
             <summary>Decedent Pregnancy Status.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.ExaminerContactedObs">
+        <member name="F:VRDR.DeathRecord.ExaminerContactedObs">
             <summary>Examiner Contacted.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.TobaccoUseObs">
+        <member name="F:VRDR.DeathRecord.TobaccoUseObs">
             <summary>Tobacco Use Contributed To Death.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.InjuryLocationLoc">
+        <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
             <summary>Injury Location.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.InjuryIncidentObs">
+        <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
             <summary>Injury Incident.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DeathLocationLoc">
+        <member name="F:VRDR.DeathRecord.DeathLocationLoc">
             <summary>Death Location.</summary>
         </member>
-        <member name="F:FhirDeathRecord.DeathRecord.DeathDateObs">
+        <member name="F:VRDR.DeathRecord.DeathDateObs">
             <summary>Date Of Death.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.#ctor">
+        <member name="M:VRDR.DeathRecord.#ctor">
             <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.#ctor(System.String,System.Boolean)">
+        <member name="M:VRDR.DeathRecord.#ctor(System.String,System.Boolean)">
             <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
             <param name="record">represents a FHIR Death Record in either XML or JSON format.</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.ToXML">
+        <member name="M:VRDR.DeathRecord.ToXML">
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.ToXml">
+        <member name="M:VRDR.DeathRecord.ToXml">
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.ToJSON">
+        <member name="M:VRDR.DeathRecord.ToJSON">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.ToJson">
+        <member name="M:VRDR.DeathRecord.ToJson">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in JSON format</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetITypedElement">
+        <member name="M:VRDR.DeathRecord.GetITypedElement">
             <summary>Helper method to return an ITypedElement of the record bundle.</summary>
             <returns>an ITypedElement of the record bundle</returns>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Identifier">
+        <member name="P:VRDR.DeathRecord.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>
             <value>a record identification string.</value>
             <example>
@@ -351,7 +351,7 @@
             <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BundleIdentifier">
+        <member name="P:VRDR.DeathRecord.BundleIdentifier">
             <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
             <value>a record bundle identification string.</value>
             <example>
@@ -361,7 +361,7 @@
             <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifiedTime">
+        <member name="P:VRDR.DeathRecord.CertifiedTime">
             <summary>Certified time.</summary>
             <value>time when the record was certified.</value>
             <example>
@@ -371,7 +371,7 @@
             <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CreatedTime">
+        <member name="P:VRDR.DeathRecord.CreatedTime">
             <summary>Created time.</summary>
             <value>time when the record was created.</value>
             <example>
@@ -381,7 +381,7 @@
             <para>Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertificationRole">
+        <member name="P:VRDR.DeathRecord.CertificationRole">
             <summary>Certification Role.</summary>
             <value>the role/qualification of the person who certified the death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -399,7 +399,7 @@
             <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyIdentifier">
+        <member name="P:VRDR.DeathRecord.InterestedPartyIdentifier">
             <summary>Interested Party Identifier.</summary>
             <value>an interested party identification string.</value>
             <example>
@@ -409,7 +409,7 @@
             <para>Console.WriteLine($"Interested Party identification: {ExampleDeathRecord.InterestedPartyIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyName">
+        <member name="P:VRDR.DeathRecord.InterestedPartyName">
             <summary>Interested Party Name.</summary>
             <value>an interested party name string.</value>
             <example>
@@ -419,7 +419,7 @@
             <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyAddress">
+        <member name="P:VRDR.DeathRecord.InterestedPartyAddress">
             <summary>Interested Party's address.</summary>
             <value>Interested Party's address. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -445,7 +445,7 @@
             <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InterestedPartyType">
+        <member name="P:VRDR.DeathRecord.InterestedPartyType">
             <summary>Interested Party Type.</summary>
             <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -463,7 +463,7 @@
             <para>Console.WriteLine($"Interested Party Type: {ExampleDeathRecord.InterestedPartyType['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MannerOfDeathType">
+        <member name="P:VRDR.DeathRecord.MannerOfDeathType">
             <summary>Manner of Death Type.</summary>
             <value>the manner of death type. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -481,7 +481,7 @@
             <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierGivenNames">
+        <member name="P:VRDR.DeathRecord.CertifierGivenNames">
             <summary>Given name(s) of certifier.</summary>
             <value>the certifier's name (first, middle, etc.)</value>
             <example>
@@ -492,7 +492,7 @@
             <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierFamilyName">
+        <member name="P:VRDR.DeathRecord.CertifierFamilyName">
             <summary>Family name of certifier.</summary>
             <value>the certifier's family name (i.e. last name)</value>
             <example>
@@ -502,7 +502,7 @@
             <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierSuffix">
+        <member name="P:VRDR.DeathRecord.CertifierSuffix">
             <summary>Certifier's Suffix.</summary>
             <value>the certifier's suffix</value>
             <example>
@@ -512,7 +512,7 @@
             <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierAddress">
+        <member name="P:VRDR.DeathRecord.CertifierAddress">
             <summary>Certifier's Address.</summary>
             <value>the certifier's address. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -541,7 +541,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierQualification">
+        <member name="P:VRDR.DeathRecord.CertifierQualification">
             <summary>Certifier Qualification.</summary>
             <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -559,7 +559,7 @@
             <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CertifierLicenseNumber">
+        <member name="P:VRDR.DeathRecord.CertifierLicenseNumber">
             <summary>Certifier License Number.</summary>
             <value>A string containing the certifier license number.</value>
             <example>
@@ -569,7 +569,7 @@
             <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.ContributingConditions">
+        <member name="P:VRDR.DeathRecord.ContributingConditions">
             <summary>Significant conditions that contributed to death but did not result in the underlying cause.
             Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
             <value>A string containing the significant conditions that contributed to death but did not result in
@@ -581,7 +581,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CausesOfDeath">
+        <member name="P:VRDR.DeathRecord.CausesOfDeath">
             <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
             Standard Certificate of Death.</summary>
             <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
@@ -609,7 +609,7 @@
             <para>}</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1A">
+        <member name="P:VRDR.DeathRecord.COD1A">
             <summary>Cause of Death Part I, Line a.</summary>
             <value>the immediate cause of death literal.</value>
             <example>
@@ -619,7 +619,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1A">
+        <member name="P:VRDR.DeathRecord.INTERVAL1A">
             <summary>Cause of Death Part I Interval, Line a.</summary>
             <value>the immediate cause of death approximate interval: onset to death.</value>
             <example>
@@ -629,7 +629,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1A">
+        <member name="P:VRDR.DeathRecord.CODE1A">
             <summary>Cause of Death Part I Code, Line a.</summary>
             <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -647,7 +647,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1B">
+        <member name="P:VRDR.DeathRecord.COD1B">
             <summary>Cause of Death Part I, Line b.</summary>
             <value>the first underlying cause of death literal.</value>
             <example>
@@ -657,7 +657,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1B">
+        <member name="P:VRDR.DeathRecord.INTERVAL1B">
             <summary>Cause of Death Part I Interval, Line b.</summary>
             <value>the first underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -667,7 +667,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1B">
+        <member name="P:VRDR.DeathRecord.CODE1B">
             <summary>Cause of Death Part I Code, Line b.</summary>
             <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -685,7 +685,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1C">
+        <member name="P:VRDR.DeathRecord.COD1C">
             <summary>Cause of Death Part I, Line c.</summary>
             <value>the second underlying cause of death literal.</value>
             <example>
@@ -695,7 +695,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1C">
+        <member name="P:VRDR.DeathRecord.INTERVAL1C">
             <summary>Cause of Death Part I Interval, Line c.</summary>
             <value>the second underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -705,7 +705,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1C">
+        <member name="P:VRDR.DeathRecord.CODE1C">
             <summary>Cause of Death Part I Code, Line c.</summary>
             <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -723,7 +723,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1D">
+        <member name="P:VRDR.DeathRecord.COD1D">
             <summary>Cause of Death Part I, Line d.</summary>
             <value>the third underlying cause of death literal.</value>
             <example>
@@ -733,7 +733,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1D">
+        <member name="P:VRDR.DeathRecord.INTERVAL1D">
             <summary>Cause of Death Part I Interval, Line d.</summary>
             <value>the third underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -743,7 +743,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1D">
+        <member name="P:VRDR.DeathRecord.CODE1D">
             <summary>Cause of Death Part I Code, Line d.</summary>
             <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -761,7 +761,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1E">
+        <member name="P:VRDR.DeathRecord.COD1E">
             <summary>Cause of Death Part I, Line e.</summary>
             <value>the fourth underlying cause of death literal.</value>
             <example>
@@ -771,7 +771,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1E">
+        <member name="P:VRDR.DeathRecord.INTERVAL1E">
             <summary>Cause of Death Part I Interval, Line e.</summary>
             <value>the fourth underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -781,7 +781,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1E">
+        <member name="P:VRDR.DeathRecord.CODE1E">
             <summary>Cause of Death Part I Code, Line e.</summary>
             <value>the fourth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -799,7 +799,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1F">
+        <member name="P:VRDR.DeathRecord.COD1F">
             <summary>Cause of Death Part I, Line f.</summary>
             <value>the fifth underlying cause of death literal.</value>
             <example>
@@ -809,7 +809,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1F">
+        <member name="P:VRDR.DeathRecord.INTERVAL1F">
             <summary>Cause of Death Part I Interval, Line f.</summary>
             <value>the fifth underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -819,7 +819,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1F">
+        <member name="P:VRDR.DeathRecord.CODE1F">
             <summary>Cause of Death Part I Code, Line f.</summary>
             <value>the fifth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -837,7 +837,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1G">
+        <member name="P:VRDR.DeathRecord.COD1G">
             <summary>Cause of Death Part I, Line g.</summary>
             <value>the sixth underlying cause of death literal.</value>
             <example>
@@ -847,7 +847,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1G">
+        <member name="P:VRDR.DeathRecord.INTERVAL1G">
             <summary>Cause of Death Part I Interval, Line g.</summary>
             <value>the sixth underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -857,7 +857,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1G">
+        <member name="P:VRDR.DeathRecord.CODE1G">
             <summary>Cause of Death Part I Code, Line g.</summary>
             <value>the sixth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -875,7 +875,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1H">
+        <member name="P:VRDR.DeathRecord.COD1H">
             <summary>Cause of Death Part I, Line h.</summary>
             <value>the seventh underlying cause of death literal.</value>
             <example>
@@ -885,7 +885,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1H">
+        <member name="P:VRDR.DeathRecord.INTERVAL1H">
             <summary>Cause of Death Part I Interval, Line h.</summary>
             <value>the seventh underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -895,7 +895,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1H">
+        <member name="P:VRDR.DeathRecord.CODE1H">
             <summary>Cause of Death Part I Code, Line h.</summary>
             <value>the seventh underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -913,7 +913,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1I">
+        <member name="P:VRDR.DeathRecord.COD1I">
             <summary>Cause of Death Part I, Line i.</summary>
             <value>the eighth underlying cause of death literal.</value>
             <example>
@@ -923,7 +923,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1I">
+        <member name="P:VRDR.DeathRecord.INTERVAL1I">
             <summary>Cause of Death Part I Interval, Line i.</summary>
             <value>the eighth underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -933,7 +933,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1I">
+        <member name="P:VRDR.DeathRecord.CODE1I">
             <summary>Cause of Death Part I Code, Line i.</summary>
             <value>the eighth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -951,7 +951,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.COD1J">
+        <member name="P:VRDR.DeathRecord.COD1J">
             <summary>Cause of Death Part I, Line j.</summary>
             <value>the ninth underlying cause of death literal.</value>
             <example>
@@ -961,7 +961,7 @@
             <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.INTERVAL1J">
+        <member name="P:VRDR.DeathRecord.INTERVAL1J">
             <summary>Cause of Death Part I Interval, Line j.</summary>
             <value>the ninth underlying cause of death approximate interval: onset to death.</value>
             <example>
@@ -971,7 +971,7 @@
             <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.CODE1J">
+        <member name="P:VRDR.DeathRecord.CODE1J">
             <summary>Cause of Death Part I Code, Line j.</summary>
             <value>the ninth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -989,7 +989,7 @@
             <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.GivenNames">
+        <member name="P:VRDR.DeathRecord.GivenNames">
             <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
             <value>the decedent's name (first, etc., middle)</value>
             <example>
@@ -1000,7 +1000,7 @@
             <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FamilyName">
+        <member name="P:VRDR.DeathRecord.FamilyName">
             <summary>Decedent's Family Name.</summary>
             <value>the decedent's family name (i.e. last name)</value>
             <example>
@@ -1010,7 +1010,7 @@
             <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Suffix">
+        <member name="P:VRDR.DeathRecord.Suffix">
             <summary>Decedent's Suffix.</summary>
             <value>the decedent's suffix</value>
             <example>
@@ -1020,7 +1020,7 @@
             <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AliasGivenNames">
+        <member name="P:VRDR.DeathRecord.AliasGivenNames">
             <summary>Decedent's Alias Name(s). Middle name should be the last entry.</summary>
             <value>the decedent's alias name (first, etc., middle)</value>
             <example>
@@ -1031,7 +1031,7 @@
             <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AliasFamilyName">
+        <member name="P:VRDR.DeathRecord.AliasFamilyName">
             <summary>Decedent's Alias Family Name.</summary>
             <value>the decedent's alias family name (i.e. last name)</value>
             <example>
@@ -1041,7 +1041,7 @@
             <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AliasSuffix">
+        <member name="P:VRDR.DeathRecord.AliasSuffix">
             <summary>Decedent's Alias Suffix.</summary>
             <value>the decedent's alias suffix</value>
             <example>
@@ -1051,7 +1051,7 @@
             <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MaidenName">
+        <member name="P:VRDR.DeathRecord.MaidenName">
             <summary>Decedent's Maiden Name.</summary>
             <value>the decedent's maiden name (i.e. last name before marriage)</value>
             <example>
@@ -1061,7 +1061,7 @@
             <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Gender">
+        <member name="P:VRDR.DeathRecord.Gender">
             <summary>Decedent's Gender.</summary>
             <value>the decedent's gender</value>
             <example>
@@ -1071,7 +1071,7 @@
             <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BirthSex">
+        <member name="P:VRDR.DeathRecord.BirthSex">
             <summary>Decedent's Birth Sex.</summary>
             <value>the decedent's birth sex A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1089,7 +1089,7 @@
             <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfBirth">
+        <member name="P:VRDR.DeathRecord.DateOfBirth">
             <summary>Decedent's Date of Birth.</summary>
             <value>the decedent's date of birth</value>
             <example>
@@ -1099,7 +1099,7 @@
             <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Residence">
+        <member name="P:VRDR.DeathRecord.Residence">
             <summary>Decedent's residence.</summary>
             <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1125,7 +1125,7 @@
             <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.SSN">
+        <member name="P:VRDR.DeathRecord.SSN">
             <summary>Decedent's Social Security Number.</summary>
             <value>the decedent's social security number, without dashes.</value>
             <example>
@@ -1135,7 +1135,7 @@
             <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Ethnicity">
+        <member name="P:VRDR.DeathRecord.Ethnicity">
             <summary>Decedent's Ethnicity.</summary>
             <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
             the code.</value>
@@ -1150,7 +1150,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.Race">
+        <member name="P:VRDR.DeathRecord.Race">
             <summary>Decedent's Race.</summary>
             <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
             the code.</value>
@@ -1165,7 +1165,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.PlaceOfBirth">
+        <member name="P:VRDR.DeathRecord.PlaceOfBirth">
             <summary>Decedent's Place Of Birth.</summary>
             <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1191,7 +1191,7 @@
             <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MaritalStatus">
+        <member name="P:VRDR.DeathRecord.MaritalStatus">
             <summary>The marital status of the decedent at the time of death.</summary>
             <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code describing this finding</para>
@@ -1209,7 +1209,7 @@
             <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FatherGivenNames">
+        <member name="P:VRDR.DeathRecord.FatherGivenNames">
             <summary>Given name(s) of decedent's father.</summary>
             <value>the decedent's father's name (first, middle, etc.)</value>
             <example>
@@ -1220,7 +1220,7 @@
             <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FatherFamilyName">
+        <member name="P:VRDR.DeathRecord.FatherFamilyName">
             <summary>Family name of decedent's father.</summary>
             <value>the decedent's father's family name (i.e. last name)</value>
             <example>
@@ -1230,7 +1230,7 @@
             <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FatherSuffix">
+        <member name="P:VRDR.DeathRecord.FatherSuffix">
             <summary>Father's Suffix.</summary>
             <value>the decedent's father's suffix</value>
             <example>
@@ -1240,7 +1240,7 @@
             <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MotherGivenNames">
+        <member name="P:VRDR.DeathRecord.MotherGivenNames">
             <summary>Given name(s) of decedent's mother.</summary>
             <value>the decedent's mother's name (first, middle, etc.)</value>
             <example>
@@ -1251,7 +1251,7 @@
             <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MotherMaidenName">
+        <member name="P:VRDR.DeathRecord.MotherMaidenName">
             <summary>Maiden name of decedent's mother.</summary>
             <value>the decedent's mother's maiden name (i.e. last name before marriage)</value>
             <example>
@@ -1261,7 +1261,7 @@
             <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MotherSuffix">
+        <member name="P:VRDR.DeathRecord.MotherSuffix">
             <summary>Mother's Suffix.</summary>
             <value>the decedent's mother's suffix</value>
             <example>
@@ -1271,7 +1271,7 @@
             <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.SpouseGivenNames">
+        <member name="P:VRDR.DeathRecord.SpouseGivenNames">
             <summary>Given name(s) of decedent's spouse.</summary>
             <value>the decedent's spouse's name (first, middle, etc.)</value>
             <example>
@@ -1282,7 +1282,7 @@
             <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.SpouseFamilyName">
+        <member name="P:VRDR.DeathRecord.SpouseFamilyName">
             <summary>Family name of decedent's spouse.</summary>
             <value>the decedent's spouse's family name (i.e. last name)</value>
             <example>
@@ -1292,7 +1292,7 @@
             <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.SpouseSuffix">
+        <member name="P:VRDR.DeathRecord.SpouseSuffix">
             <summary>Spouse's Suffix.</summary>
             <value>the decedent's spouse's suffix</value>
             <example>
@@ -1302,7 +1302,7 @@
             <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.EducationLevel">
+        <member name="P:VRDR.DeathRecord.EducationLevel">
             <summary>Decedent's Education Level.</summary>
             <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1320,7 +1320,7 @@
             <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordId">
+        <member name="P:VRDR.DeathRecord.BirthRecordId">
             <summary>Birth Record Identifier.</summary>
             <value>a birth record identification string.</value>
             <example>
@@ -1330,7 +1330,7 @@
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordState">
+        <member name="P:VRDR.DeathRecord.BirthRecordState">
             <summary>Birth Record State.</summary>
             <value>the state of the decedent's birth certificate. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1348,7 +1348,7 @@
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.BirthRecordYear">
+        <member name="P:VRDR.DeathRecord.BirthRecordYear">
             <summary>Birth Record Year.</summary>
             <value>the year found on the decedent's birth certificate.</value>
             <example>
@@ -1358,8 +1358,8 @@
             <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.UsualOccupation">
-            <summary>Decedent's Usual Occupation.</summary>
+        <member name="P:VRDR.DeathRecord.UsualOccupationCode">
+            <summary>Decedent's Usual Occupation (Code).</summary>
             <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -1371,13 +1371,23 @@
             <para>uocc.Add("code", "1340");</para>
             <para>uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
             <para>uocc.Add("display", "Biomedical engineers");</para>
-            <para>ExampleDeathRecord.UsualOccupation = uocc;</para>
+            <para>ExampleDeathRecord.UsualOccupationCode = uocc;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.UsualOccupation">
+            <summary>Decedent's Usual Occupation.</summary>
+            <value>the decedent's usual occupation.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.UsualIndustry">
-            <summary>Decedent's Usual Industry.</summary>
+        <member name="P:VRDR.DeathRecord.UsualIndustryCode">
+            <summary>Decedent's Usual Industry (Code).</summary>
             <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
@@ -1389,12 +1399,22 @@
             <para>uind.Add("code", "7280");</para>
             <para>uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");</para>
             <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
-            <para>ExampleDeathRecord.UsualIndustry = uind;</para>
+            <para>ExampleDeathRecord.UsualIndustryCode = uind;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry['display']}");</para>
+            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MilitaryService">
+        <member name="P:VRDR.DeathRecord.UsualIndustry">
+            <summary>Decedent's Usual Industry (Text).</summary>
+            <value>the decedent's usual industry.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualIndustry = "Accounting";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.MilitaryService">
             <summary>Decedent's Military Service.</summary>
             <value>the decedent's military service. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1412,7 +1432,7 @@
             <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MorticianGivenNames">
+        <member name="P:VRDR.DeathRecord.MorticianGivenNames">
             <summary>Given name(s) of mortician.</summary>
             <value>the mortician's name (first, middle, etc.)</value>
             <example>
@@ -1423,7 +1443,7 @@
             <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MorticianFamilyName">
+        <member name="P:VRDR.DeathRecord.MorticianFamilyName">
             <summary>Family name of mortician.</summary>
             <value>the mortician's family name (i.e. last name)</value>
             <example>
@@ -1433,7 +1453,7 @@
             <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MorticianSuffix">
+        <member name="P:VRDR.DeathRecord.MorticianSuffix">
             <summary>Mortician's Suffix.</summary>
             <value>the mortician's suffix</value>
             <example>
@@ -1443,7 +1463,7 @@
             <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.MorticianIdentifier">
+        <member name="P:VRDR.DeathRecord.MorticianIdentifier">
             <summary>Mortician Identifier.</summary>
             <value>the mortician's identifier</value>
             <example>
@@ -1453,7 +1473,7 @@
             <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FuneralHomeAddress">
+        <member name="P:VRDR.DeathRecord.FuneralHomeAddress">
             <summary>Funeral Home Address.</summary>
             <value>the funeral home address. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1482,7 +1502,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.FuneralHomeName">
+        <member name="P:VRDR.DeathRecord.FuneralHomeName">
             <summary>Name of Funeral Home.</summary>
             <value>the funeral home name.</value>
             <example>
@@ -1492,7 +1512,7 @@
             <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DispositionLocationAddress">
+        <member name="P:VRDR.DeathRecord.DispositionLocationAddress">
             <summary>Disposition Location Address.</summary>
             <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1521,7 +1541,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DispositionLocationName">
+        <member name="P:VRDR.DeathRecord.DispositionLocationName">
             <summary>Name of Disposition Location.</summary>
             <value>the displosition location name.</value>
             <example>
@@ -1531,7 +1551,7 @@
             <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DecedentDispositionMethod">
+        <member name="P:VRDR.DeathRecord.DecedentDispositionMethod">
             <summary>Decedent's Disposition Method.</summary>
             <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1549,7 +1569,7 @@
             <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AutopsyPerformedIndicator">
+        <member name="P:VRDR.DeathRecord.AutopsyPerformedIndicator">
             <summary>Autopsy Performed Indicator.</summary>
             <value>autopsy performed indicator. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1567,7 +1587,7 @@
             <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfDeath">
+        <member name="P:VRDR.DeathRecord.DateOfDeath">
             <summary>Decedent's Date/Time of Death.</summary>
             <value>the decedent's date and time of death</value>
             <example>
@@ -1577,7 +1597,7 @@
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DateOfDeathPronouncement">
+        <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>
             <value>the decedent's date and time of death pronouncement</value>
             <example>
@@ -1587,7 +1607,7 @@
             <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AutopsyResultsAvailable">
+        <member name="P:VRDR.DeathRecord.AutopsyResultsAvailable">
             <summary>Autopsy Results Available.</summary>
             <value>autopsy results available. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1605,7 +1625,7 @@
             <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailable['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationAddress">
+        <member name="P:VRDR.DeathRecord.DeathLocationAddress">
             <summary>Location of Death.</summary>
             <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1634,7 +1654,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationName">
+        <member name="P:VRDR.DeathRecord.DeathLocationName">
             <summary>Name of Death Location.</summary>
             <value>the death location name.</value>
             <example>
@@ -1644,7 +1664,7 @@
             <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.DeathLocationDescription">
+        <member name="P:VRDR.DeathRecord.DeathLocationDescription">
             <summary>Description of Death Location.</summary>
             <value>the death location description.</value>
             <example>
@@ -1654,7 +1674,7 @@
             <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.AgeAtDeath">
+        <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
             <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
             <para>"value" - the quantity value</para>
@@ -1670,7 +1690,7 @@
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.PregnanacyStatus">
+        <member name="P:VRDR.DeathRecord.PregnanacyStatus">
             <summary>Pregnanacy Status At Death.</summary>
             <value>pregnanacy status at death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1688,7 +1708,7 @@
             <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.ExaminerContacted">
+        <member name="P:VRDR.DeathRecord.ExaminerContacted">
             <summary>Examiner Contacted.</summary>
             <value>if a medical examiner was contacted.</value>
             <example>
@@ -1698,7 +1718,7 @@
             <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationAddress">
+        <member name="P:VRDR.DeathRecord.InjuryLocationAddress">
             <summary>Location of Injury.</summary>
             <value>location of injury. A Dictionary representing an address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
@@ -1727,7 +1747,7 @@
             <para>};</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationName">
+        <member name="P:VRDR.DeathRecord.InjuryLocationName">
             <summary>Name of Injury Location.</summary>
             <value>the injury location name.</value>
             <example>
@@ -1737,7 +1757,7 @@
             <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InjuryLocationDescription">
+        <member name="P:VRDR.DeathRecord.InjuryLocationDescription">
             <summary>Description of Injury Location.</summary>
             <value>the injury location description.</value>
             <example>
@@ -1747,7 +1767,7 @@
             <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InjuryDate">
+        <member name="P:VRDR.DeathRecord.InjuryDate">
             <summary>Date/Time of Injury.</summary>
             <value>the date and time of injury</value>
             <example>
@@ -1757,7 +1777,7 @@
             <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.InjuryPlace">
+        <member name="P:VRDR.DeathRecord.InjuryPlace">
             <summary>Place of Injury.</summary>
             <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1775,7 +1795,7 @@
             <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.TransportationRole">
+        <member name="P:VRDR.DeathRecord.TransportationRole">
             <summary>Transportation Role in death.</summary>
             <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1793,7 +1813,7 @@
             <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
         </member>
-        <member name="P:FhirDeathRecord.DeathRecord.TobaccoUse">
+        <member name="P:VRDR.DeathRecord.TobaccoUse">
             <summary>Tobacco Use Contributed To Death.</summary>
             <value>if tobacco use contributed to death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
@@ -1811,226 +1831,203 @@
             <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
             </example>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.AddReferenceToComposition(System.String)">
+        <member name="M:VRDR.DeathRecord.AddReferenceToComposition(System.String)">
             <summary>Add a reference to the Death Record Composition.</summary>
             <param name="reference">a reference.</param>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.RemoveReferenceFromComposition(System.String)">
+        <member name="M:VRDR.DeathRecord.RemoveReferenceFromComposition(System.String)">
             <summary>Remove a reference from the Death Record Composition.</summary>
             <param name="reference">a reference.</param>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.RestoreReferences">
+        <member name="M:VRDR.DeathRecord.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:VRDR.DeathRecord.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)">
+        <member name="M:VRDR.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)">
             <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
             <param name="codeableConcept">a FHIR CodeableConcept.</param>
             <returns>the corresponding Dictionary representation of the code.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.DictToAddress(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:VRDR.DeathRecord.DictToAddress(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert an "address" dictionary to a FHIR Address.</summary>
             <param name="dict">represents an address.</param>
             <returns>the corresponding FHIR Address representation of the address.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
+        <member name="M:VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
             <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
             <param name="addr">a FHIR Address.</param>
             <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.EmptyAddrDict">
+        <member name="M:VRDR.DeathRecord.EmptyAddrDict">
             <summary>Returns an empty "address" Dictionary.</summary>
             <returns>an empty "address" Dictionary.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.EmptyCodeDict">
+        <member name="M:VRDR.DeathRecord.EmptyCodeDict">
             <summary>Returns an empty "code" Dictionary.</summary>
             <returns>an empty "code" Dictionary.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetAll(System.String)">
+        <member name="M:VRDR.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;
             returns an empty array if no matches are found.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>all elements that match the given path, or an empty array if no matches are found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetFirst(System.String)">
+        <member name="M:VRDR.DeathRecord.GetFirst(System.String)">
             <summary>Given a FHIR path, return the first element that matches the given path.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>the first element that matches the given path, or null if no match is found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetLast(System.String)">
+        <member name="M:VRDR.DeathRecord.GetLast(System.String)">
             <summary>Given a FHIR path, return the last element that matches the given path.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>the last element that matches the given path, or null if no match is found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetAllString(System.String)">
+        <member name="M:VRDR.DeathRecord.GetAllString(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path as a string;
             returns an empty array if no matches are found.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>all elements that match the given path as a string, or an empty array if no matches are found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetFirstString(System.String)">
+        <member name="M:VRDR.DeathRecord.GetFirstString(System.String)">
             <summary>Given a FHIR path, return the first element that matches the given path as a string;
             returns an empty string if no match is found.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>the first element that matches the given path as a string, or null if no match is found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetLastString(System.String)">
+        <member name="M:VRDR.DeathRecord.GetLastString(System.String)">
             <summary>Given a FHIR path, return the last element that matches the given path as a string;
             returns an empty string if no match is found.</summary>
             <param name="path">represents a FHIR path.</param>
             <returns>the last element that matches the given path as a string, or null if no match is found.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.GetValue(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+        <member name="M:VRDR.DeathRecord.GetValue(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>Get a value from a Dictionary, but return null if the key doesn't exist.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.MatchesProfile(System.String,System.String)">
+        <member name="M:VRDR.DeathRecord.MatchesProfile(System.String,System.String)">
             <summary>Check to make sure the given profile contains the given resource.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:VRDR.DeathRecord.UpdateDictionary(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Combine the given dictionaries and return the combined result.</summary>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.ToDescription">
+        <member name="M:VRDR.DeathRecord.ToDescription">
             <summary>Returns a JSON encoded structure that maps to the various property
             annotations found in the DeathRecord class. This is useful for scenarios
             where you may want to display the data in user interfaces.</summary>
             <returns>a string representation of this Death Record in a descriptive format.</returns>
         </member>
-        <member name="M:FhirDeathRecord.DeathRecord.FromDescription(System.String)">
+        <member name="M:VRDR.DeathRecord.FromDescription(System.String)">
             <summary>Helper method to return a JSON string representation of this Death Record.</summary>
             <param name="contents">string that represents </param>
             <returns>a new DeathRecord that corresponds to the given descriptive format</returns>
         </member>
-        <member name="T:FhirDeathRecord.Property">
+        <member name="T:VRDR.Property">
             <summary>Property attribute used to describe a DeathRecord property.</summary>
         </member>
-        <member name="T:FhirDeathRecord.Property.Types">
+        <member name="T:VRDR.Property.Types">
             <summary>Enum for describing the property type.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.String">
+        <member name="F:VRDR.Property.Types.String">
             <summary>Parameter is a string.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.StringArr">
+        <member name="F:VRDR.Property.Types.StringArr">
             <summary>Parameter is an array of strings.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.StringDateTime">
+        <member name="F:VRDR.Property.Types.StringDateTime">
             <summary>Parameter is like a string, but should be treated as a date and time.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.Bool">
+        <member name="F:VRDR.Property.Types.Bool">
             <summary>Parameter is a bool.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.Dictionary">
+        <member name="F:VRDR.Property.Types.Dictionary">
             <summary>Parameter is a Dictionary.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.TupleArr">
+        <member name="F:VRDR.Property.Types.TupleArr">
             <summary>Parameter is an array of Tuples.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Types.TupleCOD">
+        <member name="F:VRDR.Property.Types.TupleCOD">
             <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Name">
+        <member name="F:VRDR.Property.Name">
             <summary>Name of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Type">
+        <member name="F:VRDR.Property.Type">
             <summary>The property type (e.g. string, bool, Dictionary).</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Category">
+        <member name="F:VRDR.Property.Category">
             <summary>Category of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Description">
+        <member name="F:VRDR.Property.Description">
             <summary>Description of this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Serialize">
+        <member name="F:VRDR.Property.Serialize">
             <summary>If this field should be kept when serialzing.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.IGUrl">
+        <member name="F:VRDR.Property.IGUrl">
             <summary>URL that links to the IG description for this property.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.CapturedInIJE">
+        <member name="F:VRDR.Property.CapturedInIJE">
             <summary>If this field has an equivalent in IJE.</summary>
         </member>
-        <member name="F:FhirDeathRecord.Property.Priority">
+        <member name="F:VRDR.Property.Priority">
             <summary>Priority that this should show up in generated lists. Lower numbers come first.</summary>
         </member>
-        <member name="M:FhirDeathRecord.Property.#ctor(System.String,FhirDeathRecord.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
+        <member name="M:VRDR.Property.#ctor(System.String,VRDR.Property.Types,System.String,System.String,System.Boolean,System.String,System.Boolean,System.Int32)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.PropertyParam">
+        <member name="T:VRDR.PropertyParam">
             <summary>Property attribute used to describe a DeathRecord property parameter,
             specifically if the property is a dictionary that has keys.</summary>
         </member>
-        <member name="F:FhirDeathRecord.PropertyParam.Key">
+        <member name="F:VRDR.PropertyParam.Key">
             <summary>If the related property is a Dictionary, the key name.</summary>
         </member>
-        <member name="F:FhirDeathRecord.PropertyParam.Description">
+        <member name="F:VRDR.PropertyParam.Description">
             <summary>Description of this parameter.</summary>
         </member>
-        <member name="M:FhirDeathRecord.PropertyParam.#ctor(System.String,System.String)">
+        <member name="M:VRDR.PropertyParam.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.FHIRPath">
+        <member name="T:VRDR.FHIRPath">
             <summary>Describes a FHIR path that can be used to get to the element.</summary>
         </member>
-        <member name="F:FhirDeathRecord.FHIRPath.Path">
+        <member name="F:VRDR.FHIRPath.Path">
             <summary>The relevant FHIR path.</summary>
         </member>
-        <member name="F:FhirDeathRecord.FHIRPath.Element">
+        <member name="F:VRDR.FHIRPath.Element">
             <summary>The relevant element.</summary>
         </member>
-        <member name="M:FhirDeathRecord.FHIRPath.#ctor(System.String,System.String)">
+        <member name="M:VRDR.FHIRPath.#ctor(System.String,System.String)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.DeathRecordFaker">
-            <summary>Class <c>Faker</c> can be used to generate synthetic <c>DeathRecord</c>s. Various
-            options are available to tailoring the records generated to specific use case by the class.
-            </summary>
-        </member>
-        <member name="F:FhirDeathRecord.DeathRecordFaker.MortalityData">
-            <summary>Mortality data for code translations.</summary>
-        </member>
-        <member name="F:FhirDeathRecord.DeathRecordFaker.state">
-            <summary>State to use when generating records.</summary>
-        </member>
-        <member name="F:FhirDeathRecord.DeathRecordFaker.type">
-            <summary>Type of Cause of Death; Natural or Injury.</summary>
-        </member>
-        <member name="F:FhirDeathRecord.DeathRecordFaker.sex">
-            <summary>Decedent Sex to use.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.DeathRecordFaker.#ctor(System.String,System.String,System.String)">
-            <summary>Constructor with optional arguments to customize the records generated.</summary>
-        </member>
-        <member name="M:FhirDeathRecord.DeathRecordFaker.Generate(System.Boolean)">
-            <summary>Return a new record populated with fake data.</summary>
-        </member>
-        <member name="T:FhirDeathRecord.IJEField">
+        <member name="T:VRDR.IJEField">
             <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Field">
+        <member name="F:VRDR.IJEField.Field">
             <summary>Field number.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Location">
+        <member name="F:VRDR.IJEField.Location">
             <summary>Beggining location.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Length">
+        <member name="F:VRDR.IJEField.Length">
             <summary>Field length.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Contents">
+        <member name="F:VRDR.IJEField.Contents">
             <summary>Description of what the field contains.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Name">
+        <member name="F:VRDR.IJEField.Name">
             <summary>Field name.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEField.Priority">
+        <member name="F:VRDR.IJEField.Priority">
             <summary>Priority - lower will be "GET" and "SET" earlier.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEField.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.String,System.Int32)">
+        <member name="M:VRDR.IJEField.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.String,System.Int32)">
             <summary>Constructor.</summary>
         </member>
-        <member name="T:FhirDeathRecord.IJEMortality">
+        <member name="T:VRDR.IJEMortality">
             <summary>A "wrapper" class to convert between a FHIR based <c>DeathRecord</c> and
             a record in IJE Mortality format. Each property of this class corresponds exactly
             with a field in the IJE Mortality format. The getters convert from the embedded
@@ -2038,643 +2035,643 @@
             the setters convert from IJE format for a specific field and set that value
             on the embedded FHIR based <c>DeathRecord</c>.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortality.record">
+        <member name="F:VRDR.IJEMortality.record">
             <summary>FHIR based death record.</summary>
         </member>
-        <member name="F:FhirDeathRecord.IJEMortality.dataLookup">
+        <member name="F:VRDR.IJEMortality.dataLookup">
             <summary>IJE data lookup helper. Thread-safe singleton!</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.#ctor(FhirDeathRecord.DeathRecord)">
+        <member name="M:VRDR.IJEMortality.#ctor(VRDR.DeathRecord)">
             <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.#ctor(System.String)">
+        <member name="M:VRDR.IJEMortality.#ctor(System.String)">
             <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.ToString">
+        <member name="M:VRDR.IJEMortality.ToString">
             <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.ToDeathRecord">
+        <member name="M:VRDR.IJEMortality.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Truncate(System.String,System.Int32)">
+        <member name="M:VRDR.IJEMortality.Truncate(System.String,System.Int32)">
             <summary>Truncates the given string to the given length.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.FieldInfo(System.String)">
+        <member name="M:VRDR.IJEMortality.FieldInfo(System.String)">
             <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTimeStringHelper(FhirDeathRecord.IJEField,System.String,System.String,System.DateTimeOffset,System.Boolean,System.Boolean)">
+        <member name="M:VRDR.IJEMortality.DateTimeStringHelper(VRDR.IJEField,System.String,System.String,System.DateTimeOffset,System.Boolean,System.Boolean)">
             <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
+        <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)">
             <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.RightJustifiedZeroed_Set(System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.RightJustifiedZeroed_Set(System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose IJE type is a right justified, zeroed filled string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.LeftJustified_Get(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.LeftJustified_Get(System.String,System.String)">
             <summary>Get a value on the DeathRecord whose IJE type is a left justified string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.LeftJustified_Set(System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.LeftJustified_Set(System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Get(System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Dictionary_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Get_Full(System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Dictionary_Get_Full(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose property is a Dictionary type, with NO truncating.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Set(System.String,System.String,System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Dictionary_Set(System.String,System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Geo_Get(System.String,System.String,System.String,System.String,System.Boolean)">
+        <member name="M:VRDR.IJEMortality.Dictionary_Geo_Get(System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Dictionary_Geo_Set(System.String,System.String,System.String,System.String,System.Boolean,System.String)">
+        <member name="M:VRDR.IJEMortality.Dictionary_Geo_Set(System.String,System.String,System.String,System.String,System.Boolean,System.String)">
             <summary>Set a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.HispanicOrigin">
+        <member name="M:VRDR.IJEMortality.HispanicOrigin">
             <summary>If the decedent was of hispanic origin, returns a list of ethnicities.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.HispanicOriginOther">
+        <member name="M:VRDR.IJEMortality.HispanicOriginOther">
             <summary>If the decedent was of hispanic origin, returns a list of OTHER ethnicities (not Mexican, Cuban, or Puerto Rican).</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Get_Race(System.String,System.String)">
             <summary>Checks if the given race exists in the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_AIAN_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_AIAN_Literals">
             <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_A_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_A_Literals">
             <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_BAA_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_BAA_Literals">
             <summary>Retrieves Black or African American Race literals on the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_NHOPI_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_NHOPI_Literals">
             <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_W_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_W_Literals">
             <summary>Retrieves White Race literals on the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_Race_OTHER_Literals">
+        <member name="M:VRDR.IJEMortality.Get_Race_OTHER_Literals">
             <summary>Retrieves OTHER Race literals on the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Set_Race(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Set_Race(System.String,System.String)">
             <summary>Adds the given race to the record.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Get_YNU(System.String)">
+        <member name="M:VRDR.IJEMortality.Get_YNU(System.String)">
             <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
         </member>
-        <member name="M:FhirDeathRecord.IJEMortality.Set_YNU(System.String,System.String)">
+        <member name="M:VRDR.IJEMortality.Set_YNU(System.String,System.String)">
             <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOD_YR">
+        <member name="P:VRDR.IJEMortality.DOD_YR">
             <summary>Date of Death--Year</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DSTATE">
+        <member name="P:VRDR.IJEMortality.DSTATE">
             <summary>State, U.S. Territory or Canadian Province of Death - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FILENO">
+        <member name="P:VRDR.IJEMortality.FILENO">
             <summary>Certificate Number</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.VOID">
+        <member name="P:VRDR.IJEMortality.VOID">
             <summary>Void flag</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AUXNO">
+        <member name="P:VRDR.IJEMortality.AUXNO">
             <summary>Auxiliary State file number</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.MFILED">
+        <member name="P:VRDR.IJEMortality.MFILED">
             <summary>Source flag: paper/electronic</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.GNAME">
+        <member name="P:VRDR.IJEMortality.GNAME">
             <summary>Decedent's Legal Name--Given</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.MNAME">
+        <member name="P:VRDR.IJEMortality.MNAME">
             <summary>Decedent's Legal Name--Middle</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.LNAME">
+        <member name="P:VRDR.IJEMortality.LNAME">
             <summary>Decedent's Legal Name--Last</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.SUFF">
+        <member name="P:VRDR.IJEMortality.SUFF">
             <summary>Decedent's Legal Name--Suffix</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ALIAS">
+        <member name="P:VRDR.IJEMortality.ALIAS">
             <summary>Decedent's Legal Name--Alias</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FLNAME">
+        <member name="P:VRDR.IJEMortality.FLNAME">
             <summary>Father's Surname</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.SEX">
+        <member name="P:VRDR.IJEMortality.SEX">
             <summary>Sex</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.SEX_BYPASS">
+        <member name="P:VRDR.IJEMortality.SEX_BYPASS">
             <summary>Sex--Edit Flag</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.SSN">
+        <member name="P:VRDR.IJEMortality.SSN">
             <summary>Social Security Number</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AGETYPE">
+        <member name="P:VRDR.IJEMortality.AGETYPE">
             <summary>Decedent's Age--Type</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AGE">
+        <member name="P:VRDR.IJEMortality.AGE">
             <summary>Decedent's Age--Units</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AGE_BYPASS">
+        <member name="P:VRDR.IJEMortality.AGE_BYPASS">
             <summary>Decedent's Age--Edit Flag</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOB_YR">
+        <member name="P:VRDR.IJEMortality.DOB_YR">
             <summary>Date of Birth--Year</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOB_MO">
+        <member name="P:VRDR.IJEMortality.DOB_MO">
             <summary>Date of Birth--Month</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOB_DY">
+        <member name="P:VRDR.IJEMortality.DOB_DY">
             <summary>Date of Birth--Day</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.BPLACE_CNT">
+        <member name="P:VRDR.IJEMortality.BPLACE_CNT">
             <summary>Birthplace--Country</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.BPLACE_ST">
+        <member name="P:VRDR.IJEMortality.BPLACE_ST">
             <summary>State, U.S. Territory or Canadian Province of Birth - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYC">
+        <member name="P:VRDR.IJEMortality.CITYC">
             <summary>Decedent's Residence--City</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTYC">
+        <member name="P:VRDR.IJEMortality.COUNTYC">
             <summary>Decedent's Residence--County</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STATEC">
+        <member name="P:VRDR.IJEMortality.STATEC">
             <summary>State, U.S. Territory or Canadian Province of Decedent's residence - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTRYC">
+        <member name="P:VRDR.IJEMortality.COUNTRYC">
             <summary>Decedent's Residence--Country</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.MARITAL">
+        <member name="P:VRDR.IJEMortality.MARITAL">
             <summary>Marital Status</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.MARITAL_BYPASS">
+        <member name="P:VRDR.IJEMortality.MARITAL_BYPASS">
             <summary>Marital Status--Edit Flag</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COD">
+        <member name="P:VRDR.IJEMortality.COD">
             <summary>County of Death Occurrence</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DISP">
+        <member name="P:VRDR.IJEMortality.DISP">
             <summary>Method of Disposition</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOD_MO">
+        <member name="P:VRDR.IJEMortality.DOD_MO">
             <summary>Date of Death--Month</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOD_DY">
+        <member name="P:VRDR.IJEMortality.DOD_DY">
             <summary>Date of Death--Day</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.TOD">
+        <member name="P:VRDR.IJEMortality.TOD">
             <summary>Time of Death</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DEDUC">
+        <member name="P:VRDR.IJEMortality.DEDUC">
             <summary>Decedent's Education</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DEDUC_BYPASS">
+        <member name="P:VRDR.IJEMortality.DEDUC_BYPASS">
             <summary>Decedent's Education--Edit Flag</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC1">
+        <member name="P:VRDR.IJEMortality.DETHNIC1">
             <summary>Decedent of Hispanic Origin?--Mexican</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC2">
+        <member name="P:VRDR.IJEMortality.DETHNIC2">
             <summary>Decedent of Hispanic Origin?--Puerto Rican</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC3">
+        <member name="P:VRDR.IJEMortality.DETHNIC3">
             <summary>Decedent of Hispanic Origin?--Cuban</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC4">
+        <member name="P:VRDR.IJEMortality.DETHNIC4">
             <summary>Decedent of Hispanic Origin?--Other</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DETHNIC5">
+        <member name="P:VRDR.IJEMortality.DETHNIC5">
             <summary>Decedent of Hispanic Origin?--Other, Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE1">
+        <member name="P:VRDR.IJEMortality.RACE1">
             <summary>Decedent's Race--White</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE2">
+        <member name="P:VRDR.IJEMortality.RACE2">
             <summary>Decedent's Race--Black or African American</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE3">
+        <member name="P:VRDR.IJEMortality.RACE3">
             <summary>Decedent's Race--American Indian or Alaska Native</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE4">
+        <member name="P:VRDR.IJEMortality.RACE4">
             <summary>Decedent's Race--Asian Indian</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE5">
+        <member name="P:VRDR.IJEMortality.RACE5">
             <summary>Decedent's Race--Chinese</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE6">
+        <member name="P:VRDR.IJEMortality.RACE6">
             <summary>Decedent's Race--Filipino</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE7">
+        <member name="P:VRDR.IJEMortality.RACE7">
             <summary>Decedent's Race--Japanese</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE8">
+        <member name="P:VRDR.IJEMortality.RACE8">
             <summary>Decedent's Race--Korean</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE9">
+        <member name="P:VRDR.IJEMortality.RACE9">
             <summary>Decedent's Race--Vietnamese</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE10">
+        <member name="P:VRDR.IJEMortality.RACE10">
             <summary>Decedent's Race--Other Asian</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE11">
+        <member name="P:VRDR.IJEMortality.RACE11">
             <summary>Decedent's Race--Native Hawaiian</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE12">
+        <member name="P:VRDR.IJEMortality.RACE12">
             <summary>Decedent's Race--Guamanian or Chamorro</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE13">
+        <member name="P:VRDR.IJEMortality.RACE13">
             <summary>Decedent's Race--Samoan</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE14">
+        <member name="P:VRDR.IJEMortality.RACE14">
             <summary>Decedent's Race--Other Pacific Islander</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE15">
+        <member name="P:VRDR.IJEMortality.RACE15">
             <summary>Decedent's Race--Other</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE16">
+        <member name="P:VRDR.IJEMortality.RACE16">
             <summary>Decedent's Race--First American Indian or Alaska Native Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE17">
+        <member name="P:VRDR.IJEMortality.RACE17">
             <summary>Decedent's Race--Second American Indian or Alaska Native Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE18">
+        <member name="P:VRDR.IJEMortality.RACE18">
             <summary>Decedent's Race--First Other Asian Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE19">
+        <member name="P:VRDR.IJEMortality.RACE19">
             <summary>Decedent's Race--Second Other Asian Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE20">
+        <member name="P:VRDR.IJEMortality.RACE20">
             <summary>Decedent's Race--First Other Pacific Islander Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE21">
+        <member name="P:VRDR.IJEMortality.RACE21">
             <summary>Decedent's Race--Second Other Pacific Islander Literalr</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE22">
+        <member name="P:VRDR.IJEMortality.RACE22">
             <summary>Decedent's Race--First Other Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE23">
+        <member name="P:VRDR.IJEMortality.RACE23">
             <summary>Decedent's Race--Second Other Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.RACE_MVR">
+        <member name="P:VRDR.IJEMortality.RACE_MVR">
             <summary>Decedent's Race--Missing</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.OCCUP">
+        <member name="P:VRDR.IJEMortality.OCCUP">
             <summary>Occupation -- Literal (OPTIONAL)</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INDUST">
+        <member name="P:VRDR.IJEMortality.INDUST">
             <summary>Industry -- Literal (OPTIONAL)</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.BCNO">
+        <member name="P:VRDR.IJEMortality.BCNO">
             <summary>Infant Death/Birth Linking - birth certificate number</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.IDOB_YR">
+        <member name="P:VRDR.IJEMortality.IDOB_YR">
             <summary>Infant Death/Birth Linking - year of birth</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.BSTATE">
+        <member name="P:VRDR.IJEMortality.BSTATE">
             <summary>Infant Death/Birth Linking - year of birth</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOR_YR">
+        <member name="P:VRDR.IJEMortality.DOR_YR">
             <summary>Date of Registration--Year</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOR_MO">
+        <member name="P:VRDR.IJEMortality.DOR_MO">
             <summary>Date of Registration--Month</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOR_DY">
+        <member name="P:VRDR.IJEMortality.DOR_DY">
             <summary>Date of Registration--Day</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.MANNER">
+        <member name="P:VRDR.IJEMortality.MANNER">
             <summary>Manner of Death</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INJPL">
+        <member name="P:VRDR.IJEMortality.INJPL">
             <summary>Place of Injury (computer generated)</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AUTOP">
+        <member name="P:VRDR.IJEMortality.AUTOP">
             <summary>Was Autopsy performed</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.AUTOPF">
+        <member name="P:VRDR.IJEMortality.AUTOPF">
             <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.TOBAC">
+        <member name="P:VRDR.IJEMortality.TOBAC">
             <summary>Did Tobacco Use Contribute to Death?</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.PREG">
+        <member name="P:VRDR.IJEMortality.PREG">
             <summary>Pregnancy</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.PREG_BYPASS">
+        <member name="P:VRDR.IJEMortality.PREG_BYPASS">
             <summary>If Female--Edit Flag: From EDR only</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOI_MO">
+        <member name="P:VRDR.IJEMortality.DOI_MO">
             <summary>Date of injury--month</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOI_DY">
+        <member name="P:VRDR.IJEMortality.DOI_DY">
             <summary>Date of injury--day</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DOI_YR">
+        <member name="P:VRDR.IJEMortality.DOI_YR">
             <summary>Date of injury--year</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.TOI_HR">
+        <member name="P:VRDR.IJEMortality.TOI_HR">
             <summary>Time of injury</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTL">
+        <member name="P:VRDR.IJEMortality.CERTL">
             <summary>Title of Certifier</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INACT">
+        <member name="P:VRDR.IJEMortality.INACT">
             <summary>Activity at time of death (computer generated)</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.TOI_UNIT">
+        <member name="P:VRDR.IJEMortality.TOI_UNIT">
             <summary>Time of Injury Unit</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ARMEDF">
+        <member name="P:VRDR.IJEMortality.ARMEDF">
             <summary>Decedent ever served in Armed Forces?</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DINSTI">
+        <member name="P:VRDR.IJEMortality.DINSTI">
             <summary>Death Institution name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ADDRESS_D">
+        <member name="P:VRDR.IJEMortality.ADDRESS_D">
             <summary>Long String address for place of death</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_D">
+        <member name="P:VRDR.IJEMortality.CITYTEXT_D">
             <summary>Place of death. City or Town name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STATETEXT_D">
+        <member name="P:VRDR.IJEMortality.STATETEXT_D">
             <summary>Place of death. State name literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ZIP9_D">
+        <member name="P:VRDR.IJEMortality.ZIP9_D">
             <summary>Place of death. Zip code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_D">
+        <member name="P:VRDR.IJEMortality.COUNTYTEXT_D">
             <summary>Place of death. County of Death</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYCODE_D">
+        <member name="P:VRDR.IJEMortality.CITYCODE_D">
             <summary>Place of death. City FIPS code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_R">
+        <member name="P:VRDR.IJEMortality.CITYTEXT_R">
             <summary>Decedent's Residence - City or Town name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ZIP9_R">
+        <member name="P:VRDR.IJEMortality.ZIP9_R">
             <summary>Decedent's Residence - ZIP code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_R">
+        <member name="P:VRDR.IJEMortality.COUNTYTEXT_R">
             <summary>Decedent's Residence - County</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STATETEXT_R">
+        <member name="P:VRDR.IJEMortality.STATETEXT_R">
             <summary>Decedent's Residence - State name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTRYTEXT_R">
+        <member name="P:VRDR.IJEMortality.COUNTRYTEXT_R">
             <summary>Decedent's Residence - COUNTRY name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.ADDRESS_R">
+        <member name="P:VRDR.IJEMortality.ADDRESS_R">
             <summary>Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DMIDDLE">
+        <member name="P:VRDR.IJEMortality.DMIDDLE">
             <summary>Middle Name of Decedent</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.REFERRED">
+        <member name="P:VRDR.IJEMortality.REFERRED">
             <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.POILITRL">
+        <member name="P:VRDR.IJEMortality.POILITRL">
             <summary>Place of Injury- literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.HOWINJ">
+        <member name="P:VRDR.IJEMortality.HOWINJ">
             <summary>Describe How Injury Occurred</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.TRANSPRT">
+        <member name="P:VRDR.IJEMortality.TRANSPRT">
             <summary>If Transportation Accident, Specify</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTYTEXT_I">
+        <member name="P:VRDR.IJEMortality.COUNTYTEXT_I">
             <summary>County of Injury - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COUNTYCODE_I">
+        <member name="P:VRDR.IJEMortality.COUNTYCODE_I">
             <summary>County of Injury code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYTEXT_I">
+        <member name="P:VRDR.IJEMortality.CITYTEXT_I">
             <summary>Town/city of Injury - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CITYCODE_I">
+        <member name="P:VRDR.IJEMortality.CITYCODE_I">
             <summary>Town/city of Injury code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STATECODE_I">
+        <member name="P:VRDR.IJEMortality.STATECODE_I">
             <summary>State, U.S. Territory or Canadian Province of Injury - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COD1A">
+        <member name="P:VRDR.IJEMortality.COD1A">
             <summary>Cause of Death Part I Line a</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1A">
+        <member name="P:VRDR.IJEMortality.INTERVAL1A">
             <summary>Cause of Death Part I Interval, Line a</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COD1B">
+        <member name="P:VRDR.IJEMortality.COD1B">
             <summary>Cause of Death Part I Line b</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1B">
+        <member name="P:VRDR.IJEMortality.INTERVAL1B">
             <summary>Cause of Death Part I Interval, Line b</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COD1C">
+        <member name="P:VRDR.IJEMortality.COD1C">
             <summary>Cause of Death Part I Line c</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1C">
+        <member name="P:VRDR.IJEMortality.INTERVAL1C">
             <summary>Cause of Death Part I Interval, Line c</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.COD1D">
+        <member name="P:VRDR.IJEMortality.COD1D">
             <summary>Cause of Death Part I Line d</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.INTERVAL1D">
+        <member name="P:VRDR.IJEMortality.INTERVAL1D">
             <summary>Cause of Death Part I Interval, Line d</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.OTHERCONDITION">
+        <member name="P:VRDR.IJEMortality.OTHERCONDITION">
             <summary>Cause of Death Part II</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DMAIDEN">
+        <member name="P:VRDR.IJEMortality.DMAIDEN">
             <summary>Decedent's Maiden Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DBPLACECITY">
+        <member name="P:VRDR.IJEMortality.DBPLACECITY">
             <summary>Decedent's Birth Place City - Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DISPSTATECD">
+        <member name="P:VRDR.IJEMortality.DISPSTATECD">
             <summary>State, U.S. Territory or Canadian Province of Disposition - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DISPSTATE">
+        <member name="P:VRDR.IJEMortality.DISPSTATE">
             <summary>Disposition State or Territory - Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DISPCITY">
+        <member name="P:VRDR.IJEMortality.DISPCITY">
             <summary>Disposition City - Literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNFACNAME">
+        <member name="P:VRDR.IJEMortality.FUNFACNAME">
             <summary>Funeral Facility Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNFACADDRESS">
+        <member name="P:VRDR.IJEMortality.FUNFACADDRESS">
             <summary>Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNCITYTEXT">
+        <member name="P:VRDR.IJEMortality.FUNCITYTEXT">
             <summary>Funeral Facility - City or Town name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNSTATECD">
+        <member name="P:VRDR.IJEMortality.FUNSTATECD">
             <summary>State, U.S. Territory or Canadian Province of Funeral Facility - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNSTATE">
+        <member name="P:VRDR.IJEMortality.FUNSTATE">
             <summary>State, U.S. Territory or Canadian Province of Funeral Facility - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.FUNZIP">
+        <member name="P:VRDR.IJEMortality.FUNZIP">
             <summary>Funeral Facility - ZIP</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.PPDATESIGNED">
+        <member name="P:VRDR.IJEMortality.PPDATESIGNED">
             <summary>Person Pronouncing Date Signed</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.PPTIME">
+        <member name="P:VRDR.IJEMortality.PPTIME">
             <summary>Person Pronouncing Time Pronounced</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTFIRST">
+        <member name="P:VRDR.IJEMortality.CERTFIRST">
             <summary>Certifier's First Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTMIDDLE">
+        <member name="P:VRDR.IJEMortality.CERTMIDDLE">
             <summary>Certifier's Middle Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTLAST">
+        <member name="P:VRDR.IJEMortality.CERTLAST">
             <summary>Certifier's Last Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTSUFFIX">
+        <member name="P:VRDR.IJEMortality.CERTSUFFIX">
             <summary>Certifier's Suffix Name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTADDRESS">
+        <member name="P:VRDR.IJEMortality.CERTADDRESS">
             <summary>Long string address for Certifier same as above but allows states to choose the way they capture information.</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTCITYTEXT">
+        <member name="P:VRDR.IJEMortality.CERTCITYTEXT">
             <summary>Certifier - City or Town name</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTSTATECD">
+        <member name="P:VRDR.IJEMortality.CERTSTATECD">
             <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTSTATE">
+        <member name="P:VRDR.IJEMortality.CERTSTATE">
             <summary>State, U.S. Territory or Canadian Province of Certifier - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.CERTZIP">
+        <member name="P:VRDR.IJEMortality.CERTZIP">
             <summary>Certifier - Zip</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STINJURY">
+        <member name="P:VRDR.IJEMortality.STINJURY">
             <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.STATEBTH">
+        <member name="P:VRDR.IJEMortality.STATEBTH">
             <summary>State, U.S. Territory or Canadian Province of Birth - literal</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DTHCOUNTRYCD">
+        <member name="P:VRDR.IJEMortality.DTHCOUNTRYCD">
             <summary>Country of Death - Code</summary>
         </member>
-        <member name="P:FhirDeathRecord.IJEMortality.DTHCOUNTRY">
+        <member name="P:VRDR.IJEMortality.DTHCOUNTRY">
             <summary>Country of Death - Literal</summary>
         </member>
-        <member name="T:FhirDeathRecord.MortalityData">
+        <member name="T:VRDR.MortalityData">
             <summary>Data helper class for dealing with IJE mortality data. Follows Singleton-esque pattern!</summary>
         </member>
-        <member name="P:FhirDeathRecord.MortalityData.Instance">
+        <member name="P:VRDR.MortalityData.Instance">
             <summary>Instance get method for singleton.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateCodeToRandomPlace(System.String)">
+        <member name="M:VRDR.MortalityData.StateCodeToRandomPlace(System.String)">
             <summary>Given a State code, return a random place Tuple.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateNameToStateCode(System.String)">
+        <member name="M:VRDR.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateCodeToStateName(System.String)">
+        <member name="M:VRDR.MortalityData.StateCodeToStateName(System.String)">
             <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.CountryNameToCountryCode(System.String)">
+        <member name="M:VRDR.MortalityData.CountryNameToCountryCode(System.String)">
             <summary>Given a Country name - return the representative Country code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.CountryCodeToCountryName(System.String)">
+        <member name="M:VRDR.MortalityData.CountryCodeToCountryName(System.String)">
             <summary>Given a Country code - return the representative Country name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameToCountyCode(System.String,System.String)">
+        <member name="M:VRDR.MortalityData.StateNameAndCountyNameToCountyCode(System.String,System.String)">
             <summary>Given a State and County name - return the representative County code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyCodeToCountyName(System.String,System.String)">
+        <member name="M:VRDR.MortalityData.StateNameAndCountyCodeToCountyName(System.String,System.String)">
             <summary>Given a County code and a State name - return the representative County name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(System.String,System.String,System.String)">
+        <member name="M:VRDR.MortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(System.String,System.String,System.String)">
             <summary>Given a State, County, and Place name - return the representative Place code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
+        <member name="M:VRDR.MortalityData.StateNameAndCountyNameAndPlaceCodeToPlaceName(System.String,System.String,System.String)">
             <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.StateCodeAndCityNameToCountyName(System.String,System.String)">
+        <member name="M:VRDR.MortalityData.StateCodeAndCityNameToCountyName(System.String,System.String)">
             <summary>Given a State and County name, and a Place code - return the representative Place name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.EthnicityNameToEthnicityCode(System.String)">
+        <member name="M:VRDR.MortalityData.EthnicityNameToEthnicityCode(System.String)">
             <summary>Given an Ethnicity name - return the representative Ethnicity code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.EthnicityCodeToEthnicityName(System.String)">
+        <member name="M:VRDR.MortalityData.EthnicityCodeToEthnicityName(System.String)">
             <summary>Given an Ethnicity code - return the representative Ethnicity name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.AIANRaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.AIANRaceNameToRaceCode(System.String)">
             <summary>Given an American Indian or Alaska Native Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.AIANRaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.AIANRaceCodeToRaceName(System.String)">
             <summary>Given an American Indian or Alaska Native Race code - return the representative Race name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.ARaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.ARaceNameToRaceCode(System.String)">
             <summary>Given an Asian Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.ARaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.ARaceCodeToRaceName(System.String)">
             <summary>Given an Asian Race code - return the representative Race name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.BAARaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.BAARaceNameToRaceCode(System.String)">
             <summary>Given a Black or African American Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.BAARaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.BAARaceCodeToRaceName(System.String)">
             <summary>Given a Black or African American Race code - return the representative Race name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.NHOPIRaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.NHOPIRaceNameToRaceCode(System.String)">
             <summary>Given a Native Hawaiian or Other Pacific Islander Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.NHOPIRaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.NHOPIRaceCodeToRaceName(System.String)">
             <summary>Given a Native Hawaiian or Other Pacific Islander Race code - return the representative Race name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.WRaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.WRaceNameToRaceCode(System.String)">
             <summary>Given a White Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.WRaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.WRaceCodeToRaceName(System.String)">
             <summary>Given a White Race code - return the representative Race name.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.RaceNameToRaceCode(System.String)">
+        <member name="M:VRDR.MortalityData.RaceNameToRaceCode(System.String)">
             <summary>Given a Race name - return the representative Race code.</summary>
         </member>
-        <member name="M:FhirDeathRecord.MortalityData.RaceCodeToRaceName(System.String)">
+        <member name="M:VRDR.MortalityData.RaceCodeToRaceName(System.String)">
             <summary>Given a Race code - return the representative Race name.</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCRaceAIANCodes">
+        <member name="F:VRDR.MortalityData.CDCRaceAIANCodes">
             <summary>CDC Race American Indian or Alaska Native Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCRaceACodes">
+        <member name="F:VRDR.MortalityData.CDCRaceACodes">
             <summary>CDC Race Asian Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCRaceBAACodes">
+        <member name="F:VRDR.MortalityData.CDCRaceBAACodes">
             <summary>CDC Race Black or African American Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCRaceNHOPICodes">
+        <member name="F:VRDR.MortalityData.CDCRaceNHOPICodes">
             <summary>CDC Race Native Hawaiian or Other Pacific Islander Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCRaceWCodes">
+        <member name="F:VRDR.MortalityData.CDCRaceWCodes">
             <summary>CDC Race White Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CDCEthnicityCodes">
+        <member name="F:VRDR.MortalityData.CDCEthnicityCodes">
             <summary>CDC Ethnicity Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.StateTerritoryProvinceCodes">
+        <member name="F:VRDR.MortalityData.StateTerritoryProvinceCodes">
             <summary>State and Territory Province Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.CountryCodes">
+        <member name="F:VRDR.MortalityData.CountryCodes">
             <summary>Country Codes</summary>
         </member>
-        <member name="F:FhirDeathRecord.MortalityData.PlaceCodes">
+        <member name="F:VRDR.MortalityData.PlaceCodes">
             <summary>Place Codes</summary>
         </member>
     </members>

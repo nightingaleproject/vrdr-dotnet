@@ -10,9 +10,9 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
 using Hl7.FhirPath;
-using FhirDeathRecord;
+using VRDR;
 
-namespace FhirDeathRecord.CLI
+namespace VRDR.CLI
 {
     class Program
     {
@@ -269,14 +269,14 @@ namespace FhirDeathRecord.CLI
                 uocc.Add("code", "1340");
                 uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
                 uocc.Add("display", "Biomedical engineers");
-                deathRecord.UsualOccupation = uocc;
+                deathRecord.UsualOccupationCode = uocc;
 
                 // UsualIndustry
                 Dictionary<string, string> uind = new Dictionary<string, string>();
                 uind.Add("code", "7280");
                 uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
                 uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
-                deathRecord.UsualIndustry = uind;
+                deathRecord.UsualIndustryCode = uind;
 
                 // MilitaryService
                 Dictionary<string, string> mserv = new Dictionary<string, string>();

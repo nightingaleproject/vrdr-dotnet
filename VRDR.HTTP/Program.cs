@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.ServiceProcess;
-using FhirDeathRecord;
+using VRDR;
 
-namespace FhirDeathRecord.HTTP
+namespace VRDR.HTTP
 {
     public class Program
     {
-        public FhirDeathRecordListener Listener;
+        public VRDRListener Listener;
 
         public Program()
         {
-            Listener = new FhirDeathRecordListener(SendResponse, "http://*:8080/");
+            Listener = new VRDRListener(SendResponse, "http://*:8080/");
         }
 
         public void Start()

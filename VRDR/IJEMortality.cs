@@ -4,7 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace FhirDeathRecord
+namespace VRDR
 {
     /// <summary>Property attribute used to describe a field in the IJE Mortality format.</summary>
     [System.AttributeUsage(System.AttributeTargets.Property)]

@@ -9,9 +9,9 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using FhirDeathRecord;
+using VRDR;
 
-namespace FhirDeathRecord.HTTP
+namespace VRDR.HTTP
 {
     /// <summary>Utility for translating between the Nightingale format and the FHIR VRDR format.</summary>
     public class Nightingale

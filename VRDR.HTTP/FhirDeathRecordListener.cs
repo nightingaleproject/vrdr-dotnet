@@ -4,14 +4,14 @@ using System.Threading;
 using System.Linq;
 using System.Text;
 
-namespace FhirDeathRecord.HTTP
+namespace VRDR.HTTP
 {
-    public class FhirDeathRecordListener
+    public class VRDRListener
     {
         private readonly HttpListener _listener = new HttpListener();
         private readonly Func<HttpListenerRequest, string> _responderMethod;
 
-        public FhirDeathRecordListener(string[] prefixes, Func<HttpListenerRequest, string> method)
+        public VRDRListener(string[] prefixes, Func<HttpListenerRequest, string> method)
         {
             // URI prefixes are required, for example
             // "http://localhost:8080/index/".
@@ -35,7 +35,7 @@ namespace FhirDeathRecord.HTTP
             _listener.Start();
         }
 
-         public FhirDeathRecordListener(Func<HttpListenerRequest, string> method, params string[] prefixes)
+         public VRDRListener(Func<HttpListenerRequest, string> method, params string[] prefixes)
             : this(prefixes, method) { }
 
         public void Run()

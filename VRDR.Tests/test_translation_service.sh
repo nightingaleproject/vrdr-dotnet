@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Start translation service
-cd FhirDeathRecord.HTTP
+cd VRDR.HTTP
 dotnet run &
 sleep 10
 
 # Convert FHIR JSON => IJE
-curl --data-binary "@../FhirDeathRecord.Tests/fixtures/json/1.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/ije > 1.tmp
+curl --data-binary "@../VRDR.Tests/fixtures/json/1.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/ije > 1.tmp
 
 # Convert IJE => FHIR XML
 curl --data-binary "@1.tmp" -H "Content-Type: application/ije" -X POST http://localhost:8080/xml > 2.tmp
@@ -30,7 +30,7 @@ else
 fi
 
 # Convert FHIR JSON => Nightingale
-curl --data-binary "@../FhirDeathRecord.Tests/fixtures/json/1.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 1.nightingale
+curl --data-binary "@../VRDR.Tests/fixtures/json/1.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 1.nightingale
 
 # Convert Nightingale => FHIR JSON
 curl --data-binary "@1.nightingale" -H "Content-Type: application/nightingale" -X POST http://localhost:8080/json > 1.nightingale.json

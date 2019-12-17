@@ -7,7 +7,7 @@ This repository includes .NET (C#) code for producing and consuming the Vital Re
 ## Project Organization
 
 ### VRDR
-This directory contains a FHIR Death Record library for consuming and producing VRDR FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format. In addition, there is a utility included for generating synthetic death records in the VRDR FHIR XML VRDR FHIR JSON, and IJE mortality formats, for experimentation use.
+This directory contains a FHIR Death Record library for consuming and producing VRDR FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.
 
 For API documentation for the DeathRecord class, [click here](VRDR/DeathRecord.md).
 
@@ -16,7 +16,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="2.8.1" />
+  <PackageReference Include="VRDR" Version="2.9.0" />
   ...
 </ItemGroup>
 ```
@@ -158,44 +158,6 @@ The tests are automatically run by this repositories Travis CI config, but can b
 dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 ```
 
-### VRDR.Faker
-This package contains a utility that can be used to generate synthetic VRDR records by using the DeathRecordFaker class.
-
-#### Usage
-This package is published on NuGet, so including it is as easy as:
-```xml
-<ItemGroup>
-  ...
-  <PackageReference Include="VRDR.Faker" Version="2.8.1" />
-  ...
-</ItemGroup>
-```
-
-You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from VRDR.CLI):
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-  ...
-  <ItemGroup>
-    <ProjectReference Include="..\VRDR.Faker\DeathRecordFaker.csproj" />
-    ...
-  </ItemGroup>
-</Project>
-```
-
-#### Example
-```cs
-// Initialize a faker using some customization options
-DeathRecordFaker faker = new DeathRecordFaker(state: "MA", type: "Injury");
-
-// Generate a fake record and print out as JSON
-DeathRecord deathRecord1 = faker.Generate();
-Console.WriteLine(deathRecord1.ToJSON());
-
-// Generate another fake record and print out as XML
-DeathRecord deathRecord2 = faker.Generate();
-Console.WriteLine(deathRecord2.ToXML());
-```
-
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
@@ -233,15 +195,6 @@ dotnet run checkJson 1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run ije 1.MOR
-
-# Generate a random fake record in FHIR JSON format
-dotnet run fakejson
-
-# Generate a random fake record in FHIR XML format
-dotnet run fakexml
-
-# Generate a random fake record in IJE mortality format
-dotnet run fakeije
 ```
 
 ### VRDR.HTTP

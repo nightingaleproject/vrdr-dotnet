@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <!-- <ProjectReference Include="..\VRDR\DeathRecord.csproj" /> -->
-    <ProjectReference Include="..\VRDR.Faker\DeathRecordFaker.csproj" />
+    <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
   </ItemGroup>
 </Project>

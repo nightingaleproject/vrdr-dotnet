@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRDR", "VRDR\DeathRecord.csproj", "{A147015F-AFB9-4D4A-BE7A-DCBC535990B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRDR.Tests", "VRDR.Tests\DeathRecord.Tests.csproj", "{370E27B1-3387-485E-AB76-C908353AC06C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "VRDR.Tests", "VRDR.Tests\DeathRecord.Tests.csproj", "{370E27B1-3387-485E-AB76-C908353AC06C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

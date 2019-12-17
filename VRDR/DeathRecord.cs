@@ -4330,6 +4330,10 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrEmpty(value))
+                {
+                    return;
+                }
                 if (EmploymentHistory == null)
                 {
                     EmploymentHistory = new Observation();
@@ -4451,6 +4455,10 @@ namespace VRDR
             }
             set
             {
+                if (String.IsNullOrEmpty(value))
+                {
+                    return;
+                }
                 if (EmploymentHistory == null)
                 {
                     EmploymentHistory = new Observation();

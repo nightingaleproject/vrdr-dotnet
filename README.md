@@ -16,7 +16,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="2.8.0" />
+  <PackageReference Include="VRDR" Version="2.8.1" />
   ...
 </ItemGroup>
 ```
@@ -166,7 +166,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Faker" Version="2.8.0" />
+  <PackageReference Include="VRDR.Faker" Version="2.8.1" />
   ...
 </ItemGroup>
 ```

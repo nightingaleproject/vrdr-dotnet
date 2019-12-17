@@ -2287,13 +2287,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("OCCUP", "UsualOccupation", "display");
+                return Dictionary_Get("OCCUP", "UsualOccupationCode", "display");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("OCCUP", "UsualOccupation", "display", value);
+                    Dictionary_Set("OCCUP", "UsualOccupationCode", "display", value);
                 }
             }
         }
@@ -2304,13 +2304,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("INDUST", "UsualIndustry", "display");
+                return Dictionary_Get("INDUST", "UsualIndustryCode", "display");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("INDUST", "UsualIndustry", "display", value);
+                    Dictionary_Set("INDUST", "UsualIndustryCode", "display", value);
                 }
             }
         }

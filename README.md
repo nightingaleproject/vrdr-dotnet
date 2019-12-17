@@ -35,6 +35,8 @@ You can also include the library by referencing `DeathRecord.csproj` in your pro
 #### Producing Example
 The following snippet is a quick example of producing a from-scratch FHIR VRDR record using this library, and then printing it out as a JSON string. For a complete example, [click here](https://github.com/nightingaleproject/csharp-fhir-death-record/blob/master/VRDR.CLI/Program.cs#L23).
 ```cs
+using VRDR;
+
 DeathRecord deathRecord = new DeathRecord();
 
 // Set Death Record ID
@@ -80,6 +82,8 @@ Console.WriteLine(deathRecord.ToJSON());
 #### Consuming Example
 An example of consuming a VRDR FHIR document (in XML format) using this library, and printing some details from it:
 ```cs
+using VRDR;
+
 // Read in FHIR Death Record XML file as a string
 string xml = File.ReadAllText("./example_vrdr_fhir_record.xml");
 
@@ -99,6 +103,8 @@ Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", death
 #### FHIR VRDR record to/from IJE Mortality format
 An example of converting a VRDR FHIR Death Record to an IJE string:
 ```cs
+using VRDR;
+
 // Read in FHIR Death Record XML file as a string
 string xml = File.ReadAllText("./example_vrdr_fhir_record.xml");
 
@@ -115,6 +121,8 @@ Console.WriteLine(ijeString);
 
 An example of converting an IJE string to a VRDR FHIR Death Record:
 ```cs
+using VRDR;
+
 // Construct a new IJEMortality instance from an IJE string
 IJEMortality ije = new IJEMortality("..."); // This will convert the IJE string to a DeathRecord
 
@@ -128,6 +136,8 @@ Console.WriteLine(deathRecord.ToJSON());
 #### CauseCodes
 This package also includes a class for handling the preliminary return message from NCHS containing coded causes.
 ```cs
+using VRDR;
+
 // Initialize a new CauseCodes; fill with ids and codes
 CauseCodes causeCodes = new CauseCodes();
 causeCodes.Identifier = "42";

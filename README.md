@@ -182,7 +182,7 @@ You can also include the library by referencing `DeathRecord.csproj` in your pro
 </Project>
 ```
 
-#### Example Usage
+#### Example
 ```cs
 // Initialize a faker using some customization options
 DeathRecordFaker faker = new DeathRecordFaker(state: "MA", type: "Injury");

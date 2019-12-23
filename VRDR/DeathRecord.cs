@@ -495,17 +495,17 @@ namespace VRDR
             }
         }
 
-        /// <summary>Created time.</summary>
-        /// <value>time when the record was created.</value>
+        /// <summary>Registered time.</summary>
+        /// <value>time when the record was registered.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06-05:00";</para>
+        /// <para>ExampleDeathRecord.RegisteredTime = "2019-01-29T16:48:06-05:00";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");</para>
+        /// <para>Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");</para>
         /// </example>
-        [Property("Created Time", Property.Types.StringDateTime, "Death Certification", "Created time.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 2)]
+        [Property("Registered Time", Property.Types.StringDateTime, "Death Certification", "Registered time.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "date")]
-        public string CreatedTime
+        public string RegisteredTime
         {
             get
             {

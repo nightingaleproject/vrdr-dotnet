@@ -31,8 +31,8 @@ namespace VRDR.CLI
                 // CertifiedTime
                 deathRecord.CertifiedTime = "2019-01-29T16:48:06-05:00";
 
-                // CreatedTime
-                deathRecord.CreatedTime = "2019-01-20T16:47:04-05:00";
+                // RegisteredTime
+                deathRecord.RegisteredTime = "2019-02-01T16:47:04-05:00";
 
                 // CertificationRole
                 Dictionary<string, string> certificationRole = new Dictionary<string, string>();

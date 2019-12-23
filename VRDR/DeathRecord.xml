@@ -371,14 +371,14 @@
             <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.CreatedTime">
-            <summary>Created time.</summary>
-            <value>time when the record was created.</value>
+        <member name="P:VRDR.DeathRecord.RegisteredTime">
+            <summary>Registered time.</summary>
+            <value>time when the record was registered.</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06-05:00";</para>
+            <para>ExampleDeathRecord.RegisteredTime = "2019-01-29T16:48:06-05:00";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");</para>
+            <para>Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.CertificationRole">

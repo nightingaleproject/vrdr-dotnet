@@ -2391,13 +2391,13 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOR_YR", "yyyy", "CreatedTime");
+                return DateTime_Get("DOR_YR", "yyyy", "RegisteredTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_YR", "yyyy", "CreatedTime", value, true);
+                    DateTime_Set("DOR_YR", "yyyy", "RegisteredTime", value, true);
                 }
             }
         }
@@ -2408,13 +2408,13 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOR_MO", "MM", "CreatedTime");
+                return DateTime_Get("DOR_MO", "MM", "RegisteredTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_MO", "MM", "CreatedTime", value, true);
+                    DateTime_Set("DOR_MO", "MM", "RegisteredTime", value, true);
                 }
             }
         }
@@ -2425,13 +2425,13 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOR_DY", "dd", "CreatedTime");
+                return DateTime_Get("DOR_DY", "dd", "RegisteredTime");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOR_DY", "dd", "CreatedTime", value, true);
+                    DateTime_Set("DOR_DY", "dd", "RegisteredTime", value, true);
                 }
             }
         }

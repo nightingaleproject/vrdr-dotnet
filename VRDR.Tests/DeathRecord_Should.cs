@@ -212,17 +212,17 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_CreatedTime()
+        public void Set_RegisteredTime()
         {
-            SetterDeathRecord.CreatedTime = "2019-01-29T16:48:06-05:00";
-            Assert.Equal("2019-01-29T16:48:06-05:00", SetterDeathRecord.CreatedTime);
+            SetterDeathRecord.RegisteredTime = "2019-01-29T16:48:06-05:00";
+            Assert.Equal("2019-01-29T16:48:06-05:00", SetterDeathRecord.RegisteredTime);
         }
 
         [Fact]
-        public void Get_CreatedTime()
+        public void Get_RegisteredTime()
         {
-            Assert.Equal("2019-01-20T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).CreatedTime);
-            Assert.Equal("2019-01-20T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).CreatedTime);
+            Assert.Equal("2019-01-20T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).RegisteredTime);
+            Assert.Equal("2019-01-20T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).RegisteredTime);
         }
 
         [Fact]

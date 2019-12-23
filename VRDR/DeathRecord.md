@@ -86,7 +86,7 @@
   - [CertifierQualification](#P-VRDR-DeathRecord-CertifierQualification 'VRDR.DeathRecord.CertifierQualification')
   - [CertifierSuffix](#P-VRDR-DeathRecord-CertifierSuffix 'VRDR.DeathRecord.CertifierSuffix')
   - [ContributingConditions](#P-VRDR-DeathRecord-ContributingConditions 'VRDR.DeathRecord.ContributingConditions')
-  - [CreatedTime](#P-VRDR-DeathRecord-CreatedTime 'VRDR.DeathRecord.CreatedTime')
+  - [RegisteredTime](#P-VRDR-DeathRecord-RegisteredTime 'VRDR.DeathRecord.RegisteredTime')
   - [DateOfBirth](#P-VRDR-DeathRecord-DateOfBirth 'VRDR.DeathRecord.DateOfBirth')
   - [DateOfDeath](#P-VRDR-DeathRecord-DateOfDeath 'VRDR.DeathRecord.DateOfDeath')
   - [DateOfDeathPronouncement](#P-VRDR-DeathRecord-DateOfDeathPronouncement 'VRDR.DeathRecord.DateOfDeathPronouncement')
@@ -1573,22 +1573,22 @@ ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";
 
 Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");
 
-<a name='P-VRDR-DeathRecord-CreatedTime'></a>
-### CreatedTime `property`
+<a name='P-VRDR-DeathRecord-RegisteredTime'></a>
+### RegisteredTime `property`
 
 ##### Summary
 
-Created time.
+Registered time.
 
 ##### Example
 
 // Setter:
 
-ExampleDeathRecord.CreatedTime = "2019-01-29T16:48:06-05:00";
+ExampleDeathRecord.RegisteredTime = "2019-02-01T16:48:06-05:00";
 
 // Getter:
 
-Console.WriteLine($"Created at: {ExampleDeathRecord.CreatedTime}");
+Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");
 
 <a name='P-VRDR-DeathRecord-DateOfBirth'></a>
 ### DateOfBirth `property`

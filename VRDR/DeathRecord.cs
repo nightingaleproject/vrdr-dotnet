@@ -5428,8 +5428,8 @@ namespace VRDR
             }
         }
 
-        /// <summary>Pregnanacy Status At Death.</summary>
-        /// <value>pregnanacy status at death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <summary>Pregnancy Status At Death.</summary>
+        /// <value>pregnancy status at death. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
         /// <para>"system" - the code system this code belongs to</para>
         /// <para>"display" - a human readable meaning of the code</para>
@@ -5440,16 +5440,16 @@ namespace VRDR
         /// <para>code.Add("code", "PHC1260");</para>
         /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
-        /// <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+        /// <para>ExampleDeathRecord.PregnancyStatus = code;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
+        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
         /// </example>
-        [Property("Pregnanacy Status", Property.Types.Dictionary, "Death Investigation", "Pregnanacy Status At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentPregnancy.html", true, 4)]
+        [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentPregnancy.html", true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
-        public Dictionary<string, string> PregnanacyStatus
+        public Dictionary<string, string> PregnancyStatus
         {
             get
             {
@@ -6216,10 +6216,10 @@ namespace VRDR
             }
 
             // Grab Pregnancy
-            var pregnanacyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
-            if (pregnanacyStatus != null)
+            var pregnancyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
+            if (pregnancyStatus != null)
             {
-                PregnancyObs = (Observation)pregnanacyStatus.Resource;
+                PregnancyObs = (Observation)pregnancyStatus.Resource;
             }
 
             // Grab Examiner Contacted

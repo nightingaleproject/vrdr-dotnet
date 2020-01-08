@@ -62,12 +62,12 @@ code.Add("system", "ICD-10");
 code.Add("display", "Acute transmural myocardial infarction of anterior wall");
 deathRecord.CODE1A = exampleCode;
 
-// Add PregnanacyStatus
+// Add PregnancyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
 code.Add("code", "PHC1260");
 code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
 code.Add("display", "Not pregnant within past year");
-deathRecord.PregnanacyStatus = code;
+deathRecord.PregnancyStatus = code;
 
 // Add ExaminerContacted
 deathRecord.ExaminerContacted = false;

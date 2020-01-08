@@ -1695,27 +1695,27 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_PregnanacyStatus()
+        public void Set_PregnancyStatus()
         {
             Dictionary<string, string> ps = new Dictionary<string, string>();
             ps.Add("code", "PHC1260");
             ps.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
             ps.Add("display", "Not pregnant within past year");
-            SetterDeathRecord.PregnanacyStatus = ps;
-            Assert.Equal("PHC1260", SetterDeathRecord.PregnanacyStatus["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", SetterDeathRecord.PregnanacyStatus["system"]);
-            Assert.Equal("Not pregnant within past year", SetterDeathRecord.PregnanacyStatus["display"]);
+            SetterDeathRecord.PregnancyStatus = ps;
+            Assert.Equal("PHC1260", SetterDeathRecord.PregnancyStatus["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", SetterDeathRecord.PregnancyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", SetterDeathRecord.PregnancyStatus["display"]);
         }
 
         [Fact]
-        public void Get_PregnanacyStatus()
+        public void Get_PregnancyStatus()
         {
-            Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["system"]);
-            Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnanacyStatus["display"]);
-            Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["system"]);
-            Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnanacyStatus["display"]);
+            Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
+            Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6003", ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
         }
 
         [Fact]

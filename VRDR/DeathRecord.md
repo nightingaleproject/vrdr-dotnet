@@ -139,7 +139,7 @@
   - [MotherMaidenName](#P-VRDR-DeathRecord-MotherMaidenName 'VRDR.DeathRecord.MotherMaidenName')
   - [MotherSuffix](#P-VRDR-DeathRecord-MotherSuffix 'VRDR.DeathRecord.MotherSuffix')
   - [PlaceOfBirth](#P-VRDR-DeathRecord-PlaceOfBirth 'VRDR.DeathRecord.PlaceOfBirth')
-  - [PregnanacyStatus](#P-VRDR-DeathRecord-PregnanacyStatus 'VRDR.DeathRecord.PregnanacyStatus')
+  - [PregnancyStatus](#P-VRDR-DeathRecord-PregnancyStatus 'VRDR.DeathRecord.PregnancyStatus')
   - [Race](#P-VRDR-DeathRecord-Race 'VRDR.DeathRecord.Race')
   - [Residence](#P-VRDR-DeathRecord-Residence 'VRDR.DeathRecord.Residence')
   - [SSN](#P-VRDR-DeathRecord-SSN 'VRDR.DeathRecord.SSN')
@@ -2666,12 +2666,12 @@ SetterDeathRecord.PlaceOfBirth = address;
 
 Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");
 
-<a name='P-VRDR-DeathRecord-PregnanacyStatus'></a>
-### PregnanacyStatus `property`
+<a name='P-VRDR-DeathRecord-PregnancyStatus'></a>
+### PregnancyStatus `property`
 
 ##### Summary
 
-Pregnanacy Status At Death.
+Pregnancy Status At Death.
 
 ##### Example
 
@@ -2685,11 +2685,11 @@ code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
 
 code.Add("display", "Not pregnant within past year");
 
-ExampleDeathRecord.PregnanacyStatus = code;
+ExampleDeathRecord.PregnancyStatus = code;
 
 // Getter:
 
-Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");
+Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");
 
 <a name='P-VRDR-DeathRecord-Race'></a>
 ### Race `property`

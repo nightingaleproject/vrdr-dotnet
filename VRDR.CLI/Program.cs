@@ -353,12 +353,12 @@ namespace VRDR.CLI
                 aad.Add("value", "79");
                 deathRecord.AgeAtDeath = aad;
 
-                // PregnanacyStatus
+                // PregnancyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "NA");
                 ps.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
                 ps.Add("display", "not applicable");
-                deathRecord.PregnanacyStatus = ps;
+                deathRecord.PregnancyStatus = ps;
 
                 // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();

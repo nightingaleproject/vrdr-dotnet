@@ -1690,9 +1690,9 @@
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.PregnanacyStatus">
-            <summary>Pregnanacy Status At Death.</summary>
-            <value>pregnanacy status at death. A Dictionary representing a code, containing the following key/value pairs:
+        <member name="P:VRDR.DeathRecord.PregnancyStatus">
+            <summary>Pregnancy Status At Death.</summary>
+            <value>pregnancy status at death. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
             <para>"display" - a human readable meaning of the code</para>
@@ -1703,9 +1703,9 @@
             <para>code.Add("code", "PHC1260");</para>
             <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");</para>
             <para>code.Add("display", "Not pregnant within past year");</para>
-            <para>ExampleDeathRecord.PregnanacyStatus = code;</para>
+            <para>ExampleDeathRecord.PregnancyStatus = code;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Pregnanacy Status: {ExampleDeathRecord.PregnanacyStatus['display']}");</para>
+            <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.ExaminerContacted">

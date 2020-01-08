@@ -2672,7 +2672,7 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("PREG", "PregnanacyStatus", "code");
+                string code = Dictionary_Get_Full("PREG", "PregnancyStatus", "code");
                 switch (code)
                 {
                     case "PHC1260": // Not pregnant within past year
@@ -2697,34 +2697,34 @@ namespace VRDR
                     switch (value)
                     {
                         case "1":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1260");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant within past year");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1260");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant within past year");
                             break;
                         case "2":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1261");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Pregnant at time of death");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1261");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Pregnant at time of death");
                             break;
                         case "3":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1262");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1262");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
                             break;
                         case "4":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1263");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1263");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
                             break;
                         case "9":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "PHC1264");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Unknown if pregnant within the past year");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1264");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Unknown if pregnant within the past year");
                             break;
                         case "8":
-                            Dictionary_Set("PREG", "PregnanacyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
-                            Dictionary_Set("PREG", "PregnanacyStatus", "display", "Not applicable");
+                            Dictionary_Set("PREG", "PregnancyStatus", "code", "NA");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not applicable");
                             break;
                     }
                 }

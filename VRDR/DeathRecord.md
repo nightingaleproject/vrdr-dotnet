@@ -2,8 +2,6 @@
 # DeathRecord
 
 - [DeathRecord](#T-VRDR-DeathRecord 'VRDR.DeathRecord')
-  - [#ctor()](#M-VRDR-DeathRecord-#ctor 'VRDR.DeathRecord.#ctor')
-  - [#ctor(record,permissive)](#M-VRDR-DeathRecord-#ctor-System-String,System-Boolean- 'VRDR.DeathRecord.#ctor(System.String,System.Boolean)')
   - [AgeAtDeathObs](#F-VRDR-DeathRecord-AgeAtDeathObs 'VRDR.DeathRecord.AgeAtDeathObs')
   - [AutopsyPerformed](#F-VRDR-DeathRecord-AutopsyPerformed 'VRDR.DeathRecord.AutopsyPerformed')
   - [BirthRecordIdentifier](#F-VRDR-DeathRecord-BirthRecordIdentifier 'VRDR.DeathRecord.BirthRecordIdentifier')
@@ -86,7 +84,6 @@
   - [CertifierQualification](#P-VRDR-DeathRecord-CertifierQualification 'VRDR.DeathRecord.CertifierQualification')
   - [CertifierSuffix](#P-VRDR-DeathRecord-CertifierSuffix 'VRDR.DeathRecord.CertifierSuffix')
   - [ContributingConditions](#P-VRDR-DeathRecord-ContributingConditions 'VRDR.DeathRecord.ContributingConditions')
-  - [RegisteredTime](#P-VRDR-DeathRecord-RegisteredTime 'VRDR.DeathRecord.RegisteredTime')
   - [DateOfBirth](#P-VRDR-DeathRecord-DateOfBirth 'VRDR.DeathRecord.DateOfBirth')
   - [DateOfDeath](#P-VRDR-DeathRecord-DateOfDeath 'VRDR.DeathRecord.DateOfDeath')
   - [DateOfDeathPronouncement](#P-VRDR-DeathRecord-DateOfDeathPronouncement 'VRDR.DeathRecord.DateOfDeathPronouncement')
@@ -141,7 +138,9 @@
   - [PlaceOfBirth](#P-VRDR-DeathRecord-PlaceOfBirth 'VRDR.DeathRecord.PlaceOfBirth')
   - [PregnancyStatus](#P-VRDR-DeathRecord-PregnancyStatus 'VRDR.DeathRecord.PregnancyStatus')
   - [Race](#P-VRDR-DeathRecord-Race 'VRDR.DeathRecord.Race')
+  - [RegisteredTime](#P-VRDR-DeathRecord-RegisteredTime 'VRDR.DeathRecord.RegisteredTime')
   - [Residence](#P-VRDR-DeathRecord-Residence 'VRDR.DeathRecord.Residence')
+  - [ResidenceWithinCityLimits](#P-VRDR-DeathRecord-ResidenceWithinCityLimits 'VRDR.DeathRecord.ResidenceWithinCityLimits')
   - [SSN](#P-VRDR-DeathRecord-SSN 'VRDR.DeathRecord.SSN')
   - [SpouseFamilyName](#P-VRDR-DeathRecord-SpouseFamilyName 'VRDR.DeathRecord.SpouseFamilyName')
   - [SpouseGivenNames](#P-VRDR-DeathRecord-SpouseGivenNames 'VRDR.DeathRecord.SpouseGivenNames')
@@ -888,15 +887,7 @@ Decedent's Birth Sex.
 
 // Setter:
 
-Dictionary<string, string> code = new Dictionary<string, string>();
-
-code.Add("code", "M");
-
-code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-
-code.Add("display", "Male");
-
-ExampleDeathRecord.BirthSex = code;
+ExampleDeathRecord.BirthSex = "F";
 
 // Getter:
 
@@ -1572,23 +1563,6 @@ ExampleDeathRecord.ContributingConditions = "Example Contributing Condition";
 // Getter:
 
 Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");
-
-<a name='P-VRDR-DeathRecord-RegisteredTime'></a>
-### RegisteredTime `property`
-
-##### Summary
-
-Registered time.
-
-##### Example
-
-// Setter:
-
-ExampleDeathRecord.RegisteredTime = "2019-02-01T16:48:06-05:00";
-
-// Getter:
-
-Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");
 
 <a name='P-VRDR-DeathRecord-DateOfBirth'></a>
 ### DateOfBirth `property`
@@ -2716,6 +2690,23 @@ Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");
 
 };
 
+<a name='P-VRDR-DeathRecord-RegisteredTime'></a>
+### RegisteredTime `property`
+
+##### Summary
+
+Registered time.
+
+##### Example
+
+// Setter:
+
+ExampleDeathRecord.RegisteredTime = "2019-01-29T16:48:06-05:00";
+
+// Getter:
+
+Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");
+
 <a name='P-VRDR-DeathRecord-Residence'></a>
 ### Residence `property`
 
@@ -2748,6 +2739,23 @@ SetterDeathRecord.Residence = address;
 // Getter:
 
 Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");
+
+<a name='P-VRDR-DeathRecord-ResidenceWithinCityLimits'></a>
+### ResidenceWithinCityLimits `property`
+
+##### Summary
+
+Decedent's residence is/is not within city limits.
+
+##### Example
+
+// Setter:
+
+SetterDeathRecord.ResidenceWithinCityLimits = true;
+
+// Getter:
+
+Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");
 
 <a name='P-VRDR-DeathRecord-SSN'></a>
 ### SSN `property`

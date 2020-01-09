@@ -213,13 +213,13 @@ namespace VRDR.HTTP
                 }
             }
 
-            if (record.BirthSex != null && record.BirthSex.ContainsKey("code"))
+            if (record.BirthSex != null)
             {
-                if (record.BirthSex["code"] == "M")
+                if (record.BirthSex == "M")
                 {
                     values["sex.sex"] = "Male";
                 }
-                else if (record.BirthSex["code"] == "F")
+                else if (record.BirthSex == "F")
                 {
                     values["sex.sex"] = "Female";
                 }
@@ -364,49 +364,49 @@ namespace VRDR.HTTP
                 case "9th through 12th grade; no diploma":
                     Dictionary<string, string> edu = new Dictionary<string, string>();
                     edu.Add("code", "SEC");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "Some secondary or high school education");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "High School Graduate or GED Completed":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "HS");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "High School or secondary school degree complete");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Some college credit, but no degree":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "PB");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "Some post-baccalaureate education");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Associate Degree":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "ASSOC");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "Associate's or technical degree complete");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Bachelor's Degree":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "BD");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "College or baccalaureate degree complete");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Master's Degree":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "GD");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "Graduate or professional Degree complete");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Doctorate Degree or Professional Degree":
                     edu = new Dictionary<string, string>();
                     edu.Add("code", "POSTG");
-                    edu.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                     edu.Add("display", "Doctoral or post graduate education");
                     deathRecord.EducationLevel = edu;
                     break;
@@ -459,14 +459,14 @@ namespace VRDR.HTTP
                 case "Married":
                     Dictionary<string, string> mar = new Dictionary<string, string>();
                     mar.Add("code", "M");
-                    mar.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Married");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Married but seperated":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "L");
-                    mar.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Legally Separated");
                     deathRecord.MaritalStatus = mar;
                     break;
@@ -474,21 +474,21 @@ namespace VRDR.HTTP
                 case "Widowed (but not remarried)":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "W");
-                    mar.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Widowed");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Divorced (but not remarried)":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "D");
-                    mar.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Divorced");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Never married":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "S");
-                    mar.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Never Married");
                     deathRecord.MaritalStatus = mar;
                     break;
@@ -503,19 +503,11 @@ namespace VRDR.HTTP
 
             if (GetValue(values, "sex.sex") == "Male")
             {
-                Dictionary<string, string> bs = new Dictionary<string, string>();
-                bs.Add("code", "M");
-                bs.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-                bs.Add("display", "Male");
-                deathRecord.BirthSex = bs;
+                deathRecord.BirthSex = "M";
             }
             else if (GetValue(values, "sex.sex") == "Female")
             {
-                Dictionary<string, string> bs = new Dictionary<string, string>();
-                bs.Add("code", "F");
-                bs.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-                bs.Add("display", "Female");
-                deathRecord.BirthSex = bs;
+                deathRecord.BirthSex = "F";
             }
 
             if (GetValue(values, "ssn.ssn1") != null && GetValue(values, "ssn.ssn2") != null && GetValue(values, "ssn.ssn3") != null)
@@ -625,7 +617,7 @@ namespace VRDR.HTTP
             {
                 Dictionary<string, string> mserv = new Dictionary<string, string>();
                 mserv.Add("code", "Y");
-                mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 mserv.Add("display", "Yes");
                 Type type = deathRecord.GetType();
                 PropertyInfo prop = type.GetProperty(property);
@@ -635,7 +627,7 @@ namespace VRDR.HTTP
             {
                 Dictionary<string, string> mserv = new Dictionary<string, string>();
                 mserv.Add("code", "N");
-                mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 mserv.Add("display", "No");
                 Type type = deathRecord.GetType();
                 PropertyInfo prop = type.GetProperty(property);

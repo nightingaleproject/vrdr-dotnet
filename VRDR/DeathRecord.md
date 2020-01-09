@@ -783,7 +783,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "Y");
 
-code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
 
 code.Add("display", "Yes");
 
@@ -808,7 +808,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "Y");
 
-code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
 
 code.Add("display", "Yes");
 
@@ -1729,7 +1729,7 @@ Dictionary<string, string> dmethod = new Dictionary<string, string>();
 
 dmethod.Add("code", "449971000124106");
 
-dmethod.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");
+dmethod.Add("system", "http://snomed.info/sct");
 
 dmethod.Add("display", "Burial");
 
@@ -1810,7 +1810,7 @@ Dictionary<string, string> elevel = new Dictionary<string, string>();
 
 elevel.Add("code", "BD");
 
-elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
 
 elevel.Add("display", "College or baccalaureate degree complete");
 
@@ -2475,7 +2475,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "S");
 
-code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
 
 code.Add("display", "Never Married");
 
@@ -2500,7 +2500,7 @@ Dictionary<string, string> mserv = new Dictionary<string, string>();
 
 mserv.Add("code", "Y");
 
-mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
 
 mserv.Add("display", "Yes");
 
@@ -2681,7 +2681,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "PHC1260");
 
-code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
+code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");
 
 code.Add("display", "Not pregnant within past year");
 
@@ -2851,7 +2851,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "373066001");
 
-code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");
+code.Add("system", "http://snomed.info/sct");
 
 code.Add("display", "Yes");
 

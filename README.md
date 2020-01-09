@@ -65,7 +65,7 @@ deathRecord.CODE1A = exampleCode;
 // Add PregnancyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
 code.Add("code", "PHC1260");
-code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
+code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");
 code.Add("display", "Not pregnant within past year");
 deathRecord.PregnancyStatus = code;
 

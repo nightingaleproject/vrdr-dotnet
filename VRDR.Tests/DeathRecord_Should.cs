@@ -230,11 +230,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> CertificationRole = new Dictionary<string, string>();
             CertificationRole.Add("code", "76899008");
-            CertificationRole.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");
+            CertificationRole.Add("system", "http://snomed.info/sct");
             CertificationRole.Add("display", "Infectious diseases physician");
             SetterDeathRecord.CertificationRole = CertificationRole;
             Assert.Equal("76899008", SetterDeathRecord.CertificationRole["code"]);
-            Assert.Equal("http://hl7.org/fhir/ValueSet/performer-role", SetterDeathRecord.CertificationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.CertificationRole["system"]);
             Assert.Equal("Infectious diseases physician", SetterDeathRecord.CertificationRole["display"]);
         }
 
@@ -242,10 +242,10 @@ namespace VRDR.Tests
         public void Get_CertificationRole()
         {
             Assert.Equal("76899008", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
-            Assert.Equal("http://hl7.org/fhir/ValueSet/performer-role", ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
             Assert.Equal("Infectious diseases physician", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
             Assert.Equal("76899008", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
-            Assert.Equal("http://hl7.org/fhir/ValueSet/performer-role", ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
             Assert.Equal("Infectious diseases physician", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
         }
 

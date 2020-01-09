@@ -918,6 +918,21 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     record.BirthSex = value.Trim();
+                    string code = value == "U" ? "UNK" : value;
+                    string display = "";
+                    if (code == "M")
+                    {
+                        display = "Male";
+                    }
+                    else if (code == "F")
+                    {
+                        display = "Female";
+                    }
+                    else if (code == "UNK")
+                    {
+                        display = "Unknown";
+                    }
+                    LeftJustified_Set("SEX", "Gender", display);
                 }
             }
         }

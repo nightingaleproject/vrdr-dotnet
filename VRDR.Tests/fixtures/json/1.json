@@ -454,7 +454,7 @@
             "role": {
               "coding": [
                 {
-                  "system": "http://hl7.org/fhir/ValueSet/performer-role",
+                  "system": "http://snomed.info/sct",
                   "code": "76899008",
                   "display": "Infectious diseases physician"
                 }

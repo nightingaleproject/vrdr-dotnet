@@ -16,7 +16,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="2.9.1" />
+  <PackageReference Include="VRDR" Version="2.10.0" />
   ...
 </ItemGroup>
 ```

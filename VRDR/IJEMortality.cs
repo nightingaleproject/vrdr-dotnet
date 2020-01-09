@@ -911,56 +911,13 @@ namespace VRDR
         {
             get
             {
-                string gender = LeftJustified_Get("SEX", "Gender");
-                if (!String.IsNullOrWhiteSpace(gender))
-                {
-                    switch(gender.Trim())
-                    {
-                        case "male":
-                        case "Male":
-                        case "m":
-                        case "M":
-                            return "M";
-                        case "female":
-                        case "Female":
-                        case "f":
-                        case "F":
-                            return "F";
-                        case "other":
-                        case "Other":
-                        case "o":
-                        case "O":
-                        case "unknown":
-                        case "Unknown":
-                        case "u":
-                        case "U":
-                            return "U";
-                    }
-                }
-                return Dictionary_Get("SEX", "BirthSex", "code");
+                return record.BirthSex;
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string code = value == "U" ? "UNK" : value;
-                    string display = "";
-                    if (code == "M")
-                    {
-                        display = "Male";
-                    }
-                    else if (code == "F")
-                    {
-                        display = "Female";
-                    }
-                    else if (code == "UNK")
-                    {
-                        display = "Unknown";
-                    }
-                    Dictionary_Set("SEX", "BirthSex", "code", code);
-                    Dictionary_Set("SEX", "BirthSex", "display", display);
-                    Dictionary_Set("SEX", "BirthSex", "system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-                    LeftJustified_Set("SEX", "Gender", display);
+                    record.BirthSex = value.Trim();
                 }
             }
         }
@@ -2757,7 +2714,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOI_MO", "MM", "InjuryDate", value.Trim());
+                    DateTime_Set("DOI_MO", "MM", "InjuryDate", value.Trim(), false, true);
                 }
             }
         }
@@ -2774,7 +2731,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOI_DY", "dd", "InjuryDate", value.Trim());
+                    DateTime_Set("DOI_DY", "dd", "InjuryDate", value.Trim(), false, true);
                 }
             }
         }
@@ -2791,7 +2748,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("DOI_YR", "yyyy", "InjuryDate", value.Trim());
+                    DateTime_Set("DOI_YR", "yyyy", "InjuryDate", value.Trim(), false);
                 }
             }
         }
@@ -2808,7 +2765,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    DateTime_Set("TOI_HR", "HHmm", "InjuryDate", value.Trim());
+                    DateTime_Set("TOI_HR", "HHmm", "InjuryDate", value.Trim(), false, true);
                 }
             }
         }

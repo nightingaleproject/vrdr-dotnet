@@ -37,7 +37,7 @@ namespace VRDR.CLI
                 // CertificationRole
                 Dictionary<string, string> certificationRole = new Dictionary<string, string>();
                 certificationRole.Add("code", "76899008");
-                certificationRole.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");
+                certificationRole.Add("system", "http://snomed.info/sct");
                 certificationRole.Add("display", "Infectious diseases physician");
                 deathRecord.CertificationRole = certificationRole;
 

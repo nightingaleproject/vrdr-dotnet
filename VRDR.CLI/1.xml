@@ -352,7 +352,7 @@
         <performer>
           <role>
             <coding>
-              <system value="http://hl7.org/fhir/ValueSet/performer-role" />
+              <system value="http://snomed.info/sct" />
               <code value="76899008" />
               <display value="Infectious diseases physician" />
             </coding>

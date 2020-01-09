@@ -1385,7 +1385,7 @@ Dictionary<string, string> role = new Dictionary<string, string>();
 
 role.Add("code", "76899008");
 
-role.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");
+role.Add("system", "http://snomed.info/sct");
 
 role.Add("display", "Infectious diseases physician");
 

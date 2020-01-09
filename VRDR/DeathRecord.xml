@@ -392,7 +392,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
             <para>role.Add("code", "76899008");</para>
-            <para>role.Add("system", "http://hl7.org/fhir/ValueSet/performer-role");</para>
+            <para>role.Add("system", "http://snomed.info/sct");</para>
             <para>role.Add("display", "Infectious diseases physician");</para>
             <para>ExampleDeathRecord.CertificationRole = role;</para>
             <para>// Getter:</para>

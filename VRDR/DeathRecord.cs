@@ -3222,42 +3222,32 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Birth Sex.</summary>
-        /// <value>the decedent's birth sex A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
+        /// <value>the decedent's birth sex</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "M");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
-        /// <para>code.Add("display", "Male");</para>
-        /// <para>ExampleDeathRecord.BirthSex = code;</para>
+        /// <para>ExampleDeathRecord.BirthSex = "F";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
         /// </example>
-        [Property("Birth Sex", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
+        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
-        public Dictionary<string, string> BirthSex
+        public string BirthSex
         {
             get
             {
-                Dictionary<string, string> birthsex = new Dictionary<string, string>();
-                birthsex.Add("code", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.code"));
-                birthsex.Add("system", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.system"));
-                birthsex.Add("display", GetFirstString("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').value.coding.display"));
-                return birthsex;
+                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                if (birthsex != null && birthsex.Value != null && birthsex.Value.GetType() == typeof(Code))
+                {
+                    return ((Code)birthsex.Value).Value;
+                }
+                return null;
             }
             set
             {
                 Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
                 Extension birthsex = new Extension();
                 birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
-                birthsex.Value = DictToCodeableConcept(value);
+                birthsex.Value = new Code(value);
                 Decedent.Extension.Add(birthsex);
             }
         }
@@ -3333,8 +3323,64 @@ namespace VRDR
             }
             set
             {
-                Decedent.Address.Clear();
-                Decedent.Address.Add(DictToAddress(value));
+                if (ResidenceWithinCityLimits == false)
+                {
+                    Decedent.Address.Clear();
+                    Decedent.Address.Add(DictToAddress(value));
+                    ResidenceWithinCityLimits = false;
+                }
+                if (ResidenceWithinCityLimits == true)
+                {
+                    Decedent.Address.Clear();
+                    Decedent.Address.Add(DictToAddress(value));
+                    ResidenceWithinCityLimits = true;
+                }
+                else
+                {
+                    Decedent.Address.Clear();
+                    Decedent.Address.Add(DictToAddress(value));
+                }
+            }
+        }
+
+        /// <summary>Decedent's residence is/is not within city limits.</summary>
+        /// <value>Decedent's residence is/is not within city limits.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>SetterDeathRecord.ResidenceWithinCityLimits = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");</para>
+        /// </example>
+        [Property("ResidenceWithinCityLimits", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
+        public bool? ResidenceWithinCityLimits
+        {
+            get
+            {
+                if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
+                {
+                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(FhirBoolean))
+                    {
+                        return ((FhirBoolean)cityLimits.Value).Value;
+                    }
+                }
+                return true;
+            }
+            set
+            {
+                if (Decedent != null)
+                {
+                    if (Decedent.Address.FirstOrDefault() == null)
+                    {
+                        Decedent.Address.Add(new Address());
+                    }
+                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    Extension birthsex = new Extension();
+                    birthsex.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
+                    birthsex.Value = new FhirBoolean(value);
+                    Decedent.Address.FirstOrDefault().Extension.Add(birthsex);
+                }
             }
         }
 
@@ -3568,7 +3614,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "S");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");</para>
         /// <para>code.Add("display", "Never Married");</para>
         /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
         /// <para>// Getter:</para>
@@ -4013,7 +4059,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
         /// <para>elevel.Add("code", "BD");</para>
-        /// <para>elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");</para>
+        /// <para>elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");</para>
         /// <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
         /// <para>ExampleDeathRecord.EducationLevel = elevel;</para>
         /// <para>// Getter:</para>
@@ -4311,7 +4357,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Text)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
         public string UsualOccupation
         {
@@ -4497,7 +4543,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
         /// <para>mserv.Add("code", "Y");</para>
-        /// <para>mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
         /// <para>mserv.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.MilitaryService = uind;</para>
         /// <para>// Getter:</para>
@@ -4939,7 +4985,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
         /// <para>dmethod.Add("code", "449971000124106");</para>
-        /// <para>dmethod.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");</para>
+        /// <para>dmethod.Add("system", "http://snomed.info/sct");</para>
         /// <para>dmethod.Add("display", "Burial");</para>
         /// <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
         /// <para>// Getter:</para>
@@ -5005,7 +5051,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "Y");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
         /// <para>// Getter:</para>
@@ -5158,7 +5204,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "Y");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.AutopsyResultsAvailable = code;</para>
         /// <para>// Getter:</para>
@@ -5438,7 +5484,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "PHC1260");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");</para>
+        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
         /// <para>ExampleDeathRecord.PregnancyStatus = code;</para>
         /// <para>// Getter:</para>
@@ -5492,7 +5538,7 @@ namespace VRDR
         /// </example>
         [Property("Examiner Contacted", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 4)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
-        public bool ExaminerContacted
+        public bool? ExaminerContacted
         {
             get
             {
@@ -5500,7 +5546,7 @@ namespace VRDR
                 {
                     return ((FhirBoolean)ExaminerContactedObs.Value).Value == true;
                 }
-                return false;
+                return null;
             }
             set
             {
@@ -5872,7 +5918,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "373066001");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");</para>
+        /// <para>code.Add("system", "http://snomed.info/sct");</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.TobaccoUse = code;</para>
         /// <para>// Getter:</para>

@@ -1073,18 +1073,10 @@
         </member>
         <member name="P:VRDR.DeathRecord.BirthSex">
             <summary>Decedent's Birth Sex.</summary>
-            <value>the decedent's birth sex A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
+            <value>the decedent's birth sex</value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "M");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");</para>
-            <para>code.Add("display", "Male");</para>
-            <para>ExampleDeathRecord.BirthSex = code;</para>
+            <para>ExampleDeathRecord.BirthSex = "F";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
             </example>
@@ -1123,6 +1115,16 @@
             <para>SetterDeathRecord.Residence = address;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ResidenceWithinCityLimits">
+            <summary>Decedent's residence is/is not within city limits.</summary>
+            <value>Decedent's residence is/is not within city limits.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>SetterDeathRecord.ResidenceWithinCityLimits = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.SSN">
@@ -1202,7 +1204,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "S");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");</para>
+            <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");</para>
             <para>code.Add("display", "Never Married");</para>
             <para>ExampleDeathRecord.MaritalStatus = code;</para>
             <para>// Getter:</para>
@@ -1313,7 +1315,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
             <para>elevel.Add("code", "BD");</para>
-            <para>elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");</para>
+            <para>elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");</para>
             <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
             <para>ExampleDeathRecord.EducationLevel = elevel;</para>
             <para>// Getter:</para>
@@ -1425,7 +1427,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
             <para>mserv.Add("code", "Y");</para>
-            <para>mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
             <para>mserv.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.MilitaryService = uind;</para>
             <para>// Getter:</para>
@@ -1562,7 +1564,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
             <para>dmethod.Add("code", "449971000124106");</para>
-            <para>dmethod.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");</para>
+            <para>dmethod.Add("system", "http://snomed.info/sct");</para>
             <para>dmethod.Add("display", "Burial");</para>
             <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
             <para>// Getter:</para>
@@ -1580,7 +1582,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "Y");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
             <para>// Getter:</para>
@@ -1618,7 +1620,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "Y");</para>
-            <para>code.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");</para>
+            <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.AutopsyResultsAvailable = code;</para>
             <para>// Getter:</para>
@@ -1701,7 +1703,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "PHC1260");</para>
-            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");</para>
             <para>code.Add("display", "Not pregnant within past year");</para>
             <para>ExampleDeathRecord.PregnancyStatus = code;</para>
             <para>// Getter:</para>
@@ -1824,7 +1826,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "373066001");</para>
-            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");</para>
+            <para>code.Add("system", "http://snomed.info/sct");</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.TobaccoUse = code;</para>
             <para>// Getter:</para>

@@ -759,7 +759,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/v3/EducationLevel",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
               "code": "BD",
               "display": "College or baccalaureate degree complete"
             }
@@ -868,7 +868,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://hl7.org/fhir/ValueSet/v2-0532",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                   "code": "Y",
                   "display": "Yes"
                 }
@@ -951,7 +951,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/ValueSet/v2-0532",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
               "code": "Y",
               "display": "Yes"
             }
@@ -971,7 +971,7 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "system": "http://hl7.org/fhir/ValueSet/v2-0532",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                   "code": "Y",
                   "display": "Yes"
                 }
@@ -1130,7 +1130,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/ValueSet/v2-0532",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
               "code": "Y",
               "display": "Yes"
             }

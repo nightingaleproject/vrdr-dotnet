@@ -247,7 +247,7 @@
         </address>
         <maritalStatus>
           <coding>
-            <system value="http://hl7.org/fhir/v3/MaritalStatus" />
+            <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus" />
             <code value="S" />
             <display value="Never Married" />
           </coding>
@@ -729,7 +729,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/v3/EducationLevel" />
+            <system value="http://terminology.hl7.org/CodeSystem/v3-EducationLevel" />
             <code value="BD" />
             <display value="College or baccalaureate degree complete" />
           </coding>
@@ -819,7 +819,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -886,7 +886,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -901,7 +901,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -1038,7 +1038,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/ValueSet/v2-0532" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>

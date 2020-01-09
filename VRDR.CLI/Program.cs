@@ -165,11 +165,7 @@ namespace VRDR.CLI
                 deathRecord.Gender = "male";
 
                 // BirthSex
-                Dictionary<string, string> bscode = new Dictionary<string, string>();
-                bscode.Add("code", "M");
-                bscode.Add("system", "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex");
-                bscode.Add("display", "Male");
-                deathRecord.BirthSex = bscode;
+                deathRecord.BirthSex = "F";
 
                 // DateOfBirth
                 deathRecord.DateOfBirth = "1940-02-19";
@@ -184,6 +180,9 @@ namespace VRDR.CLI
                 raddress.Add("addressZip", "01730");
                 raddress.Add("addressCountry", "United States");
                 deathRecord.Residence = raddress;
+
+                // ResidenceWithinCityLimits
+                deathRecord.ResidenceWithinCityLimits = false;
 
                 // SSN
                 deathRecord.SSN = "123456789";
@@ -210,7 +209,7 @@ namespace VRDR.CLI
                 // MaritalStatus
                 Dictionary<string, string> mscode = new Dictionary<string, string>();
                 mscode.Add("code", "S");
-                mscode.Add("system", "http://hl7.org/fhir/v3/MaritalStatus");
+                mscode.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                 mscode.Add("display", "Never Married");
                 deathRecord.MaritalStatus = mscode;
 
@@ -247,7 +246,7 @@ namespace VRDR.CLI
                 // EducationLevel
                 Dictionary<string, string> elevel = new Dictionary<string, string>();
                 elevel.Add("code", "BD");
-                elevel.Add("system", "http://hl7.org/fhir/v3/EducationLevel");
+                elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
                 elevel.Add("display", "College or baccalaureate degree complete");
                 deathRecord.EducationLevel = elevel;
 
@@ -265,23 +264,15 @@ namespace VRDR.CLI
                 deathRecord.BirthRecordYear = "1940";
 
                 // UsualOccupation
-                Dictionary<string, string> uocc = new Dictionary<string, string>();
-                uocc.Add("code", "1340");
-                uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
-                uocc.Add("display", "Biomedical engineers");
-                deathRecord.UsualOccupationCode = uocc;
+                deathRecord.UsualOccupation = "secretary";
 
                 // UsualIndustry
-                Dictionary<string, string> uind = new Dictionary<string, string>();
-                uind.Add("code", "7280");
-                uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");
-                uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");
-                deathRecord.UsualIndustryCode = uind;
+                deathRecord.UsualIndustry = "State agency";
 
                 // MilitaryService
                 Dictionary<string, string> mserv = new Dictionary<string, string>();
                 mserv.Add("code", "Y");
-                mserv.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
@@ -329,21 +320,21 @@ namespace VRDR.CLI
                 // DecedentDispositionMethod
                 Dictionary<string, string> ddm = new Dictionary<string, string>();
                 ddm.Add("code", "449971000124106");
-                ddm.Add("system", "urn:oid:2.16.840.1.114222.4.11.7379");
+                ddm.Add("system", "http://snomed.info/sct");
                 ddm.Add("display", "Burial");
                 deathRecord.DecedentDispositionMethod = ddm;
 
                 // AutopsyPerformedIndicator
                 Dictionary<string, string> api = new Dictionary<string, string>();
                 api.Add("code", "Y");
-                api.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                api.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 api.Add("display", "Yes");
                 deathRecord.AutopsyPerformedIndicator = api;
 
                 // AutopsyResultsAvailable
                 Dictionary<string, string> ara = new Dictionary<string, string>();
                 ara.Add("code", "Y");
-                ara.Add("system", "http://hl7.org/fhir/ValueSet/v2-0532");
+                ara.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 ara.Add("display", "Yes");
                 deathRecord.AutopsyResultsAvailable = ara;
 
@@ -356,7 +347,7 @@ namespace VRDR.CLI
                 // PregnancyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "NA");
-                ps.Add("system", "urn:oid:2.16.840.1.114222.4.11.6003");
+                ps.Add("system", "http://hl7.org/fhir/v3/NullFlavor");
                 ps.Add("display", "not applicable");
                 deathRecord.PregnancyStatus = ps;
 
@@ -373,7 +364,7 @@ namespace VRDR.CLI
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();
                 tbu.Add("code", "373066001");
-                tbu.Add("system", "urn:oid:2.16.840.1.114222.4.11.6004");
+                tbu.Add("system", "http://snomed.info/sct");
                 tbu.Add("display", "Yes");
                 deathRecord.TobaccoUse = tbu;
 
@@ -427,8 +418,8 @@ namespace VRDR.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
+                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")

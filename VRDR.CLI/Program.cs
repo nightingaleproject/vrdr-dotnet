@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Reflection;
+using System.Net.Http;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.ElementModel;
@@ -620,7 +622,24 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
+            else if (args.Length == 3 && args[0] == "sendMessage")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordSubmission submission = new DeathRecordSubmission();
+                submission.MessageTimestamp = DateTime.Now;
+                submission.MessageId = "adam1";
+                submission.MessagePayload = record.GetBundle();
+                StringContent stringContent = new StringContent(submission.ToJSON(), Encoding.UTF8, "application/fhir+json");
+                CallEndpoint(args[2], stringContent).Wait();
+            }
             return 0;
+        }
+
+        private static async System.Threading.Tasks.Task CallEndpoint(string endpoint, StringContent content)
+        {
+            var response = await new HttpClient().PostAsync(endpoint, content);
+            var responseString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response: " + responseString);
         }
 
         private static string Truncate(string value, int length)

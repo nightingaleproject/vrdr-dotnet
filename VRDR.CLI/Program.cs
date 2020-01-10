@@ -625,12 +625,19 @@ namespace VRDR.CLI
             else if (args.Length == 3 && args[0] == "sendMessage")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecordSubmission submission = new DeathRecordSubmission();
-                submission.MessageTimestamp = DateTime.Now;
-                submission.MessageId = "adam1";
-                submission.MessagePayload = record.GetBundle();
-                StringContent stringContent = new StringContent(submission.ToJSON(), Encoding.UTF8, "application/fhir+json");
-                CallEndpoint(args[2], stringContent).Wait();
+
+                for (int i = 0; i < 1000; i++)
+                {
+                    DeathRecordSubmission submission = new DeathRecordSubmission();
+                    submission.MessageTimestamp = DateTime.Now;
+                    submission.MessageId = "adam-" + Convert.ToString(i) + "-" + Guid.NewGuid();
+                    submission.MessagePayload = record.GetBundle();
+                    StringContent stringContent = new StringContent(submission.ToJSON(), Encoding.UTF8, "application/fhir+json");
+                    CallEndpoint(args[2], stringContent);
+                    Console.WriteLine("Sending " + Convert.ToString(i));
+                }
+
+                System.Threading.Thread.Sleep(10000);
             }
             return 0;
         }
@@ -639,7 +646,6 @@ namespace VRDR.CLI
         {
             var response = await new HttpClient().PostAsync(endpoint, content);
             var responseString = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response: " + responseString);
         }
 
         private static string Truncate(string value, int length)

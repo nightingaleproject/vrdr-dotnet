@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>VRDR</RootNamespace>
+    <DocumentationFile>VRDRMessaging.xml</DocumentationFile>
+    <!-- <DocumentationFile>VRDRMessaging.md</DocumentationFile> -->
+    <PackageId>VRDR.Messaging</PackageId>
+    <Version>0.1.0</Version>
+    <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
+    <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
+    <Title>FHIR VRDR Death Record Messaging</Title>
+    <PackageDescription>A library for supporting FHIR messaging for VRDR FHIR death records.</PackageDescription>
+    <Authors>aholmes@mitre.org</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.STU3" Version="1.4.0" />
+    <!-- <PackageReference Include="Vsxmd" Version="1.4.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference> -->
+  </ItemGroup>
+</Project>

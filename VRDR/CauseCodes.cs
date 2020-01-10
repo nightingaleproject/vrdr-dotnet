@@ -83,6 +83,9 @@ namespace VRDR
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, CauseOfDeathConditionPathway.Id);
 
             CauseOfDeathConditions = new List<Condition>();
+
+            // Create a Navigator for this.
+            Navigator = Bundle.ToTypedElement();
         }
 
         /// <summary>Constructor that takes a string that represents a CauseCodes record in either XML or JSON format.</summary>

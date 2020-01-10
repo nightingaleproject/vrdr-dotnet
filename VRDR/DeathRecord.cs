@@ -351,6 +351,15 @@ namespace VRDR
             }
         }
 
+        /// <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
+        /// <param name="bundle">represents a FHIR Bundle.</param>
+        /// <exception cref="ArgumentException">Record is invalid.</exception>
+        public DeathRecord(Bundle bundle)
+        {
+            Bundle = bundle;
+            RestoreReferences();
+        }
+
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
         /// <returns>a string representation of this Death Record in XML format</returns>
         public string ToXML()
@@ -386,6 +395,12 @@ namespace VRDR
             return Navigator;
         }
 
+        /// <summary>Helper method to return a the bundle.</summary>
+        /// <returns>a FHIR Bundle</returns>
+        public Bundle GetBundle()
+        {
+            return Bundle;
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //

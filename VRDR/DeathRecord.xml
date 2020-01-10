@@ -324,6 +324,11 @@
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Record is neither valid XML nor JSON.</exception>
         </member>
+        <member name="M:VRDR.DeathRecord.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
+            <param name="bundle">represents a FHIR Bundle.</param>
+            <exception cref="T:System.ArgumentException">Record is invalid.</exception>
+        </member>
         <member name="M:VRDR.DeathRecord.ToXML">
             <summary>Helper method to return a XML string representation of this Death Record.</summary>
             <returns>a string representation of this Death Record in XML format</returns>
@@ -343,6 +348,10 @@
         <member name="M:VRDR.DeathRecord.GetITypedElement">
             <summary>Helper method to return an ITypedElement of the record bundle.</summary>
             <returns>an ITypedElement of the record bundle</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.GetBundle">
+            <summary>Helper method to return a the bundle.</summary>
+            <returns>a FHIR Bundle</returns>
         </member>
         <member name="P:VRDR.DeathRecord.Identifier">
             <summary>Death Record Identifier, Death Certificate Number.</summary>

@@ -36,9 +36,9 @@ namespace VRDR.CLI
 
                 // CertificationRole
                 Dictionary<string, string> certificationRole = new Dictionary<string, string>();
-                certificationRole.Add("code", "76899008");
+                certificationRole.Add("code", "434641000124105");
                 certificationRole.Add("system", "http://snomed.info/sct");
-                certificationRole.Add("display", "Infectious diseases physician");
+                certificationRole.Add("display", "Physician");
                 deathRecord.CertificationRole = certificationRole;
 
                 // InterestedPartyIdentifier
@@ -418,8 +418,8 @@ namespace VRDR.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
-                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
+                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")

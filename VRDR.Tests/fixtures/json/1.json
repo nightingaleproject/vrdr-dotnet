@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "36e8a307-e9ae-4db3-a15d-e981f0fe133a",
+  "id": "0a826a12-7f4a-46e7-a858-c514474aa36f",
   "meta": {
     "profile": [
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
@@ -12,10 +12,10 @@
   "type": "document",
   "entry": [
     {
-      "fullUrl": "urn:uuid:b8401e41-5cc3-4282-a784-20fa0a065565",
+      "fullUrl": "urn:uuid:551ec3c1-21ff-4a9e-8f82-8aff3530e5ca",
       "resource": {
         "resourceType": "Composition",
-        "id": "b8401e41-5cc3-4282-a784-20fa0a065565",
+        "id": "551ec3c1-21ff-4a9e-8f82-8aff3530e5ca",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
@@ -35,7 +35,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "date": "2019-02-01T16:47:04-05:00",
         "attester": [
@@ -45,7 +45,7 @@
             ],
             "time": "2019-01-29T16:48:06-05:00",
             "party": {
-              "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+              "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
             }
           }
         ],
@@ -64,7 +64,7 @@
             ],
             "detail": [
               {
-                "reference": "urn:uuid:9e12f32f-d04d-4412-b1d4-f7ee0a55ebe6"
+                "reference": "urn:uuid:15482676-aeaf-4759-9886-fd366a50483c"
               }
             ]
           }
@@ -73,97 +73,97 @@
           {
             "entry": [
               {
-                "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+                "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
               },
               {
-                "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+                "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
               },
               {
-                "reference": "urn:uuid:5151e559-e670-428c-828e-cf6052cb78f4"
+                "reference": "urn:uuid:53b059d3-32bc-4d6c-87d3-da99fa94127f"
               },
               {
-                "reference": "urn:uuid:9e12f32f-d04d-4412-b1d4-f7ee0a55ebe6"
+                "reference": "urn:uuid:15482676-aeaf-4759-9886-fd366a50483c"
               },
               {
-                "reference": "urn:uuid:089367a5-686d-483e-b963-f33b5af20fd5"
+                "reference": "urn:uuid:7b5c0ab6-3be8-4905-9023-d09cc47c4633"
               },
               {
-                "reference": "urn:uuid:daf8a13d-c747-4fb0-badf-5c901d3577ed"
+                "reference": "urn:uuid:15faf256-9148-49bc-ad64-f778e92dab67"
               },
               {
-                "reference": "urn:uuid:860536bb-8b35-46ca-80d8-1861c0c3bbeb"
+                "reference": "urn:uuid:45d9483e-6a06-4b41-a8e2-f3d65c125ea4"
               },
               {
-                "reference": "urn:uuid:a083e5c2-8b04-4bb9-abf9-b3ea1f204f7d"
+                "reference": "urn:uuid:bdda79ac-01a9-4574-acc2-8588ac5b433c"
               },
               {
-                "reference": "urn:uuid:b7dcdf8d-82b7-4555-afc7-ea3f9c91d763"
+                "reference": "urn:uuid:d5fa7626-3ad4-45c1-b27e-26471e0c6c48"
               },
               {
-                "reference": "urn:uuid:ea67fb1e-a736-4d61-9a78-e95615412a70"
+                "reference": "urn:uuid:4394ba73-a89a-4fb3-a513-370cce989688"
               },
               {
-                "reference": "urn:uuid:aee192b3-8e19-4424-b222-e481ae6c3bea"
+                "reference": "urn:uuid:34b3ab47-cb54-42da-b4cd-70ffdd342f75"
               },
               {
-                "reference": "urn:uuid:84adf9f0-a94a-4ece-a1a6-0a255dece6b0"
+                "reference": "urn:uuid:476e2117-658a-4cbf-be30-22411f5c1cc4"
               },
               {
-                "reference": "urn:uuid:52b31be1-7c5b-4b1b-a9ae-a873a1002924"
+                "reference": "urn:uuid:ce9c7d9a-45c6-42bd-84e0-03ba2c02993d"
               },
               {
-                "reference": "urn:uuid:d889d720-500f-45e7-8438-7a5978d717ba"
+                "reference": "urn:uuid:873b05d9-b639-47de-9c4a-a27d25a6ab55"
               },
               {
-                "reference": "urn:uuid:4c19e43d-2284-43a6-aaad-d1a0efeb8c4e"
+                "reference": "urn:uuid:c4b9776d-ba9b-4271-817d-2f8b32521413"
               },
               {
-                "reference": "urn:uuid:ca011c83-28b4-465e-8cc9-3813ab0647f6"
+                "reference": "urn:uuid:6cf1c36f-42dd-41e7-a704-de76b5eb3608"
               },
               {
-                "reference": "urn:uuid:f82d0f55-7c51-41b3-99e1-dd4995af02f5"
+                "reference": "urn:uuid:60754f73-f634-420b-a8fb-f42844ba5913"
               },
               {
-                "reference": "urn:uuid:339c8115-1314-4a72-ac52-e4beb4e3158f"
+                "reference": "urn:uuid:c4c6de03-b741-4444-8035-37410292ff09"
               },
               {
-                "reference": "urn:uuid:64f184d3-0716-4006-98ce-12c687326e67"
+                "reference": "urn:uuid:f65315b3-389f-4808-87a5-adfe99e9572f"
               },
               {
-                "reference": "urn:uuid:07250ce4-f55e-460a-8be4-3ec1400bd0c4"
+                "reference": "urn:uuid:0246ce25-212e-47a7-89f2-7bb664764b01"
               },
               {
-                "reference": "urn:uuid:b2c85d3f-99a1-4c88-880f-17d79f599f79"
+                "reference": "urn:uuid:e2f8226e-45e0-4357-ac3f-172407f7ac00"
               },
               {
-                "reference": "urn:uuid:a2b355be-b9ad-411d-afc0-8ff60d5ddf67"
+                "reference": "urn:uuid:27bb23b5-aff7-412e-89c5-5eb23b1ae77a"
               },
               {
-                "reference": "urn:uuid:eee6da44-3e6a-4bff-bcc0-0fbbc4581473"
+                "reference": "urn:uuid:536c7e9c-c356-4bba-a862-0d9323b8b454"
               },
               {
-                "reference": "urn:uuid:82267fb4-7cc6-4a3f-8df9-b51e5aea055c"
+                "reference": "urn:uuid:87681e0d-acbd-4af1-a8b4-5c714abb312c"
               },
               {
-                "reference": "urn:uuid:552ee335-0995-4811-b556-656cd5d8fa28"
+                "reference": "urn:uuid:9cff54f3-2b96-4c49-9d2c-c56773340f9a"
               },
               {
-                "reference": "urn:uuid:8acd9e36-f445-47d4-b7d0-a4d4e5a81c7e"
+                "reference": "urn:uuid:80cf2413-61ce-4193-a3cb-2f47efbe5ab9"
               },
               {
-                "reference": "urn:uuid:64b1f941-2a78-4360-a646-b0e80755d85a"
+                "reference": "urn:uuid:9874bbb1-d721-42fd-97f1-6c051821fedf"
               },
               {
-                "reference": "urn:uuid:bd41897a-84f2-4668-af9f-f5fecc1731c4"
+                "reference": "urn:uuid:80168ef7-46f1-40d3-a538-3c1818e66866"
               },
               {
-                "reference": "urn:uuid:2b398fc5-6e96-460b-8a74-1e70c79d950b"
+                "reference": "urn:uuid:4cd8952d-a908-4bfd-88a1-5303dd79dade"
               },
               {
-                "reference": "urn:uuid:d80047de-18c4-4c60-9a4e-e54eb46ebbca"
+                "reference": "urn:uuid:d7309d8f-b8e7-4226-86d3-6716fd0864c7"
               },
               {
-                "reference": "urn:uuid:64750197-a6ca-42e6-8cda-a4dedd2fb0ce"
+                "reference": "urn:uuid:994732de-9de9-4c76-a8c4-5fc3c35641bf"
               }
             ]
           }
@@ -171,10 +171,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016",
+      "fullUrl": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc",
       "resource": {
         "resourceType": "Patient",
-        "id": "8bced0da-8ca3-4d4a-8fea-bcba5d4f5016",
+        "id": "26092528-bb61-4990-a505-08e3d10b68dc",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"
@@ -330,10 +330,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951",
+      "fullUrl": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "4a3d68ac-273c-476d-8d7f-5e0a1d436951",
+        "id": "5b021086-1981-4bbb-8278-9ff16ae7a6a6",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
@@ -386,10 +386,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:5151e559-e670-428c-828e-cf6052cb78f4",
+      "fullUrl": "urn:uuid:53b059d3-32bc-4d6c-87d3-da99fa94127f",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "5151e559-e670-428c-828e-cf6052cb78f4",
+        "id": "53b059d3-32bc-4d6c-87d3-da99fa94127f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
@@ -420,10 +420,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9e12f32f-d04d-4412-b1d4-f7ee0a55ebe6",
+      "fullUrl": "urn:uuid:15482676-aeaf-4759-9886-fd366a50483c",
       "resource": {
         "resourceType": "Procedure",
-        "id": "9e12f32f-d04d-4412-b1d4-f7ee0a55ebe6",
+        "id": "15482676-aeaf-4759-9886-fd366a50483c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
@@ -455,23 +455,23 @@
               "coding": [
                 {
                   "system": "http://snomed.info/sct",
-                  "code": "76899008",
-                  "display": "Infectious diseases physician"
+                  "code": "434641000124105",
+                  "display": "Physician"
                 }
               ]
             },
             "actor": {
-              "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+              "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
             }
           }
         ]
       }
     },
     {
-      "fullUrl": "urn:uuid:089367a5-686d-483e-b963-f33b5af20fd5",
+      "fullUrl": "urn:uuid:7b5c0ab6-3be8-4905-9023-d09cc47c4633",
       "resource": {
         "resourceType": "Organization",
-        "id": "089367a5-686d-483e-b963-f33b5af20fd5",
+        "id": "7b5c0ab6-3be8-4905-9023-d09cc47c4633",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party"
@@ -511,10 +511,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:daf8a13d-c747-4fb0-badf-5c901d3577ed",
+      "fullUrl": "urn:uuid:15faf256-9148-49bc-ad64-f778e92dab67",
       "resource": {
         "resourceType": "Organization",
-        "id": "daf8a13d-c747-4fb0-badf-5c901d3577ed",
+        "id": "15faf256-9148-49bc-ad64-f778e92dab67",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
@@ -547,28 +547,28 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:860536bb-8b35-46ca-80d8-1861c0c3bbeb",
+      "fullUrl": "urn:uuid:45d9483e-6a06-4b41-a8e2-f3d65c125ea4",
       "resource": {
         "resourceType": "PractitionerRole",
-        "id": "860536bb-8b35-46ca-80d8-1861c0c3bbeb",
+        "id": "45d9483e-6a06-4b41-a8e2-f3d65c125ea4",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee"
           ]
         },
         "practitioner": {
-          "reference": "urn:uuid:5151e559-e670-428c-828e-cf6052cb78f4"
+          "reference": "urn:uuid:53b059d3-32bc-4d6c-87d3-da99fa94127f"
         },
         "organization": {
-          "reference": "urn:uuid:daf8a13d-c747-4fb0-badf-5c901d3577ed"
+          "reference": "urn:uuid:15faf256-9148-49bc-ad64-f778e92dab67"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:a083e5c2-8b04-4bb9-abf9-b3ea1f204f7d",
+      "fullUrl": "urn:uuid:bdda79ac-01a9-4574-acc2-8588ac5b433c",
       "resource": {
         "resourceType": "List",
-        "id": "a083e5c2-8b04-4bb9-abf9-b3ea1f204f7d",
+        "id": "bdda79ac-01a9-4574-acc2-8588ac5b433c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
@@ -577,7 +577,7 @@
         "status": "current",
         "mode": "snapshot",
         "source": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         },
         "orderedBy": {
           "coding": [
@@ -589,32 +589,32 @@
         "entry": [
           {
             "item": {
-              "reference": "urn:uuid:84adf9f0-a94a-4ece-a1a6-0a255dece6b0"
+              "reference": "urn:uuid:476e2117-658a-4cbf-be30-22411f5c1cc4"
             }
           },
           {
             "item": {
-              "reference": "urn:uuid:52b31be1-7c5b-4b1b-a9ae-a873a1002924"
+              "reference": "urn:uuid:ce9c7d9a-45c6-42bd-84e0-03ba2c02993d"
             }
           },
           {
             "item": {
-              "reference": "urn:uuid:d889d720-500f-45e7-8438-7a5978d717ba"
+              "reference": "urn:uuid:873b05d9-b639-47de-9c4a-a27d25a6ab55"
             }
           },
           {
             "item": {
-              "reference": "urn:uuid:4c19e43d-2284-43a6-aaad-d1a0efeb8c4e"
+              "reference": "urn:uuid:c4b9776d-ba9b-4271-817d-2f8b32521413"
             }
           }
         ]
       }
     },
     {
-      "fullUrl": "b7dcdf8d-82b7-4555-afc7-ea3f9c91d763",
+      "fullUrl": "d5fa7626-3ad4-45c1-b27e-26471e0c6c48",
       "resource": {
         "resourceType": "Location",
-        "id": "b7dcdf8d-82b7-4555-afc7-ea3f9c91d763",
+        "id": "d5fa7626-3ad4-45c1-b27e-26471e0c6c48",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
@@ -635,10 +635,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ea67fb1e-a736-4d61-9a78-e95615412a70",
+      "fullUrl": "urn:uuid:4394ba73-a89a-4fb3-a513-370cce989688",
       "resource": {
         "resourceType": "Observation",
-        "id": "ea67fb1e-a736-4d61-9a78-e95615412a70",
+        "id": "4394ba73-a89a-4fb3-a513-370cce989688",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
@@ -655,11 +655,11 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "performer": [
           {
-            "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+            "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
           }
         ],
         "valueCodeableConcept": {
@@ -673,10 +673,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:aee192b3-8e19-4424-b222-e481ae6c3bea",
+      "fullUrl": "urn:uuid:34b3ab47-cb54-42da-b4cd-70ffdd342f75",
       "resource": {
         "resourceType": "Condition",
-        "id": "aee192b3-8e19-4424-b222-e481ae6c3bea",
+        "id": "34b3ab47-cb54-42da-b4cd-70ffdd342f75",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"
@@ -686,18 +686,18 @@
           "text": "Example Contributing Conditions"
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "asserter": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:84adf9f0-a94a-4ece-a1a6-0a255dece6b0",
+      "fullUrl": "urn:uuid:476e2117-658a-4cbf-be30-22411f5c1cc4",
       "resource": {
         "resourceType": "Condition",
-        "id": "84adf9f0-a94a-4ece-a1a6-0a255dece6b0",
+        "id": "476e2117-658a-4cbf-be30-22411f5c1cc4",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
@@ -714,19 +714,19 @@
           "text": "Rupture of myocardium"
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "onsetString": "minutes",
         "asserter": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:52b31be1-7c5b-4b1b-a9ae-a873a1002924",
+      "fullUrl": "urn:uuid:ce9c7d9a-45c6-42bd-84e0-03ba2c02993d",
       "resource": {
         "resourceType": "Condition",
-        "id": "52b31be1-7c5b-4b1b-a9ae-a873a1002924",
+        "id": "ce9c7d9a-45c6-42bd-84e0-03ba2c02993d",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
@@ -743,19 +743,19 @@
           "text": "Acute myocardial infarction"
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "onsetString": "6 days",
         "asserter": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:d889d720-500f-45e7-8438-7a5978d717ba",
+      "fullUrl": "urn:uuid:873b05d9-b639-47de-9c4a-a27d25a6ab55",
       "resource": {
         "resourceType": "Condition",
-        "id": "d889d720-500f-45e7-8438-7a5978d717ba",
+        "id": "873b05d9-b639-47de-9c4a-a27d25a6ab55",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
@@ -765,19 +765,19 @@
           "text": "Coronary artery thrombosis"
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "onsetString": "5 years",
         "asserter": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:4c19e43d-2284-43a6-aaad-d1a0efeb8c4e",
+      "fullUrl": "urn:uuid:c4b9776d-ba9b-4271-817d-2f8b32521413",
       "resource": {
         "resourceType": "Condition",
-        "id": "4c19e43d-2284-43a6-aaad-d1a0efeb8c4e",
+        "id": "c4b9776d-ba9b-4271-817d-2f8b32521413",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
@@ -787,26 +787,26 @@
           "text": "Atherosclerotic coronary artery disease"
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "onsetString": "7 years",
         "asserter": {
-          "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+          "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:ca011c83-28b4-465e-8cc9-3813ab0647f6",
+      "fullUrl": "urn:uuid:6cf1c36f-42dd-41e7-a704-de76b5eb3608",
       "resource": {
         "resourceType": "RelatedPerson",
-        "id": "ca011c83-28b4-465e-8cc9-3813ab0647f6",
+        "id": "6cf1c36f-42dd-41e7-a704-de76b5eb3608",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
           ]
         },
         "patient": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "relationship": {
           "coding": [
@@ -830,17 +830,17 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f82d0f55-7c51-41b3-99e1-dd4995af02f5",
+      "fullUrl": "urn:uuid:60754f73-f634-420b-a8fb-f42844ba5913",
       "resource": {
         "resourceType": "RelatedPerson",
-        "id": "f82d0f55-7c51-41b3-99e1-dd4995af02f5",
+        "id": "60754f73-f634-420b-a8fb-f42844ba5913",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
           ]
         },
         "patient": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "relationship": {
           "coding": [
@@ -864,17 +864,17 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:339c8115-1314-4a72-ac52-e4beb4e3158f",
+      "fullUrl": "urn:uuid:c4c6de03-b741-4444-8035-37410292ff09",
       "resource": {
         "resourceType": "RelatedPerson",
-        "id": "339c8115-1314-4a72-ac52-e4beb4e3158f",
+        "id": "c4c6de03-b741-4444-8035-37410292ff09",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"
           ]
         },
         "patient": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "relationship": {
           "coding": [
@@ -898,10 +898,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:64f184d3-0716-4006-98ce-12c687326e67",
+      "fullUrl": "urn:uuid:f65315b3-389f-4808-87a5-adfe99e9572f",
       "resource": {
         "resourceType": "Observation",
-        "id": "64f184d3-0716-4006-98ce-12c687326e67",
+        "id": "f65315b3-389f-4808-87a5-adfe99e9572f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level"
@@ -918,7 +918,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -932,10 +932,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:07250ce4-f55e-460a-8be4-3ec1400bd0c4",
+      "fullUrl": "urn:uuid:0246ce25-212e-47a7-89f2-7bb664764b01",
       "resource": {
         "resourceType": "Observation",
-        "id": "07250ce4-f55e-460a-8be4-3ec1400bd0c4",
+        "id": "0246ce25-212e-47a7-89f2-7bb664764b01",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier"
@@ -950,7 +950,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueString": "4242123",
         "component": [
@@ -990,10 +990,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:b2c85d3f-99a1-4c88-880f-17d79f599f79",
+      "fullUrl": "urn:uuid:e2f8226e-45e0-4357-ac3f-172407f7ac00",
       "resource": {
         "resourceType": "Observation",
-        "id": "b2c85d3f-99a1-4c88-880f-17d79f599f79",
+        "id": "e2f8226e-45e0-4357-ac3f-172407f7ac00",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"
@@ -1010,7 +1010,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "component": [
           {
@@ -1061,10 +1061,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a2b355be-b9ad-411d-afc0-8ff60d5ddf67",
+      "fullUrl": "urn:uuid:27bb23b5-aff7-412e-89c5-5eb23b1ae77a",
       "resource": {
         "resourceType": "Observation",
-        "id": "a2b355be-b9ad-411d-afc0-8ff60d5ddf67",
+        "id": "27bb23b5-aff7-412e-89c5-5eb23b1ae77a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
@@ -1074,7 +1074,7 @@
           {
             "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
             "valueReference": {
-              "reference": "urn:uuid:b7dcdf8d-82b7-4555-afc7-ea3f9c91d763"
+              "reference": "urn:uuid:d5fa7626-3ad4-45c1-b27e-26471e0c6c48"
             }
           }
         ],
@@ -1089,11 +1089,11 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "performer": [
           {
-            "reference": "urn:uuid:5151e559-e670-428c-828e-cf6052cb78f4"
+            "reference": "urn:uuid:53b059d3-32bc-4d6c-87d3-da99fa94127f"
           }
         ],
         "valueCodeableConcept": {
@@ -1108,10 +1108,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:eee6da44-3e6a-4bff-bcc0-0fbbc4581473",
+      "fullUrl": "urn:uuid:536c7e9c-c356-4bba-a862-0d9323b8b454",
       "resource": {
         "resourceType": "Observation",
-        "id": "eee6da44-3e6a-4bff-bcc0-0fbbc4581473",
+        "id": "536c7e9c-c356-4bba-a862-0d9323b8b454",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
@@ -1128,7 +1128,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -1164,10 +1164,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:82267fb4-7cc6-4a3f-8df9-b51e5aea055c",
+      "fullUrl": "urn:uuid:87681e0d-acbd-4af1-a8b4-5c714abb312c",
       "resource": {
         "resourceType": "Observation",
-        "id": "82267fb4-7cc6-4a3f-8df9-b51e5aea055c",
+        "id": "87681e0d-acbd-4af1-a8b4-5c714abb312c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
@@ -1184,7 +1184,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueQuantity": {
           "value": 79,
@@ -1193,10 +1193,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:552ee335-0995-4811-b556-656cd5d8fa28",
+      "fullUrl": "urn:uuid:9cff54f3-2b96-4c49-9d2c-c56773340f9a",
       "resource": {
         "resourceType": "Observation",
-        "id": "552ee335-0995-4811-b556-656cd5d8fa28",
+        "id": "9cff54f3-2b96-4c49-9d2c-c56773340f9a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"
@@ -1213,7 +1213,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -1227,10 +1227,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:8acd9e36-f445-47d4-b7d0-a4d4e5a81c7e",
+      "fullUrl": "urn:uuid:80cf2413-61ce-4193-a3cb-2f47efbe5ab9",
       "resource": {
         "resourceType": "Observation",
-        "id": "8acd9e36-f445-47d4-b7d0-a4d4e5a81c7e",
+        "id": "80cf2413-61ce-4193-a3cb-2f47efbe5ab9",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"
@@ -1247,7 +1247,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "effectiveDateTime": "2018-02-19T16:48:06-05:00",
         "component": [
@@ -1295,10 +1295,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:64b1f941-2a78-4360-a646-b0e80755d85a",
+      "fullUrl": "urn:uuid:9874bbb1-d721-42fd-97f1-6c051821fedf",
       "resource": {
         "resourceType": "Observation",
-        "id": "64b1f941-2a78-4360-a646-b0e80755d85a",
+        "id": "9874bbb1-d721-42fd-97f1-6c051821fedf",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted"
@@ -1315,16 +1315,16 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueBoolean": false
       }
     },
     {
-      "fullUrl": "urn:uuid:bd41897a-84f2-4668-af9f-f5fecc1731c4",
+      "fullUrl": "urn:uuid:80168ef7-46f1-40d3-a538-3c1818e66866",
       "resource": {
         "resourceType": "Observation",
-        "id": "bd41897a-84f2-4668-af9f-f5fecc1731c4",
+        "id": "80168ef7-46f1-40d3-a538-3c1818e66866",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
@@ -1341,7 +1341,7 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -1355,10 +1355,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:2b398fc5-6e96-460b-8a74-1e70c79d950b",
+      "fullUrl": "urn:uuid:4cd8952d-a908-4bfd-88a1-5303dd79dade",
       "resource": {
         "resourceType": "Location",
-        "id": "2b398fc5-6e96-460b-8a74-1e70c79d950b",
+        "id": "4cd8952d-a908-4bfd-88a1-5303dd79dade",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
@@ -1380,10 +1380,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d80047de-18c4-4c60-9a4e-e54eb46ebbca",
+      "fullUrl": "urn:uuid:d7309d8f-b8e7-4226-86d3-6716fd0864c7",
       "resource": {
         "resourceType": "Location",
-        "id": "d80047de-18c4-4c60-9a4e-e54eb46ebbca",
+        "id": "d7309d8f-b8e7-4226-86d3-6716fd0864c7",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
@@ -1405,10 +1405,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:64750197-a6ca-42e6-8cda-a4dedd2fb0ce",
+      "fullUrl": "urn:uuid:994732de-9de9-4c76-a8c4-5fc3c35641bf",
       "resource": {
         "resourceType": "Observation",
-        "id": "64750197-a6ca-42e6-8cda-a4dedd2fb0ce",
+        "id": "994732de-9de9-4c76-a8c4-5fc3c35641bf",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
@@ -1425,12 +1425,12 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:8bced0da-8ca3-4d4a-8fea-bcba5d4f5016"
+          "reference": "urn:uuid:26092528-bb61-4990-a505-08e3d10b68dc"
         },
         "effectiveDateTime": "2018-02-19T16:48:06-05:00",
         "performer": [
           {
-            "reference": "urn:uuid:4a3d68ac-273c-476d-8d7f-5e0a1d436951"
+            "reference": "urn:uuid:5b021086-1981-4bbb-8278-9ff16ae7a6a6"
           }
         ],
         "component": [

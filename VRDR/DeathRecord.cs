@@ -426,7 +426,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "Auxiliary State File Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 1)]
+        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "Auxiliary State File Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 100)]
         [FHIRPath("Bundle", "identifier")]
         public string BundleIdentifier
         {
@@ -454,7 +454,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
         /// </example>
-        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", false, 2)]
+        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", false, 46)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).attester", "time")]
         public string CertifiedTime
         {
@@ -503,7 +503,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");</para>
         /// </example>
-        [Property("Registered Time", Property.Types.StringDateTime, "Death Certification", "Registered time.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 2)]
+        [Property("Registered Date/Time", Property.Types.StringDateTime, "Death Certification", "Date/Time of record registration.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "date")]
         public string RegisteredTime
         {
@@ -533,7 +533,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", false, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", false, 3)]
+        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", true, 40)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -592,7 +592,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interested Party identification: {ExampleDeathRecord.InterestedPartyIdentifier}");</para>
         /// </example>
-        [Property("Interested Party Identifier", Property.Types.String, "Death Certification", "Interested Party Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
+        [Property("Interested Party Identifier", Property.Types.String, "Death Certification", "Interested Party Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
         public string InterestedPartyIdentifier
         {
@@ -638,7 +638,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
         /// </example>
-        [Property("Interested Party Name", Property.Types.String, "Death Certification", "Interested Party Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
+        [Property("Interested Party Name", Property.Types.String, "Death Certification", "Interested Party Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "name")]
         public string InterestedPartyName
         {
@@ -695,7 +695,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
         /// </example>
-        [Property("Interested Party Address", Property.Types.Dictionary, "Death Certification", "Interested Party's address.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
+        [Property("Interested Party Address", Property.Types.Dictionary, "Death Certification", "Interested Party's address.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -737,7 +737,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interested Party Type: {ExampleDeathRecord.InterestedPartyType['display']}");</para>
         /// </example>
-        [Property("Interested Party Type", Property.Types.Dictionary, "Death Certification", "Interested Party Type.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 4)]
+        [Property("Interested Party Type", Property.Types.Dictionary, "Death Certification", "Interested Party Type.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -775,7 +775,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
         /// </example>
-        [Property("Manner Of Death Type", Property.Types.Dictionary, "Death Certification", "Manner of Death Type.", true, "http://hl7.org/fhir/us/vrdr/2019May/MannerofDeath.html", true, 4)]
+        [Property("Manner Of Death Type", Property.Types.Dictionary, "Death Certification", "Manner of Death Type.", true, "http://hl7.org/fhir/us/vrdr/2019May/MannerofDeath.html", true, 61)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -823,7 +823,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
-        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
+        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string[] CertifierGivenNames
         {
@@ -860,7 +860,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
         /// </example>
-        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
+        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 43)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string CertifierFamilyName
         {
@@ -897,7 +897,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
-        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
+        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 44)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string CertifierSuffix
         {
@@ -955,7 +955,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 4)]
+        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", true, 45)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -993,7 +993,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         /// </example>
-        [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 4)]
+        [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 40)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1032,7 +1032,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
         /// </example>
-        [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 4)]
+        [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 41)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
         public string CertifierLicenseNumber
         {
@@ -1079,7 +1079,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
         /// </example>
-        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, "http://hl7.org/fhir/us/vrdr/2019May/ConditionContributingtoDeath.html", true, 4)]
+        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, "http://hl7.org/fhir/us/vrdr/2019May/ConditionContributingtoDeath.html", true, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty())", "")]
         public string ContributingConditions
         {
@@ -1140,7 +1140,7 @@ namespace VRDR
         /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/CauseofDeathPathway.html", true, 4)]
+        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/CauseofDeathPathway.html", true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
         public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
         {
@@ -1265,7 +1265,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
         /// </example>
-        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1A
         {
             get
@@ -1319,7 +1319,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
         /// </example>
-        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1A
         {
             get
@@ -1375,7 +1375,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
         /// </example>
-        [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1432,7 +1432,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
         /// </example>
-        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1B
         {
             get
@@ -1486,7 +1486,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
         /// </example>
-        [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1B
         {
             get
@@ -1542,7 +1542,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
         /// </example>
-        [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1599,7 +1599,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
         /// </example>
-        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1C
         {
             get
@@ -1653,7 +1653,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
         /// </example>
-        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1C
         {
             get
@@ -1709,7 +1709,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
         /// </example>
-        [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1766,7 +1766,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
         /// </example>
-        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1D
         {
             get
@@ -1820,7 +1820,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
         /// </example>
-        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1D
         {
             get
@@ -1876,7 +1876,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
         /// </example>
-        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1933,7 +1933,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
         /// </example>
-        [Property("COD1E", Property.Types.String, "Death Certification", "Cause of Death Part I, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1E", Property.Types.String, "Death Certification", "Cause of Death Part I, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1E
         {
             get
@@ -1987,7 +1987,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
         /// </example>
-        [Property("INTERVAL1E", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1E", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1E
         {
             get
@@ -2043,7 +2043,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
         /// </example>
-        [Property("CODE1E", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1E", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line e.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2100,7 +2100,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
         /// </example>
-        [Property("COD1F", Property.Types.String, "Death Certification", "Cause of Death Part I, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1F", Property.Types.String, "Death Certification", "Cause of Death Part I, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1F
         {
             get
@@ -2154,7 +2154,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
         /// </example>
-        [Property("INTERVAL1F", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1F", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1F
         {
             get
@@ -2210,7 +2210,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
         /// </example>
-        [Property("CODE1F", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1F", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line f.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2267,7 +2267,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
         /// </example>
-        [Property("COD1G", Property.Types.String, "Death Certification", "Cause of Death Part I, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1G", Property.Types.String, "Death Certification", "Cause of Death Part I, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1G
         {
             get
@@ -2321,7 +2321,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
         /// </example>
-        [Property("INTERVAL1G", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1G", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1G
         {
             get
@@ -2377,7 +2377,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
         /// </example>
-        [Property("CODE1G", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1G", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line g.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2434,7 +2434,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
         /// </example>
-        [Property("COD1H", Property.Types.String, "Death Certification", "Cause of Death Part I, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1H", Property.Types.String, "Death Certification", "Cause of Death Part I, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1H
         {
             get
@@ -2488,7 +2488,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
         /// </example>
-        [Property("INTERVAL1H", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1H", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1H
         {
             get
@@ -2544,7 +2544,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
         /// </example>
-        [Property("CODE1H", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1H", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line h.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2601,7 +2601,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
         /// </example>
-        [Property("COD1I", Property.Types.String, "Death Certification", "Cause of Death Part I, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1I", Property.Types.String, "Death Certification", "Cause of Death Part I, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1I
         {
             get
@@ -2655,7 +2655,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
         /// </example>
-        [Property("INTERVAL1I", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1I", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1I
         {
             get
@@ -2711,7 +2711,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
         /// </example>
-        [Property("CODE1I", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1I", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line i.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2768,7 +2768,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
         /// </example>
-        [Property("COD1J", Property.Types.String, "Death Certification", "Cause of Death Part I, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("COD1J", Property.Types.String, "Death Certification", "Cause of Death Part I, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string COD1J
         {
             get
@@ -2822,7 +2822,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
         /// </example>
-        [Property("INTERVAL1J", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("INTERVAL1J", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         public string INTERVAL1J
         {
             get
@@ -2878,7 +2878,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
         /// </example>
-        [Property("CODE1J", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 4)]
+        [Property("CODE1J", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line j.", false, "http://hl7.org/fhir/us/vrdr/2019May/CauseOfDeathCondition.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2943,7 +2943,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
-        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 4)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string[] GivenNames
         {
@@ -2977,7 +2977,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
-        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 5)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string FamilyName
         {
@@ -3010,7 +3010,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
         /// </example>
-        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 6)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string Suffix
         {
@@ -3046,7 +3046,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
         /// </example>
-        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
+        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 7)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "first")]
         public string[] AliasGivenNames
         {
@@ -3080,7 +3080,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
         /// </example>
-        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
+        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 8)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "family")]
         public string AliasFamilyName
         {
@@ -3113,7 +3113,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
         /// </example>
-        [Property("Alias Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 2)]
+        [Property("Alias Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", false, 9)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "suffix")]
         public string AliasSuffix
         {
@@ -3148,7 +3148,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
         /// </example>
-        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='maiden')", "family")]
         public string MaidenName
         {
@@ -3181,7 +3181,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
         /// </example>
-        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
         public string Gender
         {
@@ -3229,7 +3229,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
         /// </example>
-        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
         public string BirthSex
         {
@@ -3260,7 +3260,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
-        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 15)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public string DateOfBirth
         {
@@ -3302,7 +3302,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
         /// </example>
-        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 22)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -3351,7 +3351,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");</para>
         /// </example>
-        [Property("ResidenceWithinCityLimits", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Residence Within City Limits", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 23)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
         public bool? ResidenceWithinCityLimits
         {
@@ -3392,7 +3392,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
         /// </example>
-        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).identifier.where(system='http://hl7.org/fhir/sid/us-ssn')", "")]
         public string SSN
         {
@@ -3428,7 +3428,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Ethnicity", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Ethnicity", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 11)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
         public Tuple<string, string>[] Ethnicity
         {
@@ -3436,16 +3436,34 @@ namespace VRDR
             {
                 string[] ombCodes = new string[] { };
                 string[] detailedCodes = new string[] { };
+                string[] ombDisplays = new string[] { };
+                string[] detailedDisplays = new string[] { };
                 ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
                 detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
+                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
+                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.display");
                 Tuple<string, string>[] ethnicityList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
                 for (int i = 0; i < ombCodes.Length; i++)
                 {
-                    ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), ombCodes[i]));
+                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i])))
+                    {
+                        ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                    }
+                    else
+                    {
+                        ethnicityList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                    }
                 }
                 for (int i = 0; i < detailedCodes.Length; i++)
                 {
-                    ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), detailedCodes[i]));
+                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i])))
+                    {
+                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
+                    }
+                    else
+                    {
+                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
+                    }
                 }
                 return ethnicityList;
             }
@@ -3465,11 +3483,26 @@ namespace VRDR
                     {
                         codeEthnicity.Url = "ombCategory";
                     }
+                    else if (display.Equals("Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase) ||
+                             display.Equals("Not Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        codeEthnicity.Url = "ombCategory";
+                    }
                     else
                     {
                         codeEthnicity.Url = "detailed";
                     }
-                    codeEthnicity.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
+                    Coding coding = new Coding();
+                    coding.System = "urn:oid:2.16.840.1.113883.6.238";
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        coding.Code = code;
+                    }
+                    if (!String.IsNullOrWhiteSpace(display))
+                    {
+                        coding.Display = display;
+                    }
+                    codeEthnicity.Value = coding;
                     ethnicities.Extension.Add(codeEthnicity);
                 }
                 Extension textEth = new Extension();
@@ -3493,7 +3526,7 @@ namespace VRDR
         /// <para>   Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 10)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
         public Tuple<string, string>[] Race
         {
@@ -3501,16 +3534,34 @@ namespace VRDR
             {
                 string[] ombCodes = new string[] { };
                 string[] detailedCodes = new string[] { };
+                string[] ombDisplays = new string[] { };
+                string[] detailedDisplays = new string[] { };
                 ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
                 detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
+                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
+                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.display");
                 Tuple<string, string>[] raceList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
                 for (int i = 0; i < ombCodes.Length; i++)
                 {
-                    raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), ombCodes[i]));
+                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(ombCodes[i])))
+                    {
+                        raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                    }
+                    else
+                    {
+                        raceList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                    }
                 }
                 for (int i = 0; i < detailedCodes.Length; i++)
                 {
-                    raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), detailedCodes[i]));
+                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(detailedCodes[i])))
+                    {
+                        raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
+                    }
+                    else
+                    {
+                        raceList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
+                    }
                 }
                 return raceList;
             }
@@ -3530,11 +3581,29 @@ namespace VRDR
                     {
                         codeRace.Url = "ombCategory";
                     }
+                    else if (display.Equals("American Indian or Alaska Native", StringComparison.InvariantCultureIgnoreCase) ||
+                             display.Equals("Asian", StringComparison.InvariantCultureIgnoreCase) ||
+                             display.Equals("Black or African American", StringComparison.InvariantCultureIgnoreCase) ||
+                             display.Equals("Native Hawaiian or Other Pacific Islander", StringComparison.InvariantCultureIgnoreCase) ||
+                             display.Equals("White", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        codeRace.Url = "ombCategory";
+                    }
                     else
                     {
                         codeRace.Url = "detailed";
                     }
-                    codeRace.Value = new Coding("urn:oid:2.16.840.1.113883.6.238", code, display);
+                    Coding coding = new Coding();
+                    coding.System = "urn:oid:2.16.840.1.113883.6.238";
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        coding.Code = code;
+                    }
+                    if (!String.IsNullOrWhiteSpace(display))
+                    {
+                        coding.Display = display;
+                    }
+                    codeRace.Value = coding;
                     races.Extension.Add(codeRace);
                 }
                 Extension textRace = new Extension();
@@ -3569,7 +3638,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
         /// </example>
-        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 6)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -3620,7 +3689,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 2)]
+        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 21)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -3650,7 +3719,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
         /// </example>
-        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 2)]
+        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string[] FatherGivenNames
         {
@@ -3694,7 +3763,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
         /// </example>
-        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 2)]
+        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 19)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherFamilyName
         {
@@ -3738,7 +3807,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
         /// </example>
-        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 2)]
+        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentFather.html", false, 20)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherSuffix
         {
@@ -3786,7 +3855,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
         /// </example>
-        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 2)]
+        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string[] MotherGivenNames
         {
@@ -3830,7 +3899,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
         /// </example>
-        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 2)]
+        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherMaidenName
         {
@@ -3874,7 +3943,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
         /// </example>
-        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 2)]
+        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentMother.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherSuffix
         {
@@ -3922,7 +3991,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
         /// </example>
-        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 2)]
+        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string[] SpouseGivenNames
         {
@@ -3966,7 +4035,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
         /// </example>
-        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 2)]
+        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseFamilyName
         {
@@ -4010,7 +4079,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
         /// </example>
-        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 2)]
+        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentSpouse.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseSuffix
         {
@@ -4065,7 +4134,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEducationLevel.html", false, 2)]
+        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEducationLevel.html", false, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4111,7 +4180,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
         /// </example>
-        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 2)]
+        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 17)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordId
         {
@@ -4162,7 +4231,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
         /// </example>
-        [Property("Birth Record State", Property.Types.Dictionary, "Decedent Demographics", "Birth Record State.", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 2)]
+        [Property("Birth Record State", Property.Types.Dictionary, "Decedent Demographics", "Birth Record State.", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4228,7 +4297,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
         /// </example>
-        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 2)]
+        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, "http://hl7.org/fhir/us/vrdr/2019May/BirthRecordIdentifier.html", true, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordYear
         {
@@ -4299,7 +4368,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 25)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4357,7 +4426,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
         public string UsualOccupation
         {
@@ -4424,7 +4493,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
         /// </example>
-        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 26)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4482,7 +4551,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
         /// </example>
-        [Property("Usual Industry (String)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 26)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
         public string UsualIndustry
         {
@@ -4549,7 +4618,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
         /// </example>
-        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 2)]
+        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4615,7 +4684,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
         /// </example>
-        [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
+        [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
         public string[] MorticianGivenNames
         {
@@ -4652,7 +4721,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
         /// </example>
-        [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
+        [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
         public string MorticianFamilyName
         {
@@ -4689,7 +4758,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
         /// </example>
-        [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
+        [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
         public string MorticianSuffix
         {
@@ -4728,7 +4797,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
         /// </example>
-        [Property("Mortician Identifier", Property.Types.String, "Decedent Disposition", "Mortician Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 3)]
+        [Property("Mortician Identifier", Property.Types.String, "Decedent Disposition", "Mortician Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
         public string MorticianIdentifier
         {
@@ -4792,7 +4861,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\FuneralHomeAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/FuneralHome.html", false, 3)]
+        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/FuneralHome.html", false, 100)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -4842,7 +4911,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
         /// </example>
-        [Property("Funeral Home Name", Property.Types.String, "Decedent Disposition", "Name of Funeral Home.", true, "http://hl7.org/fhir/us/vrdr/2019May/FuneralHome.html", false, 3)]
+        [Property("Funeral Home Name", Property.Types.String, "Decedent Disposition", "Name of Funeral Home.", true, "http://hl7.org/fhir/us/vrdr/2019May/FuneralHome.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "name")]
         public string FuneralHomeName
         {
@@ -4900,7 +4969,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DispositionLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", true, 3)]
+        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", true, 100)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -4945,7 +5014,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
-        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", false, 3)]
+        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", false, 100)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
         public string DispositionLocationName
         {
@@ -4991,7 +5060,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
         /// </example>
-        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", true, 3)]
+        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://hl7.org/fhir/us/vrdr/2019May/DispositionLocation.html", true, 90)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5057,7 +5126,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator", Property.Types.Dictionary, "Death Investigation", "Autopsy Performed Indicator.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 4)]
+        [Property("Autopsy Performed Indicator", Property.Types.Dictionary, "Death Investigation", "Autopsy Performed Indicator.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 80)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5103,7 +5172,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        [Property("Date Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathDate.html", true, 4)]
+        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathDate.html", true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
         {
@@ -5147,7 +5216,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
         /// </example>
-        [Property("Date Of Death Pronouncement", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death Pronouncement.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathDate.html", false, 4)]
+        [Property("Date/Time Of Death Pronouncement", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death Pronouncement.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathDate.html", false, 47)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
@@ -5210,7 +5279,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailable['display']}");</para>
         /// </example>
-        [Property("Autopsy Results Available", Property.Types.Dictionary, "Death Investigation", "Autopsy Results Available.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 4)]
+        [Property("Autopsy Results Available", Property.Types.Dictionary, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 81)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5283,7 +5352,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", true, 4)]
+        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", true, 30)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -5330,7 +5399,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
-        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 4)]
+        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
         public string DeathLocationName
         {
@@ -5370,7 +5439,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
-        [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 4)]
+        [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 32)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "description")]
         public string DeathLocationDescription
         {
@@ -5416,7 +5485,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentAge.html", true, 4)]
+        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentAge.html", true, 14)]
         [PropertyParam("value", "The quantity value.")]
         [PropertyParam("unit", "The quantity unit.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
@@ -5490,7 +5559,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
         /// </example>
-        [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentPregnancy.html", true, 4)]
+        [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentPregnancy.html", true, 91)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5536,7 +5605,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 4)]
+        [Property("Examiner Contacted", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
         public bool? ExaminerContacted
         {
@@ -5598,7 +5667,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\InjuryLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 4)]
+        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 63)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -5645,7 +5714,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
-        [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 4)]
+        [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 64)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
         public string InjuryLocationName
         {
@@ -5685,7 +5754,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
-        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 4)]
+        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryLocation.html", true, 65)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "description")]
         public string InjuryLocationDescription
         {
@@ -5725,7 +5794,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
         /// </example>
-        [Property("Injury Date", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 4)]
+        [Property("Injury Date/Time", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 62)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDate
         {
@@ -5760,6 +5829,49 @@ namespace VRDR
             }
         }
 
+        /// <summary>Description of Injury.</summary>
+        /// <value>the description of the injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryDescription = "drug toxicity";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
+        /// </example>
+        [Property("Injury Description", Property.Types.StringDateTime, "Death Investigation", "Description of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 66)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryDescription
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Value != null)
+                {
+                    return Convert.ToString(InjuryIncidentObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    InjuryIncidentObs = new Observation();
+                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
+                    InjuryIncidentObs.Meta = new Meta();
+                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
+                    InjuryIncidentObs.Meta.Profile = iio_profile;
+                    InjuryIncidentObs.Status = ObservationStatus.Final;
+                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description", null);
+                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    InjuryIncidentObs.Value = new FhirString(value);
+                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
+                }
+                else
+                {
+                    InjuryIncidentObs.Value = new FhirString(value);
+                }
+            }
+        }
+
         /// <summary>Place of Injury.</summary>
         /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -5776,7 +5888,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
         /// </example>
-        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 4)]
+        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5850,7 +5962,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
         /// </example>
-        [Property("Transportation Role", Property.Types.Dictionary, "Death Investigation", "Transportation Role in death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentTransportationRole.html", true, 4)]
+        [Property("Transportation Role", Property.Types.Dictionary, "Death Investigation", "Transportation Role in death.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentTransportationRole.html", true, 70)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5924,7 +6036,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
         /// </example>
-        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/TobaccoUseContributedToDeath.html", true, 4)]
+        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, "http://hl7.org/fhir/us/vrdr/2019May/TobaccoUseContributedToDeath.html", true, 92)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]

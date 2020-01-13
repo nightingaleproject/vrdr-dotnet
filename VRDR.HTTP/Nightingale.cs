@@ -21,6 +21,8 @@ namespace VRDR.HTTP
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
 
+            SetStringValueDictionary(values, "certificateNumber", record.Identifier);
+
             SetYesNoValueDictionary(values, "armedForcesService.armedForcesService", record, "MilitaryService");
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
             SetYesNoValueDictionary(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath", record, "AutopsyResultsAvailable");
@@ -56,6 +58,8 @@ namespace VRDR.HTTP
             SetStringValueDictionary(values, "cod.under2Int", record.INTERVAL1C);
             SetStringValueDictionary(values, "cod.under3", record.COD1D);
             SetStringValueDictionary(values, "cod.under3Int", record.INTERVAL1D);
+
+            SetStringValueDictionary(values, "cod.contributing", record.ContributingConditions);
 
             SetDateValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
             SetDateValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
@@ -252,6 +256,8 @@ namespace VRDR.HTTP
             // Start building the record
             DeathRecord deathRecord = new DeathRecord();
 
+            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber"));
+
             SetYesNoValueDeathRecordCode(deathRecord, "MilitaryService", GetValue(values, "armedForcesService.armedForcesService"));
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyPerformedIndicator", GetValue(values, "autopsyPerformed.autopsyPerformed"));
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyResultsAvailable", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
@@ -285,6 +291,8 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "INTERVAL1C", GetValue(values, "cod.under2Int"));
             SetStringValueDeathRecordString(deathRecord, "COD1D", GetValue(values, "cod.under3"));
             SetStringValueDeathRecordString(deathRecord, "INTERVAL1D", GetValue(values, "cod.under3Int"));
+
+            SetStringValueDeathRecordString(deathRecord, "ContributingConditions", GetValue(values, "cod.contributing"));
 
             SetStringValueDeathRecordString(deathRecord, "DateOfBirth", GetValue(values, "dateOfBirth.dateOfBirth"));
             SetStringValueDeathRecordString(deathRecord, "DateOfDeath", GetValue(values, "dateOfDeath.dateOfDeath"));

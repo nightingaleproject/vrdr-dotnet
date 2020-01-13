@@ -5837,7 +5837,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
         /// </example>
-        [Property("Injury Description", Property.Types.StringDateTime, "Death Investigation", "Description of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 66)]
+        [Property("Injury Description", Property.Types.String, "Death Investigation", "Description of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 66)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDescription
         {

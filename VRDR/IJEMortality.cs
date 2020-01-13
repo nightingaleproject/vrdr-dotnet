@@ -2814,7 +2814,7 @@ namespace VRDR
                         case "D":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434641000124105");
                             Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician (Certifier)");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician");
                             break;
                         case "P":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434651000124107");

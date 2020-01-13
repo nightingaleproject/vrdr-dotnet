@@ -261,7 +261,7 @@ namespace VRDR.HTTP
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Certifier)");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")

@@ -229,24 +229,24 @@ namespace VRDR.Tests
         public void Set_CertificationRole()
         {
             Dictionary<string, string> CertificationRole = new Dictionary<string, string>();
-            CertificationRole.Add("code", "76899008");
+            CertificationRole.Add("code", "434641000124105");
             CertificationRole.Add("system", "http://snomed.info/sct");
-            CertificationRole.Add("display", "Infectious diseases physician");
+            CertificationRole.Add("display", "Physician");
             SetterDeathRecord.CertificationRole = CertificationRole;
-            Assert.Equal("76899008", SetterDeathRecord.CertificationRole["code"]);
+            Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal("http://snomed.info/sct", SetterDeathRecord.CertificationRole["system"]);
-            Assert.Equal("Infectious diseases physician", SetterDeathRecord.CertificationRole["display"]);
+            Assert.Equal("Physician", SetterDeathRecord.CertificationRole["display"]);
         }
 
         [Fact]
         public void Get_CertificationRole()
         {
-            Assert.Equal("76899008", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
+            Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
             Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Infectious diseases physician", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
-            Assert.Equal("76899008", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
+            Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
+            Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
             Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Infectious diseases physician", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
+            Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
         }
 
         [Fact]

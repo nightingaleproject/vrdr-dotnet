@@ -1779,6 +1779,16 @@
             <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.InjuryDescription">
+            <summary>Description of Injury.</summary>
+            <value>the description of the injury</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryDescription = "drug toxicity";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.InjuryPlace">
             <summary>Place of Injury.</summary>
             <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:

@@ -617,6 +617,11 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
+            else if (args[0] == "wds")
+            {
+                WashingtonStateMortalityProcessor proc = new WashingtonStateMortalityProcessor();
+                proc.Read();
+            }
             return 0;
         }
 

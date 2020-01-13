@@ -59,7 +59,7 @@ namespace VRDR.HTTP
             SetStringValueDictionary(values, "cod.under3", record.COD1D);
             SetStringValueDictionary(values, "cod.under3Int", record.INTERVAL1D);
 
-            SetStringValueDictionary(values, "cod.contributing", record.ContributingConditions);
+            SetStringValueDictionary(values, "contributingCauses.contributingCauses", record.ContributingConditions);
 
             SetDateValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
             SetDateValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
@@ -292,7 +292,7 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "COD1D", GetValue(values, "cod.under3"));
             SetStringValueDeathRecordString(deathRecord, "INTERVAL1D", GetValue(values, "cod.under3Int"));
 
-            SetStringValueDeathRecordString(deathRecord, "ContributingConditions", GetValue(values, "cod.contributing"));
+            SetStringValueDeathRecordString(deathRecord, "ContributingConditions", GetValue(values, "contributingCauses.contributingCauses"));
 
             SetStringValueDeathRecordString(deathRecord, "DateOfBirth", GetValue(values, "dateOfBirth.dateOfBirth"));
             SetStringValueDeathRecordString(deathRecord, "DateOfDeath", GetValue(values, "dateOfDeath.dateOfDeath"));

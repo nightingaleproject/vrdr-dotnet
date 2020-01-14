@@ -455,7 +455,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
         /// </example>
         [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", false, 46)]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition).attester", "time")]
+        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performed")]
         public string CertifiedTime
         {
             get
@@ -4379,7 +4379,7 @@ namespace VRDR
             {
                 if (EmploymentHistory != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21843-8" );
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
                     if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4401,7 +4401,7 @@ namespace VRDR
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
                     EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
                     component.Value = DictToCodeableConcept(value);
                     EmploymentHistory.Component.Add(component);
                     AddReferenceToComposition(EmploymentHistory.Id);
@@ -4409,9 +4409,9 @@ namespace VRDR
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21843-8" );
+                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
                     component.Value = DictToCodeableConcept(value);
                     EmploymentHistory.Component.Add(component);
                 }
@@ -4434,7 +4434,7 @@ namespace VRDR
             {
                 if (EmploymentHistory != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21843-8" );
+                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
                     if (component != null && component.Value != null && component.Value as FhirString != null)
                     {
                         return Convert.ToString(component.Value);
@@ -4460,7 +4460,7 @@ namespace VRDR
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
                     EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
                     component.Value = new FhirString(value);
                     EmploymentHistory.Component.Add(component);
                     AddReferenceToComposition(EmploymentHistory.Id);
@@ -4468,9 +4468,9 @@ namespace VRDR
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21843-8" );
+                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
                     component.Value = new FhirString(value);
                     EmploymentHistory.Component.Add(component);
                 }
@@ -4526,7 +4526,7 @@ namespace VRDR
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
                     EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
                     EmploymentHistory.Component.Add(component);
                     AddReferenceToComposition(EmploymentHistory.Id);
@@ -4536,7 +4536,7 @@ namespace VRDR
                 {
                     EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
                     EmploymentHistory.Component.Add(component);
                 }
@@ -4585,7 +4585,7 @@ namespace VRDR
                     EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
                     EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
                     component.Value = new FhirString(value);
                     EmploymentHistory.Component.Add(component);
                     AddReferenceToComposition(EmploymentHistory.Id);
@@ -4595,7 +4595,7 @@ namespace VRDR
                 {
                     EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
                     component.Value = new FhirString(value);
                     EmploymentHistory.Component.Add(component);
                 }
@@ -6040,7 +6040,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public Dictionary<string, string> TransportationRole
         {
             get

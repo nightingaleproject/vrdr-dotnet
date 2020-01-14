@@ -2785,6 +2785,50 @@ namespace VRDR
             }
         }
 
+        /// <summary>Time of injury</summary>
+        [IJEField(117, 993, 1, "Injury at work", "WORKINJ", 1)]
+        public string WORKINJ
+        {
+            get
+            {
+                string code = Dictionary_Get_Full("WORKINJ", "InjuryAtWork", "code");
+                switch (code)
+                {
+                    case "Y": // Yes
+                        return "Y";
+                    case "N": // No
+                        return "N";
+                    case "UNK": // Unknown
+                        return "U";
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "Y":
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "Y");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Yes");
+                            break;
+                        case "N":
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "N");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "No");
+                            break;
+                        case "U":
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "unknown");
+                            break;
+                    }
+                }
+            }
+        }
+
         /// <summary>Title of Certifier</summary>
         [IJEField(118, 994, 30, "Title of Certifier", "CERTL", 1)]
         public string CERTL

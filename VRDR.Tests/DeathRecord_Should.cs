@@ -1873,6 +1873,30 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_InjuryAtWork()
+        {
+            Dictionary<string, string> iaw = new Dictionary<string, string>();
+            iaw.Add("code", "N");
+            iaw.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            iaw.Add("display", "No");
+            SetterDeathRecord.InjuryAtWork = iaw;
+            Assert.Equal("N", SetterDeathRecord.InjuryAtWork["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal("No", SetterDeathRecord.InjuryAtWork["display"]);
+        }
+
+        [Fact]
+        public void Get_InjuryAtWork()
+        {
+            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
+            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
+        }
+
+        [Fact]
         public void Set_DeathLocationAddress()
         {
             Dictionary<string, string> dtladdress = new Dictionary<string, string>();

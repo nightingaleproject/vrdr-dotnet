@@ -115,7 +115,9 @@
   - [INTERVAL1I](#P-VRDR-DeathRecord-INTERVAL1I 'VRDR.DeathRecord.INTERVAL1I')
   - [INTERVAL1J](#P-VRDR-DeathRecord-INTERVAL1J 'VRDR.DeathRecord.INTERVAL1J')
   - [Identifier](#P-VRDR-DeathRecord-Identifier 'VRDR.DeathRecord.Identifier')
+  - [InjuryAtWork](#P-VRDR-DeathRecord-InjuryAtWork 'VRDR.DeathRecord.InjuryAtWork')
   - [InjuryDate](#P-VRDR-DeathRecord-InjuryDate 'VRDR.DeathRecord.InjuryDate')
+  - [InjuryDescription](#P-VRDR-DeathRecord-InjuryDescription 'VRDR.DeathRecord.InjuryDescription')
   - [InjuryLocationAddress](#P-VRDR-DeathRecord-InjuryLocationAddress 'VRDR.DeathRecord.InjuryLocationAddress')
   - [InjuryLocationDescription](#P-VRDR-DeathRecord-InjuryLocationDescription 'VRDR.DeathRecord.InjuryLocationDescription')
   - [InjuryLocationName](#P-VRDR-DeathRecord-InjuryLocationName 'VRDR.DeathRecord.InjuryLocationName')
@@ -327,6 +329,7 @@
   - [TOI_UNIT](#P-VRDR-IJEMortality-TOI_UNIT 'VRDR.IJEMortality.TOI_UNIT')
   - [TRANSPRT](#P-VRDR-IJEMortality-TRANSPRT 'VRDR.IJEMortality.TRANSPRT')
   - [VOID](#P-VRDR-IJEMortality-VOID 'VRDR.IJEMortality.VOID')
+  - [WORKINJ](#P-VRDR-IJEMortality-WORKINJ 'VRDR.IJEMortality.WORKINJ')
   - [ZIP9_D](#P-VRDR-IJEMortality-ZIP9_D 'VRDR.IJEMortality.ZIP9_D')
   - [ZIP9_R](#P-VRDR-IJEMortality-ZIP9_R 'VRDR.IJEMortality.ZIP9_R')
   - [DateTimeStringHelper()](#M-VRDR-IJEMortality-DateTimeStringHelper-VRDR-IJEField,System-String,System-String,System-DateTimeOffset,System-Boolean,System-Boolean- 'VRDR.IJEMortality.DateTimeStringHelper(VRDR.IJEField,System.String,System.String,System.DateTimeOffset,System.Boolean,System.Boolean)')
@@ -358,6 +361,30 @@
   - [ToString()](#M-VRDR-IJEMortality-ToString 'VRDR.IJEMortality.ToString')
   - [Truncate()](#M-VRDR-IJEMortality-Truncate-System-String,System-Int32- 'VRDR.IJEMortality.Truncate(System.String,System.Int32)')
 
+Helper method to return a XML string representation of this Death Record.
+
+##### Returns
+
+a string representation of this Death Record in XML format
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-VRDR-CauseCodes-ToXml'></a>
+### ToXml() `method`
+
+##### Summary
+
+Helper method to return a XML string representation of this Death Record.
+
+##### Returns
+
+a string representation of this Death Record in XML format
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-VRDR-DeathRecord'></a>
 ## DeathRecord `type`
@@ -2185,6 +2212,31 @@ ExampleDeathRecord.Identifier = "42";
 
 Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");
 
+<a name='P-VRDR-DeathRecord-InjuryAtWork'></a>
+### InjuryAtWork `property`
+
+##### Summary
+
+Injury At Work?
+
+##### Example
+
+// Setter:
+
+Dictionary<string, string> code = new Dictionary<string, string>();
+
+code.Add("code", "N");
+
+code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+
+code.Add("display", "No");
+
+ExampleDeathRecord.InjuryAtWork = code;
+
+// Getter:
+
+Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWork['display']}");
+
 <a name='P-VRDR-DeathRecord-InjuryDate'></a>
 ### InjuryDate `property`
 
@@ -2201,6 +2253,23 @@ ExampleDeathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";
 // Getter:
 
 Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");
+
+<a name='P-VRDR-DeathRecord-InjuryDescription'></a>
+### InjuryDescription `property`
+
+##### Summary
+
+Description of Injury.
+
+##### Example
+
+// Setter:
+
+ExampleDeathRecord.InjuryDescription = "drug toxicity";
+
+// Getter:
+
+Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");
 
 <a name='P-VRDR-DeathRecord-InjuryLocationAddress'></a>
 ### InjuryLocationAddress `property`
@@ -4420,6 +4489,13 @@ If Transportation Accident, Specify
 ##### Summary
 
 Void flag
+
+<a name='P-VRDR-IJEMortality-WORKINJ'></a>
+### WORKINJ `property`
+
+##### Summary
+
+Time of injury
 
 <a name='P-VRDR-IJEMortality-ZIP9_D'></a>
 ### ZIP9_D `property`

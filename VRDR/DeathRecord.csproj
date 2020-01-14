@@ -5,7 +5,7 @@
     <DocumentationFile>DeathRecord.xml</DocumentationFile>
     <!-- <DocumentationFile>DeathRecord.md</DocumentationFile> -->
     <PackageId>VRDR</PackageId>
-    <Version>2.11.1</Version>
+    <Version>2.12.0</Version>
     <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
     <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
     <Title>FHIR VRDR Death Record</Title>

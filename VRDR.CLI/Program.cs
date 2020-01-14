@@ -388,6 +388,13 @@ namespace VRDR.CLI
                 // InjuryDate
                 deathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";
 
+                // InjuryAtWork
+                Dictionary<string, string> codeIW = new Dictionary<string, string>();
+                codeIW.Add("code", "N");
+                codeIW.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                codeIW.Add("display", "No");
+                deathRecord.InjuryAtWork = codeIW;
+
                 // InjuryPlace
                 Dictionary<string, string> ip = new Dictionary<string, string>();
                 ip.Add("code", "0");
@@ -418,8 +425,8 @@ namespace VRDR.CLI
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
-                Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
-                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
+                //Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "description")

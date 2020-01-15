@@ -455,18 +455,17 @@ namespace VRDR
         /// <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
         /// </example>
         [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertification.html", false, 46)]
-        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performed")]
+        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "")]
         public string CertifiedTime
         {
             get
             {
-                if (Composition.Attester != null && Composition.Attester.FirstOrDefault() != null && Composition.Attester.First().Time != null)
+                if (DeathCertification != null && DeathCertification.Performed != null)
+                {
+                    return Convert.ToString(DeathCertification.Performed);
+                } else if (Composition.Attester != null && Composition.Attester.FirstOrDefault() != null && Composition.Attester.First().Time != null)
                 {
                     return Composition.Attester.First().Time;
-                }
-                else if (DeathCertification != null && DeathCertification.Performed != null)
-                {
-                    Convert.ToString(DeathCertification.Performed);
                 }
                 return null;
             }

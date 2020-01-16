@@ -396,11 +396,7 @@ namespace VRDR.CLI
                 deathRecord.InjuryAtWork = codeIW;
 
                 // InjuryPlace
-                Dictionary<string, string> ip = new Dictionary<string, string>();
-                ip.Add("code", "0");
-                ip.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");
-                ip.Add("display", "Home");
-                deathRecord.InjuryPlace = ip;
+                deathRecord.InjuryPlace = "home";
 
                 // DeathLocationAddress
                 Dictionary<string, string> dtladdress = new Dictionary<string, string>();

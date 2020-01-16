@@ -1226,6 +1226,42 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Residence--Inside City Limits</summary>
+        [IJEField(28, 229, 1, "Decedent's Residence--Inside City Limits", "LIMITS", 10)]
+        public string LIMITS
+        {
+            get
+            {
+                switch (record.ResidenceWithinCityLimits)
+                {
+                    case true: // Yes
+                        return "Y";
+                    case false: // No
+                        return "N";
+                    default: // Unknown
+                        return "U";
+                }
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "Y":
+                            record.ResidenceWithinCityLimits = true;
+                            break;
+                        case "N":
+                            record.ResidenceWithinCityLimits = false;
+                            break;
+                        default:
+                            record.ResidenceWithinCityLimits = null;
+                            break;
+                    }
+                }
+            }
+        }
+
         /// <summary>Marital Status</summary>
         [IJEField(29, 230, 1, "Marital Status", "MARITAL", 1)]
         public string MARITAL
@@ -1285,7 +1321,7 @@ namespace VRDR
                         case "U":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", "UNK");
                             Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "unknown");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Unknown");
                             break;
                     }
                 }
@@ -1359,27 +1395,27 @@ namespace VRDR
                         case "D":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Donation");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and body donated");
                             break;
                         case "B":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Burial");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and buried");
                             break;
                         case "C":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Cremation");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and cremated");
                             break;
                         case "E":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Entombment");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and entombed");
                             break;
                         case "R":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Removal from state");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and removed from state");
                             break;
                         case "U":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
@@ -2259,13 +2295,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("OCCUP", "UsualOccupationCode", "display");
+                return LeftJustified_Get("OCCUP", "UsualOccupation");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("OCCUP", "UsualOccupationCode", "display", value);
+                    LeftJustified_Set("OCCUP", "UsualOccupation", value.Trim());
                 }
             }
         }
@@ -2276,13 +2312,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("INDUST", "UsualIndustryCode", "display");
+                return LeftJustified_Get("INDUST", "UsualIndustry");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("INDUST", "UsualIndustryCode", "display", value);
+                    LeftJustified_Set("INDUST", "UsualIndustry", value.Trim());
                 }
             }
         }
@@ -2441,12 +2477,12 @@ namespace VRDR
                         case "N":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "38605008");
                             Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural death");
                             break;
                         case "A":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "7878000");
                             Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accident");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accidental death");
                             break;
                         case "S":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "44301001");
@@ -2461,12 +2497,12 @@ namespace VRDR
                         case "P":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "185973002");
                             Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Pending Investigation");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Patient awaiting investigation");
                             break;
                         case "C":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "65037004");
                             Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Could not be determined");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Death, manner undetermined");
                             break;
                     }
                 }
@@ -2542,8 +2578,8 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "unknown");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
                             break;
                     }
                 }
@@ -2586,8 +2622,8 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "unknown");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
                             break;
                     }
                 }
@@ -2821,8 +2857,8 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "unknown");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Unknown");
                             break;
                     }
                 }
@@ -2858,12 +2894,12 @@ namespace VRDR
                         case "D":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434641000124105");
                             Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Death certification and verification by physician");
                             break;
                         case "P":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434651000124107");
                             Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
+                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician certified and pronounced death certificate");
                             break;
                         case "M":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "440051000124108");
@@ -2947,8 +2983,8 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "unknown");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Unknown");
                             break;
                     }
                 }
@@ -2961,13 +2997,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("DINSTI", "FuneralHomeName");
+                return LeftJustified_Get("DINSTI", "DeathLocationName");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("DINSTI", "FuneralHomeName", value.Trim());
+                    LeftJustified_Set("DINSTI", "DeathLocationName", value.Trim());
                 }
             }
         }
@@ -3185,6 +3221,23 @@ namespace VRDR
             }
         }
 
+        /// <summary>Mother's Maiden Surname</summary>
+        [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
+        public string DMOMMDN
+        {
+            get
+            {
+                return LeftJustified_Get("DMOMMDN", "MotherMaidenName");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("DMOMMDN", "MotherMaidenName", value.Trim());
+                }
+            }
+        }
+
         /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         [IJEField(171, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
@@ -3208,13 +3261,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("POILITRL", "InjuryLocationName");
+                return !String.IsNullOrWhiteSpace(LeftJustified_Get("POILITRL", "InjuryPlace")) ? LeftJustified_Get("POILITRL", "InjuryPlace") : LeftJustified_Get("POILITRL", "InjuryLocationName");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("POILITRL", "InjuryLocationName", value.Trim());
+                    LeftJustified_Set("POILITRL", "InjuryPlace", value.Trim());
                 }
             }
         }
@@ -3225,13 +3278,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("HOWINJ", "InjuryLocationDescription");
+                return LeftJustified_Get("HOWINJ", "InjuryDescription");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("HOWINJ", "InjuryLocationDescription", value.Trim());
+                    LeftJustified_Set("HOWINJ", "InjuryDescription", value.Trim());
                 }
             }
         }
@@ -3949,6 +4002,23 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("CERTZIP", "CertifierAddress", "addressZip", value);
+                }
+            }
+        }
+
+        /// <summary>Certifier Date Signed</summary>
+        [IJEField(234, 4254, 8, "Certifier Date Signed", "CERTDATE", 1)]
+        public string CERTDATE
+        {
+            get
+            {
+                return DateTime_Get("CERTDATE", "MMddyyyy", "CertifiedTime");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    DateTime_Set("CERTDATE", "MMddyyyy", "CertifiedTime", value, true, false);
                 }
             }
         }

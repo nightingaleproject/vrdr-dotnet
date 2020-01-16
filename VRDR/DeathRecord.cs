@@ -130,6 +130,9 @@ namespace VRDR
         /// <summary>Tobacco Use Contributed To Death.</summary>
         private Observation TobaccoUseObs;
 
+        /// <summary>Transportation Role.</summary>
+        private Observation TransportationRoleObs;
+
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
 
@@ -3364,7 +3367,7 @@ namespace VRDR
                         return ((FhirBoolean)cityLimits.Value).Value;
                     }
                 }
-                return true;
+                return null;
             }
             set
             {
@@ -4367,7 +4370,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 25)]
+        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 25)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4423,9 +4426,9 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
+        /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
         /// </example>
-        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 25)]
+        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
         public string UsualOccupation
         {
@@ -4438,7 +4441,6 @@ namespace VRDR
                     {
                         return Convert.ToString(component.Value);
                     }
-                    return null;
                 }
                 return null;
             }
@@ -4492,7 +4494,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
         /// </example>
-        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 26)]
+        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 26)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4550,7 +4552,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
         /// </example>
-        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 26)]
+        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 26)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
         public string UsualIndustry
         {
@@ -4563,7 +4565,6 @@ namespace VRDR
                     {
                         return Convert.ToString(component.Value);
                     }
-                    return null;
                 }
                 return null;
             }
@@ -5872,27 +5873,16 @@ namespace VRDR
         }
 
         /// <summary>Place of Injury.</summary>
-        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
+        /// <value>the place of injury.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "0");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");</para>
-        /// <para>code.Add("display", "Home");</para>
-        /// <para>ExampleDeathRecord.InjuryPlace = code;</para>
+        /// <para>ExampleDeathRecord.InjuryPlace = "home";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
+        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace}");</para>
         /// </example>
-        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
+        [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 64)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public Dictionary<string, string> InjuryPlace
+        public string InjuryPlace
         {
             get
             {
@@ -5900,12 +5890,12 @@ namespace VRDR
                 {
                     // Find correct component
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value != null && placeComp.Value as FhirString != null)
                     {
-                        return CodeableConceptToDict((CodeableConcept)placeComp.Value);
+                        return Convert.ToString(placeComp.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return null;
             }
             set
             {
@@ -5921,7 +5911,7 @@ namespace VRDR
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
-                    component.Value = DictToCodeableConcept(value);
+                    component.Value = new FhirString(value);
                     InjuryIncidentObs.Component.Add(component);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
@@ -5932,13 +5922,13 @@ namespace VRDR
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
                     if (placeComp != null)
                     {
-                        ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
+                        ((Observation.ComponentComponent)placeComp).Value = new FhirString(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
-                        component.Value = DictToCodeableConcept(value);
+                        component.Value = new FhirString(value);
                         InjuryIncidentObs.Component.Add(component);
                     }
                 }
@@ -6039,56 +6029,36 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
         public Dictionary<string, string> TransportationRole
         {
             get
             {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count() > 0)
+                if (TransportationRoleObs != null && TransportationRoleObs.Value != null && TransportationRoleObs.Value as CodeableConcept != null)
                 {
-                    // Find correct component
-                    var transpComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
-                    if (transpComp != null && transpComp.Value != null && transpComp.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)transpComp.Value);
-                    }
+                    return CodeableConceptToDict((CodeableConcept)TransportationRoleObs.Value);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if (InjuryIncidentObs == null)
+                if (TransportationRoleObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent", null);
-                    component.Value = DictToCodeableConcept(value);
-                    InjuryIncidentObs.Component.Add(component);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
+                    TransportationRoleObs = new Observation();
+                    TransportationRoleObs.Id = Guid.NewGuid().ToString();
+                    TransportationRoleObs.Meta = new Meta();
+                    string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
+                    TransportationRoleObs.Meta.Profile = t_profile;
+                    TransportationRoleObs.Status = ObservationStatus.Final;
+                    TransportationRoleObs.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent ", null);
+                    TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    TransportationRoleObs.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(TransportationRoleObs.Id);
+                    Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
                 }
                 else
                 {
-                    // Find correct component; if doesn't exist add another
-                    var transpComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
-                    if (transpComp != null)
-                    {
-                        ((Observation.ComponentComponent)transpComp).Value = DictToCodeableConcept(value);
-                    }
-                    else
-                    {
-                        Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent", null);
-                        component.Value = DictToCodeableConcept(value);
-                        InjuryIncidentObs.Component.Add(component);
-                    }
+                    TransportationRoleObs.Value = DictToCodeableConcept(value);
                 }
             }
         }
@@ -6262,6 +6232,13 @@ namespace VRDR
             if (mannerOfDeath != null)
             {
                 MannerOfDeath = (Observation)mannerOfDeath.Resource;
+            }
+
+            // Grab Transportation Role Observation
+            var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
+            if (transportationRole != null)
+            {
+                TransportationRoleObs = (Observation)transportationRole.Resource;
             }
 
             // Grab Disposition Method

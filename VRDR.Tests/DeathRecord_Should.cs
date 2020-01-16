@@ -1705,25 +1705,15 @@ namespace VRDR.Tests
         [Fact]
         public void Set_InjuryPlace()
         {
-            Dictionary<string, string> ip = new Dictionary<string, string>();
-            ip.Add("code", "0");
-            ip.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");
-            ip.Add("display", "Home");
-            SetterDeathRecord.InjuryPlace = ip;
-            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7374", SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
+            SetterDeathRecord.InjuryPlace = "home";
+            Assert.Equal("home", SetterDeathRecord.InjuryPlace);
         }
 
         [Fact]
         public void Get_InjuryPlace()
         {
-            Assert.Equal("0", ((DeathRecord)JSONRecords[0]).InjuryPlace["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7374", ((DeathRecord)JSONRecords[0]).InjuryPlace["system"]);
-            Assert.Equal("Home", ((DeathRecord)JSONRecords[0]).InjuryPlace["display"]);
-            Assert.Equal("0", ((DeathRecord)XMLRecords[0]).InjuryPlace["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7374", ((DeathRecord)XMLRecords[0]).InjuryPlace["system"]);
-            Assert.Equal("Home", ((DeathRecord)XMLRecords[0]).InjuryPlace["display"]);
+            Assert.Equal("home", ((DeathRecord)JSONRecords[0]).InjuryPlace);
+            Assert.Equal("home", ((DeathRecord)XMLRecords[0]).InjuryPlace);
         }
 
         [Fact]

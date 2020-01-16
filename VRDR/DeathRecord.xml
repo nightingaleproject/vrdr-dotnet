@@ -300,6 +300,9 @@
         <member name="F:VRDR.DeathRecord.TobaccoUseObs">
             <summary>Tobacco Use Contributed To Death.</summary>
         </member>
+        <member name="F:VRDR.DeathRecord.TransportationRoleObs">
+            <summary>Transportation Role.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
             <summary>Injury Location.</summary>
         </member>
@@ -1385,7 +1388,7 @@
             <para>// Setter:</para>
             <para>ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation['display']}");</para>
+            <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.UsualIndustryCode">
@@ -1791,20 +1794,12 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryPlace">
             <summary>Place of Injury.</summary>
-            <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-            <para>"code" - the code</para>
-            <para>"system" - the code system this code belongs to</para>
-            <para>"display" - a human readable meaning of the code</para>
-            </value>
+            <value>the place of injury.</value>
             <example>
             <para>// Setter:</para>
-            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-            <para>code.Add("code", "0");</para>
-            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.7374");</para>
-            <para>code.Add("display", "Home");</para>
-            <para>ExampleDeathRecord.InjuryPlace = code;</para>
+            <para>ExampleDeathRecord.InjuryPlace = "home";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryAtWork">
@@ -2242,6 +2237,9 @@
         <member name="P:VRDR.IJEMortality.COUNTRYC">
             <summary>Decedent's Residence--Country</summary>
         </member>
+        <member name="P:VRDR.IJEMortality.LIMITS">
+            <summary>Decedent's Residence--Inside City Limits</summary>
+        </member>
         <member name="P:VRDR.IJEMortality.MARITAL">
             <summary>Marital Status</summary>
         </member>
@@ -2470,6 +2468,9 @@
         <member name="P:VRDR.IJEMortality.DMIDDLE">
             <summary>Middle Name of Decedent</summary>
         </member>
+        <member name="P:VRDR.IJEMortality.DMOMMDN">
+            <summary>Mother's Maiden Surname</summary>
+        </member>
         <member name="P:VRDR.IJEMortality.REFERRED">
             <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         </member>
@@ -2589,6 +2590,9 @@
         </member>
         <member name="P:VRDR.IJEMortality.CERTZIP">
             <summary>Certifier - Zip</summary>
+        </member>
+        <member name="P:VRDR.IJEMortality.CERTDATE">
+            <summary>Certifier Date Signed</summary>
         </member>
         <member name="P:VRDR.IJEMortality.STINJURY">
             <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>

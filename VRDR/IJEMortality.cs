@@ -562,23 +562,21 @@ namespace VRDR
         {
             Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
             List<Tuple<string, string>> ethnicities = new List<Tuple<string, string>>();
-            // Check if hispanic origin
-            if (ethnicityStatus != null && Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
+            foreach(Tuple<string, string> tuple in ethnicityStatus)
             {
-                foreach(Tuple<string, string> tuple in ethnicityStatus)
+                if (tuple.Item1.ToUpper() != "Non Hispanic or Latino".ToUpper() &&
+                    tuple.Item1.ToUpper() != "Hispanic or Latino".ToUpper() &&
+                    tuple.Item1.ToUpper() != "Mexican".ToUpper() &&
+                    tuple.Item1.ToUpper() != "Puerto Rican".ToUpper() &&
+                    tuple.Item1.ToUpper() != "Cuban".ToUpper())
                 {
-                    if (tuple.Item1.ToUpper() != "Hispanic or Latino".ToUpper() &&
-                        tuple.Item1.ToUpper() != "Mexican".ToUpper() &&
-                        tuple.Item1.ToUpper() != "Puerto Rican".ToUpper() &&
-                        tuple.Item1.ToUpper() != "Cuban".ToUpper())
+                    if (tuple.Item2.ToUpper() != "2186-5".ToUpper() &&
+                        tuple.Item2.ToUpper() != "2135-2".ToUpper() &&
+                        tuple.Item2.ToUpper() != "2148-5".ToUpper() &&
+                        tuple.Item2.ToUpper() != "2180-8".ToUpper() &&
+                        tuple.Item2.ToUpper() != "2182-4".ToUpper())
                     {
-                        if (tuple.Item2.ToUpper() != "2135-2".ToUpper() &&
-                            tuple.Item2.ToUpper() != "2148-5".ToUpper() &&
-                            tuple.Item2.ToUpper() != "2180-8".ToUpper() &&
-                            tuple.Item2.ToUpper() != "2182-4".ToUpper())
-                        {
-                            ethnicities.Add(tuple);
-                        }
+                        ethnicities.Add(tuple);
                     }
                 }
             }

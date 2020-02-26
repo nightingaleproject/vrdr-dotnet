@@ -21,6 +21,8 @@ namespace VRDR.HTTP
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
 
+            SetStringValueDictionary(values, "certificateNumber", record.Identifier);
+
             SetYesNoValueDictionary(values, "armedForcesService.armedForcesService", record, "MilitaryService");
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
             SetYesNoValueDictionary(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath", record, "AutopsyResultsAvailable");
@@ -56,6 +58,8 @@ namespace VRDR.HTTP
             SetStringValueDictionary(values, "cod.under2Int", record.INTERVAL1C);
             SetStringValueDictionary(values, "cod.under3", record.COD1D);
             SetStringValueDictionary(values, "cod.under3Int", record.INTERVAL1D);
+
+            SetStringValueDictionary(values, "contributingCauses.contributingCauses", record.ContributingConditions);
 
             SetDateValueDictionary(values, "dateOfBirth.dateOfBirth", record.DateOfBirth);
             SetDateValueDictionary(values, "dateOfDeath.dateOfDeath", record.DateOfDeath);
@@ -252,6 +256,8 @@ namespace VRDR.HTTP
             // Start building the record
             DeathRecord deathRecord = new DeathRecord();
 
+            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber"));
+
             SetYesNoValueDeathRecordCode(deathRecord, "MilitaryService", GetValue(values, "armedForcesService.armedForcesService"));
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyPerformedIndicator", GetValue(values, "autopsyPerformed.autopsyPerformed"));
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyResultsAvailable", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
@@ -285,6 +291,8 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "INTERVAL1C", GetValue(values, "cod.under2Int"));
             SetStringValueDeathRecordString(deathRecord, "COD1D", GetValue(values, "cod.under3"));
             SetStringValueDeathRecordString(deathRecord, "INTERVAL1D", GetValue(values, "cod.under3Int"));
+
+            SetStringValueDeathRecordString(deathRecord, "ContributingConditions", GetValue(values, "contributingCauses.contributingCauses"));
 
             SetStringValueDeathRecordString(deathRecord, "DateOfBirth", GetValue(values, "dateOfBirth.dateOfBirth"));
             SetStringValueDeathRecordString(deathRecord, "DateOfDeath", GetValue(values, "dateOfDeath.dateOfDeath"));
@@ -329,9 +337,9 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordDictionary(deathRecord, "PlaceOfBirth", "addressCountry", "United States");
 
             SetStringValueDeathRecordString(deathRecord, "DispositionLocationName", GetValue(values, "placeOfDisposition.name"));
-            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressLine1", GetValue(values, "placeOfDisposition.city"));
-            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressCity", GetValue(values, "placeOfDisposition.state"));
-            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressState", GetValue(values, "placeOfDisposition.country"));
+            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressCity", GetValue(values, "placeOfDisposition.city"));
+            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressState", GetValue(values, "placeOfDisposition.state"));
+            SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressCountry", GetValue(values, "placeOfDisposition.country"));
 
             List<string> names = new List<string>();
             if (!String.IsNullOrWhiteSpace(GetValue(values, "decedentName.firstName")))
@@ -355,6 +363,8 @@ namespace VRDR.HTTP
                 cnames.Add(GetValue(values, "personCompletingCauseOfDeathName.middleName"));
             }
             deathRecord.CertifierGivenNames = cnames.ToArray();
+
+            SetStringValueDeathRecordString(deathRecord, "CertifierFamilyName", GetValue(values, "personCompletingCauseOfDeathName.lastName"));
 
             SetStringValueDeathRecordString(deathRecord, "InjuryLocationDescription", GetValue(values, "detailsOfInjury.detailsOfInjury"));
 
@@ -463,7 +473,7 @@ namespace VRDR.HTTP
                     mar.Add("display", "Married");
                     deathRecord.MaritalStatus = mar;
                     break;
-                case "Married but seperated":
+                case "Legally Separated":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "L");
                     mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
@@ -471,28 +481,27 @@ namespace VRDR.HTTP
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Widowed":
-                case "Widowed (but not remarried)":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "W");
                     mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Widowed");
                     deathRecord.MaritalStatus = mar;
                     break;
-                case "Divorced (but not remarried)":
+                case "Divorced":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "D");
                     mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Divorced");
                     deathRecord.MaritalStatus = mar;
                     break;
-                case "Never married":
+                case "Never Married":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "S");
                     mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
                     mar.Add("display", "Never Married");
                     deathRecord.MaritalStatus = mar;
                     break;
-                case "Unknown":
+                case "unknown":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "UNK");
                     mar.Add("system", "http://hl7.org/fhir/v3/NullFlavor");

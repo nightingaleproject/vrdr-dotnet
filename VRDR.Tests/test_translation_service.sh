@@ -39,7 +39,7 @@ curl --data-binary "@1.nightingale" -H "Content-Type: application/nightingale" -
 curl --data-binary "@1.nightingale.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 2.nightingale
 
 # Test that nightingale records are the same
-if diff ije1.tmp ije2.tmp; then
+if diff 1.nightingale 2.nightingale; then
   echo "Nightingale matched! Roundtrip passed!"
   exit 0
 else

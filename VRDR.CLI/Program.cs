@@ -628,10 +628,9 @@ namespace VRDR.CLI
 
                 for (int i = 0; i < 1000; i++)
                 {
-                    DeathRecordSubmission submission = new DeathRecordSubmission();
+                    DeathRecordSubmission submission = new DeathRecordSubmission(record);
                     submission.MessageTimestamp = DateTime.Now;
                     submission.MessageId = "adam-" + Convert.ToString(i) + "-" + Guid.NewGuid();
-                    submission.MessagePayload = record.GetBundle();
                     StringContent stringContent = new StringContent(submission.ToJSON(), Encoding.UTF8, "application/fhir+json");
                     CallEndpoint(args[2], stringContent);
                     Console.WriteLine("Sending " + Convert.ToString(i));

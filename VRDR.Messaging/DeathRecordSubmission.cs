@@ -20,7 +20,7 @@ namespace VRDR
         private MessageHeader Header;
 
         /// <summary>Bundle that contains the message payload.</summary>
-        private Bundle Payload;
+        private DeathRecord Payload;
 
         /// <summary>Default constructor that creates a new, empty DeathRecordSubmission.</summary>
         public DeathRecordSubmission()
@@ -49,6 +49,13 @@ namespace VRDR
 
             // Create a Navigator for this.
             Navigator = MessageBundle.ToTypedElement();
+        }
+
+        /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordSubmission.</summary>
+        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
+        public DeathRecordSubmission(DeathRecord record) : this()
+        {
+            MessagePayload = record;
         }
 
         /// <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
@@ -203,7 +210,7 @@ namespace VRDR
 
         /// <summary>Message payload</summary>
         /// <value>the message payload as a FHIR Bundle.</value>
-        public Bundle MessagePayload
+        public DeathRecord MessagePayload
         {
             get
             {
@@ -213,9 +220,9 @@ namespace VRDR
             {
                 Payload = value;
                 MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
-                MessageBundle.AddResourceEntry(Payload, "urn:uuid:" + Payload.Id);
+                MessageBundle.AddResourceEntry(Payload.GetBundle(), "urn:uuid:" + Payload.GetBundle().Id);
                 Header.Focus.Clear();
-                Header.Focus.Add(new ResourceReference(Payload.Id));
+                Header.Focus.Add(new ResourceReference(Payload.GetBundle().Id));
             }
         }
 
@@ -244,7 +251,7 @@ namespace VRDR
             var payloadEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Bundle );
             if (payloadEntry != null)
             {
-                Payload = (Bundle)payloadEntry.Resource;
+                Payload = new DeathRecord((Bundle)payloadEntry.Resource);
             }
         }
     }

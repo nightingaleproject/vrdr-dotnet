@@ -22,6 +22,10 @@
         <member name="M:VRDR.DeathRecordSubmission.#ctor">
             <summary>Default constructor that creates a new, empty DeathRecordSubmission.</summary>
         </member>
+        <member name="M:VRDR.DeathRecordSubmission.#ctor(VRDR.DeathRecord)">
+            <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordSubmission.</summary>
+            <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
+        </member>
         <member name="M:VRDR.DeathRecordSubmission.#ctor(System.String,System.Boolean)">
             <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
             <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>

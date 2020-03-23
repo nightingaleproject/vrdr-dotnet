@@ -21,4 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference> -->
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VRDR\DeathRecord.csproj" />
+  </ItemGroup>
 </Project>

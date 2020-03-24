@@ -8,6 +8,11 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
+                "event": {
+                    "system": "http://nchs.cdc.gov/",
+                    "code": "vrdr_submission",
+                    "display": "vrdr_submission"
+                },
                 "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
                 "timestamp": "2020-03-23T17:53:22.20603-04:00",
                 "source": {"endpoint": "nightingale"},

@@ -1979,6 +1979,7 @@ namespace VRDR.Tests
         {
             DeathRecordSubmission submission = new DeathRecordSubmission((DeathRecord)XMLRecords[0]);
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("vrdr_submission", submission.MessageType);
         }
 
         [Fact]
@@ -1986,6 +1987,7 @@ namespace VRDR.Tests
         {
             DeathRecordSubmission submission = new DeathRecordSubmission(File.ReadAllText(FixturePath("fixtures/json/DeathRecordSubmission.json")));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("vrdr_submission", submission.MessageType);
         }
 
         private string FixturePath(string filePath)

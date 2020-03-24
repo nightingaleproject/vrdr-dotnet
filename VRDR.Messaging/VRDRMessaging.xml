@@ -4,17 +4,64 @@
         <name>VRDRMessaging</name>
     </assembly>
     <members>
-        <member name="T:VRDR.DeathRecordSubmission">
-            <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
+        <member name="T:VRDR.BaseMessage">
+            <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
         </member>
-        <member name="F:VRDR.DeathRecordSubmission.Navigator">
+        <member name="F:VRDR.BaseMessage.Navigator">
             <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
         </member>
-        <member name="F:VRDR.DeathRecordSubmission.MessageBundle">
+        <member name="F:VRDR.BaseMessage.MessageBundle">
             <summary>Bundle that contains the message.</summary>
         </member>
-        <member name="F:VRDR.DeathRecordSubmission.Header">
+        <member name="F:VRDR.BaseMessage.Header">
             <summary>MessageHeader that contains the message header.</summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.#ctor(System.String)">
+            <summary>Constructor that creates a new, empty message for the specified message type.</summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
+            <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="M:VRDR.BaseMessage.ToXML">
+            <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+            <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.ToXml">
+            <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+            <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.ToJSON">
+            <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+            <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.ToJson">
+            <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+            <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetITypedElement">
+            <summary>Helper method to return an ITypedElement of the message bundle.</summary>
+            <returns>an ITypedElement of the message bundle</returns>
+        </member>
+        <member name="P:VRDR.BaseMessage.MessageTimestamp">
+            <summary>Message timestamp</summary>
+            <value>the message timestamp.</value>
+        </member>
+        <member name="P:VRDR.BaseMessage.MessageId">
+            <summary>Message Id</summary>
+            <value>the message id.</value>
+        </member>
+        <member name="P:VRDR.BaseMessage.MessageType">
+            <summary>Message Type</summary>
+            <value>the message type.</value>
+        </member>
+        <member name="M:VRDR.BaseMessage.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="T:VRDR.DeathRecordSubmission">
+            <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
         </member>
         <member name="F:VRDR.DeathRecordSubmission.Payload">
             <summary>Bundle that contains the message payload.</summary>
@@ -31,34 +78,6 @@
             <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.ToXML">
-            <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
-            <returns>a string representation of this DeathRecordSubmission in XML format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.ToXml">
-            <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
-            <returns>a string representation of this DeathRecordSubmission in XML format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.ToJSON">
-            <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
-            <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.ToJson">
-            <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
-            <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.GetITypedElement">
-            <summary>Helper method to return an ITypedElement of the message bundle.</summary>
-            <returns>an ITypedElement of the message bundle</returns>
-        </member>
-        <member name="P:VRDR.DeathRecordSubmission.MessageTimestamp">
-            <summary>Message timestamp</summary>
-            <value>the message timestamp.</value>
-        </member>
-        <member name="P:VRDR.DeathRecordSubmission.MessageId">
-            <summary>Message Id</summary>
-            <value>the message id.</value>
         </member>
         <member name="P:VRDR.DeathRecordSubmission.MessagePayload">
             <summary>Message payload</summary>

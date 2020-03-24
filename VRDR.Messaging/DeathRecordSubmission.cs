@@ -64,4 +64,29 @@ namespace VRDR
             }
         }
     }
+
+    /// <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
+    public class DeathRecordUpdate : DeathRecordSubmission
+    {
+        /// <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
+        public DeathRecordUpdate() : base()
+        {
+            MessageType = "vrdr_submission_update";
+        }
+
+        /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
+        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
+        public DeathRecordUpdate(DeathRecord record) : base(record)
+        {
+            MessageType = "vrdr_submission_update";
+        }
+
+        /// <summary>Constructor that takes a string that represents a DeathRecordUpdate message in either XML or JSON format.</summary>
+        /// <param name="message">represents a DeathRecordUpdate message in either XML or JSON format.</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <exception cref="ArgumentException">Message is neither valid XML nor JSON.</exception>
+        public DeathRecordUpdate(string message, bool permissive = false) : base(message, permissive)
+        {
+        }
+    }
 }

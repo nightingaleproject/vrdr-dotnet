@@ -207,6 +207,10 @@ namespace VRDR
             {
                 return Header.Event.Code;
             }
+            set
+            {
+                Header.Event = new Coding("http://nchs.cdc.gov/", value, value);
+            }
         }
 
 

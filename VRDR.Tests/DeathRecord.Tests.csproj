@@ -18,6 +18,7 @@
     <None Update="fixtures/json/1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordSubmission.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingComposition.json" CopyToOutputDirectory="PreserveNewest" />

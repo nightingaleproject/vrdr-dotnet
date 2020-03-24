@@ -86,5 +86,21 @@
         <member name="M:VRDR.DeathRecordSubmission.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
         </member>
+        <member name="T:VRDR.DeathRecordUpdate">
+            <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecordUpdate.#ctor">
+            <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecordUpdate.#ctor(VRDR.DeathRecord)">
+            <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
+            <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
+        </member>
+        <member name="M:VRDR.DeathRecordUpdate.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a DeathRecordUpdate message in either XML or JSON format.</summary>
+            <param name="message">represents a DeathRecordUpdate message in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        </member>
     </members>
 </doc>

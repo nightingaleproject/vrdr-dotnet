@@ -1,9 +1,6 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Serialization;
 
 namespace VRDR
 {

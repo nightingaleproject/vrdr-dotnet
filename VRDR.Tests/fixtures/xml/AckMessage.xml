@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="1227ab22-e431-4d6e-b6ba-aec5c0eecd89"/>
+    <type value="message"/>
+    <entry>
+        <fullUrl value="urn:uuid:761dca08-259b-4dcd-aeb7-bb3c73fa30f2"/>
+        <resource>
+            <MessageHeader>
+                <id value="761dca08-259b-4dcd-aeb7-bb3c73fa30f2"/>
+                <event>
+                    <system value="http://nchs.cdc.gov/"/>
+                    <code value="vrdr_acknowledgement"/>
+                    <display value="vrdr_acknowledgement"/>
+                </event>
+                <destination>
+                    <endpoint value="nightingale"/>
+                </destination>
+                <timestamp value="2020-03-25T08:51:24.663034-04:00"/>
+                <source>
+                    <endpoint value="http://nchs.cdc.gov/vrdr_submission"/>
+                </source>
+                <response>
+                    <identifier value="a9d66d2e-2480-4e8d-bab3-4e4c761da1b7"/>
+                    <code value="ok"/>
+                </response>
+            </MessageHeader>
+        </resource>
+    </entry>
+</Bundle>

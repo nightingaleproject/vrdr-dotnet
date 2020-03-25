@@ -72,8 +72,8 @@ namespace VRDR.Tests
             DeathRecordSubmission submission = new DeathRecordSubmission(File.ReadAllText(FixturePath("fixtures/json/DeathRecordSubmission.json")));
             AckMessage ack = new AckMessage(submission);
             Assert.Equal("vrdr_acknowledgement", ack.MessageType);
-            Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
-            Assert.Equal("nightingale", ack.MessageDestination);
+            Assert.Equal(submission.MessageId, ack.AckedMessageId);
+            Assert.Equal(submission.MessageSource, ack.MessageDestination);
         }
 
         [Fact]

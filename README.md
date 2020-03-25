@@ -159,6 +159,61 @@ CauseCodes example = new CauseCodes(json);
 Console.WriteLine(example.ToXML());
 ```
 
+### VRDR.Messaging
+This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.
+
+#### Creating a Death Record Submission
+
+```cs
+// Create a DeathRecord (see examples above)
+DeathRecord record = ...;
+
+// Create a submission message
+DeathRecordSubmission message = new DeathRecordSubmission(record);
+
+// Create a JSON representation of the message (XML is also supported via the ToXML method) 
+string jsonMessage = message.ToJSON();
+
+// Send the JSON message
+...
+```
+
+The `DeathRecordSubmission` class supports several properties that enable customization of the message contents, E.g., the `MessageSource` property allows the sender of the message to be specified.
+
+#### Consuming a Death Record Submission
+
+```cs
+// Get the DeathRecordSubmission message JSON representation
+string jsonMessage = ...;
+
+// Parse the JSON
+DeathRecordSubmission message = new DeathRecordSubmission(jsonMessage);
+
+// Get the DeathRecord
+DeathRecord record = message.MessagePayload;
+
+// Process the DeathRecord
+...
+```
+
+#### Creating an Acknowledgement Message
+
+```cs
+// Get the DeathRecordSubmission message
+DeathRecordSubmission message = ...;
+
+// Create the acknowledgement message
+AckMessage ack = new AckMessage(message);
+
+// Create a JSON representation of the acknowledgement message
+string jsonAck = ack.ToJSON();
+
+// Send the JSON acknowledgement message
+...
+```
+
+Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property.
+
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.
 

@@ -4,6 +4,30 @@
         <name>VRDRMessaging</name>
     </assembly>
     <members>
+        <member name="T:VRDR.AckMessage">
+            <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
+        </member>
+        <member name="M:VRDR.AckMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates an acknowledgement for the specified message.</summary>
+            <param name="messageToAck">the message to create an acknowledgement for.</param>
+            <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.AckMessage.#ctor(System.String,System.String,System.String)">
+            <summary>Constructor that creates an acknowledgement for the specified message.</summary>
+            <param name="messageId">the id of the message to create an acknowledgement for.</param>
+            <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
+            <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.AckMessage.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents an AckMessage in either XML or JSON format.</summary>
+            <param name="message">represents an AckMessage in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="P:VRDR.AckMessage.AckedMessageId">
+            <summary>The id of the message that is being acknowledged by this message</summary>
+            <value>the message id.</value>
+        </member>
         <member name="T:VRDR.BaseMessage">
             <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
         </member>
@@ -56,6 +80,14 @@
         <member name="P:VRDR.BaseMessage.MessageType">
             <summary>Message Type</summary>
             <value>the message type.</value>
+        </member>
+        <member name="P:VRDR.BaseMessage.MessageSource">
+            <summary>Message Source</summary>
+            <value>the message source.</value>
+        </member>
+        <member name="P:VRDR.BaseMessage.MessageDestination">
+            <summary>Message Destination</summary>
+            <value>the message destination.</value>
         </member>
         <member name="M:VRDR.BaseMessage.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>

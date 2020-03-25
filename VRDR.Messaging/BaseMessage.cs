@@ -213,6 +213,36 @@ namespace VRDR
             }
         }
 
+        /// <summary>Message Source</summary>
+        /// <value>the message source.</value>
+        public string MessageSource
+        {
+            get
+            {
+                return Header.Source.Endpoint;
+            }
+            set
+            {
+                Header.Source.Endpoint = value;
+            }
+        }
+
+        /// <summary>Message Destination</summary>
+        /// <value>the message destination.</value>
+        public string MessageDestination
+        {
+            get
+            {
+                return Header.Destination.ToArray()[0].Endpoint;
+            }
+            set
+            {
+                Header.Destination.Clear();
+                MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
+                dest.Endpoint = value;
+                Header.Destination.Add(dest);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //

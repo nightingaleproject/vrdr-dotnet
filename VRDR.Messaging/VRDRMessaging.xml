@@ -92,6 +92,128 @@
         <member name="M:VRDR.BaseMessage.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
         </member>
+        <member name="T:VRDR.CodingResponseMessage">
+            <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
+        </member>
+        <member name="M:VRDR.CodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="sourceMessage">the message to create a response for.</param>
+            <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a response message in either XML or JSON format.</summary>
+            <param name="message">represents a response message in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="M:VRDR.CodingResponseMessage.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.CertificateNumber">
+            <summary>Jurisdiction-assigned death certificate number</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.StateIdentifier">
+            <summary>Jurisdiction-assigned id</summary>
+        </member>
+        <member name="T:VRDR.CodingResponseMessage.HispanicOrigin">
+            <summary>Ethnicity codes</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.HispanicOrigin.DETHNICE">
+            <summary>Edited Hispanic Origin Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.HispanicOrigin.DETHNIC5C">
+            <summary>Hispanic Code for Literal</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.Ethnicity">
+            <summary>Decedent ethnicity coding</summary>
+        </member>
+        <member name="T:VRDR.CodingResponseMessage.RaceCode">
+            <summary>Race codes</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE1E">
+            <summary>First Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE2E">
+            <summary>Second Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE3E">
+            <summary>Third Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE4E">
+            <summary>Fourth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE5E">
+            <summary>Fifth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE6E">
+            <summary>Sixth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE7E">
+            <summary>Seventh Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE8E">
+            <summary>Eighth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE16C">
+            <summary>First Am. Ind Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE17C">
+            <summary>Second Am. Ind Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE18C">
+            <summary>First Other Asian Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE19C">
+            <summary>Second Other Asian Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE20C">
+            <summary>First Other PI Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE21C">
+            <summary>Second Other Pi Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE22C">
+            <summary>First Other Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE23C">
+            <summary>Second Other Code</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACEBRG">
+            <summary>Bridged Multiple Race Code</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.Race">
+            <summary>Decedent race coding</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.UnderlyingCauseOfDeath">
+            <summary>Underlying cause of death code (ICD-10)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathRecordAxis">
+            <summary>Record axis coding of cause of death</summary>
+        </member>
+        <member name="T:VRDR.CauseOfDeathEntityAxisEntry">
+            <summary>Class for structuring a cause of death entity axis entry</summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.String)">
+            <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
+            condition id</summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.AddCode(System.String)">
+            <summary>Add a Cause of death code</summary>
+        </member>
+        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.DeathCertificateText">
+            <summary>A line of the original cause of death on the death certificate</summary>
+        </member>
+        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.CauseOfDeathConditionId">
+            <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
+        </member>
+        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.AssignedCodes">
+            <summary>The codes assigned for the DeathCertificateText</summary>
+        </member>
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
         </member>

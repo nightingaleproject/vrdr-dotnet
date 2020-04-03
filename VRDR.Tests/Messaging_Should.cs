@@ -95,6 +95,48 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateCodingResponseFromJSON()
+        {
+            CodingResponseMessage message = new CodingResponseMessage(File.ReadAllText(FixturePath("fixtures/json/CauseOfDeathCodingMessage.json")), false);
+            Assert.Equal("vrdr_coding", message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
+            Assert.Equal("cert101010", message.CertificateNumber);
+            Assert.Equal("id101010", message.StateIdentifier);
+            var ethnicity = message.Ethnicity;
+            Assert.Equal(2, ethnicity.Count);
+            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            var race = message.Race;
+            Assert.Equal(3, race.Count);
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
+            Assert.Equal("A04.7", message.UnderlyingCauseOfDeath);
+            var recordAxisCodes = message.CauseOfDeathRecordAxis;
+            Assert.Equal(4, recordAxisCodes.Count);
+            Assert.Equal("A04.7", recordAxisCodes[0]);
+            Assert.Equal("A41.9", recordAxisCodes[1]);
+            Assert.Equal("J18.9", recordAxisCodes[2]);
+            Assert.Equal("J96.0", recordAxisCodes[3]);
+            var entityAxisEntries = message.CauseOfDeathEntityAxis;
+            Assert.Equal(2, (int)entityAxisEntries.Count);
+            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
+            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
+            Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
+            Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
+            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
+            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
+            Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
+        }
+
+        [Fact]
         public void CreateCodingResponse()
         {
             CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
@@ -149,13 +191,32 @@ namespace VRDR.Tests
             message.CauseOfDeathRecordAxis = recordAxisCodes;
             recordAxisCodes = message.CauseOfDeathRecordAxis;
             Assert.Equal(4, recordAxisCodes.Count);
-            var arr = recordAxisCodes.ToArray();
-            Assert.Equal("A04.7", arr[0]);
-            Assert.Equal("A41.9", arr[1]);
-            Assert.Equal("J18.9", arr[2]);
-            Assert.Equal("J96.0", arr[3]);
+            Assert.Equal("A04.7", recordAxisCodes[0]);
+            Assert.Equal("A41.9", recordAxisCodes[1]);
+            Assert.Equal("J18.9", recordAxisCodes[2]);
+            Assert.Equal("J96.0", recordAxisCodes[3]);
 
-            // Console.WriteLine(message.ToJson());
+            Assert.Empty(message.CauseOfDeathEntityAxis);
+            var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
+            var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "abcde");
+            entry1.AssignedCodes.Add("code1_1");
+            entry1.AssignedCodes.Add("code1_2");
+            entityAxisEntries.Add(entry1);
+            var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "xyzzy");
+            entry2.AssignedCodes.Add("code2_1");
+            entityAxisEntries.Add(entry2);
+            message.CauseOfDeathEntityAxis = entityAxisEntries;
+            entityAxisEntries = message.CauseOfDeathEntityAxis;
+            Assert.Equal(2, (int)entityAxisEntries.Count);
+            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
+            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
+            Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
+            Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
+            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
+            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
+            Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
         }
 
         [Fact]
@@ -165,12 +226,11 @@ namespace VRDR.Tests
             Assert.Equal("FooBarBaz", entry.DeathCertificateText);
             Assert.Equal("id101010", entry.CauseOfDeathConditionId);
             Assert.Empty(entry.AssignedCodes);
-            entry.AddCode("A10.4");
-            entry.AddCode("J01.5");
+            entry.AssignedCodes.Add("A10.4");
+            entry.AssignedCodes.Add("J01.5");
             Assert.Equal(2, entry.AssignedCodes.Count);
-            var arr = entry.AssignedCodes.ToArray();
-            Assert.Equal("A10.4", arr[0]);
-            Assert.Equal("J01.5", arr[1]);
+            Assert.Equal("A10.4", entry.AssignedCodes[0]);
+            Assert.Equal("J01.5", entry.AssignedCodes[1]);
         }
 
         private string FixturePath(string filePath)

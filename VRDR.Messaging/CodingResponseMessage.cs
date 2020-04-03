@@ -236,55 +236,91 @@ namespace VRDR
                 Payload.Add("record_cause_of_death", list);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
+        public List<CauseOfDeathEntityAxisEntry> CauseOfDeathEntityAxis
+        {
+            get
+            {
+                var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
+                foreach (Parameters.ParameterComponent part in Payload.Get("entity_axis_code"))
+                {
+                    string text = "";
+                    string conditionId = "";
+                    var codes = new List<string>();
+                    foreach (Parameters.ParameterComponent childPart in part.Part)
+                    {
+                        if (childPart.Name == "text")
+                        {
+                            text = ((FhirString)childPart.Value).Value;
+                        }
+                        else if (childPart.Name == "condition")
+                        {
+                            conditionId = ((Id)childPart.Value).Value;
+                        }
+                        else if (childPart.Name == "coding")
+                        {
+                            var coding = (Coding)childPart.Value;
+                            codes.Add(coding.Code);
+                        }
+                    }
+                    var entry = new CauseOfDeathEntityAxisEntry(text, conditionId, codes);
+                    entityAxisEntries.Add(entry);
+                }
+                return entityAxisEntries;
+            }
+            set
+            {
+                Payload.Remove("entity_axis_code");
+                foreach (CauseOfDeathEntityAxisEntry entry in value)
+                {
+                    var entityAxisEntry = new List<Tuple<string, Base>>();
+                    var part = Tuple.Create("text", (Base)(new FhirString(entry.DeathCertificateText)));
+                    entityAxisEntry.Add(part);
+                    part = Tuple.Create("condition", (Base)(new Id(entry.CauseOfDeathConditionId)));
+                    entityAxisEntry.Add(part);
+                    foreach (string code in entry.AssignedCodes)
+                    {
+                        part = Tuple.Create("coding", (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
+                        entityAxisEntry.Add(part);
+                    }
+                    Payload.Add("entity_axis_code", entityAxisEntry);
+                }
+            }
+        }
     }
 
     /// <summary>Class for structuring a cause of death entity axis entry</summary>
     public class CauseOfDeathEntityAxisEntry
     {
-        private string deathCertificateText;
-        private string causeOfDeathConditionId;
-        private List<string> assignedCodes;
+        /// <summary>A line of the original cause of death on the death certificate</summary>
+        public readonly string DeathCertificateText;
+
+        /// <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
+        public readonly string CauseOfDeathConditionId;
+
+        /// <summary>The codes assigned for the DeathCertificateText</summary>
+        public readonly List<string> AssignedCodes;
 
         /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
         /// condition id</summary>
         public CauseOfDeathEntityAxisEntry(string deathCertificateText, string causeOfDeathConditionId)
         {
-            this.assignedCodes = new List<string>();
-            this.deathCertificateText = deathCertificateText;
-            this.causeOfDeathConditionId = causeOfDeathConditionId;
+            this.AssignedCodes = new List<string>();
+            this.DeathCertificateText = deathCertificateText;
+            this.CauseOfDeathConditionId = causeOfDeathConditionId;
         }
 
-        /// <summary>Add a Cause of death code</summary>
-        public void AddCode(string code)
+        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
+        /// condition id</summary>
+        public CauseOfDeathEntityAxisEntry(string deathCertificateText, string causeOfDeathConditionId, List<string> codes)
         {
-            assignedCodes.Add(code);
-        }
-
-        /// <summary>A line of the original cause of death on the death certificate</summary>
-        public string DeathCertificateText
-        {
-            get
-            {
-                return deathCertificateText;
-            }
-        }
-
-        /// <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
-        public string CauseOfDeathConditionId
-        {
-            get
-            {
-                return causeOfDeathConditionId;
-            }
-        }
-
-        /// <summary>The codes assigned for the DeathCertificateText</summary>
-        public List<string> AssignedCodes
-        {
-            get
-            {
-                return assignedCodes;
-            }
+            this.AssignedCodes = codes;
+            this.DeathCertificateText = deathCertificateText;
+            this.CauseOfDeathConditionId = causeOfDeathConditionId;
         }
     }
 }

@@ -195,24 +195,31 @@
         <member name="P:VRDR.CodingResponseMessage.CauseOfDeathRecordAxis">
             <summary>Record axis coding of cause of death</summary>
         </member>
+        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
         <member name="T:VRDR.CauseOfDeathEntityAxisEntry">
             <summary>Class for structuring a cause of death entity axis entry</summary>
+        </member>
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.DeathCertificateText">
+            <summary>A line of the original cause of death on the death certificate</summary>
+        </member>
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.CauseOfDeathConditionId">
+            <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
+        </member>
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.AssignedCodes">
+            <summary>The codes assigned for the DeathCertificateText</summary>
         </member>
         <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.String)">
             <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
             condition id</summary>
         </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.AddCode(System.String)">
-            <summary>Add a Cause of death code</summary>
-        </member>
-        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.DeathCertificateText">
-            <summary>A line of the original cause of death on the death certificate</summary>
-        </member>
-        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.CauseOfDeathConditionId">
-            <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
-        </member>
-        <member name="P:VRDR.CauseOfDeathEntityAxisEntry.AssignedCodes">
-            <summary>The codes assigned for the DeathCertificateText</summary>
+        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.String,System.Collections.Generic.List{System.String})">
+            <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
+            condition id</summary>
         </member>
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>

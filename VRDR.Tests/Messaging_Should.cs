@@ -233,6 +233,41 @@ namespace VRDR.Tests
             Assert.Equal("J01.5", entry.AssignedCodes[1]);
         }
 
+        [Fact]
+        public void CreateVoidMessage()
+        {
+            VoidMessage message = new VoidMessage();
+            Assert.Equal("vrdr_submission_void", message.MessageType);
+            Assert.Null(message.CertificateNumber);
+            message.CertificateNumber = "foo";
+            Assert.Equal("foo", message.CertificateNumber);
+            Assert.Null(message.StateIdentifier);
+            message.StateIdentifier = "bar";
+            Assert.Equal("bar", message.StateIdentifier);
+        }
+
+        [Fact]
+        public void CreateVoidMessageFromJson()
+        {
+            VoidMessage message = new VoidMessage(File.ReadAllText(FixturePath("fixtures/json/VoidMessage.json")), false);
+            Assert.Equal("vrdr_submission_void", message.MessageType);
+            Assert.Equal("foo", message.CertificateNumber);
+            Assert.Equal("bar", message.StateIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("nightingale", message.MessageSource);
+        }
+
+        [Fact]
+        public void CreateVoidForDocument()
+        {
+            VoidMessage message = new VoidMessage((DeathRecord)XMLRecords[0]);
+            Assert.Equal("vrdr_submission_void", message.MessageType);
+            Assert.Equal("1", message.CertificateNumber);
+            Assert.Equal("42", message.StateIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("nightingale", message.MessageSource);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

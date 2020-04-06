@@ -263,5 +263,30 @@
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
         </member>
+        <member name="T:VRDR.VoidMessage">
+            <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
+        </member>
+        <member name="M:VRDR.VoidMessage.#ctor">
+            <summary>Default constructor that creates a new, empty VoidMessage.</summary>
+        </member>
+        <member name="M:VRDR.VoidMessage.#ctor(VRDR.DeathRecord)">
+            <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
+            <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
+        </member>
+        <member name="M:VRDR.VoidMessage.#ctor(System.String,System.Boolean)">
+            <summary>Constructor that takes a string that represents a void message in either XML or JSON format.</summary>
+            <param name="message">represents a void message in either XML or JSON format.</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        </member>
+        <member name="M:VRDR.VoidMessage.RestoreReferences">
+            <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="P:VRDR.VoidMessage.CertificateNumber">
+            <summary>Jurisdiction-assigned death certificate number</summary>
+        </member>
+        <member name="P:VRDR.VoidMessage.StateIdentifier">
+            <summary>Jurisdiction-assigned id</summary>
+        </member>
     </members>
 </doc>

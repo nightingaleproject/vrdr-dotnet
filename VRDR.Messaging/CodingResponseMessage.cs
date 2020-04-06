@@ -28,7 +28,6 @@ namespace VRDR
             this.Payload.Id = Guid.NewGuid().ToString();
             MessageBundle.AddResourceEntry(this.Payload, "urn:uuid:" + this.Payload.Id);
             Header.Focus.Add(new ResourceReference(this.Payload.Id));
-
         }
 
         /// <summary>Constructor that takes a string that represents a response message in either XML or JSON format.</summary>

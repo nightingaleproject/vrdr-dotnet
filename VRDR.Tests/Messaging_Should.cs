@@ -38,7 +38,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateSubmissionFromJSON()
         {
-            DeathRecordSubmission submission = new DeathRecordSubmission(File.ReadAllText(FixturePath("fixtures/json/DeathRecordSubmission.json")));
+            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
             Assert.Equal("vrdr_submission", submission.MessageType);
         }
@@ -61,7 +61,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateUpdateFromJSON()
         {
-            DeathRecordUpdate submission = new DeathRecordUpdate(File.ReadAllText(FixturePath("fixtures/json/DeathRecordUpdate.json")));
+            DeathRecordUpdate submission = (DeathRecordUpdate)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
             Assert.Equal("vrdr_submission_update", submission.MessageType);
         }
@@ -69,7 +69,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckForMessage()
         {
-            DeathRecordSubmission submission = new DeathRecordSubmission(File.ReadAllText(FixturePath("fixtures/json/DeathRecordSubmission.json")));
+            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             AckMessage ack = new AckMessage(submission);
             Assert.Equal("vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
@@ -79,7 +79,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromJSON()
         {
-            AckMessage ack = new AckMessage(File.ReadAllText(FixturePath("fixtures/json/AckMessage.json")));
+            AckMessage ack = (AckMessage)BaseMessage.Parse(FixtureStream("fixtures/json/AckMessage.json"));
             Assert.Equal("vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -88,7 +88,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromXML()
         {
-            AckMessage ack = new AckMessage(File.ReadAllText(FixturePath("fixtures/xml/AckMessage.xml")));
+            AckMessage ack = (AckMessage)BaseMessage.Parse(FixtureStream("fixtures/xml/AckMessage.xml"));
             Assert.Equal("vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -97,7 +97,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCodingResponseFromJSON()
         {
-            CodingResponseMessage message = new CodingResponseMessage(File.ReadAllText(FixturePath("fixtures/json/CauseOfDeathCodingMessage.json")), false);
+            CodingResponseMessage message = (CodingResponseMessage)BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
             Assert.Equal("vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal("cert101010", message.CertificateNumber);
@@ -249,7 +249,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateVoidMessageFromJson()
         {
-            VoidMessage message = new VoidMessage(File.ReadAllText(FixturePath("fixtures/json/VoidMessage.json")), false);
+            VoidMessage message = (VoidMessage)BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"));
             Assert.Equal("vrdr_submission_void", message.MessageType);
             Assert.Equal("foo", message.CertificateNumber);
             Assert.Equal("bar", message.StateIdentifier);
@@ -268,6 +268,23 @@ namespace VRDR.Tests
             Assert.Equal("nightingale", message.MessageSource);
         }
 
+        [Fact]
+        public void SelectMessageType()
+        {
+            var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AckMessage.json"), false);
+            Assert.IsType<AckMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"), false);
+            Assert.IsType<VoidMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"), false);
+            Assert.IsType<CodingResponseMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"), false);
+            Assert.IsType<DeathRecordSubmission>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"), false);
+            Assert.IsType<DeathRecordUpdate>(msg);
+            Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
+            Assert.Equal("Unsupported message type: vrdr_invalid_type", ex.Message);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))
@@ -278,6 +295,15 @@ namespace VRDR.Tests
             {
                 return Path.GetRelativePath(Directory.GetCurrentDirectory(), filePath);
             }
+        }
+
+        private StreamReader FixtureStream(string filePath)
+        {
+            if (!Path.IsPathRooted(filePath))
+            {
+                filePath = Path.GetRelativePath(Directory.GetCurrentDirectory(), filePath);
+            }
+            return File.OpenText(filePath);
         }
     }
 }

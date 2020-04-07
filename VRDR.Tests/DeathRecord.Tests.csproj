@@ -19,6 +19,7 @@
     <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordSubmission.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/InvalidMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />

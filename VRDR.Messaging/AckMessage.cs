@@ -13,6 +13,16 @@ namespace VRDR
         {
         }
 
+        /// <summary>
+        /// Construct an AckMessage from a FHIR Bundle.
+        /// </summary>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the AckMessage</param>
+        /// <returns></returns>
+        public AckMessage(Bundle messageBundle) : base(messageBundle)
+        {
+            // no payload for Ack message
+        }
+
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
@@ -25,14 +35,6 @@ namespace VRDR
             resp.Identifier = messageId;
             resp.Code = MessageHeader.ResponseType.Ok;
             Header.Response = resp;
-        }
-
-        /// <summary>Constructor that takes a string that represents an AckMessage in either XML or JSON format.</summary>
-        /// <param name="message">represents an AckMessage in either XML or JSON format.</param>
-        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
-        /// <exception cref="ArgumentException">Message is neither valid XML nor JSON.</exception>
-        public AckMessage(string message, bool permissive = false) : base(message, permissive)
-        {
         }
 
         /// <summary>The id of the message that is being acknowledged by this message</summary>

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Hl7.Fhir.ElementModel;
@@ -10,14 +11,46 @@ namespace VRDR
     /// <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
     public class BaseMessage
     {
-        /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
-        protected ITypedElement Navigator;
-
         /// <summary>Bundle that contains the message.</summary>
         protected Bundle MessageBundle;
 
         /// <summary>MessageHeader that contains the message header.</summary>
         protected MessageHeader Header;
+
+        /// <summary>
+        /// Construct a BaseMessage from a FHIR Bundle. This constructor will also validate that the Bundle
+        /// represents a FHIR message.
+        /// </summary>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
+        public BaseMessage(Bundle messageBundle)
+        {
+            MessageBundle = messageBundle;
+
+            // Validate bundle type is message
+            if (messageBundle.Type != Bundle.BundleType.Message)
+            {
+                throw new System.ArgumentException("The FHIR Bundle must be of type message.");
+            }
+
+            // Find Header
+            Header = findEntry<MessageHeader>(ResourceType.MessageHeader);
+        }
+
+        /// <summary>
+        /// Find the first Entry within the message Bundle that contains a Resource of the specified type and return that resource.
+        /// </summary>
+        /// <param name="type">the type of FHIR resource to look for</param>
+        /// <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
+        /// <returns></returns>
+        protected T findEntry<T>(ResourceType type) where T : Resource
+        {
+            var entry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
+            if (entry == null)
+            {
+                throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {type.ToString()}");
+            }
+            return (T)entry.Resource;
+        }
 
         /// <summary>Constructor that creates a new, empty message for the specified message type.</summary>
         public BaseMessage(String messageType)
@@ -44,87 +77,6 @@ namespace VRDR
             Header.Source = src;
 
             MessageBundle.AddResourceEntry(Header, "urn:uuid:" + Header.Id);
-
-            // Create a Navigator for this.
-            Navigator = MessageBundle.ToTypedElement();
-        }
-
-        /// <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
-        /// <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>
-        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
-        /// <exception cref="ArgumentException">Message is neither valid XML nor JSON.</exception>
-        public BaseMessage(string message, bool permissive = false)
-        {
-            ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = permissive,
-                                                                 AllowUnrecognizedEnums = permissive,
-                                                                 PermissiveParsing = permissive };
-            // XML?
-            if (!String.IsNullOrEmpty(message) && message.TrimStart().StartsWith("<"))
-            {
-                // Grab all errors found by visiting all nodes and report if not permissive
-                if (!permissive)
-                {
-                    List<string> entries = new List<string>();
-                    ISourceNode node = FhirXmlNode.Parse(message, new FhirXmlParsingSettings { PermissiveParsing = permissive });
-                    foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
-                    {
-                        entries.Add(problem.Message);
-                    }
-                    if (entries.Count > 0)
-                    {
-                        throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
-                    }
-                }
-                // Try Parse
-                try
-                {
-                    FhirXmlParser parser = new FhirXmlParser(parserSettings);
-                    MessageBundle = parser.Parse<Bundle>(message);
-                    Navigator = MessageBundle.ToTypedElement();
-                }
-                catch (Exception e)
-                {
-                    throw new System.ArgumentException(e.Message);
-                }
-            }
-            // JSON?
-            if (!String.IsNullOrEmpty(message) && message.TrimStart().StartsWith("{"))
-            {
-                // Grab all errors found by visiting all nodes and report if not permissive
-                if (!permissive)
-                {
-                    List<string> entries = new List<string>();
-                    ISourceNode node = FhirJsonNode.Parse(message, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
-                    foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
-                    {
-                        entries.Add(problem.Message);
-                    }
-                    if (entries.Count > 0)
-                    {
-                        throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
-                    }
-                }
-                // Try Parse
-                try
-                {
-                    FhirJsonParser parser = new FhirJsonParser(parserSettings);
-                    MessageBundle = parser.Parse<Bundle>(message);
-                    Navigator = MessageBundle.ToTypedElement();
-                }
-                catch (Exception e)
-                {
-                    throw new System.ArgumentException(e.Message);
-                }
-            }
-            // Fill out class instance references
-            if (Navigator != null)
-            {
-                RestoreReferences();
-            }
-            else
-            {
-                throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
-            }
         }
 
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
@@ -154,14 +106,6 @@ namespace VRDR
         {
             return MessageBundle.ToJson();
         }
-
-        /// <summary>Helper method to return an ITypedElement of the message bundle.</summary>
-        /// <returns>an ITypedElement of the message bundle</returns>
-        public ITypedElement GetITypedElement()
-        {
-            return Navigator;
-        }
-
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -244,25 +188,123 @@ namespace VRDR
             }
         }
 
-        /////////////////////////////////////////////////////////////////////////////////
-        //
-        // Class helper methods useful for building, searching through messages.
-        //
-        /////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>Restores class references from a newly parsed record.</summary>
-        protected virtual void RestoreReferences()
+        /// <summary>
+        /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+        /// BaseMessage. Clients can use the typeof operator to determine the type of message object returned
+        /// </summary>
+        /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <returns></returns>
+        public static BaseMessage Parse(StreamReader source, bool permissive = false)
         {
-            // Grab Header
-            var headerEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.MessageHeader );
-            if (headerEntry != null)
+            string content = source.ReadToEnd();
+            Bundle bundle = null;
+            if (!String.IsNullOrEmpty(content) && content.TrimStart().StartsWith("<"))
             {
-                Header = (MessageHeader)headerEntry.Resource;
+                bundle = ParseXML(content, permissive);
+            }
+            else if (!String.IsNullOrEmpty(content) && content.TrimStart().StartsWith("{"))
+            {
+                bundle = ParseJSON(content, permissive);
             }
             else
             {
-                throw new System.ArgumentException("Failed to find a Header. The first entry in the FHIR Message should be a MessageHeader.");
+                throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
             }
+
+            BaseMessage typedMessage = GetMessageType(bundle) switch
+            {
+                "vrdr_submission"
+                    => new DeathRecordSubmission(bundle),
+                "vrdr_submission_update"
+                    => new DeathRecordUpdate(bundle),
+                "vrdr_acknowledgement"
+                    => new AckMessage(bundle),
+                "vrdr_submission_void"
+                    => new VoidMessage(bundle),
+                "vrdr_coding"
+                    => new CodingResponseMessage(bundle),
+                _
+                    => throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}")
+            };
+            return typedMessage;
+        }
+
+        private static string GetMessageType(Bundle bundle)
+        {
+            var baseMessage = new BaseMessage(bundle);
+            return baseMessage.MessageType;
+        }
+
+        private static ParserSettings GetParserSettings(bool permissive)
+        {
+            return new ParserSettings { AcceptUnknownMembers = permissive,
+                                        AllowUnrecognizedEnums = permissive,
+                                        PermissiveParsing = permissive };
+        }
+
+        private static Bundle ParseXML(string content, bool permissive)
+        {
+            Bundle bundle = null;
+
+            // Grab all errors found by visiting all nodes and report if not permissive
+            if (!permissive)
+            {
+                List<string> entries = new List<string>();
+                ISourceNode node = FhirXmlNode.Parse(content, new FhirXmlParsingSettings { PermissiveParsing = permissive });
+                foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
+                {
+                    entries.Add(problem.Message);
+                }
+                if (entries.Count > 0)
+                {
+                    throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                }
+            }
+            // Try Parse
+            try
+            {
+                FhirXmlParser parser = new FhirXmlParser(GetParserSettings(permissive));
+                bundle = parser.Parse<Bundle>(content);
+            }
+            catch (Exception e)
+            {
+                throw new System.ArgumentException(e.Message);
+            }
+            
+            return bundle;
+        }
+
+        private static Bundle ParseJSON(string content, bool permissive)
+        {
+            Bundle bundle = null;
+
+            // Grab all errors found by visiting all nodes and report if not permissive
+            if (!permissive)
+            {
+                List<string> entries = new List<string>();
+                ISourceNode node = FhirJsonNode.Parse(content, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
+                foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
+                {
+                    entries.Add(problem.Message);
+                }
+                if (entries.Count > 0)
+                {
+                    throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                }
+            }
+            // Try Parse
+            try
+            {
+                FhirJsonParser parser = new FhirJsonParser(GetParserSettings(permissive));
+                bundle = parser.Parse<Bundle>(content);
+            }
+            catch (Exception e)
+            {
+                throw new System.ArgumentException(e.Message);
+            }
+
+            return bundle;
         }
     }
 }

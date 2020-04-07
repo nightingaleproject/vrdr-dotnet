@@ -12,17 +12,18 @@
             <param name="messageToAck">the message to create an acknowledgement for.</param>
             <param name="source">the endpoint identifier that the ack message will be sent from.</param>
         </member>
+        <member name="M:VRDR.AckMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct an AckMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the AckMessage</param>
+            <returns></returns>
+        </member>
         <member name="M:VRDR.AckMessage.#ctor(System.String,System.String,System.String)">
             <summary>Constructor that creates an acknowledgement for the specified message.</summary>
             <param name="messageId">the id of the message to create an acknowledgement for.</param>
             <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
             <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        </member>
-        <member name="M:VRDR.AckMessage.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents an AckMessage in either XML or JSON format.</summary>
-            <param name="message">represents an AckMessage in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
         </member>
         <member name="P:VRDR.AckMessage.AckedMessageId">
             <summary>The id of the message that is being acknowledged by this message</summary>
@@ -31,23 +32,29 @@
         <member name="T:VRDR.BaseMessage">
             <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
         </member>
-        <member name="F:VRDR.BaseMessage.Navigator">
-            <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>
-        </member>
         <member name="F:VRDR.BaseMessage.MessageBundle">
             <summary>Bundle that contains the message.</summary>
         </member>
         <member name="F:VRDR.BaseMessage.Header">
             <summary>MessageHeader that contains the message header.</summary>
         </member>
+        <member name="M:VRDR.BaseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a BaseMessage from a FHIR Bundle. This constructor will also validate that the Bundle
+            represents a FHIR message.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
+        </member>
+        <member name="M:VRDR.BaseMessage.findEntry``1(Hl7.Fhir.Model.ResourceType)">
+            <summary>
+            Find the first Entry within the message Bundle that contains a Resource of the specified type and return that resource.
+            </summary>
+            <param name="type">the type of FHIR resource to look for</param>
+            <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
+            <returns></returns>
+        </member>
         <member name="M:VRDR.BaseMessage.#ctor(System.String)">
             <summary>Constructor that creates a new, empty message for the specified message type.</summary>
-        </member>
-        <member name="M:VRDR.BaseMessage.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
-            <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
         </member>
         <member name="M:VRDR.BaseMessage.ToXML">
             <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
@@ -64,10 +71,6 @@
         <member name="M:VRDR.BaseMessage.ToJson">
             <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
             <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
-        </member>
-        <member name="M:VRDR.BaseMessage.GetITypedElement">
-            <summary>Helper method to return an ITypedElement of the message bundle.</summary>
-            <returns>an ITypedElement of the message bundle</returns>
         </member>
         <member name="P:VRDR.BaseMessage.MessageTimestamp">
             <summary>Message timestamp</summary>
@@ -89,8 +92,14 @@
             <summary>Message Destination</summary>
             <value>the message destination.</value>
         </member>
-        <member name="M:VRDR.BaseMessage.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
+        <member name="M:VRDR.BaseMessage.Parse(System.IO.StreamReader,System.Boolean)">
+            <summary>
+            Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+            BaseMessage. Clients can use the typeof operator to determine the type of message object returned
+            </summary>
+            <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <returns></returns>
         </member>
         <member name="T:VRDR.CodingResponseMessage">
             <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
@@ -100,19 +109,17 @@
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the ack message will be sent from.</param>
         </member>
+        <member name="M:VRDR.CodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a CodingResponseMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+            <returns></returns>
+        </member>
         <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a response message in either XML or JSON format.</summary>
-            <param name="message">represents a response message in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
-        </member>
-        <member name="M:VRDR.CodingResponseMessage.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CertificateNumber">
             <summary>Jurisdiction-assigned death certificate number</summary>
@@ -224,7 +231,7 @@
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
         </member>
-        <member name="F:VRDR.DeathRecordSubmission.Payload">
+        <member name="F:VRDR.DeathRecordSubmission.deathRecord">
             <summary>Bundle that contains the message payload.</summary>
         </member>
         <member name="M:VRDR.DeathRecordSubmission.#ctor">
@@ -234,18 +241,16 @@
             <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordSubmission.</summary>
             <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
         </member>
-        <member name="M:VRDR.DeathRecordSubmission.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a DeathRecordSubmission message in either XML or JSON format.</summary>
-            <param name="message">represents a DeathRecordSubmission message in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        <member name="M:VRDR.DeathRecordSubmission.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a DeathRecordSubmission from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
+            <returns></returns>
         </member>
         <member name="P:VRDR.DeathRecordSubmission.MessagePayload">
             <summary>Message payload</summary>
             <value>the message payload as a FHIR Bundle.</value>
-        </member>
-        <member name="M:VRDR.DeathRecordSubmission.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
         </member>
         <member name="T:VRDR.DeathRecordUpdate">
             <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
@@ -257,11 +262,12 @@
             <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
             <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
         </member>
-        <member name="M:VRDR.DeathRecordUpdate.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a DeathRecordUpdate message in either XML or JSON format.</summary>
-            <param name="message">represents a DeathRecordUpdate message in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
+        <member name="M:VRDR.DeathRecordUpdate.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a DeathRecordUpdate from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
+            <returns></returns>
         </member>
         <member name="T:VRDR.VoidMessage">
             <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
@@ -269,18 +275,16 @@
         <member name="M:VRDR.VoidMessage.#ctor">
             <summary>Default constructor that creates a new, empty VoidMessage.</summary>
         </member>
+        <member name="M:VRDR.VoidMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a VoidMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the VoidMessage</param>
+            <returns></returns>
+        </member>
         <member name="M:VRDR.VoidMessage.#ctor(VRDR.DeathRecord)">
             <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
             <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
-        </member>
-        <member name="M:VRDR.VoidMessage.#ctor(System.String,System.Boolean)">
-            <summary>Constructor that takes a string that represents a void message in either XML or JSON format.</summary>
-            <param name="message">represents a void message in either XML or JSON format.</param>
-            <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <exception cref="T:System.ArgumentException">Message is neither valid XML nor JSON.</exception>
-        </member>
-        <member name="M:VRDR.VoidMessage.RestoreReferences">
-            <summary>Restores class references from a newly parsed record.</summary>
         </member>
         <member name="P:VRDR.VoidMessage.CertificateNumber">
             <summary>Jurisdiction-assigned death certificate number</summary>

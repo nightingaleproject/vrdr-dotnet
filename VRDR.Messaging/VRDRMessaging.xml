@@ -107,7 +107,7 @@
         <member name="M:VRDR.CodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
-            <param name="source">the endpoint identifier that the ack message will be sent from.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
         <member name="M:VRDR.CodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
@@ -227,6 +227,26 @@
         <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.String,System.Collections.Generic.List{System.String})">
             <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
             condition id</summary>
+        </member>
+        <member name="T:VRDR.CodingUpdateMessage">
+            <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+        </member>
+        <member name="M:VRDR.CodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates an update for the specified message.</summary>
+            <param name="sourceMessage">the message to create a response for.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.CodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a CodingResponseMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.CodingUpdateMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>

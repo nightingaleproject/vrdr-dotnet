@@ -23,6 +23,7 @@
     <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/AckMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />

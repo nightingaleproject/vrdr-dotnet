@@ -1,0 +1,172 @@
+{
+    "resourceType": "Bundle",
+    "id": "7b9a5410-4f5a-4ff0-98e4-6899708e1829",
+    "type": "message",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
+                "event": {
+                    "system": "http://nchs.cdc.gov/",
+                    "code": "vrdr_coding_update",
+                    "display": "vrdr_coding_update"
+                },
+                "destination": [{"endpoint": "destination"}],
+                "timestamp": "2020-04-03T11:15:41.614703-04:00",
+                "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
+                "focus": [{"reference": "041b337f-8a85-4e83-9c37-b50610b1be88"}]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88",
+            "resource": {
+                "resourceType": "Parameters",
+                "id": "041b337f-8a85-4e83-9c37-b50610b1be88",
+                "parameter": [
+                    {
+                        "name": "cert_no",
+                        "valueString": "cert101010"
+                    },
+                    {
+                        "name": "state_id",
+                        "valueString": "id101010"
+                    },
+                    {
+                        "name": "ethnicity",
+                        "part": [
+                            {
+                                "name": "DETHNICE",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "123"
+                                }
+                            },
+                            {
+                                "name": "DETHNIC5C",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "456"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "race",
+                        "part": [
+                            {
+                                "name": "RACE1E",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "foo"
+                                }
+                            },
+                            {
+                                "name": "RACE17C",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "bar"
+                                }
+                            },
+                            {
+                                "name": "RACEBRG",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "baz"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "underlying_cause_of_death",
+                        "valueCoding": {
+                            "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                            "code": "A04.7"
+                        }
+                    },
+                    {
+                        "name": "record_cause_of_death",
+                        "part": [
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "A04.7"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "A41.9"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "J18.9"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "J96.0"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "entity_axis_code",
+                        "part": [
+                            {
+                                "name": "text",
+                                "valueString": "DEATH CERT LINE 1 TEXT"
+                            },
+                            {
+                                "name": "condition",
+                                "valueId": "abcde"
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code1_1"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code1_2"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "entity_axis_code",
+                        "part": [
+                            {
+                                "name": "text",
+                                "valueString": "DEATH CERT LINE 2 TEXT"
+                            },
+                            {
+                                "name": "condition",
+                                "valueId": "xyzzy"
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code2_1"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

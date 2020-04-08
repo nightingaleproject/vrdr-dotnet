@@ -224,6 +224,8 @@ namespace VRDR
                     => new VoidMessage(bundle),
                 "vrdr_coding"
                     => new CodingResponseMessage(bundle),
+                "vrdr_coding_update"
+                    => new CodingUpdateMessage(bundle),
                 _
                     => throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}")
             };

@@ -183,11 +183,11 @@ The `DeathRecordSubmission` class supports several properties that enable custom
 #### Consuming a Death Record Submission
 
 ```cs
-// Get the DeathRecordSubmission message JSON representation
-string jsonMessage = ...;
+// Get the DeathRecordSubmission message JSON or XML representation
+StreamReader messageStream = ...;
 
 // Parse the JSON
-DeathRecordSubmission message = new DeathRecordSubmission(jsonMessage);
+DeathRecordSubmission message = (DeathRecordSubmission)BaseMessage.Parse(messageStream);
 
 // Get the DeathRecord
 DeathRecord record = message.MessagePayload;
@@ -213,6 +213,77 @@ string jsonAck = ack.ToJSON();
 ```
 
 Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property.
+
+#### Creating a Coding Response Message
+
+```cs
+// Create an empty coding response message
+CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
+
+// Assign the certificate number and satte identifier
+message.CertificateNumber = "...";
+message.StateIdentifier = "...";
+
+// Create the ethnicity coding
+var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "...");
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "...");
+message.Ethnicity = ethnicity;
+
+// Create the race coding
+var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
+race.Add(CodingResponseMessage.RaceCode.RACE1E, "...");
+race.Add(CodingResponseMessage.RaceCode.RACE17C, "...");
+race.Add(CodingResponseMessage.RaceCode.RACEBRG, "...");
+message.Race = race;
+
+// Create the cause of death coding
+message.UnderlyingCauseOfDeath = "...";
+
+var recordAxisCodes = new List<string>();
+recordAxisCodes.Add("...");
+recordAxisCodes.Add("...");
+recordAxisCodes.Add("...");
+recordAxisCodes.Add("...");
+message.CauseOfDeathRecordAxis = recordAxisCodes;
+
+var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
+var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "ID of VRDR CauseOfDeathCondition");
+entry1.AssignedCodes.Add("...");
+entry1.AssignedCodes.Add("...");
+entityAxisEntries.Add(entry1);
+var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "ID of VRDR CauseOfDeathCondition");
+entry2.AssignedCodes.Add("...");
+entityAxisEntries.Add(entry2);
+message.CauseOfDeathEntityAxis = entityAxisEntries;
+
+// Create a JSON representation of the coding response message
+string jsonMesg = ack.ToJSON();
+
+// Send the JSON coding response message
+...
+```
+
+#### Creating a Coding Error Message
+
+```cs
+// Create the coding error message
+var errMsg = CodingErrorMessage(certificateNumber, stateIdentifier, destinationEndpoint);
+
+// Add the issues found during processing
+var issues = new List<Issue>();
+var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "Description of first issues");
+issues.Add(issue);
+issue = new Issue(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.Expired, "Description of second issues");
+issues.Add(issue);
+err.Issues = issues;
+
+// Create a JSON representation of the coding response message
+string jsonMesg = ack.ToJSON();
+
+// Send the JSON coding error response message
+...
+```
 
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.

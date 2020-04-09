@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using Xunit;
+using Hl7.Fhir.Model;
 
 namespace VRDR.Tests
 {
@@ -410,6 +411,92 @@ namespace VRDR.Tests
             Assert.IsType<DeathRecordUpdate>(msg);
             Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
             Assert.Equal("Unsupported message type: vrdr_invalid_type", ex.Message);
+        }
+
+        [Fact]
+        public void CreateExtractionErrorForMessage()
+        {
+            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            ExtractionErrorMessage err = new ExtractionErrorMessage(submission);
+            Assert.Equal("vrdr_extraction_error", err.MessageType);
+            Assert.Equal(submission.MessageId, err.FailedMessageId);
+            Assert.Equal(submission.MessageSource, err.MessageDestination);
+            Assert.Empty(err.Issues);
+            var issues = new List<Issue>();
+            var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "The message was invalid");
+            issues.Add(issue);
+            issue = new Issue(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.Expired, "The message was very old");
+            issues.Add(issue);
+            err.Issues = issues;
+            issues = err.Issues;
+            Assert.Equal(2, (int)issues.Count);
+            Assert.Equal(OperationOutcome.IssueSeverity.Fatal, issues[0].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Invalid, issues[0].Type);
+            Assert.Equal("The message was invalid", issues[0].Description);
+            Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
+            Assert.Equal("The message was very old", issues[1].Description);
+        }
+
+        [Fact]
+        public void CreateExtractionErrorFromJson()
+        {
+            ExtractionErrorMessage err = (ExtractionErrorMessage)BaseMessage.Parse(FixtureStream("fixtures/json/ExtractionErrorMessage.json"));
+            Assert.Equal("vrdr_extraction_error", err.MessageType);
+            var issues = err.Issues;
+            Assert.Equal(2, (int)issues.Count);
+            Assert.Equal(OperationOutcome.IssueSeverity.Fatal, issues[0].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Invalid, issues[0].Type);
+            Assert.Equal("The message was invalid", issues[0].Description);
+            Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
+            Assert.Equal("The message was very old", issues[1].Description);
+        }
+
+        [Fact]
+        public void CreateCodingErrorForMessage()
+        {
+            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            CodingErrorMessage err = new CodingErrorMessage(submission);
+            Assert.Equal("vrdr_coding_error", err.MessageType);
+            Assert.Equal(submission.MessageId, err.FailedMessageId);
+            Assert.Equal(submission.MessageSource, err.MessageDestination);
+            Assert.Equal(submission.MessagePayload.Identifier, err.CertificateNumber);
+            Assert.Equal(submission.MessagePayload.BundleIdentifier, err.StateIdentifier);
+            Assert.Empty(err.Issues);
+            var issues = new List<Issue>();
+            var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "The message was invalid");
+            issues.Add(issue);
+            issue = new Issue(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.Expired, "The message was very old");
+            issues.Add(issue);
+            err.Issues = issues;
+            issues = err.Issues;
+            Assert.Equal(2, (int)issues.Count);
+            Assert.Equal(OperationOutcome.IssueSeverity.Fatal, issues[0].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Invalid, issues[0].Type);
+            Assert.Equal("The message was invalid", issues[0].Description);
+            Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
+            Assert.Equal("The message was very old", issues[1].Description);
+        }
+
+        [Fact]
+        public void CreateCodingErrorFromJson()
+        {
+            CodingErrorMessage err = (CodingErrorMessage)BaseMessage.Parse(FixtureStream("fixtures/json/CodingErrorMessage.json"));
+            Assert.Equal("vrdr_coding_error", err.MessageType);
+            Assert.Null(err.FailedMessageId);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", err.MessageSource);
+            Assert.Equal("1", err.CertificateNumber);
+            Assert.Equal("42", err.StateIdentifier);
+            var issues = err.Issues;
+            Assert.Equal(2, (int)issues.Count);
+            Assert.Equal(OperationOutcome.IssueSeverity.Fatal, issues[0].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Invalid, issues[0].Type);
+            Assert.Equal("The message was invalid", issues[0].Description);
+            Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
+            Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
+            Assert.Equal("The message was very old", issues[1].Description);
         }
 
         private string FixturePath(string filePath)

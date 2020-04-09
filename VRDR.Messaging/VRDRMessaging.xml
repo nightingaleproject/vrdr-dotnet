@@ -289,6 +289,93 @@
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
             <returns></returns>
         </member>
+        <member name="T:VRDR.ExtractionErrorMessage">
+            <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
+        </member>
+        <member name="M:VRDR.ExtractionErrorMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates an extraction error for the specified message.</summary>
+            <param name="sourceMessage">the message that could not be processed.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.ExtractionErrorMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct an ExtractionErrorMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the ExtractionErrorMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.ExtractionErrorMessage.#ctor(System.String,System.String,System.String)">
+            <summary>Constructor that creates an extraction error message for the specified message.</summary>
+            <param name="messageId">the id of the message to create an extraction error for.</param>
+            <param name="destination">the endpoint identifier that the extraction error message will be sent to.</param>
+            <param name="source">the endpoint identifier that the extraction error message will be sent from.</param>
+        </member>
+        <member name="P:VRDR.ExtractionErrorMessage.FailedMessageId">
+            <summary>The id of the message that could not be extracted</summary>
+            <value>the message id.</value>
+        </member>
+        <member name="P:VRDR.ExtractionErrorMessage.Issues">
+            <summary>
+            List of issues found when attenpting to extract the message
+            </summary>
+            <value>list of issues</value>
+        </member>
+        <member name="T:VRDR.CodingErrorMessage">
+            <summary>Class <c>CodingErrorMessage</c> is used to communicate that cading of a DeathRecordSubmission message failed.</summary>
+        </member>
+        <member name="M:VRDR.CodingErrorMessage.#ctor(VRDR.DeathRecordSubmission,System.String)">
+            <summary>Constructor that creates a coding error for the specified message.</summary>
+            <param name="sourceMessage">the message that could not be processed.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.CodingErrorMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct an CodingErrorMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingErrorMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.CodingErrorMessage.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>Constructor that creates a coding error message for the specified message.</summary>
+            <param name="certificateNumber">the jurisdiction-assigned death certificate number.</param>
+            <param name="stateIdentifier">the jurisdiction-assigned id.</param>
+            <param name="destination">the endpoint identifier that the coding error message will be sent to.</param>
+            <param name="source">the endpoint identifier that the coding error message will be sent from.</param>
+        </member>
+        <member name="P:VRDR.CodingErrorMessage.CertificateNumber">
+            <summary>Jurisdiction-assigned death certificate number</summary>
+        </member>
+        <member name="P:VRDR.CodingErrorMessage.StateIdentifier">
+            <summary>Jurisdiction-assigned id</summary>
+        </member>
+        <member name="T:VRDR.Issue">
+            <summary>
+            Class representing an issue detected during message processing.
+            </summary>
+        </member>
+        <member name="F:VRDR.Issue.Severity">
+            <summary>
+            Severity of the issue
+            </summary>
+        </member>
+        <member name="F:VRDR.Issue.Type">
+            <summary>
+            Type of the issue
+            </summary>
+        </member>
+        <member name="F:VRDR.Issue.Description">
+            <summary>
+            Human readable description of the issue
+            </summary>
+        </member>
+        <member name="M:VRDR.Issue.#ctor(System.Nullable{Hl7.Fhir.Model.OperationOutcome.IssueSeverity},System.Nullable{Hl7.Fhir.Model.OperationOutcome.IssueType},System.String)">
+            <summary>
+            Construct a new Issue
+            </summary>
+            <param name="severity">the severity of the issue</param>
+            <param name="type">the type of issue</param>
+            <param name="description">a human readable description of the issue</param>
+        </member>
         <member name="T:VRDR.VoidMessage">
             <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
         </member>

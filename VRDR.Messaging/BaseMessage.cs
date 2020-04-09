@@ -226,6 +226,10 @@ namespace VRDR
                     => new CodingResponseMessage(bundle),
                 "vrdr_coding_update"
                     => new CodingUpdateMessage(bundle),
+                "vrdr_extraction_error"
+                    => new ExtractionErrorMessage(bundle),
+                "vrdr_coding_error"
+                    => new CodingErrorMessage(bundle),
                 _
                     => throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}")
             };

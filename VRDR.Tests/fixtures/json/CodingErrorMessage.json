@@ -1,0 +1,63 @@
+{
+    "resourceType": "Bundle",
+    "id": "dc349eb5-251d-498c-9441-5b9a5f6af51b",
+    "type": "message",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:c1fb1c88-4ba8-4382-abce-fc5bc7a9ded3",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "c1fb1c88-4ba8-4382-abce-fc5bc7a9ded3",
+                "event": {
+                    "system": "http://nchs.cdc.gov/",
+                    "code": "vrdr_coding_error",
+                    "display": "vrdr_coding_error"
+                },
+                "destination": [{"endpoint": "nightingale"}],
+                "timestamp": "2020-04-09T11:46:24.764646-04:00",
+                "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
+                "response": {
+                    "code": "fatal-error",
+                    "details": {"reference": "adead1f2-1c66-42f3-9e24-527352fe8a9a"}
+                },
+                "focus": [{"reference": "4d21dfc7-e776-4cdb-8656-c1d12361d630"}]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:adead1f2-1c66-42f3-9e24-527352fe8a9a",
+            "resource": {
+                "resourceType": "OperationOutcome",
+                "id": "adead1f2-1c66-42f3-9e24-527352fe8a9a",
+                "issue": [
+                    {
+                        "severity": "fatal",
+                        "code": "invalid",
+                        "diagnostics": "The message was invalid"
+                    },
+                    {
+                        "severity": "warning",
+                        "code": "expired",
+                        "diagnostics": "The message was very old"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:4d21dfc7-e776-4cdb-8656-c1d12361d630",
+            "resource": {
+                "resourceType": "Parameters",
+                "id": "4d21dfc7-e776-4cdb-8656-c1d12361d630",
+                "parameter": [
+                    {
+                        "name": "cert_no",
+                        "valueString": "1"
+                    },
+                    {
+                        "name": "state_id",
+                        "valueString": "42"
+                    }
+                ]
+            }
+        }
+    ]
+}

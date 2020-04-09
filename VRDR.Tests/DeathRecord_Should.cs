@@ -31,14 +31,6 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void FailMissingArray()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingArray.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Parser: Since element 'identifier' repeats, an array must be used here.", ex.Message);
-        }
-
-        [Fact]
         public void FailMissingValue()
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/xml/MissingValue.xml"));

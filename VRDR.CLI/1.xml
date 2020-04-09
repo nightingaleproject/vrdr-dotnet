@@ -353,13 +353,13 @@
         </code>
         <performedDateTime value="2019-01-29T16:48:06-05:00" />
         <performer>
-          <role>
+          <function>
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
               <display value="Physician" />
             </coding>
-          </role>
+          </function>
           <actor>
             <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
           </actor>

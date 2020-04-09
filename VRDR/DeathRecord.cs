@@ -231,7 +231,7 @@ namespace VRDR
             Composition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             Composition.Attester.Add(new Composition.AttesterComponent());
             Composition.Attester.First().Party = new ResourceReference("urn:uuid:" + Certifier.Id);
-            Composition.Attester.First().ModeElement.Add(new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal));
+            Composition.Attester.First().ModeElement = new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal);
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
             eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification (procedure)", null));
             eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
@@ -549,9 +549,9 @@ namespace VRDR
                     return EmptyCodeDict();
                 }
                 Hl7.Fhir.Model.Procedure.PerformerComponent performer = DeathCertification.Performer.FirstOrDefault();
-                if (performer != null && performer.Role != null)
+                if (performer != null && performer.Function != null)
                 {
-                    return CodeableConceptToDict(performer.Role);
+                    return CodeableConceptToDict(performer.Function);
                 }
                 return EmptyCodeDict();
             }
@@ -570,7 +570,7 @@ namespace VRDR
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                     Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Role = DictToCodeableConcept(value);
+                    performer.Function = DictToCodeableConcept(value);
                     performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
                     DeathCertification.Performer.Clear();
                     DeathCertification.Performer.Add(performer);
@@ -578,7 +578,7 @@ namespace VRDR
                 else
                 {
                     Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Role = DictToCodeableConcept(value);
+                    performer.Function = DictToCodeableConcept(value);
                     performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
                     DeathCertification.Performer.Clear();
                     DeathCertification.Performer.Add(performer);
@@ -3742,7 +3742,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Father.Name.Add(name);
@@ -3786,7 +3786,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Father.Name.Add(name);
@@ -3831,7 +3831,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship = new CodeableConcept(null, "FTH", null, null);
+                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -3878,7 +3878,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Mother.Name.Add(name);
@@ -3922,7 +3922,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Mother.Name.Add(name);
@@ -3967,7 +3967,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship = new CodeableConcept(null, "MTH", null, null);
+                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4014,7 +4014,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Spouse.Name.Add(name);
@@ -4058,7 +4058,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Spouse.Name.Add(name);
@@ -4103,7 +4103,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship = new CodeableConcept(null, "SPS", null, null);
+                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -6337,28 +6337,28 @@ namespace VRDR
             foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
             {
                 RelatedPerson rpn = (RelatedPerson)rp.Resource;
-                if (rpn.Relationship == null || rpn.Relationship.Coding == null || rpn.Relationship.Coding.FirstOrDefault() == null || rpn.Relationship.Coding.First().Code == null)
+                if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding.First().Code == null)
                 {
                     throw new System.ArgumentException("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.");
                 }
             }
 
             // Grab Father
-            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "FTH" );
+            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "FTH" );
             if (father != null)
             {
                 Father = (RelatedPerson)father.Resource;
             }
 
             // Grab Mother
-            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "MTH" );
+            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "MTH" );
             if (mother != null)
             {
                 Mother = (RelatedPerson)mother.Resource;
             }
 
             // Grab Spouse
-            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.Coding.First().Code == "SPS" );
+            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "SPS" );
             if (spouse != null)
             {
                 Spouse = (RelatedPerson)spouse.Resource;

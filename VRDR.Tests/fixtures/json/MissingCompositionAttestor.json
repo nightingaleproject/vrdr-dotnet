@@ -421,7 +421,7 @@
         "performedDateTime": "2019-01-29T16:48:06.498822-05:00",
         "performer": [
           {
-            "role": {
+            "function": {
               "coding": [
                 {
                   "system": "http://snomed.info/sct",
@@ -775,13 +775,13 @@
         "patient": {
           "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "FTH"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Last",
@@ -809,13 +809,13 @@
         "patient": {
           "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "MTH"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Maiden",
@@ -843,13 +843,13 @@
         "patient": {
           "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "SPS"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Last",

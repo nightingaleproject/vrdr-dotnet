@@ -40,9 +40,7 @@
         "date": "2019-02-01T16:47:04-05:00",
         "attester": [
           {
-            "mode": [
-              "legal"
-            ],
+            "mode": "legal",
             "time": "2019-01-29T16:48:06-05:00",
             "party": {
               "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
@@ -454,7 +452,7 @@
         "performedDateTime": "2019-01-29T16:48:06-05:00",
         "performer": [
           {
-            "role": {
+            "function": {
               "coding": [
                 {
                   "system": "http://snomed.info/sct",
@@ -811,13 +809,13 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "FTH"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Last",
@@ -845,13 +843,13 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "MTH"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Maiden",
@@ -879,13 +877,13 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": {
+        "relationship": [{
           "coding": [
             {
               "code": "SPS"
             }
           ]
-        },
+        }],
         "name": [
           {
             "family": "Last",

@@ -9,7 +9,7 @@ namespace VRDR
         private Parameters parameters;
 
         /// <summary>Default constructor that creates a new, empty VoidMessage.</summary>
-        public VoidMessage() : base("vrdr_submission_void")
+        public VoidMessage() : base("http://nchs.cdc.gov/vrdr_submission_void")
         {
             this.parameters = new Parameters();
             this.parameters.Id = Guid.NewGuid().ToString();

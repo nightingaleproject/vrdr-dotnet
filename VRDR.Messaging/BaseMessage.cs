@@ -59,15 +59,12 @@ namespace VRDR
             MessageBundle = new Bundle();
             MessageBundle.Id = Guid.NewGuid().ToString();
             MessageBundle.Type = Bundle.BundleType.Message;
+            MessageBundle.Timestamp = DateTime.Now;
 
             // Start with a MessageHeader.
             Header = new MessageHeader();
             Header.Id = Guid.NewGuid().ToString();
-            Header.Timestamp = DateTime.Now;
-
-            // No URI in STU3 so use Coding instead.
-            //Header.Event.Add(new Uri("http://nchs.cdc.gov/" + messageType"));
-            Header.Event = new Coding("http://nchs.cdc.gov/", messageType, messageType);
+            Header.Event = new FhirUri(messageType);
 
             MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
             dest.Endpoint = "http://nchs.cdc.gov/vrdr_submission";
@@ -119,11 +116,11 @@ namespace VRDR
         {
             get
             {
-                return Header.Timestamp;
+                return MessageBundle.Timestamp;
             }
             set
             {
-                Header.Timestamp = value;
+                MessageBundle.Timestamp = value;
             }
         }
 
@@ -149,11 +146,19 @@ namespace VRDR
         {
             get
             {
-                return Header.Event.Code;
+                if (Header.Event != null && Header.Event.TypeName == "uri")
+                {
+                    return ((FhirUri)Header.Event).Value;
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
             set
             {
-                Header.Event = new Coding("http://nchs.cdc.gov/", value, value);
+                Header.Event = new FhirUri(value);
             }
         }
 
@@ -214,21 +219,21 @@ namespace VRDR
 
             BaseMessage typedMessage = GetMessageType(bundle) switch
             {
-                "vrdr_submission"
+                "http://nchs.cdc.gov/vrdr_submission"
                     => new DeathRecordSubmission(bundle),
-                "vrdr_submission_update"
+                "http://nchs.cdc.gov/vrdr_submission_update"
                     => new DeathRecordUpdate(bundle),
-                "vrdr_acknowledgement"
+                "http://nchs.cdc.gov/vrdr_acknowledgement"
                     => new AckMessage(bundle),
-                "vrdr_submission_void"
+                "http://nchs.cdc.gov/vrdr_submission_void"
                     => new VoidMessage(bundle),
-                "vrdr_coding"
+                "http://nchs.cdc.gov/vrdr_coding"
                     => new CodingResponseMessage(bundle),
-                "vrdr_coding_update"
+                "http://nchs.cdc.gov/vrdr_coding_update"
                     => new CodingUpdateMessage(bundle),
-                "vrdr_extraction_error"
+                "http://nchs.cdc.gov/vrdr_extraction_error"
                     => new ExtractionErrorMessage(bundle),
-                "vrdr_coding_error"
+                "http://nchs.cdc.gov/vrdr_coding_error"
                     => new CodingErrorMessage(bundle),
                 _
                     => throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}")

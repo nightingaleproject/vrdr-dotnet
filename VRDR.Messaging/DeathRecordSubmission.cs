@@ -9,7 +9,7 @@ namespace VRDR
         private DeathRecord deathRecord;
 
         /// <summary>Default constructor that creates a new, empty DeathRecordSubmission.</summary>
-        public DeathRecordSubmission() : base("vrdr_submission")
+        public DeathRecordSubmission() : base("http://nchs.cdc.gov/vrdr_submission")
         {
         }
 
@@ -55,14 +55,14 @@ namespace VRDR
         /// <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
         public DeathRecordUpdate() : base()
         {
-            MessageType = "vrdr_submission_update";
+            MessageType = "http://nchs.cdc.gov/vrdr_submission_update";
         }
 
         /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
         public DeathRecordUpdate(DeathRecord record) : base(record)
         {
-            MessageType = "vrdr_submission_update";
+            MessageType = "http://nchs.cdc.gov/vrdr_submission_update";
         }
 
         /// <summary>

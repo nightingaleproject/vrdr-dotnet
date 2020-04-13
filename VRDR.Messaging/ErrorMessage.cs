@@ -30,7 +30,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an extraction error for.</param>
         /// <param name="destination">the endpoint identifier that the extraction error message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the extraction error message will be sent from.</param>
-        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("vrdr_extraction_error")
+        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_extraction_error")
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;
@@ -122,7 +122,7 @@ namespace VRDR
         public CodingErrorMessage(string certificateNumber, string stateIdentifier, string destination, string source = "http://nchs.cdc.gov/vrdr_submission")
             : base(null, destination, source)
         {
-            MessageType = "vrdr_coding_error";
+            MessageType = "http://nchs.cdc.gov/vrdr_coding_error";
             this.parameters = new Parameters();
             this.parameters.Id = Guid.NewGuid().ToString();
             MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);

@@ -1,6 +1,7 @@
 {
     "resourceType": "Bundle",
     "id": "dc349eb5-251d-498c-9441-5b9a5f6af51b",
+    "timestamp": "2020-04-09T11:46:24.764646-04:00",
     "type": "message",
     "entry": [
         {
@@ -8,13 +9,8 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "c1fb1c88-4ba8-4382-abce-fc5bc7a9ded3",
-                "event": {
-                    "system": "http://nchs.cdc.gov/",
-                    "code": "vrdr_coding_error",
-                    "display": "vrdr_coding_error"
-                },
+                "eventUri": "http://nchs.cdc.gov/vrdr_coding_error",
                 "destination": [{"endpoint": "nightingale"}],
-                "timestamp": "2020-04-09T11:46:24.764646-04:00",
                 "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
                 "response": {
                     "code": "fatal-error",

@@ -1,6 +1,7 @@
 {
     "resourceType": "Bundle",
     "id": "254b5d1e-6620-4b49-8d25-4f38f4562016",
+    "timestamp": "2020-03-23T17:53:22.20603-04:00",
     "type": "message",
     "entry": [
         {
@@ -8,13 +9,8 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
-                "event": {
-                    "system": "http://nchs.cdc.gov/",
-                    "code": "vrdr_submission",
-                    "display": "vrdr_submission"
-                },
+                "eventUri": "http://nchs.cdc.gov/vrdr_submission",
                 "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
-                "timestamp": "2020-03-23T17:53:22.20603-04:00",
                 "source": {"endpoint": "nightingale"},
                 "focus": [{"reference": "f75de014-b357-4a4b-be36-dfc73f874051"}]
             }
@@ -44,7 +40,7 @@
                             "subject": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
                             "date": "2019-02-01T16:47:04-05:00",
                             "attester": [{
-                                "mode": ["legal"],
+                                "mode": "legal",
                                 "time": "2019-01-29T16:48:06-05:00",
                                 "party": {"reference": "urn:uuid:1ec9b11e-e48b-4186-af37-2deab631a8cb"}
                             }],
@@ -301,7 +297,7 @@
                             }]},
                             "performedDateTime": "2019-01-29T16:48:06-05:00",
                             "performer": [{
-                                "role": {"coding": [{
+                                "function": {"coding": [{
                                     "system": "http://snomed.info/sct",
                                     "code": "76899008",
                                     "display": "Infectious diseases physician"
@@ -509,7 +505,7 @@
                             "id": "0bd545a9-db7a-484d-aa3e-40265ca428d6",
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"]},
                             "patient": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
-                            "relationship": {"coding": [{"code": "FTH"}]},
+                            "relationship": [{"coding": [{"code": "FTH"}]}],
                             "name": [{
                                 "family": "Last",
                                 "given": [
@@ -527,7 +523,7 @@
                             "id": "158992f9-2af2-40a7-8875-58355de7d4b6",
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"]},
                             "patient": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
-                            "relationship": {"coding": [{"code": "MTH"}]},
+                            "relationship": [{"coding": [{"code": "MTH"}]}],
                             "name": [{
                                 "family": "Maiden",
                                 "given": [
@@ -545,7 +541,7 @@
                             "id": "727aa822-5e44-425b-9f7c-7ee44d796d12",
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"]},
                             "patient": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
-                            "relationship": {"coding": [{"code": "SPS"}]},
+                            "relationship": [{"coding": [{"code": "SPS"}]}],
                             "name": [{
                                 "family": "Last",
                                 "given": [

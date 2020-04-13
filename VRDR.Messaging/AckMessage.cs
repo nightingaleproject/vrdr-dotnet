@@ -26,7 +26,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("vrdr_acknowledgement")
+        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_acknowledgement")
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

@@ -29,7 +29,7 @@ namespace VRDR
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        public CodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("vrdr_coding")
+        public CodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_coding")
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;
@@ -335,7 +335,7 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
         public CodingUpdateMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(destination, source)
         {
-            MessageType = "vrdr_coding_update";
+            MessageType = "http://nchs.cdc.gov/vrdr_coding_update";
         }
     }
 }

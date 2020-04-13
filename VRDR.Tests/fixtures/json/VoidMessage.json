@@ -1,6 +1,7 @@
 {
     "resourceType": "Bundle",
     "id": "20208543-e624-47c6-b2cd-9f8b8d724499",
+    "timestamp": "2020-04-06T15:52:32.122933-04:00",
     "type": "message",
     "entry": [
         {
@@ -8,13 +9,8 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "83ad2680-68a5-415c-93ed-deb9f855e168",
-                "event": {
-                    "system": "http://nchs.cdc.gov/",
-                    "code": "vrdr_submission_void",
-                    "display": "vrdr_submission_void"
-                },
+                "eventUri": "http://nchs.cdc.gov/vrdr_submission_void",
                 "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
-                "timestamp": "2020-04-06T15:52:32.122933-04:00",
                 "source": {"endpoint": "nightingale"},
                 "focus": [{"reference": "df6f9785-1f00-4af8-bd5d-56c1b024691d"}]
             }

@@ -1,6 +1,7 @@
 {
     "resourceType": "Bundle",
     "id": "7b9a5410-4f5a-4ff0-98e4-6899708e1829",
+    "timestamp": "2020-04-03T11:15:41.614703-04:00",
     "type": "message",
     "entry": [
         {
@@ -8,13 +9,8 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
-                "event": {
-                    "system": "http://nchs.cdc.gov/",
-                    "code": "vrdr_coding_update",
-                    "display": "vrdr_coding_update"
-                },
+                "eventUri": "http://nchs.cdc.gov/vrdr_coding_update",
                 "destination": [{"endpoint": "destination"}],
-                "timestamp": "2020-04-03T11:15:41.614703-04:00",
                 "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
                 "focus": [{"reference": "041b337f-8a85-4e83-9c37-b50610b1be88"}]
             }

@@ -190,7 +190,7 @@ StreamReader messageStream = ...;
 DeathRecordSubmission message = (DeathRecordSubmission)BaseMessage.Parse(messageStream);
 
 // Get the DeathRecord
-DeathRecord record = message.MessagePayload;
+DeathRecord record = message.DeathRecord;
 
 // Process the DeathRecord
 ...

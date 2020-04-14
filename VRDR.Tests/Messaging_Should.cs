@@ -32,7 +32,7 @@ namespace VRDR.Tests
         public void CreateSubmissionFromDeathRecord()
         {
             DeathRecordSubmission submission = new DeathRecordSubmission((DeathRecord)XMLRecords[0]);
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
         }
 
@@ -40,7 +40,7 @@ namespace VRDR.Tests
         public void CreateSubmissionFromJSON()
         {
             DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
         }
 
@@ -55,7 +55,7 @@ namespace VRDR.Tests
         public void CreateUpdateFromDeathRecord()
         {
             DeathRecordUpdate submission = new DeathRecordUpdate((DeathRecord)XMLRecords[0]);
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", submission.MessageType);
         }
 
@@ -63,7 +63,7 @@ namespace VRDR.Tests
         public void CreateUpdateFromJSON()
         {
             DeathRecordUpdate submission = (DeathRecordUpdate)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"));
-            Assert.Equal("2018-02-20T16:48:06-05:00", submission.MessagePayload.DateOfDeathPronouncement);
+            Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", submission.MessageType);
         }
 
@@ -461,8 +461,8 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_error", err.MessageType);
             Assert.Equal(submission.MessageId, err.FailedMessageId);
             Assert.Equal(submission.MessageSource, err.MessageDestination);
-            Assert.Equal(submission.MessagePayload.Identifier, err.CertificateNumber);
-            Assert.Equal(submission.MessagePayload.BundleIdentifier, err.StateIdentifier);
+            Assert.Equal(submission.DeathRecord.Identifier, err.CertificateNumber);
+            Assert.Equal(submission.DeathRecord.BundleIdentifier, err.StateIdentifier);
             Assert.Empty(err.Issues);
             var issues = new List<Issue>();
             var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "The message was invalid");

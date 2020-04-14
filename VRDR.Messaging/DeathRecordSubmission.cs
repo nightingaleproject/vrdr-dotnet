@@ -17,7 +17,7 @@ namespace VRDR
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
         public DeathRecordSubmission(DeathRecord record) : this()
         {
-            MessagePayload = record;
+            DeathRecord = record;
         }
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace VRDR
             deathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
         }
 
-        /// <summary>Message payload</summary>
-        /// <value>the message payload as a FHIR Bundle.</value>
-        public DeathRecord MessagePayload
+        /// <summary>The DeathRecord conveyed by this message</summary>
+        /// <value>the DeathRecord</value>
+        public DeathRecord DeathRecord
         {
             get
             {

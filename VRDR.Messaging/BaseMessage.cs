@@ -44,12 +44,12 @@ namespace VRDR
         /// <returns></returns>
         protected T findEntry<T>(ResourceType type) where T : Resource
         {
-            var entry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
-            if (entry == null)
+            var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
+            if (typedEntry == null)
             {
                 throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {type.ToString()}");
             }
-            return (T)entry.Resource;
+            return (T)typedEntry.Resource;
         }
 
         /// <summary>Constructor that creates a new, empty message for the specified message type.</summary>
@@ -217,27 +217,36 @@ namespace VRDR
                 throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
             }
 
-            BaseMessage typedMessage = GetMessageType(bundle) switch
+            BaseMessage typedMessage = null;
+            switch (GetMessageType(bundle))
             {
-                "http://nchs.cdc.gov/vrdr_submission"
-                    => new DeathRecordSubmission(bundle),
-                "http://nchs.cdc.gov/vrdr_submission_update"
-                    => new DeathRecordUpdate(bundle),
-                "http://nchs.cdc.gov/vrdr_acknowledgement"
-                    => new AckMessage(bundle),
-                "http://nchs.cdc.gov/vrdr_submission_void"
-                    => new VoidMessage(bundle),
-                "http://nchs.cdc.gov/vrdr_coding"
-                    => new CodingResponseMessage(bundle),
-                "http://nchs.cdc.gov/vrdr_coding_update"
-                    => new CodingUpdateMessage(bundle),
-                "http://nchs.cdc.gov/vrdr_extraction_error"
-                    => new ExtractionErrorMessage(bundle),
-                "http://nchs.cdc.gov/vrdr_coding_error"
-                    => new CodingErrorMessage(bundle),
-                _
-                    => throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}")
-            };
+                case "http://nchs.cdc.gov/vrdr_submission":
+                    typedMessage = new DeathRecordSubmission(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_submission_update":
+                    typedMessage = new DeathRecordUpdate(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_acknowledgement":
+                    typedMessage = new AckMessage(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_submission_void":
+                    typedMessage = new VoidMessage(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_coding":
+                    typedMessage = new CodingResponseMessage(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_coding_update":
+                    typedMessage = new CodingUpdateMessage(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_extraction_error":
+                    typedMessage = new ExtractionErrorMessage(bundle);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_coding_error":
+                    typedMessage = new CodingErrorMessage(bundle);
+                    break;
+                default:
+                    throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}");
+            }
             return typedMessage;
         }
 

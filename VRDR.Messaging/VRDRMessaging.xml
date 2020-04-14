@@ -268,9 +268,9 @@
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
             <returns></returns>
         </member>
-        <member name="P:VRDR.DeathRecordSubmission.MessagePayload">
-            <summary>Message payload</summary>
-            <value>the message payload as a FHIR Bundle.</value>
+        <member name="P:VRDR.DeathRecordSubmission.DeathRecord">
+            <summary>The DeathRecord conveyed by this message</summary>
+            <value>the DeathRecord</value>
         </member>
         <member name="T:VRDR.DeathRecordUpdate">
             <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>

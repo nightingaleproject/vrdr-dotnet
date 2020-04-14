@@ -99,7 +99,7 @@ namespace VRDR
         /// <param name="sourceMessage">the message that could not be processed.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
         public CodingErrorMessage(DeathRecordSubmission sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission")
-            : this(sourceMessage.MessagePayload.Identifier, sourceMessage.MessagePayload.BundleIdentifier, sourceMessage.MessageSource, source)
+            : this(sourceMessage.DeathRecord.Identifier, sourceMessage.DeathRecord.BundleIdentifier, sourceMessage.MessageSource, source)
         {
             FailedMessageId = sourceMessage.MessageId;
         }

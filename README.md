@@ -220,7 +220,7 @@ Note that the `AckMessage` constructor will automatically set the message header
 // Create an empty coding response message
 CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
-// Assign the certificate number and satte identifier
+// Assign the certificate number and state identifier
 message.CertificateNumber = "...";
 message.StateIdentifier = "...";
 
@@ -276,10 +276,10 @@ var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.Iss
 issues.Add(issue);
 issue = new Issue(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.Expired, "Description of second issues");
 issues.Add(issue);
-err.Issues = issues;
+errMsg.Issues = issues;
 
-// Create a JSON representation of the coding response message
-string jsonMesg = ack.ToJSON();
+// Create a JSON representation of the coding error response message
+string jsonErrMsg = errMsg.ToJSON();
 
 // Send the JSON coding error response message
 ...

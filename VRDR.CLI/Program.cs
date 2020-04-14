@@ -622,20 +622,6 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
-            else if (args.Length == 3 && args[0] == "sendMessage")
-            {
-                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-
-                for (int i = 0; i < 1000; i++)
-                {
-                    DeathRecordSubmission submission = new DeathRecordSubmission(record);
-                    StringContent stringContent = new StringContent(submission.ToJSON(), Encoding.UTF8, "application/fhir+json");
-                    CallEndpoint(args[2], stringContent);
-                    Console.WriteLine("Sending " + Convert.ToString(i));
-                }
-
-                System.Threading.Thread.Sleep(10000);
-            }
             return 0;
         }
 

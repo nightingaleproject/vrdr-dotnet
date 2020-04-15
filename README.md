@@ -34,7 +34,7 @@ This package is published on NuGet, so including it is as easy as:
 </ItemGroup>
 ```
 
-You can also include the library by referencing `DeathRecord.csproj` in your project configuration, for example (taken from VRDR.CLI):
+You can also include a locally downloaded copy of the library instead of the NuGet version by referencing `DeathRecord.csproj` in your project configuration, for example (taken from VRDR.CLI):
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   ...
@@ -189,7 +189,7 @@ This package is published on NuGet, so including it is as easy as:
 
 Note that the VRDR.Messaging package automatically includes the VRDR package, a project file should not reference both.
 
-You can also include the library by referencing `VRDRMessaging.csproj` in your project configuration, for example (taken from VRDR.CLI):
+You can also a locally downloaded copy of the library instead of the NuGet version by referencing `VRDRMessaging.csproj` in your project configuration, for example:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">

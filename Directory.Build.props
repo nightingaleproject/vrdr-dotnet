@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <Version>3.1.0-preview4</Version>
+        <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
+        <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
+    </PropertyGroup>
+</Project>

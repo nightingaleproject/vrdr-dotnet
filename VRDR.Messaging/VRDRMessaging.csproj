@@ -5,9 +5,6 @@
     <DocumentationFile>VRDRMessaging.xml</DocumentationFile>
     <!-- <DocumentationFile>VRDRMessaging.md</DocumentationFile> -->
     <PackageId>VRDR.Messaging</PackageId>
-    <Version>3.1.0-preview3</Version>
-    <ProjectUrl>https://github.com/nightingaleproject/vrdr-dotnet</ProjectUrl>
-    <RepositoryUrl>https://github.com/nightingaleproject/vrdr-dotnet</RepositoryUrl>
     <Title>FHIR VRDR Death Record Messaging</Title>
     <PackageDescription>A library for supporting FHIR messaging for VRDR FHIR death records.</PackageDescription>
     <Authors>aholmes@mitre.org</Authors>

@@ -1,8 +1,20 @@
 [![Build Status](https://travis-ci.org/nightingaleproject/vrdr-dotnet.svg?branch=master)](https://travis-ci.org/nightingaleproject/vrdr-dotnet)
-[![Nuget](https://img.shields.io/nuget/v/VRDR.svg)](https://www.nuget.org/packages/VRDR)
+[![Nuget](https://img.shields.io/nuget/v/VRDR?label=VRDR%20%28nuget%29)](https://www.nuget.org/packages/VRDR)
+[![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
-This repository includes .NET (C#) code for producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/). This code also includes support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
+This repository includes .NET (C#) code for 
+
+- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
+- Producing and consuming FHIR messages for the exchange of VRDR documents.
+- Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
+
+## Versions
+
+- Releases v2.x.x of the [VRDR](https://www.nuget.org/packages/VRDR) library support FHIR STU3, in line with the May ballot version of VRDR ([v0.1.0](http://hl7.org/fhir/us/vrdr/history.html))
+- Releases v3.x.x of the [VRDR](https://www.nuget.org/packages/VRDR) and [VRDR.Messaging](https://www.nuget.org/packages/VRDR.Messaging) libraries support FHIR R4, in line with the upcoming normative version of VRDR.
+
+If you are upgrading from 2.x.x to 3.x.x, please note that there are differences between FHIR STU3 and R4 that impact the structure of the VRDR Death Record. [This commit illustrates the differences between FHIR STU3 and FHIR R4 VRDR Death Records](https://github.com/nightingaleproject/vrdr-dotnet/commit/2b4c2026fdab80e7233f3a7d7ed6e17d5d63f38e). Test data may need similar updates from STU3 to R4 when updating to use the 3.x.x versions of these libraries.
 
 ## Project Organization
 
@@ -12,6 +24,7 @@ This directory contains a FHIR Death Record library for consuming and producing 
 For API documentation, [click here](VRDR/DeathRecord.md).
 
 #### Usage
+
 This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
@@ -160,7 +173,33 @@ Console.WriteLine(example.ToXML());
 ```
 
 ### VRDR.Messaging
+
 This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.
+
+#### Usage
+
+This package is published on NuGet, so including it is as easy as:
+```xml
+<ItemGroup>
+  ...
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview3" />
+  ...
+</ItemGroup>
+```
+
+Note that the VRDR.Messaging package automatically includes the VRDR package, a project file should not reference both.
+
+You can also include the library by referencing `VRDRMessaging.csproj` in your project configuration, for example (taken from VRDR.CLI):
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  ...
+  <ItemGroup>
+    <ProjectReference Include="..\VRDR.Messaging\VRDRMessaging.csproj" />
+    ...
+  </ItemGroup>
+</Project>
+```
 
 #### Creating a Death Record Submission
 

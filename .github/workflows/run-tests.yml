@@ -31,12 +31,20 @@ jobs:
     - name: Test
       run: |
           dotnet test VRDR.Tests/DeathRecord.Tests.csproj
-          dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json
+          dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI description VRDR.CLI/1.xml --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI description VRDR.CLI/1.xml --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI description VRDR.CLI/1.json --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI description VRDR.CLI/1.json --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml --framework netcoreapp3.1
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json --framework netcoreapp2.1
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json --framework netcoreapp3.1
           ./VRDR.Tests/test_translation_service.sh

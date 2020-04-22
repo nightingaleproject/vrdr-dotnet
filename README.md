@@ -336,42 +336,42 @@ dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
-NOTE: In all of the below commands you must specify your preferred version of dotnet, either netcoreapp2.1 or netcoreapp3.1, depending on whether you have installed dotnet 2.1 or dotnet 3.1 locally on your system.
+NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework netcoreapp2.1` to the end of all the example commands below
 
 #### Example Usages
 ```bash
 # Builds a fake death record and print out the record as FHIR XML and JSON
-dotnet run --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run
 
 # Read in the FHIR XML or JSON death record and print out as IJE
-dotnet run 2ije 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run 2ije 1.xml
 
 # Read in the IJE death record and print out as FHIR XML
-dotnet run ije2xml 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run ije2xml 1.MOR
 
 # Read in the IJE death record and print out as FHIR JSON
-dotnet run ije2json 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run ije2json 1.MOR
 
 # Read in the FHIR XML death record and print out as FHIR JSON
-dotnet run xml2json 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run xml2json 1.xml
 
 # Read in the FHIR JSON death record and print out as FHIR XML
-dotnet run json2xml 1.json --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run json2xml 1.json
 
 # Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
-dotnet run json2json 1.json --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run json2json 1.json
 
 # Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
-dotnet run xml2xml 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run xml2xml 1.xml
 
 # Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkXml 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run checkXml 1.xml
 
 # Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkJson 1.json --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run checkJson 1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
-dotnet run ije 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
+dotnet run ije 1.MOR
 ```
 
 ### VRDR.HTTP

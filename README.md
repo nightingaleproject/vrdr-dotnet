@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
-This repository includes .NET (C#) code for 
+This repository includes .NET (C#) code for
 
 - Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
@@ -210,7 +210,7 @@ DeathRecord record = ...;
 // Create a submission message
 DeathRecordSubmission message = new DeathRecordSubmission(record);
 
-// Create a JSON representation of the message (XML is also supported via the ToXML method) 
+// Create a JSON representation of the message (XML is also supported via the ToXML method)
 string jsonMessage = message.ToJSON();
 
 // Send the JSON message
@@ -336,40 +336,42 @@ dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
+NOTE: In all of the below commands you must specify your preferred version of dotnet, either netcoreapp2.1 or netcoreapp3.1, depending on whether you have installed dotnet 2.1 or dotnet 3.1 locally on your system.
+
 #### Example Usages
 ```bash
 # Builds a fake death record and print out the record as FHIR XML and JSON
-dotnet run
+dotnet run --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the FHIR XML or JSON death record and print out as IJE
-dotnet run 2ije 1.xml
+dotnet run 2ije 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the IJE death record and print out as FHIR XML
-dotnet run ije2xml 1.MOR
+dotnet run ije2xml 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the IJE death record and print out as FHIR JSON
-dotnet run ije2json 1.MOR
+dotnet run ije2json 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the FHIR XML death record and print out as FHIR JSON
-dotnet run xml2json 1.xml
+dotnet run xml2json 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the FHIR JSON death record and print out as FHIR XML
-dotnet run json2xml 1.json
+dotnet run json2xml 1.json --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
-dotnet run json2json 1.json
+dotnet run json2json 1.json --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
-dotnet run xml2xml 1.xml
+dotnet run xml2xml 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkXml 1.xml
+dotnet run checkXml 1.xml --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkJson 1.json
+dotnet run checkJson 1.json --framework <netcoreapp2.1, netcoreapp3.1>
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
-dotnet run ije 1.MOR
+dotnet run ije 1.MOR --framework <netcoreapp2.1, netcoreapp3.1>
 ```
 
 ### VRDR.HTTP

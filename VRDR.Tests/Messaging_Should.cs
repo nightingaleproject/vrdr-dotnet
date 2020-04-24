@@ -75,6 +75,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
+            Assert.Equal("2018MA000001", ack.Identifier);
         }
 
         [Fact]

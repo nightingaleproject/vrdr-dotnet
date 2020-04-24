@@ -92,6 +92,11 @@
             <summary>Message Destination</summary>
             <value>the message destination.</value>
         </member>
+        <member name="P:VRDR.BaseMessage.Identifier">
+            <summary>
+            The message bundle identifier
+            </summary>
+        </member>
         <member name="M:VRDR.BaseMessage.Parse(System.IO.StreamReader,System.Boolean)">
             <summary>
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of

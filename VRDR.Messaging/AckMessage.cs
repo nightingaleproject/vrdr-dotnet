@@ -10,6 +10,11 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
         public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck.MessageId, messageToAck.MessageSource, source)
         {
+            if (typeof(DeathRecordSubmission).IsInstanceOfType(messageToAck))
+            {
+                var ije = new IJEMortality(((DeathRecordSubmission)messageToAck).DeathRecord);
+                Identifier = ije.DOD_YR+ije.DSTATE+ije.FILENO;
+            }
         }
 
         /// <summary>

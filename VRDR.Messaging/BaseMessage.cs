@@ -194,6 +194,21 @@ namespace VRDR
         }
 
         /// <summary>
+        /// The message bundle identifier
+        /// </summary>
+        public string Identifier
+        {
+            get
+            {
+                return MessageBundle.Identifier?.Value;
+            }
+            set
+            {
+                MessageBundle.Identifier = new Identifier("http://nchs.cdc.gov/vrdr_id", value);
+            }
+        }
+
+        /// <summary>
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. Clients can use the typeof operator to determine the type of message object returned
         /// </summary>

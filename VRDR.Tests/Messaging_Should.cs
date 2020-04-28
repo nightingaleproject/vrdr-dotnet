@@ -26,22 +26,40 @@ namespace VRDR.Tests
         {
             DeathRecordSubmission submission = new DeathRecordSubmission();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
+            Assert.Null(submission.DeathRecord);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageDestination);
+            Assert.NotNull(submission.MessageTimestamp);
+            Assert.Equal("nightingale", submission.MessageSource);
+            Assert.NotNull(submission.MessageId);
         }
 
         [Fact]
         public void CreateSubmissionFromDeathRecord()
         {
-            DeathRecordSubmission submission = new DeathRecordSubmission((DeathRecord)XMLRecords[0]);
+            DeathRecord record = (DeathRecord)XMLRecords[0];
+            DeathRecordSubmission submission = new DeathRecordSubmission(record);
+            Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
+
+            record = null;
+            submission = new DeathRecordSubmission(record);
+            Assert.Null(submission.DeathRecord);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
         }
 
         [Fact]
         public void CreateSubmissionFromJSON()
         {
-            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
+
+            Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptySubmission.json")));
+            Assert.Equal("Failed to find a Bundle Entry containing a Resource of type Bundle", ex.Message);
+
+            ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/DeathRecordSubmission.json")));
+            Assert.Equal("The supplied message was of type VRDR.DeathRecordSubmission, expected VRDR.AckMessage or a subclass", ex.Message);
         }
 
         [Fact]
@@ -49,6 +67,7 @@ namespace VRDR.Tests
         {
             DeathRecordUpdate submission = new DeathRecordUpdate();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", submission.MessageType);
+            Assert.Null(submission.DeathRecord);
         }
 
         [Fact]
@@ -62,7 +81,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateUpdateFromJSON()
         {
-            DeathRecordUpdate submission = (DeathRecordUpdate)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"));
+            DeathRecordUpdate submission = BaseMessage.Parse<DeathRecordUpdate>(FixtureStream("fixtures/json/DeathRecordUpdate.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", submission.MessageType);
         }
@@ -70,8 +89,20 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckForMessage()
         {
-            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             AckMessage ack = new AckMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(submission.MessageId, ack.AckedMessageId);
+            Assert.Equal(submission.MessageSource, ack.MessageDestination);
+
+            submission = null;
+            ack = new AckMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Null(ack.AckedMessageId);
+            Assert.Null(ack.MessageDestination);
+
+            submission = new DeathRecordSubmission();
+            ack = new AckMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
@@ -80,7 +111,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromJSON()
         {
-            AckMessage ack = (AckMessage)BaseMessage.Parse(FixtureStream("fixtures/json/AckMessage.json"));
+            AckMessage ack = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/AckMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -89,7 +120,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromXML()
         {
-            AckMessage ack = (AckMessage)BaseMessage.Parse(FixtureStream("fixtures/xml/AckMessage.xml"));
+            AckMessage ack = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/xml/AckMessage.xml"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -98,7 +129,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCodingResponseFromJSON()
         {
-            CodingResponseMessage message = (CodingResponseMessage)BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
+            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal("cert101010", message.CertificateNumber);
@@ -140,7 +171,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCodingUpdateFromJSON()
         {
-            CodingUpdateMessage message = (CodingUpdateMessage)BaseMessage.Parse(FixtureStream("fixtures/json/CodingUpdateMessage.json"));
+            CodingUpdateMessage message = BaseMessage.Parse<CodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal("cert101010", message.CertificateNumber);
@@ -375,7 +406,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateVoidMessageFromJson()
         {
-            VoidMessage message = (VoidMessage)BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"));
+            VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal("foo", message.CertificateNumber);
             Assert.Equal("bar", message.StateIdentifier);
@@ -390,6 +421,13 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("nightingale", message.MessageSource);
+
+            message = new VoidMessage(null);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
+            Assert.Null(message.CertificateNumber);
+            Assert.Null(message.StateIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Equal("nightingale", message.MessageSource);
         }
@@ -411,12 +449,14 @@ namespace VRDR.Tests
             Assert.IsType<DeathRecordUpdate>(msg);
             Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
             Assert.Equal("Unsupported message type: http://nchs.cdc.gov/vrdr_invalid_type", ex.Message);
+            ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptyMessage.json")));
+            Assert.Equal("Failed to find a Bundle Entry containing a Resource of type MessageHeader", ex.Message);
         }
 
         [Fact]
         public void CreateExtractionErrorForMessage()
         {
-            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             ExtractionErrorMessage err = new ExtractionErrorMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_extraction_error", err.MessageType);
             Assert.Equal(submission.MessageId, err.FailedMessageId);
@@ -436,12 +476,19 @@ namespace VRDR.Tests
             Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
             Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
             Assert.Equal("The message was very old", issues[1].Description);
+
+            submission = null;
+            err = new ExtractionErrorMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_extraction_error", err.MessageType);
+            Assert.Null(err.FailedMessageId);
+            Assert.Null(err.MessageDestination);
+            Assert.Empty(err.Issues);
         }
 
         [Fact]
         public void CreateExtractionErrorFromJson()
         {
-            ExtractionErrorMessage err = (ExtractionErrorMessage)BaseMessage.Parse(FixtureStream("fixtures/json/ExtractionErrorMessage.json"));
+            ExtractionErrorMessage err = BaseMessage.Parse<ExtractionErrorMessage>(FixtureStream("fixtures/json/ExtractionErrorMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_extraction_error", err.MessageType);
             var issues = err.Issues;
             Assert.Equal(2, (int)issues.Count);
@@ -456,7 +503,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCodingErrorForMessage()
         {
-            DeathRecordSubmission submission = (DeathRecordSubmission)BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
             CodingErrorMessage err = new CodingErrorMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_error", err.MessageType);
             Assert.Equal(submission.MessageId, err.FailedMessageId);
@@ -478,12 +525,21 @@ namespace VRDR.Tests
             Assert.Equal(OperationOutcome.IssueSeverity.Warning, issues[1].Severity);
             Assert.Equal(OperationOutcome.IssueType.Expired, issues[1].Type);
             Assert.Equal("The message was very old", issues[1].Description);
+
+            submission = null;
+            err = new CodingErrorMessage(submission);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_coding_error", err.MessageType);
+            Assert.Null(err.FailedMessageId);
+            Assert.Null(err.MessageDestination);
+            Assert.Null(err.CertificateNumber);
+            Assert.Null(err.StateIdentifier);
+            Assert.Empty(err.Issues);
         }
 
         [Fact]
         public void CreateCodingErrorFromJson()
         {
-            CodingErrorMessage err = (CodingErrorMessage)BaseMessage.Parse(FixtureStream("fixtures/json/CodingErrorMessage.json"));
+            CodingErrorMessage err = BaseMessage.Parse<CodingErrorMessage>(FixtureStream("fixtures/json/CodingErrorMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_error", err.MessageType);
             Assert.Null(err.FailedMessageId);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", err.MessageSource);

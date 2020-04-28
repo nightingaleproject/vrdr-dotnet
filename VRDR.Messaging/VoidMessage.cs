@@ -22,7 +22,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the VoidMessage</param>
         /// <returns></returns>
-        public VoidMessage(Bundle messageBundle) : base(messageBundle)
+        internal VoidMessage(Bundle messageBundle) : base(messageBundle)
         {
             parameters = findEntry<Parameters>(ResourceType.Parameters);
         }
@@ -31,8 +31,8 @@ namespace VRDR
         /// <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
         public VoidMessage(DeathRecord record) : this()
         {
-            this.CertificateNumber = record.Identifier;
-            this.StateIdentifier = record.BundleIdentifier;
+            this.CertificateNumber = record?.Identifier;
+            this.StateIdentifier = record?.BundleIdentifier;
         }
 
         /// <summary>Jurisdiction-assigned death certificate number</summary>

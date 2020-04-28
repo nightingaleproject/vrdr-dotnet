@@ -16,27 +16,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="fixtures/json/1.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/DeathRecordSubmission.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/InvalidMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/CodingErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/ExtractionErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/xml/AckMessage.xml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingComposition.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingCompositionSubject.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingCompositionAttestor.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingDecedent.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingCertifier.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BadConditions.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/causecodes.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CodingErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordSubmission.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/EmptySubmission.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/ExtractionErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/InvalidMessageType.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCertifier.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingComposition.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCompositionAttestor.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingCompositionSubject.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingDecedent.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/1.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/AckMessage.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

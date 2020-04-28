@@ -1,0 +1,19 @@
+{
+    "resourceType": "Bundle",
+    "id": "254b5d1e-6620-4b49-8d25-4f38f4562016",
+    "timestamp": "2020-03-23T17:53:22.20603-04:00",
+    "type": "message",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
+                "eventUri": "http://nchs.cdc.gov/vrdr_submission",
+                "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
+                "source": {"endpoint": "nightingale"},
+                "focus": [{"reference": "f75de014-b357-4a4b-be36-dfc73f874051"}]
+            }
+        },
+    ]
+}

@@ -21,7 +21,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
         /// <returns></returns>
-        public CodingResponseMessage(Bundle messageBundle) : base(messageBundle)
+        internal CodingResponseMessage(Bundle messageBundle) : base(messageBundle)
         {
             parameters = findEntry<Parameters>(ResourceType.Parameters);
         }
@@ -326,7 +326,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
         /// <returns></returns>
-        public CodingUpdateMessage(Bundle messageBundle) : base(messageBundle)
+        internal CodingUpdateMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
 

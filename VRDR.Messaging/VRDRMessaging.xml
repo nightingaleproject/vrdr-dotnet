@@ -41,7 +41,7 @@
         <member name="M:VRDR.BaseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
             Construct a BaseMessage from a FHIR Bundle. This constructor will also validate that the Bundle
-            represents a FHIR message.
+            represents a FHIR message of the correct type.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
         </member>
@@ -92,14 +92,24 @@
             <summary>Message Destination</summary>
             <value>the message destination.</value>
         </member>
-        <member name="M:VRDR.BaseMessage.Parse(System.IO.StreamReader,System.Boolean)">
+        <member name="M:VRDR.BaseMessage.Parse``1(System.IO.StreamReader,System.Boolean)">
             <summary>
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
-            BaseMessage. Clients can use the typeof operator to determine the type of message object returned
+            BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
             </summary>
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <returns></returns>
+            <returns>The deserialized message object</returns>
+            <exception cref="T:System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        </member>
+        <member name="M:VRDR.BaseMessage.Parse(System.IO.StreamReader,System.Boolean)">
+            <summary>
+            Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+            BaseMessage. Clients can use the typeof operator to determine the type of message object returned.
+            </summary>
+            <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <returns>The deserialized message object</returns>
         </member>
         <member name="T:VRDR.CodingResponseMessage">
             <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>

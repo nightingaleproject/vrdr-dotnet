@@ -5,10 +5,12 @@ namespace VRDR
     /// <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
     public class AckMessage : BaseMessage
     {
+        private const string ACK_MESSAGE = "http://nchs.cdc.gov/vrdr_acknowledgement";
+
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck.MessageId, messageToAck.MessageSource, source)
+        public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck?.MessageId, messageToAck?.MessageSource, source)
         {
         }
 
@@ -17,7 +19,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the AckMessage</param>
         /// <returns></returns>
-        public AckMessage(Bundle messageBundle) : base(messageBundle)
+        internal AckMessage(Bundle messageBundle) : base(messageBundle)
         {
             // no payload for Ack message
         }
@@ -26,7 +28,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_acknowledgement")
+        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(ACK_MESSAGE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

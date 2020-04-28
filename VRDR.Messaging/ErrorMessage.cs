@@ -12,7 +12,7 @@ namespace VRDR
         /// <summary>Constructor that creates an extraction error for the specified message.</summary>
         /// <param name="sourceMessage">the message that could not be processed.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public ExtractionErrorMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageId, sourceMessage.MessageSource, source)
+        public ExtractionErrorMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, source)
         {
         }
 
@@ -21,7 +21,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the ExtractionErrorMessage</param>
         /// <returns></returns>
-        public ExtractionErrorMessage(Bundle messageBundle) : base(messageBundle)
+        internal ExtractionErrorMessage(Bundle messageBundle) : base(messageBundle)
         {
             details = findEntry<OperationOutcome>(ResourceType.OperationOutcome);
         }
@@ -99,9 +99,9 @@ namespace VRDR
         /// <param name="sourceMessage">the message that could not be processed.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
         public CodingErrorMessage(DeathRecordSubmission sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission")
-            : this(sourceMessage.DeathRecord.Identifier, sourceMessage.DeathRecord.BundleIdentifier, sourceMessage.MessageSource, source)
+            : this(sourceMessage?.DeathRecord.Identifier, sourceMessage?.DeathRecord.BundleIdentifier, sourceMessage?.MessageSource, source)
         {
-            FailedMessageId = sourceMessage.MessageId;
+            FailedMessageId = sourceMessage?.MessageId;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingErrorMessage</param>
         /// <returns></returns>
-        public CodingErrorMessage(Bundle messageBundle) : base(messageBundle)
+        internal CodingErrorMessage(Bundle messageBundle) : base(messageBundle)
         {
             parameters = findEntry<Parameters>(ResourceType.Parameters);
         }

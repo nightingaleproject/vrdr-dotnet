@@ -25,7 +25,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
         /// <returns></returns>
-        public DeathRecordSubmission(Bundle messageBundle) : base(messageBundle)
+        internal DeathRecordSubmission(Bundle messageBundle) : base(messageBundle)
         {
             deathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
         }
@@ -42,9 +42,12 @@ namespace VRDR
             {
                 deathRecord = value;
                 MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
-                MessageBundle.AddResourceEntry(deathRecord.GetBundle(), "urn:uuid:" + deathRecord.GetBundle().Id);
                 Header.Focus.Clear();
-                Header.Focus.Add(new ResourceReference(deathRecord.GetBundle().Id));
+                if (deathRecord != null)
+                {
+                    MessageBundle.AddResourceEntry(deathRecord.GetBundle(), "urn:uuid:" + deathRecord.GetBundle().Id);
+                    Header.Focus.Add(new ResourceReference(deathRecord.GetBundle().Id));
+                }
             }
         }
     }
@@ -70,7 +73,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
         /// <returns></returns>
-        public DeathRecordUpdate(Bundle messageBundle) : base(messageBundle)
+        internal DeathRecordUpdate(Bundle messageBundle) : base(messageBundle)
         {
         }
     }

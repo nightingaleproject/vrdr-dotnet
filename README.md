@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
-This repository includes .NET (C#) code for 
+This repository includes .NET (C#) code for
 
 - Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
@@ -210,7 +210,7 @@ DeathRecord record = ...;
 // Create a submission message
 DeathRecordSubmission message = new DeathRecordSubmission(record);
 
-// Create a JSON representation of the message (XML is also supported via the ToXML method) 
+// Create a JSON representation of the message (XML is also supported via the ToXML method)
 string jsonMessage = message.ToJSON();
 
 // Send the JSON message
@@ -335,6 +335,8 @@ dotnet test VRDR.Tests/DeathRecord.Tests.csproj
 
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
+
+NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework netcoreapp2.1` to the end of all the example commands below
 
 #### Example Usages
 ```bash

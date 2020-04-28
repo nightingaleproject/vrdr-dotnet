@@ -2044,7 +2044,7 @@
             <summary>Field number.</summary>
         </member>
         <member name="F:VRDR.IJEField.Location">
-            <summary>Beggining location.</summary>
+            <summary>Beginning location.</summary>
         </member>
         <member name="F:VRDR.IJEField.Length">
             <summary>Field length.</summary>
@@ -2622,7 +2622,7 @@
             <summary>Instance get method for singleton.</summary>
         </member>
         <member name="M:VRDR.MortalityData.StateCodeToRandomPlace(System.String)">
-            <summary>Given a State code, return a random place Tuple.</summary>
+            <summary>Given a State code, return a random PlaceCode.</summary>
         </member>
         <member name="M:VRDR.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
@@ -2693,6 +2693,12 @@
         <member name="M:VRDR.MortalityData.RaceCodeToRaceName(System.String)">
             <summary>Given a Race code - return the representative Race name.</summary>
         </member>
+        <member name="M:VRDR.MortalityData.DictKeyFinderHelper``1(``0,System.String)">
+            <summary>Given a value in a &lt;string, string&gt; object, return the first matching key.</summary>
+        </member>
+        <member name="M:VRDR.MortalityData.DictValueFinderHelper``1(``0,System.String)">
+            <summary>Given a key in a (string, string) object, return the first matching value.</summary>
+        </member>
         <member name="F:VRDR.MortalityData.CDCRaceAIANCodes">
             <summary>CDC Race American Indian or Alaska Native Codes</summary>
         </member>
@@ -2719,6 +2725,39 @@
         </member>
         <member name="F:VRDR.MortalityData.PlaceCodes">
             <summary>Place Codes</summary>
+        </member>
+        <member name="T:VRDR.LinqHelper">
+            <summary>Internal Helper class which provides Trimming and Case-Insensitive comparison of LINQ Queries.</summary>
+        </member>
+        <member name="M:VRDR.LinqHelper.EqualsInsensitive(System.String,System.String)">
+            <summary>Adds a extension to handle case insensitive comparisons, always Trims second parameter.</summary>
+        </member>
+        <member name="T:VRDR.PlaceCode">
+            <summary>Helper class providing more descriptive definitions for each PlaceCode field</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.State">
+            <summary>Two letter state abbreviation</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.County">
+            <summary>Unabbreviated county name</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.CountyCode">
+            <summary>Three digit county code</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.City">
+            <summary>Unabbreviated city name</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.Description">
+            <summary>Description, normally either blank or "City of", "Township of", etc</summary>
+        </member>
+        <member name="P:VRDR.PlaceCode.Code">
+            <summary>The representative PlaceCode corresponding to all other fields</summary>
+        </member>
+        <member name="M:VRDR.PlaceCode.#ctor">
+            <summary>The empty constructor, used by the Default case when performing LINQ queries and there is no match</summary>
+        </member>
+        <member name="M:VRDR.PlaceCode.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>The complete constructor, normally used when declaring a PlaceCode</summary>
         </member>
     </members>
 </doc>

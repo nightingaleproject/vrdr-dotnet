@@ -13,7 +13,7 @@ namespace VRDR
         /// <summary>Field number.</summary>
         public int Field;
 
-        /// <summary>Beggining location.</summary>
+        /// <summary>Beginning location.</summary>
         public int Location;
 
         /// <summary>Field length.</summary>
@@ -592,41 +592,41 @@ namespace VRDR
         /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
         private string[] Get_Race_AIAN_Literals()
         {
-            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
+            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
             string[] filterCodes = { "1002-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
         }
 
         /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
         private string[] Get_Race_A_Literals()
         {
-            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
+            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
             string[] filterCodes = { "2028-9", "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
-            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
         }
 
         /// <summary>Retrieves Black or African American Race literals on the record.</summary>
         private string[] Get_Race_BAA_Literals()
         {
-            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
+            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
             string[] filterCodes = { "2054-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
         }
 
         /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
         private string[] Get_Race_NHOPI_Literals()
         {
-            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
+            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
             string[] filterCodes = { "2076-8", "2086-7", "2080-0", "2079-2" };
-            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
         }
 
         /// <summary>Retrieves White Race literals on the record.</summary>
         private string[] Get_Race_W_Literals()
         {
-            Tuple<string, string>[] literals = record.Race.Select(race => Tuple.Create(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
+            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
             string[] filterCodes = { "2106-3" };
-            return literals.Where(race => !filterCodes.Contains(race.Item1)).Select(race => race.Item2).ToArray();
+            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
         }
 
         /// <summary>Retrieves OTHER Race literals on the record.</summary>

@@ -5930,7 +5930,7 @@ namespace VRDR
     {
         /// <summary>Adds a extension to handle case insensitive comparisons, always Trims second parameter.</summary>
         public static bool EqualsInsensitive(this string str, string value) =>
-            string.Equals(str, value.Trim(), StringComparison.CurrentCultureIgnoreCase);
+            string.Equals(str, value.Trim(), StringComparison.OrdinalIgnoreCase);
 
     }
 }

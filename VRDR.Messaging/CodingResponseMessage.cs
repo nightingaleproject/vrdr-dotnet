@@ -217,7 +217,7 @@ namespace VRDR
                 foreach (string code in value)
                 {
                     var part = Tuple.Create("coding", 
-                        (Base)(new Coding("https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf", code)));
+                        (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
                     list.Add(part);
                 }
                 parameters.Add("record_cause_of_death", list);

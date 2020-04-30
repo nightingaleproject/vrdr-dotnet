@@ -87,28 +87,28 @@
                             {
                                 "name": "coding",
                                 "valueCoding": {
-                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
                                     "code": "A04.7"
                                 }
                             },
                             {
                                 "name": "coding",
                                 "valueCoding": {
-                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
                                     "code": "A41.9"
                                 }
                             },
                             {
                                 "name": "coding",
                                 "valueCoding": {
-                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
                                     "code": "J18.9"
                                 }
                             },
                             {
                                 "name": "coding",
                                 "valueCoding": {
-                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
                                     "code": "J96.0"
                                 }
                             }

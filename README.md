@@ -182,7 +182,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview3" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview5" />
   ...
 </ItemGroup>
 ```

@@ -334,12 +334,12 @@ namespace VRDR
         public List<CauseOfDeathEntityAxisEntry> ToCauseOfDeathEntityAxis()
         {
             var list = new List<CauseOfDeathEntityAxisEntry>();
-            foreach (int line in codes.Keys)
+            foreach (KeyValuePair<int, SortedDictionary<int, string>> pair in codes)
             {
-                var entry = new CauseOfDeathEntityAxisEntry("", line.ToString());
-                foreach (int position in codes[line].Keys)
+                var entry = new CauseOfDeathEntityAxisEntry("", pair.Key.ToString());
+                foreach (var code in pair.Value.Values)
                 {
-                    entry.AssignedCodes.Add(codes[line][position]);
+                    entry.AssignedCodes.Add(code);
                 }
                 list.Add(entry);
             }

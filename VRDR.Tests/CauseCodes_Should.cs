@@ -9,9 +9,11 @@ namespace VRDR.Tests
     public class CauseCodes_Should
     {
         private ArrayList JSONRecords;
-
+     
+        [Obsolete]
         private CauseCodes SetterCauseCodes;
 
+        [Obsolete]
         public CauseCodes_Should()
         {
             JSONRecords = new ArrayList();
@@ -20,6 +22,7 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        [Obsolete]
         public void Set_Identifier()
         {
             SetterCauseCodes.Identifier = "321";
@@ -27,12 +30,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        [Obsolete]
         public void Get_Identifier()
         {
             Assert.Equal("321", ((CauseCodes)JSONRecords[0]).Identifier);
         }
 
         [Fact]
+        [Obsolete]
         public void Set_BundleIdentifier()
         {
             SetterCauseCodes.BundleIdentifier = "123";
@@ -40,12 +45,14 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        [Obsolete]
         public void Get_BundleIdentifier()
         {
             Assert.Equal("123", ((CauseCodes)JSONRecords[0]).BundleIdentifier);
         }
 
         [Fact]
+        [Obsolete]
         public void Get_Codes()
         {
             Assert.Equal("I251", ((CauseCodes)JSONRecords[0]).Codes[0]);
@@ -54,6 +61,7 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        [Obsolete]
         public void Set_Codes()
         {
             List<string> codes = new List<string>();

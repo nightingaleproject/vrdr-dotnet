@@ -12,8 +12,8 @@
                 "eventUri": "http://nchs.cdc.gov/vrdr_submission",
                 "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
                 "source": {"endpoint": "nightingale"},
-                "focus": [{"reference": "f75de014-b357-4a4b-be36-dfc73f874051"}]
+                "focus": [{"reference": "urn:uuid:f75de014-b357-4a4b-be36-dfc73f874051"}]
             }
-        },
+        }
     ]
 }

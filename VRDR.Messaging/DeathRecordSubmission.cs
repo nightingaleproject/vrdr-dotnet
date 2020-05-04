@@ -27,7 +27,7 @@ namespace VRDR
         /// <returns></returns>
         internal DeathRecordSubmission(Bundle messageBundle) : base(messageBundle)
         {
-            deathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
+            DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
         }
 
         /// <summary>The DeathRecord conveyed by this message</summary>
@@ -46,7 +46,7 @@ namespace VRDR
                 if (deathRecord != null)
                 {
                     MessageBundle.AddResourceEntry(deathRecord.GetBundle(), "urn:uuid:" + deathRecord.GetBundle().Id);
-                    Header.Focus.Add(new ResourceReference(deathRecord.GetBundle().Id));
+                    Header.Focus.Add(new ResourceReference("urn:uuid:" + deathRecord.GetBundle().Id));
                 }
             }
         }

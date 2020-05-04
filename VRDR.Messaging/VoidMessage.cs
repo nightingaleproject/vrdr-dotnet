@@ -14,7 +14,7 @@ namespace VRDR
             this.parameters = new Parameters();
             this.parameters.Id = Guid.NewGuid().ToString();
             MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);
-            Header.Focus.Add(new ResourceReference(this.parameters.Id));
+            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
         }
 
         /// <summary>

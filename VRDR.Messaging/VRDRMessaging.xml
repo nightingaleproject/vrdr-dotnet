@@ -261,7 +261,7 @@
             Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
             by the <c>ToCauseOfDeathEntityAxis</c> method.
             </summary>
-            <param name="line">The line number from the death certificate:
+            <param name="lineNumber">The line number from the death certificate:
             <list type="number">
             <item>Part I. Line a</item>
             <item>Part I. Line b</item>

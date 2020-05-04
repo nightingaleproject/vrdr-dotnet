@@ -128,7 +128,7 @@ namespace VRDR
             MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);
             CertificateNumber = certificateNumber;
             StateIdentifier = stateIdentifier;
-            Header.Focus.Add(new ResourceReference(this.parameters.Id));
+            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
         }
 
         /// <summary>Jurisdiction-assigned death certificate number</summary>

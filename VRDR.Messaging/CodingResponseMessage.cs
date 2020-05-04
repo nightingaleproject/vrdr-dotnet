@@ -36,7 +36,7 @@ namespace VRDR
             this.parameters = new Parameters();
             this.parameters.Id = Guid.NewGuid().ToString();
             MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);
-            Header.Focus.Add(new ResourceReference(this.parameters.Id));
+            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
         }
 
         /// <summary>Jurisdiction-assigned death certificate number</summary>
@@ -336,7 +336,8 @@ namespace VRDR
             var list = new List<CauseOfDeathEntityAxisEntry>();
             foreach (KeyValuePair<int, SortedDictionary<int, string>> pair in codes)
             {
-                var entry = new CauseOfDeathEntityAxisEntry("", pair.Key.ToString());
+                string lineNumber = pair.Key.ToString();
+                var entry = new CauseOfDeathEntityAxisEntry("", lineNumber);
                 foreach (var code in pair.Value.Values)
                 {
                     entry.AssignedCodes.Add(code);
@@ -351,7 +352,7 @@ namespace VRDR
         /// Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
         /// by the <c>ToCauseOfDeathEntityAxis</c> method.
         /// </summary>
-        /// <param name="line">The line number from the death certificate:
+        /// <param name="lineNumber">The line number from the death certificate:
         /// <list type="number">
         /// <item>Part I. Line a</item>
         /// <item>Part I. Line b</item>
@@ -364,22 +365,22 @@ namespace VRDR
         /// <param name="position">Sequence within line</param>
         /// <param name="code">ICD code</param>
         /// <exception cref="System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
-        public void Add(string line, string position, string code)
+        public void Add(string lineNumber, string position, string code)
         {
-            if (!Int32.TryParse(line, out int lineVal))
+            if (!Int32.TryParse(lineNumber, out int lineNumberValue))
             {
-                throw new System.ArgumentException($"The value of the line argument must be a number, found: {line}");
+                throw new System.ArgumentException($"The value of the line argument must be a number, found: {lineNumber}");
             }
             if (!Int32.TryParse(position, out int positionVal))
             {
                 throw new System.ArgumentException($"The value of the position argument must be a number, found: {position}");
             }
 
-            if (!codes.ContainsKey(lineVal))
+            if (!codes.ContainsKey(lineNumberValue))
             {
-                codes[lineVal] = new SortedDictionary<int, string>();
+                codes[lineNumberValue] = new SortedDictionary<int, string>();
             }
-            codes[lineVal][positionVal] = code;
+            codes[lineNumberValue][positionVal] = code;
         }
     }
 

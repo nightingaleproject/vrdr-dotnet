@@ -12,7 +12,7 @@
                 "eventUri": "http://nchs.cdc.gov/vrdr_coding",
                 "destination": [{"endpoint": "destination"}],
                 "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
-                "focus": [{"reference": "041b337f-8a85-4e83-9c37-b50610b1be88"}]
+                "focus": [{"reference": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88"}]
             }
         },
         {

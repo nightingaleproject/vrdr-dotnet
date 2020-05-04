@@ -265,34 +265,34 @@ message.StateIdentifier = "...";
 
 // Create the ethnicity coding
 var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "...");
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "...");
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <ethnicity code>);
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <ethnicity code>);
 message.Ethnicity = ethnicity;
 
 // Create the race coding
 var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-race.Add(CodingResponseMessage.RaceCode.RACE1E, "...");
-race.Add(CodingResponseMessage.RaceCode.RACE17C, "...");
-race.Add(CodingResponseMessage.RaceCode.RACEBRG, "...");
+race.Add(CodingResponseMessage.RaceCode.RACE1E, <race code>);
+race.Add(CodingResponseMessage.RaceCode.RACE17C, <race code>);
+race.Add(CodingResponseMessage.RaceCode.RACEBRG, <race code>);
 message.Race = race;
 
 // Create the cause of death coding
-message.UnderlyingCauseOfDeath = "...";
+message.UnderlyingCauseOfDeath = <code>;
 
 var recordAxisCodes = new List<string>();
-recordAxisCodes.Add("...");
-recordAxisCodes.Add("...");
-recordAxisCodes.Add("...");
-recordAxisCodes.Add("...");
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
 message.CauseOfDeathRecordAxis = recordAxisCodes;
 
 var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
 var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "ID of VRDR CauseOfDeathCondition");
-entry1.AssignedCodes.Add("...");
-entry1.AssignedCodes.Add("...");
+entry1.AssignedCodes.Add(<icd code>);
+entry1.AssignedCodes.Add(<icd code>);
 entityAxisEntries.Add(entry1);
 var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "ID of VRDR CauseOfDeathCondition");
-entry2.AssignedCodes.Add("...");
+entry2.AssignedCodes.Add(<icd code>);
 entityAxisEntries.Add(entry2);
 message.CauseOfDeathEntityAxis = entityAxisEntries;
 
@@ -301,6 +301,20 @@ string jsonMesg = ack.ToJSON();
 
 // Send the JSON coding response message
 ...
+```
+
+There is also a helper class for building a `List<CauseOfDeathEntityAxisEntry>` that may be useful when iterating over a flat list of codes such as those found in an existing TRANSAX file. The following could be used in place of the block above starting with `var entityAxisEntries = ...`.
+
+```cs
+var builder = new CauseOfDeathEntityAxisBuilder();
+ 
+// loop over all of the entity axis codes
+...
+builder.Add(<lineNumber>, <positionInLine>, <icd code>);
+...
+// end loop
+ 
+message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 ```
 
 #### Creating a Coding Error Message

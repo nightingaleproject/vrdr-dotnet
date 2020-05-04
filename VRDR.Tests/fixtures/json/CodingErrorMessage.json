@@ -16,7 +16,7 @@
                     "code": "fatal-error",
                     "details": {"reference": "adead1f2-1c66-42f3-9e24-527352fe8a9a"}
                 },
-                "focus": [{"reference": "4d21dfc7-e776-4cdb-8656-c1d12361d630"}]
+                "focus": [{"reference": "urn:uuid:4d21dfc7-e776-4cdb-8656-c1d12361d630"}]
             }
         },
         {

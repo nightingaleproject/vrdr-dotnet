@@ -70,7 +70,6 @@ namespace VRDR
             dest.Endpoint = "http://nchs.cdc.gov/vrdr_submission";
             Header.Destination.Add(dest);
             MessageHeader.MessageSourceComponent src = new MessageHeader.MessageSourceComponent();
-            src.Endpoint = "nightingale";
             Header.Source = src;
 
             MessageBundle.AddResourceEntry(Header, "urn:uuid:" + Header.Id);

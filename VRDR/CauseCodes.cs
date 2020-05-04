@@ -11,6 +11,7 @@ namespace VRDR
     /// Record return record. This can be used to consume or produce coded records that are typically
     /// returned from NCHS to a jurisdiction.
     /// </summary>
+    [ObsoleteAttribute("This class is obsolete. Use CodingResponseMessage instead.", false)]
     public class CauseCodes
     {
         /// <summary>Useful for navigating around the FHIR Bundle using FHIRPaths.</summary>

@@ -29,7 +29,7 @@ namespace VRDR.Tests
             Assert.Null(submission.DeathRecord);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageDestination);
             Assert.NotNull(submission.MessageTimestamp);
-            Assert.Equal("nightingale", submission.MessageSource);
+            Assert.Null(submission.MessageSource);
             Assert.NotNull(submission.MessageId);
         }
 
@@ -422,14 +422,14 @@ namespace VRDR.Tests
             Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
-            Assert.Equal("nightingale", message.MessageSource);
+            Assert.Null(message.MessageSource);
 
             message = new VoidMessage(null);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Null(message.CertificateNumber);
             Assert.Null(message.StateIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
-            Assert.Equal("nightingale", message.MessageSource);
+            Assert.Null(message.MessageSource);
         }
 
         [Fact]

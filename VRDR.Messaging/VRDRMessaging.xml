@@ -238,6 +238,43 @@
             <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
             condition id</summary>
         </member>
+        <member name="T:VRDR.CauseOfDeathEntityAxisBuilder">
+            <summary>
+            Helper class for building a List&lt;CauseOfDeathEntityAxis&gt; from a flat file. Groups codes
+            into one <c>CauseOfDeathEntityAxisEntry</c> per line and sorts codes by position.
+            </summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.#ctor">
+            <summary>
+            Construct a new empty instance.
+            </summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.ToCauseOfDeathEntityAxis">
+            <summary>
+            Build a List&lt;CauseOfDeathEntityAxis&gt; from the currently contained set of codes.
+            </summary>
+            <returns>cause of death entity axis coding list</returns>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.Add(System.String,System.String,System.String)">
+            <summary>
+            Add a code to the list of codes that will be used to build a List&lt;CauseOfDeathEntityAxis&gt;.
+            Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
+            by the <c>ToCauseOfDeathEntityAxis</c> method.
+            </summary>
+            <param name="line">The line number from the death certificate:
+            <list type="number">
+            <item>Part I. Line a</item>
+            <item>Part I. Line b</item>
+            <item>Part I. Line c</item>
+            <item>Part I. Line d</item>
+            <item>Part I. Line e</item>
+            <item>Part II</item>
+            </list>
+            </param>
+            <param name="position">Sequence within line</param>
+            <param name="code">ICD code</param>
+            <exception cref="T:System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
+        </member>
         <member name="T:VRDR.CodingUpdateMessage">
             <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
         </member>

@@ -311,6 +311,78 @@ namespace VRDR
         }
     }
 
+    /// <summary>
+    /// Helper class for building a List&lt;CauseOfDeathEntityAxis&gt; from a flat file. Groups codes
+    /// into one <c>CauseOfDeathEntityAxisEntry</c> per line and sorts codes by position.
+    /// </summary>
+    public class CauseOfDeathEntityAxisBuilder
+    {
+        private SortedDictionary<int, SortedDictionary<int, string>> codes;
+
+        /// <summary>
+        /// Construct a new empty instance.
+        /// </summary>
+        public CauseOfDeathEntityAxisBuilder()
+        {
+            codes = new SortedDictionary<int, SortedDictionary<int, string>>();
+        }
+
+        /// <summary>
+        /// Build a List&lt;CauseOfDeathEntityAxis&gt; from the currently contained set of codes.
+        /// </summary>
+        /// <returns>cause of death entity axis coding list</returns>
+        public List<CauseOfDeathEntityAxisEntry> ToCauseOfDeathEntityAxis()
+        {
+            var list = new List<CauseOfDeathEntityAxisEntry>();
+            foreach (int line in codes.Keys)
+            {
+                var entry = new CauseOfDeathEntityAxisEntry("", line.ToString());
+                foreach (int position in codes[line].Keys)
+                {
+                    entry.AssignedCodes.Add(codes[line][position]);
+                }
+                list.Add(entry);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Add a code to the list of codes that will be used to build a List&lt;CauseOfDeathEntityAxis&gt;.
+        /// Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
+        /// by the <c>ToCauseOfDeathEntityAxis</c> method.
+        /// </summary>
+        /// <param name="line">The line number from the death certificate:
+        /// <list type="number">
+        /// <item>Part I. Line a</item>
+        /// <item>Part I. Line b</item>
+        /// <item>Part I. Line c</item>
+        /// <item>Part I. Line d</item>
+        /// <item>Part I. Line e</item>
+        /// <item>Part II</item>
+        /// </list>
+        /// </param>
+        /// <param name="position">Sequence within line</param>
+        /// <param name="code">ICD code</param>
+        /// <exception cref="System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
+        public void Add(string line, string position, string code)
+        {
+            if (!Int32.TryParse(line, out int lineVal))
+            {
+                throw new System.ArgumentException($"The value of the line argument must be a number, found: {line}");
+            }
+            if (!Int32.TryParse(position, out int positionVal))
+            {
+                throw new System.ArgumentException($"The value of the position argument must be a number, found: {position}");
+            }
+
+            if (!codes.ContainsKey(lineVal))
+            {
+                codes[lineVal] = new SortedDictionary<int, string>();
+            }
+            codes[lineVal][positionVal] = code;
+        }
+    }
+
     /// <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
     public class CodingUpdateMessage : CodingResponseMessage
     {

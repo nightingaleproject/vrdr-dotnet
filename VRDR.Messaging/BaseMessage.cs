@@ -13,6 +13,12 @@ namespace VRDR
     {
         /// <summary>Bundle that contains the message.</summary>
         protected Bundle MessageBundle;
+        
+        /// <summary>
+        /// A Parameters entry that contains business identifiers for all messages plus additional information for Coding messages.
+        /// </summary>
+        protected Parameters Record;
+
 
         /// <summary>MessageHeader that contains the message header.</summary>
         protected MessageHeader Header;
@@ -22,7 +28,8 @@ namespace VRDR
         /// represents a FHIR message of the correct type.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
-        protected BaseMessage(Bundle messageBundle)
+        /// <param name="headerOnly">if true, then only the MessageHeader part will be searched for</param>
+        protected BaseMessage(Bundle messageBundle, bool headerOnly = false)
         {
             MessageBundle = messageBundle;
 
@@ -34,6 +41,12 @@ namespace VRDR
 
             // Find Header
             Header = findEntry<MessageHeader>(ResourceType.MessageHeader);
+
+            if (!headerOnly)
+            {
+                // Find Parameters
+                Record = findEntry<Parameters>(ResourceType.Parameters);
+            }      
         }
 
         /// <summary>
@@ -71,8 +84,12 @@ namespace VRDR
             Header.Destination.Add(dest);
             MessageHeader.MessageSourceComponent src = new MessageHeader.MessageSourceComponent();
             Header.Source = src;
-
             MessageBundle.AddResourceEntry(Header, "urn:uuid:" + Header.Id);
+
+            Record = new Parameters();
+            Record.Id = Guid.NewGuid().ToString();
+            MessageBundle.AddResourceEntry(this.Record, "urn:uuid:" + this.Record.Id);
+            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.Record.Id));
         }
 
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
@@ -192,6 +209,34 @@ namespace VRDR
             }
         }
 
+        /// <summary>Jurisdiction-assigned death certificate number</summary>
+        public string CertificateNumber
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("cert_no")?.Value;
+            }
+            set
+            {
+                Record.Remove("cert_no");
+                Record.Add("cert_no", new FhirString(value));
+            }
+        }
+
+        /// <summary>Jurisdiction-assigned id</summary>
+        public string StateIdentifier
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("state_id")?.Value;
+            }
+            set
+            {
+                Record.Remove("state_id");
+                Record.Add("state_id", new FhirString(value));
+            }
+        }
+
         /// <summary>
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
@@ -269,7 +314,7 @@ namespace VRDR
 
         private static string GetMessageType(Bundle bundle)
         {
-            var baseMessage = new BaseMessage(bundle);
+            var baseMessage = new BaseMessage(bundle, true);
             return baseMessage.MessageType;
         }
 

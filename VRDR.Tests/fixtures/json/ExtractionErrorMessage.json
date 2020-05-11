@@ -16,7 +16,25 @@
                     "identifier": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
                     "code": "fatal-error",
                     "details": {"reference": "28b5b3b5-25a2-4fc4-9dd6-21162b290787"}
-                }
+                },
+                "focus": [{"reference": "urn:uuid:df6f9785-1f00-4af8-bd5d-56c1b024691d"}]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:df6f9785-1f00-4af8-bd5d-56c1b024691d",
+            "resource": {
+                "resourceType": "Parameters",
+                "id": "df6f9785-1f00-4af8-bd5d-56c1b024691d",
+                "parameter": [
+                    {
+                        "name": "cert_no",
+                        "valueString": "foo"
+                    },
+                    {
+                        "name": "state_id",
+                        "valueString": "bar"
+                    }
+                ]
             }
         },
         {

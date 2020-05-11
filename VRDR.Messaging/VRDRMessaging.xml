@@ -35,15 +35,21 @@
         <member name="F:VRDR.BaseMessage.MessageBundle">
             <summary>Bundle that contains the message.</summary>
         </member>
+        <member name="F:VRDR.BaseMessage.Record">
+            <summary>
+            A Parameters entry that contains business identifiers for all messages plus additional information for Coding messages.
+            </summary>
+        </member>
         <member name="F:VRDR.BaseMessage.Header">
             <summary>MessageHeader that contains the message header.</summary>
         </member>
-        <member name="M:VRDR.BaseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.BaseMessage.#ctor(Hl7.Fhir.Model.Bundle,System.Boolean)">
             <summary>
             Construct a BaseMessage from a FHIR Bundle. This constructor will also validate that the Bundle
             represents a FHIR message of the correct type.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
+            <param name="headerOnly">if true, then only the MessageHeader part will be searched for</param>
         </member>
         <member name="M:VRDR.BaseMessage.findEntry``1(Hl7.Fhir.Model.ResourceType)">
             <summary>
@@ -92,6 +98,12 @@
             <summary>Message Destination</summary>
             <value>the message destination.</value>
         </member>
+        <member name="P:VRDR.BaseMessage.CertificateNumber">
+            <summary>Jurisdiction-assigned death certificate number</summary>
+        </member>
+        <member name="P:VRDR.BaseMessage.StateIdentifier">
+            <summary>Jurisdiction-assigned id</summary>
+        </member>
         <member name="M:VRDR.BaseMessage.Parse``1(System.IO.StreamReader,System.Boolean)">
             <summary>
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
@@ -130,12 +142,6 @@
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.CertificateNumber">
-            <summary>Jurisdiction-assigned death certificate number</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.StateIdentifier">
-            <summary>Jurisdiction-assigned id</summary>
         </member>
         <member name="T:VRDR.CodingResponseMessage.HispanicOrigin">
             <summary>Ethnicity codes</summary>
@@ -389,12 +395,6 @@
             <param name="destination">the endpoint identifier that the coding error message will be sent to.</param>
             <param name="source">the endpoint identifier that the coding error message will be sent from.</param>
         </member>
-        <member name="P:VRDR.CodingErrorMessage.CertificateNumber">
-            <summary>Jurisdiction-assigned death certificate number</summary>
-        </member>
-        <member name="P:VRDR.CodingErrorMessage.StateIdentifier">
-            <summary>Jurisdiction-assigned id</summary>
-        </member>
         <member name="T:VRDR.Issue">
             <summary>
             Class representing an issue detected during message processing.
@@ -439,12 +439,6 @@
         <member name="M:VRDR.VoidMessage.#ctor(VRDR.DeathRecord)">
             <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
             <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
-        </member>
-        <member name="P:VRDR.VoidMessage.CertificateNumber">
-            <summary>Jurisdiction-assigned death certificate number</summary>
-        </member>
-        <member name="P:VRDR.VoidMessage.StateIdentifier">
-            <summary>Jurisdiction-assigned id</summary>
         </member>
     </members>
 </doc>

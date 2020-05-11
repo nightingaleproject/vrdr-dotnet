@@ -130,34 +130,6 @@ namespace VRDR
             StateIdentifier = stateIdentifier;
             Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
         }
-
-        /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public string CertificateNumber
-        {
-            get
-            {
-                return parameters.GetSingleValue<FhirString>("cert_no")?.Value;
-            }
-            set
-            {
-                parameters.Remove("cert_no");
-                parameters.Add("cert_no", new FhirString(value));
-            }
-        }
-
-        /// <summary>Jurisdiction-assigned id</summary>
-        public string StateIdentifier
-        {
-            get
-            {
-                return parameters.GetSingleValue<FhirString>("state_id")?.Value;
-            }
-            set
-            {
-                parameters.Remove("state_id");
-                parameters.Add("state_id", new FhirString(value));
-            }
-        }
     }
 
     /// <summary>

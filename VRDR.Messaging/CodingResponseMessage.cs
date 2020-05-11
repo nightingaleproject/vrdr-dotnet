@@ -7,8 +7,6 @@ namespace VRDR
     /// <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
     public class CodingResponseMessage : BaseMessage
     {
-        private Parameters parameters;
-
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="sourceMessage">the message to create a response for.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
@@ -23,7 +21,6 @@ namespace VRDR
         /// <returns></returns>
         internal CodingResponseMessage(Bundle messageBundle) : base(messageBundle)
         {
-            parameters = findEntry<Parameters>(ResourceType.Parameters);
         }
 
         /// <summary>Constructor that creates a response for the specified message.</summary>
@@ -32,39 +29,7 @@ namespace VRDR
         public CodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_coding")
         {
             Header.Source.Endpoint = source;
-            this.MessageDestination = destination;
-            this.parameters = new Parameters();
-            this.parameters.Id = Guid.NewGuid().ToString();
-            MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);
-            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
-        }
-
-        /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public string CertificateNumber
-        {
-            get
-            {
-                return parameters.GetSingleValue<FhirString>("cert_no")?.Value;
-            }
-            set
-            {
-                parameters.Remove("cert_no");
-                parameters.Add("cert_no", new FhirString(value));
-            }
-        }
-
-        /// <summary>Jurisdiction-assigned id</summary>
-        public string StateIdentifier
-        {
-            get
-            {
-                return parameters.GetSingleValue<FhirString>("state_id")?.Value;
-            }
-            set
-            {
-                parameters.Remove("state_id");
-                parameters.Add("state_id", new FhirString(value));
-            }
+            MessageDestination = destination;
         }
 
         /// <summary>Ethnicity codes</summary>
@@ -82,7 +47,7 @@ namespace VRDR
             get
             {
                 var ethnicity = new Dictionary<HispanicOrigin, string>();
-                Parameters.ParameterComponent ethnicityEntry = parameters.GetSingle("ethnicity");
+                Parameters.ParameterComponent ethnicityEntry = Record.GetSingle("ethnicity");
                 if (ethnicityEntry != null)
                 {
                     foreach (Parameters.ParameterComponent entry in ethnicityEntry.Part)
@@ -96,7 +61,7 @@ namespace VRDR
             }
             set
             {
-                parameters.Remove("ethnicity");
+                Record.Remove("ethnicity");
                 var list = new List<Tuple<string, Base>>();
                 foreach (KeyValuePair<HispanicOrigin, string> item in value)
                 {
@@ -104,7 +69,7 @@ namespace VRDR
                         (Base)(new Coding("https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf", item.Value)));
                     list.Add(part);
                 }
-                parameters.Add("ethnicity", list);
+                Record.Add("ethnicity", list);
             }
         }
 
@@ -153,7 +118,7 @@ namespace VRDR
             get
             {
                 var race = new Dictionary<RaceCode, string>();
-                Parameters.ParameterComponent raceEntry = parameters.GetSingle("race");
+                Parameters.ParameterComponent raceEntry = Record.GetSingle("race");
                 if (raceEntry != null)
                 {
                     foreach (Parameters.ParameterComponent entry in raceEntry.Part)
@@ -167,7 +132,7 @@ namespace VRDR
             }
             set
             {
-                parameters.Remove("race");
+                Record.Remove("race");
                 var list = new List<Tuple<string, Base>>();
                 foreach (KeyValuePair<RaceCode, string> item in value)
                 {
@@ -175,7 +140,7 @@ namespace VRDR
                         (Base)(new Coding("https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf", item.Value)));
                     list.Add(part);
                 }
-                parameters.Add("race", list);
+                Record.Add("race", list);
             }
         }
 
@@ -184,12 +149,12 @@ namespace VRDR
         {
             get
             {
-                return parameters.GetSingleValue<Coding>("underlying_cause_of_death")?.Code;
+                return Record.GetSingleValue<Coding>("underlying_cause_of_death")?.Code;
             }
             set
             {
-                parameters.Remove("underlying_cause_of_death");
-                parameters.Add("underlying_cause_of_death", new Coding("http://hl7.org/fhir/ValueSet/icd-10", value));
+                Record.Remove("underlying_cause_of_death");
+                Record.Add("underlying_cause_of_death", new Coding("http://hl7.org/fhir/ValueSet/icd-10", value));
             }
         }
 
@@ -199,7 +164,7 @@ namespace VRDR
             get
             {
                 var codes = new List<string>();
-                Parameters.ParameterComponent axisEntry = parameters.GetSingle("record_cause_of_death");
+                Parameters.ParameterComponent axisEntry = Record.GetSingle("record_cause_of_death");
                 if (axisEntry != null)
                 {
                     foreach (Parameters.ParameterComponent entry in axisEntry.Part)
@@ -212,7 +177,7 @@ namespace VRDR
             }
             set
             {
-                parameters.Remove("record_cause_of_death");
+                Record.Remove("record_cause_of_death");
                 var list = new List<Tuple<string, Base>>();
                 foreach (string code in value)
                 {
@@ -220,7 +185,7 @@ namespace VRDR
                         (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
                     list.Add(part);
                 }
-                parameters.Add("record_cause_of_death", list);
+                Record.Add("record_cause_of_death", list);
             }
         }
 
@@ -233,7 +198,7 @@ namespace VRDR
             get
             {
                 var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
-                foreach (Parameters.ParameterComponent part in parameters.Get("entity_axis_code"))
+                foreach (Parameters.ParameterComponent part in Record.Get("entity_axis_code"))
                 {
                     string text = "";
                     string conditionId = "";
@@ -261,7 +226,7 @@ namespace VRDR
             }
             set
             {
-                parameters.Remove("entity_axis_code");
+                Record.Remove("entity_axis_code");
                 foreach (CauseOfDeathEntityAxisEntry entry in value)
                 {
                     var entityAxisEntry = new List<Tuple<string, Base>>();
@@ -274,7 +239,7 @@ namespace VRDR
                         part = Tuple.Create("coding", (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
                         entityAxisEntry.Add(part);
                     }
-                    parameters.Add("entity_axis_code", entityAxisEntry);
+                    Record.Add("entity_axis_code", entityAxisEntry);
                 }
             }
         }

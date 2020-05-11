@@ -19,7 +19,26 @@
                     <identifier value="a9d66d2e-2480-4e8d-bab3-4e4c761da1b7"/>
                     <code value="ok"/>
                 </response>
+                <focus>
+                    <reference value="urn:uuid:666d8516-1eca-4686-86ad-0e8566c6a422"/>
+                </focus>
             </MessageHeader>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:666d8516-1eca-4686-86ad-0e8566c6a422"/>
+        <resource>
+            <Parameters>
+                <id value="666d8516-1eca-4686-86ad-0e8566c6a422"/>
+                <parameter>
+                    <name value="cert_no"/>
+                    <valueString value="foo"/>
+                </parameter>
+                <parameter>
+                    <name value="state_id"/>
+                    <valueString value="bar"/>
+                </parameter>
+            </Parameters>
         </resource>
     </entry>
 </Bundle>

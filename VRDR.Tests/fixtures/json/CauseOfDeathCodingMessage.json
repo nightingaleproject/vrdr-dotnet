@@ -122,11 +122,7 @@
                         "name": "entity_axis_code",
                         "part": [
                             {
-                                "name": "text",
-                                "valueString": "DEATH CERT LINE 1 TEXT"
-                            },
-                            {
-                                "name": "condition",
+                                "name": "lineNumber",
                                 "valueId": "abcde"
                             },
                             {
@@ -149,11 +145,7 @@
                         "name": "entity_axis_code",
                         "part": [
                             {
-                                "name": "text",
-                                "valueString": "DEATH CERT LINE 2 TEXT"
-                            },
-                            {
-                                "name": "condition",
+                                "name": "lineNumber",
                                 "valueId": "xyzzy"
                             },
                             {

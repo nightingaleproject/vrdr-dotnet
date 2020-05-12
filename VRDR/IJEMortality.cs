@@ -259,7 +259,7 @@ namespace VRDR
         {
             IJEField info = FieldInfo(ijeFieldName);
             DateTimeOffset date;
-            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
+            string current = this.record == null ? null : Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
             if (DateTimeOffset.TryParse(current, out date))
             {
                 date = date.ToUniversalTime();
@@ -402,11 +402,11 @@ namespace VRDR
         private string Dictionary_Geo_Get(string ijeFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            Dictionary<string, string> dictionary = this.record == null ? null : (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
             if (dictionary == null || !dictionary.ContainsKey(key))
             {
-                return "";
+                return new String(' ', info.Length);
             }
             string current = Convert.ToString(dictionary[key]);
             if (isCoded)
@@ -721,7 +721,7 @@ namespace VRDR
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(record.Identifier))
+                if (String.IsNullOrWhiteSpace(record?.Identifier))
                 {
                     return "".PadLeft(6, '0');
                 }

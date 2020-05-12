@@ -10,6 +10,9 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
         public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck?.MessageId, messageToAck?.MessageSource, source)
         {
+            this.CertificateNumber = messageToAck?.CertificateNumber;
+            this.StateIdentifier = messageToAck?.StateIdentifier;
+            this.NCHSIdentifier = messageToAck?.NCHSIdentifier;
         }
 
         /// <summary>

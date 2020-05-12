@@ -66,7 +66,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that creates a new, empty message for the specified message type.</summary>
-        public BaseMessage(String messageType)
+        protected BaseMessage(String messageType)
         {
             // Start with a Bundle.
             MessageBundle = new Bundle();
@@ -223,7 +223,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Jurisdiction-assigned id</summary>
+        /// <summary>Jurisdiction-assigned auxilliary identifier</summary>
         public string StateIdentifier
         {
             get
@@ -235,6 +235,29 @@ namespace VRDR
                 Record.Remove("state_id");
                 Record.Add("state_id", new FhirString(value));
             }
+        }
+
+        /// <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>
+        public string NCHSIdentifier
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("nchs_id")?.Value;
+            }
+            set
+            {
+                Record.Remove("nchs_id");
+                Record.Add("nchs_id", new FhirString(value));
+            }
+        }
+
+        /// <summary>Create an NCHS identifier for the supplied DeathRecord.</summary>
+        /// <param name="record">the DeathRecord from which the year of death, jurisdiction of death and certificate id will be extracted.</param>
+        /// <returns>the NCHS compound identifier for the supplied DeathRecord.</returns>
+        protected static string CreateNCHSIdentifier(DeathRecord record)
+        {
+            var ije = new IJEMortality(record);
+            return ije.DOD_YR+ije.DSTATE+ije.FILENO;
         }
 
         /// <summary>
@@ -302,9 +325,6 @@ namespace VRDR
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
                     typedMessage = new ExtractionErrorMessage(bundle);
-                    break;
-                case "http://nchs.cdc.gov/vrdr_coding_error":
-                    typedMessage = new CodingErrorMessage(bundle);
                     break;
                 default:
                     throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}");

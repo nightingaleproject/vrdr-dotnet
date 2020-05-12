@@ -30,6 +30,10 @@
                         "valueString": "id101010"
                     },
                     {
+                        "name": "nchs_id",
+                        "valueString": "2019MA101010"
+                    },
+                    {
                         "name": "ethnicity",
                         "part": [
                             {

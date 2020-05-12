@@ -17,7 +17,10 @@ namespace VRDR
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
         public DeathRecordSubmission(DeathRecord record) : this()
         {
-            DeathRecord = record;
+            this.DeathRecord = record;
+            this.CertificateNumber = record?.Identifier;
+            this.StateIdentifier = record?.BundleIdentifier;
+            this.NCHSIdentifier = record == null ? null : CreateNCHSIdentifier(record);
         }
 
         /// <summary>

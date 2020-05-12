@@ -14,6 +14,9 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
         public ExtractionErrorMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, source)
         {
+            this.CertificateNumber = sourceMessage?.CertificateNumber;
+            this.StateIdentifier = sourceMessage?.StateIdentifier;
+            this.NCHSIdentifier = sourceMessage?.NCHSIdentifier;
         }
 
         /// <summary>
@@ -87,48 +90,6 @@ namespace VRDR
                     details.Issue.Add(entry);
                 }
             }
-        }
-    }
-
-    /// <summary>Class <c>CodingErrorMessage</c> is used to communicate that cading of a DeathRecordSubmission message failed.</summary>
-    public class CodingErrorMessage : ExtractionErrorMessage
-    {
-        private Parameters parameters;
-
-        /// <summary>Constructor that creates a coding error for the specified message.</summary>
-        /// <param name="sourceMessage">the message that could not be processed.</param>
-        /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public CodingErrorMessage(DeathRecordSubmission sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission")
-            : this(sourceMessage?.DeathRecord.Identifier, sourceMessage?.DeathRecord.BundleIdentifier, sourceMessage?.MessageSource, source)
-        {
-            FailedMessageId = sourceMessage?.MessageId;
-        }
-
-        /// <summary>
-        /// Construct an CodingErrorMessage from a FHIR Bundle.
-        /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingErrorMessage</param>
-        /// <returns></returns>
-        internal CodingErrorMessage(Bundle messageBundle) : base(messageBundle)
-        {
-            parameters = findEntry<Parameters>(ResourceType.Parameters);
-        }
-
-        /// <summary>Constructor that creates a coding error message for the specified message.</summary>
-        /// <param name="certificateNumber">the jurisdiction-assigned death certificate number.</param>
-        /// <param name="stateIdentifier">the jurisdiction-assigned id.</param>
-        /// <param name="destination">the endpoint identifier that the coding error message will be sent to.</param>
-        /// <param name="source">the endpoint identifier that the coding error message will be sent from.</param>
-        public CodingErrorMessage(string certificateNumber, string stateIdentifier, string destination, string source = "http://nchs.cdc.gov/vrdr_submission")
-            : base(null, destination, source)
-        {
-            MessageType = "http://nchs.cdc.gov/vrdr_coding_error";
-            this.parameters = new Parameters();
-            this.parameters.Id = Guid.NewGuid().ToString();
-            MessageBundle.AddResourceEntry(this.parameters, "urn:uuid:" + this.parameters.Id);
-            CertificateNumber = certificateNumber;
-            StateIdentifier = stateIdentifier;
-            Header.Focus.Add(new ResourceReference("urn:uuid:" + this.parameters.Id));
         }
     }
 

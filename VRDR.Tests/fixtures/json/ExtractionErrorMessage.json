@@ -28,11 +28,15 @@
                 "parameter": [
                     {
                         "name": "cert_no",
-                        "valueString": "foo"
+                        "valueString": "101010"
                     },
                     {
                         "name": "state_id",
-                        "valueString": "bar"
+                        "valueString": "12345"
+                    },
+                    {
+                        "name": "nchs_id",
+                        "valueString": "2019MA101010"
                     }
                 ]
             }

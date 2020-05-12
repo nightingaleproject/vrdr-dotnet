@@ -12,6 +12,9 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
         public CodingResponseMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
         {
+            this.CertificateNumber = sourceMessage?.CertificateNumber;
+            this.StateIdentifier = sourceMessage?.StateIdentifier;
+            this.NCHSIdentifier = sourceMessage?.NCHSIdentifier;
         }
 
         /// <summary>

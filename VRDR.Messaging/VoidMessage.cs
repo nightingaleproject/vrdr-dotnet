@@ -26,6 +26,7 @@ namespace VRDR
         {
             this.CertificateNumber = record?.Identifier;
             this.StateIdentifier = record?.BundleIdentifier;
+            this.NCHSIdentifier = record == null ? null : CreateNCHSIdentifier(record);
         }
     }
 }

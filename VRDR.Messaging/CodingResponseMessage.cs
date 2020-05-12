@@ -192,10 +192,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
+        /// <summary>Entity axis cause of death coding.</summary>
         public List<CauseOfDeathEntityAxisEntry> CauseOfDeathEntityAxis
         {
             get
@@ -203,18 +200,13 @@ namespace VRDR
                 var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
                 foreach (Parameters.ParameterComponent part in Record.Get("entity_axis_code"))
                 {
-                    string text = "";
-                    string conditionId = "";
+                    string lineNumber = "";
                     var codes = new List<string>();
                     foreach (Parameters.ParameterComponent childPart in part.Part)
                     {
-                        if (childPart.Name == "text")
+                        if (childPart.Name == "lineNumber")
                         {
-                            text = ((FhirString)childPart.Value).Value;
-                        }
-                        else if (childPart.Name == "condition")
-                        {
-                            conditionId = ((Id)childPart.Value).Value;
+                            lineNumber = ((Id)childPart.Value).Value;
                         }
                         else if (childPart.Name == "coding")
                         {
@@ -222,7 +214,7 @@ namespace VRDR
                             codes.Add(coding.Code);
                         }
                     }
-                    var entry = new CauseOfDeathEntityAxisEntry(text, conditionId, codes);
+                    var entry = new CauseOfDeathEntityAxisEntry(lineNumber, codes);
                     entityAxisEntries.Add(entry);
                 }
                 return entityAxisEntries;
@@ -233,9 +225,7 @@ namespace VRDR
                 foreach (CauseOfDeathEntityAxisEntry entry in value)
                 {
                     var entityAxisEntry = new List<Tuple<string, Base>>();
-                    var part = Tuple.Create("text", (Base)(new FhirString(entry.DeathCertificateText)));
-                    entityAxisEntry.Add(part);
-                    part = Tuple.Create("condition", (Base)(new Id(entry.CauseOfDeathConditionId)));
+                    var part = Tuple.Create("lineNumber", (Base)(new Id(entry.LineNumber)));
                     entityAxisEntry.Add(part);
                     foreach (string code in entry.AssignedCodes)
                     {
@@ -251,31 +241,32 @@ namespace VRDR
     /// <summary>Class for structuring a cause of death entity axis entry</summary>
     public class CauseOfDeathEntityAxisEntry
     {
-        /// <summary>A line of the original cause of death on the death certificate</summary>
-        public readonly string DeathCertificateText;
-
-        /// <summary>The identifier of the corresponding cause of death condition entry in the VRDR FHIR document</summary>
-        public readonly string CauseOfDeathConditionId;
+        /// <summary>The line identifier of the corresponding cause of death in the death certificate</summary>
+        /// <list type="number">
+        /// <item>Part I. Line a</item>
+        /// <item>Part I. Line b</item>
+        /// <item>Part I. Line c</item>
+        /// <item>Part I. Line d</item>
+        /// <item>Part I. Line e</item>
+        /// <item>Part II</item>
+        /// </list>
+        public readonly string LineNumber;
 
         /// <summary>The codes assigned for the DeathCertificateText</summary>
         public readonly List<string> AssignedCodes;
 
-        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
-        /// condition id</summary>
-        public CauseOfDeathEntityAxisEntry(string deathCertificateText, string causeOfDeathConditionId)
+        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+        public CauseOfDeathEntityAxisEntry(string lineNumber)
         {
             this.AssignedCodes = new List<string>();
-            this.DeathCertificateText = deathCertificateText;
-            this.CauseOfDeathConditionId = causeOfDeathConditionId;
+            this.LineNumber = lineNumber;
         }
 
-        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified death certificate text and cause of death
-        /// condition id</summary>
-        public CauseOfDeathEntityAxisEntry(string deathCertificateText, string causeOfDeathConditionId, List<string> codes)
+        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+        public CauseOfDeathEntityAxisEntry(string lineNumber, List<string> codes)
         {
             this.AssignedCodes = codes;
-            this.DeathCertificateText = deathCertificateText;
-            this.CauseOfDeathConditionId = causeOfDeathConditionId;
+            this.LineNumber = lineNumber;
         }
     }
 
@@ -305,7 +296,7 @@ namespace VRDR
             foreach (KeyValuePair<int, SortedDictionary<int, string>> pair in codes)
             {
                 string lineNumber = pair.Key.ToString();
-                var entry = new CauseOfDeathEntityAxisEntry("", lineNumber);
+                var entry = new CauseOfDeathEntityAxisEntry(lineNumber);
                 foreach (var code in pair.Value.Values)
                 {
                     entry.AssignedCodes.Add(code);

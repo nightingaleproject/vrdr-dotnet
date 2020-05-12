@@ -199,13 +199,11 @@ namespace VRDR.Tests
             Assert.Equal("J96.0", recordAxisCodes[3]);
             var entityAxisEntries = message.CauseOfDeathEntityAxis;
             Assert.Equal(2, (int)entityAxisEntries.Count);
-            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
-            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal("abcde", entityAxisEntries[0].LineNumber);
             Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
             Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
             Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
-            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
-            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal("xyzzy", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
         }
@@ -242,13 +240,11 @@ namespace VRDR.Tests
             Assert.Equal("J96.0", recordAxisCodes[3]);
             var entityAxisEntries = message.CauseOfDeathEntityAxis;
             Assert.Equal(2, (int)entityAxisEntries.Count);
-            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
-            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal("1", entityAxisEntries[0].LineNumber);
             Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
             Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
             Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
-            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
-            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal("2", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
         }
@@ -319,23 +315,21 @@ namespace VRDR.Tests
 
             Assert.Empty(message.CauseOfDeathEntityAxis);
             var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
-            var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "abcde");
+            var entry1 = new CauseOfDeathEntityAxisEntry("1");
             entry1.AssignedCodes.Add("code1_1");
             entry1.AssignedCodes.Add("code1_2");
             entityAxisEntries.Add(entry1);
-            var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "xyzzy");
+            var entry2 = new CauseOfDeathEntityAxisEntry("2");
             entry2.AssignedCodes.Add("code2_1");
             entityAxisEntries.Add(entry2);
             message.CauseOfDeathEntityAxis = entityAxisEntries;
             entityAxisEntries = message.CauseOfDeathEntityAxis;
             Assert.Equal(2, (int)entityAxisEntries.Count);
-            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
-            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal("1", entityAxisEntries[0].LineNumber);
             Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
             Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
             Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
-            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
-            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal("2", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
         }
@@ -406,23 +400,21 @@ namespace VRDR.Tests
 
             Assert.Empty(message.CauseOfDeathEntityAxis);
             var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
-            var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "abcde");
+            var entry1 = new CauseOfDeathEntityAxisEntry("1");
             entry1.AssignedCodes.Add("code1_1");
             entry1.AssignedCodes.Add("code1_2");
             entityAxisEntries.Add(entry1);
-            var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "xyzzy");
+            var entry2 = new CauseOfDeathEntityAxisEntry("2");
             entry2.AssignedCodes.Add("code2_1");
             entityAxisEntries.Add(entry2);
             message.CauseOfDeathEntityAxis = entityAxisEntries;
             entityAxisEntries = message.CauseOfDeathEntityAxis;
             Assert.Equal(2, (int)entityAxisEntries.Count);
-            Assert.Equal("DEATH CERT LINE 1 TEXT", entityAxisEntries[0].DeathCertificateText);
-            Assert.Equal("abcde", entityAxisEntries[0].CauseOfDeathConditionId);
+            Assert.Equal("1", entityAxisEntries[0].LineNumber);
             Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
             Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
             Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
-            Assert.Equal("DEATH CERT LINE 2 TEXT", entityAxisEntries[1].DeathCertificateText);
-            Assert.Equal("xyzzy", entityAxisEntries[1].CauseOfDeathConditionId);
+            Assert.Equal("2", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
         }
@@ -430,9 +422,8 @@ namespace VRDR.Tests
         [Fact]
         public void TestCauseOfDeathEntityAxisEntry()
         {
-            var entry = new CauseOfDeathEntityAxisEntry("FooBarBaz", "id101010");
-            Assert.Equal("FooBarBaz", entry.DeathCertificateText);
-            Assert.Equal("id101010", entry.CauseOfDeathConditionId);
+            var entry = new CauseOfDeathEntityAxisEntry("1");
+            Assert.Equal("1", entry.LineNumber);
             Assert.Empty(entry.AssignedCodes);
             entry.AssignedCodes.Add("A10.4");
             entry.AssignedCodes.Add("J01.5");
@@ -586,25 +577,25 @@ namespace VRDR.Tests
             list = builder.ToCauseOfDeathEntityAxis();
             Assert.Equal(5, list.Count);
             var entry = list[0];
-            Assert.Equal("1", entry.CauseOfDeathConditionId);
+            Assert.Equal("1", entry.LineNumber);
             Assert.Equal(1, (int)entry.AssignedCodes.Count);
             Assert.Equal("R688", entry.AssignedCodes[0]);
             entry = list[1];
-            Assert.Equal("2", entry.CauseOfDeathConditionId);
+            Assert.Equal("2", entry.LineNumber);
             Assert.Equal(3, (int)entry.AssignedCodes.Count);
             Assert.Equal("J960", entry.AssignedCodes[0]);
             Assert.Equal("R579", entry.AssignedCodes[1]);
             Assert.Equal("N19", entry.AssignedCodes[2]);
             entry = list[2];
-            Assert.Equal("3", entry.CauseOfDeathConditionId);
+            Assert.Equal("3", entry.LineNumber);
             Assert.Equal(1, (int)entry.AssignedCodes.Count);
             Assert.Equal("A419", entry.AssignedCodes[0]);
             entry = list[3];
-            Assert.Equal("4", entry.CauseOfDeathConditionId);
+            Assert.Equal("4", entry.LineNumber);
             Assert.Equal(1, (int)entry.AssignedCodes.Count);
             Assert.Equal("J189", entry.AssignedCodes[0]);
             entry = list[4];
-            Assert.Equal("6", entry.CauseOfDeathConditionId);
+            Assert.Equal("6", entry.LineNumber);
             Assert.Equal(1, (int)entry.AssignedCodes.Count);
             Assert.Equal("A047", entry.AssignedCodes[0]);
         }

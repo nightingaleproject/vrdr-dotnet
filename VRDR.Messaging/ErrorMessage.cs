@@ -45,7 +45,7 @@ namespace VRDR
             this.details = new OperationOutcome();
             this.details.Id = Guid.NewGuid().ToString();
             MessageBundle.AddResourceEntry(this.details, "urn:uuid:" + this.details.Id);
-            Header.Response.Details = new ResourceReference(this.details.Id);
+            Header.Response.Details = new ResourceReference("urn:uuid:" + this.details.Id);
         }
 
         /// <summary>The id of the message that could not be extracted</summary>

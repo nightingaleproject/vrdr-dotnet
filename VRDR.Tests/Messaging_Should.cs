@@ -574,6 +574,9 @@ namespace VRDR.Tests
             builder.Add("2", "2", "R579");
             builder.Add("2", "1", "J960");
             builder.Add("1", "1", "R688");
+            builder.Add("1", "2", "   "); // should be skipped
+            builder.Add("1", "3", ""); // should be skipped
+            builder.Add("1", "4", null); // should be skipped
             list = builder.ToCauseOfDeathEntityAxis();
             Assert.Equal(5, list.Count);
             var entry = list[0];

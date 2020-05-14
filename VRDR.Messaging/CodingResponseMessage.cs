@@ -334,12 +334,14 @@ namespace VRDR
             {
                 throw new System.ArgumentException($"The value of the position argument must be a number, found: {position}");
             }
-
-            if (!codes.ContainsKey(lineNumberValue))
+            if (code != null && code.Trim().Length > 0) // skip blank codes
             {
-                codes[lineNumberValue] = new SortedDictionary<int, string>();
+                if (!codes.ContainsKey(lineNumberValue))
+                {
+                    codes[lineNumberValue] = new SortedDictionary<int, string>();
+                }
+                codes[lineNumberValue][positionVal] = code;
             }
-            codes[lineNumberValue][positionVal] = code;
         }
     }
 

@@ -64,7 +64,7 @@ namespace VRDR
             Composition.Section.Add(new Composition.SectionComponent());
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
             eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null));
-            eventComponent.Detail.Add(new ResourceReference(DeathCertification.Id));
+            eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 

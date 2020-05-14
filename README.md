@@ -147,7 +147,8 @@ Console.WriteLine(deathRecord.ToJSON());
 ```
 
 #### CauseCodes
-This package also includes a class for handling the preliminary return message from NCHS containing coded causes.
+This package also includes a class for handling the preliminary return message from NCHS containing coded causes. This class is now obsolete and will be removed from a future version of the library, use the `CodingResponseMessage` described below instead.
+
 ```cs
 using VRDR;
 
@@ -182,7 +183,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview5" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview7" />
   ...
 </ItemGroup>
 ```
@@ -219,6 +220,8 @@ string jsonMessage = message.ToJSON();
 
 The `DeathRecordSubmission` class supports several properties that enable customization of the message contents, E.g., the `MessageSource` property allows the sender of the message to be specified.
 
+The `DeathRecordSubmission` constructor shown above will automatically set the values of the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecord`.
+
 #### Consuming a Death Record Submission
 
 ```cs
@@ -227,6 +230,11 @@ StreamReader messageStream = ...;
 
 // Parse the JSON
 DeathRecordSubmission message = (DeathRecordSubmission)BaseMessage.Parse(messageStream);
+
+// Get the business identifiers
+string certificateNumber = message.CertificateNumber;
+string stateIdentifier = message.StateIdentifier;
+string nchsIdentifier = message.NCHSIdentifier;
 
 // Get the DeathRecord
 DeathRecord record = message.DeathRecord;
@@ -251,7 +259,7 @@ string jsonAck = ack.ToJSON();
 ...
 ```
 
-Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property.
+Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property and copy the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the `DeathRecordSubmission`
 
 #### Creating a Coding Response Message
 
@@ -259,9 +267,10 @@ Note that the `AckMessage` constructor will automatically set the message header
 // Create an empty coding response message
 CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
-// Assign the certificate number and state identifier
+// Assign business identifiers
 message.CertificateNumber = "...";
 message.StateIdentifier = "...";
+message.NCHSIdentifier = "...";
 
 // Create the ethnicity coding
 var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
@@ -287,17 +296,17 @@ recordAxisCodes.Add(<icd code>);
 message.CauseOfDeathRecordAxis = recordAxisCodes;
 
 var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
-var entry1 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 1 TEXT", "ID of VRDR CauseOfDeathCondition");
+var entry1 = new CauseOfDeathEntityAxisEntry("1");
 entry1.AssignedCodes.Add(<icd code>);
 entry1.AssignedCodes.Add(<icd code>);
 entityAxisEntries.Add(entry1);
-var entry2 = new CauseOfDeathEntityAxisEntry("DEATH CERT LINE 2 TEXT", "ID of VRDR CauseOfDeathCondition");
+var entry2 = new CauseOfDeathEntityAxisEntry("2");
 entry2.AssignedCodes.Add(<icd code>);
 entityAxisEntries.Add(entry2);
 message.CauseOfDeathEntityAxis = entityAxisEntries;
 
 // Create a JSON representation of the coding response message
-string jsonMesg = ack.ToJSON();
+string jsonMessage = message.ToJSON();
 
 // Send the JSON coding response message
 ...
@@ -317,26 +326,30 @@ builder.Add(<lineNumber>, <positionInLine>, <icd code>);
 message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 ```
 
-#### Creating a Coding Error Message
+#### Creating an Extraction Error Message
 
 ```cs
-// Create the coding error message
-var errMsg = CodingErrorMessage(certificateNumber, stateIdentifier, destinationEndpoint);
+DeathRecordSubmission submissionMessage = ...
+
+// Create the extraction error message and initialize from properties of the submissionMessage
+var errMsg = ExtractionErrorMessage(submissionMessage);
 
 // Add the issues found during processing
 var issues = new List<Issue>();
-var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "Description of first issues");
+var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "Description of first issue");
 issues.Add(issue);
-issue = new Issue(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.Expired, "Description of second issues");
+issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Expired, "Description of second issue");
 issues.Add(issue);
 errMsg.Issues = issues;
 
 // Create a JSON representation of the coding error response message
 string jsonErrMsg = errMsg.ToJSON();
 
-// Send the JSON coding error response message
+// Send the JSON extraction error response message
 ...
 ```
+
+Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the message that resulted in an extraction error could not be parsed using this library (e.g. due to missing required components), an `ExtractionErrorMessage` can be created using an alternate constructor and setting desired message properties manually.
 
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.
@@ -344,7 +357,7 @@ This directory contains unit and functional tests for the VRDR library.
 #### Usage
 The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory:
 ```bash
-dotnet test VRDR.Tests/DeathRecord.Tests.csproj
+dotnet test
 ```
 
 ### VRDR.CLI

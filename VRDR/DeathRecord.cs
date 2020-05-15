@@ -357,6 +357,7 @@ namespace VRDR
         public DeathRecord(Bundle bundle)
         {
             Bundle = bundle;
+            Navigator = Bundle.ToTypedElement();
             RestoreReferences();
         }
 

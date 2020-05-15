@@ -17,9 +17,9 @@ namespace VRDR.Tests
         public DeathRecord_Should()
         {
             XMLRecords = new ArrayList();
-            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml"))));
+            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
             JSONRecords = new ArrayList();
-            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
             SetterDeathRecord = new DeathRecord();
         }
 
@@ -138,8 +138,8 @@ namespace VRDR.Tests
         [Fact]
         public void SetPatientAfterParse()
         {
-            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
-            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
             Assert.Equal("Last", sample1.FamilyName);
             Assert.Equal("Last", sample2.FamilyName);
             sample1.FamilyName = "1changed2abc";
@@ -151,8 +151,8 @@ namespace VRDR.Tests
         [Fact]
         public void SetPractitionerAfterParse()
         {
-            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/1.xml")));
-            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/1.json")));
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
             Assert.Equal("Last", sample1.CertifierFamilyName);
             Assert.Equal("Last", sample2.CertifierFamilyName);
             sample1.CertifierFamilyName = "1diff2abc";

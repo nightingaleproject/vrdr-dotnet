@@ -61,20 +61,24 @@
         <member name="M:VRDR.BaseMessage.#ctor(System.String)">
             <summary>Constructor that creates a new, empty message for the specified message type.</summary>
         </member>
-        <member name="M:VRDR.BaseMessage.ToXML">
+        <member name="M:VRDR.BaseMessage.ToXML(System.Boolean)">
             <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+            <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
             <returns>a string representation of this DeathRecordSubmission in XML format</returns>
         </member>
-        <member name="M:VRDR.BaseMessage.ToXml">
+        <member name="M:VRDR.BaseMessage.ToXml(System.Boolean)">
             <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+            <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
             <returns>a string representation of this DeathRecordSubmission in XML format</returns>
         </member>
-        <member name="M:VRDR.BaseMessage.ToJSON">
+        <member name="M:VRDR.BaseMessage.ToJSON(System.Boolean)">
             <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+            <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
             <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
         </member>
-        <member name="M:VRDR.BaseMessage.ToJson">
+        <member name="M:VRDR.BaseMessage.ToJson(System.Boolean)">
             <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+            <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
             <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
         </member>
         <member name="P:VRDR.BaseMessage.MessageTimestamp">

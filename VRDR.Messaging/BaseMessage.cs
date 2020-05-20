@@ -93,31 +93,35 @@ namespace VRDR
         }
 
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
-        public string ToXML()
+        public string ToXML(bool prettyPrint = false)
         {
-            return MessageBundle.ToXml();
+            return MessageBundle.ToXml(new FhirXmlSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint, TrimWhitespaces = prettyPrint });
         }
 
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
-        public string ToXml()
+        public string ToXml(bool prettyPrint = false)
         {
-            return MessageBundle.ToXml();
+            return ToXML(prettyPrint);
         }
 
         /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
-        public string ToJSON()
+        public string ToJSON(bool prettyPrint = false)
         {
-            return MessageBundle.ToJson();
+            return MessageBundle.ToJson(new FhirJsonSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint });
         }
 
         /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
-        public string ToJson()
+        public string ToJson(bool prettyPrint = false)
         {
-            return MessageBundle.ToJson();
+            return ToJSON(prettyPrint);
         }
 
         /////////////////////////////////////////////////////////////////////////////////

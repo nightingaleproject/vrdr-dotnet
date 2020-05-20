@@ -280,22 +280,39 @@ namespace VRDR
 
         /// <summary>
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+        /// BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
+        /// </summary>
+        /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <returns>The deserialized message object</returns>
+        /// <exception cref="System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        public static T Parse<T>(string source, bool permissive = false) where T: BaseMessage
+        {
+            BaseMessage typedMessage = Parse(source, permissive);
+            if (!typeof(T).IsInstanceOfType(typedMessage))
+            {
+                throw new System.ArgumentException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass");
+            }
+            return (T)typedMessage;
+        }
+
+        /// <summary>
+        /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. Clients can use the typeof operator to determine the type of message object returned.
         /// </summary>
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized message object</returns>
-        public static BaseMessage Parse(StreamReader source, bool permissive = false)
+        public static BaseMessage Parse(string source, bool permissive = false)
         {
-            string content = source.ReadToEnd();
             Bundle bundle = null;
-            if (!String.IsNullOrEmpty(content) && content.TrimStart().StartsWith("<"))
+            if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("<"))
             {
-                bundle = ParseXML(content, permissive);
+                bundle = ParseXML(source, permissive);
             }
-            else if (!String.IsNullOrEmpty(content) && content.TrimStart().StartsWith("{"))
+            else if (!String.IsNullOrEmpty(source) && source.TrimStart().StartsWith("{"))
             {
-                bundle = ParseJSON(content, permissive);
+                bundle = ParseJSON(source, permissive);
             }
             else
             {
@@ -330,6 +347,19 @@ namespace VRDR
                     throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}");
             }
             return typedMessage;
+        }
+
+        /// <summary>
+        /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+        /// BaseMessage. Clients can use the typeof operator to determine the type of message object returned.
+        /// </summary>
+        /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+        /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
+        /// <returns>The deserialized message object</returns>
+        public static BaseMessage Parse(StreamReader source, bool permissive = false)
+        {
+            string content = source.ReadToEnd();
+            return Parse(content, permissive);
         }
 
         private static string GetMessageType(Bundle bundle)

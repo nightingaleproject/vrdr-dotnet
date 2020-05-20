@@ -122,6 +122,25 @@
             <returns>The deserialized message object</returns>
             <exception cref="T:System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
         </member>
+        <member name="M:VRDR.BaseMessage.Parse``1(System.String,System.Boolean)">
+            <summary>
+            Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+            BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
+            </summary>
+            <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <returns>The deserialized message object</returns>
+            <exception cref="T:System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        </member>
+        <member name="M:VRDR.BaseMessage.Parse(System.String,System.Boolean)">
+            <summary>
+            Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
+            BaseMessage. Clients can use the typeof operator to determine the type of message object returned.
+            </summary>
+            <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
+            <param name="permissive">if the parser should be permissive when parsing the given string</param>
+            <returns>The deserialized message object</returns>
+        </member>
         <member name="M:VRDR.BaseMessage.Parse(System.IO.StreamReader,System.Boolean)">
             <summary>
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of

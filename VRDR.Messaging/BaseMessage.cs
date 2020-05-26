@@ -219,7 +219,10 @@ namespace VRDR
             set
             {
                 Record.Remove("cert_no");
-                Record.Add("cert_no", new FhirString(value));
+                if (value != null)
+                {
+                    Record.Add("cert_no", new FhirString(value));
+                }
             }
         }
 
@@ -233,7 +236,10 @@ namespace VRDR
             set
             {
                 Record.Remove("state_id");
-                Record.Add("state_id", new FhirString(value));
+                if (value != null)
+                {
+                    Record.Add("state_id", new FhirString(value));
+                }
             }
         }
 
@@ -247,7 +253,10 @@ namespace VRDR
             set
             {
                 Record.Remove("nchs_id");
-                Record.Add("nchs_id", new FhirString(value));
+                if (value != null)
+                {
+                    Record.Add("nchs_id", new FhirString(value));
+                }
             }
         }
 
@@ -257,7 +266,14 @@ namespace VRDR
         protected static string CreateNCHSIdentifier(DeathRecord record)
         {
             var ije = new IJEMortality(record);
-            return ije.DOD_YR+ije.DSTATE+ije.FILENO;
+            string year = ije.DOD_YR;
+            string state = ije.DSTATE;
+            string file = ije.FILENO;
+            if (year.Trim().Length == 0 || state.Trim().Length == 0 || file.Equals("000000"))
+            {
+                return null;
+            }
+            return year+state+file;
         }
 
         /// <summary>

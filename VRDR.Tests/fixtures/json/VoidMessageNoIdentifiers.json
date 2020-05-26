@@ -21,18 +21,6 @@
                 "resourceType": "Parameters",
                 "id": "df6f9785-1f00-4af8-bd5d-56c1b024691d",
                 "parameter": [
-                    {
-                        "name": "cert_no",
-                        "valueString": "foo"
-                    },
-                    {
-                        "name": "state_id",
-                        "valueString": "bar"
-                    },
-                    {
-                        "name": "nchs_id",
-                        "valueString": "2018MA000001"
-                    }
                 ]
             }
         }

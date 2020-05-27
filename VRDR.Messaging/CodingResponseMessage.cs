@@ -241,7 +241,8 @@ namespace VRDR
     /// <summary>Class for structuring a cause of death entity axis entry</summary>
     public class CauseOfDeathEntityAxisEntry
     {
-        /// <summary>The line identifier of the corresponding cause of death in the death certificate</summary>
+        /// <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the 
+        /// death certificate. The following list showa the corresponding line in the death certificate for each value.</summary>
         /// <list type="number">
         /// <item>Part I. Line a</item>
         /// <item>Part I. Line b</item>
@@ -252,17 +253,20 @@ namespace VRDR
         /// </list>
         public readonly string LineNumber;
 
-        /// <summary>The codes assigned for the DeathCertificateText</summary>
+        /// <summary>The codes assigned for one of the cause of death entries in the death certificate.</summary>
         public readonly List<string> AssignedCodes;
 
-        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier</summary>
+        /// <param name="lineNumber"><see cref="LineNumber"/></param>
         public CauseOfDeathEntityAxisEntry(string lineNumber)
         {
             this.AssignedCodes = new List<string>();
             this.LineNumber = lineNumber;
         }
 
-        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier and corresponding codes</summary>
+        /// <param name="lineNumber"><see cref="LineNumber"/></param>
+        /// <param name="codes">list of codes</param>
         public CauseOfDeathEntityAxisEntry(string lineNumber, List<string> codes)
         {
             this.AssignedCodes = codes;
@@ -311,16 +315,7 @@ namespace VRDR
         /// Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
         /// by the <c>ToCauseOfDeathEntityAxis</c> method.
         /// </summary>
-        /// <param name="lineNumber">The line number from the death certificate:
-        /// <list type="number">
-        /// <item>Part I. Line a</item>
-        /// <item>Part I. Line b</item>
-        /// <item>Part I. Line c</item>
-        /// <item>Part I. Line d</item>
-        /// <item>Part I. Line e</item>
-        /// <item>Part II</item>
-        /// </list>
-        /// </param>
+        /// <param name="lineNumber"><see cref="CauseOfDeathEntityAxisEntry.LineNumber"/></param>
         /// <param name="position">Sequence within line</param>
         /// <param name="code">ICD code</param>
         /// <exception cref="System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>

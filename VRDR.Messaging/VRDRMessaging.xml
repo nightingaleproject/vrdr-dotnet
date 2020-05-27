@@ -7,10 +7,9 @@
         <member name="T:VRDR.AckMessage">
             <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
         </member>
-        <member name="M:VRDR.AckMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="M:VRDR.AckMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an acknowledgement for the specified message.</summary>
             <param name="messageToAck">the message to create an acknowledgement for.</param>
-            <param name="source">the endpoint identifier that the ack message will be sent from.</param>
         </member>
         <member name="M:VRDR.AckMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
@@ -254,7 +253,8 @@
             <summary>Class for structuring a cause of death entity axis entry</summary>
         </member>
         <member name="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber">
-            <summary>The line identifier of the corresponding cause of death in the death certificate</summary>
+            <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the 
+            death certificate. The following list showa the corresponding line in the death certificate for each value.</summary>
             <list type="number">
             <item>Part I. Line a</item>
             <item>Part I. Line b</item>
@@ -265,13 +265,16 @@
             </list>
         </member>
         <member name="F:VRDR.CauseOfDeathEntityAxisEntry.AssignedCodes">
-            <summary>The codes assigned for the DeathCertificateText</summary>
+            <summary>The codes assigned for one of the cause of death entries in the death certificate.</summary>
         </member>
         <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String)">
-            <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+            <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier</summary>
+            <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
         </member>
         <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.Collections.Generic.List{System.String})">
-            <summary>Create a CauseOfDeathEntityAxisEntry with the specified line id</summary>
+            <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier and corresponding codes</summary>
+            <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
+            <param name="codes">list of codes</param>
         </member>
         <member name="T:VRDR.CauseOfDeathEntityAxisBuilder">
             <summary>
@@ -296,16 +299,7 @@
             Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
             by the <c>ToCauseOfDeathEntityAxis</c> method.
             </summary>
-            <param name="lineNumber">The line number from the death certificate:
-            <list type="number">
-            <item>Part I. Line a</item>
-            <item>Part I. Line b</item>
-            <item>Part I. Line c</item>
-            <item>Part I. Line d</item>
-            <item>Part I. Line e</item>
-            <item>Part II</item>
-            </list>
-            </param>
+            <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
             <param name="position">Sequence within line</param>
             <param name="code">ICD code</param>
             <exception cref="T:System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>

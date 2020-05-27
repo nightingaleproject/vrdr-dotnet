@@ -7,8 +7,7 @@ namespace VRDR
     {
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
-        /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck?.MessageId, messageToAck?.MessageSource, source)
+        public AckMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
         {
             this.CertificateNumber = messageToAck?.CertificateNumber;
             this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;

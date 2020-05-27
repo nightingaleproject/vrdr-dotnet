@@ -265,6 +265,8 @@ namespace VRDR
         /// <returns>the NCHS compound identifier for the supplied DeathRecord.</returns>
         protected static string CreateNCHSIdentifier(DeathRecord record)
         {
+            // The following code may not be required in the future if the VRDR FHIR IG
+            // specifies that the NCHS identifier is carried directly in a Death Certificate document.
             var ije = new IJEMortality(record);
             string year = ije.DOD_YR;
             string state = ije.DSTATE;

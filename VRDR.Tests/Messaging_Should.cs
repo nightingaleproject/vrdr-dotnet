@@ -152,6 +152,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
+            Assert.Equal(submission.MessageDestination, ack.MessageSource);
             Assert.Equal(submission.StateAuxiliaryIdentifier, ack.StateAuxiliaryIdentifier);
             Assert.Equal(submission.CertificateNumber, ack.CertificateNumber);
             Assert.Equal(submission.NCHSIdentifier, ack.NCHSIdentifier);
@@ -161,6 +162,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Null(ack.AckedMessageId);
             Assert.Null(ack.MessageDestination);
+            Assert.Null(ack.MessageSource);
             Assert.Null(ack.CertificateNumber);
             Assert.Null(ack.StateAuxiliaryIdentifier);
             Assert.Null(ack.NCHSIdentifier);
@@ -170,6 +172,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
+            Assert.Equal(submission.MessageDestination, ack.MessageSource);
             Assert.Equal(submission.StateAuxiliaryIdentifier, ack.StateAuxiliaryIdentifier);
             Assert.Equal(submission.CertificateNumber, ack.CertificateNumber);
             Assert.Equal(submission.NCHSIdentifier, ack.NCHSIdentifier);

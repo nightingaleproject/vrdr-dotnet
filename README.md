@@ -220,7 +220,7 @@ string jsonMessage = message.ToJSON();
 
 The `DeathRecordSubmission` class supports several properties that enable customization of the message contents, E.g., the `MessageSource` property allows the sender of the message to be specified.
 
-The `DeathRecordSubmission` constructor shown above will automatically set the values of the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecord`.
+The `DeathRecordSubmission` constructor shown above will automatically set the values of the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecord`.
 
 #### Consuming a Death Record Submission
 
@@ -233,7 +233,7 @@ DeathRecordSubmission message = (DeathRecordSubmission)BaseMessage.Parse(message
 
 // Get the business identifiers
 string certificateNumber = message.CertificateNumber;
-string stateIdentifier = message.StateIdentifier;
+string stateAuxiliaryIdentifier = message.StateAuxiliaryIdentifier;
 string nchsIdentifier = message.NCHSIdentifier;
 
 // Get the DeathRecord
@@ -259,7 +259,7 @@ string jsonAck = ack.ToJSON();
 ...
 ```
 
-Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property and copy the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the `DeathRecordSubmission`
+Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property, `MessageSource` property to the value of the `DeathRecordSubmission.MessageDestination` property and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the `DeathRecordSubmission`
 
 #### Creating a Coding Response Message
 
@@ -269,7 +269,7 @@ CodingResponseMessage message = new CodingResponseMessage("https://example.org/j
 
 // Assign business identifiers
 message.CertificateNumber = "...";
-message.StateIdentifier = "...";
+message.StateAuxiliaryIdentifier = "...";
 message.NCHSIdentifier = "...";
 
 // Create the ethnicity coding
@@ -349,7 +349,7 @@ string jsonErrMsg = errMsg.ToJSON();
 ...
 ```
 
-Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the message that resulted in an extraction error could not be parsed using this library (e.g. due to missing required components), an `ExtractionErrorMessage` can be created using an alternate constructor and setting desired message properties manually.
+Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the message that resulted in an extraction error could not be parsed using this library (e.g. due to missing required components), an `ExtractionErrorMessage` can be created using an alternate constructor and setting desired message properties manually.
 
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.

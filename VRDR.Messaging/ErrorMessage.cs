@@ -15,7 +15,7 @@ namespace VRDR
         public ExtractionErrorMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, source)
         {
             this.CertificateNumber = sourceMessage?.CertificateNumber;
-            this.StateIdentifier = sourceMessage?.StateIdentifier;
+            this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
             this.NCHSIdentifier = sourceMessage?.NCHSIdentifier;
         }
 

@@ -226,19 +226,19 @@ namespace VRDR
             }
         }
 
-        /// <summary>Jurisdiction-assigned auxilliary identifier</summary>
-        public string StateIdentifier
+        /// <summary>Jurisdiction-assigned auxiliary identifier</summary>
+        public string StateAuxiliaryIdentifier
         {
             get
             {
-                return Record.GetSingleValue<FhirString>("state_id")?.Value;
+                return Record.GetSingleValue<FhirString>("state_auxiliary_id")?.Value;
             }
             set
             {
-                Record.Remove("state_id");
+                Record.Remove("state_auxiliary_id");
                 if (value != null)
                 {
-                    Record.Add("state_id", new FhirString(value));
+                    Record.Add("state_auxiliary_id", new FhirString(value));
                 }
             }
         }
@@ -280,6 +280,7 @@ namespace VRDR
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
         /// </summary>
+        /// <typeparam name="T">the expected message type</typeparam>
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized message object</returns>
@@ -298,10 +299,11 @@ namespace VRDR
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
         /// </summary>
+        /// <typeparam name="T">the expected message type</typeparam>
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
-        /// <returns>The deserialized message object</returns>
-        /// <exception cref="System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        /// <returns>the deserialized message object</returns>
+        /// <exception cref="System.ArgumentException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
         public static T Parse<T>(string source, bool permissive = false) where T: BaseMessage
         {
             BaseMessage typedMessage = Parse(source, permissive);

@@ -26,7 +26,7 @@
                         "valueString": "foo"
                     },
                     {
-                        "name": "state_id",
+                        "name": "state_auxiliary_id",
                         "valueString": "bar"
                     },
                     {

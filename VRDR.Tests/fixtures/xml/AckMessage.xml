@@ -35,7 +35,7 @@
                     <valueString value="101010"/>
                 </parameter>
                 <parameter>
-                    <name value="state_id"/>
+                    <name value="state_auxiliary_id"/>
                     <valueString value="12345"/>
                 </parameter>
                 <parameter>

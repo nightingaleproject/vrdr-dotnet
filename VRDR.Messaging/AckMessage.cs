@@ -11,7 +11,7 @@ namespace VRDR
         public AckMessage(BaseMessage messageToAck, string source = "http://nchs.cdc.gov/vrdr_submission") : this(messageToAck?.MessageId, messageToAck?.MessageSource, source)
         {
             this.CertificateNumber = messageToAck?.CertificateNumber;
-            this.StateIdentifier = messageToAck?.StateIdentifier;
+            this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;
             this.NCHSIdentifier = messageToAck?.NCHSIdentifier;
         }
 

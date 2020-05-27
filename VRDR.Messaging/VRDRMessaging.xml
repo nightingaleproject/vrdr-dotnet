@@ -101,8 +101,8 @@
         <member name="P:VRDR.BaseMessage.CertificateNumber">
             <summary>Jurisdiction-assigned death certificate number</summary>
         </member>
-        <member name="P:VRDR.BaseMessage.StateIdentifier">
-            <summary>Jurisdiction-assigned auxilliary identifier</summary>
+        <member name="P:VRDR.BaseMessage.StateAuxiliaryIdentifier">
+            <summary>Jurisdiction-assigned auxiliary identifier</summary>
         </member>
         <member name="P:VRDR.BaseMessage.NCHSIdentifier">
             <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>
@@ -117,6 +117,7 @@
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
             BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
             </summary>
+            <typeparam name="T">the expected message type</typeparam>
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <returns>The deserialized message object</returns>
@@ -127,10 +128,11 @@
             Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
             BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
             </summary>
+            <typeparam name="T">the expected message type</typeparam>
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
-            <returns>The deserialized message object</returns>
-            <exception cref="T:System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+            <returns>the deserialized message object</returns>
+            <exception cref="T:System.ArgumentException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
         </member>
         <member name="M:VRDR.BaseMessage.Parse(System.String,System.Boolean)">
             <summary>

@@ -19,7 +19,7 @@ namespace VRDR
         {
             this.DeathRecord = record;
             this.CertificateNumber = record?.Identifier;
-            this.StateIdentifier = record?.BundleIdentifier;
+            this.StateAuxiliaryIdentifier = record?.BundleIdentifier;
             this.NCHSIdentifier = record == null ? null : CreateNCHSIdentifier(record);
         }
 

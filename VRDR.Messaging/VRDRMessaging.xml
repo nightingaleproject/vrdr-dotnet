@@ -258,7 +258,7 @@
         </member>
         <member name="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber">
             <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the 
-            death certificate. The following list showa the corresponding line in the death certificate for each value.</summary>
+            death certificate. The following list shows the corresponding line in the death certificate for each value.</summary>
             <list type="number">
             <item>Part I. Line a</item>
             <item>Part I. Line b</item>
@@ -372,10 +372,9 @@
         <member name="T:VRDR.ExtractionErrorMessage">
             <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
         </member>
-        <member name="M:VRDR.ExtractionErrorMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="M:VRDR.ExtractionErrorMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an extraction error for the specified message.</summary>
             <param name="sourceMessage">the message that could not be processed.</param>
-            <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
         <member name="M:VRDR.ExtractionErrorMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>

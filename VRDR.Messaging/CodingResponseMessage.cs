@@ -242,7 +242,7 @@ namespace VRDR
     public class CauseOfDeathEntityAxisEntry
     {
         /// <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the 
-        /// death certificate. The following list showa the corresponding line in the death certificate for each value.</summary>
+        /// death certificate. The following list shows the corresponding line in the death certificate for each value.</summary>
         /// <list type="number">
         /// <item>Part I. Line a</item>
         /// <item>Part I. Line b</item>

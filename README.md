@@ -29,7 +29,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.0-preview8" />
+  <PackageReference Include="VRDR" Version="3.1.0-preview9" />
   ...
 </ItemGroup>
 ```
@@ -183,7 +183,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview8" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0-preview9" />
   ...
 </ItemGroup>
 ```
@@ -202,154 +202,7 @@ You can also include a locally downloaded copy of the library instead of the NuG
 </Project>
 ```
 
-#### Creating a Death Record Submission
-
-```cs
-// Create a DeathRecord (see examples above)
-DeathRecord record = ...;
-
-// Create a submission message
-DeathRecordSubmission message = new DeathRecordSubmission(record);
-
-// Create a JSON representation of the message (XML is also supported via the ToXML method)
-string jsonMessage = message.ToJSON();
-
-// Send the JSON message
-...
-```
-
-The `DeathRecordSubmission` class supports several properties that enable customization of the message contents, E.g., the `MessageSource` property allows the sender of the message to be specified.
-
-The `DeathRecordSubmission` constructor shown above will automatically set the values of the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecord`.
-
-#### Consuming a Death Record Submission
-
-```cs
-// Get the DeathRecordSubmission message JSON or XML representation
-StreamReader messageStream = ...;
-
-// Parse the JSON
-DeathRecordSubmission message = (DeathRecordSubmission)BaseMessage.Parse(messageStream);
-
-// Get the business identifiers
-string certificateNumber = message.CertificateNumber;
-string stateAuxiliaryIdentifier = message.StateAuxiliaryIdentifier;
-string nchsIdentifier = message.NCHSIdentifier;
-
-// Get the DeathRecord
-DeathRecord record = message.DeathRecord;
-
-// Process the DeathRecord
-...
-```
-
-#### Creating an Acknowledgement Message
-
-```cs
-// Get the DeathRecordSubmission message
-DeathRecordSubmission message = ...;
-
-// Create the acknowledgement message
-AckMessage ack = new AckMessage(message);
-
-// Create a JSON representation of the acknowledgement message
-string jsonAck = ack.ToJSON();
-
-// Send the JSON acknowledgement message
-...
-```
-
-Note that the `AckMessage` constructor will automatically set the message header properties to identify the `DeathRecordSubmission` message that it acknowledges. It will also set the `MessageDestination` property to the value of the `DeathRecordSubmission.MessageSource` property, `MessageSource` property to the value of the `DeathRecordSubmission.MessageDestination` property and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the `DeathRecordSubmission`
-
-#### Creating a Coding Response Message
-
-```cs
-// Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
-
-// Assign business identifiers
-message.CertificateNumber = "...";
-message.StateAuxiliaryIdentifier = "...";
-message.NCHSIdentifier = "...";
-
-// Create the ethnicity coding
-var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <ethnicity code>);
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <ethnicity code>);
-message.Ethnicity = ethnicity;
-
-// Create the race coding
-var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-race.Add(CodingResponseMessage.RaceCode.RACE1E, <race code>);
-race.Add(CodingResponseMessage.RaceCode.RACE17C, <race code>);
-race.Add(CodingResponseMessage.RaceCode.RACEBRG, <race code>);
-message.Race = race;
-
-// Create the cause of death coding
-message.UnderlyingCauseOfDeath = <code>;
-
-var recordAxisCodes = new List<string>();
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-message.CauseOfDeathRecordAxis = recordAxisCodes;
-
-var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
-var entry1 = new CauseOfDeathEntityAxisEntry("1");
-entry1.AssignedCodes.Add(<icd code>);
-entry1.AssignedCodes.Add(<icd code>);
-entityAxisEntries.Add(entry1);
-var entry2 = new CauseOfDeathEntityAxisEntry("2");
-entry2.AssignedCodes.Add(<icd code>);
-entityAxisEntries.Add(entry2);
-message.CauseOfDeathEntityAxis = entityAxisEntries;
-
-// Create a JSON representation of the coding response message
-string jsonMessage = message.ToJSON();
-
-// Send the JSON coding response message
-...
-```
-
-There is also a helper class for building a `List<CauseOfDeathEntityAxisEntry>` that may be useful when iterating over a flat list of codes such as those found in an existing TRANSAX file. The following could be used in place of the block above starting with `var entityAxisEntries = ...`.
-
-```cs
-var builder = new CauseOfDeathEntityAxisBuilder();
- 
-// loop over all of the entity axis codes
-...
-builder.Add(<lineNumber>, <positionInLine>, <icd code>);
-...
-// end loop
- 
-message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
-```
-
-#### Creating an Extraction Error Message
-
-```cs
-DeathRecordSubmission submissionMessage = ...
-
-// Create the extraction error message and initialize from properties of the submissionMessage
-var errMsg = ExtractionErrorMessage(submissionMessage);
-
-// Add the issues found during processing
-var issues = new List<Issue>();
-var issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, "Description of first issue");
-issues.Add(issue);
-issue = new Issue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Expired, "Description of second issue");
-issues.Add(issue);
-errMsg.Issues = issues;
-
-// Create a JSON representation of the coding error response message
-string jsonErrMsg = errMsg.ToJSON();
-
-// Send the JSON extraction error response message
-...
-```
-
-Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the message that resulted in an extraction error could not be parsed using this library (e.g. due to missing required components), an `ExtractionErrorMessage` can be created using an alternate constructor and setting desired message properties manually.
+Use of the VRDR.Messaging library to support various message exchange scenarios is described in [`doc/Messaging.md`](doc/Messaging.md).
 
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.

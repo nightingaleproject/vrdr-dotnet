@@ -11,8 +11,7 @@ namespace VRDR
 
         /// <summary>Constructor that creates an extraction error for the specified message.</summary>
         /// <param name="sourceMessage">the message that could not be processed.</param>
-        /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public ExtractionErrorMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, source)
+        public ExtractionErrorMessage(BaseMessage sourceMessage) : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, sourceMessage?.MessageDestination)
         {
             this.CertificateNumber = sourceMessage?.CertificateNumber;
             this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;

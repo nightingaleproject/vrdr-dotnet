@@ -18,7 +18,7 @@ DeathRecord record = ...;
 
 // Create a submission message
 DeathRecordSubmission message = new DeathRecordSubmission(record);
-message.MessageSource = "https://example.com/juristdiction/message/endpoint";
+message.MessageSource = "https://example.com/jurisdiction/message/endpoint";
 
 // Create a JSON representation of the message (XML is also supported via the ToXML method)
 string jsonMessage = message.ToJSON();

@@ -32,15 +32,15 @@
                 <id value="666d8516-1eca-4686-86ad-0e8566c6a422"/>
                 <parameter>
                     <name value="cert_no"/>
-                    <valueString value="101010"/>
+                    <valueString value="000001"/>
                 </parameter>
                 <parameter>
                     <name value="state_auxiliary_id"/>
-                    <valueString value="12345"/>
+                    <valueString value="42"/>
                 </parameter>
                 <parameter>
                     <name value="nchs_id"/>
-                    <valueString value="2019MA101010"/>
+                    <valueString value="2018MA000001"/>
                 </parameter>
             </Parameters>
         </resource>

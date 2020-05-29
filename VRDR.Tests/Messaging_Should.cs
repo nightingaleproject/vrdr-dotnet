@@ -74,7 +74,7 @@ namespace VRDR.Tests
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal("2018MA000001", submission.NCHSIdentifier);
-            Assert.Equal("000001", submission.CertificateNumber);
+            Assert.Equal("1", submission.CertificateNumber);
             Assert.Equal("42", submission.StateAuxiliaryIdentifier);
 
             submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmissionNoIdentifiers.json"));
@@ -133,7 +133,7 @@ namespace VRDR.Tests
             Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal("2018MA000001", update.NCHSIdentifier);
-            Assert.Equal("000001", update.CertificateNumber);
+            Assert.Equal("1", update.CertificateNumber);
             Assert.Equal("42", update.StateAuxiliaryIdentifier);
 
             update = BaseMessage.Parse<DeathRecordUpdate>(FixtureStream("fixtures/json/DeathRecordUpdateNoIdentifiers.json"));
@@ -186,7 +186,7 @@ namespace VRDR.Tests
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
             Assert.Equal("2018MA000001", ack.NCHSIdentifier);
-            Assert.Equal("000001", ack.CertificateNumber);
+            Assert.Equal("1", ack.CertificateNumber);
             Assert.Equal("42", ack.StateAuxiliaryIdentifier);
         }
 
@@ -198,7 +198,7 @@ namespace VRDR.Tests
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
             Assert.Equal("2018MA000001", ack.NCHSIdentifier);
-            Assert.Equal("000001", ack.CertificateNumber);
+            Assert.Equal("1", ack.CertificateNumber);
             Assert.Equal("42", ack.StateAuxiliaryIdentifier);
         }
 
@@ -208,7 +208,7 @@ namespace VRDR.Tests
             CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            Assert.Equal("000001", message.CertificateNumber);
+            Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             var ethnicity = message.Ethnicity;
@@ -249,7 +249,7 @@ namespace VRDR.Tests
             CodingUpdateMessage message = BaseMessage.Parse<CodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            Assert.Equal("000001", message.CertificateNumber);
+            Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             var ethnicity = message.Ethnicity;
@@ -488,7 +488,7 @@ namespace VRDR.Tests
         {
             VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
-            Assert.Equal("000001", message.CertificateNumber);
+            Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
@@ -587,7 +587,7 @@ namespace VRDR.Tests
         {
             ExtractionErrorMessage err = BaseMessage.Parse<ExtractionErrorMessage>(FixtureStream("fixtures/json/ExtractionErrorMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_extraction_error", err.MessageType);
-            Assert.Equal("000001", err.CertificateNumber);
+            Assert.Equal("1", err.CertificateNumber);
             Assert.Equal("42", err.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", err.NCHSIdentifier);
             var issues = err.Issues;

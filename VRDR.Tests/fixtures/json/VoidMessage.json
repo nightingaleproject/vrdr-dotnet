@@ -23,11 +23,11 @@
                 "parameter": [
                     {
                         "name": "cert_no",
-                        "valueString": "foo"
+                        "valueString": "000001"
                     },
                     {
                         "name": "state_auxiliary_id",
-                        "valueString": "bar"
+                        "valueString": "42"
                     },
                     {
                         "name": "nchs_id",

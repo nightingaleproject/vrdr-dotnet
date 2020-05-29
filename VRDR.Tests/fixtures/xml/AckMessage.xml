@@ -32,7 +32,7 @@
                 <id value="666d8516-1eca-4686-86ad-0e8566c6a422"/>
                 <parameter>
                     <name value="cert_no"/>
-                    <valueString value="000001"/>
+                    <valueString value="1"/>
                 </parameter>
                 <parameter>
                     <name value="state_auxiliary_id"/>

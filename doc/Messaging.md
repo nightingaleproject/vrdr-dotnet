@@ -27,7 +27,7 @@ string jsonMessage = message.ToJSON();
 ...
 ```
 
-The `DeathRecordSubmission` constructor will extract information from the supplied `DeathRecord` to populate the corresponding message property values (`StateIdentifier`, `CertificateNumber`, `NCHSIdentifier`) automatically.
+The `DeathRecordSubmission` constructor will extract information from the supplied `DeathRecord` to populate the corresponding message property values (`StateAuxiliaryIdentifier`, `CertificateNumber`, `NCHSIdentifier`) automatically.
 
 ### Extract Death Record
 
@@ -45,7 +45,7 @@ switch(message)
 {
     case DeathRecordSubmission submission:
         var record = submission.DeathRecord;
-        var nchsId = submission.NCHSIDentifier;
+        var nchsId = submission.NCHSIdentifier;
         ProcessSubmission(record, nchsId);
         break;
     ...
@@ -59,7 +59,7 @@ If extraction was succesful, NCHS can generate an acknowledgement message and se
 - `AckMessage.MessageDestination` will be assigned the value of `source.MessageSource`
 - `AckMessage.MessageSource` will be assigned the value of `source.MessageDestination`
 - `AckMessage.AckedMessageId` will be assigned the value of `source.MessageId`
-- `StateIdentifier` will be assigned the value of `source.StateIdentifier`
+- `StateAuxiliaryIdentifier` will be assigned the value of `source.StateAuxiliaryIdentifier`
 - `CertificateNumber` will be assigned the value of `source.CertificateNumber`
 - `NCHSIdentifier` will be assigned the value of `source.NCHSIdentifier`
 
@@ -89,8 +89,9 @@ switch(message)
     case AckMessage ack:
         var ackedMsgId = ack.AckedMessageId;
         var nchsId = ack.NCHSIdentifier;
-        var stateId = ack.StateIdentifier;
-        ProcessAck(ackedMsgId, nchsId, stateId);
+        var certNo = ack.CertificateNumber;
+        var stateAuxId = ack.StateAuxiliaryIdentifier;
+        ProcessAck(ackedMsgId, nchsId, certNo, stateAuxId);
         break;
     ...
 }
@@ -108,7 +109,7 @@ CodingResponseMessage message = new CodingResponseMessage("https://example.org/j
 
 // Assign the business identifiers
 message.CertificateNumber = "...";
-message.StateIdentifier = "...";
+message.StateAuxiliaryIdentifier = "...";
 message.NCHSIdentifier = "...";
 
 // Create the ethnicity coding
@@ -165,13 +166,13 @@ switch(message)
 {
     case CodingResponseMessage coding:
         string nchsId = coding.NCHSIdentifier;
-        string stateId = coding.StateIdentifier;
+        string stateAuxId = coding.StateAuxiliaryIdentifier;
         string cod = coding.CauseOfDeathConditionId;
         Dictionary<CodingResponseMessage.HispanicOrigin, string> ethnicity = coding.Ethnicity;
         Dictionary<CodingResponseMessage.RaceCode, string> race = coding.Race;
         List<string> recordAxis = coding.CauseOfDeathRecordAxis;
         List<CauseOfDeathEntityAxisEntry> entityAxis = coding.CauseOfDeathEntityAxis;
-        ProcessCoding(nchsId, stateId, ethnicity, race, cod, recordAxis, entityAxis);
+        ProcessCoding(nchsId, stateAuxId, ethnicity, race, cod, recordAxis, entityAxis);
         break;
     ...
 }
@@ -207,8 +208,9 @@ switch(message)
     case AckMessage ack:
         var ackedMsgId = ack.AckedMessageId;
         var nchsId = ack.NCHSIdentifier;
-        var stateId = ack.StateIdentifier;
-        ProcessAck(ackedMsgId, nchsId, stateId);
+        var certNo = ack.CertificateNumber;
+        var stateAuxId = ack.StateAuxiliaryIdentifier;
+        ProcessAck(ackedMsgId, nchsId, certNo, stateAuxId);
         break;
     ...
 }
@@ -255,3 +257,103 @@ catch (Exception ex)
 ```
 
 Note that the `ExtractionErrorMessage` constructor shown above will automatically set the message header properties and copy the business identifier properties (`CertificateNumber`, `StateAuxiliaryIdentifier` and `NCHSIdentifier`) from the supplied `DeathRecordSubmission`. If the supplied message is `null` these message properties will need to be set manually instead (not shown).
+
+## Voiding a Death Record
+
+The diagram below illustrates the sequence of message exchanges between a vital records jurisdiction and NVSS when an initial submission needs to be subsequently voided. Depending on timing, the initial submission may result in a Coding Response or not.
+
+![Message Exchange Pattern for Voiding a Prior Submission](void.png)
+
+It is also possible for a jurisdiction to send a `VoidMessage` to notify NCHS that a particular certificate identifier will not be used in the future. In this case, only the Death Record Void and corresponding Acknowledgement messages from the diagram above are used.
+
+### Create a Void Messsage
+
+There are two ways to create a `VoidMessage`, the first requires a `DeathRecord` for the record that will be voided:
+
+```cs
+DeathRecord record = ...;
+var voidMsg = new VoidMessage(record);
+voidMsg.MessageSource = "https://example.com/jurisdiction/message/endpoint";
+```
+
+The second method of creating a `VoidMessage` relies on manual setting of record identifiers:
+
+```cs
+var voidMsg = new VoidMessage();
+voidMsg.MessageSource = "https://example.com/jurisdiction/message/endpoint";
+voidMsg.CertificateNumber = "1034";
+voidMsg.StateAuxiliaryIdentifier = "A10F3";
+voidMsg.NCHSIdentifier = "2020MA001034";
+```
+
+In both cases the `MessageDestination` property value is defaulted to `http://nchs.cdc.gov/vrdr_submission` which is the value that should be used for messages sent to NCHS. A JSON representation of the message can be obtained as follows:
+
+```cs
+var jsonVoidMsg = voidMsg.ToJSON();
+```
+
+### Extract Void Information
+
+On receipt of a message, NCHS can parse it, determine the type of the message, and extract the void record information using the following steps:
+
+```cs
+// Get the message as a stream
+StreamReader messageStream = ...;
+
+// Parse the message
+BaseMessage message = BaseMessage.Parse(messageStream);
+
+// Switch to determine the type of message
+switch(message)
+{
+    case VoidMessage voidMsg:
+        var nchsId = voidMsg.NCHSIdentifier;
+        var certNo = voidMsg.CertificateNumber;
+        var stateAuxId = voidMsg.StateAuxiliaryIdentifier;
+        ProcessVoid(nchsId, certNo, stateAuxId);
+        break;
+    ...
+}
+```
+
+### Acknowledge Void Message
+
+NCHS can generate an acknowledgement message and send it to jurisdiction as follows.
+
+```cs
+// Create the acknowledgement message
+var ackMsg = new AckMessage(voidMsg);
+
+// Serialize the acknowledgement message
+string ackMsgJson = ackMsg.ToJSON();
+
+// Send the JSON message
+...
+```
+
+As described earlier, the `AckMessage` constructor initializes properties based on the source `VoidMessage` negating the need to initialize its properties manually.
+
+### Process Acknowledgement
+
+On receipt of the `AckMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
+
+```cs
+// Get the message as a stream
+StreamReader messageStream = ...;
+
+// Parse the message
+BaseMessage message = BaseMessage.Parse(messageStream);
+
+// Switch to determine the type of message
+switch(message)
+{
+    case AckMessage ack:
+        var ackedMsgId = ack.AckedMessageId;
+        var nchsId = ack.NCHSIdentifier;
+        var certNo = ack.CertificateNumber;
+        var stateAuxId = ack.StateAuxiliaryIdentifier;
+        ProcessAck(ackedMsgId, nchsId, certNo, stateAuxId);
+        break;
+    ...
+}
+```

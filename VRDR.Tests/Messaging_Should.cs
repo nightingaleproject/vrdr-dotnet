@@ -241,6 +241,20 @@ namespace VRDR.Tests
             Assert.Equal("xyzzy", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
+            var entityAxisEntryList = message.CauseOfDeathEntityAxisList;
+            Assert.Equal(3, (int)entityAxisEntryList.Count);
+            (string line, string position, string code) = entityAxisEntryList[0];
+            Assert.Equal("abcde", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code1_1", code);
+            (line, position, code) = entityAxisEntryList[1];
+            Assert.Equal("abcde", line);
+            Assert.Equal("2", position);
+            Assert.Equal("code1_2", code);
+            (line, position, code) = entityAxisEntryList[2];
+            Assert.Equal("xyzzy", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code2_1", code);
         }
 
         [Fact]
@@ -367,6 +381,20 @@ namespace VRDR.Tests
             Assert.Equal("2", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
+            var entityAxisEntryList = message.CauseOfDeathEntityAxisList;
+            Assert.Equal(3, (int)entityAxisEntryList.Count);
+            (string line, string position, string code) = entityAxisEntryList[0];
+            Assert.Equal("1", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code1_1", code);
+            (line, position, code) = entityAxisEntryList[1];
+            Assert.Equal("1", line);
+            Assert.Equal("2", position);
+            Assert.Equal("code1_2", code);
+            (line, position, code) = entityAxisEntryList[2];
+            Assert.Equal("2", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code2_1", code);
         }
 
         [Fact]

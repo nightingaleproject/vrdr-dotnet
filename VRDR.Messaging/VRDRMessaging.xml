@@ -251,12 +251,12 @@
             <summary>Record axis coding of cause of death</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis">
-            <summary>Entity axis cause of death coding grouped by line. An alternate flat format
+            <summary>Entity axis cause of death coding grouped by line. An alternate flat list of entity axis codes
             is available via the CauseOfDeathEntityAxisList property, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList"/></summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList">
             <summary>
-            Entity axis cause of death coding as a flat list. Provided as a flat alternative to the
+            Entity axis cause of death coding as a flat list. Provided as an alternative to the
             CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis"/>.
             </summary>
             <para>Each entry in the list is a tuple with three values:</para>

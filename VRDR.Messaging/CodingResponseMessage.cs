@@ -192,7 +192,8 @@ namespace VRDR
             }
         }
 
-        /// <summary>Entity axis cause of death coding.</summary>
+        /// <summary>Entity axis cause of death coding grouped by line. An alternate flat list of entity axis codes
+        /// is available via the CauseOfDeathEntityAxisList property, <see cref="CauseOfDeathEntityAxisList"/></summary>
         public List<CauseOfDeathEntityAxisEntry> CauseOfDeathEntityAxis
         {
             get
@@ -234,6 +235,34 @@ namespace VRDR
                     }
                     Record.Add("entity_axis_code", entityAxisEntry);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Entity axis cause of death coding as a flat list. Provided as an alternative to the
+        /// CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="CauseOfDeathEntityAxis"/>.
+        /// </summary>
+        /// <para>Each entry in the list is a tuple with three values:</para>
+        /// <list type="bullet">
+        /// <item>Line: <see cref="CauseOfDeathEntityAxisEntry.LineNumber"/></item>
+        /// <item>Position: Sequence of code within the line</item>
+        /// <item>Code>: ICD code</item>
+        /// </list>
+        public List<(string Line, string Position, string Code)> CauseOfDeathEntityAxisList
+        {
+            get
+            {
+                var entityAxisList = new List<(string Line, string Position, string Code)>();
+                foreach (CauseOfDeathEntityAxisEntry entry in CauseOfDeathEntityAxis)
+                {
+                    int position = 1;
+                    foreach (string code in entry.AssignedCodes)
+                    {
+                        entityAxisList.Add((Line: entry.LineNumber, Position: position.ToString(), Code: code));
+                        position++;
+                    }
+                }
+                return entityAxisList;
             }
         }
     }

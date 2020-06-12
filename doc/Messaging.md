@@ -99,7 +99,7 @@ switch(message)
 
 ### Return Coding
 
-NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information together or separately. Here we will assume the two are coded and sent together, if they were coded separately then the corresponding code blocks would simply be omitted..
+NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information together or separately. Here we will assume the two are coded and sent together, if they were coded separately then the corresponding code blocks would simply be omitted.
 
 Once NCHS have determined the causes of death they can create a `CodingResponseMessage` to return that information to the jurisdiction:
 
@@ -151,6 +151,8 @@ string jsonMessage = message.ToJSON();
 // Send the JSON message
 ...
 ```
+
+Note that the `CodingUpdateMessage` class supports the same constructor and properties as `CodingResponseMessage`. If a second coding message is needed to return causes of death coding or race and ethnicity coding then the same code as above can be used substituting `CodingUpdateMessage` for `CodingResponseMessage`.
 
 On receipt of the `CodingResponseMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
 
@@ -357,3 +359,64 @@ switch(message)
     ...
 }
 ```
+
+## Retrying Failed Deliveries
+
+The diagram below illustrates the case where the vital records jurisdiction does not receive a timely Acknowledgement to a Death Record Submission. To recover, the vital records jurisdiction resends the Death Record Submission.
+
+![Message Exchange Pattern for Voiding a Prior Submission](retry.png)
+
+In order to identify whether a message has been received previously, NVSS can compare the message id to those of previously received messages. For this mechanism to work, resent messages must have the same message id as the original.
+
+There are two approaches to creating a message with the same id as a previous message. In the first example below, the id of the original message is saved and then used to set the id of the resent message.
+
+```cs
+// Create a DeathRecord
+DeathRecord record = ...;
+
+// Create a submission message
+DeathRecordSubmission message = new DeathRecordSubmission(record);
+message.MessageSource = "https://example.com/jurisdiction/message/endpoint";
+
+// Send the submission message
+...
+
+// Store the sent message id and wait for an acknowledgement
+SaveSentMessageId(message.MessageId);
+
+// Later, when an Acknowledgement has not been received
+record = ...;
+DeathRecordSubmission messageResend = new DeathRecordSubmission(record);
+messageResend.MessageSource = "https://example.com/jurisdiction/message/endpoint";
+messageResend.MessageId = RetrieveSentMessageId();
+
+// Resend the submission message
+...
+```
+
+One challenge with the above approach is ensuring that the same death record is sent in both the original and resent message. An alternative, that avoids this challenge, is to save the entire message as illustrated below:
+
+```cs
+// Create a DeathRecord
+DeathRecord record = ...;
+
+// Create a submission message
+DeathRecordSubmission message = new DeathRecordSubmission(record);
+message.MessageSource = "https://example.com/jurisdiction/message/endpoint";
+
+// Send the submission message
+...
+
+// Store the sent message and wait for an acknowledgement
+SaveSentMessage(message.MessageId, message.ToJSON());
+
+// Later, when an Acknowledgement has not been received
+var resendMsgId = GetUnacknowledgedMessageId();
+var messageResendJson = RetrieveSentMessage(resendMsgId);
+var messageResend = BaseMessage.Parse(messageResendJson);
+
+// Resend the message
+...
+```
+
+The above two approaches are also applicable to the case where a coding response or update needs to be resent.

@@ -1441,7 +1441,7 @@
             <para>mserv.Add("code", "Y");</para>
             <para>mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
             <para>mserv.Add("display", "Yes");</para>
-            <para>ExampleDeathRecord.MilitaryService = uind;</para>
+            <para>ExampleDeathRecord.MilitaryService = mserv;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
             </example>
@@ -1724,12 +1724,20 @@
         </member>
         <member name="P:VRDR.DeathRecord.ExaminerContacted">
             <summary>Examiner Contacted.</summary>
-            <value>if a medical examiner was contacted.</value>
+            <value>if a medical examiner was contacted.
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+            <para>Dictionary&lt;string, string&gt; excon = new Dictionary&lt;string, string&gt;();</para>
+            <para>excon.Add("code", "Y");</para>
+            <para>excon.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>excon.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.ExaminerContacted = excon;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryLocationAddress">
@@ -2123,6 +2131,12 @@
         <member name="M:VRDR.IJEMortality.Dictionary_Set(System.String,System.String,System.String,System.String)">
             <summary>Set a value on the DeathRecord whose property is a Dictionary type.</summary>
         </member>
+        <member name="M:VRDR.IJEMortality.Dictionary_YNU_Get(System.String,System.String)">
+            <summary>Get a value from the DeathRecord whose property is a Yes/No/Unknown value (and is contained in a dictionary).</summary>
+        </member>
+        <member name="M:VRDR.IJEMortality.Dictionary_YNU_Set(System.String,System.String,System.String)">
+            <summary>Set the value on the DeathRecord whose property is a Yes/No/Unknown value (and is contained in a dictionary).</summary>
+        </member>
         <member name="M:VRDR.IJEMortality.Dictionary_Geo_Get(System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         </member>
@@ -2158,12 +2172,6 @@
         </member>
         <member name="M:VRDR.IJEMortality.Set_Race(System.String,System.String)">
             <summary>Adds the given race to the record.</summary>
-        </member>
-        <member name="M:VRDR.IJEMortality.Get_YNU(System.String)">
-            <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
-        </member>
-        <member name="M:VRDR.IJEMortality.Set_YNU(System.String,System.String)">
-            <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
         </member>
         <member name="P:VRDR.IJEMortality.DOD_YR">
             <summary>Date of Death--Year</summary>

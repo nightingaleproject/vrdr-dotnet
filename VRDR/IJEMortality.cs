@@ -398,6 +398,48 @@ namespace VRDR
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
+        /// <summary>Get a value from the DeathRecord whose property is a Yes/No/Unknown value (and is contained in a dictionary).</summary>
+        private string Dictionary_YNU_Get(string ijeFieldName, string fhirFieldName)
+        {
+            string code = Dictionary_Get_Full(ijeFieldName, fhirFieldName, "code");
+            switch (code)
+            {
+                case "Y": // Yes
+                    return "Y";
+                case "N": // No
+                    return "N";
+                case "UNK": // Unknown
+                    return "U";
+            }
+            return "";
+        }
+
+        /// <summary>Set the value on the DeathRecord whose property is a Yes/No/Unknown value (and is contained in a dictionary).</summary>
+        private void Dictionary_YNU_Set(string ijeFieldName, string fhirFieldName, string value)
+        {
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                switch (value)
+                {
+                    case "Y":
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "code", "Y");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "display", "Yes");
+                        break;
+                    case "N":
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "code", "N");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "display", "No");
+                        break;
+                    case "U":
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "code", "UNK");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "system", "http://hl7.org/fhir/v3/NullFlavor");
+                        Dictionary_Set(ijeFieldName, fhirFieldName, "display", "Unknown");
+                        break;
+                }
+            }
+        }
+
         /// <summary>Get a value on the DeathRecord whose property is a geographic type (and is contained in a dictionary).</summary>
         private string Dictionary_Geo_Get(string ijeFieldName, string fhirFieldName, string keyPrefix, string geoType, bool isCoded)
         {
@@ -641,33 +683,6 @@ namespace VRDR
             List<Tuple<string, string>> raceStatus = record.Race.ToList();
             raceStatus.Add(Tuple.Create(display, code));
             record.Race = raceStatus.Distinct().ToList().ToArray();
-        }
-
-        /// <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
-        private string Get_YNU(string fhirFieldName)
-        {
-            object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (status == null)
-            {
-                return "U";
-            }
-            else
-            {
-                return ((bool)status) ? "Y" : "N";
-            }
-        }
-
-        /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
-        private void Set_YNU(string fhirFieldName, string value)
-        {
-            if (value != "U" && value == "Y")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
-            }
-            else if (value != "U" && value == "N")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
-            }
         }
 
 
@@ -2546,41 +2561,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOP", "AutopsyPerformedIndicator", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Dictionary_YNU_Get("AUTOP", "AutopsyPerformedIndicator");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
-                            break;
-                    }
-                }
+                Dictionary_YNU_Set("AUTOP", "AutopsyPerformedIndicator", value);
             }
         }
 
@@ -2590,41 +2575,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOPF", "AutopsyResultsAvailable", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Dictionary_YNU_Get("AUTOPF", "AutopsyResultsAvailable");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
-                            break;
-                    }
-                }
+                Dictionary_YNU_Set("AUTOPF", "AutopsyResultsAvailable", value);
             }
         }
 
@@ -2825,41 +2780,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("WORKINJ", "InjuryAtWork", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Dictionary_YNU_Get("WORKINJ", "InjuryAtWork");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "Y");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "N");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Unknown");
-                            break;
-                    }
-                }
+                Dictionary_YNU_Set("WORKINJ", "InjuryAtWork", value);
             }
         }
 
@@ -2951,41 +2876,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("ARMEDF", "MilitaryService", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Dictionary_YNU_Get("ARMEDF", "MilitaryService");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "Y");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "N");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/v3/NullFlavor");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Unknown");
-                            break;
-                    }
-                }
+                Dictionary_YNU_Set("ARMEDF", "MilitaryService", value);
             }
         }
 
@@ -3242,14 +3137,12 @@ namespace VRDR
         {
             get
             {
-                return Get_YNU("ExaminerContacted");
+                return Dictionary_YNU_Get("REFERRED", "ExaminerContacted");
+
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("ExaminerContacted", value);
-                }
+                Dictionary_YNU_Set("REFERRED", "ExaminerContacted", value);
             }
         }
 

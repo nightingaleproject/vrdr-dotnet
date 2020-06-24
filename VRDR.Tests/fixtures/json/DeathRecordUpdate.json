@@ -826,7 +826,13 @@
                                 "display": "Medical examiner or coroner was contacted"
                             }]},
                             "subject": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
-                            "valueBoolean": false
+                            "valueCodeableConcept": {
+                                "coding": [{
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                    "code": "N",
+                                    "display": "No"
+                                }]
+                            }
                         }
                     },
                     {

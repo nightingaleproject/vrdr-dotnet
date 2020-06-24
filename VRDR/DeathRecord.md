@@ -348,7 +348,6 @@
   - [Get_Race_NHOPI_Literals()](#M-VRDR-IJEMortality-Get_Race_NHOPI_Literals 'VRDR.IJEMortality.Get_Race_NHOPI_Literals')
   - [Get_Race_OTHER_Literals()](#M-VRDR-IJEMortality-Get_Race_OTHER_Literals 'VRDR.IJEMortality.Get_Race_OTHER_Literals')
   - [Get_Race_W_Literals()](#M-VRDR-IJEMortality-Get_Race_W_Literals 'VRDR.IJEMortality.Get_Race_W_Literals')
-  - [Get_YNU()](#M-VRDR-IJEMortality-Get_YNU-System-String- 'VRDR.IJEMortality.Get_YNU(System.String)')
   - [HispanicOrigin()](#M-VRDR-IJEMortality-HispanicOrigin 'VRDR.IJEMortality.HispanicOrigin')
   - [HispanicOriginOther()](#M-VRDR-IJEMortality-HispanicOriginOther 'VRDR.IJEMortality.HispanicOriginOther')
   - [LeftJustified_Get()](#M-VRDR-IJEMortality-LeftJustified_Get-System-String,System-String- 'VRDR.IJEMortality.LeftJustified_Get(System.String,System.String)')
@@ -356,7 +355,6 @@
   - [RightJustifiedZeroed_Get()](#M-VRDR-IJEMortality-RightJustifiedZeroed_Get-System-String,System-String- 'VRDR.IJEMortality.RightJustifiedZeroed_Get(System.String,System.String)')
   - [RightJustifiedZeroed_Set()](#M-VRDR-IJEMortality-RightJustifiedZeroed_Set-System-String,System-String,System-String- 'VRDR.IJEMortality.RightJustifiedZeroed_Set(System.String,System.String,System.String)')
   - [Set_Race()](#M-VRDR-IJEMortality-Set_Race-System-String,System-String- 'VRDR.IJEMortality.Set_Race(System.String,System.String)')
-  - [Set_YNU()](#M-VRDR-IJEMortality-Set_YNU-System-String,System-String- 'VRDR.IJEMortality.Set_YNU(System.String,System.String)')
   - [ToDeathRecord()](#M-VRDR-IJEMortality-ToDeathRecord 'VRDR.IJEMortality.ToDeathRecord')
   - [ToString()](#M-VRDR-IJEMortality-ToString 'VRDR.IJEMortality.ToString')
   - [Truncate()](#M-VRDR-IJEMortality-Truncate-System-String,System-Int32- 'VRDR.IJEMortality.Truncate(System.String,System.Int32)')
@@ -4687,17 +4685,6 @@ Retrieves White Race literals on the record.
 
 This method has no parameters.
 
-<a name='M-VRDR-IJEMortality-Get_YNU-System-String-'></a>
-### Get_YNU() `method`
-
-##### Summary
-
-Gets a "Yes", "No", or "Unkown" value.
-
-##### Parameters
-
-This method has no parameters.
-
 <a name='M-VRDR-IJEMortality-HispanicOrigin'></a>
 ### HispanicOrigin() `method`
 
@@ -4770,17 +4757,6 @@ This method has no parameters.
 ##### Summary
 
 Adds the given race to the record.
-
-##### Parameters
-
-This method has no parameters.
-
-<a name='M-VRDR-IJEMortality-Set_YNU-System-String,System-String-'></a>
-### Set_YNU() `method`
-
-##### Summary
-
-Sets a "Yes", "No", or "Unkown" value.
 
 ##### Parameters
 

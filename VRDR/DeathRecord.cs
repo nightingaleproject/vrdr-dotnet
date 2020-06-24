@@ -283,13 +283,21 @@ namespace VRDR
                                                                  AllowUnrecognizedEnums = permissive,
                                                                  PermissiveParsing = permissive };
             // XML?
-            if (!String.IsNullOrEmpty(record) && record.TrimStart().StartsWith("<"))
+            Boolean maybeXML = record.TrimStart().StartsWith("<");
+            Boolean maybeJSON = record.TrimStart().StartsWith("{");
+            if (!String.IsNullOrEmpty(record) && (maybeXML || maybeJSON))
             {
                 // Grab all errors found by visiting all nodes and report if not permissive
                 if (!permissive)
                 {
                     List<string> entries = new List<string>();
-                    ISourceNode node = FhirXmlNode.Parse(record, new FhirXmlParsingSettings { PermissiveParsing = permissive });
+                    ISourceNode node = null;
+                    if (maybeXML) {
+                        node = FhirXmlNode.Parse(record, new FhirXmlParsingSettings { PermissiveParsing = permissive });
+                    }
+                    else {
+                        node = FhirJsonNode.Parse(record, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
+                    }
                     foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
                     {
                         entries.Add(problem.Message);
@@ -302,37 +310,14 @@ namespace VRDR
                 // Try Parse
                 try
                 {
-                    FhirXmlParser parser = new FhirXmlParser(parserSettings);
-                    Bundle = parser.Parse<Bundle>(record);
-                    Navigator = Bundle.ToTypedElement();
-                }
-                catch (Exception e)
-                {
-                    throw new System.ArgumentException(e.Message);
-                }
-            }
-            // JSON?
-            if (!String.IsNullOrEmpty(record) && record.TrimStart().StartsWith("{"))
-            {
-                // Grab all errors found by visiting all nodes and report if not permissive
-                if (!permissive)
-                {
-                    List<string> entries = new List<string>();
-                    ISourceNode node = FhirJsonNode.Parse(record, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
-                    foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
-                    {
-                        entries.Add(problem.Message);
+                    if(maybeXML) {
+                        FhirXmlParser parser = new FhirXmlParser(parserSettings);
+                        Bundle = parser.Parse<Bundle>(record);
                     }
-                    if (entries.Count > 0)
-                    {
-                        throw new System.ArgumentException(String.Join("; ", entries).TrimEnd());
+                    else {
+                        FhirJsonParser parser = new FhirJsonParser(parserSettings);
+                        Bundle = parser.Parse<Bundle>(record);
                     }
-                }
-                // Try Parse
-                try
-                {
-                    FhirJsonParser parser = new FhirJsonParser(parserSettings);
-                    Bundle = parser.Parse<Bundle>(record);
                     Navigator = Bundle.ToTypedElement();
                 }
                 catch (Exception e)

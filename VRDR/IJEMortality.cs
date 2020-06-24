@@ -643,7 +643,7 @@ namespace VRDR
             record.Race = raceStatus.Distinct().ToList().ToArray();
         }
 
-        /// <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
+        /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
         private string Get_YNU(string fhirFieldName)
         {
             object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);

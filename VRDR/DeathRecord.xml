@@ -2160,7 +2160,7 @@
             <summary>Adds the given race to the record.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.Get_YNU(System.String)">
-            <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
+            <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.Set_YNU(System.String,System.String)">
             <summary>Sets a "Yes", "No", or "Unkown" value.</summary>

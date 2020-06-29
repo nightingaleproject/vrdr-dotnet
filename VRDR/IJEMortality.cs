@@ -685,6 +685,32 @@ namespace VRDR
             record.Race = raceStatus.Distinct().ToList().ToArray();
         }
 
+        /// <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
+        private string Get_YNU(string fhirFieldName)
+        {
+            object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (status == null)
+            {
+                return "U";
+            }
+            else
+            {
+                return ((bool)status) ? "Y" : "N";
+            }
+        }
+
+        /// <summary>Sets a "Yes" or "No" value.</summary>
+        private void Set_YNU(string fhirFieldName, string value)
+        {
+            if (value == "Y")
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
+            }
+            else if (value == "N")
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -3137,12 +3163,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_YNU_Get("REFERRED", "ExaminerContacted");
-
+                return Get_YNU("ExaminerContacted");
             }
             set
             {
-                Dictionary_YNU_Set("REFERRED", "ExaminerContacted", value);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_YNU("ExaminerContacted", value);
+                }
             }
         }
 

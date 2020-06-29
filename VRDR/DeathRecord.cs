@@ -5615,34 +5615,24 @@ namespace VRDR
 
         /// <summary>Examiner Contacted.</summary>
         /// <value>if a medical examiner was contacted.
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; excon = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>excon.Add("code", "Y");</para>
-        /// <para>excon.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
-        /// <para>excon.Add("display", "Yes");</para>
-        /// <para>ExampleDeathRecord.ExaminerContacted = excon;</para>
+        /// <para>ExampleDeathRecord.ExaminerContacted = false;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
+        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
+        [Property("Examiner Contacted", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
-        public Dictionary<string, string> ExaminerContacted
+        public bool? ExaminerContacted
         {
             get
             {
                 if (ExaminerContactedObs != null && ExaminerContactedObs.Value as CodeableConcept != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)ExaminerContactedObs.Value);
+                    return CodeableConceptToDict(((CodeableConcept)ExaminerContactedObs.Value))["code"] == "Y";
                 }
-                return EmptyCodeDict();
+                return null;
             }
             set
             {
@@ -5656,13 +5646,13 @@ namespace VRDR
                     ExaminerContactedObs.Status = ObservationStatus.Final;
                     ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    ExaminerContactedObs.Value = DictToCodeableConcept(value);
+                    ExaminerContactedObs.Value = BoolToCodeableConcept((Boolean)value);
                     AddReferenceToComposition(ExaminerContactedObs.Id);
                     Bundle.AddResourceEntry(ExaminerContactedObs, "urn:uuid:" + ExaminerContactedObs.Id);
                 }
                 else
                 {
-                    ExaminerContactedObs.Value = DictToCodeableConcept(value);
+                    ExaminerContactedObs.Value = BoolToCodeableConcept((Boolean)value);
                 }
             }
         }
@@ -6508,6 +6498,20 @@ namespace VRDR
                     coding.Display = dict["display"];
                 }
             }
+            codeableConcept.Coding.Add(coding);
+            return codeableConcept;
+        }
+
+        /// <summary>Convert a Boolean to a FHIR CodableConcept.</summary>
+        /// <param name="value">A true/false value.</param>
+        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
+        private CodeableConcept BoolToCodeableConcept(Boolean value)
+        {
+            CodeableConcept codeableConcept = new CodeableConcept();
+            Coding coding = new Coding();
+            coding.Code = value ? "Y" : "N";
+            coding.System = "http://terminology.hl7.org/CodeSystem/v2-0136";
+            coding.Display = value ? "Yes" : "No";
             codeableConcept.Coding.Add(coding);
             return codeableConcept;
         }

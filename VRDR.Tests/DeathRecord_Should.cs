@@ -1735,25 +1735,17 @@ namespace VRDR.Tests
         [Fact]
         public void Set_ExaminerContacted()
         {
-            Dictionary<string, string> excon = new Dictionary<string, string>();
-            excon.Add("code", "Y");
-            excon.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-            excon.Add("display", "Yes");
-            SetterDeathRecord.ExaminerContacted = excon;
-            Assert.Equal("Y", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.ExaminerContacted["system"]);
-            Assert.Equal("Yes", SetterDeathRecord.ExaminerContacted["display"]);
+            SetterDeathRecord.ExaminerContacted = true;
+            Assert.True(SetterDeathRecord.ExaminerContacted);
+            SetterDeathRecord.ExaminerContacted = false;
+            Assert.False(SetterDeathRecord.ExaminerContacted);
         }
 
         [Fact]
         public void Get_ExaminerContacted()
         {
-            Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
-            Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
-            Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
-            Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
+            Assert.False(((DeathRecord)JSONRecords[0]).ExaminerContacted);
+            Assert.False(((DeathRecord)XMLRecords[0]).ExaminerContacted);
         }
 
         [Fact]

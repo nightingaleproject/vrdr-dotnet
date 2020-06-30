@@ -361,7 +361,11 @@ namespace VRDR.CLI
                 deathRecord.TransportationRole = tr;
 
                 // ExaminerContacted
-                deathRecord.ExaminerContacted = false;
+                Dictionary<string, string> excon = new Dictionary<string, string>();
+                excon.Add("code", "Y");
+                excon.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                excon.Add("display", "Yes");
+                deathRecord.ExaminerContacted = excon;
 
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();

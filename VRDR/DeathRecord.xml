@@ -1725,12 +1725,19 @@
         <member name="P:VRDR.DeathRecord.ExaminerContacted">
             <summary>Examiner Contacted.</summary>
             <value>if a medical examiner was contacted.
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
             </value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+            <para>Dictionary&lt;string, string&gt; excon = new Dictionary&lt;string, string&gt;();</para>
+            <para>excon.Add("code", "Y");</para>
+            <para>excon.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>excon.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.ExaminerContacted = excon;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryLocationAddress">
@@ -1880,11 +1887,6 @@
         <member name="M:VRDR.DeathRecord.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
-            <returns>the corresponding CodeableConcept representation of the code.</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.BoolToCodeableConcept(System.Boolean)">
-            <summary>Convert a Boolean to a FHIR CodableConcept.</summary>
-            <param name="value">A true/false value.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
         <member name="M:VRDR.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)">
@@ -2170,12 +2172,6 @@
         </member>
         <member name="M:VRDR.IJEMortality.Set_Race(System.String,System.String)">
             <summary>Adds the given race to the record.</summary>
-        </member>
-        <member name="M:VRDR.IJEMortality.Get_YNU(System.String)">
-            <summary>Gets a "Yes", "No", or "Unkown" value.</summary>
-        </member>
-        <member name="M:VRDR.IJEMortality.Set_YNU(System.String,System.String)">
-            <summary>Sets a "Yes" or "No" value.</summary>
         </member>
         <member name="P:VRDR.IJEMortality.DOD_YR">
             <summary>Date of Death--Year</summary>

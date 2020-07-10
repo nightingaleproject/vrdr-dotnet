@@ -1,0 +1,15 @@
+{
+    "resourceType": "Bundle",
+    "id": "1227ab22-e431-4d6e-b6ba-aec5c0eecd89",
+    "timestamp": "2020-03-25T08:51:24.663034-04:00",
+    "type": "message",
+    "entry": [{
+        "fullUrl": "urn:uuid:761dca08-259b-4dcd-aeb7-bb3c73fa30f2",
+        "resource": {
+            "resourceType": "MessageHeader",
+            "id": "761dca08-259b-4dcd-aeb7-bb3c73fa30f2",
+            "destination": [{"endpoint": "nightingale"}],
+            "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"}
+        }
+    }]
+}

@@ -28,41 +28,41 @@ namespace VRDR
         /// represents a FHIR message of the correct type.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the BaseMessage</param>
-        /// <param name="headerOnly">if true, then only the MessageHeader part will be searched for</param>
-        protected BaseMessage(Bundle messageBundle, bool headerOnly = false)
+        /// <param name="ignoreMissingEntries">if true, then missing bundle entries will not result in an exception</param>
+        /// <param name="ignoreBundleType">if true, then an incorrect bundle type will not result in an exception</param>
+        protected BaseMessage(Bundle messageBundle, bool ignoreMissingEntries = false, bool ignoreBundleType = false)
         {
             MessageBundle = messageBundle;
 
             // Validate bundle type is message
-            if (messageBundle?.Type != Bundle.BundleType.Message)
+            if (messageBundle?.Type != Bundle.BundleType.Message && !ignoreBundleType)
             {
-                throw new System.ArgumentException($"The FHIR Bundle must be of type message, not {messageBundle?.Type}");
+                String actualType = messageBundle?.Type == null ? "null" : messageBundle?.Type.ToString();
+                throw new MessageParseException($"The FHIR Bundle must be of type message, not {actualType}", new BaseMessage(messageBundle, true, true));
             }
 
             // Find Header
-            Header = findEntry<MessageHeader>(ResourceType.MessageHeader);
+            Header = findEntry<MessageHeader>(ResourceType.MessageHeader, ignoreMissingEntries);
 
-            if (!headerOnly)
-            {
-                // Find Parameters
-                Record = findEntry<Parameters>(ResourceType.Parameters);
-            }      
+            // Find Parameters
+            Record = findEntry<Parameters>(ResourceType.Parameters, ignoreMissingEntries);
         }
 
         /// <summary>
         /// Find the first Entry within the message Bundle that contains a Resource of the specified type and return that resource.
         /// </summary>
         /// <param name="type">the type of FHIR resource to look for</param>
+        /// <param name="ignoreMissingEntries">if true, then missing entries will not result in an exception</param>
         /// <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
         /// <returns></returns>
-        protected T findEntry<T>(ResourceType type) where T : Resource
+        protected T findEntry<T>(ResourceType type, bool ignoreMissingEntries = false) where T : Resource
         {
             var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
-            if (typedEntry == null)
+            if (typedEntry == null && !ignoreMissingEntries)
             {
                 throw new System.ArgumentException($"Failed to find a Bundle Entry containing a Resource of type {type.ToString()}");
             }
-            return (T)typedEntry.Resource;
+            return (T)typedEntry?.Resource;
         }
 
         /// <summary>Constructor that creates a new, empty message for the specified message type.</summary>
@@ -150,7 +150,7 @@ namespace VRDR
         {
             get
             {
-                return Header.Id;
+                return Header?.Id;
             }
             set
             {
@@ -166,7 +166,7 @@ namespace VRDR
         {
             get
             {
-                if (Header.Event != null && Header.Event.TypeName == "uri")
+                if (Header?.Event != null && Header.Event.TypeName == "uri")
                 {
                     return ((FhirUri)Header.Event).Value;
                 }
@@ -188,7 +188,7 @@ namespace VRDR
         {
             get
             {
-                return Header.Source.Endpoint;
+                return Header?.Source.Endpoint;
             }
             set
             {
@@ -202,7 +202,7 @@ namespace VRDR
         {
             get
             {
-                return Header.Destination.ToArray()[0].Endpoint;
+                return Header?.Destination.ToArray()[0].Endpoint;
             }
             set
             {
@@ -218,7 +218,7 @@ namespace VRDR
         {
             get
             {
-                return Record.GetSingleValue<FhirString>("cert_no")?.Value;
+                return Record?.GetSingleValue<FhirString>("cert_no")?.Value;
             }
             set
             {
@@ -235,7 +235,7 @@ namespace VRDR
         {
             get
             {
-                return Record.GetSingleValue<FhirString>("state_auxiliary_id")?.Value;
+                return Record?.GetSingleValue<FhirString>("state_auxiliary_id")?.Value;
             }
             set
             {
@@ -252,7 +252,7 @@ namespace VRDR
         {
             get
             {
-                return Record.GetSingleValue<FhirString>("nchs_id")?.Value;
+                return Record?.GetSingleValue<FhirString>("nchs_id")?.Value;
             }
             set
             {
@@ -343,34 +343,47 @@ namespace VRDR
                 throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
             }
 
-            BaseMessage typedMessage = null;
-            switch (GetMessageType(bundle))
+            BaseMessage message = new BaseMessage(bundle, true, false);
+            switch (message.MessageType)
             {
                 case "http://nchs.cdc.gov/vrdr_submission":
-                    typedMessage = new DeathRecordSubmission(bundle);
+                    message = new DeathRecordSubmission(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_submission_update":
-                    typedMessage = new DeathRecordUpdate(bundle);
+                    message = new DeathRecordUpdate(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_acknowledgement":
-                    typedMessage = new AckMessage(bundle);
+                    message = new AckMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_submission_void":
-                    typedMessage = new VoidMessage(bundle);
+                    message = new VoidMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_coding":
-                    typedMessage = new CodingResponseMessage(bundle);
+                    message = new CodingResponseMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_coding_update":
-                    typedMessage = new CodingUpdateMessage(bundle);
+                    message = new CodingUpdateMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
-                    typedMessage = new ExtractionErrorMessage(bundle);
+                    message = new ExtractionErrorMessage(bundle);
                     break;
                 default:
-                    throw new System.ArgumentException($"Unsupported message type: {GetMessageType(bundle)}");
+                    string errorText;
+                    if (message.Header == null)
+                    {
+                        errorText = "Failed to find a Bundle Entry containing a Resource of type MessageHeader";
+                    }
+                    else if (message.MessageType == null)
+                    {
+                        errorText = "Message type was missing from MessageHeader";
+                    }
+                    else
+                    {
+                        errorText = $"Unsupported message type: {message.MessageType}";
+                    }
+                    throw new MessageParseException(errorText, message);
             }
-            return typedMessage;
+            return message;
         }
 
         /// <summary>
@@ -384,12 +397,6 @@ namespace VRDR
         {
             string content = source.ReadToEnd();
             return Parse(content, permissive);
-        }
-
-        private static string GetMessageType(Bundle bundle)
-        {
-            var baseMessage = new BaseMessage(bundle, true);
-            return baseMessage.MessageType;
         }
 
         private static ParserSettings GetParserSettings(bool permissive)
@@ -461,6 +468,34 @@ namespace VRDR
             }
 
             return bundle;
+        }
+    }
+
+    /// <summary>
+    /// An exception that may be thrown during message parsing
+    /// </summary>
+    public class MessageParseException : System.ArgumentException
+    {
+        private BaseMessage sourceMessage;
+
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="errorMessage">A text error message describing the problem</param>
+        /// <param name="sourceMessage">The message that cuased the problem</param>
+        public MessageParseException(string errorMessage, BaseMessage sourceMessage) : base(errorMessage)
+        {
+            this.sourceMessage = sourceMessage;
+        }
+
+        /// <summary>
+        /// Build an ExtractionErrorMessage that conveys the issues reported in this exception.
+        /// </summary>
+        public ExtractionErrorMessage CreateExtractionErrorMessage()
+        {
+            var message = new ExtractionErrorMessage(sourceMessage);
+            message.Issues.Add(new Issue(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, this.Message));
+            return message;
         }
     }
 }

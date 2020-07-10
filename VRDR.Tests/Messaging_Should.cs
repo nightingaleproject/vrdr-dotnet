@@ -566,10 +566,46 @@ namespace VRDR.Tests
             Assert.IsType<DeathRecordSubmission>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"), false);
             Assert.IsType<DeathRecordUpdate>(msg);
-            Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
+
+            MessageParseException ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
             Assert.Equal("Unsupported message type: http://nchs.cdc.gov/vrdr_invalid_type", ex.Message);
-            ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptyMessage.json")));
+            var responseMsg = ex.CreateExtractionErrorMessage();
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", responseMsg.MessageDestination);
+            Assert.Equal("nightingale", responseMsg.MessageSource);
+            Assert.Equal("761dca08-259b-4dcd-aeb7-bb3c73fa30f2", responseMsg.FailedMessageId);
+            Assert.Null(responseMsg.CertificateNumber);
+            Assert.Null(responseMsg.NCHSIdentifier);
+            Assert.Null(responseMsg.StateAuxiliaryIdentifier);
+            
+            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/MissingMessageType.json")));
+            Assert.Equal("Message type was missing from MessageHeader", ex.Message);
+            responseMsg = ex.CreateExtractionErrorMessage();
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", responseMsg.MessageDestination);
+            Assert.Equal("nightingale", responseMsg.MessageSource);
+            Assert.Equal("761dca08-259b-4dcd-aeb7-bb3c73fa30f2", responseMsg.FailedMessageId);
+            Assert.Null(responseMsg.CertificateNumber);
+            Assert.Null(responseMsg.NCHSIdentifier);
+            Assert.Null(responseMsg.StateAuxiliaryIdentifier);
+
+            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptyMessage.json")));
             Assert.Equal("Failed to find a Bundle Entry containing a Resource of type MessageHeader", ex.Message);
+            responseMsg = ex.CreateExtractionErrorMessage();
+            Assert.Null(responseMsg.MessageDestination);
+            Assert.Null(responseMsg.MessageSource);
+            Assert.Null(responseMsg.FailedMessageId);
+            Assert.Null(responseMsg.CertificateNumber);
+            Assert.Null(responseMsg.NCHSIdentifier);
+            Assert.Null(responseMsg.StateAuxiliaryIdentifier);
+
+            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/Empty.json")));
+            Assert.Equal("The FHIR Bundle must be of type message, not null", ex.Message);
+            responseMsg = ex.CreateExtractionErrorMessage();
+            Assert.Null(responseMsg.MessageDestination);
+            Assert.Null(responseMsg.MessageSource);
+            Assert.Null(responseMsg.FailedMessageId);
+            Assert.Null(responseMsg.CertificateNumber);
+            Assert.Null(responseMsg.NCHSIdentifier);
+            Assert.Null(responseMsg.StateAuxiliaryIdentifier);
         }
 
         [Fact]

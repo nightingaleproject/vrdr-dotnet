@@ -28,6 +28,7 @@
     <None Update="fixtures/json/DeathRecordSubmissionNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdateNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/Empty.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptySubmission.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/ExtractionErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
@@ -38,6 +39,7 @@
     <None Update="fixtures/json/MissingCompositionAttestor.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingCompositionSubject.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingDecedent.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingObservationCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />

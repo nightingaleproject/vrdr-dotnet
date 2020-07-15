@@ -27,10 +27,17 @@ namespace VRDR
         /// Construct a DeathRecordSubmission from a FHIR Bundle.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
-        /// <returns></returns>
-        internal DeathRecordSubmission(Bundle messageBundle) : base(messageBundle)
+        /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
+        internal DeathRecordSubmission(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle)
         {
-            DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
+            try
+            {
+                DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
+            }
+            catch (System.ArgumentException ex)
+            {
+                throw new MessageParseException($"Error processing DeathRecord entry in the message: {ex.Message}", baseMessage);
+            }
         }
 
         /// <summary>The DeathRecord conveyed by this message</summary>
@@ -75,8 +82,8 @@ namespace VRDR
         /// Construct a DeathRecordUpdate from a FHIR Bundle.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
-        /// <returns></returns>
-        internal DeathRecordUpdate(Bundle messageBundle) : base(messageBundle)
+        /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
+        internal DeathRecordUpdate(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle, baseMessage)
         {
         }
     }

@@ -54,7 +54,7 @@ namespace VRDR
         /// <param name="type">the type of FHIR resource to look for</param>
         /// <param name="ignoreMissingEntries">if true, then missing entries will not result in an exception</param>
         /// <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
-        /// <returns></returns>
+        /// <returns>The first matching Bundle entry</returns>
         protected T findEntry<T>(ResourceType type, bool ignoreMissingEntries = false) where T : Resource
         {
             var typedEntry = MessageBundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == type );
@@ -290,13 +290,13 @@ namespace VRDR
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>The deserialized message object</returns>
-        /// <exception cref="System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        /// <exception cref="MessageParseException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
         public static T Parse<T>(StreamReader source, bool permissive = false) where T: BaseMessage
         {
             BaseMessage typedMessage = Parse(source, permissive);
             if (!typeof(T).IsInstanceOfType(typedMessage))
             {
-                throw new System.ArgumentException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass");
+                throw new MessageParseException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass", typedMessage);
             }
             return (T)typedMessage;
         }
@@ -309,13 +309,13 @@ namespace VRDR
         /// <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
         /// <param name="permissive">if the parser should be permissive when parsing the given string</param>
         /// <returns>the deserialized message object</returns>
-        /// <exception cref="System.ArgumentException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        /// <exception cref="MessageParseException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
         public static T Parse<T>(string source, bool permissive = false) where T: BaseMessage
         {
             BaseMessage typedMessage = Parse(source, permissive);
             if (!typeof(T).IsInstanceOfType(typedMessage))
             {
-                throw new System.ArgumentException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass");
+                throw new MessageParseException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass", typedMessage);
             }
             return (T)typedMessage;
         }
@@ -347,10 +347,10 @@ namespace VRDR
             switch (message.MessageType)
             {
                 case "http://nchs.cdc.gov/vrdr_submission":
-                    message = new DeathRecordSubmission(bundle);
+                    message = new DeathRecordSubmission(bundle, message);
                     break;
                 case "http://nchs.cdc.gov/vrdr_submission_update":
-                    message = new DeathRecordUpdate(bundle);
+                    message = new DeathRecordUpdate(bundle, message);
                     break;
                 case "http://nchs.cdc.gov/vrdr_acknowledgement":
                     message = new AckMessage(bundle);
@@ -365,7 +365,7 @@ namespace VRDR
                     message = new CodingUpdateMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
-                    message = new ExtractionErrorMessage(bundle);
+                    message = new ExtractionErrorMessage(bundle, message);
                     break;
                 default:
                     string errorText;

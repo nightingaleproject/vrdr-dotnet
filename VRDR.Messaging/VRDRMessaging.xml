@@ -58,7 +58,7 @@
             <param name="type">the type of FHIR resource to look for</param>
             <param name="ignoreMissingEntries">if true, then missing entries will not result in an exception</param>
             <typeparam name="T">the class of the FHIR resource to return, must match with specified type:</typeparam>
-            <returns></returns>
+            <returns>The first matching Bundle entry</returns>
         </member>
         <member name="M:VRDR.BaseMessage.#ctor(System.String)">
             <summary>Constructor that creates a new, empty message for the specified message type.</summary>
@@ -126,7 +126,7 @@
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <returns>The deserialized message object</returns>
-            <exception cref="T:System.ArgumentException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+            <exception cref="T:VRDR.MessageParseException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
         </member>
         <member name="M:VRDR.BaseMessage.Parse``1(System.String,System.Boolean)">
             <summary>
@@ -137,7 +137,7 @@
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <returns>the deserialized message object</returns>
-            <exception cref="T:System.ArgumentException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
+            <exception cref="T:VRDR.MessageParseException">thrown when source does not represent the same or a subtype of the type parameter.</exception>
         </member>
         <member name="M:VRDR.BaseMessage.Parse(System.String,System.Boolean)">
             <summary>
@@ -373,12 +373,12 @@
             <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordSubmission.</summary>
             <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
         </member>
-        <member name="M:VRDR.DeathRecordSubmission.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.DeathRecordSubmission.#ctor(Hl7.Fhir.Model.Bundle,VRDR.BaseMessage)">
             <summary>
             Construct a DeathRecordSubmission from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
-            <returns></returns>
+            <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         </member>
         <member name="P:VRDR.DeathRecordSubmission.DeathRecord">
             <summary>The DeathRecord conveyed by this message</summary>
@@ -394,12 +394,12 @@
             <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
             <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
         </member>
-        <member name="M:VRDR.DeathRecordUpdate.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.DeathRecordUpdate.#ctor(Hl7.Fhir.Model.Bundle,VRDR.BaseMessage)">
             <summary>
             Construct a DeathRecordUpdate from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
-            <returns></returns>
+            <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         </member>
         <member name="T:VRDR.ExtractionErrorMessage">
             <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
@@ -408,12 +408,12 @@
             <summary>Constructor that creates an extraction error for the specified message.</summary>
             <param name="sourceMessage">the message that could not be processed.</param>
         </member>
-        <member name="M:VRDR.ExtractionErrorMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.ExtractionErrorMessage.#ctor(Hl7.Fhir.Model.Bundle,VRDR.BaseMessage)">
             <summary>
             Construct an ExtractionErrorMessage from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the ExtractionErrorMessage</param>
-            <returns></returns>
+            <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         </member>
         <member name="M:VRDR.ExtractionErrorMessage.#ctor(System.String,System.String,System.String)">
             <summary>Constructor that creates an extraction error message for the specified message.</summary>

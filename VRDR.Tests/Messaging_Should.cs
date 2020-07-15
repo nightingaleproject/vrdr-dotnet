@@ -84,10 +84,17 @@ namespace VRDR.Tests
             Assert.Null(submission.StateAuxiliaryIdentifier);
             Assert.Null(submission.NCHSIdentifier);
 
-            Exception ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptySubmission.json")));
-            Assert.Equal("Failed to find a Bundle Entry containing a Resource of type Bundle", ex.Message);
+            MessageParseException ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/EmptySubmission.json")));
+            Assert.Equal("Error processing DeathRecord entry in the message: Failed to find a Bundle Entry containing a Resource of type Bundle", ex.Message);
+            ExtractionErrorMessage errMsg = ex.CreateExtractionErrorMessage();
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", errMsg.MessageSource);
+            Assert.Equal("nightingale", errMsg.MessageDestination);
+            Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", errMsg.FailedMessageId);
+            Assert.Equal("2018MA000001", errMsg.NCHSIdentifier);
+            Assert.Equal("1", errMsg.CertificateNumber);
+            Assert.Equal("42", errMsg.StateAuxiliaryIdentifier);
 
-            ex = Assert.Throws<System.ArgumentException>(() => BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/DeathRecordSubmission.json")));
+            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/DeathRecordSubmission.json")));
             Assert.Equal("The supplied message was of type VRDR.DeathRecordSubmission, expected VRDR.AckMessage or a subclass", ex.Message);
         }
 

@@ -22,10 +22,17 @@ namespace VRDR
         /// Construct an ExtractionErrorMessage from a FHIR Bundle.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the ExtractionErrorMessage</param>
-        /// <returns></returns>
-        internal ExtractionErrorMessage(Bundle messageBundle) : base(messageBundle)
+        /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
+        internal ExtractionErrorMessage(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle)
         {
-            details = findEntry<OperationOutcome>(ResourceType.OperationOutcome);
+            try
+            {
+                details = findEntry<OperationOutcome>(ResourceType.OperationOutcome);
+            }
+            catch (System.ArgumentException ex)
+            {
+                throw new MessageParseException($"Error processing OperationOutcome entry in the message: {ex.Message}", baseMessage);
+            }
         }
 
         /// <summary>Constructor that creates an extraction error message for the specified message.</summary>

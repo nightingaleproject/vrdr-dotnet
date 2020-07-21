@@ -420,3 +420,31 @@ var messageResend = BaseMessage.Parse(messageResendJson);
 ```
 
 The above two approaches are also applicable to the case where a coding response or update needs to be resent.
+
+## Error Handling
+
+Errors found when parsing messages will be reported either via a `System.ArgumentException` or a `VRDR.MessageParseException`. A `MessageParseException` encapsulates information from the message that caused the error. The exception can be used to construct a `VRDR.ExtractionErrorMessage` to report the error to the original sender of the message that caused the error. The code below illustrates this.
+
+```cs
+try
+{
+    // Try to parse an incoming message
+    var msg = BaseMessage.Parse(messageStream);
+}
+catch (MessageParseException ex)
+{
+    // Create a message to convey the error back to the original sender
+    ExtractionErrorMessage errorReply = ex.CreateExtractionErrorMessage();
+
+    // Validate completeness of error message
+    ...
+    
+    // Serialize the error message
+    string errorReplyJson = errorReply.ToJSON();
+
+    // Send the JSON message
+    ...
+}
+```
+
+Note that only those properties that could be extracted from the original message will be used to populate the header fields of the error message, implementations should ensure that the error message header information is complete before sending.

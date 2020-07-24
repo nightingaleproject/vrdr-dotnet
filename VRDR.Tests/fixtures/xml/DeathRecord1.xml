@@ -246,7 +246,11 @@
         <birthDate value="1940-02-19" />
         <address>
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator">
-            <valueBoolean value="false" />
+            <valueCoding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="N" />
+              <display value="No" />
+            </valueCoding>
           </extension>
           <line value="101 Example Street" />
           <line value="Line 2" />

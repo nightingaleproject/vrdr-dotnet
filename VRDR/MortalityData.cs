@@ -1258,7 +1258,7 @@ namespace VRDR
             { "Louisiana", "LA" },
             { "Maine", "ME" },
             { "Maryland", "MD" },
-            { "Massachusetts", "MA" },
+            { "MA", "MA" },
             { "Michigan", "MI" },
             { "Minnesota", "MN" },
             { "Mississippi", "MS" },

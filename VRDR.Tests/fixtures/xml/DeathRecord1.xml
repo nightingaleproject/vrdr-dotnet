@@ -206,7 +206,7 @@
             <valueString value="White, Native Hawaiian or Other Pacific Islander, Native Hawaiian" />
           </extension>
         </extension>
-        <extension url="http://hl7.org/fhir/StructureDefinition/birthPlace">
+        <extension url="http://hl7.org/fhir/StructureDefinition/patient-birthPlace">
           <valueAddress>
             <line value="1011 Example Street" />
             <line value="Line 2" />

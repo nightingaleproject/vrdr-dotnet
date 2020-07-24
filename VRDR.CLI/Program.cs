@@ -406,7 +406,7 @@ namespace VRDR.CLI
                 dtladdress.Add("addressLine2", "Line 2");
                 dtladdress.Add("addressCity", "Bedford");
                 dtladdress.Add("addressCounty", "Middlesex");
-                dtladdress.Add("addressState", "Massachusetts");
+                dtladdress.Add("addressState", "MA");
                 dtladdress.Add("addressZip", "01730");
                 dtladdress.Add("addressCountry", "United States");
                 deathRecord.DeathLocationAddress = dtladdress;
@@ -416,6 +416,13 @@ namespace VRDR.CLI
 
                 // DeathLocationDescription
                 deathRecord.DeathLocationDescription = "Example Death Location Description";
+
+                // DeathLocationType
+                Dictionary<string, string> deathLocationCode = new Dictionary<string, string>();
+                deathLocationCode.Add("code", "16983000");
+                deathLocationCode.Add("system", "http://snomed.info/sct");
+                deathLocationCode.Add("display", "Death in hospital");
+                deathRecord.DeathLocationType = deathLocationCode;
 
                 // DateOfDeath
                 deathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";

@@ -1688,6 +1688,24 @@
             <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DeathLocationType">
+            <summary>Type of Death Location</summary>
+            <value>type of death location. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "16983000");</para>
+            <para>code.Add("system", "http://snomed.info/sct");</para>
+            <para>code.Add("display", "Death in hospital");</para>
+            <para>ExampleDeathRecord.DeathLocationType = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
             <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:

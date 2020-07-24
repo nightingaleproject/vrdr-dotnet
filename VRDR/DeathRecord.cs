@@ -5476,6 +5476,58 @@ namespace VRDR
             }
         }
 
+        /// <summary>Type of Death Location</summary>
+        /// <value>type of death location. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "16983000");</para>
+        /// <para>code.Add("system", "http://snomed.info/sct");</para>
+        /// <para>code.Add("display", "Death in hospital");</para>
+        /// <para>ExampleDeathRecord.DeathLocationType = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
+        /// </example>
+        [Property("Death Location Type", Property.Types.Dictionary, "Death Investigation", "Type of Death Location.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathLocation.html", false, 33)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        public Dictionary<string, string> DeathLocationType
+        {
+            get
+            {
+                if (DeathLocationLoc != null && DeathLocationLoc.Type != null && DeathLocationLoc.Type.Count > 0)
+                {
+                    return CodeableConceptToDict(DeathLocationLoc.Type.First());
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    DeathLocationLoc = new Location();
+                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
+                    DeathLocationLoc.Meta = new Meta();
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
+                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                }
+                else
+                {
+                    DeathLocationLoc.Type.Clear();
+                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                }
+            }
+        }
+
         /// <summary>Age At Death.</summary>
         /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
         /// <para>"value" - the quantity value</para>

@@ -55,7 +55,7 @@ namespace VRDR.CLI
                 address.Add("addressLine2", "Line 2");
                 address.Add("addressCity", "Bedford");
                 address.Add("addressCounty", "Middlesex");
-                address.Add("addressState", "Massachusetts");
+                address.Add("addressState", "MA");
                 address.Add("addressZip", "01730");
                 address.Add("addressCountry", "United States");
                 deathRecord.InterestedPartyAddress = address;
@@ -89,7 +89,7 @@ namespace VRDR.CLI
                 caddress.Add("addressLine2", "Line 2");
                 caddress.Add("addressCity", "Bedford");
                 caddress.Add("addressCounty", "Middlesex");
-                caddress.Add("addressState", "Massachusetts");
+                caddress.Add("addressState", "MA");
                 caddress.Add("addressZip", "01730");
                 caddress.Add("addressCountry", "United States");
                 deathRecord.CertifierAddress = caddress;
@@ -178,7 +178,7 @@ namespace VRDR.CLI
                 raddress.Add("addressLine2", "Line 2");
                 raddress.Add("addressCity", "Bedford");
                 raddress.Add("addressCounty", "Middlesex");
-                raddress.Add("addressState", "Massachusetts");
+                raddress.Add("addressState", "MA");
                 raddress.Add("addressZip", "01730");
                 raddress.Add("addressCountry", "United States");
                 deathRecord.Residence = raddress;
@@ -203,7 +203,7 @@ namespace VRDR.CLI
                 pobaddress.Add("addressLine2", "Line 2");
                 pobaddress.Add("addressCity", "Bedford");
                 pobaddress.Add("addressCounty", "Middlesex");
-                pobaddress.Add("addressState", "Massachusetts");
+                pobaddress.Add("addressState", "MA");
                 pobaddress.Add("addressZip", "01730");
                 pobaddress.Add("addressCountry", "United States");
                 deathRecord.PlaceOfBirth = pobaddress;
@@ -297,7 +297,7 @@ namespace VRDR.CLI
                 fdaddress.Add("addressLine2", "Line 2");
                 fdaddress.Add("addressCity", "Bedford");
                 fdaddress.Add("addressCounty", "Middlesex");
-                fdaddress.Add("addressState", "Massachusetts");
+                fdaddress.Add("addressState", "MA");
                 fdaddress.Add("addressZip", "01730");
                 fdaddress.Add("addressCountry", "United States");
                 deathRecord.FuneralHomeAddress = fdaddress;
@@ -311,7 +311,7 @@ namespace VRDR.CLI
                 dladdress.Add("addressLine2", "Line 2");
                 dladdress.Add("addressCity", "Bedford");
                 dladdress.Add("addressCounty", "Middlesex");
-                dladdress.Add("addressState", "Massachusetts");
+                dladdress.Add("addressState", "MA");
                 dladdress.Add("addressZip", "01730");
                 dladdress.Add("addressCountry", "United States");
                 deathRecord.DispositionLocationAddress = dladdress;
@@ -376,7 +376,7 @@ namespace VRDR.CLI
                 iladdress.Add("addressLine2", "Line 2");
                 iladdress.Add("addressCity", "Bedford");
                 iladdress.Add("addressCounty", "Middlesex");
-                iladdress.Add("addressState", "Massachusetts");
+                iladdress.Add("addressState", "MA");
                 iladdress.Add("addressZip", "01730");
                 iladdress.Add("addressCountry", "United States");
                 deathRecord.InjuryLocationAddress = iladdress;

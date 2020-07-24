@@ -211,7 +211,7 @@
             <line value="Line 2" />
             <city value="Bedford" />
             <district value="Middlesex" />
-            <state value="Massachusetts" />
+            <state value="MA" />
             <postalCode value="01730" />
             <country value="United States" />
           </valueAddress>
@@ -241,7 +241,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -275,7 +275,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -378,7 +378,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -405,7 +405,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -484,7 +484,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -1061,7 +1061,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>
@@ -1106,7 +1106,7 @@
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="Massachusetts" />
+          <state value="MA" />
           <postalCode value="01730" />
           <country value="United States" />
         </address>

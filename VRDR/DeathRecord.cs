@@ -695,7 +695,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Line 2");</para>
         /// <para>address.Add("addressCity", "Bedford");</para>
         /// <para>address.Add("addressCounty", "Middlesex");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
@@ -952,7 +952,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
@@ -3302,7 +3302,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>SetterDeathRecord.Residence = address;</para>
@@ -3639,7 +3639,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>SetterDeathRecord.PlaceOfBirth = address;</para>
@@ -4857,7 +4857,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.FuneralHomeAddress = address;</para>
@@ -4965,7 +4965,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.DispositionLocationAddress = address;</para>
@@ -5348,7 +5348,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
@@ -5715,7 +5715,7 @@ namespace VRDR
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "Massachusetts");</para>
+        /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "United States");</para>
         /// <para>ExampleDeathRecord.InjuryLocationAddress = address;</para>

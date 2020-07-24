@@ -878,7 +878,7 @@ brs.Add("code", "MA");
 
 brs.Add("system", "urn:iso:std:iso:3166:-2");
 
-brs.Add("display", "Massachusetts");
+brs.Add("display", "MA");
 
 ExampleDeathRecord.BirthRecordState = brs;
 
@@ -1460,7 +1460,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -1663,7 +1663,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -1761,7 +1761,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -1954,7 +1954,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -2292,7 +2292,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -2390,7 +2390,7 @@ address.Add("addressCity", "Bedford");
 
 address.Add("addressCounty", "Middlesex");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -2697,7 +2697,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
@@ -2797,7 +2797,7 @@ address.Add("addressCity", "Boston");
 
 address.Add("addressCounty", "Suffolk");
 
-address.Add("addressState", "Massachusetts");
+address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 

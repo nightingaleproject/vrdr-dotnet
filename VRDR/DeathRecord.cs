@@ -3654,12 +3654,12 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/birthPlace')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/patient-birthPlace')", "")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace" );
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -3673,9 +3673,9 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/birthPlace");
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace");
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/birthPlace";
+                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
             }

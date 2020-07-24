@@ -3367,9 +3367,10 @@ namespace VRDR
                 if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
                 {
                     Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(FhirBoolean))
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
                     {
-                        return ((FhirBoolean)cityLimits.Value).Value;
+                        Coding coding = (Coding)cityLimits.Value;
+                        return coding.Code == "Y";
                     }
                 }
                 return null;
@@ -3383,10 +3384,10 @@ namespace VRDR
                         Decedent.Address.Add(new Address());
                     }
                     Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    Extension birthsex = new Extension();
-                    birthsex.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
-                    birthsex.Value = new FhirBoolean(value);
-                    Decedent.Address.FirstOrDefault().Extension.Add(birthsex);
+                    Extension withinCityLimits = new Extension();
+                    withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
+                    withinCityLimits.Value = new Coding("http://terminology.hl7.org/CodeSystem/v2-0136", value==true ? "Y" : "N", value==true ? "Yes" : "No");
+                    Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
         }

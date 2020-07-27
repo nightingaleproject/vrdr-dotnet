@@ -358,7 +358,7 @@ namespace VRDR.CLI
                 // TransportationRole
                 Dictionary<string, string> tr = new Dictionary<string, string>();
                 tr.Add("code", "257500003");
-                tr.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");
+                tr.Add("system", "http://snomed.info/sct");
                 tr.Add("display", "Passenger");
                 deathRecord.TransportationRole = tr;
 

@@ -3313,17 +3313,17 @@ namespace VRDR
                     {
                         case "DR":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "236320001");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "urn:oid:2.16.840.1.114222.4.11.6005");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Vehicle driver");
                             break;
                         case "PA":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257500003");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "urn:oid:2.16.840.1.114222.4.11.6005");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Passenger");
                             break;
                         case "PE":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257518000");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "urn:oid:2.16.840.1.114222.4.11.6005");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Pedestrian");
                             break;
                     }

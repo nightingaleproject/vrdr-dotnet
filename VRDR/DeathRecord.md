@@ -2953,7 +2953,7 @@ Dictionary<string, string> code = new Dictionary<string, string>();
 
 code.Add("code", "257500003");
 
-code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");
+code.Add("system", "http://snomed.info/sct");
 
 code.Add("display", "Passenger");
 

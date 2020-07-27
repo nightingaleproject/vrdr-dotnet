@@ -1717,11 +1717,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> tr = new Dictionary<string, string>();
             tr.Add("code", "257500003");
-            tr.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");
+            tr.Add("system", "http://snomed.info/sct");
             tr.Add("display", "Passenger");
             SetterDeathRecord.TransportationRole = tr;
             Assert.Equal("257500003", SetterDeathRecord.TransportationRole["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6005", SetterDeathRecord.TransportationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
         }
 
@@ -1729,10 +1729,10 @@ namespace VRDR.Tests
         public void Get_TransportationRole()
         {
             Assert.Equal("257500003", ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6005", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
             Assert.Equal("257500003", ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.6005", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
         }
 

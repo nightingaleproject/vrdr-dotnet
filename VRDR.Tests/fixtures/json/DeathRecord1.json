@@ -918,7 +918,7 @@
             {
               "system": "http://loinc.org",
               "code": "80913-7",
-              "display": "Highest level of education"
+              "display": "Highest level of education [US Standard Certificate of Death]"
             }
           ]
         },

@@ -4167,7 +4167,7 @@ namespace VRDR
                     string[] educationlevel_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
                     DecedentEducationLevel.Meta.Profile = educationlevel_profile;
                     DecedentEducationLevel.Status = ObservationStatus.Final;
-                    DecedentEducationLevel.Code = new CodeableConcept("http://loinc.org", "80913-7", "Highest level of education", null);
+                    DecedentEducationLevel.Code = new CodeableConcept("http://loinc.org", "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
                     DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DecedentEducationLevel.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(DecedentEducationLevel.Id);

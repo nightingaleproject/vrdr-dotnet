@@ -742,7 +742,7 @@
           <coding>
             <system value="http://loinc.org" />
             <code value="80913-7" />
-            <display value="Highest level of education" />
+            <display value="Highest level of education [US Standard Certificate of Death]" />
           </coding>
         </code>
         <subject>

@@ -590,7 +590,7 @@
                             "code": {"coding": [{
                                 "system": "http://loinc.org",
                                 "code": "80913-7",
-                                "display": "Highest level of education"
+                                "display": "Highest level of education [US Standard Certificate of Death]"
                             }]},
                             "subject": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
                             "valueCodeableConcept": {"coding": [{

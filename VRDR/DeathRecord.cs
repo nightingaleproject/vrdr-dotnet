@@ -100,8 +100,8 @@ namespace VRDR
         /// <summary>Birth Record Identifier.</summary>
         private Observation BirthRecordIdentifier;
 
-        /// <summary>Employment History.</summary>
-        private Observation EmploymentHistory;
+        /// <summary>Usual Work.</summary>
+        private Observation UsualWork;
 
         /// <summary>The Funeral Home.</summary>
         private Organization FuneralHome;
@@ -4380,48 +4380,37 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public Dictionary<string, string> UsualOccupationCode
         {
             get
             {
-                if (EmploymentHistory != null)
+                if (UsualWork != null && UsualWork.Value != null && UsualWork.Value as CodeableConcept != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)component.Value);
-                    }
-                    return EmptyCodeDict();
+                    return CodeableConceptToDict((CodeableConcept)UsualWork.Value);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if (EmploymentHistory == null)
+                if (UsualWork == null)
                 {
-                    EmploymentHistory = new Observation();
-                    EmploymentHistory.Id = Guid.NewGuid().ToString();
-                    EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
-                    EmploymentHistory.Status = ObservationStatus.Final;
-                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
-                    component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
-                    AddReferenceToComposition(EmploymentHistory.Id);
-                    Bundle.AddResourceEntry(EmploymentHistory, "urn:uuid:" + EmploymentHistory.Id);
+                    UsualWork = new Observation();
+                    UsualWork.Id = Guid.NewGuid().ToString();
+                    UsualWork.Meta = new Meta();
+                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
+                    UsualWork.Meta.Profile = usualwork_profile;
+                    UsualWork.Status = ObservationStatus.Final;
+                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Effective = new Period();
+                    UsualWork.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(UsualWork.Id);
+                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
-                    component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
+                    UsualWork.Value = DictToCodeableConcept(value);
                 }
             }
         }
@@ -4435,51 +4424,111 @@ namespace VRDR
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
         /// </example>
         [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 25)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupation
         {
             get
             {
-                if (EmploymentHistory != null)
+                return UsualOccupationCode["display"];
+            }
+            set
+            {
+                var uocc = new Dictionary<string, string>();
+                uocc["display"] = value;
+                UsualOccupationCode = uocc;
+            }
+        }
+
+        /// <summary>Start Date of Usual Occupation.</summary>
+        /// <value>the date usual occupation started</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.UsualOccupationStart = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Start of Usual Occupation: {ExampleDeathRecord.UsualOccupationStart}");</para>
+        /// </example>
+        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
+        public string UsualOccupationStart
+        {
+            get
+            {
+                if (UsualWork != null && UsualWork.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).Start != null) 
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
-                    if (component != null && component.Value != null && component.Value as FhirString != null)
-                    {
-                        return Convert.ToString(component.Value);
-                    }
+                    return Convert.ToString(((Period)UsualWork.Effective).Start);
                 }
                 return null;
             }
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (UsualWork == null)
                 {
-                    return;
+                    UsualWork = new Observation();
+                    UsualWork.Id = Guid.NewGuid().ToString();
+                    UsualWork.Meta = new Meta();
+                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
+                    UsualWork.Meta.Profile = usualwork_profile;
+                    UsualWork.Status = ObservationStatus.Final;
+                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Effective = new Period(new FhirDateTime(value), null);
+                    AddReferenceToComposition(UsualWork.Id);
+                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
-                if (EmploymentHistory == null)
+                else if (UsualWork.Effective as Period != null)
                 {
-                    EmploymentHistory = new Observation();
-                    EmploymentHistory.Id = Guid.NewGuid().ToString();
-                    EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
-                    EmploymentHistory.Status = ObservationStatus.Final;
-                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
-                    component.Value = new FhirString(value);
-                    EmploymentHistory.Component.Add(component);
-                    AddReferenceToComposition(EmploymentHistory.Id);
-                    Bundle.AddResourceEntry(EmploymentHistory, "urn:uuid:" + EmploymentHistory.Id);
+                    ((Period)UsualWork.Effective).Start = value;
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21847-9" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21847-9", "Usual occupation", null);
-                    component.Value = new FhirString(value);
-                    EmploymentHistory.Component.Add(component);
+                    UsualWork.Effective = new Period(new FhirDateTime(value), null);
+                }
+            }
+        }
+
+        /// <summary>End Date of Usual Occupation.</summary>
+        /// <value>the date usual occupation ended</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.UsualOccupationEnd = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"End of Usual Occupation: {ExampleDeathRecord.UsualOccupationEnd}");</para>
+        /// </example>
+        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
+        public string UsualOccupationEnd
+        {
+            get
+            {
+                if (UsualWork != null && UsualWork.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).End != null) 
+                {
+                    return Convert.ToString(((Period)UsualWork.Effective).End);
+                }
+                return null;
+            }
+            set
+            {
+                if (UsualWork == null)
+                {
+                    UsualWork = new Observation();
+                    UsualWork.Id = Guid.NewGuid().ToString();
+                    UsualWork.Meta = new Meta();
+                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
+                    UsualWork.Meta.Profile = usualwork_profile;
+                    UsualWork.Status = ObservationStatus.Final;
+                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Effective = new Period(null, new FhirDateTime(value));
+                    AddReferenceToComposition(UsualWork.Id);
+                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                }
+                else if (UsualWork.Effective as Period != null)
+                {
+                    ((Period)UsualWork.Effective).End = value;
+                }
+                else
+                {
+                    UsualWork.Effective = new Period(null, new FhirDateTime(value));
                 }
             }
         }
@@ -4504,14 +4553,14 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public Dictionary<string, string> UsualIndustryCode
         {
             get
             {
-                if (EmploymentHistory != null)
+                if (UsualWork != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
                     if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4522,30 +4571,31 @@ namespace VRDR
             }
             set
             {
-                if (EmploymentHistory == null)
+                if (UsualWork == null)
                 {
-                    EmploymentHistory = new Observation();
-                    EmploymentHistory.Id = Guid.NewGuid().ToString();
-                    EmploymentHistory.Meta = new Meta();
+                    UsualWork = new Observation();
+                    UsualWork.Id = Guid.NewGuid().ToString();
+                    UsualWork.Meta = new Meta();
                     string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
-                    EmploymentHistory.Status = ObservationStatus.Final;
-                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Meta.Profile = employmenthistory_profile;
+                    UsualWork.Status = ObservationStatus.Final;
+                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Effective = new Period();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
-                    AddReferenceToComposition(EmploymentHistory.Id);
-                    Bundle.AddResourceEntry(EmploymentHistory, "urn:uuid:" + EmploymentHistory.Id);
+                    UsualWork.Component.Add(component);
+                    AddReferenceToComposition(UsualWork.Id);
+                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
+                    UsualWork.Component.Add(component);
                 }
             }
         }
@@ -4559,52 +4609,18 @@ namespace VRDR
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
         /// </example>
         [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", true, 26)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualIndustry
         {
             get
             {
-                if (EmploymentHistory != null)
-                {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
-                    if (component != null && component.Value != null && component.Value as FhirString != null)
-                    {
-                        return Convert.ToString(component.Value);
-                    }
-                }
-                return null;
+                return UsualIndustryCode["display"];
             }
             set
             {
-                if (String.IsNullOrEmpty(value))
-                {
-                    return;
-                }
-                if (EmploymentHistory == null)
-                {
-                    EmploymentHistory = new Observation();
-                    EmploymentHistory.Id = Guid.NewGuid().ToString();
-                    EmploymentHistory.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
-                    EmploymentHistory.Status = ObservationStatus.Final;
-                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
-                    component.Value = new FhirString(value);
-                    EmploymentHistory.Component.Add(component);
-                    AddReferenceToComposition(EmploymentHistory.Id);
-                    Bundle.AddResourceEntry(EmploymentHistory, "urn:uuid:" + EmploymentHistory.Id);
-                }
-                else
-                {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "Usual industry", null);
-                    component.Value = new FhirString(value);
-                    EmploymentHistory.Component.Add(component);
-                }
+                var uicc = new Dictionary<string, string>();
+                uicc["display"] = value;
+                UsualIndustryCode = uicc;
             }
         }
 
@@ -4633,9 +4649,9 @@ namespace VRDR
         {
             get
             {
-                if (EmploymentHistory != null)
+                if (UsualWork != null)
                 {
-                    Observation.ComponentComponent component = EmploymentHistory.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
                     if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
@@ -4646,30 +4662,30 @@ namespace VRDR
             }
             set
             {
-                if (EmploymentHistory == null)
+                if (UsualWork == null)
                 {
-                    EmploymentHistory = new Observation();
-                    EmploymentHistory.Id = Guid.NewGuid().ToString();
-                    EmploymentHistory.Meta = new Meta();
+                    UsualWork = new Observation();
+                    UsualWork.Id = Guid.NewGuid().ToString();
+                    UsualWork.Meta = new Meta();
                     string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    EmploymentHistory.Meta.Profile = employmenthistory_profile;
-                    EmploymentHistory.Status = ObservationStatus.Final;
-                    EmploymentHistory.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    EmploymentHistory.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    UsualWork.Meta.Profile = employmenthistory_profile;
+                    UsualWork.Status = ObservationStatus.Final;
+                    UsualWork.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
+                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
                     component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
-                    AddReferenceToComposition(EmploymentHistory.Id);
-                    Bundle.AddResourceEntry(EmploymentHistory, "urn:uuid:" + EmploymentHistory.Id);
+                    UsualWork.Component.Add(component);
+                    AddReferenceToComposition(UsualWork.Id);
+                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
                 else
                 {
-                    EmploymentHistory.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
+                    UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
                     component.Value = DictToCodeableConcept(value);
-                    EmploymentHistory.Component.Add(component);
+                    UsualWork.Component.Add(component);
                 }
             }
         }
@@ -6437,10 +6453,10 @@ namespace VRDR
             }
 
             // Grab Employment History
-            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74165-2" );
+            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "21843-8" );
             if (employmentHistory != null)
             {
-                EmploymentHistory = (Observation)employmentHistory.Resource;
+                UsualWork = (Observation)employmentHistory.Resource;
             }
 
             // Grab Disposition Location

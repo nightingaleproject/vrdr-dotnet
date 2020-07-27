@@ -620,46 +620,71 @@
                         "resource": {
                             "resourceType": "Observation",
                             "id": "fee9f666-7099-4259-9a6c-25cf57f75654",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"]},
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
+                              ]
+                            },
                             "status": "final",
-                            "code": {"coding": [{
-                                "system": "http://loinc.org",
-                                "code": "74165-2",
-                                "display": "History of employment status"
-                            }]},
-                            "subject": {"reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"},
-                            "component": [
+                            "code": {
+                              "coding": [
                                 {
-                                    "code": {"coding": [{
-                                        "system": "http://loinc.org",
-                                        "code": "21847-9",
-                                        "display": "Usual occupation"
-                                    }]},
-                                    "valueString": "secretary"
-                                },
-                                {
-                                    "code": {"coding": [{
-                                        "system": "http://loinc.org",
-                                        "code": "21844-6",
-                                        "display": "Usual industry"
-                                    }]},
-                                    "valueString": "State agency"
-                                },
-                                {
-                                    "code": {"coding": [{
-                                        "system": "http://loinc.org",
-                                        "code": "55280-2",
-                                        "display": "Military service"
-                                    }]},
-                                    "valueCodeableConcept": {"coding": [{
-                                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-                                        "code": "Y",
-                                        "display": "Yes"
-                                    }]}
+                                  "system": "http://loinc.org",
+                                  "code": "21843-8",
+                                  "display": "History of usual occupation"
                                 }
+                              ]
+                            },
+                            "effectivePeriod" : {
+                                "start" : "1965-01-01",
+                                "end" : "2010-01-01"
+                            },
+                            "valueCodeableConcept": {
+                              "coding": [
+                                {
+                                  "display": "secretary"
+                                }
+                              ]
+                            },
+                            "subject": {
+                              "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
+                            },
+                            "component": [
+                              {
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "http://loinc.org",
+                                      "code": "21844-6",
+                                      "display": "Usual industry"
+                                    }
+                                  ]
+                                },
+                                "valueString": "State agency"
+                              },
+                              {
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "http://loinc.org",
+                                      "code": "55280-2",
+                                      "display": "Military service"
+                                    }
+                                  ]
+                                },
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                                      "code": "Y",
+                                      "display": "Yes"
+                                    }
+                                  ]
+                                }
+                              }
                             ]
-                        }
-                    },
+                          }
+                                        },
                     {
                         "fullUrl": "urn:uuid:fc9de024-0fae-4bda-bfbb-04c08c083a43",
                         "resource": {

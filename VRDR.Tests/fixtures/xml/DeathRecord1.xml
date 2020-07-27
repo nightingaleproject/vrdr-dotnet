@@ -811,29 +811,28 @@
       <Observation>
         <id value="54266078-489a-4133-a4e2-633269806304" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" />
         </meta>
         <status value="final" />
         <code>
           <coding>
             <system value="http://loinc.org" />
-            <code value="74165-2" />
-            <display value="History of employment status" />
+            <code value="21843-8" />
+            <display value="History of usual occupation" />
           </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <component>
-          <code>
-            <coding>
-              <system value="http://loinc.org" />
-              <code value="21847-9" />
-              <display value="Usual occupation" />
-            </coding>
-          </code>
-          <valueString value="secretary" />
-        </component>
+        <effectivePeriod>
+          <start value="1965-01-01" />
+          <end value="2010-01-01" />
+        </effectivePeriod>
+        <valueCodeableConcept>
+          <coding>
+            <display value="secretary" />
+          </coding>
+        </valueCodeableConcept>
         <component>
           <code>
             <coding>
@@ -842,7 +841,11 @@
               <display value="Usual industry" />
             </coding>
           </code>
-          <valueString value="State agency" />
+          <valueCodeableConcept>
+            <coding>
+              <display value="State agency" />
+            </coding>
+          </valueCodeableConcept>
         </component>
         <component>
           <code>

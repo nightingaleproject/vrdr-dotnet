@@ -995,7 +995,7 @@
         "id": "fee9f666-7099-4259-9a6c-25cf57f75654",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
           ]
         },
         "status": "final",
@@ -1003,8 +1003,19 @@
           "coding": [
             {
               "system": "http://loinc.org",
-              "code": "74165-2",
-              "display": "History of employment status"
+              "code": "21843-8",
+              "display": "History of usual occupation"
+            }
+          ]
+        },
+        "effectivePeriod" : {
+          "start" : "1965-01-01",
+          "end" : "2010-01-01"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "display": "secretary"
             }
           ]
         },
@@ -1012,18 +1023,6 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "21847-9",
-                  "display": "Usual occupation"
-                }
-              ]
-            },
-            "valueString": "secretary"
-          },
           {
             "code": {
               "coding": [

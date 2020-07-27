@@ -1881,7 +1881,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "257500003");</para>
-            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.11.6005");</para>
+            <para>code.Add("system", "http://snomed.info/sct");</para>
             <para>code.Add("display", "Passenger");</para>
             <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>

@@ -842,7 +842,7 @@
                                         "display": "Transportation role of decedent"
                                     }]},
                                     "valueCodeableConcept": {"coding": [{
-                                        "system": "urn:oid:2.16.840.1.114222.4.11.6005",
+                                        "system": "http://snomed.info/sct",
                                         "code": "257500003",
                                         "display": "Passenger"
                                     }]}

@@ -781,7 +781,7 @@
                             }]},
                             "subject": {"reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"},
                             "valueCodeableConcept": {"coding": [{
-                                "system": "urn:oid:2.16.840.1.114222.4.11.6005",
+                                "system": "http://snomed.info/sct",
                                 "code": "257500003",
                                 "display": "Passenger"
                             }]}

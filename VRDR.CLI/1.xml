@@ -1033,7 +1033,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.114222.4.11.6005" />
+            <system value="http://snomed.info/sct" />
             <code value="257500003" />
             <display value="Passenger" />
           </coding>

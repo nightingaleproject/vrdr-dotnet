@@ -273,6 +273,9 @@
         <member name="F:VRDR.DeathRecord.UsualWork">
             <summary>Usual Work.</summary>
         </member>
+        <member name="F:VRDR.DeathRecord.MilitaryServiceObs">
+            <summary>Whether the decedent served in the military</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.FuneralHome">
             <summary>The Funeral Home.</summary>
         </member>

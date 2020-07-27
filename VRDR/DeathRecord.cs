@@ -103,6 +103,9 @@ namespace VRDR
         /// <summary>Usual Work.</summary>
         private Observation UsualWork;
 
+        /// <summary>Whether the decedent served in the military</summary>
+        private Observation MilitaryServiceObs;
+
         /// <summary>The Funeral Home.</summary>
         private Organization FuneralHome;
 
@@ -4640,52 +4643,40 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
         /// </example>
-        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, "http://hl7.org/fhir/us/vrdr/2019May/DecedentEmploymentHistory.html", false, 100)]
+        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service", false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74165-2')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
         public Dictionary<string, string> MilitaryService
         {
             get
             {
-                if (UsualWork != null)
+                if (MilitaryServiceObs != null && MilitaryServiceObs.Value != null && MilitaryServiceObs.Value as CodeableConcept != null)
                 {
-                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)component.Value);
-                    }
-                    return EmptyCodeDict();
+                    return CodeableConceptToDict((CodeableConcept)MilitaryServiceObs.Value);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if (UsualWork == null)
+                if (MilitaryServiceObs == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    UsualWork.Meta.Profile = employmenthistory_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept("http://loinc.org", "74165-2", "History of employment status", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                    MilitaryServiceObs = new Observation();
+                    MilitaryServiceObs.Id = Guid.NewGuid().ToString();
+                    MilitaryServiceObs.Meta = new Meta();
+                    string[] militaryhistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" };
+                    MilitaryServiceObs.Meta.Profile = militaryhistory_profile;
+                    MilitaryServiceObs.Status = ObservationStatus.Final;
+                    MilitaryServiceObs.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
+                    MilitaryServiceObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    MilitaryServiceObs.Value = DictToCodeableConcept(value);
+                    AddReferenceToComposition(MilitaryServiceObs.Id);
+                    Bundle.AddResourceEntry(MilitaryServiceObs, "urn:uuid:" + MilitaryServiceObs.Id);
                 }
                 else
                 {
-                    UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "55280-2" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
+                    MilitaryServiceObs.Value = DictToCodeableConcept(value);
                 }
             }
         }
@@ -6457,6 +6448,13 @@ namespace VRDR
             if (employmentHistory != null)
             {
                 UsualWork = (Observation)employmentHistory.Resource;
+            }
+
+            // Grab Employment History
+            var militaryServiceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "55280-2" );
+            if (militaryServiceEntry != null)
+            {
+                MilitaryServiceObs = (Observation)militaryServiceEntry.Resource;
             }
 
             // Grab Disposition Location

@@ -1318,7 +1318,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", "UNK");
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Unknown");
                             break;
                     }
@@ -1417,12 +1417,12 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
                             break;
                         case "O":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
                             break;
                     }
@@ -1559,7 +1559,7 @@ namespace VRDR
                             break;
                         case "9":
                             Dictionary_Set("DEDUC", "EducationLevel", "code", "UNK");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("DEDUC", "EducationLevel", "display", "Unknown");
                             break;
                     }
@@ -2576,7 +2576,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
                             break;
                     }
@@ -2620,7 +2620,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
                             break;
                     }
@@ -2664,7 +2664,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "Unknown");
                             break;
                     }
@@ -2729,7 +2729,7 @@ namespace VRDR
                             break;
                         case "8":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Not applicable");
                             break;
                     }
@@ -2855,7 +2855,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Unknown");
                             break;
                     }
@@ -2981,7 +2981,7 @@ namespace VRDR
                             break;
                         case "U":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://hl7.org/fhir/v3/NullFlavor");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "Unknown");
                             break;
                     }

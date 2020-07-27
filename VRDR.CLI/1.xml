@@ -1004,7 +1004,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://hl7.org/fhir/v3/NullFlavor" />
+            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
             <code value="NA" />
             <display value="not applicable" />
           </coding>

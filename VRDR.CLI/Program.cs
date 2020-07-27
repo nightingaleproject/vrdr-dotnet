@@ -351,7 +351,7 @@ namespace VRDR.CLI
                 // PregnancyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "NA");
-                ps.Add("system", "http://hl7.org/fhir/v3/NullFlavor");
+                ps.Add("system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                 ps.Add("display", "not applicable");
                 deathRecord.PregnancyStatus = ps;
 

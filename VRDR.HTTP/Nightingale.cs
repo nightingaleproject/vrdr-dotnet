@@ -504,7 +504,7 @@ namespace VRDR.HTTP
                 case "unknown":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "UNK");
-                    mar.Add("system", "http://hl7.org/fhir/v3/NullFlavor");
+                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
                     mar.Add("display", "unknown");
                     deathRecord.MaritalStatus = mar;
                     break;

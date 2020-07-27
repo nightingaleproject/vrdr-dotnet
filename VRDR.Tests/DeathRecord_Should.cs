@@ -1691,10 +1691,10 @@ namespace VRDR.Tests
         public void Get_PregnancyStatus()
         {
             Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
             Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
             Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal("http://hl7.org/fhir/v3/NullFlavor", ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
             Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
         }
 

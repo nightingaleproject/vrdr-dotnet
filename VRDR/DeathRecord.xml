@@ -270,8 +270,8 @@
         <member name="F:VRDR.DeathRecord.BirthRecordIdentifier">
             <summary>Birth Record Identifier.</summary>
         </member>
-        <member name="F:VRDR.DeathRecord.EmploymentHistory">
-            <summary>Employment History.</summary>
+        <member name="F:VRDR.DeathRecord.UsualWork">
+            <summary>Usual Work.</summary>
         </member>
         <member name="F:VRDR.DeathRecord.FuneralHome">
             <summary>The Funeral Home.</summary>
@@ -1398,6 +1398,26 @@
             <para>ExampleDeathRecord.UsualOccupation = "Biomedical engineering";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.UsualOccupationStart">
+            <summary>Start Date of Usual Occupation.</summary>
+            <value>the date usual occupation started</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualOccupationStart = "2018-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Start of Usual Occupation: {ExampleDeathRecord.UsualOccupationStart}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.UsualOccupationEnd">
+            <summary>End Date of Usual Occupation.</summary>
+            <value>the date usual occupation ended</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.UsualOccupationEnd = "2018-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"End of Usual Occupation: {ExampleDeathRecord.UsualOccupationEnd}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.UsualIndustryCode">

@@ -847,22 +847,35 @@
             </coding>
           </valueCodeableConcept>
         </component>
-        <component>
-          <code>
-            <coding>
-              <system value="http://loinc.org" />
-              <code value="55280-2" />
-              <display value="Military service" />
-            </coding>
-          </code>
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
-              <code value="Y" />
-              <display value="Yes" />
-            </coding>
-          </valueCodeableConcept>
-        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:1de659ac-56be-48de-a87b-1e272aa4fa24" />
+    <resource>
+      <Observation>
+        <id value="1de659ac-56be-48de-a87b-1e272aa4fa24" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="55280-2" />
+            <display value="Military service" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:ea843519-754a-483f-9847-5527010d4165" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <code value="Y" />
+            <display value="Yes" />
+          </coding>
+        </valueCodeableConcept>
       </Observation>
     </resource>
   </entry>

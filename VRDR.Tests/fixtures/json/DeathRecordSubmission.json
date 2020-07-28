@@ -847,12 +847,12 @@
                         "resource": {
                             "resourceType": "Observation",
                             "id": "14ed4a99-8841-4cc6-8bac-f382afb93ab4",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident"]},
                             "status": "final",
                             "code": {"coding": [{
                                 "system": "http://loinc.org",
                                 "code": "11374-6",
-                                "display": "Injury incident description"
+                                "display": "Injury incident description Narrative"
                             }]},
                             "subject": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
                             "effectiveDateTime": "2018-02-19T16:48:06-05:00",

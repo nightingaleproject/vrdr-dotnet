@@ -1074,14 +1074,14 @@
       <Observation>
         <id value="urn:uuid:7d04e7d7-d0df-4959-b7da-3c9ef45b0723" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" />
         </meta>
         <status value="final" />
         <code>
           <coding>
             <system value="http://loinc.org" />
             <code value="11374-6" />
-            <display value="Injury incident description" />
+            <display value="Injury incident description Narrative" />
           </coding>
         </code>
         <subject>

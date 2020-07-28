@@ -1262,7 +1262,7 @@
         "id": "urn:uuid:cb7f60b2-a18d-4cc6-8d45-3e8388178956",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident"
           ]
         },
         "status": "final",
@@ -1271,7 +1271,7 @@
             {
               "system": "http://loinc.org",
               "code": "11374-6",
-              "display": "Injury incident description"
+              "display": "Injury incident description Narrative"
             }
           ]
         },

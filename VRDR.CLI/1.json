@@ -670,8 +670,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
               "code": "7878000",
-              "display": "Accident"
+              "display": "Accidental death"
             }
           ]
         }

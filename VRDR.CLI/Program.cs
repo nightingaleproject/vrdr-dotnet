@@ -70,7 +70,8 @@ namespace VRDR.CLI
                 // MannerOfDeathType
                 Dictionary<string, string> mannerOfDeathType = new Dictionary<string, string>();
                 mannerOfDeathType.Add("code", "7878000");
-                mannerOfDeathType.Add("display", "Accident");
+                mannerOfDeathType.Add("system", "http://snomed.info/sct");
+                mannerOfDeathType.Add("display", "Accidental death");
                 deathRecord.MannerOfDeathType = mannerOfDeathType;
 
                 // CertifierGivenNames

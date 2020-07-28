@@ -533,8 +533,9 @@
         </performer>
         <valueCodeableConcept>
           <coding>
+            <system value="http://snomed.info/sct" />
             <code value="7878000" />
-            <display value="Accident" />
+            <display value="Accidental death" />
           </coding>
         </valueCodeableConcept>
       </Observation>

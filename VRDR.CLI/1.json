@@ -566,7 +566,13 @@
         },
         "organization": {
           "reference": "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa"
-        }
+        },
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "000-000-0000"
+          }
+        ]
       }
     },
     {

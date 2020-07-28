@@ -1549,6 +1549,16 @@
             <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.FuneralDirectorPhone">
+            <summary>Funeral Director Phone.</summary>
+            <value>the funeral director phone number.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.DispositionLocationAddress">
             <summary>Disposition Location Address.</summary>
             <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:

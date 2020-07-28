@@ -308,6 +308,9 @@ namespace VRDR.CLI
                 // FuneralHomeName
                 deathRecord.FuneralHomeName = "Smith Funeral Home";
 
+                // FuneralDirectorPhone
+                deathRecord.FuneralDirectorPhone = "000-000-0000";
+
                 // DispositionLocationAddress
                 Dictionary<string, string> dladdress = new Dictionary<string, string>();
                 dladdress.Add("addressLine1", "603 Example Street");

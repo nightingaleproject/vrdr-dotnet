@@ -444,6 +444,10 @@
         <organization>
           <reference value="urn:uuid:b2b3e7ce-5abc-4f22-a76f-d6e39dc8991c" />
         </organization>
+        <telecom>
+          <system value="phone" />
+          <value value="000-000-0000" />
+        </telecom>
       </PractitionerRole>
     </resource>
   </entry>

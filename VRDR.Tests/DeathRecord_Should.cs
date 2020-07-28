@@ -1533,6 +1533,20 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_FuneralDirectorPhone()
+        {
+            SetterDeathRecord.FuneralDirectorPhone = "000-000-0000";
+            Assert.Equal("000-000-0000", SetterDeathRecord.FuneralDirectorPhone);
+        }
+
+        [Fact]
+        public void Get_FuneralDirectorPhone()
+        {
+            Assert.Equal("000-000-0000", ((DeathRecord)JSONRecords[0]).FuneralDirectorPhone);
+            Assert.Equal("000-000-0000", ((DeathRecord)XMLRecords[0]).FuneralDirectorPhone);
+        }
+
+        [Fact]
         public void Set_DispositionLocationAddress()
         {
             Dictionary<string, string> dladdress = new Dictionary<string, string>();

@@ -4955,6 +4955,58 @@ namespace VRDR
             }
         }
 
+        /// <summary>Funeral Director Phone.</summary>
+        /// <value>the funeral director phone number.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
+        /// </example>
+        [Property("Funeral Director Phone", Property.Types.String, "Decedent Disposition", "Funeral Director Phone.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee", false, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is PractitionerRole)", "telecom")]
+        public string FuneralDirectorPhone
+        {
+            get
+            {
+                string value = null;
+                if (FuneralHomeDirector != null)
+                {
+                    ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+                    if (cp != null)
+                    {
+                        value = cp.Value;
+                    }
+                }
+                return value;
+            }
+            set
+            {
+                if (FuneralHomeDirector == null)
+                {
+                    FuneralHomeDirector = new PractitionerRole();
+                    FuneralHomeDirector.Id = Guid.NewGuid().ToString();
+                    FuneralHomeDirector.Meta = new Meta();
+                    string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+                    FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
+                    AddReferenceToComposition(FuneralHomeDirector.Id);
+                    Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
+                }
+                ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+                if (cp != null)
+                {
+                    cp.Value = value;
+                }
+                else
+                {
+                    cp = new ContactPoint();
+                    cp.System = ContactPoint.ContactPointSystem.Phone;
+                    cp.Value = value;
+                    FuneralHomeDirector.Telecom.Add(cp);
+                }
+            }
+        }
+
         /// <summary>Disposition Location Address.</summary>
         /// <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>

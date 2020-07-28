@@ -1870,6 +1870,24 @@
             <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWork['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.TransportationEvent">
+            <summary>Transportation Event?</summary>
+            <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "N");</para>
+            <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>code.Add("display", "No");</para>
+            <para>ExampleDeathRecord.TransportationEvent = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.TransportationRole">
             <summary>Transportation Role in death.</summary>
             <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:

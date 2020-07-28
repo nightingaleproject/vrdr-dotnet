@@ -6074,6 +6074,80 @@ namespace VRDR
             }
         }
 
+        /// <summary>Transportation Event?</summary>
+        /// <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "N");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("display", "No");</para>
+        /// <para>ExampleDeathRecord.TransportationEvent = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
+        /// </example>
+        [Property("Transportation Event?", Property.Types.Dictionary, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 63)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public Dictionary<string, string> TransportationEvent
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
+                {
+                    // Find correct component
+                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
+                    if (transportComp != null && transportComp.Value != null && transportComp.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)transportComp.Value);
+                    }
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    InjuryIncidentObs = new Observation();
+                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
+                    InjuryIncidentObs.Meta = new Meta();
+                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident" };
+                    InjuryIncidentObs.Meta.Profile = iio_profile;
+                    InjuryIncidentObs.Status = ObservationStatus.Final;
+                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description", null);
+                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept("http://loinc.org", "69448-9", "Injury leading to death associated with transportation event", null);
+                    component.Value = DictToCodeableConcept(value);
+                    InjuryIncidentObs.Component.Add(component);
+                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
+                }
+                else
+                {
+                    // Find correct component; if doesn't exist add another
+                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
+                    if (transportComp != null)
+                    {
+                        ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
+                    }
+                    else
+                    {
+                        Observation.ComponentComponent component = new Observation.ComponentComponent();
+                        component.Code = new CodeableConcept("http://loinc.org", "69448-9", "Injury leading to death associated with transportation event", null);
+                        component.Value = DictToCodeableConcept(value);
+                        InjuryIncidentObs.Component.Add(component);
+                    }
+                }
+            }
+        }
+
         /// <summary>Transportation Role in death.</summary>
         /// <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>

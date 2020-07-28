@@ -399,6 +399,13 @@ namespace VRDR.CLI
                 codeIW.Add("display", "No");
                 deathRecord.InjuryAtWork = codeIW;
 
+                // TransportationInjury
+                Dictionary<string, string> codeTI = new Dictionary<string, string>();
+                codeTI.Add("code", "Y");
+                codeTI.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                codeTI.Add("display", "Yes");
+                deathRecord.TransportationEvent = codeTI;
+
                 // InjuryPlace
                 deathRecord.InjuryPlace = "home";
 

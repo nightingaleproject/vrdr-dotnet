@@ -30,6 +30,10 @@
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
         <date value="2019-02-01T16:47:04-05:00" />
+        <author>
+          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
+        </author>
+        <title value="Death Certificate" />
         <attester>
           <mode value="legal" />
           <time value="2019-01-29T16:48:06-05:00" />
@@ -41,8 +45,8 @@
           <code>
             <coding>
               <system value="http://snomed.info/sct" />
-              <code value="308646001" />
-              <display value="Death certification (procedure)" />
+              <code value="103693007" />
+              <display value="Diagnostic procedure (procedure)" />
             </coding>
           </code>
           <detail>

@@ -1295,7 +1295,7 @@
             {
               "system": "http://loinc.org",
               "code": "74497-9",
-              "display": "Medical examiner or coroner was contacted"
+              "display": "Medical examiner or coroner was contacted [US Standard Certificate of Death]"
             }
           ]
         },

@@ -1228,14 +1228,22 @@
             {
               "system": "http://loinc.org",
               "code": "74497-9",
-              "display": "Medical examiner or coroner was contacted"
+              "display": "Medical examiner or coroner was contacted [US Standard Certificate of Death]"
             }
           ]
         },
         "subject": {
           "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
         },
-        "valueBoolean": false
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "code": "N",
+              "display": "No"
+            }          
+          ]
+        }
       }
     },
     {

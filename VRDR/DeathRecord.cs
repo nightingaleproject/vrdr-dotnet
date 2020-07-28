@@ -780,7 +780,7 @@ namespace VRDR
         /// <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
         /// <para>manner.Add("code", "7878000");</para>
         /// <para>manner.Add("system", "");</para>
-        /// <para>manner.Add("display", "Accident");</para>
+        /// <para>manner.Add("display", "Accidental death");</para>
         /// <para>ExampleDeathRecord.MannerOfDeathType = manner;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
@@ -5676,14 +5676,21 @@ namespace VRDR
         {
             get
             {
-                if (ExaminerContactedObs != null && ExaminerContactedObs.Value != null)
+                if (ExaminerContactedObs != null && ExaminerContactedObs.Value != null && ExaminerContactedObs.Value as CodeableConcept != null)
                 {
-                    return ((FhirBoolean)ExaminerContactedObs.Value).Value == true;
+                    CodeableConcept cc = (CodeableConcept)ExaminerContactedObs.Value;
+                    Coding coding = cc.Coding.FirstOrDefault();
+                    if (coding == null)
+                    {
+                        return null;
+                    }
+                    return coding.Code == "Y";
                 }
                 return null;
             }
             set
             {
+                var contactedCoding = new Coding("http://terminology.hl7.org/CodeSystem/v2-0136", value==true ? "Y" : "N", value==true ? "Yes" : "No");
                 if (ExaminerContactedObs == null)
                 {
                     ExaminerContactedObs = new Observation();
@@ -5692,15 +5699,19 @@ namespace VRDR
                     string[] ec_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
                     ExaminerContactedObs.Meta.Profile = ec_profile;
                     ExaminerContactedObs.Status = ObservationStatus.Final;
-                    ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted", null);
+                    ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    ExaminerContactedObs.Value = new FhirBoolean(value);
+                    CodeableConcept cc = new CodeableConcept();
+                    cc.Coding.Add(contactedCoding);
+                    ExaminerContactedObs.Value = cc;
                     AddReferenceToComposition(ExaminerContactedObs.Id);
                     Bundle.AddResourceEntry(ExaminerContactedObs, "urn:uuid:" + ExaminerContactedObs.Id);
                 }
                 else
                 {
-                    ExaminerContactedObs.Value = new FhirBoolean(value);
+                    CodeableConcept cc = new CodeableConcept();
+                    cc.Coding.Add(contactedCoding);
+                    ExaminerContactedObs.Value = cc;
                 }
             }
         }

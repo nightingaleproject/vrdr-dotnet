@@ -1059,13 +1059,19 @@
           <coding>
             <system value="http://loinc.org" />
             <code value="74497-9" />
-            <display value="Medical examiner or coroner was contacted" />
+            <display value="Medical examiner or coroner was contacted [US Standard Certificate of Death]" />
           </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <valueBoolean value="false" />
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <code value="N" />
+            <display value="No" />
+          </coding>
+        </valueCodeableConcept>
       </Observation>
     </resource>
   </entry>

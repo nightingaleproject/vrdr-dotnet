@@ -1883,6 +1883,30 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_TransportationEvent()
+        {
+            Dictionary<string, string> ite = new Dictionary<string, string>();
+            ite.Add("code", "Y");
+            ite.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            ite.Add("display", "Yes");
+            SetterDeathRecord.TransportationEvent = ite;
+            Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
+        }
+
+        [Fact]
+        public void Get_TransportationEvent()
+        {
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
+        }
+
+        [Fact]
         public void Set_DeathLocationAddress()
         {
             Dictionary<string, string> dtladdress = new Dictionary<string, string>();

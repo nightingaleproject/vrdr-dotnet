@@ -1159,6 +1159,22 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
+              <code value="69448-9" />
+              <display value="Injury leading to death associated with transportation event" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="Y" />
+              <display value="Yes" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
               <code value="69450-5" />
               <display value="Place of injury Facility" />
             </coding>

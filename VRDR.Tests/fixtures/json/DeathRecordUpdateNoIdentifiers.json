@@ -883,12 +883,12 @@
                         "resource": {
                             "resourceType": "Observation",
                             "id": "38070a6e-d934-4a56-ac57-bbba133d6df0",
-                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident"]},
+                            "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident"]},
                             "status": "final",
                             "code": {"coding": [{
                                 "system": "http://loinc.org",
                                 "code": "11374-6",
-                                "display": "Injury incident description"
+                                "display": "Injury incident description Narrative"
                             }]},
                             "subject": {"reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"},
                             "effectiveDateTime": "2018-02-19T16:48:06-05:00",

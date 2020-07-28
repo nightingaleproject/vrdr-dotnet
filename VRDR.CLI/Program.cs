@@ -386,6 +386,9 @@ namespace VRDR.CLI
                 // InjuryLocationName
                 deathRecord.InjuryLocationName = "Example Injury Location Name";
 
+                // InjuryDescription
+                deathRecord.InjuryDescription = "Example Injury Description";
+
                 // InjuryLocationDescription
                 deathRecord.InjuryLocationDescription = "Example Injury Location Description";
 

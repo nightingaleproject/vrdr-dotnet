@@ -48,8 +48,8 @@
                 "coding": [
                   {
                     "system": "http://snomed.info/sct",
-                    "code": "308646001",
-                    "display": "Death certification (procedure)"
+                    "code": "103693007",
+                    "display": "Diagnostic procedure (procedure)"
                   }
                 ]
               }

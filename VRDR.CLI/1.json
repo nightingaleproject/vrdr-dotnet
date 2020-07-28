@@ -38,6 +38,12 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "date": "2019-02-01T16:47:04-05:00",
+        "author": [
+          {
+            "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
+          }
+        ],
+        "title": "Death Certificate",
         "attester": [
           {
             "mode": "legal",
@@ -54,8 +60,8 @@
                 "coding": [
                   {
                     "system": "http://snomed.info/sct",
-                    "code": "308646001",
-                    "display": "Death certification (procedure)"
+                    "code": "103693007",
+                    "display": "Diagnostic procedure (procedure)"
                   }
                 ]
               }

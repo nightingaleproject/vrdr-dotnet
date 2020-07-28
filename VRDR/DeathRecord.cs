@@ -236,11 +236,13 @@ namespace VRDR
             Composition.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
             Composition.Section.Add(new Composition.SectionComponent());
             Composition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Composition.Author.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
+            Composition.Title = "Death Certificate";
             Composition.Attester.Add(new Composition.AttesterComponent());
             Composition.Attester.First().Party = new ResourceReference("urn:uuid:" + Certifier.Id);
             Composition.Attester.First().ModeElement = new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal);
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
-            eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification (procedure)", null));
+            eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure (procedure)", null));
             eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);

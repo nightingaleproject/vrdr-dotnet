@@ -71,8 +71,8 @@
                             "event": [{
                                 "code": [{"coding": [{
                                     "system": "http://snomed.info/sct",
-                                    "code": "308646001",
-                                    "display": "Death certification (procedure)"
+                                    "code": "103693007",
+                                    "display": "Diagnostic procedure (procedure)"
                                 }]}],
                                 "detail": [{"reference": "urn:uuid:9a1a42cd-42d2-4b2c-bdc2-f5411a21d475"}]
                             }],

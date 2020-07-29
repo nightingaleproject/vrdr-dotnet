@@ -325,6 +325,10 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" />
         </meta>
+        <identifier>
+          <system value="http://hl7.org/fhir/sid/us-npi" />
+          <value value="9876543210" />
+        </identifier>
         <name>
           <use value="official" />
           <family value="Last" />
@@ -332,11 +336,6 @@
           <given value="Middle" />
           <suffix value="Jr." />
         </name>
-        <qualification>
-          <identifier>
-            <value value="9876543210" />
-          </identifier>
-        </qualification>
       </Practitioner>
     </resource>
   </entry>

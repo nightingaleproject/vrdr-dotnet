@@ -5247,7 +5247,7 @@ namespace VRDR
             {
                 if (DeathDateObs != null)
                 {
-                    return Convert.ToString(DeathDateObs.Effective);
+                    return Convert.ToString(DeathDateObs.Value);
                 }
                 return null;
             }
@@ -5261,16 +5261,16 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
+                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date+time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
-                    DeathDateObs.Effective = new FhirDateTime(value);
+                    DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
                     AddReferenceToComposition(DeathDateObs.Id);
                     Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
                 }
                 else
                 {
-                    DeathDateObs.Effective = new FhirDateTime(value);
+                    DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
                 }
             }
         }
@@ -5309,11 +5309,11 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date and time of death", null);
+                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date+time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                     AddReferenceToComposition(DeathDateObs.Id);
@@ -5323,7 +5323,7 @@ namespace VRDR
                 {
                     DeathDateObs.Component.Clear();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                 }

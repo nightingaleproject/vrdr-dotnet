@@ -1244,6 +1244,7 @@
         <performer>
           <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
         </performer>
+        <valueDateTime value="2018-02-19T16:48:06-05:00" />
         <component>
           <code>
             <coding>

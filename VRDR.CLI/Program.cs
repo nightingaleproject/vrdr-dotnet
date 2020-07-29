@@ -95,14 +95,19 @@ namespace VRDR.CLI
                 caddress.Add("addressCountry", "United States");
                 deathRecord.CertifierAddress = caddress;
 
+                Dictionary<string, string> certifierIdentifier = new Dictionary<string, string>();
+                certifierIdentifier.Add("system", "http://hl7.org/fhir/sid/us-npi");
+                certifierIdentifier.Add("value", "1234567890");
+                deathRecord.CertifierIdentifier = certifierIdentifier;
+
                 // CertifierLicenseNumber
                 deathRecord.CertifierLicenseNumber = "789123456";
 
                 // CertifierQualification
                 Dictionary<string, string> qualification = new Dictionary<string, string>();
-                qualification.Add("code", "3060");
-                qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
-                qualification.Add("display", "Physicians and surgeons");
+                qualification.Add("code", "434641000124105");
+                qualification.Add("system", "http://snomed.info/sct");
+                qualification.Add("display", "Physician certified and pronounced death certificate");
                 deathRecord.CertifierQualification = qualification;
 
                 // ContributingConditions

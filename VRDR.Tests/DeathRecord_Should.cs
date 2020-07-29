@@ -461,12 +461,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierQualification()
         {
-            Assert.Equal("3060", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physicians and surgeons", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
-            Assert.Equal("3060", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physicians and surgeons", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
+            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
+            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
+            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
         }
 
         [Fact]

@@ -282,6 +282,10 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" />
         </meta>
+        <identifier>
+          <system value="http://hl7.org/fhir/sid/us-npi" />
+          <value value="1234567890" />
+        </identifier>
         <name>
           <use value="official" />
           <family value="Last" />
@@ -304,9 +308,9 @@
           </identifier>
           <code>
             <coding>
-              <system value="urn:oid:2.16.840.1.114222.4.11.7186" />
-              <code value="3060" />
-              <display value="Physicians and surgeons" />
+              <system value="http://snomed.info/sct" />
+              <code value="434641000124105" />
+              <display value="Physician certified and pronounced death certificate" />
             </coding>
           </code>
         </qualification>

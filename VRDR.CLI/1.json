@@ -350,6 +350,12 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
           ]
         },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1234567890"
+          }
+        ],
         "name": [
           {
             "use": "official",
@@ -386,9 +392,9 @@
             "code": {
               "coding": [
                 {
-                  "system": "urn:oid:2.16.840.1.114222.4.11.7186",
-                  "code": "3060",
-                  "display": "Physicians and surgeons"
+                  "system": "http://snomed.info/sct",
+                  "code": "434641000124105",
+                  "display": "Physician certified and pronounced death certificate"
                 }
               ]
             }

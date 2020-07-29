@@ -1002,9 +1002,9 @@ namespace VRDR
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>qualification.Add("code", "3060");</para>
-        /// <para>qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
-        /// <para>qualification.Add("display", "Physicians and surgeons");</para>
+        /// <para>qualification.Add("code", "434641000124105");</para>
+        /// <para>qualification.Add("system", "http://snomed.info/sct");</para>
+        /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
         /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
@@ -1037,6 +1037,50 @@ namespace VRDR
                 {
                     Certifier.Qualification.First().Code = DictToCodeableConcept(value);
                 }
+            }
+        }
+
+        /// <summary>Certifier Identifier.</summary>
+        /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        /// <para>"system" - the identifier system, e.g. US NPI</para>
+        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        /// <para>identifier.Add("value", "1234567890");</para>
+        /// <para>ExampleDeathRecord.CertifierIdentifier = identifier;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
+        /// </example>
+        [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Certifier.html", false, 41)]
+        [PropertyParam("system", "The identifier system.")]
+        [PropertyParam("value", "The identifier value.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "identifier")]
+        public Dictionary<string, string> CertifierIdentifier
+        {
+            get
+            {
+                Identifier identifier = Certifier.Identifier.FirstOrDefault();
+                var result = new Dictionary<string, string>();
+                if (identifier != null)
+                {
+                    result["system"] = identifier.System;
+                    result["value"] = identifier.Value;
+                }
+                return result;
+            }
+            set
+            {
+                if (Certifier.Identifier.Count > 0)
+                {
+                    Certifier.Identifier.Clear();
+                }
+                Identifier identifier = new Identifier();
+                identifier.System = value["system"];
+                identifier.Value = value["value"];
+                Certifier.Identifier.Add(identifier);
             }
         }
 

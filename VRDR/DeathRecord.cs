@@ -225,6 +225,9 @@ namespace VRDR
             DispositionLocation.Meta = new Meta();
             string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+            DispositionLocation.PhysicalType = new CodeableConcept();
+            DispositionLocation.PhysicalType.Coding.Add(pt);
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
@@ -5065,6 +5068,9 @@ namespace VRDR
                     string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
                     DispositionLocation.Address = DictToAddress(value);
+                    Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+                    DispositionLocation.PhysicalType = new CodeableConcept();
+                    DispositionLocation.PhysicalType.Coding.Add(pt);
                 }
                 else
                 {
@@ -5102,6 +5108,9 @@ namespace VRDR
                     DispositionLocation.Meta = new Meta();
                     string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
+                    Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+                    DispositionLocation.PhysicalType = new CodeableConcept();
+                    DispositionLocation.PhysicalType.Coding.Add(pt);
                     DispositionLocation.Name = value;
                 }
                 else

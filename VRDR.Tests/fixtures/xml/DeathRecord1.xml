@@ -514,6 +514,13 @@
           <postalCode value="01730" />
           <country value="United States" />
         </address>
+        <physicalType>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/location-physical-type" />
+            <code value="si" />
+            <display value="Site" />
+          </coding>
+        </physicalType>
       </Location>
     </resource>
   </entry>

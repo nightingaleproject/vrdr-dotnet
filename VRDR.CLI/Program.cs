@@ -297,7 +297,10 @@ namespace VRDR.CLI
                 deathRecord.MorticianSuffix = "Jr.";
 
                 // MorticianIdentifier
-                deathRecord.MorticianIdentifier = "9876543210";
+                var mortId = new Dictionary<string, string>();
+                mortId["value"] = "9876543210";
+                mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                deathRecord.MorticianIdentifier = mortId;
 
                 // FuneralHomeAddress
                 Dictionary<string, string> fdaddress = new Dictionary<string, string>();

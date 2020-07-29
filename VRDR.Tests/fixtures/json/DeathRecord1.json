@@ -412,6 +412,12 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
           ]
         },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9876543210"
+          }
+        ],
         "name": [
           {
             "use": "official",
@@ -422,15 +428,6 @@
             ],
             "suffix": [
               "Jr."
-            ]
-          }
-        ],
-        "qualification": [
-          {
-            "identifier": [
-              {
-                "value": "9876543210"
-              }
             ]
           }
         ]

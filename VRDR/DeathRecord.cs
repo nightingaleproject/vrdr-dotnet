@@ -4853,47 +4853,46 @@ namespace VRDR
         }
 
         /// <summary>Mortician Identifier.</summary>
-        /// <value>the mortician's identifier</value>
+        /// <value>the mortician identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        /// <para>"system" - the identifier system, e.g. US NPI</para>
+        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MorticianIdentifier = "9876543210";</para>
+        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        /// <para>identifier.Add("value", "1234567890");</para>
+        /// <para>ExampleDeathRecord.MorticianIdentifier = identifier;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician Identifier: {ExampleDeathRecord.MorticianIdentifier}");</para>
+        /// <para>Console.WriteLine($"\tMortician Identifier: {ExampleDeathRecord.MorticianIdentifier['value']}");</para>
         /// </example>
-        [Property("Mortician Identifier", Property.Types.String, "Decedent Disposition", "Mortician Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
+        [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/Mortician.html", false, 100)]
+        [PropertyParam("system", "The identifier system.")]
+        [PropertyParam("value", "The identifier value.")]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
-        public string MorticianIdentifier
+        public Dictionary<string, string> MorticianIdentifier
         {
             get
             {
-                if (Mortician != null)
+                Identifier identifier = Mortician.Identifier.FirstOrDefault();
+                var result = new Dictionary<string, string>();
+                if (identifier != null)
                 {
-                    Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
-                    if (qualification != null && qualification.Identifier.Count() > 0)
-                    {
-                        return qualification.Identifier.First().Value;
-                    }
+                    result["system"] = identifier.System;
+                    result["value"] = identifier.Value;
                 }
-                return null;
+                return result;
             }
             set
             {
-                Practitioner.QualificationComponent qualification = Mortician.Qualification.FirstOrDefault();
-                if (qualification != null)
+                if (Mortician.Identifier.Count > 0)
                 {
-                    qualification.Identifier.Clear();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    qualification.Identifier.Add(identifier);
+                    Mortician.Identifier.Clear();
                 }
-                else
-                {
-                    qualification = new Practitioner.QualificationComponent();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    qualification.Identifier.Add(identifier);
-                    Mortician.Qualification.Add(qualification);
-                }
+                Identifier identifier = new Identifier();
+                identifier.System = value["system"];
+                identifier.Value = value["value"];
+                Mortician.Identifier.Add(identifier);
             }
         }
 

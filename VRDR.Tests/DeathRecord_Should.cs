@@ -1467,15 +1467,19 @@ namespace VRDR.Tests
         [Fact]
         public void Set_MorticianIdentifier()
         {
-            SetterDeathRecord.MorticianIdentifier = "9876543210";
-            Assert.Equal("9876543210", SetterDeathRecord.MorticianIdentifier);
+            var id = new Dictionary<string, string>();
+            id["system"] = "foo";
+            id["value"] = "9876543210";
+            SetterDeathRecord.MorticianIdentifier = id;
+            Assert.Equal("foo", SetterDeathRecord.MorticianIdentifier["system"]);
+            Assert.Equal("9876543210", SetterDeathRecord.MorticianIdentifier["value"]);
         }
 
         [Fact]
         public void Get_MorticianIdentifier()
         {
-            Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier);
-            Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier);
+            Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier["value"]);
+            Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier["value"]);
         }
 
         [Fact]

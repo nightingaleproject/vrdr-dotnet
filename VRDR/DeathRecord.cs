@@ -208,7 +208,8 @@ namespace VRDR
             FuneralHome.Meta = new Meta();
             string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
             FuneralHome.Meta.Profile = funeralhome_profile;
-            FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
+            FuneralHome.Active = true;
+            FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
 
             // FuneralHomeLicensee Points to Mortician and FuneralHome
             FuneralHomeDirector = new PractitionerRole();
@@ -4910,7 +4911,8 @@ namespace VRDR
                     FuneralHome.Meta = new Meta();
                     string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Active = true;
                     FuneralHome.Address.Add(DictToAddress(value));
                 }
                 else
@@ -4950,7 +4952,8 @@ namespace VRDR
                     FuneralHome.Meta = new Meta();
                     string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(null, "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Active = true;
                     FuneralHome.Name = value;
                 }
                 else

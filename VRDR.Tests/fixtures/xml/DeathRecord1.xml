@@ -415,8 +415,10 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" />
         </meta>
+        <active value="true" />
         <type>
           <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
             <code value="bus" />
             <display value="Non-Healthcare Business or Corporation" />
           </coding>

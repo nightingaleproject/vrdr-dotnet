@@ -1483,6 +1483,70 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_PronouncerGivenNames()
+        {
+            string[] fdnames = { "FD", "Middle" };
+            SetterDeathRecord.PronouncerGivenNames = fdnames;
+            Assert.Equal("FD", SetterDeathRecord.PronouncerGivenNames[0]);
+            Assert.Equal("Middle", SetterDeathRecord.PronouncerGivenNames[1]);
+        }
+
+        [Fact]
+        public void Get_PronouncerGivenNames()
+        {
+            Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[1]);
+            Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[1]);
+        }
+
+        [Fact]
+        public void Set_PronouncerFamilyName()
+        {
+            SetterDeathRecord.PronouncerFamilyName = "Last";
+            Assert.Equal("Last", SetterDeathRecord.PronouncerFamilyName);
+        }
+
+        [Fact]
+        public void Get_PronouncerFamilyName()
+        {
+            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).PronouncerFamilyName);
+            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).PronouncerFamilyName);
+        }
+
+        [Fact]
+        public void Set_PronouncerSuffix()
+        {
+            SetterDeathRecord.PronouncerSuffix = "Sr.";
+            Assert.Equal("Sr.", SetterDeathRecord.PronouncerSuffix);
+        }
+
+        [Fact]
+        public void Get_PronouncerSuffix()
+        {
+            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).PronouncerSuffix);
+            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).PronouncerSuffix);
+        }
+
+        [Fact]
+        public void Set_PronouncerIdentifier()
+        {
+            var id = new Dictionary<string, string>();
+            id["system"] = "foo";
+            id["value"] = "0000000000";
+            SetterDeathRecord.PronouncerIdentifier = id;
+            Assert.Equal("foo", SetterDeathRecord.PronouncerIdentifier["system"]);
+            Assert.Equal("0000000000", SetterDeathRecord.PronouncerIdentifier["value"]);
+        }
+
+        [Fact]
+        public void Get_PronouncerIdentifier()
+        {
+            Assert.Equal("0000000000", ((DeathRecord)JSONRecords[0]).PronouncerIdentifier["value"]);
+            Assert.Equal("0000000000", ((DeathRecord)XMLRecords[0]).PronouncerIdentifier["value"]);
+        }
+
+        [Fact]
         public void Set_FuneralHomeAddress()
         {
             Dictionary<string, string> fdaddress = new Dictionary<string, string>();

@@ -34,6 +34,9 @@ namespace VRDR
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
 
+        /// <summary>The Pronouncer of death.</summary>
+        private Practitioner Pronouncer;
+
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;
 
@@ -173,6 +176,13 @@ namespace VRDR
             string[] certifier_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
             Certifier.Meta.Profile = certifier_profile;
 
+            // Start with an empty pronouncer.
+            Pronouncer = new Practitioner();
+            Pronouncer.Id = Guid.NewGuid().ToString();
+            Pronouncer.Meta = new Meta();
+            string[] pronouncer_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer" };
+            Pronouncer.Meta.Profile = pronouncer_profile;
+
             // Start with an empty mortician.
             Mortician = new Practitioner();
             Mortician.Id = Guid.NewGuid().ToString();
@@ -265,6 +275,7 @@ namespace VRDR
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id);
             AddReferenceToComposition(Certifier.Id);
+            AddReferenceToComposition(Pronouncer.Id);
             AddReferenceToComposition(Mortician.Id);
             AddReferenceToComposition(DeathCertification.Id);
             AddReferenceToComposition(InterestedParty.Id);
@@ -274,6 +285,7 @@ namespace VRDR
             AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
+            Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
             Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
@@ -5286,6 +5298,165 @@ namespace VRDR
             }
         }
 
+        /// <summary>Given name(s) of Pronouncer.</summary>
+        /// <value>the Pronouncer's name (first, middle, etc.)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>string[] names = { "FD", "Middle" };</para>
+        /// <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+        /// </example>
+        [Property("Pronouncer Given Names", Property.Types.StringArr, "Death Investigation", "Given name(s) of Pronouncer.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer", false, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
+        public string[] PronouncerGivenNames
+        {
+            get
+            {
+                if (Pronouncer != null && Pronouncer.Name.Count() > 0)
+                {
+                    return Pronouncer.Name.First().Given.ToArray();
+                }
+                return new string[0];
+            }
+            set
+            {
+                HumanName name = Pronouncer.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null)
+                {
+                    name.Given = value;
+                }
+                else
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Given = value;
+                    Pronouncer.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Family name of Pronouncer.</summary>
+        /// <value>the Pronouncer's family name (i.e. last name)</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.PronouncerFamilyName = "Last";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Pronouncer's Last Name: {ExampleDeathRecord.PronouncerFamilyName}");</para>
+        /// </example>
+        [Property("Pronouncer Family Name", Property.Types.String, "Death Investigation", "Family name of Pronouncer.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer", false, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
+        public string PronouncerFamilyName
+        {
+            get
+            {
+                if (Pronouncer != null && Pronouncer.Name.Count() > 0)
+                {
+                    return Pronouncer.Name.First().Family;
+                }
+                return null;
+            }
+            set
+            {
+                HumanName name = Pronouncer.Name.FirstOrDefault();
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Family = value;
+                    Pronouncer.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Pronouncer's Suffix.</summary>
+        /// <value>the Pronouncer's suffix</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.PronouncerSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Pronouncer Suffix: {ExampleDeathRecord.PronouncerSuffix}");</para>
+        /// </example>
+        [Property("Pronouncer Suffix", Property.Types.String, "Death Investigation", "Pronouncer's Suffix.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer", false, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "suffix")]
+        public string PronouncerSuffix
+        {
+            get
+            {
+                if (Pronouncer != null && Pronouncer.Name.Count() > 0 && Pronouncer.Name.First().Suffix.Count() > 0)
+                {
+                    return Pronouncer.Name.First().Suffix.First();
+                }
+                return null;
+            }
+            set
+            {
+                HumanName name = Pronouncer.Name.FirstOrDefault();
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    string[] suffix = { value };
+                    name.Suffix = suffix;
+                    Pronouncer.Name.Add(name);
+                }
+            }
+        }
+
+        /// <summary>Pronouncer Identifier.</summary>
+        /// <value>the Pronouncer identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        /// <para>"system" - the identifier system, e.g. US NPI</para>
+        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        /// <para>identifier.Add("value", "1234567890");</para>
+        /// <para>ExampleDeathRecord.PronouncerIdentifier = identifier;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.PronouncerIdentifier['value']}");</para>
+        /// </example>
+        [Property("Pronouncer Identifier", Property.Types.Dictionary, "Death Investigation", "Pronouncer Identifier.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer", false, 100)]
+        [PropertyParam("system", "The identifier system.")]
+        [PropertyParam("value", "The identifier value.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "identifier")]
+        public Dictionary<string, string> PronouncerIdentifier
+        {
+            get
+            {
+                Identifier identifier = Pronouncer.Identifier.FirstOrDefault();
+                var result = new Dictionary<string, string>();
+                if (identifier != null)
+                {
+                    result["system"] = identifier.System;
+                    result["value"] = identifier.Value;
+                }
+                return result;
+            }
+            set
+            {
+                if (Pronouncer.Identifier.Count > 0)
+                {
+                    Pronouncer.Identifier.Clear();
+                }
+                Identifier identifier = new Identifier();
+                identifier.System = value["system"];
+                identifier.Value = value["value"];
+                Pronouncer.Identifier.Add(identifier);
+            }
+        }
+
+
         /// <summary>Decedent's Date/Time of Death.</summary>
         /// <value>the decedent's date and time of death</value>
         /// <example>
@@ -5318,7 +5489,10 @@ namespace VRDR
                     DeathDateObs.Status = ObservationStatus.Final;
                     DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date+time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
+                    if (Pronouncer != null)
+                    {
+                        DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Pronouncer.Id));
+                    }
                     DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
                     AddReferenceToComposition(DeathDateObs.Id);
                     Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
@@ -6439,6 +6613,14 @@ namespace VRDR
             else
             {
                 throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
+            }
+
+            // Grab Pronouncer
+            // IMPROVEMENT: Move away from using meta profile to find this Practitioner.
+            var pronouncerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Pronouncement-Performer", entry.Resource.Meta.Profile.FirstOrDefault()));
+            if (pronouncerEntry != null)
+            {
+                Pronouncer = (Practitioner)pronouncerEntry.Resource;
             }
 
             // Grab Mortician

@@ -171,6 +171,9 @@
               },
               {
                 "reference": "urn:uuid:81899bd9-0441-45f0-9b89-9d91daa08983"
+              },
+              {
+                "reference": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d"
               }
             ]
           }
@@ -416,6 +419,37 @@
           {
             "system": "http://hl7.org/fhir/sid/us-npi",
             "value": "9876543210"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Last",
+            "given": [
+              "FD",
+              "Middle"
+            ],
+            "suffix": [
+              "Jr."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a9a45b6c-566c-4ad7-bce7-8c23751b669d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "0000000000"
           }
         ],
         "name": [

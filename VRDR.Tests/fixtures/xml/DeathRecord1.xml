@@ -150,6 +150,9 @@
           <entry>
             <reference value="urn:uuid:0de58d4e-6306-4bf9-8d8f-a53d465e0816" />
           </entry>
+          <entry>
+            <reference value="urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d" />
+          </entry>
         </section>
       </Composition>
     </resource>
@@ -328,6 +331,28 @@
         <identifier>
           <system value="http://hl7.org/fhir/sid/us-npi" />
           <value value="9876543210" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Last" />
+          <given value="FD" />
+          <given value="Middle" />
+          <suffix value="Jr." />
+        </name>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d" />
+    <resource>
+      <Practitioner>
+        <id value="a9a45b6c-566c-4ad7-bce7-8c23751b669d" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer" />
+        </meta>
+        <identifier>
+          <system value="http://hl7.org/fhir/sid/us-npi" />
+          <value value="0000000000" />
         </identifier>
         <name>
           <use value="official" />

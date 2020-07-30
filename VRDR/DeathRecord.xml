@@ -204,6 +204,9 @@
         <member name="F:VRDR.DeathRecord.Decedent">
             <summary>The Decedent.</summary>
         </member>
+        <member name="F:VRDR.DeathRecord.Pronouncer">
+            <summary>The Pronouncer of death.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.Certifier">
             <summary>The Certifier.</summary>
         </member>
@@ -1654,6 +1657,53 @@
             <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PronouncerGivenNames">
+            <summary>Given name(s) of Pronouncer.</summary>
+            <value>the Pronouncer's name (first, middle, etc.)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>string[] names = { "FD", "Middle" };</para>
+            <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PronouncerFamilyName">
+            <summary>Family name of Pronouncer.</summary>
+            <value>the Pronouncer's family name (i.e. last name)</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.PronouncerFamilyName = "Last";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Pronouncer's Last Name: {ExampleDeathRecord.PronouncerFamilyName}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PronouncerSuffix">
+            <summary>Pronouncer's Suffix.</summary>
+            <value>the Pronouncer's suffix</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.PronouncerSuffix = "Jr.";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Pronouncer Suffix: {ExampleDeathRecord.PronouncerSuffix}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PronouncerIdentifier">
+            <summary>Pronouncer Identifier.</summary>
+            <value>the Pronouncer identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+            <para>"system" - the identifier system, e.g. US NPI</para>
+            <para>"value" - the idetifier value, e.g. US NPI number</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+            <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+            <para>identifier.Add("value", "1234567890");</para>
+            <para>ExampleDeathRecord.PronouncerIdentifier = identifier;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.PronouncerIdentifier['value']}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DateOfDeath">

@@ -1153,12 +1153,29 @@
         </member>
         <member name="P:VRDR.DeathRecord.ResidenceWithinCityLimits">
             <summary>Decedent's residence is/is not within city limits.</summary>
-            <value>Decedent's residence is/is not within city limits.</value>
+            <value>Decedent's residence is/is not within city limits. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para></value>
             <example>
             <para>// Setter:</para>
-            <para>SetterDeathRecord.ResidenceWithinCityLimits = true;</para>
+            <para>Dictionary&lt;string, string&gt; within = new Dictionary&lt;string, string&gt;();</para>
+            <para>within.Add("code", "Y");</para>
+            <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>within.Add("display", "Yes");</para>
+            <para>SetterDeathRecord.ResidenceWithinCityLimits = within;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");</para>
+            <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ResidenceWithinCityLimitsBoolean">
+            <summary>Decedent's residence is/is not within city limits. This is a convenience method, to access the coded value use ResidenceWithinCityLimits.</summary>
+            <value>Decedent's residence is/is not within city limits. A null value means "not applicable".</value>
+            <example>
+            <para>// Setter:</para>
+            <para>SetterDeathRecord.ResidenceWithinCityLimitsBoolean = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.SSN">
@@ -2017,10 +2034,20 @@
         <member name="M:VRDR.DeathRecord.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.DictToCoding(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Convert a "code" dictionary to a FHIR Coding.</summary>
+            <param name="dict">represents a code.</param>
+            <returns>the corresponding Coding representation of the code.</returns>
+        </member>
         <member name="M:VRDR.DeathRecord.DictToCodeableConcept(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.CodingToDict(Hl7.Fhir.Model.Coding)">
+            <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
+            <param name="coding">a FHIR Coding.</param>
+            <returns>the corresponding Dictionary representation of the code.</returns>
         </member>
         <member name="M:VRDR.DeathRecord.CodeableConceptToDict(Hl7.Fhir.Model.CodeableConcept)">
             <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>

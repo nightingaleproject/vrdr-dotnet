@@ -1230,7 +1230,7 @@ namespace VRDR
         {
             get
             {
-                switch (record.ResidenceWithinCityLimits)
+                switch (record.ResidenceWithinCityLimitsBoolean)
                 {
                     case true: // Yes
                         return "Y";
@@ -1247,13 +1247,13 @@ namespace VRDR
                     switch (value)
                     {
                         case "Y":
-                            record.ResidenceWithinCityLimits = true;
+                            record.ResidenceWithinCityLimitsBoolean = true;
                             break;
                         case "N":
-                            record.ResidenceWithinCityLimits = false;
+                            record.ResidenceWithinCityLimitsBoolean = false;
                             break;
                         default:
-                            record.ResidenceWithinCityLimits = null;
+                            record.ResidenceWithinCityLimitsBoolean = null;
                             break;
                     }
                 }

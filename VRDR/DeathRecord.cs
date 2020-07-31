@@ -3395,17 +3395,17 @@ namespace VRDR
             }
             set
             {
-                if (ResidenceWithinCityLimits == false)
+                if (ResidenceWithinCityLimitsBoolean == false)
                 {
                     Decedent.Address.Clear();
                     Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimits = false;
+                    ResidenceWithinCityLimitsBoolean = false;
                 }
-                if (ResidenceWithinCityLimits == true)
+                if (ResidenceWithinCityLimitsBoolean == true)
                 {
                     Decedent.Address.Clear();
                     Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimits = true;
+                    ResidenceWithinCityLimitsBoolean = true;
                 }
                 else
                 {
@@ -3416,16 +3416,67 @@ namespace VRDR
         }
 
         /// <summary>Decedent's residence is/is not within city limits.</summary>
-        /// <value>Decedent's residence is/is not within city limits.</value>
+        /// <value>Decedent's residence is/is not within city limits. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para></value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>SetterDeathRecord.ResidenceWithinCityLimits = true;</para>
+        /// <para>Dictionary&lt;string, string&gt; within = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>within.Add("code", "Y");</para>
+        /// <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>within.Add("display", "Yes");</para>
+        /// <para>SetterDeathRecord.ResidenceWithinCityLimits = within;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits}");</para>
+        /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits['display']}");</para>
         /// </example>
-        [Property("Residence Within City Limits", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 23)]
+        [Property("Residence Within City Limits", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 23)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
-        public bool? ResidenceWithinCityLimits
+        public Dictionary<string, string> ResidenceWithinCityLimits
+        {
+            get
+            {
+                if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
+                {
+                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
+                    {
+                        return CodingToDict((Coding)cityLimits.Value);
+                    }
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (Decedent != null)
+                {
+                    if (Decedent.Address.FirstOrDefault() == null)
+                    {
+                        Decedent.Address.Add(new Address());
+                    }
+                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    Extension withinCityLimits = new Extension();
+                    withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
+                    withinCityLimits.Value = DictToCoding(value);
+                    Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
+                }
+            }
+        }
+
+        /// <summary>Decedent's residence is/is not within city limits. This is a convenience method, to access the coded value use ResidenceWithinCityLimits.</summary>
+        /// <value>Decedent's residence is/is not within city limits. A null value means "not applicable".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>SetterDeathRecord.ResidenceWithinCityLimitsBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
+        /// </example>
+        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 23)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
+        public bool? ResidenceWithinCityLimitsBoolean
         {
             get
             {
@@ -3435,7 +3486,15 @@ namespace VRDR
                     if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
                     {
                         Coding coding = (Coding)cityLimits.Value;
-                        return coding.Code == "Y";
+                        switch (coding.Code)
+                        {
+                            case "Y": // Yes
+                                return true;
+                            case "N": // No
+                                return false;
+                            default: // Unknown
+                                return null;
+                        }
                     }
                 }
                 return null;
@@ -3451,7 +3510,26 @@ namespace VRDR
                     Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
                     Extension withinCityLimits = new Extension();
                     withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
-                    withinCityLimits.Value = new Coding("http://terminology.hl7.org/CodeSystem/v2-0136", value==true ? "Y" : "N", value==true ? "Yes" : "No");
+                    string code, display, system;
+                    switch(value)
+                    {
+                        case true:
+                            code = "Y";
+                            display = "Yes";
+                            system = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                            break;
+                        case false:
+                            code = "N";
+                            display = "No";
+                            system = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                            break;
+                        default:
+                            code = "NA";
+                            display = "not applicable";
+                            system = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                            break;
+                    }
+                    withinCityLimits.Value = new Coding(system, code, display);
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
@@ -6907,12 +6985,11 @@ namespace VRDR
             }
         }
 
-        /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+        /// <summary>Convert a "code" dictionary to a FHIR Coding.</summary>
         /// <param name="dict">represents a code.</param>
-        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
-        private CodeableConcept DictToCodeableConcept(Dictionary<string, string> dict)
+        /// <returns>the corresponding Coding representation of the code.</returns>
+        private Coding DictToCoding(Dictionary<string, string> dict)
         {
-            CodeableConcept codeableConcept = new CodeableConcept();
             Coding coding = new Coding();
             if (dict != null)
             {
@@ -6929,8 +7006,42 @@ namespace VRDR
                     coding.Display = dict["display"];
                 }
             }
+            return coding;
+        }
+        
+        /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
+        /// <param name="dict">represents a code.</param>
+        /// <returns>the corresponding CodeableConcept representation of the code.</returns>
+        private CodeableConcept DictToCodeableConcept(Dictionary<string, string> dict)
+        {
+            CodeableConcept codeableConcept = new CodeableConcept();
+            Coding coding = DictToCoding(dict);
             codeableConcept.Coding.Add(coding);
             return codeableConcept;
+        }
+
+        /// <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
+        /// <param name="coding">a FHIR Coding.</param>
+        /// <returns>the corresponding Dictionary representation of the code.</returns>
+        private Dictionary<string, string> CodingToDict(Coding coding)
+        {
+            Dictionary<string, string> dictionary = EmptyCodeDict();
+            if (coding != null)
+            {
+                if (!String.IsNullOrEmpty(coding.Code))
+                {
+                    dictionary["code"] = coding.Code;
+                }
+                if (!String.IsNullOrEmpty(coding.System))
+                {
+                    dictionary["system"] = coding.System;
+                }
+                if (!String.IsNullOrEmpty(coding.Display))
+                {
+                    dictionary["display"] = coding.Display;
+                }
+            }
+            return dictionary;
         }
 
         /// <summary>Convert a FHIR CodableConcept to a "code" Dictionary</summary>
@@ -6938,47 +7049,15 @@ namespace VRDR
         /// <returns>the corresponding Dictionary representation of the code.</returns>
         private Dictionary<string, string> CodeableConceptToDict(CodeableConcept codeableConcept)
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
             if (codeableConcept != null && codeableConcept.Coding != null)
             {
                 Coding coding = codeableConcept.Coding.FirstOrDefault();
-                if (coding != null)
-                {
-                    if (!String.IsNullOrEmpty(coding.Code))
-                    {
-                        dictionary.Add("code", coding.Code);
-                    }
-                    else
-                    {
-                        dictionary.Add("code", "");
-                    }
-                    if (!String.IsNullOrEmpty(coding.System))
-                    {
-                        dictionary.Add("system", coding.System);
-                    }
-                    else
-                    {
-                        dictionary.Add("system", "");
-                    }
-                    if (!String.IsNullOrEmpty(coding.Display))
-                    {
-                        dictionary.Add("display", coding.Display);
-                    }
-                    else
-                    {
-                        dictionary.Add("display", "");
-                    }
-                }
-                else
-                {
-                    return EmptyCodeDict();
-                }
+                return CodingToDict(coding);
             }
             else
             {
                 return EmptyCodeDict();
             }
-            return dictionary;
         }
 
         /// <summary>Convert an "address" dictionary to a FHIR Address.</summary>

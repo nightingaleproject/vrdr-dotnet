@@ -6748,6 +6748,56 @@ namespace VRDR
             }
         }
 
+        /// <summary>Transportation Event Boolean?</summary>
+        /// <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TransportationEventBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
+        /// </example>
+        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 63)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public bool? TransportationEventBoolean
+        {
+            get
+            {
+                var code = this.TransportationEvent;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Unknow
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "UNK";
+                        code["display"] = "unknown";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.TransportationEvent = code;
+            }
+        }
+
         /// <summary>Transportation Role in death.</summary>
         /// <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>

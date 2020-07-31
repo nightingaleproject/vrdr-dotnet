@@ -2041,6 +2041,16 @@
             <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.TransportationEventBoolean">
+            <summary>Transportation Event Boolean?</summary>
+            <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.TransportationEventBoolean = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.TransportationRole">
             <summary>Transportation Role in death.</summary>
             <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:

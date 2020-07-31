@@ -27,15 +27,7 @@ namespace VRDR.HTTP
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
             SetYesNoValueDictionary(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath", record, "AutopsyResultsAvailable");
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
-
-            if (record.ExaminerContactedBoolean == true)
-            {
-                values["meOrCoronerContacted.meOrCoronerContacted"] = "Yes";
-            }
-            if (record.ExaminerContactedBoolean == false)
-            {
-                values["meOrCoronerContacted.meOrCoronerContacted"] = "No";
-            }
+            SetYesNoValueDictionary(values, "meOrCoronerContacted.meOrCoronerContacted", record, "ExaminerContacted");
 
             if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
             {
@@ -262,7 +254,7 @@ namespace VRDR.HTTP
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyPerformedIndicator", GetValue(values, "autopsyPerformed.autopsyPerformed"));
             SetYesNoValueDeathRecordCode(deathRecord, "AutopsyResultsAvailable", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
             SetYesNoValueDeathRecordCode(deathRecord, "TobaccoUse", GetValue(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath"));
-            SetYesNoValueDeathRecordBool(deathRecord, "ExaminerContacted", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
+            SetYesNoValueDeathRecordCode(deathRecord, "ExaminerContacted", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {

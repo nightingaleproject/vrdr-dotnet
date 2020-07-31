@@ -2049,6 +2049,17 @@ namespace VRDR.Tests
             Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.TransportationEvent["system"]);
             Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
+            Assert.True(SetterDeathRecord.TransportationEventBoolean);
+            SetterDeathRecord.TransportationEventBoolean = false;
+            Assert.Equal("N", SetterDeathRecord.TransportationEvent["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal("No", SetterDeathRecord.TransportationEvent["display"]);
+            Assert.False(SetterDeathRecord.TransportationEventBoolean);
+            SetterDeathRecord.TransportationEventBoolean = null;
+            Assert.Equal("UNK", SetterDeathRecord.TransportationEvent["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal("unknown", SetterDeathRecord.TransportationEvent["display"]);
+            Assert.Null(SetterDeathRecord.TransportationEventBoolean);
         }
 
         [Fact]
@@ -2057,9 +2068,11 @@ namespace VRDR.Tests
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
+            Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
+            Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
         }
 
         [Fact]

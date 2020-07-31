@@ -3242,13 +3242,13 @@ namespace VRDR
         {
             get
             {
-                return Get_YNU("ExaminerContacted");
+                return Get_YNU("ExaminerContactedBoolean");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Set_YNU("ExaminerContacted", value);
+                    Set_YNU("ExaminerContactedBoolean", value);
                 }
             }
         }

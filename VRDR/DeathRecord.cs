@@ -6157,31 +6157,33 @@ namespace VRDR
         /// <value>if a medical examiner was contacted.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+        /// <para>Dictionary&lt;string, string&gt; ec = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>within.Add("code", "Y");</para>
+        /// <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>within.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.ExaminerContacted = ec;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
         /// </example>
-        [Property("Examiner Contacted", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
+        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
-        public bool? ExaminerContacted
+        public Dictionary<string, string> ExaminerContacted
         {
             get
             {
                 if (ExaminerContactedObs != null && ExaminerContactedObs.Value != null && ExaminerContactedObs.Value as CodeableConcept != null)
                 {
                     CodeableConcept cc = (CodeableConcept)ExaminerContactedObs.Value;
-                    Coding coding = cc.Coding.FirstOrDefault();
-                    if (coding == null)
-                    {
-                        return null;
-                    }
-                    return coding.Code == "Y";
+                    return CodeableConceptToDict(cc);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
-                var contactedCoding = new Coding("http://terminology.hl7.org/CodeSystem/v2-0136", value==true ? "Y" : "N", value==true ? "Yes" : "No");
+                var contactedCoding = DictToCodeableConcept(value);
                 if (ExaminerContactedObs == null)
                 {
                     ExaminerContactedObs = new Observation();
@@ -6192,18 +6194,64 @@ namespace VRDR
                     ExaminerContactedObs.Status = ObservationStatus.Final;
                     ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CodeableConcept cc = new CodeableConcept();
-                    cc.Coding.Add(contactedCoding);
-                    ExaminerContactedObs.Value = cc;
+                    ExaminerContactedObs.Value = contactedCoding;
                     AddReferenceToComposition(ExaminerContactedObs.Id);
                     Bundle.AddResourceEntry(ExaminerContactedObs, "urn:uuid:" + ExaminerContactedObs.Id);
                 }
                 else
                 {
-                    CodeableConcept cc = new CodeableConcept();
-                    cc.Coding.Add(contactedCoding);
-                    ExaminerContactedObs.Value = cc;
+                    ExaminerContactedObs.Value = contactedCoding;
                 }
+            }
+        }
+
+        /// <summary>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
+        /// <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ExaminerContacted = false;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
+        /// </example>
+        [Property("Examiner Contacted Boolean", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://hl7.org/fhir/us/vrdr/2019May/ExaminerContacted.html", true, 60)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
+        public bool? ExaminerContactedBoolean
+        {
+            get
+            {
+                var code = this.ExaminerContacted;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Unknown
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "UNK";
+                        code["display"] = "unknown";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.ExaminerContacted = code;
             }
         }
 

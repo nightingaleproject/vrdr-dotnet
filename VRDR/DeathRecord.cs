@@ -3487,7 +3487,7 @@ namespace VRDR
                         return true;
                     case "N": // No
                         return false;
-                    default: // Unknown
+                    default: // Not applicable
                         return null;
                 }
             }
@@ -5406,6 +5406,56 @@ namespace VRDR
             }
         }
 
+        /// <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
+        /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutopsyPerformedIndicatorBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
+        /// </example>
+        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 80)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
+        public bool? AutopsyPerformedIndicatorBoolean
+        {
+            get
+            {
+                var code = this.AutopsyPerformedIndicator;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Not applicable
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "NA";
+                        code["display"] = "not applicable";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.AutopsyPerformedIndicator = code;
+            }
+        }
+
         /// <summary>Given name(s) of Pronouncer.</summary>
         /// <value>the Pronouncer's name (first, middle, etc.)</value>
         /// <example>
@@ -5726,6 +5776,56 @@ namespace VRDR
                     AutopsyPerformed.Component.Clear();
                     AutopsyPerformed.Component.Add(component);
                 }
+            }
+        }
+
+        /// <summary>Autopsy Results Available Boolean. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
+        /// <value>autopsy results available. A null value indicates "not applicable".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailableBoolean = false;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
+        /// </example>
+        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://hl7.org/fhir/us/vrdr/2019May/AutopsyPerformedIndicator.html", true, 81)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
+        public bool? AutopsyResultsAvailableBoolean
+        {
+            get
+            {
+                var code = this.AutopsyResultsAvailable;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Not applicable
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "NA";
+                        code["display"] = "not applicable";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.AutopsyResultsAvailable = code;
             }
         }
 

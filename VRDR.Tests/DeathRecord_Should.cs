@@ -1713,6 +1713,17 @@ namespace VRDR.Tests
             Assert.Equal("Y", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
+            Assert.True(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
+            SetterDeathRecord.AutopsyPerformedIndicatorBoolean = false;
+            Assert.Equal("N", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("No", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
+            Assert.False(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
+            SetterDeathRecord.AutopsyPerformedIndicatorBoolean = null;
+            Assert.Equal("NA", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("not applicable", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
+            Assert.Null(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
         }
 
         [Fact]
@@ -1721,9 +1732,11 @@ namespace VRDR.Tests
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
+            Assert.True(((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicatorBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
+            Assert.True(((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicatorBoolean);
         }
 
         [Fact]
@@ -1737,6 +1750,17 @@ namespace VRDR.Tests
             Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
+            Assert.True(SetterDeathRecord.AutopsyResultsAvailableBoolean);
+            SetterDeathRecord.AutopsyResultsAvailableBoolean = false;
+            Assert.Equal("N", SetterDeathRecord.AutopsyResultsAvailable["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal("No", SetterDeathRecord.AutopsyResultsAvailable["display"]);
+            Assert.False(SetterDeathRecord.AutopsyResultsAvailableBoolean);
+            SetterDeathRecord.AutopsyResultsAvailableBoolean = null;
+            Assert.Equal("NA", SetterDeathRecord.AutopsyResultsAvailable["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal("not applicable", SetterDeathRecord.AutopsyResultsAvailable["display"]);
+            Assert.Null(SetterDeathRecord.AutopsyResultsAvailableBoolean);
         }
 
         [Fact]
@@ -1745,9 +1769,11 @@ namespace VRDR.Tests
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
+            Assert.True(((DeathRecord)JSONRecords[0]).AutopsyResultsAvailableBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
+            Assert.True(((DeathRecord)XMLRecords[0]).AutopsyResultsAvailableBoolean);
         }
 
         [Fact]

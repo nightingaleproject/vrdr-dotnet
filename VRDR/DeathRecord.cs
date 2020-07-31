@@ -3480,58 +3480,39 @@ namespace VRDR
         {
             get
             {
-                if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
+                var code = this.ResidenceWithinCityLimits;
+                switch (code["code"])
                 {
-                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
-                    {
-                        Coding coding = (Coding)cityLimits.Value;
-                        switch (coding.Code)
-                        {
-                            case "Y": // Yes
-                                return true;
-                            case "N": // No
-                                return false;
-                            default: // Unknown
-                                return null;
-                        }
-                    }
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Unknown
+                        return null;
                 }
-                return null;
             }
             set
             {
-                if (Decedent != null)
+                var code = EmptyCodeDict();
+                switch(value)
                 {
-                    if (Decedent.Address.FirstOrDefault() == null)
-                    {
-                        Decedent.Address.Add(new Address());
-                    }
-                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    Extension withinCityLimits = new Extension();
-                    withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
-                    string code, display, system;
-                    switch(value)
-                    {
-                        case true:
-                            code = "Y";
-                            display = "Yes";
-                            system = "http://terminology.hl7.org/CodeSystem/v2-0136";
-                            break;
-                        case false:
-                            code = "N";
-                            display = "No";
-                            system = "http://terminology.hl7.org/CodeSystem/v2-0136";
-                            break;
-                        default:
-                            code = "NA";
-                            display = "not applicable";
-                            system = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
-                            break;
-                    }
-                    withinCityLimits.Value = new Coding(system, code, display);
-                    Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "NA";
+                        code["display"] = "not applicable";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
                 }
+                this.ResidenceWithinCityLimits = code;
             }
         }
 
@@ -4821,6 +4802,55 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Military Service. This is a helper method, to obtain the code use the MilitaryService property instead.</summary>
+        /// <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MilitaryServiceBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceBoolean}");</para>
+        /// </example>
+        [Property("Military Service Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's Military Service.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service", false, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
+        public bool? MilitaryServiceBoolean
+        {
+            get
+            {
+                var code = this.MilitaryService;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Unknown
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "UNK";
+                        code["display"] = "unknown";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.MilitaryService = code;
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //

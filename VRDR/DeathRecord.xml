@@ -2013,6 +2013,16 @@
             <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWork['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.InjuryAtWorkBoolean">
+            <summary>Injury At Work? This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
+            <value>did the injury occur at work? A null value indicates "not applicable".</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryAtWorkBoolean = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWorkBoolean}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.TransportationEvent">
             <summary>Transportation Event?</summary>
             <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:

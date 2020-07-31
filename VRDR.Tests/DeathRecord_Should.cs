@@ -2012,6 +2012,17 @@ namespace VRDR.Tests
             Assert.Equal("N", SetterDeathRecord.InjuryAtWork["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("No", SetterDeathRecord.InjuryAtWork["display"]);
+            Assert.False(SetterDeathRecord.InjuryAtWorkBoolean);
+            SetterDeathRecord.InjuryAtWorkBoolean = true;
+            Assert.Equal("Y", SetterDeathRecord.InjuryAtWork["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal("Yes", SetterDeathRecord.InjuryAtWork["display"]);
+            Assert.True(SetterDeathRecord.InjuryAtWorkBoolean);
+            SetterDeathRecord.InjuryAtWorkBoolean = null;
+            Assert.Equal("NA", SetterDeathRecord.InjuryAtWork["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal("not applicable", SetterDeathRecord.InjuryAtWork["display"]);
+            Assert.Null(SetterDeathRecord.InjuryAtWorkBoolean);
         }
 
         [Fact]
@@ -2020,9 +2031,11 @@ namespace VRDR.Tests
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
+            Assert.False(((DeathRecord)JSONRecords[0]).InjuryAtWorkBoolean);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
+            Assert.False(((DeathRecord)XMLRecords[0]).InjuryAtWorkBoolean);
         }
 
         [Fact]

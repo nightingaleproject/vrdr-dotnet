@@ -6624,6 +6624,56 @@ namespace VRDR
             }
         }
 
+        /// <summary>Injury At Work? This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
+        /// <value>did the injury occur at work? A null value indicates "not applicable".</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryAtWorkBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWorkBoolean}");</para>
+        /// </example>
+        [Property("Injury At Work?", Property.Types.Bool, "Death Investigation", "Did the injury occur at work?", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 63)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public bool? InjuryAtWorkBoolean
+        {
+            get
+            {
+                var code = this.InjuryAtWork;
+                switch (code["code"])
+                {
+                    case "Y": // Yes
+                        return true;
+                    case "N": // No
+                        return false;
+                    default: // Not applicable
+                        return null;
+                }
+            }
+            set
+            {
+                var code = EmptyCodeDict();
+                switch(value)
+                {
+                    case true:
+                        code["code"] = "Y";
+                        code["display"] = "Yes";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    case false:
+                        code["code"] = "N";
+                        code["display"] = "No";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        break;
+                    default:
+                        code["code"] = "NA";
+                        code["display"] = "not applicable";
+                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        break;
+                }
+                this.InjuryAtWork = code;
+            }
+        }
+
         /// <summary>Transportation Event?</summary>
         /// <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>

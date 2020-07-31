@@ -190,7 +190,7 @@ namespace VRDR.CLI
                 deathRecord.Residence = raddress;
 
                 // ResidenceWithinCityLimits
-                deathRecord.ResidenceWithinCityLimits = false;
+                deathRecord.ResidenceWithinCityLimitsBoolean = false;
 
                 // SSN
                 deathRecord.SSN = "123456789";

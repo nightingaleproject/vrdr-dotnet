@@ -6769,7 +6769,7 @@ namespace VRDR
                         return true;
                     case "N": // No
                         return false;
-                    default: // Unknow
+                    default: // Unknown
                         return null;
                 }
             }

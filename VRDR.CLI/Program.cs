@@ -598,7 +598,7 @@ namespace VRDR.CLI
                 List<PropertyInfo> properties = typeof(DeathRecord).GetProperties().ToList();
                 foreach(PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("Boolean"))
                     {
                         continue;
                     }
@@ -610,7 +610,7 @@ namespace VRDR.CLI
 
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name.Contains("CausesOfDeath"))
+                    if (property.Name.Contains("CausesOfDeath") || property.Name.Contains("Boolean"))
                     {
                         continue;
                     }

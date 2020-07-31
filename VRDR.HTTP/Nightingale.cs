@@ -28,11 +28,11 @@ namespace VRDR.HTTP
             SetYesNoValueDictionary(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath", record, "AutopsyResultsAvailable");
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
 
-            if (record.ExaminerContacted == true)
+            if (record.ExaminerContactedBoolean == true)
             {
                 values["meOrCoronerContacted.meOrCoronerContacted"] = "Yes";
             }
-            if (record.ExaminerContacted == false)
+            if (record.ExaminerContactedBoolean == false)
             {
                 values["meOrCoronerContacted.meOrCoronerContacted"] = "No";
             }

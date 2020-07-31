@@ -1412,6 +1412,7 @@ namespace VRDR.Tests
             Assert.Equal("Y", SetterDeathRecord.MilitaryService["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.MilitaryService["system"]);
             Assert.Equal("Yes", SetterDeathRecord.MilitaryService["display"]);
+            Assert.True(SetterDeathRecord.MilitaryServiceBoolean);
         }
 
         [Fact]
@@ -1420,9 +1421,11 @@ namespace VRDR.Tests
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
+            Assert.True(((DeathRecord)JSONRecords[0]).MilitaryServiceBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
             Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
+            Assert.True(((DeathRecord)XMLRecords[0]).MilitaryServiceBoolean);
         }
 
         [Fact]

@@ -1897,6 +1897,20 @@
             <value>if a medical examiner was contacted.</value>
             <example>
             <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; ec = new Dictionary&lt;string, string&gt;();</para>
+            <para>within.Add("code", "Y");</para>
+            <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+            <para>within.Add("display", "Yes");</para>
+            <para>ExampleDeathRecord.ExaminerContacted = ec;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.ExaminerContactedBoolean">
+            <summary>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
+            <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
+            <example>
+            <para>// Setter:</para>
             <para>ExampleDeathRecord.ExaminerContacted = false;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>

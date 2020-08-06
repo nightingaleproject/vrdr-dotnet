@@ -270,7 +270,7 @@ namespace VRDR
             CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
             CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
             CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
-            CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept(null, "priority", null, null);
+            CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id);

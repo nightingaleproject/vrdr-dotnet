@@ -500,7 +500,9 @@
         </source>
         <orderedBy>
           <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/list-order" />
             <code value="priority" />
+            <display value="Sorted by Priority" />
           </coding>
         </orderedBy>
         <entry>

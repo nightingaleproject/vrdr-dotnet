@@ -1,13 +1,11 @@
 ## Change Log
 
-### v3.1.0-preview11 - 2020-07-21
+### v3.1.0-preview10 - 2020-08-12
 
 * Improve error handling during message parsing.
 * Add `MessageParseException` class.
-
-### v3.1.0-preview10 - 2020-06-09
-
 * Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
+* Updated `DeathRecord` class to match latest VRDR IG changes.
 
 ### v3.1.0-preview9 - 2020-05-29
 

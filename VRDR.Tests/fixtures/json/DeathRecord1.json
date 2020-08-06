@@ -638,7 +638,9 @@
         "orderedBy": {
           "coding": [
             {
-              "code": "priority"
+              "system": "http://terminology.hl7.org/CodeSystem/list-order",
+              "code": "priority",
+              "display": "Sorted by Priority"
             }
           ]
         },

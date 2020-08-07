@@ -28,7 +28,7 @@ namespace VRDR.CLI
                 deathRecord.Identifier = "1";
 
                 // BundleIdentifier
-                deathRecord.BundleIdentifier = "42";
+                deathRecord.BundleIdentifier = "2019MA000001";
 
                 // CertifiedTime
                 deathRecord.CertifiedTime = "2019-01-29T16:48:06-05:00";

@@ -67,6 +67,9 @@ namespace VRDR.CLI
                 type.Add("display", "Healthcare Provider");
                 deathRecord.InterestedPartyType = type;
 
+                // State Local Identifier
+                deathRecord.StateLocalIdentifier = "42";
+
                 // MannerOfDeathType
                 Dictionary<string, string> mannerOfDeathType = new Dictionary<string, string>();
                 mannerOfDeathType.Add("code", "7878000");

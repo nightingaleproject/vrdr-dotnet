@@ -16,7 +16,7 @@
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" />
         </meta>
         <identifier>
-          <value value="1" />
+          <value value="99999" />
         </identifier>
         <status value="" />
         <type>
@@ -322,6 +322,9 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" />
         </meta>
+        <identifier>
+          <value value="1" />
+        </identifier>
         <status value="completed" />
         <category>
           <coding>

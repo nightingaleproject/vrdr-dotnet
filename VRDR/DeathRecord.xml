@@ -201,6 +201,9 @@
         <member name="F:VRDR.DeathRecord.Composition">
             <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         </member>
+        <member name="F:VRDR.DeathRecord.StateDocumentReference">
+            <summary>DocumentReference that is used to specify state local death record identifier.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.Decedent">
             <summary>The Decedent.</summary>
         </member>
@@ -366,17 +369,27 @@
             <para>// Setter:</para>
             <para>ExampleDeathRecord.Identifier = "42";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
+            <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BundleIdentifier">
-            <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
+            <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
             <value>a record bundle identification string.</value>
             <example>
             <para>// Setter:</para>
             <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
+            <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.BundleIdentifier}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.StateLocalIdentifier">
+            <summary>State Local Identifier.</summary>
+            <value>a state local identification string.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.StateLocalIdentifier = "4242123";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.CertifiedTime">

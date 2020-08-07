@@ -761,13 +761,13 @@ namespace VRDR
         {
             get
             {
-                return RightJustifiedZeroed_Get("AUXNO", "BundleIdentifier");
+                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "BundleIdentifier", value);
+                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier", value);
                 }
             }
         }

@@ -25,8 +25,8 @@ namespace VRDR
         public VoidMessage(DeathRecord record) : this()
         {
             this.CertificateNumber = record?.Identifier;
-            this.StateAuxiliaryIdentifier = record?.BundleIdentifier;
-            this.NCHSIdentifier = record == null ? null : CreateNCHSIdentifier(record);
+            this.StateAuxiliaryIdentifier = record?.StateLocalIdentifier;
+            this.NCHSIdentifier = record?.BundleIdentifier;
         }
     }
 }

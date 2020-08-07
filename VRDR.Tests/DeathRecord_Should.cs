@@ -185,8 +185,22 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BundleIdentifier()
         {
-            Assert.Equal("42", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("42", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("2019MA000001", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
+            Assert.Equal("2019MA000001", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+        }
+
+        [Fact]
+        public void Set_StateLocalIdentifier()
+        {
+            SetterDeathRecord.StateLocalIdentifier = "42";
+            Assert.Equal("42", SetterDeathRecord.StateLocalIdentifier);
+        }
+
+        [Fact]
+        public void Get_StateLocalIdentifier()
+        {
+            Assert.Equal("42", ((DeathRecord)JSONRecords[0]).StateLocalIdentifier);
+            Assert.Equal("42", ((DeathRecord)XMLRecords[0]).StateLocalIdentifier);
         }
 
         [Fact]

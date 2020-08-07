@@ -31,6 +31,9 @@ namespace VRDR
         /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         private Composition Composition;
 
+        /// <summary>DocumentReference that is used to specify state local death record identifier.</summary>
+        private DocumentReference StateDocumentReference;
+
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
 
@@ -194,7 +197,7 @@ namespace VRDR
             DeathCertification = new Procedure();
             DeathCertification.Id = Guid.NewGuid().ToString();
             Identifier certificationIdentifier = new Identifier();
-            certificationIdentifier.Value = Guid.NewGuid().ToString();
+            certificationIdentifier.Value = "Guid.NewGuid().ToString()";
             DeathCertification.Identifier.Add(certificationIdentifier);
             DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             DeathCertification.Meta = new Meta();
@@ -425,37 +428,38 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Identifier = "42";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Record identification: {ExampleDeathRecord.Identifier}");</para>
+        /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
         [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificate.html", true, 1)]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
         public string Identifier
         {
             get
             {
-                if (Composition != null && Composition.Identifier != null)
+                if (DeathCertification != null && DeathCertification.Identifier != null && DeathCertification.Identifier.Count > 0)
                 {
-                    return Composition.Identifier.Value;
+                    return DeathCertification.Identifier[0].Value;
                 }
                 return null; 
             }
             set
             {
+                DeathCertification.Identifier.Clear();
                 Identifier identifier = new Identifier();
                 identifier.Value = value;
-                Composition.Identifier = identifier;
+                DeathCertification.Identifier.Add(identifier);
             }
         }
 
-        /// <summary>Death Record Bundle Identifier, Auxiliary State File Number.</summary>
+        /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
         /// <value>a record bundle identification string.</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Record bundle identification: {ExampleDeathRecord.BundleIdentifier}");</para>
+        /// <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.BundleIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "Auxiliary State File Number.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 100)]
+        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/DeathCertificateDocument.html", true, 100)]
         [FHIRPath("Bundle", "identifier")]
         public string BundleIdentifier
         {
@@ -474,6 +478,66 @@ namespace VRDR
                 Bundle.Identifier = identifier;
             }
         }
+
+        /// <summary>State Local Identifier.</summary>
+        /// <value>a state local identification string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier = "4242123";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier}");</para>
+        /// </example>
+        [Property("State Local Identifier", Property.Types.String, "Decedent Demographics", "State Local Identifier.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference", true, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is DocumentReference).where(type.coding.code='64297-5')", "")]
+        public string StateLocalIdentifier
+        {
+            get
+            {
+                if (StateDocumentReference != null && StateDocumentReference.Identifier != null && StateDocumentReference.Identifier.Count() > 0)
+                {
+                    return StateDocumentReference.Identifier[0].Value;
+                }
+                return null;
+            }
+            set
+            {
+                if (StateDocumentReference == null)
+                {
+                    StateDocumentReference = new DocumentReference();
+                    StateDocumentReference.Id = Guid.NewGuid().ToString();
+                    StateDocumentReference.Meta = new Meta();
+                    string[] profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference" };
+                    StateDocumentReference.Meta.Profile = profile;
+                    StateDocumentReference.Status = DocumentReferenceStatus.Current;
+                    StateDocumentReference.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
+                    StateDocumentReference.Context = new DocumentReference.ContextComponent();
+                    StateDocumentReference.Context.Related.Add(new ResourceReference("urn:uuid:" + Bundle.Id));
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    StateDocumentReference.Identifier.Add(identifier);
+                    if (InterestedParty != null)
+                    {
+                        StateDocumentReference.Author.Add(new ResourceReference("urn:uuid:" + InterestedParty.Id));
+                    }
+                    StateDocumentReference.Date = new DateTimeOffset(DateTime.Now);
+                    Attachment attachment = new Attachment();
+                    attachment.Url = "urn:uuid:" + Bundle.Id;
+                    DocumentReference.ContentComponent content = new DocumentReference.ContentComponent();
+                    content.Attachment = attachment;
+                    StateDocumentReference.Content.Add(content);
+                    AddReferenceToComposition(StateDocumentReference.Id);
+                    Bundle.AddResourceEntry(StateDocumentReference, "urn:uuid:" + StateDocumentReference.Id);
+                }
+                else
+                {
+                    StateDocumentReference.Identifier.Clear();
+                    Identifier identifier = new Identifier();
+                    identifier.Value = value;
+                    StateDocumentReference.Identifier.Add(identifier);
+                }
+            }
+        }
+
 
         /// <summary>Certified time.</summary>
         /// <value>time when the record was certified.</value>
@@ -4331,7 +4395,7 @@ namespace VRDR
                     BirthRecordIdentifier = new Observation();
                     BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
                     BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
+                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
@@ -4390,7 +4454,7 @@ namespace VRDR
                     BirthRecordIdentifier = new Observation();
                     BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
                     BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
+                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
@@ -4453,7 +4517,7 @@ namespace VRDR
                     BirthRecordIdentifier = new Observation();
                     BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
                     BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" };
+                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
@@ -6991,6 +7055,13 @@ namespace VRDR
             if (procedureEntry != null)
             {
                 DeathCertification = (Procedure)procedureEntry.Resource;
+            }
+
+            // Grab State Local Identifier
+            var stateDocumentReferenceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.DocumentReference && ((DocumentReference)entry.Resource).Type.Coding.First().Code == "64297-5" );
+            if (stateDocumentReferenceEntry != null)
+            {
+                StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
             }
 
             // Grab Interested Party

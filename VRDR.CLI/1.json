@@ -7,7 +7,7 @@
     ]
   },
   "identifier": {
-    "value": "42"
+    "value": "2019MA000001"
   },
   "type": "document",
   "entry": [
@@ -22,7 +22,7 @@
           ]
         },
         "identifier": {
-          "value": "1"
+          "value": "99999"
         },
         "status": "final",
         "type": {
@@ -477,6 +477,9 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
           ]
         },
+        "identifier": [{
+          "value": "1"
+        }],
         "status": "completed",
         "category": {
           "coding": [
@@ -1563,6 +1566,53 @@
             "valueDateTime": "2018-02-20T16:48:06-05:00"
           }
         ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7d5ecb87-4b05-4365-9a8d-7cf75024390c",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "7d5ecb87-4b05-4365-9a8d-7cf75024390c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "42"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "64297-5",
+              "display": "Death certificate"
+            }
+          ]
+        },
+        "date": "2020-08-07T16:41:57.698163-04:00",
+        "author": [
+          {
+            "reference": "urn:uuid:7afbe14f-932f-4639-966a-84c4e9d2f7c6"
+          }
+        ],
+        "content": [
+          {
+            "attachment": {
+              "url": "urn:uuid:cf96ffd9-fb38-479f-ba3c-5f3f36752fdb"
+            }
+          }
+        ],
+        "context": {
+          "related": [
+            {
+              "reference": "urn:uuid:cf96ffd9-fb38-479f-ba3c-5f3f36752fdb"
+            }
+          ]
+        }
       }
     }
   ]

@@ -47,7 +47,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal("1", submission.CertificateNumber);
             Assert.Equal("42", submission.StateAuxiliaryIdentifier);
-            Assert.Equal("2018MA000001", submission.NCHSIdentifier);
+            Assert.Equal("2019MA000001", submission.NCHSIdentifier);
 
             record = null;
             submission = new DeathRecordSubmission(record);
@@ -122,7 +122,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal("1", update.CertificateNumber);
             Assert.Equal("42", update.StateAuxiliaryIdentifier);
-            Assert.Equal("2018MA000001", update.NCHSIdentifier);
+            Assert.Equal("2019MA000001", update.NCHSIdentifier);
 
             update = new DeathRecordUpdate((DeathRecord)JSONRecords[1]); // no ids in this death record
             Assert.NotNull(update.DeathRecord);
@@ -545,7 +545,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal("1", message.CertificateNumber);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
-            Assert.Equal("2018MA000001", message.NCHSIdentifier);
+            Assert.Equal("2019MA000001", message.NCHSIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Null(message.MessageSource);
 

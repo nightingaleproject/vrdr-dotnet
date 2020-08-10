@@ -1,3 +1,4 @@
+using System;
 using Hl7.Fhir.Model;
 
 namespace VRDR
@@ -18,9 +19,7 @@ namespace VRDR
         public DeathRecordSubmission(DeathRecord record) : this()
         {
             this.DeathRecord = record;
-            this.CertificateNumber = record?.Identifier;
-            this.StateAuxiliaryIdentifier = record?.StateLocalIdentifier;
-            this.NCHSIdentifier = record?.BundleIdentifier;
+            ExtractBusinessIdentifiers(record);
         }
 
         /// <summary>

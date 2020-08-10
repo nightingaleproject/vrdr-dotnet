@@ -92,6 +92,29 @@ namespace VRDR
             Header.Focus.Add(new ResourceReference("urn:uuid:" + this.Record.Id));
         }
 
+        /// <summary>
+        /// Extract the business identifiers for the message from the supplied death record.
+        /// </summary>
+        /// <param name="from">the death record to extract the identifiers from</param>
+        protected void ExtractBusinessIdentifiers(DeathRecord from)
+        {
+            uint certificateNumber;
+            if (UInt32.TryParse(from?.Identifier, out certificateNumber))
+            {
+                this.CertificateNumber = certificateNumber;
+            }
+            this.StateAuxiliaryIdentifier = from?.StateLocalIdentifier;
+            if (from?.DateOfDeath != null)
+            {
+                uint deathYear;
+                if (from?.DateOfDeath?.Length >= 4 && UInt32.TryParse(from?.DateOfDeath?.Substring(0,4), out deathYear))
+                {
+                    this.DeathYear = deathYear;
+                }
+            }
+            this.DeathJurisdictionID = from?.DeathLocationAddress?["addressState"];
+        }
+
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
@@ -214,18 +237,22 @@ namespace VRDR
         }
 
         /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public string CertificateNumber
+        public uint? CertificateNumber
         {
             get
             {
-                return Record?.GetSingleValue<FhirString>("cert_no")?.Value;
+                return (uint?)Record?.GetSingleValue<UnsignedInt>("cert_no")?.Value;
             }
             set
             {
                 Record.Remove("cert_no");
                 if (value != null)
                 {
-                    Record.Add("cert_no", new FhirString(value));
+                    if (value > 999999)
+                    {
+                        throw new ArgumentException("Certificate number must be a maximum of six digits");
+                    }
+                    Record.Add("cert_no", new UnsignedInt((int)value));
                 }
             }
         }
@@ -247,39 +274,58 @@ namespace VRDR
             }
         }
 
+        /// <summary>The year in which the death occurred</summary>
+        public uint? DeathYear
+        {
+            get
+            {
+                return (uint?)Record?.GetSingleValue<UnsignedInt>("death_year")?.Value;
+            }
+            set
+            {
+                Record.Remove("death_year");
+                if (value != null)
+                {
+                    if (value < 1000 || value > 9999) {
+                        throw new ArgumentException("Year of death must be specified using four digits");
+                    }
+                    Record.Add("death_year", new UnsignedInt((int)value));
+                }
+            }
+        }
+
+        /// <summary>Two character identifeir of the jurisdiction in which the death occrred</summary>
+        public string DeathJurisdictionID
+        {
+            get
+            {
+                return Record?.GetSingleValue<FhirString>("jurisdiction_id")?.Value;
+            }
+            set
+            {
+                Record.Remove("jurisdiction_id");
+                if (value != null)
+                {
+                    if (value.Length != 2)
+                    {
+                        throw new ArgumentException("Jurisdiction ID must be a two character string");
+                    }
+                    Record.Add("jurisdiction_id", new FhirString(value));
+                }
+            }
+        }
+
         /// <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>
         public string NCHSIdentifier
         {
             get
             {
-                return Record?.GetSingleValue<FhirString>("nchs_id")?.Value;
-            }
-            set
-            {
-                Record.Remove("nchs_id");
-                if (value != null)
+                if (DeathYear == null || DeathJurisdictionID == null || CertificateNumber == null)
                 {
-                    Record.Add("nchs_id", new FhirString(value));
+                    return null;
                 }
+                return DeathYear.Value.ToString("D4") + DeathJurisdictionID + CertificateNumber.Value.ToString("D6");
             }
-        }
-
-        /// <summary>Create an NCHS identifier for the supplied DeathRecord.</summary>
-        /// <param name="record">the DeathRecord from which the year of death, jurisdiction of death and certificate id will be extracted.</param>
-        /// <returns>the NCHS compound identifier for the supplied DeathRecord.</returns>
-        protected static string CreateNCHSIdentifier(DeathRecord record)
-        {
-            // The following code may not be required in the future if the VRDR FHIR IG
-            // specifies that the NCHS identifier is carried directly in a Death Certificate document.
-            var ije = new IJEMortality(record);
-            string year = ije.DOD_YR;
-            string state = ije.DSTATE;
-            string file = ije.FILENO;
-            if (year.Trim().Length == 0 || state.Trim().Length == 0 || file.Equals("000000"))
-            {
-                return null;
-            }
-            return year+state+file;
         }
 
         /// <summary>

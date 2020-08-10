@@ -505,11 +505,7 @@ namespace VRDR
                     }
                     else if (geoType == "state")
                     {
-                        string state = dataLookup.StateCodeToStateName(value);
-                        if (!String.IsNullOrWhiteSpace(state))
-                        {
-                            dictionary[key] = state;
-                        }
+                        dictionary[key] = value;
                     }
                     else if (geoType == "country")
                     {
@@ -710,7 +706,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }
@@ -1202,7 +1198,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "Residence", "addressState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("STATEC", "Residence", "addressState", value);
                 }
             }
         }
@@ -3761,7 +3757,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "addressState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "addressState", value);
                 }
             }
         }
@@ -3968,7 +3964,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "addressState", dataLookup.StateCodeToStateName(value));
+                    Dictionary_Set("CERTSTATECD", "CertifierAddress", "addressState", value);
                 }
             }
         }

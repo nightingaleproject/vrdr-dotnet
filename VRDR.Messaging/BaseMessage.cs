@@ -19,7 +19,6 @@ namespace VRDR
         /// </summary>
         protected Parameters Record;
 
-
         /// <summary>MessageHeader that contains the message header.</summary>
         protected MessageHeader Header;
 

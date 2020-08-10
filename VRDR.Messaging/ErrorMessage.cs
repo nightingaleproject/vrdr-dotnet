@@ -15,7 +15,8 @@ namespace VRDR
         {
             this.CertificateNumber = sourceMessage?.CertificateNumber;
             this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
-            this.NCHSIdentifier = sourceMessage?.NCHSIdentifier;
+            this.DeathJurisdictionID = sourceMessage?.DeathJurisdictionID;
+            this.DeathYear = sourceMessage?.DeathYear;
         }
 
         /// <summary>

@@ -24,9 +24,7 @@ namespace VRDR
         /// <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
         public VoidMessage(DeathRecord record) : this()
         {
-            this.CertificateNumber = record?.Identifier;
-            this.StateAuxiliaryIdentifier = record?.StateLocalIdentifier;
-            this.NCHSIdentifier = record?.BundleIdentifier;
+            ExtractBusinessIdentifiers(record);
         }
     }
 }

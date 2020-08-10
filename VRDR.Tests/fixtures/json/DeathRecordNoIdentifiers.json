@@ -1480,6 +1480,7 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "effectiveDateTime": "2018-02-19T16:48:06-05:00",
+        "valueDateTime": "2018-02-19T16:48:06-05:00",
         "performer": [
           {
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"

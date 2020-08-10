@@ -11,7 +11,8 @@ namespace VRDR
         {
             this.CertificateNumber = messageToAck?.CertificateNumber;
             this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;
-            this.NCHSIdentifier = messageToAck?.NCHSIdentifier;
+            this.DeathJurisdictionID = messageToAck?.DeathJurisdictionID;
+            this.DeathYear = messageToAck?.DeathYear;
         }
 
         /// <summary>

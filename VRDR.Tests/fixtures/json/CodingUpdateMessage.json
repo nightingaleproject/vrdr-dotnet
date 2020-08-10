@@ -23,15 +23,19 @@
                 "parameter": [
                     {
                         "name": "cert_no",
-                        "valueString": "1"
+                        "valueUnsignedInt": 1
+                    },
+                    {
+                        "name": "death_year",
+                        "valueUnsignedInt": 2018
                     },
                     {
                         "name": "state_auxiliary_id",
                         "valueString": "42"
                     },
                     {
-                        "name": "nchs_id",
-                        "valueString": "2018MA000001"
+                        "name": "jurisdiction_id",
+                        "valueString": "MA"
                     },
                     {
                         "name": "ethnicity",

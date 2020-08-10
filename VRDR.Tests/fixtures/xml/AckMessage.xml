@@ -32,15 +32,19 @@
                 <id value="666d8516-1eca-4686-86ad-0e8566c6a422"/>
                 <parameter>
                     <name value="cert_no"/>
-                    <valueString value="1"/>
+                    <valueUnsignedInt value="1"/>
                 </parameter>
                 <parameter>
                     <name value="state_auxiliary_id"/>
                     <valueString value="42"/>
                 </parameter>
                 <parameter>
-                    <name value="nchs_id"/>
-                    <valueString value="2018MA000001"/>
+                    <name value="death_year"/>
+                    <valueUnsignedInt value="2018"/>
+                </parameter>
+                <parameter>
+                    <name value="jurisdiction_id"/>
+                    <valueString value="MA"/>
                 </parameter>
             </Parameters>
         </resource>

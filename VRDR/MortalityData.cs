@@ -30,7 +30,16 @@ namespace VRDR
         /// <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         public string StateNameToStateCode(string state)
         {
-            return DictValueFinderHelper(StateTerritoryProvinceCodes, state);
+            if (StateTerritoryProvinceCodes.Values.Contains(state))
+            {
+                // Passed a code so just return it
+                return state;
+            }
+            else
+            {
+                // Passed a name so look up code
+                return DictValueFinderHelper(StateTerritoryProvinceCodes, state);
+            }
         }
 
         /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
@@ -1258,7 +1267,7 @@ namespace VRDR
             { "Louisiana", "LA" },
             { "Maine", "ME" },
             { "Maryland", "MD" },
-            { "MA", "MA" },
+            { "Massachusetts", "MA" },
             { "Michigan", "MI" },
             { "Minnesota", "MN" },
             { "Mississippi", "MS" },

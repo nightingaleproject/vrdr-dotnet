@@ -483,5 +483,8 @@
             <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
             <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
         </member>
+        <member name="P:VRDR.VoidMessage.BlockCount">
+            <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        </member>
     </members>
 </doc>

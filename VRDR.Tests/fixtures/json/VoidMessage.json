@@ -26,6 +26,10 @@
                         "valueUnsignedInt": 1
                     },
                     {
+                        "name": "block_count",
+                        "valuePositiveInt": 10
+                    },
+                    {
                         "name": "death_year",
                         "valueUnsignedInt": 2018
                     },

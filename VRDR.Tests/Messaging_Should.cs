@@ -534,6 +534,9 @@ namespace VRDR.Tests
             message.StateAuxiliaryIdentifier = "bar";
             Assert.Equal("bar", message.StateAuxiliaryIdentifier);
             Assert.Null(message.NCHSIdentifier);
+            Assert.Null(message.BlockCount);
+            message.BlockCount = 100;
+            Assert.Equal((uint)100, message.BlockCount);
         }
 
         [Fact]
@@ -542,6 +545,7 @@ namespace VRDR.Tests
             VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal((uint)1, message.CertificateNumber);
+            Assert.Equal((uint)10, message.BlockCount);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);

@@ -26,5 +26,23 @@ namespace VRDR
         {
             ExtractBusinessIdentifiers(record);
         }
+
+        /// <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        public uint? BlockCount
+        {
+            get
+            {
+                return (uint?)Record?.GetSingleValue<PositiveInt>("block_count")?.Value;
+            }
+            set
+            {
+                Record.Remove("block_count");
+                if (value != null && value > 1)
+                {
+                    Record.Add("block_count", new PositiveInt((int)value));
+                }
+            }
+        }
+
     }
 }

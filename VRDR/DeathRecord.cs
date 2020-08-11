@@ -163,6 +163,7 @@ namespace VRDR
             Bundle.Type = Bundle.BundleType.Document; // By default, Bundle type is "document".
             Bundle.Meta = new Meta();
             string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
+            Bundle.Timestamp = DateTime.Now;
             Bundle.Meta.Profile = bundle_profile;
 
             // Start with an empty decedent.
@@ -295,7 +296,7 @@ namespace VRDR
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
-            Bundle.AddResourceEntry(DispositionLocation, DispositionLocation.Id);
+            Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -475,6 +476,7 @@ namespace VRDR
             {
                 Identifier identifier = new Identifier();
                 identifier.Value = value;
+                identifier.System = "http://nchs.cdc.gov/vrdr_id";
                 Bundle.Identifier = identifier;
             }
         }

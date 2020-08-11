@@ -2000,12 +2000,20 @@
         </member>
         <member name="P:VRDR.DeathRecord.InjuryPlace">
             <summary>Place of Injury.</summary>
-            <value>the place of injury.</value>
+            <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.InjuryPlace = "home";</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "0");</para>
+            <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.320");</para>
+            <para>code.Add("display", "Home");</para>
+            <para>ExampleDeathRecord.InjuryPlace = code;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace}");</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryAtWork">

@@ -3255,13 +3255,89 @@ namespace VRDR
         {
             get
             {
-                return !String.IsNullOrWhiteSpace(LeftJustified_Get("POILITRL", "InjuryPlace")) ? LeftJustified_Get("POILITRL", "InjuryPlace") : LeftJustified_Get("POILITRL", "InjuryLocationName");
+                string code = Dictionary_Get_Full("POILITRL", "InjuryPlace", "code");
+                switch (code)
+                {
+                    case "0":
+                        return "Home";
+                    case "1":
+                        return "Residential Institution";
+                    case "2":
+                        return "School, Other Institutions, Public Administrative Area";
+                    case "3":
+                        return "Sports and Atheletics Area";
+                    case "4":
+                        return "Street/Highway";
+                    case "5":
+                        return "Trade and Service Area";
+                    case "6":
+                        return "Industrial and Construction Area";
+                    case "7":
+                        return "Farm";
+                    case "8":
+                        return "Other Specified Place";
+                    case "9":
+                        return "Unspecified Place";
+                }
+                return "";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("POILITRL", "InjuryPlace", value.Trim());
+                    switch (value.Trim())
+                    {
+                        case "Home":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "0");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Residential Institution":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "1");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "School, Other Institutions, Public Administrative Area":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "2");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Sports and Atheletics Area":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "3");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Street/Highway":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "4");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Trade and Service Area":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "5");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Industrial and Construction Area":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "6");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Farm":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "7");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Other Specified Place":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "8");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                        case "Unspecified Place":
+                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "9");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
+                            break;
+                    }
                 }
             }
         }

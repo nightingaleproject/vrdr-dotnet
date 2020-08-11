@@ -5395,7 +5395,7 @@ namespace VRDR
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     Extension extension = new Extension();
-                    extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location";
+                    extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location-Reference";
                     extension.Value = new ResourceReference("urn:uuid:" + DispositionLocation.Id);
                     DispositionMethod.Extension.Add(extension);
                     DispositionMethod.Value = DictToCodeableConcept(value);

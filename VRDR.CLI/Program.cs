@@ -206,17 +206,6 @@ namespace VRDR.CLI
                 Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), Tuple.Create("Native Hawaiian", "2079-2") };
                 deathRecord.Race = race;
 
-                // PlaceOfBirth
-                Dictionary<string, string> pobaddress = new Dictionary<string, string>();
-                pobaddress.Add("addressLine1", "1011 Example Street");
-                pobaddress.Add("addressLine2", "Line 2");
-                pobaddress.Add("addressCity", "Bedford");
-                pobaddress.Add("addressCounty", "Middlesex");
-                pobaddress.Add("addressState", "MA");
-                pobaddress.Add("addressZip", "01730");
-                pobaddress.Add("addressCountry", "United States");
-                deathRecord.PlaceOfBirth = pobaddress;
-
                 // MaritalStatus
                 Dictionary<string, string> mscode = new Dictionary<string, string>();
                 mscode.Add("code", "S");

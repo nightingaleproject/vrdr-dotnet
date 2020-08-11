@@ -838,7 +838,7 @@
           <valueCodeableConcept>
             <coding>
               <system value="urn:iso:std:iso:3166:-2" />
-              <code value="MA" />
+              <code value="US-MA" />
               <display value="Massachusetts" />
             </coding>
           </valueCodeableConcept>

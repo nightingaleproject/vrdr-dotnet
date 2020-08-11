@@ -1518,7 +1518,15 @@
                 }
               ]
             },
-            "valueString": "home"
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "urn:oid:2.16.840.1.114222.4.5.320",
+                  "code": "0",
+                  "display": "Home"
+                }
+              ]
+            }
           }
         ]
       }

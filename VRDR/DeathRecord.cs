@@ -6552,16 +6552,24 @@ namespace VRDR
         }
 
         /// <summary>Place of Injury.</summary>
-        /// <value>the place of injury.</value>
+        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryPlace = "home";</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "0");</para>
+        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.320");</para>
+        /// <para>code.Add("display", "Home");</para>
+        /// <para>ExampleDeathRecord.InjuryPlace = code;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace}");</para>
+        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
         /// </example>
-        [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 64)]
+        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 64)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public string InjuryPlace
+        public Dictionary<string, string> InjuryPlace
         {
             get
             {
@@ -6569,12 +6577,12 @@ namespace VRDR
                 {
                     // Find correct component
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp != null && placeComp.Value != null && placeComp.Value != null && placeComp.Value as FhirString != null)
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
                     {
-                        return Convert.ToString(placeComp.Value);
+                        return CodeableConceptToDict((CodeableConcept)placeComp.Value);
                     }
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -6590,7 +6598,7 @@ namespace VRDR
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
-                    component.Value = new FhirString(value);
+                    component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
@@ -6601,13 +6609,13 @@ namespace VRDR
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
                     if (placeComp != null)
                     {
-                        ((Observation.ComponentComponent)placeComp).Value = new FhirString(value);
+                        ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
-                        component.Value = new FhirString(value);
+                        component.Value = DictToCodeableConcept(value);
                         InjuryIncidentObs.Component.Add(component);
                     }
                 }

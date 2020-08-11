@@ -1837,15 +1837,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_InjuryPlace()
         {
-            SetterDeathRecord.InjuryPlace = "home";
-            Assert.Equal("home", SetterDeathRecord.InjuryPlace);
+            Dictionary<string, string> code = new Dictionary<string, string>();
+            code["code"] = "0";
+            code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
+            code["display"] = "Home";
+            SetterDeathRecord.InjuryPlace = code;
+            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
         }
 
         [Fact]
         public void Get_InjuryPlace()
         {
-            Assert.Equal("home", ((DeathRecord)JSONRecords[0]).InjuryPlace);
-            Assert.Equal("home", ((DeathRecord)XMLRecords[0]).InjuryPlace);
+            Assert.Equal("Home", ((DeathRecord)JSONRecords[0]).InjuryPlace["display"]);
+            Assert.Equal("Home", ((DeathRecord)XMLRecords[0]).InjuryPlace["display"]);
         }
 
         [Fact]

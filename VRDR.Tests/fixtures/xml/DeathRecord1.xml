@@ -1236,7 +1236,13 @@
               <display value="Place of injury Facility" />
             </coding>
           </code>
-          <valueString value="home" />
+          <valueCodeableConcept>
+            <coding>
+              <system value="urn:oid:2.16.840.1.114222.4.5.320" />
+              <code value="0" />
+              <display value="Home" />
+            </coding>
+          </valueCodeableConcept>
         </component>
       </Observation>
     </resource>

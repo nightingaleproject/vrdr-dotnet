@@ -1361,10 +1361,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthRecordState()
         {
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).BirthRecordState["code"]);
+            Assert.Equal("US-MA", ((DeathRecord)JSONRecords[0]).BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)JSONRecords[0]).BirthRecordState["system"]);
             Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).BirthRecordState["display"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).BirthRecordState["code"]);
+            Assert.Equal("US-MA", ((DeathRecord)XMLRecords[0]).BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)XMLRecords[0]).BirthRecordState["system"]);
             Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).BirthRecordState["display"]);
         }

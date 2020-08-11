@@ -3604,7 +3604,7 @@ namespace VRDR
                 }
                 Decedent.Identifier.RemoveAll(iden => iden.System == "http://hl7.org/fhir/sid/us-ssn");
                 Identifier ssn = new Identifier();
-                ssn.Type = new CodeableConcept(null, "SB", "Social Beneficiary Identifier", null);
+                ssn.Type = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "SB", "Social Beneficiary Identifier", null);
                 ssn.System = "http://hl7.org/fhir/sid/us-ssn";
                 ssn.Value = value.Replace("-", string.Empty);
                 Decedent.Identifier.Add(ssn);

@@ -847,8 +847,8 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
-              <code value="21112-8" />
-              <display value="Birth date" />
+              <code value="80904-6" />
+              <display value="Birth year" />
             </coding>
           </code>
           <valueDateTime value="1940" />

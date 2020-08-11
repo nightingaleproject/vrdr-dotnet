@@ -1050,8 +1050,8 @@
               "coding": [
                 {
                   "system": "http://loinc.org",
-                  "code": "21112-8",
-                  "display": "Birth date"
+                  "code": "80904-6",
+                  "display": "Birth year"
                 }
               ]
             },

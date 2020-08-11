@@ -4398,7 +4398,7 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
+                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     BirthRecordIdentifier.Value = new FhirString(value);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4457,7 +4457,7 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
+                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept("http://loinc.org", "21842-0", "Birthplace", null);
@@ -4502,7 +4502,7 @@ namespace VRDR
                 if (BirthRecordIdentifier != null && BirthRecordIdentifier.Component.Count > 0)
                 {
                     // Find correct component
-                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21112-8" );
+                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80904-6" );
                     if (stateComp != null)
                     {
                         return Convert.ToString(stateComp.Value);
@@ -4520,10 +4520,10 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept(null, "BR", null, null);
+                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21112-8", "Birth date", null);
+                    component.Code = new CodeableConcept("http://loinc.org", "80904-6", "Birth year", null);
                     component.Value = new FhirDateTime(value);
                     BirthRecordIdentifier.Component.Add(component);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4532,7 +4532,7 @@ namespace VRDR
                 else
                 {
                     // Find correct component; if doesn't exist add another
-                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21112-8" );
+                    var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80904-6" );
                     if (stateComp != null)
                     {
                         ((Observation.ComponentComponent)stateComp).Value = new FhirDateTime(value);
@@ -4540,7 +4540,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "21112-8", "Birth date", null);
+                        component.Code = new CodeableConcept("http://loinc.org", "80904-6", "Birth year", null);
                         component.Value = new FhirDateTime(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }

@@ -266,7 +266,7 @@ namespace VRDR.CLI
 
                 // BirthRecordState
                 Dictionary<string, string> brs = new Dictionary<string, string>();
-                brs.Add("code", "MA");
+                brs.Add("code", "US-MA");
                 brs.Add("system", "urn:iso:std:iso:3166:-2");
                 brs.Add("display", "Massachusetts");
                 deathRecord.BirthRecordState = brs;

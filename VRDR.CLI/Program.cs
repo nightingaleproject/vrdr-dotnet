@@ -346,12 +346,6 @@ namespace VRDR.CLI
                 ara.Add("display", "Yes");
                 deathRecord.AutopsyResultsAvailable = ara;
 
-                // AgeAtDeath
-                Dictionary<string, string> aad = new Dictionary<string, string>();
-                aad.Add("unit", "a");
-                aad.Add("value", "79");
-                deathRecord.AgeAtDeath = aad;
-
                 // PregnancyStatus
                 Dictionary<string, string> ps = new Dictionary<string, string>();
                 ps.Add("code", "NA");
@@ -446,6 +440,12 @@ namespace VRDR.CLI
 
                 // DateOfDeath
                 deathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";
+
+                // AgeAtDeath
+                Dictionary<string, string> aad = new Dictionary<string, string>();
+                aad.Add("unit", "a");
+                aad.Add("value", "79");
+                deathRecord.AgeAtDeath = aad;
 
                 // DateOfDeathPronouncement
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";

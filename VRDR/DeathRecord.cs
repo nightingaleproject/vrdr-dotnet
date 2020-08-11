@@ -3936,7 +3936,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
+                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Father.Name.Add(name);
@@ -3980,7 +3980,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
+                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Father.Name.Add(name);
@@ -4025,7 +4025,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(null, "FTH", null, null));
+                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4072,7 +4072,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
+                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Mother.Name.Add(name);
@@ -4116,7 +4116,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
+                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Mother.Name.Add(name);
@@ -4161,7 +4161,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(null, "MTH", null, null));
+                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4208,7 +4208,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
+                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Spouse.Name.Add(name);
@@ -4252,7 +4252,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
+                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Spouse.Name.Add(name);
@@ -4297,7 +4297,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(null, "SPS", null, null));
+                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4853,7 +4853,7 @@ namespace VRDR
                     string[] militaryhistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" };
                     MilitaryServiceObs.Meta.Profile = militaryhistory_profile;
                     MilitaryServiceObs.Status = ObservationStatus.Final;
-                    MilitaryServiceObs.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service", null);
+                    MilitaryServiceObs.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service Narrative", null);
                     MilitaryServiceObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MilitaryServiceObs.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(MilitaryServiceObs.Id);
@@ -6133,6 +6133,7 @@ namespace VRDR
                     AgeAtDeathObs.Meta.Profile = age_profile;
                     AgeAtDeathObs.Status = ObservationStatus.Final;
                     AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
+                    AgeAtDeathObs.Effective = DeathDateObs?.Value;
                     AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Quantity quant = new Quantity();
                     if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
@@ -6158,6 +6159,7 @@ namespace VRDR
                     {
                         quant.Unit = GetValue(value, "unit");
                     }
+                    AgeAtDeathObs.Effective = DeathDateObs?.Value;
                     AgeAtDeathObs.Value = quant;
                 }
             }

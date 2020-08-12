@@ -258,15 +258,19 @@ namespace VRDR.Tests
         [Fact]
         public void Set_InterestedPartyIdentifier()
         {
-            SetterDeathRecord.InterestedPartyIdentifier = "123abc";
-            Assert.Equal("123abc", SetterDeathRecord.InterestedPartyIdentifier);
+            var id = new Dictionary<string, string>();
+            id["system"] = "foo";
+            id["value"] = "0000000000";
+            SetterDeathRecord.InterestedPartyIdentifier = id;
+            Assert.Equal("foo", SetterDeathRecord.InterestedPartyIdentifier["system"]);
+            Assert.Equal("0000000000", SetterDeathRecord.InterestedPartyIdentifier["value"]);
         }
 
         [Fact]
         public void Get_InterestedPartyIdentifier()
         {
-            Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier);
-            Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier);
+            Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier["value"]);
+            Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier["value"]);
         }
 
         [Fact]

@@ -679,24 +679,35 @@ namespace VRDR
         }
 
         /// <summary>Interested Party Identifier.</summary>
-        /// <value>an interested party identification string.</value>
+        /// <value>the interested party identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        /// <para>"system" - the identifier system, e.g. US NPI</para>
+        /// <para>"value" - the identifier value, e.g. US NPI number</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InterestedPartyIdentifier = "42";</para>
+        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        /// <para>identifier.Add("value", "1234567890");</para>
+        /// <para>ExampleDeathRecord.InterestedPartyIdentifier = identifier;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interested Party identification: {ExampleDeathRecord.InterestedPartyIdentifier}");</para>
+        /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.InterestedPartyIdentifier['value']}");</para>
         /// </example>
-        [Property("Interested Party Identifier", Property.Types.String, "Death Certification", "Interested Party Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
+        [Property("Interested Party Identifier", Property.Types.Dictionary, "Death Certification", "Interested Party Identifier.", true, "http://hl7.org/fhir/us/vrdr/2019May/InterestedParty.html", false, 100)]
+        [PropertyParam("system", "The identifier system.")]
+        [PropertyParam("value", "The identifier value.")]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
-        public string InterestedPartyIdentifier
+        public Dictionary<string, string> InterestedPartyIdentifier
         {
             get
             {
-                if (InterestedParty != null && InterestedParty.Identifier != null && InterestedParty.Identifier.Count() > 0)
+                Identifier identifier = InterestedParty?.Identifier?.FirstOrDefault();
+                var result = new Dictionary<string, string>();
+                if (identifier != null)
                 {
-                    return InterestedParty.Identifier.FirstOrDefault().Value;
+                    result["system"] = identifier.System;
+                    result["value"] = identifier.Value;
                 }
-                return null;
+                return result;
             }
             set
             {
@@ -708,19 +719,18 @@ namespace VRDR
                     string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
                     InterestedParty.Meta.Profile = interestedparty_profile;
                     InterestedParty.Active = true;
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    InterestedParty.Identifier.Add(identifier);
                     AddReferenceToComposition(InterestedParty.Id);
                     Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
                 }
-                else
+                if (InterestedParty.Identifier.Count > 0)
                 {
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
                     InterestedParty.Identifier.Clear();
-                    InterestedParty.Identifier.Add(identifier);
                 }
+                
+                Identifier identifier = new Identifier();
+                identifier.System = value["system"];
+                identifier.Value = value["value"];
+                InterestedParty.Identifier.Add(identifier);
             }
         }
 
@@ -5639,7 +5649,7 @@ namespace VRDR
         /// <summary>Pronouncer Identifier.</summary>
         /// <value>the Pronouncer identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
         /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        /// <para>"value" - the identifier value, e.g. US NPI number</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5658,7 +5668,7 @@ namespace VRDR
         {
             get
             {
-                Identifier identifier = Pronouncer.Identifier.FirstOrDefault();
+                Identifier identifier = Pronouncer?.Identifier?.FirstOrDefault();
                 var result = new Dictionary<string, string>();
                 if (identifier != null)
                 {

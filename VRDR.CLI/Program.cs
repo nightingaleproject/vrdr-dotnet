@@ -44,7 +44,10 @@ namespace VRDR.CLI
                 deathRecord.CertificationRole = certificationRole;
 
                 // InterestedPartyIdentifier
-                deathRecord.InterestedPartyIdentifier = "1010101";
+                var ipId = new Dictionary<string, string>();
+                ipId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                ipId["value"] = "0000000000";
+                deathRecord.InterestedPartyIdentifier = ipId;
 
                 // InterestedPartyName
                 deathRecord.InterestedPartyName = "Example Hospital";

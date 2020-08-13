@@ -6,6 +6,27 @@
 * Add `MessageParseException` class.
 * Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
 * Updated `DeathRecord` class to match latest VRDR IG changes.
+* Numerous under-the-covers changes to address IG changes from FHIR STU3 -> R4 and fix errors and warnings from the FHIR validator.
+* Added `DeathRecord.StateLocalIdentifier` property.
+* `DeathRecord.InterestedPartyIdentifier` is now a `Dictionary` instead of a `string`.
+* Added `DeathRecord.CertifierIdentifier` property.
+* `DeathRecord.ResidenceWithinCityLimits` is now a `Dictionary` instead of a `bool`.
+* Added `DeathRecord.ResidenceWithinCityLimitsBoolean` property as a convenience method.
+* Added `DeathRecord.UsualOccupationEnd` property.
+* Added `DeathRecord.MilitaryServiceBoolean` property as a convenience method.
+* `DeathRecord.MorticianIdentifier` is now a `Dictionary` instead of a `string`.
+* Added `DeathRecord.FuneralDirectorPhone` property.
+* Added `DeathRecord.AutopsyPerformedBoolean` property as a convenience method.
+* Added death pronouncer: `PronouncerGivenNames`, `PronouncerFamilyName`, `PronouncerSuffix`, `PronouncerIdentifier`.
+* Added `DeathRecord.DateOfDeath` property.
+* Added `DeathRecord.AutopsyResultsAvailableBoolean` property as a convenience method.
+* Added `DeathRecord.DeathLocationType` property.
+* `DeathRecord.ExaminerContacted` is now a `Dictionary` instead of a `bool`.
+* Added `DeathRecord.ExaminerContactedBoolean` property as a convenience method.
+* `DeathRecord.InjuryPlace` is now a `Dictionary` instead of a `string`.
+* Added `DeathRecord.InjuryAtWorkBoolean` property as a convenience method.
+* `DeathRecord.TransportEvent` is now a `Dictionary` instead of a `bool`.
+* Added `DeathRecord.TransportationEventBoolean` property as a convenience method.
 
 ### v3.1.0-preview9 - 2020-05-29
 

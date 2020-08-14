@@ -6,7 +6,15 @@
 * Add `MessageParseException` class.
 * Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
 * Updated `DeathRecord` class to match latest VRDR IG changes.
-* Numerous under-the-covers changes to address IG changes from FHIR STU3 -> R4 and fix errors and warnings from the FHIR validator.
+* Numerous under-the-covers changes to address IG changes from FHIR STU3 -> R4 and fix errors and warnings from the FHIR validator including:
+    - Switch location of business identifiers: certificate number from Death Certificate (Composition) to Death Certification (Procedure), state auxiliary identifier from Death Certificate Document to Document Reference, NCHS identifier to Bundle identifier
+    - Clinical code changes, e.g. 74165-2 "History of employment status" to 21843-8 "History of usual occupation"
+    - Add required code systems to codings
+    - Add required (by US Core IG foundation profiles) identifiers to several resources
+    - Fix display text for codes
+    - Full state name to two letter state code
+    - Boolean observations to coded observations with 'Y', 'N', unknown or not applicable values
+    - Extract Observation component to full Observation, e.g. for Military Service
 * Added `DeathRecord.StateLocalIdentifier` property.
 * `DeathRecord.InterestedPartyIdentifier` is now a `Dictionary` instead of a `string`.
 * Added `DeathRecord.CertifierIdentifier` property.

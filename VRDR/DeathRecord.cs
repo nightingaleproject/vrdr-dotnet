@@ -512,8 +512,6 @@ namespace VRDR
                     StateDocumentReference.Meta.Profile = profile;
                     StateDocumentReference.Status = DocumentReferenceStatus.Current;
                     StateDocumentReference.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
-                    StateDocumentReference.Context = new DocumentReference.ContextComponent();
-                    StateDocumentReference.Context.Related.Add(new ResourceReference("urn:uuid:" + Bundle.Id));
                     Identifier identifier = new Identifier();
                     identifier.Value = value;
                     StateDocumentReference.Identifier.Add(identifier);

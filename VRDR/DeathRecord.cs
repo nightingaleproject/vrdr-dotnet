@@ -5313,6 +5313,7 @@ namespace VRDR
                     Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
                     DispositionLocation.PhysicalType = new CodeableConcept();
                     DispositionLocation.PhysicalType.Coding.Add(pt);
+                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
                 }
                 else
                 {
@@ -5354,6 +5355,7 @@ namespace VRDR
                     DispositionLocation.PhysicalType = new CodeableConcept();
                     DispositionLocation.PhysicalType.Coding.Add(pt);
                     DispositionLocation.Name = value;
+                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
                 }
                 else
                 {
@@ -5406,11 +5408,8 @@ namespace VRDR
                     DispositionMethod.Code = new CodeableConcept("http://loinc.org", "80905-3", "Body disposition method", null);
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
-                    Extension extension = new Extension();
-                    extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location-Reference";
-                    extension.Value = new ResourceReference("urn:uuid:" + DispositionLocation.Id);
-                    DispositionMethod.Extension.Add(extension);
                     DispositionMethod.Value = DictToCodeableConcept(value);
+                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
                     AddReferenceToComposition(DispositionMethod.Id);
                     Bundle.AddResourceEntry(DispositionMethod, "urn:uuid:" + DispositionMethod.Id);
                 }
@@ -5421,6 +5420,30 @@ namespace VRDR
             }
         }
 
+        private void LinkObservationToLocation(Observation observation, Location location)
+        {
+            if (observation == null || location == null)
+            {
+                return;
+            }
+
+            Extension extension = null;
+            foreach (Extension ext in observation.Extension)
+            {
+                if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
+                {
+                    extension = ext;
+                    break;
+                }
+            }
+            if (extension == null)
+            {
+                extension = new Extension();
+                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
+                observation.Extension.Add(extension);
+            }
+            extension.Value = new ResourceReference("urn:uuid:" + location.Id);
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -5728,6 +5751,7 @@ namespace VRDR
                         DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Pronouncer.Id));
                     }
                     DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathDateObs.Id);
                     Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
                 }
@@ -5961,6 +5985,7 @@ namespace VRDR
                     string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Address = DictToAddress(value);
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
@@ -6001,6 +6026,7 @@ namespace VRDR
                     string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Name = value;
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
@@ -6041,6 +6067,7 @@ namespace VRDR
                     string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
@@ -6092,6 +6119,7 @@ namespace VRDR
                     string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
@@ -6389,6 +6417,7 @@ namespace VRDR
                     string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Address = DictToAddress(value);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -6429,6 +6458,7 @@ namespace VRDR
                     string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Name = value;
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -6469,6 +6499,7 @@ namespace VRDR
                     string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
                     InjuryLocationLoc.Meta.Profile = injurylocation_profile;
                     InjuryLocationLoc.Description = value;
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -6512,6 +6543,7 @@ namespace VRDR
                     InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     InjuryIncidentObs.Effective = new FhirDateTime(value);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
@@ -6555,6 +6587,7 @@ namespace VRDR
                     InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     InjuryIncidentObs.Value = new FhirString(value);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
@@ -6614,6 +6647,7 @@ namespace VRDR
                     component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
@@ -6688,6 +6722,7 @@ namespace VRDR
                     component.Code = new CodeableConcept("http://loinc.org", "69444-8", "Did death result from injury at work", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
@@ -6812,6 +6847,7 @@ namespace VRDR
                     component.Code = new CodeableConcept("http://loinc.org", "69448-9", "Injury leading to death associated with transportation event", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }

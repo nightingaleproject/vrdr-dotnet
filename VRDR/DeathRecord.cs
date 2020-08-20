@@ -2193,6 +2193,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1E
         {
             get
@@ -2201,7 +2202,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionE.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -2360,6 +2361,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1F
         {
             get
@@ -2368,7 +2370,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionF.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -2527,6 +2529,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1G
         {
             get
@@ -2535,7 +2538,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionG.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -2694,6 +2697,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1H
         {
             get
@@ -2702,7 +2706,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionH.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -2861,6 +2865,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1I
         {
             get
@@ -2869,7 +2874,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionI.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3028,6 +3033,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         public Dictionary<string, string> CODE1J
         {
             get
@@ -3036,7 +3042,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(CauseOfDeathConditionJ.Code);
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -4751,6 +4757,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public Dictionary<string, string> UsualIndustryCode
         {
@@ -4763,9 +4770,9 @@ namespace VRDR
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
-                    return EmptyCodeDict();
+                    return EmptyCodeableDict();
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6096,6 +6103,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
         public Dictionary<string, string> DeathLocationType
         {
@@ -6105,7 +6113,7 @@ namespace VRDR
                 {
                     return CodeableConceptToDict(DeathLocationLoc.Type.First());
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6849,6 +6857,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public Dictionary<string, string> TransportationEvent
         {
@@ -6863,7 +6872,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)transportComp.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -7510,7 +7519,7 @@ namespace VRDR
             }
             else
             {
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
         }
 
@@ -7625,6 +7634,18 @@ namespace VRDR
             dictionary.Add("code", "");
             dictionary.Add("system", "");
             dictionary.Add("display", "");
+            return dictionary;
+        }
+
+        /// <summary>Returns an empty "codeable" Dictionary.</summary>
+        /// <returns>an empty "codeable" Dictionary.</returns>
+        private Dictionary<string, string> EmptyCodeableDict()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("code", "");
+            dictionary.Add("system", "");
+            dictionary.Add("display", "");
+            dictionary.Add("text", "");
             return dictionary;
         }
 

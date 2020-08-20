@@ -2173,6 +2173,10 @@
             <summary>Returns an empty "code" Dictionary.</summary>
             <returns>an empty "code" Dictionary.</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.EmptyCodeableDict">
+            <summary>Returns an empty "codeable" Dictionary.</summary>
+            <returns>an empty "codeable" Dictionary.</returns>
+        </member>
         <member name="M:VRDR.DeathRecord.GetAll(System.String)">
             <summary>Given a FHIR path, return the elements that match the given path;
             returns an empty array if no matches are found.</summary>

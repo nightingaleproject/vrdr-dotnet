@@ -1242,6 +1242,7 @@
               <code value="0" />
               <display value="Home" />
             </coding>
+            <text value="At home, in the kitchen" />
           </valueCodeableConcept>
         </component>
       </Observation>

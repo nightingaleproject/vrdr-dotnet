@@ -1842,6 +1842,8 @@ namespace VRDR.Tests
         public void Set_InjuryPlace()
         {
             Dictionary<string, string> code = new Dictionary<string, string>();
+            
+            // no description
             code["code"] = "0";
             code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
             code["display"] = "Home";
@@ -1849,13 +1851,42 @@ namespace VRDR.Tests
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
             Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
             Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
+            Assert.Equal("", SetterDeathRecord.InjuryPlace["text"]);
+
+            // with description
+            code["text"] = "At home, in the kitchen";
+            SetterDeathRecord.InjuryPlace = code;
+            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
+            Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlace["text"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
+
+            // change description, keep code the same
+            SetterDeathRecord.InjuryPlaceDescription = "At home, on the stairs";
+            Assert.Equal("At home, on the stairs", SetterDeathRecord.InjuryPlace["text"]);
+            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
+            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
+
+            // description only
+            code = new Dictionary<string, string>();
+            code["text"] = "At home, in the kitchen";
+            SetterDeathRecord.InjuryPlace = code;
+            Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlace["text"]);
+            Assert.Equal("", SetterDeathRecord.InjuryPlace["code"]);
+            Assert.Equal("", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal("", SetterDeathRecord.InjuryPlace["display"]);
         }
 
         [Fact]
         public void Get_InjuryPlace()
         {
             Assert.Equal("Home", ((DeathRecord)JSONRecords[0]).InjuryPlace["display"]);
+            Assert.Equal("At home, in the kitchen", ((DeathRecord)JSONRecords[0]).InjuryPlace["text"]);
+            Assert.Equal("At home, in the kitchen", ((DeathRecord)JSONRecords[0]).InjuryPlaceDescription);
             Assert.Equal("Home", ((DeathRecord)XMLRecords[0]).InjuryPlace["display"]);
+            Assert.Equal("At home, in the kitchen", ((DeathRecord)XMLRecords[0]).InjuryPlace["text"]);
+            Assert.Equal("At home, in the kitchen", ((DeathRecord)XMLRecords[0]).InjuryPlaceDescription);
         }
 
         [Fact]

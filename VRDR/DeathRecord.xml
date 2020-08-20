@@ -2022,6 +2022,16 @@
             <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.InjuryPlaceDescription">
+            <summary>Place of Injury Description.</summary>
+            <value>the place of injury.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryPlaceDescription = "At home, in the kitchen";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Place of Injury Description: {ExampleDeathRecord.InjuryPlaceDescription}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.InjuryAtWork">
             <summary>Injury At Work?</summary>
             <value>did the injury occur at work? A Dictionary representing a code, containing the following key/value pairs:

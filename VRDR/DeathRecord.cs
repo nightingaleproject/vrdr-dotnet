@@ -6613,6 +6613,10 @@ namespace VRDR
         /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
         /// </example>
         [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 64)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public Dictionary<string, string> InjuryPlace
         {
@@ -6665,6 +6669,38 @@ namespace VRDR
                         InjuryIncidentObs.Component.Add(component);
                     }
                 }
+            }
+        }
+
+        /// <summary>Place of Injury Description.</summary>
+        /// <value>the place of injury.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryPlaceDescription = "At home, in the kitchen";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Place of Injury Description: {ExampleDeathRecord.InjuryPlaceDescription}");</para>
+        /// </example>
+        [Property("Injury Place Description", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://hl7.org/fhir/us/vrdr/2019May/InjuryIncident.html", true, 64)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryPlaceDescription
+        {
+            get
+            {
+                var injuryPlace = this.InjuryPlace;
+                if (injuryPlace.ContainsKey("text") && injuryPlace["text"] != null)
+                {
+                    return injuryPlace["text"];
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            set
+            {
+                var injuryPlace = this.InjuryPlace;
+                injuryPlace["text"] = value;
+                this.InjuryPlace = injuryPlace;
             }
         }
 
@@ -7422,6 +7458,10 @@ namespace VRDR
             CodeableConcept codeableConcept = new CodeableConcept();
             Coding coding = DictToCoding(dict);
             codeableConcept.Coding.Add(coding);
+            if (dict != null && dict.ContainsKey("text") && dict["text"] != null && dict["text"].Length > 0)
+            {
+                codeableConcept.Text = dict["text"];
+            }
             return codeableConcept;
         }
 
@@ -7457,7 +7497,16 @@ namespace VRDR
             if (codeableConcept != null && codeableConcept.Coding != null)
             {
                 Coding coding = codeableConcept.Coding.FirstOrDefault();
-                return CodingToDict(coding);
+                var codeDict = CodingToDict(coding);
+                if (codeableConcept != null && codeableConcept.Text != null && codeableConcept.Text.Length > 0)
+                {
+                    codeDict["text"] = codeableConcept.Text;
+                }
+                else
+                {
+                    codeDict["text"] = "";
+                }
+                return codeDict;
             }
             else
             {

@@ -1,10 +1,7 @@
 ## Change Log
 
-### v3.1.0-preview10 - 2020-08-12
+### v3.1.0-RC1 - 2020-08-25
 
-* Improve error handling during message parsing.
-* Add `MessageParseException` class.
-* Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
 * Updated `DeathRecord` class to match latest VRDR IG changes.
 * Numerous under-the-covers changes to address IG changes from FHIR STU3 -> R4 and fix errors and warnings from the FHIR validator including:
     - Switch location of business identifiers: certificate number from Death Certificate (Composition) to Death Certification (Procedure), state auxiliary identifier from Death Certificate Document to Document Reference, NCHS identifier to Bundle identifier
@@ -15,6 +12,7 @@
     - Full state name to two letter state code
     - Boolean observations to coded observations with 'Y', 'N', unknown or not applicable values
     - Extract Observation component to full Observation, e.g. for Military Service
+* Properties that map to a FHIR CodeableConcept now support an addition `text` dictionary key that maps to the `CodeableConcept.text` element.
 * Added `DeathRecord.StateLocalIdentifier` property.
 * `DeathRecord.InterestedPartyIdentifier` is now a `Dictionary` instead of a `string`.
 * Added `DeathRecord.CertifierIdentifier` property.
@@ -32,9 +30,16 @@
 * `DeathRecord.ExaminerContacted` is now a `Dictionary` instead of a `bool`.
 * Added `DeathRecord.ExaminerContactedBoolean` property as a convenience method.
 * `DeathRecord.InjuryPlace` is now a `Dictionary` instead of a `string`.
+* Added `DeathRecord.InjuryPlaceDescription` property as a convenience method.
 * Added `DeathRecord.InjuryAtWorkBoolean` property as a convenience method.
 * `DeathRecord.TransportEvent` is now a `Dictionary` instead of a `bool`.
 * Added `DeathRecord.TransportationEventBoolean` property as a convenience method.
+
+### v3.1.0-preview10 - 2020-06-12
+
+* Improve error handling during message parsing.
+* Add `MessageParseException` class.
+* Added `CauseOfDeathEntityAxisList` property to `CodingResponseMessage` and `CodingUpdateMessage`.
 
 ### v3.1.0-preview9 - 2020-05-29
 

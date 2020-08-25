@@ -1542,6 +1542,14 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
           ]
         },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+            "valueCodeableConcept": {
+              "text": "MA"
+            }
+          }
+        ],
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {

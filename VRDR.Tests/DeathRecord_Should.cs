@@ -2178,10 +2178,24 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_DeathLocationJurisdiction()
+        {
+            SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            Assert.Equal("MA", SetterDeathRecord.DeathLocationJurisdiction);
+        }
+
+        [Fact]
         public void Get_DeathLocationName()
         {
             Assert.Equal("Example Death Location Name", ((DeathRecord)JSONRecords[0]).DeathLocationName);
             Assert.Equal("Example Death Location Name", ((DeathRecord)XMLRecords[0]).DeathLocationName);
+        }
+
+        [Fact]
+        public void Get_DeathLocationJurisdiction()
+        {
+            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DeathLocationJurisdiction);
+            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DeathLocationJurisdiction);
         }
 
         [Fact]

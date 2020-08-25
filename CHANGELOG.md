@@ -12,6 +12,7 @@
     - Full state name to two letter state code
     - Boolean observations to coded observations with 'Y', 'N', unknown or not applicable values
     - Extract Observation component to full Observation, e.g. for Military Service
+    - Add support for LocationJurisdictionId extension
 * Properties that map to a FHIR CodeableConcept now support an addition `text` dictionary key that maps to the `CodeableConcept.text` element.
 * Added `DeathRecord.StateLocalIdentifier` property.
 * `DeathRecord.InterestedPartyIdentifier` is now a `Dictionary` instead of a `string`.
@@ -27,6 +28,7 @@
 * Added `DeathRecord.DateOfDeath` property.
 * Added `DeathRecord.AutopsyResultsAvailableBoolean` property as a convenience method.
 * Added `DeathRecord.DeathLocationType` property.
+* Added `DeathRecord.DeathLocationJurisdiction` property.
 * `DeathRecord.ExaminerContacted` is now a `Dictionary` instead of a `bool`.
 * Added `DeathRecord.ExaminerContactedBoolean` property as a convenience method.
 * `DeathRecord.InjuryPlace` is now a `Dictionary` instead of a `string`.

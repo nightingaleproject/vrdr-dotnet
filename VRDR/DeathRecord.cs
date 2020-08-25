@@ -6001,6 +6001,57 @@ namespace VRDR
             }
         }
 
+        /// <summary>Death Location Jurisdiction.</summary>
+        /// <value>the vital record jurisdiction identifier.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
+        /// </example>
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-Location-Jurisdiction-Id.html", false, 31)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
+        public string DeathLocationJurisdiction
+        {
+            get
+            {
+                if (DeathLocationLoc != null)
+                {
+                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
+                    {
+                        CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
+                        return cc.Text;
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    DeathLocationLoc = new Location();
+                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
+                    DeathLocationLoc.Meta = new Meta();
+                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
+                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
+                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                }
+                else
+                {
+                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                }
+                CodeableConcept cc = new CodeableConcept();
+                cc.Text = value;
+                Extension extension = new Extension();
+                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
+                extension.Value = cc;
+                DeathLocationLoc.Extension.Add(extension);
+            }
+        }
+
         /// <summary>Name of Death Location.</summary>
         /// <value>the death location name.</value>
         /// <example>

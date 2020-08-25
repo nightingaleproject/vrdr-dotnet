@@ -1839,6 +1839,16 @@
             <para>};</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DeathLocationJurisdiction">
+            <summary>Death Location Jurisdiction.</summary>
+            <value>the vital record jurisdiction identifier.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.DeathLocationName">
             <summary>Name of Death Location.</summary>
             <value>the death location name.</value>

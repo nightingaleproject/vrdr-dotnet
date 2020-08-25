@@ -441,6 +441,9 @@ namespace VRDR.CLI
                 deathLocationCode.Add("display", "Death in hospital");
                 deathRecord.DeathLocationType = deathLocationCode;
 
+                // DeathLocationJurisdiction
+                deathRecord.DeathLocationJurisdiction = "MA";
+
                 // DateOfDeath
                 deathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";
 

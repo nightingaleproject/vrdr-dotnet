@@ -372,6 +372,9 @@
             <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
             </example>
         </member>
+        <member name="M:VRDR.DeathRecord.UpdateBundleIdentifier">
+            <summary>Update the bundle identifier from the component fields.</summary>
+        </member>
         <member name="P:VRDR.DeathRecord.BundleIdentifier">
             <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
             <value>a record bundle identification string.</value>

@@ -300,6 +300,8 @@ namespace VRDR
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
+
+            UpdateBundleIdentifier();
         }
 
         /// <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
@@ -449,7 +451,33 @@ namespace VRDR
                 Identifier identifier = new Identifier();
                 identifier.Value = value;
                 DeathCertification.Identifier.Add(identifier);
+                UpdateBundleIdentifier();
             }
+        }
+
+        /// <summary>Update the bundle identifier from the component fields.</summary>
+        private void UpdateBundleIdentifier()
+        {
+            uint certificateNumber = 0;
+            UInt32.TryParse(this.Identifier, out certificateNumber);
+            uint deathYear = 0;
+            if (this.DateOfDeath != null)
+            {
+                if (this.DateOfDeath.Length >= 4)
+                {
+                    UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
+                }
+            }
+            var jurisdictionId = this.DeathLocationAddress?["addressState"];
+            if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
+            {
+                jurisdictionId = "XX";
+            }
+            else
+            {
+                jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
+            }
+            this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
@@ -472,7 +500,7 @@ namespace VRDR
                 }
                 return null;
             }
-            set
+            private set
             {
                 Identifier identifier = new Identifier();
                 identifier.Value = value;
@@ -5856,6 +5884,7 @@ namespace VRDR
                 {
                     DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
                 }
+                UpdateBundleIdentifier();
             }
         }
 
@@ -6090,6 +6119,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Address = DictToAddress(value);
                 }
+                UpdateBundleIdentifier();
             }
         }
 

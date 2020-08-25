@@ -1741,7 +1741,7 @@ namespace VRDR
                 var ethnicityText = record.EthnicityText;
                 if (!String.IsNullOrWhiteSpace(ethnicityText))
                 {
-                    return ethnicityText;
+                    return Truncate(ethnicityText, 20).Trim();
                 }
                 Tuple<string, string> other = HispanicOriginOther().FirstOrDefault();
                 if (other != null)

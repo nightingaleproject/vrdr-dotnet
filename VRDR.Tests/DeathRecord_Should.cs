@@ -1076,10 +1076,13 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Ethnicity()
         {
+            SetterDeathRecord.EthnicityText = "Not Hispanic or Latino";
+            Assert.Equal("Not Hispanic or Latino", SetterDeathRecord.EthnicityText);
             Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
             SetterDeathRecord.Ethnicity = ethnicity;
             Assert.Equal(ethnicity[0], SetterDeathRecord.Ethnicity[0]);
             Assert.Equal(ethnicity[1], SetterDeathRecord.Ethnicity[1]);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", SetterDeathRecord.EthnicityText);
         }
 
         [Fact]
@@ -1087,17 +1090,22 @@ namespace VRDR.Tests
         {
             Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)JSONRecords[0]).Ethnicity[0]);
             Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)JSONRecords[0]).Ethnicity[1]);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)JSONRecords[0]).EthnicityText);
             Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)XMLRecords[0]).Ethnicity[0]);
             Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)XMLRecords[0]).Ethnicity[1]);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)XMLRecords[0]).EthnicityText);
         }
 
         [Fact]
         public void Set_Race()
         {
+            SetterDeathRecord.RaceText = "White";
+            Assert.Equal("White", SetterDeathRecord.RaceText);
             Tuple<string, string>[] race = {Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")};
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
+            Assert.Equal("White, Native Hawaiian or Other Pacific Islander", SetterDeathRecord.RaceText);
         }
 
         [Fact]
@@ -1105,8 +1113,12 @@ namespace VRDR.Tests
         {
             Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)JSONRecords[0]).Race[0]);
             Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)JSONRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)JSONRecords[0]).Race[2]);
+            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)JSONRecords[0]).RaceText);
             Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)XMLRecords[0]).Race[0]);
             Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)XMLRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)XMLRecords[0]).Race[2]);
+            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)XMLRecords[0]).RaceText);
         }
 
         [Fact]

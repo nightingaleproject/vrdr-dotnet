@@ -36,6 +36,8 @@
 * Added `DeathRecord.InjuryAtWorkBoolean` property as a convenience method.
 * `DeathRecord.TransportEvent` is now a `Dictionary` instead of a `bool`.
 * Added `DeathRecord.TransportationEventBoolean` property as a convenience method.
+* Added `DeathRecord.EthnicityText` property for uncoded ethnicity
+* Added `DeathRecord.RaceText` property for uncoded race
 
 ### v3.1.0-preview10 - 2020-06-12
 

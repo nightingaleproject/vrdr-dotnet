@@ -1738,6 +1738,11 @@ namespace VRDR
         {
             get
             {
+                var ethnicityText = record.EthnicityText;
+                if (!String.IsNullOrWhiteSpace(ethnicityText))
+                {
+                    return ethnicityText;
+                }
                 Tuple<string, string> other = HispanicOriginOther().FirstOrDefault();
                 if (other != null)
                 {
@@ -1752,13 +1757,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    // Try to find a matching code for the literal
-                    string codeMatch = dataLookup.EthnicityNameToEthnicityCode(value.Trim());
-                    ethnicities.Add(Tuple.Create(value.Trim(), codeMatch));
-                    ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                    ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                    record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
+                    record.EthnicityText = value;
                 }
             }
         }

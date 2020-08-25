@@ -4,7 +4,7 @@
     <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" />
   </meta>
   <identifier>
-    <value value="2019MA000001" />
+    <value value="2018MA000001" />
   </identifier>
   <type value="document" />
   <entry>

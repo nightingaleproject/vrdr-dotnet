@@ -1207,10 +1207,21 @@
             <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.EthnicityText">
+            <summary>Decedent's Ethnicity.</summary>
+            <value>the decedent's ethnicity as a text string. Use the Ethnicity property to set coded ethnicity.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.EthnicityText = "Hispanic or Latino";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.Ethnicity">
             <summary>Decedent's Ethnicity.</summary>
             <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
-            the code.</value>
+            the code. Use the EthnicityText property to set this value as a simple string, setting the value of this property will create a default value for the
+            EthnicityText property by concatenating the supplied code display texts.</value>
             <example>
             <para>// Setter:</para>
             <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
@@ -1222,10 +1233,21 @@
             <para>};</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.RaceText">
+            <summary>Decedent's Race.</summary>
+            <value>the decedent's race as a text string. Use the Race property to set coded race.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.RaceText = "White";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Race Text: {ExampleDeathRecord.RaceText}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.Race">
             <summary>Decedent's Race.</summary>
             <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
-            the code.</value>
+            the code. Use the RaceText property to set this value as a simple string, setting the value of this property will create a default value for the
+            RaceText property by concatenating the supplied code display texts.</value>
             <example>
             <para>// Setter:</para>
             <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>

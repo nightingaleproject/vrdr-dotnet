@@ -3628,8 +3628,54 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
+        /// <value>the decedent's ethnicity as a text string. Use the Ethnicity property to set coded ethnicity.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EthnicityText = "Hispanic or Latino";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
+        /// </example>
+        [Property("EthnicityText", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 11)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
+        public string EthnicityText
+        {
+            get
+            {
+                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
+                if (ethnicity != null)
+                {
+                    Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
+                    if (ethnicityText != null && ethnicityText.Value.GetType() == typeof(FhirString))
+                    {
+                        return ethnicityText.Value.ToString();
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
+                if (ethnicity == null)
+                {
+                    ethnicity = new Extension();
+                    ethnicity.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
+                    Decedent.Extension.Add(ethnicity);
+                }
+                Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
+                if (ethnicityText == null)
+                {
+                    ethnicityText = new Extension();
+                    ethnicityText.Url = "text";
+                    ethnicity.Extension.Add(ethnicityText);
+                }
+                ethnicityText.Value = new FhirString(value);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity.</summary>
         /// <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
-        /// the code.</value>
+        /// the code. Use the EthnicityText property to set this value as a simple string, setting the value of this property will create a default value for the
+        /// EthnicityText property by concatenating the supplied code display texts.</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
@@ -3726,8 +3772,54 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Race.</summary>
+        /// <value>the decedent's race as a text string. Use the Race property to set coded race.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceText = "White";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Race Text: {ExampleDeathRecord.RaceText}");</para>
+        /// </example>
+        [Property("RaceText", Property.Types.String, "Decedent Demographics", "Decedent's Race.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 11)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
+        public string RaceText
+        {
+            get
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
+                if (race != null)
+                {
+                    Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
+                    if (raceText != null && raceText.Value.GetType() == typeof(FhirString))
+                    {
+                        return raceText.Value.ToString();
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
+                if (race == null)
+                {
+                    race = new Extension();
+                    race.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
+                    Decedent.Extension.Add(race);
+                }
+                Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
+                if (raceText == null)
+                {
+                    raceText = new Extension();
+                    raceText.Url = "text";
+                    race.Extension.Add(raceText);
+                }
+                raceText.Value = new FhirString(value);
+            }
+        }
+
+        /// <summary>Decedent's Race.</summary>
         /// <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
-        /// the code.</value>
+        /// the code. Use the RaceText property to set this value as a simple string, setting the value of this property will create a default value for the
+        /// RaceText property by concatenating the supplied code display texts.</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>

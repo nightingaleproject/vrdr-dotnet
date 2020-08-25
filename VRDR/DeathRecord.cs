@@ -3635,7 +3635,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
         /// </example>
-        [Property("EthnicityText", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 11)]
+        [Property("EthnicityText", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://hl7.org/fhir/us/vrdr/2019May/Decedent.html", true, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
         public string EthnicityText
         {

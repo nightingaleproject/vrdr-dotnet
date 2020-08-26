@@ -284,6 +284,10 @@ dotnet run
 
 The service will be listening locally at `http://localhost:8080`.
 
+#### Publishing a Version
+
+To create a new release of VRDR on NuGet, bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.
+
 ## License
 
 Copyright 2018, 2019, 2020 The MITRE Corporation

@@ -29,7 +29,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.0-RC1" />
+  <PackageReference Include="VRDR" Version="3.1.0-RC2" />
   ...
 </ItemGroup>
 ```
@@ -183,7 +183,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-RC1" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0-RC2" />
   ...
 </ItemGroup>
 ```

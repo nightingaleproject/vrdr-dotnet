@@ -1,5 +1,10 @@
 ## Change Log
 
+### v3.1.0-RC2 - 2020-XX-XX
+
+* Assorted bug fixes
+    - Fixed a bug that would cause an NPE if a mortician was not present in a death recod file
+
 ### v3.1.0-RC1 - 2020-08-25
 
 * Updated `DeathRecord` class to match latest VRDR IG changes.

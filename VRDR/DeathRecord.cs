@@ -188,11 +188,7 @@ namespace VRDR
             Pronouncer.Meta.Profile = pronouncer_profile;
 
             // Start with an empty mortician.
-            Mortician = new Practitioner();
-            Mortician.Id = Guid.NewGuid().ToString();
-            Mortician.Meta = new Meta();
-            string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
-            Mortician.Meta.Profile = mortician_profile;
+            InitializeMorticianIfNull();
 
             // Start with an empty certification.
             DeathCertification = new Procedure();
@@ -5082,6 +5078,7 @@ namespace VRDR
             }
             set
             {
+                InitializeMorticianIfNull();
                 HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null)
                 {
@@ -5119,6 +5116,7 @@ namespace VRDR
             }
             set
             {
+                InitializeMorticianIfNull();
                 HumanName name = Mortician.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -5156,6 +5154,7 @@ namespace VRDR
             }
             set
             {
+                InitializeMorticianIfNull();
                 HumanName name = Mortician.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -5195,7 +5194,7 @@ namespace VRDR
         {
             get
             {
-                Identifier identifier = Mortician.Identifier.FirstOrDefault();
+                Identifier identifier = Mortician?.Identifier?.FirstOrDefault();
                 var result = new Dictionary<string, string>();
                 if (identifier != null)
                 {
@@ -5206,6 +5205,7 @@ namespace VRDR
             }
             set
             {
+                InitializeMorticianIfNull();
                 if (Mortician.Identifier.Count > 0)
                 {
                     Mortician.Identifier.Clear();
@@ -5214,6 +5214,18 @@ namespace VRDR
                 identifier.System = value["system"];
                 identifier.Value = value["value"];
                 Mortician.Identifier.Add(identifier);
+            }
+        }
+
+        private void InitializeMorticianIfNull()
+        {
+            if (Mortician == null)
+            {
+                Mortician = new Practitioner();
+                Mortician.Id = Guid.NewGuid().ToString();
+                Mortician.Meta = new Meta();
+                string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+                Mortician.Meta.Profile = mortician_profile;
             }
         }
 

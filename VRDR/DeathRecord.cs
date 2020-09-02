@@ -7347,7 +7347,12 @@ namespace VRDR
             }
 
             // Grab Mortician
-            var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            // IMPROVEMENT: Move away from using meta profile or id to find this Practitioner, use reference from disposition method performer instead or as well
+            var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Mortician", entry.Resource.Meta.Profile.FirstOrDefault()));
+            if (morticianEntry == null)
+            {
+                morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            }
             if (morticianEntry != null)
             {
                 Mortician = (Practitioner)morticianEntry.Resource;

@@ -1423,10 +1423,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_UsualOccupation()
         {
-            Assert.Equal("secretary", ((DeathRecord)JSONRecords[0]).UsualOccupation);
+            Assert.Equal("Executive secretary", ((DeathRecord)JSONRecords[0]).UsualOccupation);
+            Assert.Equal("secretary", ((DeathRecord)JSONRecords[0]).UsualOccupationCode["display"]);
             Assert.Equal("1965-01-01", ((DeathRecord)JSONRecords[0]).UsualOccupationStart);
             Assert.Equal("2010-01-01", ((DeathRecord)JSONRecords[0]).UsualOccupationEnd);
-            Assert.Equal("secretary", ((DeathRecord)XMLRecords[0]).UsualOccupation);
+            Assert.Equal("Executive secretary", ((DeathRecord)XMLRecords[0]).UsualOccupation);
+            Assert.Equal("secretary", ((DeathRecord)XMLRecords[0]).UsualOccupationCode["display"]);
             Assert.Equal("1965-01-01", ((DeathRecord)XMLRecords[0]).UsualOccupationStart);
             Assert.Equal("2010-01-01", ((DeathRecord)XMLRecords[0]).UsualOccupationEnd);
         }
@@ -1441,8 +1443,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_UsualIndustry()
         {
-            Assert.Equal("State agency", ((DeathRecord)JSONRecords[0]).UsualIndustry);
-            Assert.Equal("State agency", ((DeathRecord)XMLRecords[0]).UsualIndustry);
+            Assert.Equal("State agency", ((DeathRecord)JSONRecords[0]).UsualIndustryCode["display"]);
+            Assert.Equal("State agency", ((DeathRecord)XMLRecords[0]).UsualIndustryCode["display"]);
+            Assert.Equal("State department of agriculture", ((DeathRecord)JSONRecords[0]).UsualIndustry);
+            Assert.Equal("State department of agriculture", ((DeathRecord)XMLRecords[0]).UsualIndustry);
         }
 
         [Fact]

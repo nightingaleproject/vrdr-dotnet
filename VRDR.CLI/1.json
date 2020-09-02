@@ -1085,11 +1085,7 @@
           "end" : "2010-01-01"
         },
         "valueCodeableConcept": {
-          "coding": [
-            {
-              "display": "secretary"
-            }
-          ]
+          "text": "secretary"
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"

@@ -883,6 +883,7 @@
           <coding>
             <display value="secretary" />
           </coding>
+          <text value="Executive secretary" />
         </valueCodeableConcept>
         <component>
           <code>
@@ -896,6 +897,7 @@
             <coding>
               <display value="State agency" />
             </coding>
+            <text value="State department of agriculture" />
           </valueCodeableConcept>
         </component>
       </Observation>

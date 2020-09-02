@@ -1089,7 +1089,8 @@
             {
               "display": "secretary"
             }
-          ]
+          ],
+          "text": "Executive secretary"
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
@@ -1110,7 +1111,8 @@
                 {
                   "display": "State agency"
                 }
-              ]
+              ],
+              "text": "State department of agriculture"
             }
           }
         ]

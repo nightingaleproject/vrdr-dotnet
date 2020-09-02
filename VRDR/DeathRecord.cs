@@ -4700,6 +4700,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public Dictionary<string, string> UsualOccupationCode
         {
@@ -4749,12 +4750,20 @@ namespace VRDR
         {
             get
             {
-                return UsualOccupationCode["display"];
+                var usualOccupationCode = UsualOccupationCode;
+                if (usualOccupationCode.ContainsKey("text"))
+                {
+                    return UsualOccupationCode["text"];
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
                 var uocc = new Dictionary<string, string>();
-                uocc["display"] = value;
+                uocc["text"] = value;
                 UsualOccupationCode = uocc;
             }
         }
@@ -4935,12 +4944,20 @@ namespace VRDR
         {
             get
             {
-                return UsualIndustryCode["display"];
+                var usualIndustryCode = UsualIndustryCode;
+                if (usualIndustryCode.ContainsKey("text"))
+                {
+                    return UsualIndustryCode["text"];
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
                 var uicc = new Dictionary<string, string>();
-                uicc["display"] = value;
+                uicc["text"] = value;
                 UsualIndustryCode = uicc;
             }
         }

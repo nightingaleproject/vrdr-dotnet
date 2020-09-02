@@ -880,9 +880,7 @@
           <end value="2010-01-01" />
         </effectivePeriod>
         <valueCodeableConcept>
-          <coding>
-            <display value="secretary" />
-          </coding>
+          <text value="secretary" />
         </valueCodeableConcept>
         <component>
           <code>

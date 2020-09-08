@@ -1,9 +1,11 @@
 ## Change Log
 
-### v3.1.0-RC2 - 2020-XX-XX
+### v3.1.0-RC2 - 2020-09-08
 
 * Assorted bug fixes
-    - Fixed a bug that would cause an NPE if a mortician was not present in a death recod file
+    - Fixed a bug that would cause an NPE if a mortician was not present in a death record file
+    - Fixed a bug where mortician entry was not being correctly identified
+    - Fixed bug where text description of usual occupation and industry was being put in the code description instead of the codeable concept text
 
 ### v3.1.0-RC1 - 2020-08-25
 

@@ -210,7 +210,7 @@ namespace VRDR
         {
             get
             {
-                return Header?.Source.Endpoint;
+                return Header?.Source?.Endpoint;
             }
             set
             {
@@ -224,7 +224,7 @@ namespace VRDR
         {
             get
             {
-                return Header?.Destination.ToArray()[0].Endpoint;
+                return Header?.Destination?.FirstOrDefault()?.Endpoint;
             }
             set
             {

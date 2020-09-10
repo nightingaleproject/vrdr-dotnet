@@ -1,5 +1,10 @@
 ## Change Log
 
+### v3.1.0-RC4 - 2020-09-10
+
+* Assorted bug fixes
+    - Fixed a bug where an identifier was being incorrectly initialized with a GUID
+
 ### v3.1.0-RC3 - 2020-09-10
 
 * Assorted bug fixes

@@ -214,6 +214,10 @@ namespace VRDR
             }
             set
             {
+                if (Header.Source == null)
+                {
+                    Header.Source = new MessageHeader.MessageSourceComponent();
+                }
                 Header.Source.Endpoint = value;
             }
         }

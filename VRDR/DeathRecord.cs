@@ -194,7 +194,7 @@ namespace VRDR
             DeathCertification = new Procedure();
             DeathCertification.Id = Guid.NewGuid().ToString();
             Identifier certificationIdentifier = new Identifier();
-            certificationIdentifier.Value = Guid.NewGuid().ToString();
+            certificationIdentifier.Value = "";
             DeathCertification.Identifier.Add(certificationIdentifier);
             DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             DeathCertification.Meta = new Meta();

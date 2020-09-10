@@ -685,7 +685,7 @@ namespace VRDR.CLI
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
                 DeathRecordSubmission message = new DeathRecordSubmission(record);
                 message.MessageSource = "http://mitre.org/vrdr";
-                Console.WriteLine(message.ToJSON());
+                Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "resubmit")
@@ -693,20 +693,14 @@ namespace VRDR.CLI
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
                 DeathRecordUpdate message = new DeathRecordUpdate(record);
                 message.MessageSource = "http://mitre.org/vrdr";
-                Console.WriteLine(message.ToJSON());
+                Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "ack")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
-                switch(message)
-                {
-                    case DeathRecordSubmission submission:
-                        var record = submission.DeathRecord;
-                        break;
-                }
                 AckMessage ackMessage = new AckMessage(message);
-                Console.WriteLine(ackMessage.ToJSON());
+                Console.WriteLine(ackMessage.ToJSON(true));
                 return 0;
             }
             else if (args.Length == 2 && args[0] == "showcodes")

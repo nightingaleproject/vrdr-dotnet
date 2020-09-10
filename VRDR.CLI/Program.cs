@@ -668,6 +668,67 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
+            else if (args.Length == 2 && args[0] == "extract")
+            {
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                switch(message)
+                {
+                    case DeathRecordSubmission submission:
+                        var record = submission.DeathRecord;
+                        Console.WriteLine(record.ToJSON());
+                        break;
+                }
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "submit")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordSubmission message = new DeathRecordSubmission(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "resubmit")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordUpdate message = new DeathRecordUpdate(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "ack")
+            {
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                switch(message)
+                {
+                    case DeathRecordSubmission submission:
+                        var record = submission.DeathRecord;
+                        break;
+                }
+                AckMessage ackMessage = new AckMessage(message);
+                Console.WriteLine(ackMessage.ToJSON());
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "showcodes")
+            {
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                switch(message)
+                {
+                    case CodingResponseMessage codingResponse:
+                        Console.WriteLine($"\nUnderlying COD: {codingResponse.UnderlyingCauseOfDeath}\n");
+                        Console.WriteLine($"Record Axis Codes: {String.Join(", ", codingResponse.CauseOfDeathRecordAxis.ToArray())}\n");
+                        Console.WriteLine("Entity Axis Codes:");
+                        foreach (var entry in codingResponse.CauseOfDeathEntityAxisList)
+                        {
+                            Console.WriteLine($"  Line: {entry.Line}  Sequence: {entry.Position}  Code: {entry.Code}");
+                        }
+                        Console.WriteLine();
+                        break;
+                    default:
+                        Console.WriteLine("Message does not appear to be a coding response message");
+                        break;
+                }
+            }
             return 0;
         }
 

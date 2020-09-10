@@ -2,6 +2,7 @@
 
 ### v3.1.0-RC4 - 2020-09-10
 
+* Added message related utility functions to VRDR.CLI
 * Assorted bug fixes
     - Fixed a bug where an identifier was being incorrectly initialized with a GUID
 

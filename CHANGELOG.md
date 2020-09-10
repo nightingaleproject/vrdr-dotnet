@@ -1,5 +1,10 @@
 ## Change Log
 
+### v3.1.0-RC3 - 2020-09-10
+
+* Assorted bug fixes
+    - Fixed a bug that would cause an NPE if source was missing from a parsed message header
+
 ### v3.1.0-RC2 - 2020-09-08
 
 * Assorted bug fixes

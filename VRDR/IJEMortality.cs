@@ -995,9 +995,8 @@ namespace VRDR
                         case "wk":
                             return "3";
                     }
-                    return "";
                 }
-                return "";
+                return "9";
             }
             set
             {
@@ -1039,11 +1038,11 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null)
+                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["value"]))
                 {
                     return record.AgeAtDeath["value"];
                 }
-                return "";
+                return "999";
             }
             set
             {

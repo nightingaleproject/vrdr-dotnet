@@ -1038,9 +1038,10 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["value"]))
+                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["value"]) && this.AGETYPE != "9")
                 {
-                    return record.AgeAtDeath["value"];
+                    IJEField info = FieldInfo("AGE");
+                    return Truncate(record.AgeAtDeath["value"], info.Length).PadLeft(info.Length, '0');
                 }
                 return "999";
             }
@@ -1049,7 +1050,7 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary<string, string> ageAtDeath = record.AgeAtDeath;
-                    ageAtDeath["value"] = value;
+                    ageAtDeath["value"] = value.TrimStart('0');
                     record.AgeAtDeath = ageAtDeath;
                 }
             }

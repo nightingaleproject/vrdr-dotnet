@@ -1625,6 +1625,11 @@
         },
         "identifier": [
           {
+            "type":  {
+              "text": "XYZ"
+            }
+          },
+          {
             "value": "42"
           }
         ],

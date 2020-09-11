@@ -1,5 +1,10 @@
 ## Change Log
 
+### v3.1.0-RC4 - 2020-09-11
+
+* Blank identifiers are ignored in a Death Certificate Reference
+* Default certificate number to 000000
+
 ### v3.1.0-RC4 - 2020-09-10
 
 * Added message related utility functions to VRDR.CLI

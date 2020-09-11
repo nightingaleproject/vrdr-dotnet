@@ -194,7 +194,7 @@ namespace VRDR
             DeathCertification = new Procedure();
             DeathCertification.Id = Guid.NewGuid().ToString();
             Identifier certificationIdentifier = new Identifier();
-            certificationIdentifier.Value = "";
+            certificationIdentifier.Value = "000000";
             DeathCertification.Identifier.Add(certificationIdentifier);
             DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             DeathCertification.Meta = new Meta();
@@ -519,11 +519,19 @@ namespace VRDR
         {
             get
             {
-                if (StateDocumentReference != null && StateDocumentReference.Identifier != null && StateDocumentReference.Identifier.Count() > 0)
+                string id = null;
+                if (StateDocumentReference != null && StateDocumentReference.Identifier != null)
                 {
-                    return StateDocumentReference.Identifier[0].Value;
+                    foreach (Identifier identifier in StateDocumentReference.Identifier)
+                    {
+                        id = identifier.Value;
+                        if (id != null && id.Length > 0)
+                        {
+                            break;
+                        }
+                    }
                 }
-                return null;
+                return id;
             }
             set
             {

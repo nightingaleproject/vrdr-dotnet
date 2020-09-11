@@ -193,9 +193,6 @@ namespace VRDR
             // Start with an empty certification.
             DeathCertification = new Procedure();
             DeathCertification.Id = Guid.NewGuid().ToString();
-            Identifier certificationIdentifier = new Identifier();
-            certificationIdentifier.Value = "000000";
-            DeathCertification.Identifier.Add(certificationIdentifier);
             DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             DeathCertification.Meta = new Meta();
             string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
@@ -435,11 +432,8 @@ namespace VRDR
         {
             get
             {
-                if (DeathCertification != null && DeathCertification.Identifier != null && DeathCertification.Identifier.Count > 0)
-                {
-                    return DeathCertification.Identifier[0].Value;
-                }
-                return null; 
+                Identifier id = DeathCertification?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
+                return id == null ? null : id.Value;
             }
             set
             {

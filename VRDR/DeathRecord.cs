@@ -519,19 +519,9 @@ namespace VRDR
         {
             get
             {
-                string id = null;
-                if (StateDocumentReference != null && StateDocumentReference.Identifier != null)
-                {
-                    foreach (Identifier identifier in StateDocumentReference.Identifier)
-                    {
-                        id = identifier.Value;
-                        if (id != null && id.Length > 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-                return id;
+                // return first non-null/empty identifier value or null if non found
+                Identifier identifier = StateDocumentReference?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
+                return identifier==null ? null : identifier.Value;
             }
             set
             {

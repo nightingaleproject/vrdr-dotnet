@@ -519,7 +519,7 @@ namespace VRDR
         {
             get
             {
-                // return first non-null/empty identifier value or null if non found
+                // return first non-null/empty identifier value or null if none found
                 Identifier identifier = StateDocumentReference?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
                 return identifier==null ? null : identifier.Value;
             }

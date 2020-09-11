@@ -1,6 +1,6 @@
 ## Change Log
 
-### v3.1.0-RC4 - 2020-09-11
+### v3.1.0-RC5 - 2020-09-11
 
 * Blank identifiers are ignored in a Death Certificate Reference
 * Default certificate number to 000000

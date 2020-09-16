@@ -70,9 +70,9 @@ deathRecord.INTERVAL1A = "Minutes";
 
 // Cause of Death Part I Code, Line a
 Dictionary<string, string> exampleCode = new Dictionary<string, string>();
-code.Add("code", "I21.0");
-code.Add("system", "ICD-10");
-code.Add("display", "Acute transmural myocardial infarction of anterior wall");
+exampleCode.Add("code", "I21.0");
+exampleCode.Add("system", "ICD-10");
+exampleCode.Add("display", "Acute transmural myocardial infarction of anterior wall");
 deathRecord.CODE1A = exampleCode;
 
 // Add PregnancyStatus

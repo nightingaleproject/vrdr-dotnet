@@ -668,6 +668,34 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
+            else if (args.Length == 3 && args[0] == "compare")
+            {
+                string ijeString1 = File.ReadAllText(args[1]);
+
+                DeathRecord record2 = new DeathRecord(File.ReadAllText(args[2]));
+                IJEMortality ije2 = new IJEMortality(record2);
+                string ijeString2 = ije2.ToString();
+
+                List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Field).ToList();
+
+                int differences = 0;
+
+                foreach(PropertyInfo property in properties)
+                {
+                    IJEField info = (IJEField)property.GetCustomAttributes().First();
+                    string field1 = ijeString1.Substring(info.Location - 1, info.Length);
+                    string field2 = ijeString2.Substring(info.Location - 1, info.Length);
+                    if (field1 != field2)
+                    {
+                        differences += 1;
+                        Console.WriteLine($"1: {info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field1 + "\"",-80}");
+                        Console.WriteLine($"2: {info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field2 + "\"",-80}");
+                        Console.WriteLine();
+                    }
+                }
+                Console.WriteLine($"Differences detected: {differences}");
+                return differences;
+            }
             else if (args.Length == 2 && args[0] == "extract")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));

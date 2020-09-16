@@ -1,9 +1,11 @@
 ## Change Log
 
-### v3.1.0-RC5 - 2020-09-11
+### v3.1.0-RC5 - 2020-09-16
 
 * Blank identifiers are ignored in a Death Certificate Reference
-* Default certificate number to 000000
+* Default is to have no certificate number rather than an OID
+* Added IJE vs. IJE-from-FHIR comparison utility function to VRDR.CLI
+* Fixed a bug that allowed blank values in IJE age fields
 
 ### v3.1.0-RC4 - 2020-09-10
 

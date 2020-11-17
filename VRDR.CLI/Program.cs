@@ -801,10 +801,10 @@ namespace VRDR.CLI
             record.Identifier = (int.Parse(record.Identifier) + 100).ToString();
             // Upate some relevant dates to be recent
             DateTimeOffset now = DateTimeOffset.Now;
-            record.DateOfDeath = (now - new TimeSpan(5, 0, 0, 0)).ToString("o");
-            record.DateOfDeathPronouncement = (now - new TimeSpan(4, 0, 0, 0)).ToString("o");
-            record.CertifiedTime = (now - new TimeSpan(3, 0, 0, 0)).ToString("o");
-            record.RegisteredTime = (now - new TimeSpan(2, 0, 0, 0)).ToString("o");
+            record.DateOfDeath = (now - new TimeSpan(5, 0, 0, 0)).ToString("s");
+            record.DateOfDeathPronouncement = (now - new TimeSpan(4, 0, 0, 0)).ToString("s");
+            record.CertifiedTime = (now - new TimeSpan(3, 0, 0, 0)).ToString("s");
+            record.RegisteredTime = (now - new TimeSpan(2, 0, 0, 0)).ToString("s");
             // Keep the age aligned
             if (record.DateOfBirth != null)
             {

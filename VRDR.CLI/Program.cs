@@ -711,6 +711,7 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "submit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                UpdateRecordForTests(record);
                 DeathRecordSubmission message = new DeathRecordSubmission(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
@@ -719,7 +720,28 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "resubmit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                UpdateRecordForTests(record);
                 DeathRecordUpdate message = new DeathRecordUpdate(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "resubmit_change")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                UpdateRecordForTests(record);
+                record.Race = new Tuple<string, string>[] { Tuple.Create("Black", "2054-5") };
+                record.Ethnicity = new Tuple<string, string>[] { Tuple.Create("Cuban", "2182-4") };
+                DeathRecordUpdate message = new DeathRecordUpdate(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "void")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                UpdateRecordForTests(record);
+                VoidMessage message = new VoidMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
@@ -769,6 +791,31 @@ namespace VRDR.CLI
             else
             {
                 return value.Substring(0, length);
+            }
+        }
+
+        // Given a record, update some fields to make it a current record suitable for testing
+        private static void UpdateRecordForTests(DeathRecord record)
+        {
+            // Update the certificate number with an offset
+            record.Identifier = (int.Parse(record.Identifier) + 100).ToString();
+            // Upate some relevant dates to be recent
+            DateTimeOffset now = DateTimeOffset.Now;
+            record.DateOfDeath = (now - new TimeSpan(5, 0, 0, 0)).ToString("o");
+            record.DateOfDeathPronouncement = (now - new TimeSpan(4, 0, 0, 0)).ToString("o");
+            record.CertifiedTime = (now - new TimeSpan(3, 0, 0, 0)).ToString("o");
+            record.RegisteredTime = (now - new TimeSpan(2, 0, 0, 0)).ToString("o");
+            // Keep the age aligned
+            if (record.DateOfBirth != null)
+            {
+                DateTimeOffset birth = DateTimeOffset.Parse(record.DateOfBirth);
+                DateTimeOffset death = DateTimeOffset.Parse(record.DateOfDeath);
+                int age = death.Year - birth.Year;
+                if (birth > death.AddYears(-age)) age--; // Adjust back if no birthday in last year
+                Dictionary<string, string> aad = new Dictionary<string, string>();
+                aad.Add("unit", "a");
+                aad.Add("value", age.ToString());
+                record.AgeAtDeath = aad;
             }
         }
     }

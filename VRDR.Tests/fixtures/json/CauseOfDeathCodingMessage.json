@@ -76,7 +76,7 @@
                             {
                                 "name": "RACEBRG",
                                 "valueCoding": {
-                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/Multiple_race_documentation_5-10-04.pdf",
                                     "code": "baz"
                                 }
                             }

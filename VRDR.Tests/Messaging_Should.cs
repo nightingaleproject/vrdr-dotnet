@@ -321,7 +321,7 @@ namespace VRDR.Tests
             CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            
+
             Assert.Null(message.CertificateNumber);
             message.CertificateNumber = 10;
             Assert.Equal((uint)10, message.CertificateNumber);
@@ -333,7 +333,7 @@ namespace VRDR.Tests
             Assert.Null(message.DeathYear);
             message.DeathYear = 2019;
             Assert.Equal((uint)2019, message.DeathYear);
-            
+
             Assert.Null(message.DeathJurisdictionID);
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
@@ -425,7 +425,7 @@ namespace VRDR.Tests
             CodingUpdateMessage message = new CodingUpdateMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            
+
             Assert.Null(message.CertificateNumber);
             message.CertificateNumber = 10;
             Assert.Equal((uint)10, message.CertificateNumber);
@@ -437,7 +437,7 @@ namespace VRDR.Tests
             Assert.Null(message.DeathYear);
             message.DeathYear = 2019;
             Assert.Equal((uint)2019, message.DeathYear);
-            
+
             Assert.Null(message.DeathJurisdictionID);
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
@@ -642,7 +642,7 @@ namespace VRDR.Tests
             Assert.Null(responseMsg.CertificateNumber);
             Assert.Null(responseMsg.NCHSIdentifier);
             Assert.Null(responseMsg.StateAuxiliaryIdentifier);
-            
+
             ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/MissingMessageType.json")));
             Assert.Equal("Message type was missing from MessageHeader", ex.Message);
             responseMsg = ex.CreateExtractionErrorMessage();

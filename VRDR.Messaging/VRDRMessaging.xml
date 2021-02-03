@@ -28,6 +28,9 @@
             <summary>The id of the message that is being acknowledged by this message</summary>
             <value>the message id.</value>
         </member>
+        <member name="P:VRDR.AckMessage.BlockCount">
+            <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        </member>
         <member name="T:VRDR.BaseMessage">
             <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
         </member>

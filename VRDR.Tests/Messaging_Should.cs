@@ -540,6 +540,43 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateAckForVoidMessage()
+        {
+            VoidMessage voidMessage = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
+            AckMessage ack = new AckMessage(voidMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(voidMessage.MessageId, ack.AckedMessageId);
+            Assert.Equal(voidMessage.MessageSource, ack.MessageDestination);
+            Assert.Equal(voidMessage.MessageDestination, ack.MessageSource);
+            Assert.Equal(voidMessage.StateAuxiliaryIdentifier, ack.StateAuxiliaryIdentifier);
+            Assert.Equal(voidMessage.CertificateNumber, ack.CertificateNumber);
+            Assert.Equal(voidMessage.NCHSIdentifier, ack.NCHSIdentifier);
+            Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
+
+            voidMessage = null;
+            ack = new AckMessage(voidMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Null(ack.AckedMessageId);
+            Assert.Null(ack.MessageDestination);
+            Assert.Null(ack.MessageSource);
+            Assert.Null(ack.CertificateNumber);
+            Assert.Null(ack.StateAuxiliaryIdentifier);
+            Assert.Null(ack.NCHSIdentifier);
+            Assert.Null(ack.BlockCount);
+
+            voidMessage = new VoidMessage();
+            ack = new AckMessage(voidMessage);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(voidMessage.MessageId, ack.AckedMessageId);
+            Assert.Equal(voidMessage.MessageSource, ack.MessageDestination);
+            Assert.Equal(voidMessage.MessageDestination, ack.MessageSource);
+            Assert.Equal(voidMessage.StateAuxiliaryIdentifier, ack.StateAuxiliaryIdentifier);
+            Assert.Equal(voidMessage.CertificateNumber, ack.CertificateNumber);
+            Assert.Equal(voidMessage.NCHSIdentifier, ack.NCHSIdentifier);
+            Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
+        }
+
+        [Fact]
         public void CreateVoidMessageFromJson()
         {
             VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));

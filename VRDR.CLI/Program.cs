@@ -746,14 +746,16 @@ namespace VRDR.CLI
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
             }
-            else if (args.Length == 3 && args[0] == "void")
+            else if (args.Length == 4 && args[0] == "void")
             {
-                // Voiding a range; arguments are the start number and the count
+                // Voiding a range; arguments are a record (just for jurisdiction and year info) the start number and the count
                 uint certificateNumber;
                 uint blockCount;
-                if (UInt32.TryParse(args[1], out certificateNumber) && UInt32.TryParse(args[2], out blockCount))
+                if (UInt32.TryParse(args[2], out certificateNumber) && UInt32.TryParse(args[3], out blockCount))
                 {
-                    VoidMessage message = new VoidMessage();
+                    DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                    UpdateRecordForTests(record);
+                    VoidMessage message = new VoidMessage(record);
                     message.CertificateNumber = certificateNumber;
                     message.BlockCount = blockCount;
                     message.MessageSource = "http://mitre.org/vrdr";
@@ -813,7 +815,7 @@ namespace VRDR.CLI
         private static void UpdateRecordForTests(DeathRecord record)
         {
             // Update the certificate number with an offset
-            record.Identifier = (int.Parse(record.Identifier) + 220).ToString();
+            record.Identifier = (int.Parse(record.Identifier) + 240).ToString();
             // Upate some relevant dates to be recent
             DateTimeOffset now = DateTimeOffset.Now;
             record.DateOfDeath = (now - new TimeSpan(5, 0, 0, 0)).ToString("s");

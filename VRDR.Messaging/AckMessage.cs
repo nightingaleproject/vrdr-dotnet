@@ -13,6 +13,12 @@ namespace VRDR
             this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;
             this.DeathJurisdictionID = messageToAck?.DeathJurisdictionID;
             this.DeathYear = messageToAck?.DeathYear;
+
+            if(typeof(VoidMessage).IsInstanceOfType(messageToAck))
+            {
+                VoidMessage voidMessageToAck = (VoidMessage) messageToAck;
+                this.BlockCount = voidMessageToAck?.BlockCount;
+            }
         }
 
         /// <summary>
@@ -50,6 +56,23 @@ namespace VRDR
             set
             {
                 Header.Response.Identifier = value;
+            }
+        }
+
+        /// <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        public uint? BlockCount
+        {
+            get
+            {
+                return (uint?)Record?.GetSingleValue<PositiveInt>("block_count")?.Value;
+            }
+            set
+            {
+                Record.Remove("block_count");
+                if (value != null && value > 1)
+                {
+                    Record.Add("block_count", new PositiveInt((int)value));
+                }
             }
         }
 

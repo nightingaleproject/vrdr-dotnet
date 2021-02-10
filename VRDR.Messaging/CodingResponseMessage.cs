@@ -153,22 +153,19 @@ namespace VRDR
             }
         }
 
-        /// <summary>Coder Status (Numeric, 0-9)</summary>
-        public uint? CoderStatus
+        /// <summary>Coder Status (string, 0-9 or null)</summary>
+        public string CoderStatus
         {
             get
             {
-                return (uint?)Record.GetSingleValue<UnsignedInt>("cs")?.Value;
+                return Record.GetSingleValue<Coding>("cs")?.Code;
             }
             set
             {
                 Record.Remove("cs");
                 if (value != null)
                 {
-                    if (value < 0 || value > 9) {
-                        throw new ArgumentException("Valid values for CoderStatus are 0-9 or null");
-                    }
-                    Record.Add("cs", new UnsignedInt((int)value));
+                    Record.Add("cs", new Coding("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Software/MICAR/Data_Entry_Software/ACME_TRANSAX/Documentation/auser.pdf", value));
                 }
             }
         }
@@ -210,6 +207,20 @@ namespace VRDR
             }
         }
 
+        /// <summary>NCHS Receipt Date Month (string, 01-12 or null)</summary>
+        public string NCHSReceiptMonthString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptMonth;
+                return (month != null) ? month.ToString().PadLeft(2, '0') : null;
+            }
+            set
+            {
+                this.NCHSReceiptMonth = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
+            }
+        }
+
         /// <summary>NCHS Receipt Date Day (Numeric, 01-31 or blank)</summary>
         public uint? NCHSReceiptDay
         {
@@ -230,7 +241,21 @@ namespace VRDR
             }
         }
 
-        /// <summary>NCHS Receipt Date Year (Numeric, Greater than year of death or blank)</summary>
+        /// <summary>NCHS Receipt Date Day (string, 01-31 or null)</summary>
+        public string NCHSReceiptDayString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptDay;
+                return (month != null) ? month.ToString().PadLeft(2, '0') : null;
+            }
+            set
+            {
+                this.NCHSReceiptDay = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Year (Numeric, Greater than or equal to year of death or blank)</summary>
         public uint? NCHSReceiptYear
         {
             get
@@ -242,11 +267,25 @@ namespace VRDR
                 Record.Remove("rec_yr");
                 if (value != null)
                 {
-                    if (DeathYear != null && value < DeathYear) {
-                        throw new ArgumentException("NCHS Receipt Year must be greater than Death Year, or null");
+                    if (DeathYear != null && value <= DeathYear) {
+                        throw new ArgumentException("NCHS Receipt Year must be greater than or equal to Death Year, or null");
                     }
                     Record.Add("rec_yr", new UnsignedInt((int)value));
                 }
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Year (string, Greater than year of death or null)</summary>
+        public string NCHSReceiptYearString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptYear;
+                return (month != null) ? month.ToString() : null;
+            }
+            set
+            {
+                this.NCHSReceiptYear = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
             }
         }
 
@@ -291,22 +330,20 @@ namespace VRDR
             }
         }
 
-        /// <summary>Intentional reject (1-5, 9 or null)</summary>
-        public uint? IntentionalReject
+        /// <summary>Intentional reject (1-5, 9 or null). See Coding one-character reject codes in code document for values.</summary>
+        public string IntentionalReject
         {
             get
             {
-                return (uint?)Record.GetSingleValue<UnsignedInt>("int_rej")?.Value;
+
+                return Record.GetSingleValue<Coding>("int_rej")?.Code;
             }
             set
             {
                 Record.Remove("int_rej");
                 if (value != null)
                 {
-                    if (value != 9 || value > 5 || value < 1) {
-                        throw new ArgumentException("Intentional Reject must equal 1-5, 9, or null.");
-                    }
-                    Record.Add("int_rej", new UnsignedInt((int)value));
+                    Record.Add("int_rej", new Coding("https://www.cdc.gov/nchs/data/dvs/2b_2017.pdf", value));
                 }
             }
         }
@@ -397,6 +434,23 @@ namespace VRDR
                 if(value != null)
                 {
                     Record.Add("injpl", new FhirString(value.ToString()));
+                }
+            }
+        }
+
+        /// <summary>Other Specified Place of Injury</summary>
+        public string OtherSpecifiedPlace
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("other_specified_place")?.Value;
+            }
+            set
+            {
+                Record.Remove("other_specified_place");
+                if (value != null)
+                {
+                    Record.Add("other_specified_place", new FhirString(value));
                 }
             }
         }

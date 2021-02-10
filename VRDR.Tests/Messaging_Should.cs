@@ -334,10 +334,81 @@ namespace VRDR.Tests
             message.DeathYear = 2019;
             Assert.Equal((uint)2019, message.DeathYear);
 
+            Assert.Null(message.NCHSReceiptMonthString);
+            message.NCHSReceiptMonthString = "1";
+            Assert.Equal("01", message.NCHSReceiptMonthString);
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            message.NCHSReceiptMonthString = null;
+            Assert.Null(message.NCHSReceiptMonthString);
+
+            Assert.Null(message.NCHSReceiptMonth);
+            message.NCHSReceiptMonth = (uint)1;
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            message.NCHSReceiptMonth = null;
+
+            Assert.Null(message.NCHSReceiptDayString);
+            message.NCHSReceiptDayString = "9";
+            Assert.Equal("09", message.NCHSReceiptDayString);
+            Assert.Equal((uint)9, message.NCHSReceiptDay);
+            message.NCHSReceiptDayString = null;
+            Assert.Null(message.NCHSReceiptDayString);
+
+            Assert.Null(message.NCHSReceiptDay);
+            message.NCHSReceiptDay = (uint)8;
+            Assert.Equal((uint)8, message.NCHSReceiptDay);
+            message.NCHSReceiptDay = null;
+
+            Assert.Null(message.NCHSReceiptYearString);
+            message.NCHSReceiptYearString = "2020";
+            Assert.Equal("2020", message.NCHSReceiptYearString);
+            Assert.Equal((uint)2020, message.NCHSReceiptYear);
+            message.NCHSReceiptYearString = null;
+            Assert.Null(message.NCHSReceiptYearString);
+
+            Assert.Null(message.NCHSReceiptYear);
+            message.NCHSReceiptYear = (uint)2021;
+            Assert.Equal((uint)2021, message.NCHSReceiptYear);
+            message.NCHSReceiptYear = null;
+
+            Assert.Null(message.MannerOfDeath);
+            message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
+            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            message.MannerOfDeath = null;
+
+            Assert.Null(message.CoderStatus);
+            message.CoderStatus = "8";
+            Assert.Equal("8", message.CoderStatus);
+            message.CoderStatus = null;
+
+            Assert.Null(message.ShipmentNumber);
+            message.ShipmentNumber = "B202101";
+            Assert.Equal("B202101", message.ShipmentNumber);
+            message.ShipmentNumber = null;
+
+            Assert.Null(message.ACMESystemRejectCodes);
+            message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+            Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+            message.ACMESystemRejectCodes = null;
+
+            Assert.Null(message.PlaceOfInjury);
+            message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;
+            Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+            message.PlaceOfInjury = null;
+
+            Assert.Null(message.OtherSpecifiedPlace);
+            message.OtherSpecifiedPlace = "Unique Location";
+            Assert.Equal("Unique Location", message.OtherSpecifiedPlace);
+            message.OtherSpecifiedPlace = null;
+
             Assert.Null(message.DeathJurisdictionID);
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
             Assert.Equal("2019NH000010", message.NCHSIdentifier);
+
+            Assert.Null(message.IntentionalReject);
+            message.IntentionalReject = "5";
+            Assert.Equal("5", message.IntentionalReject);
+            message.IntentionalReject = null;
 
             Assert.Empty(message.Ethnicity);
             var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();

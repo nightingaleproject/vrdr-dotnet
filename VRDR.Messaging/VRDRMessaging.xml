@@ -274,7 +274,7 @@
             <summary>Decedent race coding</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CoderStatus">
-            <summary>Coder Status (Numeric, 0-9)</summary>
+            <summary>Coder Status (string, 0-9 or null)</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.ShipmentNumber">
             <summary>Shipment Number (Alpha Numeric)</summary>
@@ -282,11 +282,20 @@
         <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonth">
             <summary>NCHS Receipt Date Month (Numeric, 01-12 or null)</summary>
         </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonthString">
+            <summary>NCHS Receipt Date Month (string, 01-12 or null)</summary>
+        </member>
         <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDay">
             <summary>NCHS Receipt Date Day (Numeric, 01-31 or blank)</summary>
         </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDayString">
+            <summary>NCHS Receipt Date Day (string, 01-31 or null)</summary>
+        </member>
         <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYear">
-            <summary>NCHS Receipt Date Year (Numeric, Greater than year of death or blank)</summary>
+            <summary>NCHS Receipt Date Year (Numeric, Greater than or equal to year of death or blank)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYearString">
+            <summary>NCHS Receipt Date Year (string, Greater than year of death or null)</summary>
         </member>
         <member name="T:VRDR.CodingResponseMessage.MannerOfDeathEnum">
             <summary>Manner of Death Enum</summary>
@@ -310,7 +319,7 @@
             <summary>Manner of Death (or null)</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.IntentionalReject">
-            <summary>Intentional reject (1-5, 9 or null)</summary>
+            <summary>Intentional reject (1-5, 9 or null). See Coding one-character reject codes in code document for values.</summary>
         </member>
         <member name="T:VRDR.CodingResponseMessage.ACMESystemRejectEnum">
             <summary>ACME System Reject Enum</summary>
@@ -365,6 +374,9 @@
         </member>
         <member name="P:VRDR.CodingResponseMessage.PlaceOfInjury">
             <summary>Place of Injury (or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.OtherSpecifiedPlace">
+            <summary>Other Specified Place of Injury</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.UnderlyingCauseOfDeath">
             <summary>Underlying cause of death code (ICD-10)</summary>

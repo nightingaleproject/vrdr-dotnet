@@ -357,6 +357,8 @@ namespace VRDR
             ACMEReject,
             /// <summary>MICAR Reject - Rule Application</summary>
             MICARRejectRuleApplication,
+            /// <summary>Record Reviewed</summary>
+            RecordReviewed,
             /// <summary>Not Rejected</summary>
             NotRejected,
         }

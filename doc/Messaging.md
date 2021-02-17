@@ -105,44 +105,56 @@ Once NCHS have determined the causes of death they can create a `CodingResponseM
 
 ```cs
 // Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
+CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint",
+                                                          "http://nchs.cdc.gov/vrdr_submission");
 
 // Assign the business identifiers
-message.CertificateNumber = "...";
-message.StateAuxiliaryIdentifier = "...";
-message.NCHSIdentifier = "...";
+message.CertificateNumber = 10;
+message.StateAuxiliaryIdentifier = "101010";
+message.DeathYear = 2019;
+message.DeathJurisdictionID = "MA";
+
+// Specify additional information
+message.NCHSReceiptMonthString = "1";
+message.NCHSReceiptDayString = "9";
+message.NCHSReceiptYearString = "2020";
+message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
+message.CoderStatus = "8";
+message.ShipmentNumber = "B202101";
+message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;
+message.OtherSpecifiedPlace = "Unique Location";
+message.IntentionalReject = "5";
 
 // Create the ethnicity coding
 var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <ethnicity code>);
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <ethnicity code>);
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "<ethnicity-code>");
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "<ethnicity-code>");
 message.Ethnicity = ethnicity;
 
 // Create the race coding
 var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-race.Add(CodingResponseMessage.RaceCode.RACE1E, <race code>);
-race.Add(CodingResponseMessage.RaceCode.RACE17C, <race code>);
-race.Add(CodingResponseMessage.RaceCode.RACEBRG, <race code>);
+race.Add(CodingResponseMessage.RaceCode.RACE1E, "<race-code>");
+race.Add(CodingResponseMessage.RaceCode.RACE17C, "<race-code>");
+race.Add(CodingResponseMessage.RaceCode.RACEBRG, "<race-code>");
 message.Race = race;
 
 // Create the cause of death coding
-message.UnderlyingCauseOfDeath = <icd code>;
+message.UnderlyingCauseOfDeath = "A04.7";
 
 // Assign the record axis codes
 var recordAxisCodes = new List<string>();
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add("A04.7");
+recordAxisCodes.Add("A41.9");
+recordAxisCodes.Add("J18.9");
+recordAxisCodes.Add("J96.0");
 message.CauseOfDeathRecordAxis = recordAxisCodes;
 
 // Assign the entity axis codes
 var builder = new CauseOfDeathEntityAxisBuilder();
-// for each entity axis codes
-...
-builder.Add(<lineNumber>, <positionInLine>, <icd code>);
-...
-// end loop
+builder.Add("1", "1", "line1_code1");
+builder.Add("1", "2", "line1_code2");
+builder.Add("2", "1", "line2_code1");
 message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 
 // Create a JSON representation of the coding response message

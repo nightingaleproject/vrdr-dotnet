@@ -333,6 +333,9 @@
         <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.MICARRejectRuleApplication">
             <summary>MICAR Reject - Rule Application</summary>
         </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.RecordReviewed">
+            <summary>Record Reviewed</summary>
+        </member>
         <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.NotRejected">
             <summary>Not Rejected</summary>
         </member>

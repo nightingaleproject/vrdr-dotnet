@@ -105,7 +105,8 @@ Once NCHS have determined the causes of death they can create a `CodingResponseM
 
 ```cs
 // Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint", "http://nchs.cdc.gov/vrdr_submission");
+CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint",
+                                                          "http://nchs.cdc.gov/vrdr_submission");
 
 // Assign the business identifiers
 message.CertificateNumber = 10;

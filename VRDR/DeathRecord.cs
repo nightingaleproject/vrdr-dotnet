@@ -426,7 +426,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
-        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 1)]
+        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 3)]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
         public string Identifier
         {
@@ -478,7 +478,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.BundleIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Document.html", true, 2)]
+        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Document.html", true, 4)]
         [FHIRPath("Bundle", "identifier")]
         public string BundleIdentifier
         {
@@ -507,7 +507,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier}");</para>
         /// </example>
-        [Property("State Local Identifier", Property.Types.String, "Decedent Demographics", "State Local Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Reference.html", true, 3)]
+        [Property("State Local Identifier", Property.Types.String, "Decedent Demographics", "State Local Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Reference.html", true, 4)]
         [FHIRPath("Bundle.entry.resource.where($this is DocumentReference).where(type.coding.code='64297-5')", "")]
         public string StateLocalIdentifier
         {
@@ -3111,7 +3111,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
-        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 4)]
+        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 0)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string[] GivenNames
         {
@@ -5526,7 +5526,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
         /// </example>
-        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 90)]
+        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6345,7 +6345,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 14)]
+        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
         [PropertyParam("value", "The quantity value.")]
         [PropertyParam("unit", "The quantity unit.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
@@ -7983,6 +7983,7 @@ namespace VRDR
         public string ToDescription()
         {
             Dictionary<string, Dictionary<string, dynamic>> description = new Dictionary<string, Dictionary<string, dynamic>>();
+            // the priority values should order the categories as: Decedent Demographics, Decedent Disposition, Death Investigation, Death Certification
             foreach(PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => ((Property)p.GetCustomAttributes().First()).Priority))
             {
                 // Grab property annotation for this property
@@ -8217,7 +8218,7 @@ namespace VRDR
         public int Priority;
 
         /// <summary>Constructor.</summary>
-        public Property(string name, Types type, string category, string description, bool serialize, string igurl, bool capturedInIJE, int priority = 1)
+        public Property(string name, Types type, string category, string description, bool serialize, string igurl, bool capturedInIJE, int priority = 4)
         {
             this.Name = name;
             this.Type = type;

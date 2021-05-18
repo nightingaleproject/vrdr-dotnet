@@ -16,6 +16,10 @@ This repository includes .NET (C#) code for
 
 If you are upgrading from 2.x.x to 3.x.x, please note that there are differences between FHIR STU3 and R4 that impact the structure of the VRDR Death Record. [This commit illustrates the differences between FHIR STU3 and FHIR R4 VRDR Death Records](https://github.com/nightingaleproject/vrdr-dotnet/commit/2b4c2026fdab80e7233f3a7d7ed6e17d5d63f38e). Test data may need similar updates from STU3 to R4 when updating to use the 3.x.x versions of these libraries.
 
+## Requirements
+
+- .NET Core 3.1 or 2.1 download [here](https://dotnet.microsoft.com/download)
+
 ## Project Organization
 
 ### VRDR
@@ -272,7 +276,7 @@ To build a Dockerized version from scratch (from source), you can do so by runni
 
 ```
 dotnet publish
-docker build -t vrdr-microservice .
+docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile .
 docker run -p 8080:8080 vrdr-microservice
 ```
 

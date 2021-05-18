@@ -69,7 +69,7 @@ namespace VRDR
                 var list = new List<Tuple<string, Base>>();
                 foreach (KeyValuePair<HispanicOrigin, string> item in value)
                 {
-                    var part = Tuple.Create(item.Key.ToString(), 
+                    var part = Tuple.Create(item.Key.ToString(),
                         (Base)(new Coding("https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf", item.Value)));
                     list.Add(part);
                 }
@@ -140,11 +140,320 @@ namespace VRDR
                 var list = new List<Tuple<string, Base>>();
                 foreach (KeyValuePair<RaceCode, string> item in value)
                 {
-                    var part = Tuple.Create(item.Key.ToString(), 
-                        (Base)(new Coding("https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf", item.Value)));
+                    string codeList = "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf";
+                    // Special case for RACEBRG, it uses a different code document
+                    if(item.Key == RaceCode.RACEBRG) {
+                        codeList = "https://www.cdc.gov/nchs/data/dvs/Multiple_race_documentation_5-10-04.pdf";
+                    }
+                    var part = Tuple.Create(item.Key.ToString(),
+                        (Base)(new Coding(codeList, item.Value)));
                     list.Add(part);
                 }
                 Record.Add("race", list);
+            }
+        }
+
+        /// <summary>Coder Status (string, 0-9 or null)</summary>
+        public string CoderStatus
+        {
+            get
+            {
+                return Record.GetSingleValue<Coding>("cs")?.Code;
+            }
+            set
+            {
+                Record.Remove("cs");
+                if (value != null)
+                {
+                    Record.Add("cs", new Coding("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Software/MICAR/Data_Entry_Software/ACME_TRANSAX/Documentation/auser.pdf", value));
+                }
+            }
+        }
+
+        /// <summary>Shipment Number (Alpha Numeric)</summary>
+        public string ShipmentNumber
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("ship")?.Value;
+            }
+            set
+            {
+                Record.Remove("ship");
+                if (value != null)
+                {
+                    Record.Add("ship", new FhirString(value));
+                }
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Month (Numeric, 01-12 or null)</summary>
+        public uint? NCHSReceiptMonth
+        {
+            get
+            {
+                return (uint?)Record.GetSingleValue<UnsignedInt>("rec_mo")?.Value;
+            }
+            set
+            {
+                Record.Remove("rec_mo");
+                if (value != null)
+                {
+                    if (value < 1 || value > 12) {
+                        throw new ArgumentException("Valid values for NCHS Receipt Month are 01-12 or null");
+                    }
+                    Record.Add("rec_mo", new UnsignedInt((int)value));
+                }
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Month (string, 01-12 or null)</summary>
+        public string NCHSReceiptMonthString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptMonth;
+                return (month != null) ? month.ToString().PadLeft(2, '0') : null;
+            }
+            set
+            {
+                this.NCHSReceiptMonth = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Day (Numeric, 01-31 or blank)</summary>
+        public uint? NCHSReceiptDay
+        {
+            get
+            {
+                return (uint?)Record.GetSingleValue<UnsignedInt>("rec_dy")?.Value;
+            }
+            set
+            {
+                Record.Remove("rec_dy");
+                if (value != null)
+                {
+                    if (value < 1 || value > 31) {
+                        throw new ArgumentException("Valid values for NCHS Receipt Day are 01-31 or null");
+                    }
+                    Record.Add("rec_dy", new UnsignedInt((int)value));
+                }
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Day (string, 01-31 or null)</summary>
+        public string NCHSReceiptDayString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptDay;
+                return (month != null) ? month.ToString().PadLeft(2, '0') : null;
+            }
+            set
+            {
+                this.NCHSReceiptDay = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Year (Numeric, Greater than or equal to year of death or blank)</summary>
+        public uint? NCHSReceiptYear
+        {
+            get
+            {
+                return (uint?)Record.GetSingleValue<UnsignedInt>("rec_yr")?.Value;
+            }
+            set
+            {
+                Record.Remove("rec_yr");
+                if (value != null)
+                {
+                    if (DeathYear != null && value <= DeathYear) {
+                        throw new ArgumentException("NCHS Receipt Year must be greater than or equal to Death Year, or null");
+                    }
+                    Record.Add("rec_yr", new UnsignedInt((int)value));
+                }
+            }
+        }
+
+        /// <summary>NCHS Receipt Date Year (string, Greater than year of death or null)</summary>
+        public string NCHSReceiptYearString
+        {
+            get
+            {
+                uint? month = this.NCHSReceiptYear;
+                return (month != null) ? month.ToString() : null;
+            }
+            set
+            {
+                this.NCHSReceiptYear = (value != null) ? Convert.ToUInt32(value) : (uint?)null;
+            }
+        }
+
+        /// <summary>Manner of Death Enum</summary>
+        public enum MannerOfDeathEnum
+        {
+            /// <summary>Natural cause of death</summary>
+            Natural,
+            /// <summary>Accident cause of death</summary>
+            Accident,
+            /// <summary>Suicide cause of death</summary>
+            Suicide,
+            /// <summary>Cause of death is pending investigation</summary>
+            PendingInvestigation,
+            /// <summary>Cause of death could not be determined</summary>
+            CouldNotBeDetermined
+        }
+
+        /// <summary>Manner of Death (or null)</summary>
+        public MannerOfDeathEnum? MannerOfDeath
+        {
+            get
+            {
+                string value = Record.GetSingleValue<FhirString>("manner")?.Value;
+                if(value == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    Enum.TryParse<MannerOfDeathEnum>(value, out MannerOfDeathEnum code);
+                    return code;
+                }
+            }
+            set
+            {
+                Record.Remove("manner");
+                if(value != null)
+                {
+                    Record.Add("manner", new FhirString(value.ToString()));
+                }
+            }
+        }
+
+        /// <summary>Intentional reject (1-5, 9 or null). See Coding one-character reject codes in code document for values.</summary>
+        public string IntentionalReject
+        {
+            get
+            {
+
+                return Record.GetSingleValue<Coding>("int_rej")?.Code;
+            }
+            set
+            {
+                Record.Remove("int_rej");
+                if (value != null)
+                {
+                    Record.Add("int_rej", new Coding("https://www.cdc.gov/nchs/data/dvs/2b_2017.pdf", value));
+                }
+            }
+        }
+
+        /// <summary>ACME System Reject Enum</summary>
+        public enum ACMESystemRejectEnum
+        {
+            /// <summary>MICAR Reject - Dictionary Match</summary>
+            MICARRejectDictionaryMatch,
+            /// <summary>ACME Reject</summary>
+            ACMEReject,
+            /// <summary>MICAR Reject - Rule Application</summary>
+            MICARRejectRuleApplication,
+            /// <summary>Record Reviewed</summary>
+            RecordReviewed,
+            /// <summary>Not Rejected</summary>
+            NotRejected,
+        }
+
+        /// <summary>ACME system reject codes (or null)</summary>
+        public ACMESystemRejectEnum? ACMESystemRejectCodes
+        {
+            get
+            {
+                string value = Record.GetSingleValue<FhirString>("sys_rej")?.Value;
+                if(value == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    Enum.TryParse<ACMESystemRejectEnum>(value, out ACMESystemRejectEnum code);
+                    return code;
+                }
+            }
+            set
+            {
+                Record.Remove("sys_rej");
+                if(value != null)
+                {
+                    Record.Add("sys_rej", new FhirString(value.ToString()));
+                }
+            }
+        }
+
+        /// <summary>Place of Injury Enum</summary>
+        public enum PlaceOfInjuryEnum
+        {
+            /// <summary>Home</summary>
+            Home,
+            /// <summary>Residential Institution</summary>
+            ResidentialInstution,
+            /// <summary>School, Other Institutions, Public Administrative Area</summary>
+            SchoolOtherInstutionOrPublicAdministrativeArea,
+            /// <summary>Sports and Atheletics Area</summary>
+            SportsAndAthleticsArea,
+            /// <summary>Street/Highway</summary>
+            StreetOrHighway,
+            /// <summary>Trade and Service Area</summary>
+            TradeAndServiceArea,
+            /// <summary>Industrial and Construction Area</summary>
+            IndustrialAndConstructionArea,
+            /// <summary>Farm</summary>
+            Farm,
+            /// <summary>Other Specified Place</summary>
+            OtherSpecifiedPlace,
+            /// <summary>Unspecified Place</summary>
+            UnspecifiedPlace
+        }
+
+        /// <summary>Place of Injury (or null)</summary>
+        public PlaceOfInjuryEnum? PlaceOfInjury
+        {
+            get
+            {
+                string value = Record.GetSingleValue<FhirString>("injpl")?.Value;
+                if(value == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    Enum.TryParse<PlaceOfInjuryEnum>(value, out PlaceOfInjuryEnum code);
+                    return code;
+                }
+            }
+            set
+            {
+                Record.Remove("injpl");
+                if(value != null)
+                {
+                    Record.Add("injpl", new FhirString(value.ToString()));
+                }
+            }
+        }
+
+        /// <summary>Other Specified Place of Injury</summary>
+        public string OtherSpecifiedPlace
+        {
+            get
+            {
+                return Record.GetSingleValue<FhirString>("other_specified_place")?.Value;
+            }
+            set
+            {
+                Record.Remove("other_specified_place");
+                if (value != null)
+                {
+                    Record.Add("other_specified_place", new FhirString(value));
+                }
             }
         }
 
@@ -185,7 +494,7 @@ namespace VRDR
                 var list = new List<Tuple<string, Base>>();
                 foreach (string code in value)
                 {
-                    var part = Tuple.Create("coding", 
+                    var part = Tuple.Create("coding",
                         (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
                     list.Add(part);
                 }
@@ -271,7 +580,7 @@ namespace VRDR
     /// <summary>Class for structuring a cause of death entity axis entry</summary>
     public class CauseOfDeathEntityAxisEntry
     {
-        /// <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the 
+        /// <summary>Identifies the line number (values "1" to "6") of the corresponding cause of death entered on the
         /// death certificate. The following list shows the corresponding line in the death certificate for each value.</summary>
         /// <list type="number">
         /// <item>Part I. Line a</item>

@@ -740,7 +740,7 @@ namespace VRDR
                 {
                     InterestedParty.Identifier.Clear();
                 }
-                
+
                 Identifier identifier = new Identifier();
                 identifier.System = value["system"];
                 identifier.Value = value["value"];
@@ -4774,7 +4774,7 @@ namespace VRDR
         {
             get
             {
-                if (UsualWork != null && UsualWork.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).Start != null) 
+                if (UsualWork?.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).Start != null)
                 {
                     return Convert.ToString(((Period)UsualWork.Effective).Start);
                 }
@@ -4821,7 +4821,7 @@ namespace VRDR
         {
             get
             {
-                if (UsualWork != null && UsualWork.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).End != null) 
+                if (UsualWork?.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).End != null)
                 {
                     return Convert.ToString(((Period)UsualWork.Effective).End);
                 }
@@ -6724,7 +6724,7 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                if (InjuryIncidentObs?.Effective != null)
                 {
                     return Convert.ToString(InjuryIncidentObs.Effective);
                 }
@@ -6768,7 +6768,7 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Value != null)
+                if (InjuryIncidentObs?.Value != null)
                 {
                     return Convert.ToString(InjuryIncidentObs.Value);
                 }
@@ -6828,7 +6828,7 @@ namespace VRDR
                 {
                     // Find correct component
                     var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp != null && placeComp.Value != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    if (placeComp?.Value != null && placeComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)placeComp.Value);
                     }
@@ -7182,7 +7182,7 @@ namespace VRDR
         {
             get
             {
-                if (TransportationRoleObs != null && TransportationRoleObs.Value != null && TransportationRoleObs.Value as CodeableConcept != null)
+                if (TransportationRoleObs?.Value != null && TransportationRoleObs.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)TransportationRoleObs.Value);
                 }
@@ -7657,7 +7657,7 @@ namespace VRDR
             }
             return coding;
         }
-        
+
         /// <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
         /// <param name="dict">represents a code.</param>
         /// <returns>the corresponding CodeableConcept representation of the code.</returns>

@@ -271,6 +271,19 @@ namespace VRDR.Tests
             Assert.Equal("xyzzy", line);
             Assert.Equal("1", position);
             Assert.Equal("code2_1", code);
+
+            Assert.Equal("8", message.CoderStatus);
+            Assert.Equal("B202101", message.ShipmentNumber);
+            Assert.Equal((uint)8, message.NCHSReceiptDay);
+            Assert.Equal("08", message.NCHSReceiptDayString);
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            Assert.Equal("01", message.NCHSReceiptMonthString);
+            Assert.Equal((uint)2021, message.NCHSReceiptYear);
+            Assert.Equal("2021", message.NCHSReceiptYearString);
+            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            Assert.Equal("5", message.IntentionalReject);
+            Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+            Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
         }
 
         [Fact]
@@ -321,7 +334,7 @@ namespace VRDR.Tests
             CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            
+
             Assert.Null(message.CertificateNumber);
             message.CertificateNumber = 10;
             Assert.Equal((uint)10, message.CertificateNumber);
@@ -333,11 +346,71 @@ namespace VRDR.Tests
             Assert.Null(message.DeathYear);
             message.DeathYear = 2019;
             Assert.Equal((uint)2019, message.DeathYear);
-            
+
+            Assert.Null(message.NCHSReceiptMonthString);
+            message.NCHSReceiptMonthString = "1";
+            Assert.Equal("01", message.NCHSReceiptMonthString);
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            message.NCHSReceiptMonthString = null;
+            Assert.Null(message.NCHSReceiptMonthString);
+
+            Assert.Null(message.NCHSReceiptMonth);
+            message.NCHSReceiptMonth = (uint)1;
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+
+            Assert.Null(message.NCHSReceiptDayString);
+            message.NCHSReceiptDayString = "9";
+            Assert.Equal("09", message.NCHSReceiptDayString);
+            Assert.Equal((uint)9, message.NCHSReceiptDay);
+            message.NCHSReceiptDayString = null;
+
+            Assert.Null(message.NCHSReceiptDay);
+            message.NCHSReceiptDay = (uint)8;
+            Assert.Equal((uint)8, message.NCHSReceiptDay);
+
+            Assert.Null(message.NCHSReceiptYearString);
+            message.NCHSReceiptYearString = "2020";
+            Assert.Equal("2020", message.NCHSReceiptYearString);
+            Assert.Equal((uint)2020, message.NCHSReceiptYear);
+            message.NCHSReceiptYearString = null;
+            Assert.Null(message.NCHSReceiptYearString);
+
+            Assert.Null(message.NCHSReceiptYear);
+            message.NCHSReceiptYear = (uint)2021;
+            Assert.Equal((uint)2021, message.NCHSReceiptYear);
+
+            Assert.Null(message.MannerOfDeath);
+            message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
+            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+
+            Assert.Null(message.CoderStatus);
+            message.CoderStatus = "8";
+            Assert.Equal("8", message.CoderStatus);
+
+            Assert.Null(message.ShipmentNumber);
+            message.ShipmentNumber = "B202101";
+            Assert.Equal("B202101", message.ShipmentNumber);
+
+            Assert.Null(message.ACMESystemRejectCodes);
+            message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+            Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+
+            Assert.Null(message.PlaceOfInjury);
+            message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;
+            Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+
+            Assert.Null(message.OtherSpecifiedPlace);
+            message.OtherSpecifiedPlace = "Unique Location";
+            Assert.Equal("Unique Location", message.OtherSpecifiedPlace);
+
             Assert.Null(message.DeathJurisdictionID);
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
             Assert.Equal("2019NH000010", message.NCHSIdentifier);
+
+            Assert.Null(message.IntentionalReject);
+            message.IntentionalReject = "5";
+            Assert.Equal("5", message.IntentionalReject);
 
             Assert.Empty(message.Ethnicity);
             var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
@@ -425,7 +498,7 @@ namespace VRDR.Tests
             CodingUpdateMessage message = new CodingUpdateMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
-            
+
             Assert.Null(message.CertificateNumber);
             message.CertificateNumber = 10;
             Assert.Equal((uint)10, message.CertificateNumber);
@@ -437,7 +510,7 @@ namespace VRDR.Tests
             Assert.Null(message.DeathYear);
             message.DeathYear = 2019;
             Assert.Equal((uint)2019, message.DeathYear);
-            
+
             Assert.Null(message.DeathJurisdictionID);
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
@@ -642,7 +715,7 @@ namespace VRDR.Tests
             Assert.Null(responseMsg.CertificateNumber);
             Assert.Null(responseMsg.NCHSIdentifier);
             Assert.Null(responseMsg.StateAuxiliaryIdentifier);
-            
+
             ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/MissingMessageType.json")));
             Assert.Equal("Message type was missing from MessageHeader", ex.Message);
             responseMsg = ex.CreateExtractionErrorMessage();

@@ -150,32 +150,43 @@ DeathRecord deathRecord = ije.ToDeathRecord();
 Console.WriteLine(deathRecord.ToJSON());
 ```
 
-#### CauseCodes
-This package also includes a class for handling the preliminary return message from NCHS containing coded causes. This class is now obsolete and will be removed from a future version of the library, use the `CodingResponseMessage` described below instead.
+#### Return Coding
+An example of producing a `CodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding).
 
 ```cs
 using VRDR;
+// Create an empty coding response message
+CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
-// Initialize a new CauseCodes; fill with ids and codes
-CauseCodes causeCodes = new CauseCodes();
-causeCodes.Identifier = "42";
-causeCodes.BundleIdentifier = "MA000001";
+// Assign the business identifiers
+message.CertificateNumber = "...";
+message.StateAuxiliaryIdentifier = "...";
+message.NCHSIdentifier = "...";
 
-List<string> codes = new List<string>();
-codes.Add("I251");
-codes.Add("I259");
-codes.Add("I250");
-causeCodes.Codes = codes.ToArray();
+// Create the cause of death coding
+message.UnderlyingCauseOfDeath = <icd code>;
 
-// Serialize to a JSON string
-string json = causeCodes.ToJSON();
+// Assign the record axis codes
+var recordAxisCodes = new List<string>();
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+message.CauseOfDeathRecordAxis = recordAxisCodes;
 
-// Deserizlie back into a CauseCodes object
-CauseCodes example = new CauseCodes(json);
+// Assign the entity axis codes
+var builder = new CauseOfDeathEntityAxisBuilder();
+// for each entity axis codes
+...
+builder.Add(<lineNumber>, <positionInLine>, <icd code>);
+...
+// end loop
+message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 
-// Print out as XML
-Console.WriteLine(example.ToXML());
+// Create a JSON representation of the coding response message
+string jsonMessage = message.ToJSON();
 ```
+Note that the `CauseCodes` class from previous versions is now obsolete, use the `CodingResponseMessage` described above instead.
 
 ### VRDR.Messaging
 

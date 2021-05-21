@@ -15,19 +15,19 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;"><strong>VRDR IG</strong></td>
 <td style="text-align: center;"><strong>FHIR</strong></td>
+<td style="text-align: center;"><strong>Version</strong></td>
 <td style="text-align: center;"><strong>VRDR.dotnet</strong></td>
 <td style="text-align: center;"><strong>VRDR.Messaging</strong></td>
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">v3.1.0 <a href="ttps://www.nuget.org/packages/VRDR/3.1.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.0">github</a></td>
-<td style="text-align: center;">v3.1.0 <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf" github></td>
+<td style="text-align: center;">V3.1.0</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.0"> github</a></td>
+<td style="text-align: center;"> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">  github></a></td>
 </tr>
 </tbody>
 </table>
-Get rid of this ancient history:
-If you are upgrading from 2.x.x to 3.x.x, please note that there are differences between FHIR STU3 and R4 that impact the structure of the VRDR Death Record. [This commit illustrates the differences between FHIR STU3 and FHIR R4 VRDR Death Records](https://github.com/nightingaleproject/vrdr-dotnet/commit/2b4c2026fdab80e7233f3a7d7ed6e17d5d63f38e). Test data may need similar updates from STU3 to R4 when updating to use the 3.x.x versions of these libraries.
 
 ## Project Organization
 

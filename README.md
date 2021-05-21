@@ -22,7 +22,7 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;">STU1</td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">v3.1.0 <a href="ttps://www.nuget.org/packages/VRDR/3.1.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.0">github</a></td>
-<td style="text-align: center;">v3.1.0 <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"></td>
+<td style="text-align: center;">v3.1.0 <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf" github></td>
 </tr>
 </tbody>
 </table>

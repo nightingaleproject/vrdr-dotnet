@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['sex_924',['SEX',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aaad41625646be59a934ac100ad0db1c6',1,'VRDR::IJEMortality']]],
+  ['sex_5fbypass_925',['SEX_BYPASS',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2ec36f5cb3385bc0c866972fe456a032',1,'VRDR::IJEMortality']]],
+  ['shipmentnumber_926',['ShipmentNumber',['../class_v_r_d_r_1_1_coding_response_message.html#a56faec8017779f0a4a2372755cd6a6ca',1,'VRDR::CodingResponseMessage']]],
+  ['spousefamilyname_927',['SpouseFamilyName',['../class_v_r_d_r_1_1_death_record.html#a80f94164d767c4c00a7883c9968c5b41',1,'VRDR::DeathRecord']]],
+  ['spousegivennames_928',['SpouseGivenNames',['../class_v_r_d_r_1_1_death_record.html#a1ee8fca0c3579d993f2c0b80f24e0160',1,'VRDR::DeathRecord']]],
+  ['spousesuffix_929',['SpouseSuffix',['../class_v_r_d_r_1_1_death_record.html#a72fb38ee2c7b01f1b3f22094b362675a',1,'VRDR::DeathRecord']]],
+  ['ssn_930',['SSN',['../class_v_r_d_r_1_1_death_record.html#a9bcd1f565d0c72720ef2e089ad1adcfc',1,'VRDR.DeathRecord.SSN()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a40bb1363ba22dfe15e85dda8769e7cf3',1,'VRDR.IJEMortality.SSN()']]],
+  ['state_931',['State',['../class_v_r_d_r_1_1_place_code.html#a62174c7774962922ad608f1930f6f5f5',1,'VRDR::PlaceCode']]],
+  ['stateauxiliaryidentifier_932',['StateAuxiliaryIdentifier',['../class_v_r_d_r_1_1_base_message.html#a2905044917aa8ef396527ef568daee41',1,'VRDR::BaseMessage']]],
+  ['statebth_933',['STATEBTH',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a6f22630ca7d230d405fa0261ba0e09cf',1,'VRDR::IJEMortality']]],
+  ['statec_934',['STATEC',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aca7e314ba3aba61f8bbd9d7646bfe2f6',1,'VRDR::IJEMortality']]],
+  ['statecode_5fi_935',['STATECODE_I',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a78689d6e165e604768067c729a1008ea',1,'VRDR::IJEMortality']]],
+  ['statelocalidentifier_936',['StateLocalIdentifier',['../class_v_r_d_r_1_1_death_record.html#a2f9c04250dc3850d5fbe8083c08abb9a',1,'VRDR::DeathRecord']]],
+  ['statetext_5fd_937',['STATETEXT_D',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab2f59201062b6f7a45e4ec5ed832912f',1,'VRDR::IJEMortality']]],
+  ['statetext_5fr_938',['STATETEXT_R',['../class_v_r_d_r_1_1_i_j_e_mortality.html#afdcc87445cf3a53e30242549e661f66a',1,'VRDR::IJEMortality']]],
+  ['stinjury_939',['STINJURY',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a6d213f3551f29db3a2e7a29932e99750',1,'VRDR::IJEMortality']]],
+  ['suff_940',['SUFF',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a55841c18d4ad30a10ded13673fc52484',1,'VRDR::IJEMortality']]],
+  ['suffix_941',['Suffix',['../class_v_r_d_r_1_1_death_record.html#a6fabb93d8137db9c3733d5c4a04c113f',1,'VRDR::DeathRecord']]]
+];

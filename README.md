@@ -3,13 +3,19 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
+
 This repository includes .NET (C#) code for
 
 - Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
 - Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
+## Documentation
+
+[Doxygen Docs](https://nightingaleproject.github.io/vrdr-dotnet/)
+
 ## Versions
+
 <table class="versionTable" border="3">
 <tbody>
 <tr>
@@ -46,7 +52,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR" Version="3.1.0" />
   ...
 </ItemGroup>
 ```
@@ -211,7 +217,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.0" />
   ...
 </ItemGroup>
 ```

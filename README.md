@@ -31,12 +31,12 @@ This repository includes .NET (C#) code for
 
 ## Requirements
 
-- Development & CLI Requirements
-  - This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
-  - You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
-- Library Usage
-  - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
-  - To check wether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation options  Once you’ve determined your .NET implementation type and version, for example if you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
+### Development & CLI Requirements
+- This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
+- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
+### Library Usage
+- The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
+- To check wether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation options  Once you’ve determined your .NET implementation type and version, for example if you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
 

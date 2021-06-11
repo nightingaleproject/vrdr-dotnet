@@ -153,8 +153,70 @@ namespace VRDR
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
+        private const string  locationJurisdictionExtPath = "jurisdictionID"; // in 1.1 will be"http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id"
 
-        /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
+
+        public static Dictionary<string, string> jurisdictionFIPStoCode = new Dictionary<string, string>
+        {
+            {"AL","01"},
+            {"AK","02"},
+            {"AS","60"},
+            {"AZ","04"},
+            {"AR","05"},
+            {"CA","06"},
+            {"CO","08"},
+            {"CT","09"},
+            {"DE","10"},
+            {"DC","11"},
+            {"FL","12"},
+            {"GA","13"},
+            {"GU","66"},
+            {"HI","15"},
+            {"ID","16"},
+            {"IL","17"},
+            {"IN","18"},
+            {"IA","19"},
+            {"KS","20"},
+            {"KY","21"},
+            {"LA","22"},
+            {"ME","23"},
+            {"MD","24"},
+            {"MA","25"},
+            {"MI","26"},
+            {"MN","27"},
+            {"MS","28"},
+            {"MO","29"},
+            {"MT","30"},
+            {"NE","31"},
+            {"NV","32"},
+            {"NH","33"},
+            {"NJ","34"},
+            {"NM","35"},
+            {"NY","36"},
+            {"YC","975772"},
+            {"NC","37"},
+            {"ND","38"},
+            {"MP","69"},
+            {"OH","39"},
+            {"OK","40"},
+            {"OR","41"},
+            {"PA","42"},
+            {"PR","72"},
+            {"RI","44"},
+            {"SC","45"},
+            {"SD","46"},
+            {"TN","47"},
+            {"TX","48"},
+            {"VI","78"},
+            {"UT","49"},
+            {"VT","50"},
+            {"VA","51"},
+            {"WA","53"},
+            {"WV","54"},
+            {"WI","55"},
+            {"WY","56"}
+        };
+               /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
             // Start with an empty Bundle.
@@ -309,6 +371,7 @@ namespace VRDR
             // XML?
             Boolean maybeXML = record.TrimStart().StartsWith("<");
             Boolean maybeJSON = record.TrimStart().StartsWith("{");
+            Console.Error.WriteLine("Line #312");
             if (!String.IsNullOrEmpty(record) && (maybeXML || maybeJSON))
             {
                 // Grab all errors found by visiting all nodes and report if not permissive
@@ -321,6 +384,7 @@ namespace VRDR
                     }
                     else {
                         node = FhirJsonNode.Parse(record, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
+                        Console.Error.WriteLine("Line #325");
                     }
                     foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
                     {
@@ -342,6 +406,7 @@ namespace VRDR
                         FhirJsonParser parser = new FhirJsonParser(parserSettings);
                         Bundle = parser.Parse<Bundle>(record);
                     }
+                    Console.Error.WriteLine("Line #347");
                     Navigator = Bundle.ToTypedElement();
                 }
                 catch (Exception e)
@@ -6116,7 +6181,8 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationLoc != null)
+            Console.Error.WriteLine("#DeathLocationAddressGet");
+            if (DeathLocationLoc != null)
                 {
                     return AddressToDict(DeathLocationLoc.Address);
                 }
@@ -6124,6 +6190,7 @@ namespace VRDR
             }
             set
             {
+                Console.Error.WriteLine("#DeathLocationAddressGet");
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -6152,25 +6219,27 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-Location-Jurisdiction-Id.html", false, 31)]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, locationJurisdictionExtPath, false, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
         public string DeathLocationJurisdiction
         {
             get
             {
+                Console.Error.WriteLine("#JurisdictionGet");
                 if (DeathLocationLoc != null)
                 {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
                     if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
                     {
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        return cc.Text;
+                        return cc.Coding[0].Display;
                     }
                 }
                 return null;
             }
             set
             {
+                Console.Error.WriteLine("#JurisdictionSet");
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -6181,15 +6250,35 @@ namespace VRDR
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                    Console.Error.WriteLine("#3");
                 }
                 else
                 {
-                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                    Console.Error.WriteLine("#3");
+                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
+                //CodeableConcept - GORK
+                // code = GetValue jurisdictionFIPStoCode
+                //  display = Value
+                //system = 2.16.840.1.113883.6.92 (except for YC/975772, which is 2.16.840.1.113883.6.245)
                 CodeableConcept cc = new CodeableConcept();
-                cc.Text = value;
+                // original -- cc.Text = value;
+                string code = GetValue(jurisdictionFIPStoCode, value);
+                string  system;
+                string  display = value;
+
+                if (value != "YC")
+                {
+                    system = "2.16.840.1.113883.6.92" ;
+                }
+                else
+                {
+                    system = "2.16.840.1.113883.6.245" ;
+                }
+                cc = new CodeableConcept(system, code, display, display);
+                Console.Error.WriteLine("#2");
                 Extension extension = new Extension();
-                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
+                extension.Url = locationJurisdictionExtPath;
                 extension.Value = cc;
                 DeathLocationLoc.Extension.Add(extension);
             }

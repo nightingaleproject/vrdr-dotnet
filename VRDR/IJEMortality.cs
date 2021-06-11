@@ -94,8 +94,11 @@ namespace VRDR
             // Loop over every property (these are the fields)
             foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
             {
+                Console.Error.WriteLine(property.Name);
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
+                Console.Error.WriteLine(property.Name);
+                Console.Error.WriteLine(field);
                 // Grab the field attributes
                 IJEField info = (IJEField)property.GetCustomAttributes().First();
                 // Be mindful about lengths
@@ -404,8 +407,12 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = this.record == null ? null : (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
+            Console.Error.WriteLine("Geo_Get");
+            Console.Error.WriteLine(fhirFieldName);
+            Console.Error.WriteLine(geoType);           
             if (dictionary == null || !dictionary.ContainsKey(key))
             {
+                Console.Error.WriteLine("No entry in Dictionary");               
                 return new String(' ', info.Length);
             }
             string current = Convert.ToString(dictionary[key]);
@@ -699,14 +706,18 @@ namespace VRDR
         public string DSTATE
         {
             get
-            {
-                return Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", true);
+            {  
+                Console.Error.WriteLine("IJEField2,5,2 -- Get");
+                // return Dictionary_Geo_Get("DSTATE", "DeathLocationJurisdiction", "address", "state", true);
+                return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
             }
             set
             {
+                Console.Error.WriteLine("IJEField2,5,2 -- Set");
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                     // Dictionary_Set("DSTATE", "DeathLocationJurisdiction", "deathlocation", value);   // SAK
+                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
                 }
             }
         }

@@ -149,6 +149,36 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void ParseRaceEthnicityJsonToIJE()
+        {
+            DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
+            IJEMortality ije1 = new IJEMortality(d);
+            Assert.Equal("H", ije1.DETHNIC2);
+            Assert.Equal("Y", ije1.RACE3);
+            Assert.Equal("Y", ije1.RACE15);
+            Assert.Equal("Israeili", ije1.RACE22);
+            Assert.Equal("Minnesota Chippewa", ije1.RACE16);
+
+            DeathRecord d2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord2.json")));
+            IJEMortality ije2 = new IJEMortality(d2);
+            Assert.Equal("Y", ije2.RACE10);
+            Assert.Equal("Hmong", ije2.RACE18);
+        }
+
+        [Fact]
+        public void ParseRaceEthnicityIJEtoJson()
+        {
+            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
+            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            Assert.Equal("Last", sample1.FamilyName);
+            Assert.Equal("Last", sample2.FamilyName);
+            sample1.FamilyName = "1changed2abc";
+            sample2.FamilyName = "2changed1xyz";
+            Assert.Equal("1changed2abc", sample1.FamilyName);
+            Assert.Equal("2changed1xyz", sample2.FamilyName);
+        }
+
+        [Fact]
         public void SetPractitionerAfterParse()
         {
             DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));

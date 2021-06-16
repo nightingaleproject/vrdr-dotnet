@@ -219,6 +219,14 @@
                   "code": "2180-8",
                   "display": "Puerto Rican"
                 }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2184-0",
+                  "display": "Dominican"
+                }
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"

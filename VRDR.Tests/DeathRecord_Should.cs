@@ -154,6 +154,7 @@ namespace VRDR.Tests
             DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
             IJEMortality ije1 = new IJEMortality(d);
             Assert.Equal("H", ije1.DETHNIC2);
+            Assert.Equal("H", ije1.DETHNIC4);
             Assert.Equal("Y", ije1.RACE3);
             Assert.Equal("Y", ije1.RACE15);
             Assert.Equal("Israeili", ije1.RACE22);
@@ -168,14 +169,63 @@ namespace VRDR.Tests
         [Fact]
         public void ParseRaceEthnicityIJEtoJson()
         {
-            DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
-            DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            Assert.Equal("Last", sample1.FamilyName);
-            Assert.Equal("Last", sample2.FamilyName);
-            sample1.FamilyName = "1changed2abc";
-            sample2.FamilyName = "2changed1xyz";
-            Assert.Equal("1changed2abc", sample1.FamilyName);
-            Assert.Equal("2changed1xyz", sample2.FamilyName);
+            DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
+            IJEMortality ije1 = new IJEMortality(d);
+            IJEMortality ije2 = new IJEMortality(ije1.ToString());
+            DeathRecord d2 = ije2.ToDeathRecord();
+
+            // Ethnicity tuple
+            bool hispanicOrLatino = false;
+            bool puertoRican = false;
+            // IJE format is limited in roundtripping "other" hispanic origin types like Dominican
+            foreach(var pair in d2.Ethnicity)
+            {
+                switch(pair.Item1)
+                {
+                    case "Hispanic or Latino":
+                        Assert.Equal("2135-2", pair.Item2);
+                        hispanicOrLatino = true;
+                        break;
+                    case "Puerto Rican":
+                        Assert.Equal("2180-8", pair.Item2);
+                        puertoRican = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Assert.Equal(2, d2.Ethnicity.Length);
+            Assert.True(hispanicOrLatino);
+            Assert.True(puertoRican);
+
+            // Race tuple
+            bool americanIndian = false;
+            bool israeili = false;
+            bool minnesotaChippewa = false;
+            foreach(var pair in d2.Race)
+            {
+                switch(pair.Item1)
+                {
+                    case "American Indian or Alaska Native":
+                        Assert.Equal("1002-5", pair.Item2);
+                        americanIndian = true;
+                        break;
+                    case "Israeili":
+                        Assert.Equal("2127-9", pair.Item2);
+                        israeili = true;
+                        break;
+                    case "Minnesota Chippewa":
+                        Assert.Equal("1139-5", pair.Item2);
+                        minnesotaChippewa = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Assert.Equal(3, d2.Race.Length);
+            Assert.True(americanIndian);
+            Assert.True(israeili);
+            Assert.True(minnesotaChippewa);
         }
 
         [Fact]

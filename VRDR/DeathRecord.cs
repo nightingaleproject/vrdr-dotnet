@@ -156,6 +156,8 @@ namespace VRDR
         private const string  locationJurisdictionExtPath = "jurisdictionID"; // in 1.1 will be"http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id"
 
 
+        // jurisdictionFIPStoCode uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set 
+        // all codes are from FIPS-5-2 except for YC which is from U.S. Board on Geographic Names (USGS - GNIS).   This is handled in the one use of this Dictionary in the code below.
         public static Dictionary<string, string> jurisdictionFIPStoCode = new Dictionary<string, string>
         {
             {"AL","01"},
@@ -371,7 +373,6 @@ namespace VRDR
             // XML?
             Boolean maybeXML = record.TrimStart().StartsWith("<");
             Boolean maybeJSON = record.TrimStart().StartsWith("{");
-            Console.Error.WriteLine("Line #312");
             if (!String.IsNullOrEmpty(record) && (maybeXML || maybeJSON))
             {
                 // Grab all errors found by visiting all nodes and report if not permissive
@@ -384,7 +385,6 @@ namespace VRDR
                     }
                     else {
                         node = FhirJsonNode.Parse(record, "Bundle", new FhirJsonParsingSettings { PermissiveParsing = permissive });
-                        Console.Error.WriteLine("Line #325");
                     }
                     foreach (Hl7.Fhir.Utility.ExceptionNotification problem in node.VisitAndCatch())
                     {
@@ -406,7 +406,6 @@ namespace VRDR
                         FhirJsonParser parser = new FhirJsonParser(parserSettings);
                         Bundle = parser.Parse<Bundle>(record);
                     }
-                    Console.Error.WriteLine("Line #347");
                     Navigator = Bundle.ToTypedElement();
                 }
                 catch (Exception e)
@@ -6181,7 +6180,6 @@ namespace VRDR
         {
             get
             {
-            Console.Error.WriteLine("#DeathLocationAddressGet");
             if (DeathLocationLoc != null)
                 {
                     return AddressToDict(DeathLocationLoc.Address);
@@ -6190,7 +6188,6 @@ namespace VRDR
             }
             set
             {
-                Console.Error.WriteLine("#DeathLocationAddressGet");
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -6225,7 +6222,6 @@ namespace VRDR
         {
             get
             {
-                Console.Error.WriteLine("#JurisdictionGet");
                 if (DeathLocationLoc != null)
                 {
                     Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
@@ -6239,7 +6235,6 @@ namespace VRDR
             }
             set
             {
-                Console.Error.WriteLine("#JurisdictionSet");
                 if (DeathLocationLoc == null)
                 {
                     DeathLocationLoc = new Location();
@@ -6250,33 +6245,25 @@ namespace VRDR
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
-                    Console.Error.WriteLine("#3");
                 }
                 else
                 {
-                    Console.Error.WriteLine("#3");
                     DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
-                //CodeableConcept - GORK
-                // code = GetValue jurisdictionFIPStoCode
-                //  display = Value
-                //system = 2.16.840.1.113883.6.92 (except for YC/975772, which is 2.16.840.1.113883.6.245)
                 CodeableConcept cc = new CodeableConcept();
-                // original -- cc.Text = value;
                 string code = GetValue(jurisdictionFIPStoCode, value);
                 string  system;
                 string  display = value;
 
-                if (value != "YC")
+                if (value == "YC")
                 {
-                    system = "2.16.840.1.113883.6.92" ;
+                    system = "2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
                 }
                 else
                 {
-                    system = "2.16.840.1.113883.6.245" ;
+                    system =   "2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
                 }
                 cc = new CodeableConcept(system, code, display, display);
-                Console.Error.WriteLine("#2");
                 Extension extension = new Extension();
                 extension.Url = locationJurisdictionExtPath;
                 extension.Value = cc;

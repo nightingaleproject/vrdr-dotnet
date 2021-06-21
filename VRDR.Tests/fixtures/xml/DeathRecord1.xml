@@ -1258,9 +1258,13 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
         </meta>
-        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
+        <extension url="jurisdictionID">
           <valueCodeableConcept>
-            <text value="MA" />
+            <coding>
+              <system value="2.16.840.1.113883.6.92"/>
+              <code value="25"/>
+              <display value="MA"/>
+            </coding>
           </valueCodeableConcept>
         </extension>
         <name value="Example Death Location Name" />

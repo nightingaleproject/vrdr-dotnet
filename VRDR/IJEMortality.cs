@@ -94,7 +94,6 @@ namespace VRDR
             // Loop over every property (these are the fields)
             foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())
             {
-
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
                 // Grab the field attributes
@@ -404,7 +403,7 @@ namespace VRDR
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = this.record == null ? null : (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);    
+            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
             if (dictionary == null || !dictionary.ContainsKey(key))
             {
                 return new String(' ', info.Length);
@@ -700,7 +699,7 @@ namespace VRDR
         public string DSTATE
         {
             get
-            {  
+            {
                 return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
             }
             set

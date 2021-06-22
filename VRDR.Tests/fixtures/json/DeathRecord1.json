@@ -1546,9 +1546,15 @@
         },
         "extension": [
           {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+            "url": "jurisdictionID",
             "valueCodeableConcept": {
-              "text": "MA"
+              "coding": [
+                {
+                "system": "2.16.840.1.113883.6.92",
+                "code": "25",
+                "display": "MA"
+                }
+              ]
             }
           }
         ],

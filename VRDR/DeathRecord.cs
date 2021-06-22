@@ -153,8 +153,72 @@ namespace VRDR
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
+        private const string  locationJurisdictionExtPath = "jurisdictionID"; // in 1.1 will be"http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id"
 
-        /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
+
+        // jurisdictionFIPStoCode uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set 
+        // all codes are from FIPS-5-2 except for YC which is from U.S. Board on Geographic Names (USGS - GNIS).   This is handled in the one use of this Dictionary in the code below.
+        public static Dictionary<string, string> jurisdictionFIPStoCode = new Dictionary<string, string>
+        {
+            {"AL","01"},
+            {"AK","02"},
+            {"AS","60"},
+            {"AZ","04"},
+            {"AR","05"},
+            {"CA","06"},
+            {"CO","08"},
+            {"CT","09"},
+            {"DE","10"},
+            {"DC","11"},
+            {"FL","12"},
+            {"GA","13"},
+            {"GU","66"},
+            {"HI","15"},
+            {"ID","16"},
+            {"IL","17"},
+            {"IN","18"},
+            {"IA","19"},
+            {"KS","20"},
+            {"KY","21"},
+            {"LA","22"},
+            {"ME","23"},
+            {"MD","24"},
+            {"MA","25"},
+            {"MI","26"},
+            {"MN","27"},
+            {"MS","28"},
+            {"MO","29"},
+            {"MT","30"},
+            {"NE","31"},
+            {"NV","32"},
+            {"NH","33"},
+            {"NJ","34"},
+            {"NM","35"},
+            {"NY","36"},
+            {"YC","975772"},
+            {"NC","37"},
+            {"ND","38"},
+            {"MP","69"},
+            {"OH","39"},
+            {"OK","40"},
+            {"OR","41"},
+            {"PA","42"},
+            {"PR","72"},
+            {"RI","44"},
+            {"SC","45"},
+            {"SD","46"},
+            {"TN","47"},
+            {"TX","48"},
+            {"VI","78"},
+            {"UT","49"},
+            {"VT","50"},
+            {"VA","51"},
+            {"WA","53"},
+            {"WV","54"},
+            {"WI","55"},
+            {"WY","56"}
+        };
+               /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
             // Start with an empty Bundle.
@@ -6116,7 +6180,7 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationLoc != null)
+            if (DeathLocationLoc != null)
                 {
                     return AddressToDict(DeathLocationLoc.Address);
                 }
@@ -6152,7 +6216,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-Location-Jurisdiction-Id.html", false, 16)]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, locationJurisdictionExtPath, false, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
         public string DeathLocationJurisdiction
         {
@@ -6160,11 +6224,15 @@ namespace VRDR
             {
                 if (DeathLocationLoc != null)
                 {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
                     if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
                     {
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        return cc.Text;
+                        return cc.Coding[0].Display;
+                    }
+                    else
+                    {
+                        return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.
                     }
                 }
                 return null;
@@ -6184,14 +6252,29 @@ namespace VRDR
                 }
                 else
                 {
-                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id");
+                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
-                CodeableConcept cc = new CodeableConcept();
-                cc.Text = value;
-                Extension extension = new Extension();
-                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
-                extension.Value = cc;
-                DeathLocationLoc.Extension.Add(extension);
+                if (value != null) // If a jurisdiction is provided, create and add the extension
+                {
+                    CodeableConcept cc = new CodeableConcept();
+                    string code = GetValue(jurisdictionFIPStoCode, value);
+                    string  system;
+                    string  display = value;
+
+                    if (value == "YC")
+                    {
+                        system = "2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                    }
+                    else
+                    {
+                        system =   "2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
+                    }
+                    cc = new CodeableConcept(system, code, display, display);
+                    Extension extension = new Extension();
+                    extension.Url = locationJurisdictionExtPath;
+                    extension.Value = cc;
+                    DeathLocationLoc.Extension.Add(extension);
+                }
             }
         }
 

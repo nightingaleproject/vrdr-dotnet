@@ -700,13 +700,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", true);
+                return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
+                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

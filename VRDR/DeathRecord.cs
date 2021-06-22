@@ -6230,6 +6230,10 @@ namespace VRDR
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
                         return cc.Coding[0].Display;
                     }
+                    else
+                    {
+                        return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.
+                    }
                 }
                 return null;
             }

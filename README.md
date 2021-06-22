@@ -3,13 +3,19 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
+
 This repository includes .NET (C#) code for
 
 - Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
 - Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
+## Documentation
+
+[Doxygen Docs](https://nightingaleproject.github.io/vrdr-dotnet/)
+
 ## Versions
+
 <table class="versionTable" border="3">
 <tbody>
 <tr>
@@ -22,12 +28,21 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">STU1</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.1.0</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.0"> github</a></td>
-<td style="text-align: center;"> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V3.1.1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
+
+## Requirements
+
+### Development & CLI Requirements
+- This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
+- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
+### Library Usage
+- The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
+- To check wether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
 
@@ -42,7 +57,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR" Version="3.1.1" />
   ...
 </ItemGroup>
 ```
@@ -207,7 +222,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.1" />
   ...
 </ItemGroup>
 ```
@@ -296,7 +311,7 @@ To build a Dockerized version from scratch (from source), you can do so by runni
 
 ```
 dotnet publish
-docker build -t vrdr-microservice .
+docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile .
 docker run -p 8080:8080 vrdr-microservice
 ```
 

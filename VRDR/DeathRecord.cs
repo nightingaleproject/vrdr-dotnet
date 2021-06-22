@@ -6250,24 +6250,27 @@ namespace VRDR
                 {
                     DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
-                CodeableConcept cc = new CodeableConcept();
-                string code = GetValue(jurisdictionFIPStoCode, value);
-                string  system;
-                string  display = value;
+                if (value != null) // If a jurisdiction is provided, create and add the extension
+                {
+                    CodeableConcept cc = new CodeableConcept();
+                    string code = GetValue(jurisdictionFIPStoCode, value);
+                    string  system;
+                    string  display = value;
 
-                if (value == "YC")
-                {
-                    system = "2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                    if (value == "YC")
+                    {
+                        system = "2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                    }
+                    else
+                    {
+                        system =   "2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
+                    }
+                    cc = new CodeableConcept(system, code, display, display);
+                    Extension extension = new Extension();
+                    extension.Url = locationJurisdictionExtPath;
+                    extension.Value = cc;
+                    DeathLocationLoc.Extension.Add(extension);
                 }
-                else
-                {
-                    system =   "2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
-                }
-                cc = new CodeableConcept(system, code, display, display);
-                Extension extension = new Extension();
-                extension.Url = locationJurisdictionExtPath;
-                extension.Value = cc;
-                DeathLocationLoc.Extension.Add(extension);
             }
         }
 

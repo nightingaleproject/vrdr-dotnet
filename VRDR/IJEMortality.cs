@@ -404,9 +404,9 @@ namespace VRDR
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = this.record == null ? null : (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);        
+            string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);    
             if (dictionary == null || !dictionary.ContainsKey(key))
-            {          
+            {
                 return new String(' ', info.Length);
             }
             string current = Convert.ToString(dictionary[key]);
@@ -701,15 +701,14 @@ namespace VRDR
         {
             get
             {  
-                // return Dictionary_Geo_Get("DSTATE", "DeathLocationJurisdiction", "address", "state", true);
                 return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                     // Dictionary_Set("DSTATE", "DeathLocationJurisdiction", "deathlocation", value);   // SAK
                      LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
+                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

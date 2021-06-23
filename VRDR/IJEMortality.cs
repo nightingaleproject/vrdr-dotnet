@@ -81,8 +81,10 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
-                Console.WriteLine("name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
+                Console.WriteLine("Constructor name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
                 property.SetValue(this, field);
+                field = Convert.ToString(property.GetValue(this, null));
+                Console.WriteLine("Constructor check: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
             }
         }
 
@@ -107,6 +109,8 @@ namespace VRDR
                 // Insert the field value into the record
                 ije.Remove(info.Location - 1, field.Length);
                 ije.Insert(info.Location - 1, field);
+                Console.WriteLine("ToString name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
+
             }
             return ije.ToString();
         }
@@ -708,7 +712,7 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                      LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                     // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

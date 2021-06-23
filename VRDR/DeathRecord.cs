@@ -6232,8 +6232,8 @@ namespace VRDR
                     }
                     else
                     {
-                        // Should be able to return blank "  ", but this fails. round trip test.
-                        return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.   
+                        return "  "; // Should be able to return blank "  ", but this fails. round trip test.
+                        //return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.   
                     }
                 }
                 return null;

@@ -81,6 +81,7 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
+                Console.WriteLine("name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
                 property.SetValue(this, field);
             }
         }

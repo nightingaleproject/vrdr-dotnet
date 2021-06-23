@@ -6232,7 +6232,8 @@ namespace VRDR
                     }
                     else
                     {
-                        return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.
+                        // Should be able to return blank "  ", but this fails. round trip test.
+                        return DeathLocationLoc.Address.State ;  // This is a hack.   The Jurisdiction should be mandatory, but it isn't.  If it is absent, revert to using the state.  This will fail for NYC addresses.   
                     }
                 }
                 return null;
@@ -6254,7 +6255,7 @@ namespace VRDR
                 {
                     DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
-                if (value != null) // If a jurisdiction is provided, create and add the extension
+                if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
                 {
                     CodeableConcept cc = new CodeableConcept();
                     string code = GetValue(jurisdictionFIPStoCode, value);

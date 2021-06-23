@@ -81,10 +81,14 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
-                Console.WriteLine("Constructor name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
+ 
                 property.SetValue(this, field);
-                field = Convert.ToString(property.GetValue(this, null));
-                Console.WriteLine("Constructor check: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
+                string field1 = Convert.ToString(property.GetValue(this, null));
+                if (field1 != null && field != null && !Equals(field, field1))
+                {
+                Console.WriteLine("Constructor set: " + info.Name + " loc:" + info.Location + " len:" + field.Length + " val:" + field);
+                Console.WriteLine("Constructor get: " + info.Name + " loc:" + info.Location + " len:" + field1.Length + " val:" + field1);
+                }
             }
         }
 

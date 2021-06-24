@@ -83,12 +83,12 @@ namespace VRDR
                 // Set the value on this IJEMortality (and the embedded record)
  
                 property.SetValue(this, field);
-                string field1 = Convert.ToString(property.GetValue(this, null));
-                if (field1 != null && field != null && !Equals(field, field1))
-                {
-                Console.WriteLine("Constructor set: " + info.Name + " loc:" + info.Location + " len:" + field.Length + " val:" + field);
-                Console.WriteLine("Constructor get: " + info.Name + " loc:" + info.Location + " len:" + field1.Length + " val:" + field1);
-                }
+                // string field1 = Convert.ToString(property.GetValue(this, null));
+                // if (field1 != null && field != null && !Equals(field, field1))
+                // {
+                //Console.WriteLine("Constructor set: " + info.Name + " loc:" + info.Location + " len:" + field.Length + " val:" + field);
+                // Console.WriteLine("Constructor get: " + info.Name + " loc:" + info.Location + " len:" + field1.Length + " val:" + field1);
+                // }
             }
         }
 
@@ -113,7 +113,7 @@ namespace VRDR
                 // Insert the field value into the record
                 ije.Remove(info.Location - 1, field.Length);
                 ije.Insert(info.Location - 1, field);
-                Console.WriteLine("ToString name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
+//                Console.WriteLine("ToString name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
 
             }
             return ije.ToString();
@@ -716,7 +716,7 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                      LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                     // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

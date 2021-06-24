@@ -2757,6 +2757,12 @@
         <member name="M:VRDR.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
         </member>
+        <member name="M:VRDR.MortalityData.JurisdictionNameToJurisdictionCode(System.String)">
+            <summary>Given a Jurisdiction code - return the Jurisdiction name.</summary>
+        </member>
+        <member name="M:VRDR.MortalityData.JurisdictionCodeToJurisdictionName(System.String)">
+            <summary>Given a Jurisdiction name - return the representative Jurisdiction code.</summary>
+        </member>
         <member name="M:VRDR.MortalityData.StateCodeToStateName(System.String)">
             <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         </member>

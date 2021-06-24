@@ -2217,6 +2217,9 @@
         <member name="M:VRDR.IJEMortality.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
         </member>
+        <member name="M:VRDR.IJEMortality.Valid">
+            <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
+        </member>
         <member name="M:VRDR.IJEMortality.Truncate(System.String,System.Int32)">
             <summary>Truncates the given string to the given length.</summary>
         </member>

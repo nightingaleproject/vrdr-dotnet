@@ -90,6 +90,7 @@ namespace VRDR
                 // Console.WriteLine("Constructor get: " + info.Name + " loc:" + info.Location + " len:" + field1.Length + " val:" + field1);
                 // }
             }
+            this.Valid();
         }
 
         /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -125,6 +126,18 @@ namespace VRDR
             return this.record;
         }
 
+       /// <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
+        public Boolean Valid()
+        {
+            string dstate = this.DSTATE;
+            Boolean valid = dataLookup.JurisdictionNameToJurisdictionCode(dstate) != null;
+            string code = dataLookup.JurisdictionNameToJurisdictionCode(dstate);
+            Console.WriteLine("Valid: DSTATE=" + dstate + " code:" + code + " valid:" + valid );
+            if (!valid){
+                throw new ArgumentOutOfRangeException("DSTATE value of " + dstate + " is invalid.");
+            }
+            return(true);
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //

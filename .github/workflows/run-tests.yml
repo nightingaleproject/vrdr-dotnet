@@ -45,6 +45,6 @@ jobs:
           dotnet run -p VRDR.CLI description VRDR.CLI/1.json
           ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  >& /dev/null 
           ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json  >& /dev/null 
-          ! dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml  >& /dev/null 
-          ! dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json  >& /dev/null 
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml  >& /dev/null 
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json  >& /dev/null 
           ./VRDR.Tests/test_translation_service.sh

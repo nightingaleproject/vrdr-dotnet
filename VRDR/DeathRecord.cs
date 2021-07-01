@@ -6170,7 +6170,7 @@ namespace VRDR
                         return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
                     }
                 }
-                Console.Error.WriteLine("DeathLocationJurisdiction get: NULL");
+                Console.Error.WriteLine("DeathLocationJurisdiction NOT found get: NULL");
                 return null;
             }
             set
@@ -6199,11 +6199,11 @@ namespace VRDR
 
                     if (value == "YC")
                     {
-                        system = "2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                        system = "urn:oid:2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
                     }
                     else
                     {
-                        system =   "2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
+                        system =   "urn:oid:2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
                     }
                     cc = new CodeableConcept(system, code, display, display);
                     Extension extension = new Extension();

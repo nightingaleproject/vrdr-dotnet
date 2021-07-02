@@ -6170,7 +6170,6 @@ namespace VRDR
                         return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
                     }
                 }
-                Console.Error.WriteLine("DeathLocationJurisdiction NOT found get: NULL");
                 return null;
             }
             set

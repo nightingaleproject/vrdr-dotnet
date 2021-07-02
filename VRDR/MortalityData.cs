@@ -262,6 +262,7 @@ namespace VRDR
                 t => LinqHelper.EqualsInsensitive(t.Key, key)
             ).Value;
         }
+        /// <summary>Jurisdiction Codes</summary>
         // JurisdictionCodes uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set 
         // all codes are from FIPS-5-2 except for YC which is from U.S. Board on Geographic Names (USGS - GNIS).   This is handled in the one use of this Dictionary in the code below.
          public Dictionary<string, string> JurisdictionCodes = new Dictionary<string, string>

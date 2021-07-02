@@ -61,7 +61,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
-        public IJEMortality(string ije)
+        public IJEMortality(string ije, bool validate = true)
         {
             if (ije == null)
             {
@@ -81,16 +81,11 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
- 
                 property.SetValue(this, field);
-                // string field1 = Convert.ToString(property.GetValue(this, null));
-                // if (field1 != null && field != null && !Equals(field, field1))
-                // {
-                //Console.WriteLine("Constructor set: " + info.Name + " loc:" + info.Location + " len:" + field.Length + " val:" + field);
-                // Console.WriteLine("Constructor get: " + info.Name + " loc:" + info.Location + " len:" + field1.Length + " val:" + field1);
-                // }
             }
-            this.Valid();
+            if(validate){
+                this.Validate();
+            }
         }
 
         /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -114,8 +109,6 @@ namespace VRDR
                 // Insert the field value into the record
                 ije.Remove(info.Location - 1, field.Length);
                 ije.Insert(info.Location - 1, field);
-//                Console.WriteLine("ToString name: " + info.Name + " loc:" + info.Location + " len:" + info.Length + " val:" + field);
-
             }
             return ije.ToString();
         }
@@ -127,13 +120,12 @@ namespace VRDR
         }
 
        /// <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
-        public Boolean Valid()
+        private Boolean Validate()
         {
             string dstate = this.DSTATE;
             Boolean valid = dataLookup.JurisdictionNameToJurisdictionCode(dstate) != null;
             string code = dataLookup.JurisdictionNameToJurisdictionCode(dstate);
-            Console.WriteLine("Valid: DSTATE=" + dstate + " code:" + code + " valid:" + valid );
-            if (!valid){
+             if (!valid){
                 throw new ArgumentOutOfRangeException("DSTATE value of " + dstate + " is invalid.");
             }
             return(true);

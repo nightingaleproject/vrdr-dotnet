@@ -2217,6 +2217,9 @@
         <member name="M:VRDR.IJEMortality.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
         </member>
+        <member name="M:VRDR.IJEMortality.Valid">
+            <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
+        </member>
         <member name="M:VRDR.IJEMortality.Truncate(System.String,System.Int32)">
             <summary>Truncates the given string to the given length.</summary>
         </member>
@@ -2756,6 +2759,12 @@
         </member>
         <member name="M:VRDR.MortalityData.StateNameToStateCode(System.String)">
             <summary>Given a State, Territory, or Province name - return the representative State code.</summary>
+        </member>
+        <member name="M:VRDR.MortalityData.JurisdictionNameToJurisdictionCode(System.String)">
+            <summary>Given a Jurisdiction code - return the Jurisdiction name.</summary>
+        </member>
+        <member name="M:VRDR.MortalityData.JurisdictionCodeToJurisdictionName(System.String)">
+            <summary>Given a Jurisdiction name - return the representative Jurisdiction code.</summary>
         </member>
         <member name="M:VRDR.MortalityData.StateCodeToStateName(System.String)">
             <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>

@@ -42,6 +42,18 @@ namespace VRDR
             }
         }
 
+        /// <summary>Given a Jurisdiction code - return the Jurisdiction name.</summary>
+        public string JurisdictionNameToJurisdictionCode(string jurisdiction)
+        {
+            
+            return DictValueFinderHelper(JurisdictionCodes, jurisdiction);
+        }
+         /// <summary>Given a Jurisdiction name - return the representative Jurisdiction code.</summary>
+        public string JurisdictionCodeToJurisdictionName(string code)
+        {
+             return DictKeyFinderHelper(JurisdictionCodes, code);
+        }
+
         /// <summary>Given a State, Territory, or Province code - return the representative State, Territory, or Province name.</summary>
         public string StateCodeToStateName(string code)
         {
@@ -250,7 +262,69 @@ namespace VRDR
                 t => LinqHelper.EqualsInsensitive(t.Key, key)
             ).Value;
         }
-
+        /// <summary>Jurisdiction Codes</summary>
+        // JurisdictionCodes uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set 
+        // all codes are from FIPS-5-2 except for YC which is from U.S. Board on Geographic Names (USGS - GNIS).   This is handled in the one use of this Dictionary in the code below.
+         public Dictionary<string, string> JurisdictionCodes = new Dictionary<string, string>
+        {
+            {"AL","01"},
+            {"AK","02"},
+            {"AS","60"},
+            {"AZ","04"},
+            {"AR","05"},
+            {"CA","06"},
+            {"CO","08"},
+            {"CT","09"},
+            {"DE","10"},
+            {"DC","11"},
+            {"FL","12"},
+            {"GA","13"},
+            {"GU","66"},
+            {"HI","15"},
+            {"ID","16"},
+            {"IL","17"},
+            {"IN","18"},
+            {"IA","19"},
+            {"KS","20"},
+            {"KY","21"},
+            {"LA","22"},
+            {"ME","23"},
+            {"MD","24"},
+            {"MA","25"},
+            {"MI","26"},
+            {"MN","27"},
+            {"MS","28"},
+            {"MO","29"},
+            {"MT","30"},
+            {"NE","31"},
+            {"NV","32"},
+            {"NH","33"},
+            {"NJ","34"},
+            {"NM","35"},
+            {"NY","36"},
+            {"YC","975772"},
+            {"NC","37"},
+            {"ND","38"},
+            {"MP","69"},
+            {"OH","39"},
+            {"OK","40"},
+            {"OR","41"},
+            {"PA","42"},
+            {"PR","72"},
+            {"RI","44"},
+            {"SC","45"},
+            {"SD","46"},
+            {"TN","47"},
+            {"TX","48"},
+            {"VI","78"},
+            {"UT","49"},
+            {"VT","50"},
+            {"VA","51"},
+            {"WA","53"},
+            {"WV","54"},
+            {"WI","55"},
+            {"WY","56"}
+        };
         /// <summary>CDC Race American Indian or Alaska Native Codes</summary>
         public Dictionary<string, string> CDCRaceAIANCodes = new Dictionary<string, string>()
         {

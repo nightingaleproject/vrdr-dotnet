@@ -560,15 +560,18 @@ namespace VRDR.CLI
             }
             else if (args.Length == 2 && args[0] == "roundtrip-ije")
             {
-                Console.WriteLine("Converting FHIR to IJE...\n");
+                // Console.WriteLine("Converting FHIR to IJE...\n");
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));
-                //Console.WriteLine(XDocument.Parse(d.ToXML()).ToString() + "\n");
-                IJEMortality ije1 = new IJEMortality(d);
-                //Console.WriteLine(ije1.ToString() + "\n\n");
-                IJEMortality ije2 = new IJEMortality(ije1.ToString());
-                //Console.WriteLine(ije2.ToString() + "\n\n");
-                //Console.WriteLine(XDocument.Parse(ije2.ToDeathRecord().ToXML()).ToString() + "\n");
-                IJEMortality ije3 = new IJEMortality(new DeathRecord(ije2.ToDeathRecord().ToXML()));
+                IJEMortality ije1, ije2, ije3;
+                try {
+                    ije1 = new IJEMortality(d);
+                    ije2 = new IJEMortality(ije1.ToString());
+                    ije3 = new IJEMortality(new DeathRecord(ije2.ToDeathRecord().ToXML()));
+                } catch (Exception e){
+                    Console.Error.WriteLine(e.Message);
+                    return (1);
+                }
+
                 int issues = 0;
                 int total = 0;
                 foreach(PropertyInfo property in typeof(IJEMortality).GetProperties())

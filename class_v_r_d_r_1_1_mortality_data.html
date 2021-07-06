@@ -87,6 +87,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4648e3c8f03eaacd959bfcf9009306ea"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a4648e3c8f03eaacd959bfcf9009306ea">StateNameToStateCode</a> (string state)</td></tr>
 <tr class="memdesc:a4648e3c8f03eaacd959bfcf9009306ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State, Territory, or Province name - return the representative State code.  <a href="class_v_r_d_r_1_1_mortality_data.html#a4648e3c8f03eaacd959bfcf9009306ea">More...</a><br /></td></tr>
 <tr class="separator:a4648e3c8f03eaacd959bfcf9009306ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a01fa5181bae8a9d715c656c841ee99"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a9a01fa5181bae8a9d715c656c841ee99">JurisdictionNameToJurisdictionCode</a> (string jurisdiction)</td></tr>
+<tr class="memdesc:a9a01fa5181bae8a9d715c656c841ee99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Jurisdiction code - return the Jurisdiction name.  <a href="class_v_r_d_r_1_1_mortality_data.html#a9a01fa5181bae8a9d715c656c841ee99">More...</a><br /></td></tr>
+<tr class="separator:a9a01fa5181bae8a9d715c656c841ee99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e49a950d72950e7c6e29d9c1601309"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#ac9e49a950d72950e7c6e29d9c1601309">JurisdictionCodeToJurisdictionName</a> (string code)</td></tr>
+<tr class="memdesc:ac9e49a950d72950e7c6e29d9c1601309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a Jurisdiction name - return the representative Jurisdiction code.  <a href="class_v_r_d_r_1_1_mortality_data.html#ac9e49a950d72950e7c6e29d9c1601309">More...</a><br /></td></tr>
+<tr class="separator:ac9e49a950d72950e7c6e29d9c1601309"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01c73994d6b284e81905ef432a0cde95"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a01c73994d6b284e81905ef432a0cde95">StateCodeToStateName</a> (string code)</td></tr>
 <tr class="memdesc:a01c73994d6b284e81905ef432a0cde95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a State, Territory, or Province code - return the representative State, Territory, or Province name.  <a href="class_v_r_d_r_1_1_mortality_data.html#a01c73994d6b284e81905ef432a0cde95">More...</a><br /></td></tr>
 <tr class="separator:a01c73994d6b284e81905ef432a0cde95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +162,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:ab8917f0b69ae35f6a08e14b742deb9f8"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#ab8917f0b69ae35f6a08e14b742deb9f8">JurisdictionCodes</a></td></tr>
+<tr class="memdesc:ab8917f0b69ae35f6a08e14b742deb9f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jurisdiction Codes  <a href="class_v_r_d_r_1_1_mortality_data.html#ab8917f0b69ae35f6a08e14b742deb9f8">More...</a><br /></td></tr>
+<tr class="separator:ab8917f0b69ae35f6a08e14b742deb9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19f254ace86a7d74f698d7ac07a40bf1"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_mortality_data.html#a19f254ace86a7d74f698d7ac07a40bf1">CDCRaceAIANCodes</a></td></tr>
 <tr class="memdesc:a19f254ace86a7d74f698d7ac07a40bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">CDC Race American Indian or Alaska Native Codes  <a href="class_v_r_d_r_1_1_mortality_data.html#a19f254ace86a7d74f698d7ac07a40bf1">More...</a><br /></td></tr>
 <tr class="separator:a19f254ace86a7d74f698d7ac07a40bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -470,6 +479,62 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Given an Ethnicity name - return the representative Ethnicity code. </p>
+
+</div>
+</div>
+<a id="ac9e49a950d72950e7c6e29d9c1601309"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9e49a950d72950e7c6e29d9c1601309">&#9670;&nbsp;</a></span>JurisdictionCodeToJurisdictionName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string VRDR.MortalityData.JurisdictionCodeToJurisdictionName </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Given a Jurisdiction name - return the representative Jurisdiction code. </p>
+
+</div>
+</div>
+<a id="a9a01fa5181bae8a9d715c656c841ee99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a01fa5181bae8a9d715c656c841ee99">&#9670;&nbsp;</a></span>JurisdictionNameToJurisdictionCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string VRDR.MortalityData.JurisdictionNameToJurisdictionCode </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>jurisdiction</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Given a Jurisdiction code - return the Jurisdiction name. </p>
 
 </div>
 </div>
@@ -1141,6 +1206,22 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Country Codes </p>
+
+</div>
+</div>
+<a id="ab8917f0b69ae35f6a08e14b742deb9f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8917f0b69ae35f6a08e14b742deb9f8">&#9670;&nbsp;</a></span>JurisdictionCodes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Dictionary&lt;string, string&gt; VRDR.MortalityData.JurisdictionCodes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Jurisdiction Codes </p>
 
 </div>
 </div>

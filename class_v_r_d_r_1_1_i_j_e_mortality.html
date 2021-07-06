@@ -82,9 +82,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9fca0c5f0cf6ef0340e05d83bb31d6ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_i_j_e_mortality.html#a9fca0c5f0cf6ef0340e05d83bb31d6ca">IJEMortality</a> (<a class="el" href="class_v_r_d_r_1_1_death_record.html">DeathRecord</a> record)</td></tr>
 <tr class="memdesc:a9fca0c5f0cf6ef0340e05d83bb31d6ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes a <code><a class="el" href="class_v_r_d_r_1_1_death_record.html" title="Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....">DeathRecord</a></code>.  <a href="class_v_r_d_r_1_1_i_j_e_mortality.html#a9fca0c5f0cf6ef0340e05d83bb31d6ca">More...</a><br /></td></tr>
 <tr class="separator:a9fca0c5f0cf6ef0340e05d83bb31d6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8dff8913f0ffc019cc41bb4e7be2b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_i_j_e_mortality.html#a0c8dff8913f0ffc019cc41bb4e7be2b8">IJEMortality</a> (string ije)</td></tr>
-<tr class="memdesc:a0c8dff8913f0ffc019cc41bb4e7be2b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes an IJE string and builds a corresponding internal <code><a class="el" href="class_v_r_d_r_1_1_death_record.html" title="Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....">DeathRecord</a></code>.  <a href="class_v_r_d_r_1_1_i_j_e_mortality.html#a0c8dff8913f0ffc019cc41bb4e7be2b8">More...</a><br /></td></tr>
-<tr class="separator:a0c8dff8913f0ffc019cc41bb4e7be2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeedc8862102cb256cc8cc94ae6744ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_i_j_e_mortality.html#afeedc8862102cb256cc8cc94ae6744ec">IJEMortality</a> (string ije, bool validate=true)</td></tr>
+<tr class="memdesc:afeedc8862102cb256cc8cc94ae6744ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes an IJE string and builds a corresponding internal <code><a class="el" href="class_v_r_d_r_1_1_death_record.html" title="Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....">DeathRecord</a></code>.  <a href="class_v_r_d_r_1_1_i_j_e_mortality.html#afeedc8862102cb256cc8cc94ae6744ec">More...</a><br /></td></tr>
+<tr class="separator:afeedc8862102cb256cc8cc94ae6744ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14f4cc8536acea7ff302d40b25a453cb"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_i_j_e_mortality.html#a14f4cc8536acea7ff302d40b25a453cb">ToString</a> ()</td></tr>
 <tr class="memdesc:a14f4cc8536acea7ff302d40b25a453cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the internal <code><a class="el" href="class_v_r_d_r_1_1_death_record.html" title="Class DeathRecord models a FHIR Vital Records Death Reporting (VRDR) Death Record....">DeathRecord</a></code> into an IJE string.  <a href="class_v_r_d_r_1_1_i_j_e_mortality.html#a14f4cc8536acea7ff302d40b25a453cb">More...</a><br /></td></tr>
 <tr class="separator:a14f4cc8536acea7ff302d40b25a453cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -576,8 +576,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a0c8dff8913f0ffc019cc41bb4e7be2b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8dff8913f0ffc019cc41bb4e7be2b8">&#9670;&nbsp;</a></span>IJEMortality() <span class="overload">[2/2]</span></h2>
+<a id="afeedc8862102cb256cc8cc94ae6744ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeedc8862102cb256cc8cc94ae6744ec">&#9670;&nbsp;</a></span>IJEMortality() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -589,8 +589,18 @@ Properties</h2></td></tr>
           <td class="memname">VRDR.IJEMortality.IJEMortality </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>ije</em></td><td>)</td>
+          <td class="paramname"><em>ije</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>validate</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

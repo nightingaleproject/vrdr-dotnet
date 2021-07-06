@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['cli_460',['CLI',['../namespace_v_r_d_r_1_1_c_l_i.html',1,'VRDR']]],
-  ['http_461',['HTTP',['../namespace_v_r_d_r_1_1_h_t_t_p.html',1,'VRDR']]],
-  ['tests_462',['Tests',['../namespace_v_r_d_r_1_1_tests.html',1,'VRDR']]],
-  ['void_463',['VOID',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a143ad2c67638c2ad405ddc33599ecf10',1,'VRDR::IJEMortality']]],
-  ['voidmessage_464',['VoidMessage',['../class_v_r_d_r_1_1_void_message.html#aec9b6037da346dff7a8ce90100fa08a0',1,'VRDR.VoidMessage.VoidMessage()'],['../class_v_r_d_r_1_1_void_message.html#a1c347502013d9bd0c52e572c2c57c243',1,'VRDR.VoidMessage.VoidMessage(DeathRecord record)'],['../class_v_r_d_r_1_1_void_message.html',1,'VRDR.VoidMessage']]],
-  ['vrdr_465',['VRDR',['../namespace_v_r_d_r.html',1,'']]],
-  ['vrdrlistener_466',['VRDRListener',['../class_v_r_d_r_1_1_h_t_t_p_1_1_v_r_d_r_listener.html',1,'VRDR::HTTP']]]
+  ['underlyingcauseofdeath_454',['UnderlyingCauseOfDeath',['../class_v_r_d_r_1_1_coding_response_message.html#a4a2b8b9a5998c5b6fc1b72ea429a6b71',1,'VRDR::CodingResponseMessage']]],
+  ['unspecifiedplace_455',['UnspecifiedPlace',['../class_v_r_d_r_1_1_coding_response_message.html#a791c2ddb5796e1dc5655aeae337d627ba7a93626f11bd59e3a1aea6b5b45149f3',1,'VRDR::CodingResponseMessage']]],
+  ['using_20the_20vrdr_2emessaging_20library_456',['Using the VRDR.Messaging Library',['../md_doc__messaging.html',1,'']]],
+  ['usualindustry_457',['UsualIndustry',['../class_v_r_d_r_1_1_death_record.html#ad1052a091fd8367d65cf3176b0caa4a8',1,'VRDR::DeathRecord']]],
+  ['usualindustrycode_458',['UsualIndustryCode',['../class_v_r_d_r_1_1_death_record.html#acab2402745a9b04a9206d05921c26282',1,'VRDR::DeathRecord']]],
+  ['usualoccupation_459',['UsualOccupation',['../class_v_r_d_r_1_1_death_record.html#a0721d602d9431aada87d08b8e54a7072',1,'VRDR::DeathRecord']]],
+  ['usualoccupationcode_460',['UsualOccupationCode',['../class_v_r_d_r_1_1_death_record.html#a61a4591911f64f0c10a22a182b6a2163',1,'VRDR::DeathRecord']]],
+  ['usualoccupationend_461',['UsualOccupationEnd',['../class_v_r_d_r_1_1_death_record.html#a79fff86e6d7695d8d1b1ba12a03d28c3',1,'VRDR::DeathRecord']]],
+  ['usualoccupationstart_462',['UsualOccupationStart',['../class_v_r_d_r_1_1_death_record.html#a7d2d96b0b988923862313e810b294ca5',1,'VRDR::DeathRecord']]]
 ];

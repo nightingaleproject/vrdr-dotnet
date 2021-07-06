@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['serialize_593',['Serialize',['../class_v_r_d_r_1_1_property.html#a090b9ca9ddec845e614846d553fb2dd7',1,'VRDR::Property']]],
-  ['severity_594',['Severity',['../class_v_r_d_r_1_1_issue.html#a69d0b1507d7caf4306ae45d08733f46b',1,'VRDR::Issue']]],
-  ['stateterritoryprovincecodes_595',['StateTerritoryProvinceCodes',['../class_v_r_d_r_1_1_mortality_data.html#a2717d0b8a25a0657edd08dcad526b327',1,'VRDR::MortalityData']]]
+  ['record_598',['Record',['../class_v_r_d_r_1_1_base_message.html#a6d6088a3c88868ef55d6ea222808e985',1,'VRDR::BaseMessage']]]
 ];

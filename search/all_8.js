@@ -4,7 +4,7 @@ var searchData=
   ['idob_5fyr_225',['IDOB_YR',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a22a78d7702b7a54e25e05ba7b658e0ef',1,'VRDR::IJEMortality']]],
   ['igurl_226',['IGUrl',['../class_v_r_d_r_1_1_property.html#aa8a0c7e020636f6be0174dabaa4be9be',1,'VRDR::Property']]],
   ['ijefield_227',['IJEField',['../class_v_r_d_r_1_1_i_j_e_field.html#a2a62061a13e4e6e791a67fccce19a5a9',1,'VRDR.IJEField.IJEField()'],['../class_v_r_d_r_1_1_i_j_e_field.html',1,'VRDR.IJEField']]],
-  ['ijemortality_228',['IJEMortality',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a9fca0c5f0cf6ef0340e05d83bb31d6ca',1,'VRDR.IJEMortality.IJEMortality(DeathRecord record)'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a0c8dff8913f0ffc019cc41bb4e7be2b8',1,'VRDR.IJEMortality.IJEMortality(string ije)'],['../class_v_r_d_r_1_1_i_j_e_mortality.html',1,'VRDR.IJEMortality']]],
+  ['ijemortality_228',['IJEMortality',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a9fca0c5f0cf6ef0340e05d83bb31d6ca',1,'VRDR.IJEMortality.IJEMortality(DeathRecord record)'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#afeedc8862102cb256cc8cc94ae6744ec',1,'VRDR.IJEMortality.IJEMortality(string ije, bool validate=true)'],['../class_v_r_d_r_1_1_i_j_e_mortality.html',1,'VRDR.IJEMortality']]],
   ['inact_229',['INACT',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a13e17e373e32c8a36d7de890b6c8b6c6',1,'VRDR::IJEMortality']]],
   ['indust_230',['INDUST',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a46c13630e0e59183bd5f4cbef9a556a5',1,'VRDR::IJEMortality']]],
   ['industrialandconstructionarea_231',['IndustrialAndConstructionArea',['../class_v_r_d_r_1_1_coding_response_message.html#a791c2ddb5796e1dc5655aeae337d627ba88f0d94195ec9677af9222f07465799c',1,'VRDR::CodingResponseMessage']]],

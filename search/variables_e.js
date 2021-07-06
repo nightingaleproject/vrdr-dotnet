@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['type_596',['Type',['../class_v_r_d_r_1_1_property.html#ab8c5731a92fff62922ecf4721cb38011',1,'VRDR.Property.Type()'],['../class_v_r_d_r_1_1_issue.html#a4abf436343df9a5010ad9db33c0bcc0f',1,'VRDR.Issue.Type()']]]
+  ['serialize_599',['Serialize',['../class_v_r_d_r_1_1_property.html#a090b9ca9ddec845e614846d553fb2dd7',1,'VRDR::Property']]],
+  ['severity_600',['Severity',['../class_v_r_d_r_1_1_issue.html#a69d0b1507d7caf4306ae45d08733f46b',1,'VRDR::Issue']]],
+  ['stateterritoryprovincecodes_601',['StateTerritoryProvinceCodes',['../class_v_r_d_r_1_1_mortality_data.html#a2717d0b8a25a0657edd08dcad526b327',1,'VRDR::MortalityData']]]
 ];

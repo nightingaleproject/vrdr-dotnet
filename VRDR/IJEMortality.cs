@@ -1501,21 +1501,21 @@ namespace VRDR
                 string code = Dictionary_Get_Full("DEDUC", "EducationLevel", "code");
                 switch (code)
                 {
-                    case "ELEM": // Elementary School
+                    case "PHC1448": // Elementary School
                         return "1";
-                    case "SEC": // Some secondary or high school education
+                    case "PHC1449": // Some secondary or high school education
                         return "2";
-                    case "HS": // High School Graduate or GED Completed
+                    case "PHC1450": // High School Graduate or GED Completed
                         return "3";
-                    case "SCOL": // Some College education
+                    case "PHC1451": // Some College education
                         return "4";
-                    case "ASSOC": // Associate's or technical degree complete
+                    case "PHC1452": // Associate's or technical degree complete
                         return "5";
-                    case "BD": // College or baccalaureate degree complete
+                    case "PHC1453": // College or baccalaureate degree complete
                         return "6";
-                    case "GD": // Graduate or professional Degree complete
+                    case "PHC1454": // Graduate or professional Degree complete
                         return "7";
-                    case "POSTG": // Doctoral or post graduate education
+                    case "PHC1455": // Doctoral or post graduate education
                         return "8";
                     case "UNK": // Unknown
                         return "9";
@@ -1526,7 +1526,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("DEDUC", "EducationLevel", "system", "2.16.840.1.114222.4.5.274"); // CDC Local Coding System
+                    Dictionary_Set("DEDUC", "EducationLevel", "system", "2.16.840.1.114222.4.5.274"); // CDC Local Coding System, except for UNK
                     switch (value)
                     {
                         case "1":

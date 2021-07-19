@@ -185,7 +185,7 @@ namespace VRDR.Tests
         {
             DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
             IJEMortality ije1 = new IJEMortality(d);
-            IJEMortality ije2 = new IJEMortality(ije1.ToString());
+            IJEMortality ije2 = new IJEMortality(ije1.ToString(), true);
             DeathRecord d2 = ije2.ToDeathRecord();
 
             // Ethnicity tuple

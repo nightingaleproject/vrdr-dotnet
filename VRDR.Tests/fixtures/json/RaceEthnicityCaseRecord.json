@@ -611,7 +611,20 @@
         "address": {
           "state": "MA",
           "country": "UNITED STATES"
-        }
+        },
+        "extension": [
+          {
+            "url": "jurisdictionID",
+            "valueCodeableConcept": {
+              "coding": [ {
+                "system": "urn:oid:2.16.840.1.113883.6.92",
+                "code": "25",
+                "display": "MA"
+              }
+              ]
+            }
+          }
+        ]
       }
     },
     {

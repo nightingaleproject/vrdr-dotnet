@@ -1713,12 +1713,14 @@ namespace VRDR
             get
             {
                 string[] hispanicOrigin = HispanicOrigin();
+                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
                 if (hispanicOrigin != null && hispanicOrigin.Length == 0)
                 {
                     return "N";
                 }
                 // We need to handle cases where hispanic origin is other with or without write-in
-                else if (hispanicOrigin != null && hispanicOrigin.Length > 0 && DETHNIC1 == "N" && DETHNIC2 == "N" && DETHNIC3 == "N")
+                // Hispanic origin and other are not mutually exclusive
+                else if (hispanicOrigin != null && hispanicOrigin.Any(element => validHispanicOrigins.Contains(element)))
                 {
                     return "H";
                 }

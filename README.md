@@ -3,18 +3,46 @@
 [![Nuget](https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29)](https://www.nuget.org/packages/VRDR.Messaging)
 
 # vrdr-dotnet
+
 This repository includes .NET (C#) code for
 
-- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/2019May/).
+- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
 - Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 
+## Documentation
+
+[Doxygen Docs](https://nightingaleproject.github.io/vrdr-dotnet/)
+
 ## Versions
 
-- Releases v2.x.x of the [VRDR](https://www.nuget.org/packages/VRDR) library support FHIR STU3, in line with the May ballot version of VRDR ([v0.1.0](http://hl7.org/fhir/us/vrdr/history.html))
-- Releases v3.x.x of the [VRDR](https://www.nuget.org/packages/VRDR) and [VRDR.Messaging](https://www.nuget.org/packages/VRDR.Messaging) libraries support FHIR R4, in line with the upcoming normative version of VRDR.
+<table class="versionTable" border="3">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>VRDR IG</strong></td>
+<td style="text-align: center;"><strong>FHIR</strong></td>
+<td style="text-align: center;"><strong>Version</strong></td>
+<td style="text-align: center;"><strong>VRDR.dotnet</strong></td>
+<td style="text-align: center;"><strong>VRDR.Messaging</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">STU1</td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V3.1.1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+</tr>
+</tbody>
+</table>
 
-If you are upgrading from 2.x.x to 3.x.x, please note that there are differences between FHIR STU3 and R4 that impact the structure of the VRDR Death Record. [This commit illustrates the differences between FHIR STU3 and FHIR R4 VRDR Death Records](https://github.com/nightingaleproject/vrdr-dotnet/commit/2b4c2026fdab80e7233f3a7d7ed6e17d5d63f38e). Test data may need similar updates from STU3 to R4 when updating to use the 3.x.x versions of these libraries.
+## Requirements
+
+### Development & CLI Requirements
+- This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
+- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
+### Library Usage
+- The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
+- To check wether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
 
@@ -29,7 +57,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR" Version="3.1.1" />
   ...
 </ItemGroup>
 ```
@@ -146,32 +174,43 @@ DeathRecord deathRecord = ije.ToDeathRecord();
 Console.WriteLine(deathRecord.ToJSON());
 ```
 
-#### CauseCodes
-This package also includes a class for handling the preliminary return message from NCHS containing coded causes. This class is now obsolete and will be removed from a future version of the library, use the `CodingResponseMessage` described below instead.
+#### Return Coding
+An example of producing a `CodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding).
 
 ```cs
 using VRDR;
+// Create an empty coding response message
+CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
-// Initialize a new CauseCodes; fill with ids and codes
-CauseCodes causeCodes = new CauseCodes();
-causeCodes.Identifier = "42";
-causeCodes.BundleIdentifier = "MA000001";
+// Assign the business identifiers
+message.CertificateNumber = "...";
+message.StateAuxiliaryIdentifier = "...";
+message.NCHSIdentifier = "...";
 
-List<string> codes = new List<string>();
-codes.Add("I251");
-codes.Add("I259");
-codes.Add("I250");
-causeCodes.Codes = codes.ToArray();
+// Create the cause of death coding
+message.UnderlyingCauseOfDeath = <icd code>;
 
-// Serialize to a JSON string
-string json = causeCodes.ToJSON();
+// Assign the record axis codes
+var recordAxisCodes = new List<string>();
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+recordAxisCodes.Add(<icd code>);
+message.CauseOfDeathRecordAxis = recordAxisCodes;
 
-// Deserizlie back into a CauseCodes object
-CauseCodes example = new CauseCodes(json);
+// Assign the entity axis codes
+var builder = new CauseOfDeathEntityAxisBuilder();
+// for each entity axis codes
+...
+builder.Add(<lineNumber>, <positionInLine>, <icd code>);
+...
+// end loop
+message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 
-// Print out as XML
-Console.WriteLine(example.ToXML());
+// Create a JSON representation of the coding response message
+string jsonMessage = message.ToJSON();
 ```
+Note that the `CauseCodes` class from previous versions is now obsolete, use the `CodingResponseMessage` described above instead.
 
 ### VRDR.Messaging
 
@@ -183,7 +222,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.0-RC2" />
+  <PackageReference Include="VRDR.Messaging" Version="3.1.1" />
   ...
 </ItemGroup>
 ```
@@ -272,7 +311,7 @@ To build a Dockerized version from scratch (from source), you can do so by runni
 
 ```
 dotnet publish
-docker build -t vrdr-microservice .
+docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile .
 docker run -p 8080:8080 vrdr-microservice
 ```
 

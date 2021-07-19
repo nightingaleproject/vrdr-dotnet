@@ -61,7 +61,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
-        public IJEMortality(string ije)
+        public IJEMortality(string ije, bool validate = true)
         {
             if (ije == null)
             {
@@ -82,6 +82,9 @@ namespace VRDR
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
                 property.SetValue(this, field);
+            }
+            if(validate){
+                this.Validate();
             }
         }
 
@@ -116,6 +119,17 @@ namespace VRDR
             return this.record;
         }
 
+       /// <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
+        private Boolean Validate()
+        {
+            string dstate = this.DSTATE;
+            Boolean valid = dataLookup.JurisdictionNameToJurisdictionCode(dstate) != null;
+            string code = dataLookup.JurisdictionNameToJurisdictionCode(dstate);
+             if (!valid){
+                throw new ArgumentOutOfRangeException("DSTATE value of " + dstate + " is invalid.");
+            }
+            return(true);
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -700,13 +714,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", true);
+                return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
+                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

@@ -16,35 +16,61 @@ jobs:
     - name: Setup .NET Core 2.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.1.805
+        dotnet-version: 2.1.815
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 3.1.408
     - name: .net Side by Side
       run: |
-        rsync -a ${DOTNET_ROOT/3.1.201/2.1.805}/* $DOTNET_ROOT/
+        rsync -a ${DOTNET_ROOT/3.1.408/2.1.815}/* $DOTNET_ROOT/
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: |
+          echo "* dotnet test VRDR.Tests/DeathRecord.Tests.csproj"
           dotnet test VRDR.Tests/DeathRecord.Tests.csproj
-          dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.xml --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.json --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json --framework netcoreapp2.1
-          dotnet run -p VRDR.CLI json2json VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI description VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.xml
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1.json
+          echo "* dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1
+          echo "* dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1
+          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1
+          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1
+          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml --framework netcoreapp2.1  "
+          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml --framework netcoreapp2.1  
+          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json --framework netcoreapp2.1  "
+          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json --framework netcoreapp2.1  
+          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1  " 
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1  
+          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1 "
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1 
+          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml --framework netcoreapp2.1
+          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1"
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json --framework netcoreapp2.1
+          echo "* dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json"
+          dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json
+          echo "* dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml
+          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml
+          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
+          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
+          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  "
+          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  
+          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json  "
+          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json  
+          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  "
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  
+          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   "
+          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   
+          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  "
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  
+          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  "
+          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  
+          echo "* ./VRDR.Tests/test_translation_service.sh"
           ./VRDR.Tests/test_translation_service.sh

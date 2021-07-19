@@ -148,6 +148,20 @@ namespace VRDR.Tests
             Assert.Equal("2changed1xyz", sample2.FamilyName);
         }
 
+      [Fact]
+        public void ParseDeathLocationJurisdictionIJEtoJson()
+        {
+            DeathRecord dxml = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
+            DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ijefromjson = new IJEMortality(djson);
+            IJEMortality ijefromxml = new IJEMortality(dxml);
+            DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
+            DeathRecord fromijefromxml = ijefromjson.ToDeathRecord();
+
+            Assert.Equal("MA", fromijefromjson.DeathLocationJurisdiction);
+            Assert.Equal("MA", fromijefromxml.DeathLocationJurisdiction);
+        }
+
         [Fact]
         public void ParseRaceEthnicityJsonToIJE()
         {

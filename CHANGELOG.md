@@ -1,5 +1,15 @@
 ## Change Log
 
+### v3.1.1 - 2021-06-10
+
+* Reorder death record properties to reflect order in standard death certificate
+
+### v3.1.0 - 2021-02-17
+
+* Acknowledgement messages support block_count field for acknowledging bulk void messages
+* Added additional required fields to CodingResponseMessage
+* Documentation updated to reflect completed migration from CauseCode to CodingResponseMessage
+
 ### v3.1.0-RC5 - 2020-09-16
 
 * Blank identifiers are ignored in a Death Certificate Reference

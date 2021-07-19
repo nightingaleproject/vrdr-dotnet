@@ -4,7 +4,7 @@
     <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" />
   </meta>
   <identifier>
-    <value value="2019MA000001" />
+    <value value="2018MA000001" />
   </identifier>
   <type value="document" />
   <entry>
@@ -585,7 +585,7 @@
           <coding>
             <system value="http://snomed.info/sct" />
             <code value="7878000" />
-            <display value="Accidental death" />
+            <display value="Accident" />
           </coding>
         </valueCodeableConcept>
       </Observation>
@@ -880,10 +880,7 @@
           <end value="2010-01-01" />
         </effectivePeriod>
         <valueCodeableConcept>
-          <coding>
-            <display value="secretary" />
-          </coding>
-          <text value="Executive secretary" />
+          <text value="secretary" />
         </valueCodeableConcept>
         <component>
           <code>
@@ -893,12 +890,7 @@
               <display value="Usual industry" />
             </coding>
           </code>
-          <valueCodeableConcept>
-            <coding>
-              <display value="State agency" />
-            </coding>
-            <text value="State department of agriculture" />
-          </valueCodeableConcept>
+          <valueString value="State agency" />
         </component>
       </Observation>
     </resource>
@@ -1218,22 +1210,6 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
-              <code value="69448-9" />
-              <display value="Injury leading to death associated with transportation event" />
-            </coding>
-          </code>
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
-              <code value="Y" />
-              <display value="Yes" />
-            </coding>
-          </valueCodeableConcept>
-        </component>
-        <component>
-          <code>
-            <coding>
-              <system value="http://loinc.org" />
               <code value="69450-5" />
               <display value="Place of injury Facility" />
             </coding>
@@ -1244,7 +1220,6 @@
               <code value="0" />
               <display value="Home" />
             </coding>
-            <text value="At home, in the kitchen" />
           </valueCodeableConcept>
         </component>
       </Observation>
@@ -1258,14 +1233,14 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
         </meta>
-        <extension url="jurisdictionID">
-          <valueCodeableConcept>
+         <extension url="jurisdictionID">
+         <valueCodeableConcept>
             <coding>
-              <system value="2.16.840.1.113883.6.92"/>
-              <code value="25"/>
+              <system value="urn:oid:2.16.840.1.113883.6.92"/>
+              <code value="25" />
               <display value="MA"/>
             </coding>
-          </valueCodeableConcept>
+            </valueCodeableConcept>
         </extension>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />

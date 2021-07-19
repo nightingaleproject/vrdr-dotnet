@@ -81,6 +81,7 @@ namespace VRDR.Tests
         [InlineData("NA", "Bartholomew", "Columbus", null)]
         [InlineData("Indiana", "NOTACOUNTY", "Columbus", null)]
         [InlineData("Indiana", "Bartholomew", "NOTASTATE", null)]
+        [InlineData("Wyoming", "Uinta", "Evanston", "25620")]
         public void StateNameAndCountyNameAndPlaceNameToPlaceCode_Test(string state, string county, string place, string expected)
         {
             Assert.Equal(expected, mortalityData.StateNameAndCountyNameAndPlaceNameToPlaceCode(state, county, place));

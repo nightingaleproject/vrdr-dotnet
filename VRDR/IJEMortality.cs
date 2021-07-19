@@ -1698,13 +1698,14 @@ namespace VRDR
             get
             {
                 string[] hispanicOrigin = HispanicOrigin();
+                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
                 if (hispanicOrigin != null && hispanicOrigin.Length == 0)
                 {
                     return "N";
                 }
                 // We need to handle cases where hispanic origin is other with or without write-in
                 // Hispanic origin and other are not mutually exclusive
-                else if (hispanicOrigin != null && hispanicOrigin.Length > 0 && (Array.Exists(hispanicOrigin, element => element != "Cuban" && element != "2182-4" && element != "Puerto Rican" && element != "2180-8" && element != "Mexican" && element != "2148-5")))
+                else if (hispanicOrigin != null && hispanicOrigin.Any(element => validHispanicOrigins.Contains(element)))
                 {
                     return "H";
                 }

@@ -34,6 +34,14 @@ namespace VRDR
         /// <summary>HL7 Identifier Type.</summary>
         public static string HL7_identifier_type = "http://terminology.hl7.org/CodeSystem/v2-0203";
 
+        /// <summary>PHINVADS HL7 RoleCode.</summary>
+        public static string PH_RoleCode_HL7_V3 = "urn:oid:2.16.840.1.113883.5.111";
+        
+        /// <summary>HL7 RoleCode.</summary>
+        public static string RoleCode_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-RoleCode";
+
+        
+
     }
 
 }

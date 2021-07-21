@@ -1304,32 +1304,32 @@ namespace VRDR
                     {
                         case "M":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Married");
                             break;
                         case "A":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Annulled");
                             break;
                         case "W":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Widowed");
                             break;
                         case "D":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Divorced");
                             break;
                         case "S":
                             Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Never Married");
                             break;
                         case "U":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", "UNK");
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "code", "value");
+                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
                             Dictionary_Set("MARITAL", "MaritalStatus", "display", "Unknown");
                             break;
                     }
@@ -1403,37 +1403,37 @@ namespace VRDR
                     {
                         case "D":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and body donated");
                             break;
                         case "B":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and buried");
                             break;
                         case "C":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and cremated");
                             break;
                         case "E":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and entombed");
                             break;
                         case "R":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://snomed.info/sct");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and removed from state");
                             break;
                         case "U":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3 );
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
                             break;
                         case "O":
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
                             break;
                     }
@@ -1501,21 +1501,21 @@ namespace VRDR
                 string code = Dictionary_Get_Full("DEDUC", "EducationLevel", "code");
                 switch (code)
                 {
-                    case "ELEM": // Elementary School
+                    case "PHC1448": // Elementary School
                         return "1";
-                    case "SEC": // Some secondary or high school education
+                    case "PHC1449": // Some secondary or high school education
                         return "2";
-                    case "HS": // High School Graduate or GED Completed
+                    case "PHC1450": // High School Graduate or GED Completed
                         return "3";
-                    case "SCOL": // Some College education
+                    case "PHC1451": // Some College education
                         return "4";
-                    case "ASSOC": // Associate's or technical degree complete
+                    case "PHC1452": // Associate's or technical degree complete
                         return "5";
-                    case "BD": // College or baccalaureate degree complete
+                    case "PHC1453": // College or baccalaureate degree complete
                         return "6";
-                    case "GD": // Graduate or professional Degree complete
+                    case "PHC1454": // Graduate or professional Degree complete
                         return "7";
-                    case "POSTG": // Doctoral or post graduate education
+                    case "PHC1455": // Doctoral or post graduate education
                         return "8";
                     case "UNK": // Unknown
                         return "9";
@@ -1526,51 +1526,44 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
+                    Dictionary_Set("DEDUC", "EducationLevel", "system", CodeSystems.PH_PHINVS_CDC); // CDC Local Coding System, except for UNK
                     switch (value)
                     {
                         case "1":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "ELEM");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Elementary School");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1448");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "8th grade or less");
                             break;
                         case "2":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "SEC");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some secondary or high school education");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1449");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "9th through 12th grade; no diploma");
                             break;
                         case "3":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "HS");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School or secondary school degree complete");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1450");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School Graduate or GED Completed");
                             break;
                         case "4":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "SCOL");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some College education");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1451");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some college credit, but no degree");
                             break;
                         case "5":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "ASSOC");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate's or technical degree complete");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1452");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate Degree");
                             break;
                         case "6":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "BD");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "College or baccalaureate degree complete");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1453");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Bachelor's Degree");
                             break;
                         case "7":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "GD");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Graduate or professional Degree complete");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1454");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Master's Degree");
                             break;
                         case "8":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "POSTG");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctoral or post graduate education");
+                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1455");
+                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctorate Degree or Professional Degree");
                             break;
                         case "9":
                             Dictionary_Set("DEDUC", "EducationLevel", "code", "UNK");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("DEDUC", "EducationLevel", "system", CodeSystems.PH_NullFlavor_HL7_V3);   // CDC Null Flavor Coding System
                             Dictionary_Set("DEDUC", "EducationLevel", "display", "Unknown");
                             break;
                     }
@@ -2486,32 +2479,32 @@ namespace VRDR
                     {
                         case "N":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "38605008");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural death");
                             break;
                         case "A":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "7878000");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accidental death");
                             break;
                         case "S":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "44301001");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Suicide");
                             break;
                         case "H":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "27935005");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Homicide");
                             break;
                         case "P":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "185973002");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Patient awaiting investigation");
                             break;
                         case "C":
                             Dictionary_Set("MANNER", "MannerOfDeathType", "code", "65037004");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", "http://snomed.info/sct");
+                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
                             Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Death, manner undetermined");
                             break;
                     }
@@ -2578,17 +2571,17 @@ namespace VRDR
                     {
                         case "Y":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
                             break;
                     }
@@ -2622,17 +2615,17 @@ namespace VRDR
                     {
                         case "Y":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
                             break;
                     }
@@ -2644,6 +2637,7 @@ namespace VRDR
         [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
+            /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
             get
             {
                 string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");
@@ -2653,8 +2647,12 @@ namespace VRDR
                         return "Y";
                     case "373067005": // No
                         return "N";
+                    case "2931005": // Probably
+                        return "P";
                     case "UNK": // Unknown
                         return "U";
+                    case "NASK": // Not asked
+                        return "C"; // maps to not on certificate
                 }
                 return "";
             }
@@ -2666,18 +2664,28 @@ namespace VRDR
                     {
                         case "Y":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "373066001");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "373067005");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
+                            break;
+                        case "P":
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "2931005");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Probably");
                             break;
                         case "U":
                             Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("TOBAC", "TobaccoUse", "display", "Unknown");
+                            break;
+                        case "C":
+                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "NASK");
+                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
+                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Not asked");
                             break;
                     }
                 }
@@ -2716,32 +2724,32 @@ namespace VRDR
                     {
                         case "1":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1260");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.5.274");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant within past year");
                             break;
                         case "2":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1261");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.5.274");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Pregnant at time of death");
                             break;
                         case "3":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1262");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.5.274");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
                             break;
                         case "4":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1263");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.5.274");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
                             break;
                         case "9":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1264");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "urn:oid:2.16.840.1.114222.4.5.274");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Unknown if pregnant within the past year");
                             break;
                         case "8":
                             Dictionary_Set("PREG", "PregnancyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("PREG", "PregnancyStatus", "display", "Not applicable");
                             break;
                     }
@@ -2857,17 +2865,17 @@ namespace VRDR
                     {
                         case "Y":
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "Y");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "N");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Unknown");
                             break;
                     }
@@ -2903,17 +2911,17 @@ namespace VRDR
                     {
                         case "D":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434641000124105");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("CERTL", "CertificationRole", "display", "Death certification and verification by physician");
                             break;
                         case "P":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "434651000124107");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("CERTL", "CertificationRole", "display", "Physician certified and pronounced death certificate");
                             break;
                         case "M":
                             Dictionary_Set("CERTL", "CertificationRole", "code", "440051000124108");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("CERTL", "CertificationRole", "display", "Medical Examiner");
                             break;
                     }
@@ -2983,17 +2991,17 @@ namespace VRDR
                     {
                         case "Y":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "Y");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "Yes");
                             break;
                         case "N":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "N");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_YesNo_HL7_2x);
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "No");
                             break;
                         case "U":
                             Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_NullFlavor_HL7_V3);
                             Dictionary_Set("ARMEDF", "MilitaryService", "display", "Unknown");
                             break;
                     }
@@ -3294,6 +3302,8 @@ namespace VRDR
                         return "Other Specified Place";
                     case "9":
                         return "Unspecified Place";
+                    case "NI":
+                        return "NoInformation";
                 }
                 return "";
             }
@@ -3305,54 +3315,55 @@ namespace VRDR
                     {
                         case "Home":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "0");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Residential Institution":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "1");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "School, Other Institutions, Public Administrative Area":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "2");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Sports and Atheletics Area":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "3");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Street/Highway":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "4");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Trade and Service Area":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "5");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Industrial and Construction Area":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "6");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Farm":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "7");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Other Specified Place":
+                        default:    // if the value is non-null, but not one of the expected string, it is 'other specified place'
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "8");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
                             break;
                         case "Unspecified Place":
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "9");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", "urn:oid:2.16.840.1.114222.4.5.320");
+                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
+                            break;                        
                     }
                 }
             }
@@ -3401,17 +3412,17 @@ namespace VRDR
                     {
                         case "DR":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "236320001");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Vehicle driver");
                             break;
                         case "PA":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257500003");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Passenger");
                             break;
                         case "PE":
                             Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257518000");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", "http://snomed.info/sct");
+                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
                             Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Pedestrian");
                             break;
                     }

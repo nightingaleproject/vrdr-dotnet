@@ -2582,6 +2582,7 @@
         </member>
         <member name="P:VRDR.IJEMortality.TOBAC">
             <summary>Did Tobacco Use Contribute to Death?</summary>
+            Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         </member>
         <member name="P:VRDR.IJEMortality.PREG">
             <summary>Pregnancy</summary>

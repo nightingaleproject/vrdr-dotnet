@@ -1,6 +1,7 @@
 using Xunit;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace VRDR.Tests
 {
@@ -239,6 +240,65 @@ namespace VRDR.Tests
             // This assertion is actually backwards from how it is intended to be used, however
             // it works for our use case.
             Assert.Contains(randomPlace, allPlaces);
+        }
+
+        [Fact]
+        public void HandleOtherEthnicityDataInIJE()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/EthnicityOtherCase.ije")), true);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            IJEMortality ije1rt = new IJEMortality(dr1);
+            Assert.Equal("N", ije1rt.DETHNIC1);
+            Assert.Equal("N", ije1rt.DETHNIC2);
+            Assert.Equal("N", ije1rt.DETHNIC3);
+            Assert.Equal("H", ije1rt.DETHNIC4);
+            Assert.Equal("Guatemalan", ije1rt.DETHNIC5);
+
+            IJEMortality ije2 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/EthnicityOtherCaseNoWriteIn.ije")), true);
+            DeathRecord dr2 = ije2.ToDeathRecord();
+            IJEMortality ije2rt = new IJEMortality(dr2);
+            Assert.Equal("N", ije2rt.DETHNIC1);
+            Assert.Equal("N", ije2rt.DETHNIC2);
+            Assert.Equal("N", ije2rt.DETHNIC3);
+            Assert.Equal("H", ije2rt.DETHNIC4);
+
+            IJEMortality ije3 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/EthnicityPlusOtherCase.ije")), true);
+            DeathRecord dr3 = ije3.ToDeathRecord();
+            IJEMortality ije3rt = new IJEMortality(dr3);
+            Assert.Equal("H", ije3rt.DETHNIC1);
+            Assert.Equal("N", ije3rt.DETHNIC2);
+            Assert.Equal("N", ije3rt.DETHNIC3);
+            Assert.Equal("H", ije3rt.DETHNIC4);
+            Assert.Equal("Guatemalan", ije3rt.DETHNIC5);
+
+            IJEMortality ije4 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/EthnicityAllH.ije")), true);
+            DeathRecord dr4 = ije4.ToDeathRecord();
+            IJEMortality ije4rt = new IJEMortality(dr4);
+            Assert.Equal("H", ije4rt.DETHNIC1);
+            Assert.Equal("H", ije4rt.DETHNIC2);
+            Assert.Equal("H", ije4rt.DETHNIC3);
+            Assert.Equal("H", ije4rt.DETHNIC4);
+
+            // the only time unkown are preserved in a roundtrip is when all DETHNIC fields are unknown
+            IJEMortality ije5 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/EthnicityAllUnknown.ije")), true);
+            DeathRecord dr5 = ije5.ToDeathRecord();
+            IJEMortality ije5rt = new IJEMortality(dr5);
+            Assert.Equal("U", ije5rt.DETHNIC1);
+            Assert.Equal("U", ije5rt.DETHNIC2);
+            Assert.Equal("U", ije5rt.DETHNIC3);
+            Assert.Equal("U", ije5rt.DETHNIC4);
+            
+        }
+        private string FixturePath(string filePath)
+        {
+            if (Path.IsPathRooted(filePath))
+            {
+                return filePath;
+            }
+            else
+            {
+                return Path.GetRelativePath(Directory.GetCurrentDirectory(), filePath);
+            }
         }
     }
 }

@@ -1296,6 +1296,7 @@ namespace VRDR
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Code = new CodeableConcept();
+                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
                     ConditionContributingToDeath.Code.Text = value;
                     AddReferenceToComposition(ConditionContributingToDeath.Id);
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);

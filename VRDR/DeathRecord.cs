@@ -201,8 +201,8 @@ namespace VRDR
             string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
             DeathCertification.Meta.Profile = deathcertification_profile;
             DeathCertification.Status = EventStatus.Completed;
-            DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-            DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+            DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
+            DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
 
             // Start with an empty interested party.
             InterestedParty = new Organization();
@@ -236,7 +236,7 @@ namespace VRDR
             DispositionLocation.Meta = new Meta();
             string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
             DispositionLocation.Meta.Profile = dispositionlocation_profile;
-            Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+            Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
             DispositionLocation.PhysicalType = new CodeableConcept();
             DispositionLocation.PhysicalType.Coding.Add(pt);
 
@@ -247,7 +247,7 @@ namespace VRDR
             Composition.Meta = new Meta();
             string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
             Composition.Meta.Profile = composition_profile;
-            Composition.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
+            Composition.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
             Composition.Section.Add(new Composition.SectionComponent());
             Composition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             Composition.Author.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
@@ -256,7 +256,7 @@ namespace VRDR
             Composition.Attester.First().Party = new ResourceReference("urn:uuid:" + Certifier.Id);
             Composition.Attester.First().ModeElement = new Code<Hl7.Fhir.Model.Composition.CompositionAttestationMode>(Hl7.Fhir.Model.Composition.CompositionAttestationMode.Legal);
             Hl7.Fhir.Model.Composition.EventComponent eventComponent = new Hl7.Fhir.Model.Composition.EventComponent();
-            eventComponent.Code.Add(new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure (procedure)", null));
+            eventComponent.Code.Add(new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure (procedure)", null));
             eventComponent.Detail.Add(new ResourceReference("urn:uuid:" + DeathCertification.Id));
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
@@ -530,7 +530,7 @@ namespace VRDR
                     string[] profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference" };
                     StateDocumentReference.Meta.Profile = profile;
                     StateDocumentReference.Status = DocumentReferenceStatus.Current;
-                    StateDocumentReference.Type = new CodeableConcept("http://loinc.org", "64297-5", "Death certificate", null);
+                    StateDocumentReference.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
                     Identifier identifier = new Identifier();
                     identifier.Value = value;
                     StateDocumentReference.Identifier.Add(identifier);
@@ -591,8 +591,8 @@ namespace VRDR
                     string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
                     DeathCertification.Meta.Profile = deathcertification_profile;
                     DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
+                    DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                     Composition.Attester.First().Time = value;
@@ -638,7 +638,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
         /// <para>role.Add("code", "76899008");</para>
-        /// <para>role.Add("system", "http://snomed.info/sct");</para>
+        /// <para>role.Add("system", CodeSystems.SCT);</para>
         /// <para>role.Add("display", "Infectious diseases physician");</para>
         /// <para>ExampleDeathRecord.CertificationRole = role;</para>
         /// <para>// Getter:</para>
@@ -674,8 +674,8 @@ namespace VRDR
                     string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
                     DeathCertification.Meta.Profile = deathcertification_profile;
                     DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept("http://snomed.info/sct", "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept("http://snomed.info/sct", "308646001", "Death certification", null);
+                    DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
+                    DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
                     AddReferenceToComposition(DeathCertification.Id);
                     Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
                     Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
@@ -921,7 +921,7 @@ namespace VRDR
                     string[] mannerofdeath_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" };
                     MannerOfDeath.Meta.Profile = mannerofdeath_profile;
                     MannerOfDeath.Status = ObservationStatus.Final;
-                    MannerOfDeath.Code = new CodeableConcept("http://loinc.org", "69449-7", "Manner of death", null);
+                    MannerOfDeath.Code = new CodeableConcept(CodeSystems.LOINC, "69449-7", "Manner of death", null);
                     MannerOfDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MannerOfDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     MannerOfDeath.Value = DictToCodeableConcept(value);
@@ -1108,7 +1108,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
         /// <para>qualification.Add("code", "434641000124105");</para>
-        /// <para>qualification.Add("system", "http://snomed.info/sct");</para>
+        /// <para>qualification.Add("system", CodeSystems.SCT);</para>
         /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
         /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
         /// <para>// Getter:</para>
@@ -3637,10 +3637,10 @@ namespace VRDR
                 {
                     return;
                 }
-                Decedent.Identifier.RemoveAll(iden => iden.System == "http://hl7.org/fhir/sid/us-ssn");
+                Decedent.Identifier.RemoveAll(iden => iden.System == CodeSystems.US_SSN);
                 Identifier ssn = new Identifier();
-                ssn.Type = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "SB", "Social Beneficiary Identifier", null);
-                ssn.System = "http://hl7.org/fhir/sid/us-ssn";
+                ssn.Type = new CodeableConcept(CodeSystems.HL7_identifier_type, "SB", "Social Beneficiary Identifier", null);
+                ssn.System = CodeSystems.US_SSN;
                 ssn.Value = value.Replace("-", string.Empty);
                 Decedent.Identifier.Add(ssn);
             }
@@ -3770,7 +3770,7 @@ namespace VRDR
                         codeEthnicity.Url = "detailed";
                     }
                     Coding coding = new Coding();
-                    coding.System = "urn:oid:2.16.840.1.113883.6.238";
+                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
                     if (!String.IsNullOrWhiteSpace(code))
                     {
                         coding.Code = code;
@@ -3917,7 +3917,7 @@ namespace VRDR
                         codeRace.Url = "detailed";
                     }
                     Coding coding = new Coding();
-                    coding.System = "urn:oid:2.16.840.1.113883.6.238";
+                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
                     if (!String.IsNullOrWhiteSpace(code))
                     {
                         coding.Code = code;
@@ -4482,7 +4482,7 @@ namespace VRDR
                     string[] educationlevel_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
                     DecedentEducationLevel.Meta.Profile = educationlevel_profile;
                     DecedentEducationLevel.Status = ObservationStatus.Final;
-                    DecedentEducationLevel.Code = new CodeableConcept("http://loinc.org", "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
+                    DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
                     DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DecedentEducationLevel.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(DecedentEducationLevel.Id);
@@ -4587,7 +4587,7 @@ namespace VRDR
                     BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21842-0", "Birthplace", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
                     component.Value = DictToCodeableConcept(value);
                     BirthRecordIdentifier.Component.Add(component);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4604,7 +4604,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "21842-0", "Birthplace", null);
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
                         component.Value = DictToCodeableConcept(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
@@ -4650,7 +4650,7 @@ namespace VRDR
                     BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "80904-6", "Birth year", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80904-6", "Birth year", null);
                     component.Value = new FhirDateTime(value);
                     BirthRecordIdentifier.Component.Add(component);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4667,7 +4667,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "80904-6", "Birth year", null);
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "80904-6", "Birth year", null);
                         component.Value = new FhirDateTime(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
@@ -4717,7 +4717,7 @@ namespace VRDR
                     string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
                     UsualWork.Meta.Profile = usualwork_profile;
                     UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
                     UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     UsualWork.Effective = new Period();
                     UsualWork.Value = DictToCodeableConcept(value);
@@ -4793,7 +4793,7 @@ namespace VRDR
                     string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
                     UsualWork.Meta.Profile = usualwork_profile;
                     UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
                     UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     UsualWork.Effective = new Period(new FhirDateTime(value), null);
                     AddReferenceToComposition(UsualWork.Id);
@@ -4840,7 +4840,7 @@ namespace VRDR
                     string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
                     UsualWork.Meta.Profile = usualwork_profile;
                     UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
                     UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     UsualWork.Effective = new Period(null, new FhirDateTime(value));
                     AddReferenceToComposition(UsualWork.Id);
@@ -4904,11 +4904,11 @@ namespace VRDR
                     string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
                     UsualWork.Meta.Profile = employmenthistory_profile;
                     UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept("http://loinc.org", "21843-8", "History of Usual occupation", null);
+                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
                     UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     UsualWork.Effective = new Period();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
                     UsualWork.Component.Add(component);
                     AddReferenceToComposition(UsualWork.Id);
@@ -4918,7 +4918,7 @@ namespace VRDR
                 {
                     UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "21844-6", "History of Usual industry", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
                     component.Value = DictToCodeableConcept(value);
                     UsualWork.Component.Add(component);
                 }
@@ -4998,7 +4998,7 @@ namespace VRDR
                     string[] militaryhistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" };
                     MilitaryServiceObs.Meta.Profile = militaryhistory_profile;
                     MilitaryServiceObs.Status = ObservationStatus.Final;
-                    MilitaryServiceObs.Code = new CodeableConcept("http://loinc.org", "55280-2", "Military service Narrative", null);
+                    MilitaryServiceObs.Code = new CodeableConcept(CodeSystems.LOINC, "55280-2", "Military service Narrative", null);
                     MilitaryServiceObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MilitaryServiceObs.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(MilitaryServiceObs.Id);
@@ -5523,7 +5523,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
         /// <para>dmethod.Add("code", "449971000124106");</para>
-        /// <para>dmethod.Add("system", "http://snomed.info/sct");</para>
+        /// <para>dmethod.Add("system", CodeSystems.SCT);</para>
         /// <para>dmethod.Add("display", "Burial");</para>
         /// <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
         /// <para>// Getter:</para>
@@ -5554,7 +5554,7 @@ namespace VRDR
                     string[] dispositionmethod_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" };
                     DispositionMethod.Meta.Profile = dispositionmethod_profile;
                     DispositionMethod.Status = ObservationStatus.Final;
-                    DispositionMethod.Code = new CodeableConcept("http://loinc.org", "80905-3", "Body disposition method", null);
+                    DispositionMethod.Code = new CodeableConcept(CodeSystems.LOINC, "80905-3", "Body disposition method", null);
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
@@ -5641,7 +5641,7 @@ namespace VRDR
                     string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
                     AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
                     AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
+                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
                     AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     AutopsyPerformed.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(AutopsyPerformed.Id);
@@ -5893,7 +5893,7 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date+time of death", null);
+                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     if (Pronouncer != null)
                     {
@@ -5946,11 +5946,11 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept("http://loinc.org", "81956-5", "Date+time of death", null);
+                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                     AddReferenceToComposition(DeathDateObs.Id);
@@ -5960,7 +5960,7 @@ namespace VRDR
                 {
                     DeathDateObs.Component.Clear();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                 }
@@ -6008,10 +6008,10 @@ namespace VRDR
                     string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
                     AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
                     AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept("http://loinc.org", "85699-7", "Autopsy was performed", null);
+                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
                     AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69436-4", "Autopsy results available", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
                     component.Value = DictToCodeableConcept(value);
                     AutopsyPerformed.Component.Clear();
                     AutopsyPerformed.Component.Add(component);
@@ -6021,7 +6021,7 @@ namespace VRDR
                 else
                 {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69436-4", "Autopsy results available", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
                     component.Value = DictToCodeableConcept(value);
                     AutopsyPerformed.Component.Clear();
                     AutopsyPerformed.Component.Add(component);
@@ -6198,11 +6198,11 @@ namespace VRDR
 
                     if (value == "YC")
                     {
-                        system = "urn:oid:2.16.840.1.113883.6.245" ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                        system = CodeSystems.PH_USGS_GNIS ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
                     }
                     else
                     {
-                        system =   "urn:oid:2.16.840.1.113883.6.92" ; // All other codes are from FIPS_5-2
+                        system = CodeSystems.PH_State_FIPS_5_2 ; // All other codes are from FIPS_5-2
                     }
                     cc = new CodeableConcept(system, code, display, display);
                     Extension extension = new Extension();
@@ -6305,7 +6305,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "16983000");</para>
-        /// <para>code.Add("system", "http://snomed.info/sct");</para>
+        /// <para>code.Add("system", CodeSystems.SCT);</para>
         /// <para>code.Add("display", "Death in hospital");</para>
         /// <para>ExampleDeathRecord.DeathLocationType = code;</para>
         /// <para>// Getter:</para>
@@ -6390,7 +6390,7 @@ namespace VRDR
                     string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
                     AgeAtDeathObs.Meta.Profile = age_profile;
                     AgeAtDeathObs.Status = ObservationStatus.Final;
-                    AgeAtDeathObs.Code = new CodeableConcept("http://loinc.org", "30525-0", "Age", null);
+                    AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
                     AgeAtDeathObs.Effective = DeathDateObs?.Value;
                     AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Quantity quant = new Quantity();
@@ -6464,7 +6464,7 @@ namespace VRDR
                     string[] p_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
                     PregnancyObs.Meta.Profile = p_profile;
                     PregnancyObs.Status = ObservationStatus.Final;
-                    PregnancyObs.Code = new CodeableConcept("http://loinc.org", "69442-2", "Timing of recent pregnancy in relation to death", null);
+                    PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
                     PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     PregnancyObs.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(PregnancyObs.Id);
@@ -6516,7 +6516,7 @@ namespace VRDR
                     string[] ec_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
                     ExaminerContactedObs.Meta.Profile = ec_profile;
                     ExaminerContactedObs.Status = ObservationStatus.Final;
-                    ExaminerContactedObs.Code = new CodeableConcept("http://loinc.org", "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
+                    ExaminerContactedObs.Code = new CodeableConcept(CodeSystems.LOINC, "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     ExaminerContactedObs.Value = contactedCoding;
                     AddReferenceToComposition(ExaminerContactedObs.Id);
@@ -6758,7 +6758,7 @@ namespace VRDR
                     string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     InjuryIncidentObs.Effective = new FhirDateTime(value);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6802,7 +6802,7 @@ namespace VRDR
                     string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     InjuryIncidentObs.Value = new FhirString(value);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6863,10 +6863,10 @@ namespace VRDR
                     string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6884,7 +6884,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "69450-5", "Place of injury Facility", null);
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
                         component.Value = DictToCodeableConcept(value);
                         InjuryIncidentObs.Component.Add(component);
                     }
@@ -6970,10 +6970,10 @@ namespace VRDR
                     string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69444-8", "Did death result from injury at work", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69444-8", "Did death result from injury at work", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -6991,7 +6991,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "69444-8", "Did death result from injury at work", null);
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69444-8", "Did death result from injury at work", null);
                         component.Value = DictToCodeableConcept(value);
                         InjuryIncidentObs.Component.Add(component);
                     }
@@ -7096,10 +7096,10 @@ namespace VRDR
                     string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept("http://loinc.org", "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept("http://loinc.org", "69448-9", "Injury leading to death associated with transportation event", null);
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
@@ -7117,7 +7117,7 @@ namespace VRDR
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept("http://loinc.org", "69448-9", "Injury leading to death associated with transportation event", null);
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
                         component.Value = DictToCodeableConcept(value);
                         InjuryIncidentObs.Component.Add(component);
                     }
@@ -7185,7 +7185,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "257500003");</para>
-        /// <para>code.Add("system", "http://snomed.info/sct");</para>
+        /// <para>code.Add("system", CodeSystems.SCT);</para>
         /// <para>code.Add("display", "Passenger");</para>
         /// <para>ExampleDeathRecord.TransportationRole = code;</para>
         /// <para>// Getter:</para>
@@ -7216,7 +7216,7 @@ namespace VRDR
                     string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
                     TransportationRoleObs.Meta.Profile = t_profile;
                     TransportationRoleObs.Status = ObservationStatus.Final;
-                    TransportationRoleObs.Code = new CodeableConcept("http://loinc.org", "69451-3", "Transportation role of decedent ", null);
+                    TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
                     TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     TransportationRoleObs.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(TransportationRoleObs.Id);
@@ -7239,7 +7239,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "373066001");</para>
-        /// <para>code.Add("system", "http://snomed.info/sct");</para>
+        /// <para>code.Add("system", CodeSystems.SCT);</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.TobaccoUse = code;</para>
         /// <para>// Getter:</para>
@@ -7270,7 +7270,7 @@ namespace VRDR
                     string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
                     TobaccoUseObs.Meta.Profile = tb_profile;
                     TobaccoUseObs.Status = ObservationStatus.Final;
-                    TobaccoUseObs.Code = new CodeableConcept("http://loinc.org", "69443-0", "Did tobacco use contribute to death", null);
+                    TobaccoUseObs.Code = new CodeableConcept(CodeSystems.LOINC, "69443-0", "Did tobacco use contribute to death", null);
                     TobaccoUseObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     TobaccoUseObs.Value = DictToCodeableConcept(value);
                     AddReferenceToComposition(TobaccoUseObs.Id);

@@ -4,6 +4,54 @@
         <name>DeathRecord</name>
     </assembly>
     <members>
+        <member name="T:VRDR.CodeSystems">
+            <summary>Single definitions for CodeSystem OIDs and URLs used throughout. </summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.SCT">
+            <summary>SNOMEDCT.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.LOINC">
+            <summary>LOINC.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.US_SSN">
+            <summary>Social Security Numbers.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_RaceAndEthnicity_CDC">
+            <summary>PHINVADS Race and Ethnicity.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_NullFlavor_HL7_V3">
+            <summary>PHINVADS Null Flavor.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_PHINVS_CDC">
+            <summary>PHINVADS Local Coding System.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_YesNo_HL7_2x">
+            <summary>PHINVADS Yes/No.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO">
+            <summary>PHINVADS Place of Occurrence.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_MaritalStatus_HL7_2x">
+            <summary>PHINVADS Marital Satus.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_USGS_GNIS">
+            <summary>USGS GNIS.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_State_FIPS_5_2">
+            <summary>FIPS 5 2.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.HL7_location_physical_type">
+            <summary>HL7 Location Physical Type.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.HL7_identifier_type">
+            <summary>HL7 Identifier Type.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_RoleCode_HL7_V3">
+            <summary>PHINVADS HL7 RoleCode.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.RoleCode_HL7_V3">
+            <summary>HL7 RoleCode.</summary>
+        </member>
         <member name="T:VRDR.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the
@@ -248,7 +296,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; role = new Dictionary&lt;string, string&gt;();</para>
             <para>role.Add("code", "76899008");</para>
-            <para>role.Add("system", "http://snomed.info/sct");</para>
+            <para>role.Add("system", CodeSystems.SCT);</para>
             <para>role.Add("display", "Infectious diseases physician");</para>
             <para>ExampleDeathRecord.CertificationRole = role;</para>
             <para>// Getter:</para>
@@ -414,7 +462,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
             <para>qualification.Add("code", "434641000124105");</para>
-            <para>qualification.Add("system", "http://snomed.info/sct");</para>
+            <para>qualification.Add("system", CodeSystems.SCT);</para>
             <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
             <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
             <para>// Getter:</para>
@@ -1527,7 +1575,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; dmethod = new Dictionary&lt;string, string&gt;();</para>
             <para>dmethod.Add("code", "449971000124106");</para>
-            <para>dmethod.Add("system", "http://snomed.info/sct");</para>
+            <para>dmethod.Add("system", CodeSystems.SCT);</para>
             <para>dmethod.Add("display", "Burial");</para>
             <para>ExampleDeathRecord.DecedentDispositionMethod = dmethod;</para>
             <para>// Getter:</para>
@@ -1727,7 +1775,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "16983000");</para>
-            <para>code.Add("system", "http://snomed.info/sct");</para>
+            <para>code.Add("system", CodeSystems.SCT);</para>
             <para>code.Add("display", "Death in hospital");</para>
             <para>ExampleDeathRecord.DeathLocationType = code;</para>
             <para>// Getter:</para>
@@ -1956,7 +2004,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "257500003");</para>
-            <para>code.Add("system", "http://snomed.info/sct");</para>
+            <para>code.Add("system", CodeSystems.SCT);</para>
             <para>code.Add("display", "Passenger");</para>
             <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>
@@ -1974,7 +2022,7 @@
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
             <para>code.Add("code", "373066001");</para>
-            <para>code.Add("system", "http://snomed.info/sct");</para>
+            <para>code.Add("system", CodeSystems.SCT);</para>
             <para>code.Add("display", "Yes");</para>
             <para>ExampleDeathRecord.TobaccoUse = code;</para>
             <para>// Getter:</para>
@@ -2208,7 +2256,7 @@
         <member name="M:VRDR.IJEMortality.#ctor(VRDR.DeathRecord)">
             <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.#ctor(System.String)">
+        <member name="M:VRDR.IJEMortality.#ctor(System.String,System.Boolean)">
             <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
         </member>
         <member name="M:VRDR.IJEMortality.ToString">
@@ -2217,7 +2265,7 @@
         <member name="M:VRDR.IJEMortality.ToDeathRecord">
             <summary>Returns the corresponding <c>DeathRecord</c> for this IJE string.</summary>
         </member>
-        <member name="M:VRDR.IJEMortality.Valid">
+        <member name="M:VRDR.IJEMortality.Validate">
             <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
         </member>
         <member name="M:VRDR.IJEMortality.Truncate(System.String,System.Int32)">
@@ -2837,6 +2885,9 @@
         </member>
         <member name="M:VRDR.MortalityData.DictValueFinderHelper``1(``0,System.String)">
             <summary>Given a key in a (string, string) object, return the first matching value.</summary>
+        </member>
+        <member name="F:VRDR.MortalityData.JurisdictionCodes">
+            <summary>Jurisdiction Codes</summary>
         </member>
         <member name="F:VRDR.MortalityData.CDCRaceAIANCodes">
             <summary>CDC Race American Indian or Alaska Native Codes</summary>

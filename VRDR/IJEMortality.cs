@@ -3510,7 +3510,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Line a</summary>
-        [IJEField(184, 2542, 120, "Cause of Death Part I Line a", " COD1A", 1)]
+        [IJEField(184, 2542, 120, "Cause of Death Part I Line a", "COD1A", 1)]
         public string COD1A
         {
             get

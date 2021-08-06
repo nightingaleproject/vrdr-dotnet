@@ -58,6 +58,30 @@ namespace VRDR
         /// <summary>Condition Contributing to Death.</summary>
         private Condition ConditionContributingToDeath;
 
+        /// <summary>Create a Cause Of Death Condition </summary>
+        private Condition CauseOfDeathCondition(int index){
+                    Condition CodCondition;
+                    Console.Error.WriteLine("CauseOfDeathCondition index = " + index);
+                    CodCondition = new Condition();
+                    CodCondition.Id = Guid.NewGuid().ToString();
+                    CodCondition.Meta = new Meta();
+                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    CodCondition.Meta.Profile = condition_profile;
+                    CodCondition.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
+                    CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CodCondition.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
+                    AddReferenceToComposition(CodCondition.Id);
+                    Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
+                    List.EntryComponent entry = new List.EntryComponent();
+                    entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    {
+                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    }
+                    CauseOfDeathConditionPathway.Entry[index] = entry;
+                    return (CodCondition);
+        }
+        
         /// <summary>Cause Of Death Condition Line A (#1).</summary>
         private Condition CauseOfDeathConditionA;
 
@@ -1443,35 +1467,18 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
-                {
-                    CauseOfDeathConditionA.Code.Text = value;
+                if(CauseOfDeathConditionA == null)
+                { 
+                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                else if (CauseOfDeathConditionA != null)
+                if (CauseOfDeathConditionA.Code != null)
                 {
-                    CauseOfDeathConditionA.Code = new CodeableConcept();
                     CauseOfDeathConditionA.Code.Text = value;
                 }
                 else
                 {
-                    CauseOfDeathConditionA = new Condition();
-                    CauseOfDeathConditionA.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
                     CauseOfDeathConditionA.Code = new CodeableConcept();
                     CauseOfDeathConditionA.Code.Text = value;
-                    CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionA.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionA.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionA, "urn:uuid:" + CauseOfDeathConditionA.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[0] = entry;
                 }
             }
         }
@@ -1497,30 +1504,11 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionA != null)
-                {
-                    CauseOfDeathConditionA.Onset = new FhirString(value);
+                if(CauseOfDeathConditionA == null)
+                { 
+                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                else
-                {
-                    CauseOfDeathConditionA = new Condition();
-                    CauseOfDeathConditionA.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
-                    CauseOfDeathConditionA.Onset = new FhirString(value);
-                    CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionA.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionA.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionA, "urn:uuid:" + CauseOfDeathConditionA.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[0] = entry;
-                }
+                CauseOfDeathConditionA.Onset = new FhirString(value);
             }
         }
 
@@ -1556,35 +1544,19 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+                if(CauseOfDeathConditionA == null)
+                { 
+                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
+                }
+                if (CauseOfDeathConditionA.Code != null)
                 {
                     CodeableConcept code = DictToCodeableConcept(value);
                     code.Text = CauseOfDeathConditionA.Code.Text;
                     CauseOfDeathConditionA.Code = code;
                 }
-                else if (CauseOfDeathConditionA != null)
+                else 
                 {
-                    CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
-                }
-                else
-                {
-                    CauseOfDeathConditionA = new Condition();
-                    CauseOfDeathConditionA.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionA.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
-                    CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
-                    CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionA.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionA.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionA, "urn:uuid:" + CauseOfDeathConditionA.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionA.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[0] = entry;
+                CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
                 }
             }
         }
@@ -1610,35 +1582,19 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
-                {
-                    CauseOfDeathConditionB.Code.Text = value;
+                if(CauseOfDeathConditionB == null)
+                { 
+                    CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-                else if (CauseOfDeathConditionB != null)
+
+                if (CauseOfDeathConditionB.Code != null)
                 {
-                    CauseOfDeathConditionB.Code = new CodeableConcept();
                     CauseOfDeathConditionB.Code.Text = value;
                 }
                 else
                 {
-                    CauseOfDeathConditionB = new Condition();
-                    CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
                     CauseOfDeathConditionB.Code = new CodeableConcept();
                     CauseOfDeathConditionB.Code.Text = value;
-                    CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionB.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionB, "urn:uuid:" + CauseOfDeathConditionB.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[1] = entry;
                 }
             }
         }
@@ -1664,30 +1620,11 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionB != null)
-                {
-                    CauseOfDeathConditionB.Onset = new FhirString(value);
+                if(CauseOfDeathConditionB == null)
+                { 
+                    CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-                else
-                {
-                    CauseOfDeathConditionB = new Condition();
-                    CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
-                    CauseOfDeathConditionB.Onset = new FhirString(value);
-                    CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionB.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionB, "urn:uuid:" + CauseOfDeathConditionB.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[1] = entry;
-                }
+                CauseOfDeathConditionB.Onset = new FhirString(value);
             }
         }
 
@@ -1723,37 +1660,21 @@ namespace VRDR
             }
             set
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                if(CauseOfDeathConditionB == null)
+                { 
+                    CauseOfDeathConditionB = CauseOfDeathCondition(1);
+                }
+                if (CauseOfDeathConditionB.Code != null)
                 {
                     CodeableConcept code = DictToCodeableConcept(value);
                     code.Text = CauseOfDeathConditionB.Code.Text;
                     CauseOfDeathConditionB.Code = code;
                 }
-                else if (CauseOfDeathConditionB != null)
-                {
-                    CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
-                }
                 else
                 {
-                    CauseOfDeathConditionB = new Condition();
-                    CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
-                    CauseOfDeathConditionB.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
                     CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
-                    CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CauseOfDeathConditionB.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CauseOfDeathConditionB.Id);
-                    Bundle.AddResourceEntry(CauseOfDeathConditionB, "urn:uuid:" + CauseOfDeathConditionB.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CauseOfDeathConditionB.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
-                    {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[1] = entry;
                 }
-            }
+                            }
         }
 
         /// <summary>Cause of Death Part I, Line c.</summary>

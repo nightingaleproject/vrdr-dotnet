@@ -2635,7 +2635,7 @@ namespace VRDR
         [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
-            /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
+            // Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
             get
             {
                 string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");

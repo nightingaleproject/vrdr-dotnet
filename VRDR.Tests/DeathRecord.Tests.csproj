@@ -45,8 +45,14 @@
     <None Update="fixtures/json/RaceEthnicityCaseRecord2.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/VoidMessageNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/MissingEthnicityData.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/DeathRecord1.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/AckMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/EthnicityAllH.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/EthnicityAllUnknown.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/EthnicityOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/EthnicityOtherCaseNoWriteIn.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/EthnicityPlusOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

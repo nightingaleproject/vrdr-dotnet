@@ -179,16 +179,24 @@
                 "url": "ombCategory",
                 "valueCoding": {
                   "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2028-9",
-                  "display": "Asian"
+                  "code": "1002-5",
+                  "display": "American Indian"
                 }
               },
               {
                 "url": "detailed",
                 "valueCoding": {
                   "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2037-0",
-                  "display": "Hmong"
+                  "code": "2127-9",
+                  "display": "Israeili"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "1139-5",
+                  "display": "Minnesota Chippewa"
                 }
               }
             ],
@@ -200,13 +208,25 @@
                 "url": "ombCategory",
                 "valueCoding": {
                   "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2186-5",
-                  "display": "Non Hispanic or Latino"
+                  "code": "2135-2",
+                  "display": "Hispanic or Latino"
                 }
               },
               {
-                "url" : "text",
-                "valueString" : "Non Hispanic or Latino"
+                "url": "detailed",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2180-8",
+                  "display": "Puerto Rican"
+                }
+              },
+              {
+                "url": "detailed",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2184-0",
+                  "display": "Dominican"
+                }
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
@@ -591,7 +611,20 @@
         "address": {
           "state": "MA",
           "country": "UNITED STATES"
-        }
+        },
+        "extension": [
+          {
+            "url": "jurisdictionID",
+            "valueCodeableConcept": {
+              "coding": [ {
+                "system": "urn:oid:2.16.840.1.113883.6.92",
+                "code": "25",
+                "display": "MA"
+              }
+              ]
+            }
+          }
+        ]
       }
     },
     {

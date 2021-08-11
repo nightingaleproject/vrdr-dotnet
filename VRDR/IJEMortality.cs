@@ -1585,12 +1585,22 @@ namespace VRDR
             }
         }
 
+        // The DETHNIC functions handle unknown ethnicity as follows
+        // All of the DETHNIC fields have to be unknown, U, for the ethnicity json data to be empty ex. UUUU
+            // Individual "Unknown" DETHNIC fields cannot be preserved in a roundtrip, only UUUU will return UUUU
+        // If at least one DETHNIC field is H, the json data should show Hispanic or Latino ex. NNHN will return NNHN
+        // If at least one DETHNIC field is N and no fields are H, the json data should show Non-Hispanic or Latino ex. UUNU will return NNNN
         /// <summary>Decedent of Hispanic Origin?--Mexican</summary>
         [IJEField(39, 247, 1, "Decedent of Hispanic Origin?--Mexican", "DETHNIC1", 1)]
         public string DETHNIC1
         {
             get
             {
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1614,7 +1624,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1629,6 +1639,12 @@ namespace VRDR
         {
             get
             {
+
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1652,7 +1668,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1667,8 +1683,14 @@ namespace VRDR
         {
             get
             {
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
+
                 string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                if (ethnicities.Length == 0) 
                 {
                     return "N";
                 }
@@ -1690,7 +1712,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1705,21 +1727,33 @@ namespace VRDR
         {
             get
             {
-                string[] hispanicOrigin = HispanicOrigin();
-                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
-                if (hispanicOrigin != null && hispanicOrigin.Length == 0)
-                {
-                    return "N";
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
                 }
-                // We need to handle cases where hispanic origin is other with or without write-in
-                // Hispanic origin and other are not mutually exclusive
-                else if (hispanicOrigin != null && hispanicOrigin.Any(element => validHispanicOrigins.Contains(element)))
+
+                string[] hispanicOrigin = HispanicOrigin();
+                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
+                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
+                
+                // This logic will handle cases where hispanic origin is other with or without write-in
+                // It also maintains that hispanic origin and other are not mutually exclusive
+                var ethnicityText = record.EthnicityText;
+                if (!String.IsNullOrWhiteSpace(ethnicityText) && hispanicOrigin.Length > 0) // there was a write in and they are Hispanic or Latino
                 {
                     return "H";
                 }
-                else
+                else if (hispanicOriginOther.Length > 0) // there was a code for an "other" hispanic or latino ethnicity
                 {
-                    return "N";
+                    return "H";
+                }
+                else if (hispanicOrigin.Length > 0 && !hispanicOrigin.Any(element => validHispanicOrigins.Contains(element))) // they are hispanic or latino and DETHNIC 1,2,3 ="N" so DETHIC4 must be "H"
+                {
+                    return "H";
+                }
+                else {
+                    return "N"; // not hispanic or latino
                 }
             }
             set
@@ -1733,7 +1767,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -2634,10 +2668,10 @@ namespace VRDR
         }
 
         /// <summary>Did Tobacco Use Contribute to Death?</summary>
+        /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
-            /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
             get
             {
                 string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");

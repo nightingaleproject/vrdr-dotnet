@@ -31,6 +31,9 @@
         <member name="F:VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO">
             <summary>PHINVADS Place of Occurrence.</summary>
         </member>
+        <member name="F:VRDR.CodeSystems.PH_PlaceOfDeath">
+            <summary>PHINVADS Place Of Death.</summary>
+        </member>
         <member name="F:VRDR.CodeSystems.PH_MaritalStatus_HL7_2x">
             <summary>PHINVADS Marital Satus.</summary>
         </member>
@@ -2434,6 +2437,9 @@
             <summary>Marital Status</summary>
         </member>
         <member name="P:VRDR.IJEMortality.MARITAL_BYPASS">
+            <summary>Marital Status--Edit Flag</summary>
+        </member>
+        <member name="P:VRDR.IJEMortality.DPLACE">
             <summary>Marital Status--Edit Flag</summary>
         </member>
         <member name="P:VRDR.IJEMortality.COD">

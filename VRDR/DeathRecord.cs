@@ -130,6 +130,21 @@ namespace VRDR
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
 
+         /// <summary>Create Age At Death Obs</summary>
+         private void AgeAtDeath(){
+            AgeAtDeathObs = new Observation();
+            AgeAtDeathObs.Id = Guid.NewGuid().ToString();
+            AgeAtDeathObs.Meta = new Meta();
+            string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
+            AgeAtDeathObs.Meta.Profile = age_profile;
+            AgeAtDeathObs.Status = ObservationStatus.Final;
+            AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
+            AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AgeAtDeathObs.Effective = DeathDateObs?.Value;
+            AddReferenceToComposition(AgeAtDeathObs.Id);
+            Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
+        }
+
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
 
@@ -6415,42 +6430,20 @@ namespace VRDR
             {
                 if (AgeAtDeathObs == null)
                 {
-                    AgeAtDeathObs = new Observation();
-                    AgeAtDeathObs.Id = Guid.NewGuid().ToString();
-                    AgeAtDeathObs.Meta = new Meta();
-                    string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
-                    AgeAtDeathObs.Meta.Profile = age_profile;
-                    AgeAtDeathObs.Status = ObservationStatus.Final;
-                    AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
-                    AgeAtDeathObs.Effective = DeathDateObs?.Value;
-                    AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Quantity quant = new Quantity();
-                    // If the value or unit is null, put out a data absent reason
-                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")) && !String.IsNullOrWhiteSpace(GetValue(value, "unit")))
-                    {
-                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                        quant.Unit = GetValue(value, "unit");
-                        AgeAtDeathObs.Value = quant;
-                    } else { // NVSS-209
-                        AgeAtDeathObs.dataAbsentReason =  new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "unknown", "Unknown", null);
-                    }
-
-                    AddReferenceToComposition(AgeAtDeathObs.Id);
-                    Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
+                    AgeAtDeath(); // Create it
                 }
-                else
+
+                // If the value or unit is null, put out a data absent reason
+                if (!String.IsNullOrWhiteSpace(GetValue(value, "value")) && 
+                    !String.IsNullOrWhiteSpace(GetValue(value, "unit")) &&
+                    GetValue(value, "unit") != 999)   // not unknown - NVSS-209
                 {
                     Quantity quant = new Quantity();
-                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
-                    {
-                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    }
-                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
-                    {
-                        quant.Unit = GetValue(value, "unit");
-                    }
-                    AgeAtDeathObs.Effective = DeathDateObs?.Value;
+                    quant.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    quant.Unit = GetValue(value, "unit");
                     AgeAtDeathObs.Value = quant;
+                } else { // NVSS-209
+                    AgeAtDeathObs.dataAbsentReason =  new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "unknown", "Unknown", null);
                 }
             }
         }

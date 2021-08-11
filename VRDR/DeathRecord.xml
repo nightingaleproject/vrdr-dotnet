@@ -31,8 +31,8 @@
         <member name="F:VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO">
             <summary>PHINVADS Place of Occurrence.</summary>
         </member>
-        <member name="F:VRDR.CodeSystems.PH_PlaceOfDeath">
-            <summary>PHINVADS Place Of Death.</summary>
+        <member name="F:VRDR.CodeSystems.PH_SNOMED_CT">
+            <summary>PHINVADS SNOMED.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_MaritalStatus_HL7_2x">
             <summary>PHINVADS Marital Satus.</summary>

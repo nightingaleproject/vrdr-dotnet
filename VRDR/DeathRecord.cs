@@ -219,7 +219,7 @@ namespace VRDR
             string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
             FuneralHome.Meta.Profile = funeralhome_profile;
             FuneralHome.Active = true;
-            FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
+            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
 
             // FuneralHomeLicensee Points to Mortician and FuneralHome
             FuneralHomeDirector = new PractitionerRole();
@@ -852,7 +852,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
         /// <para>type.Add("code", "prov");</para>
-        /// <para>type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");</para>
+        /// <para>type.Add("system",CodeSystems.HL7_organization_type);</para>
         /// <para>type.Add("display", "Healthcare Provider");</para>
         /// <para>ExampleDeathRecord.InterestedPartyType = type;</para>
         /// <para>// Getter:</para>
@@ -1271,6 +1271,7 @@ namespace VRDR
                     ConditionContributingToDeath.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
+                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     ConditionContributingToDeath.Code = new CodeableConcept();
                     ConditionContributingToDeath.Code.Text = value;
                     AddReferenceToComposition(ConditionContributingToDeath.Id);
@@ -1459,6 +1460,7 @@ namespace VRDR
                     CauseOfDeathConditionA.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionA.Code = new CodeableConcept();
                     CauseOfDeathConditionA.Code.Text = value;
                     CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -1508,6 +1510,7 @@ namespace VRDR
                     CauseOfDeathConditionA.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionA.Onset = new FhirString(value);
                     CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionA.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1573,6 +1576,7 @@ namespace VRDR
                     CauseOfDeathConditionA.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
                     CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionA.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionA.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1625,7 +1629,8 @@ namespace VRDR
                     CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionB.Code = new CodeableConcept();
                     CauseOfDeathConditionB.Code.Text = value;
                     CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -1674,7 +1679,8 @@ namespace VRDR
                     CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionB.Onset = new FhirString(value);
                     CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionB.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1739,7 +1745,8 @@ namespace VRDR
                     CauseOfDeathConditionB.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionB.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionB.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionB.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionB.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1792,7 +1799,8 @@ namespace VRDR
                     CauseOfDeathConditionC.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionC.Code = new CodeableConcept();
                     CauseOfDeathConditionC.Code.Text = value;
                     CauseOfDeathConditionC.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -1841,7 +1849,8 @@ namespace VRDR
                     CauseOfDeathConditionC.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionC.Onset = new FhirString(value);
                     CauseOfDeathConditionC.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionC.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1906,7 +1915,8 @@ namespace VRDR
                     CauseOfDeathConditionC.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionC.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionC.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionC.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionC.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -1959,7 +1969,8 @@ namespace VRDR
                     CauseOfDeathConditionD.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionD.Code = new CodeableConcept();
                     CauseOfDeathConditionD.Code.Text = value;
                     CauseOfDeathConditionD.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2008,7 +2019,8 @@ namespace VRDR
                     CauseOfDeathConditionD.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionD.Onset = new FhirString(value);
                     CauseOfDeathConditionD.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionD.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2073,7 +2085,8 @@ namespace VRDR
                     CauseOfDeathConditionD.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionD.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionD.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionD.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionD.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2126,7 +2139,8 @@ namespace VRDR
                     CauseOfDeathConditionE.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionE.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionE.Code = new CodeableConcept();
                     CauseOfDeathConditionE.Code.Text = value;
                     CauseOfDeathConditionE.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2175,7 +2189,8 @@ namespace VRDR
                     CauseOfDeathConditionE.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionE.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionE.Onset = new FhirString(value);
                     CauseOfDeathConditionE.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionE.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2241,7 +2256,8 @@ namespace VRDR
                     CauseOfDeathConditionE.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionE.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionE.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionE.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionE.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2294,7 +2310,8 @@ namespace VRDR
                     CauseOfDeathConditionF.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionF.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionF.Code = new CodeableConcept();
                     CauseOfDeathConditionF.Code.Text = value;
                     CauseOfDeathConditionF.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2343,7 +2360,8 @@ namespace VRDR
                     CauseOfDeathConditionF.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionF.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionF.Onset = new FhirString(value);
                     CauseOfDeathConditionF.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionF.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2409,7 +2427,8 @@ namespace VRDR
                     CauseOfDeathConditionF.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionF.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionF.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionF.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionF.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2462,7 +2481,8 @@ namespace VRDR
                     CauseOfDeathConditionG.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionG.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionG.Code = new CodeableConcept();
                     CauseOfDeathConditionG.Code.Text = value;
                     CauseOfDeathConditionG.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2511,7 +2531,8 @@ namespace VRDR
                     CauseOfDeathConditionG.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionG.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionG.Onset = new FhirString(value);
                     CauseOfDeathConditionG.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionG.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2577,7 +2598,8 @@ namespace VRDR
                     CauseOfDeathConditionG.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionG.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionG.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionG.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionG.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2630,7 +2652,8 @@ namespace VRDR
                     CauseOfDeathConditionH.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionH.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionH.Code = new CodeableConcept();
                     CauseOfDeathConditionH.Code.Text = value;
                     CauseOfDeathConditionH.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2679,7 +2702,8 @@ namespace VRDR
                     CauseOfDeathConditionH.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionH.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionH.Onset = new FhirString(value);
                     CauseOfDeathConditionH.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionH.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2745,7 +2769,8 @@ namespace VRDR
                     CauseOfDeathConditionH.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionH.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionH.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionH.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionH.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionH.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2798,7 +2823,8 @@ namespace VRDR
                     CauseOfDeathConditionI.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionI.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionI.Code = new CodeableConcept();
                     CauseOfDeathConditionI.Code.Text = value;
                     CauseOfDeathConditionI.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -2847,7 +2873,8 @@ namespace VRDR
                     CauseOfDeathConditionI.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionI.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionI.Onset = new FhirString(value);
                     CauseOfDeathConditionI.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionI.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2913,7 +2940,8 @@ namespace VRDR
                     CauseOfDeathConditionI.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionI.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionI.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionI.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionI.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -2966,7 +2994,8 @@ namespace VRDR
                     CauseOfDeathConditionJ.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionJ.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionJ.Code = new CodeableConcept();
                     CauseOfDeathConditionJ.Code.Text = value;
                     CauseOfDeathConditionJ.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -3015,7 +3044,8 @@ namespace VRDR
                     CauseOfDeathConditionJ.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionJ.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionJ.Onset = new FhirString(value);
                     CauseOfDeathConditionJ.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionJ.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -3081,7 +3111,8 @@ namespace VRDR
                     CauseOfDeathConditionJ.Id = Guid.NewGuid().ToString();
                     CauseOfDeathConditionJ.Meta = new Meta();
                     string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
-                    CauseOfDeathConditionJ.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Meta.Profile = condition_profile;
+                    CauseOfDeathConditionA.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
                     CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
                     CauseOfDeathConditionJ.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CauseOfDeathConditionJ.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
@@ -3523,7 +3554,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; within = new Dictionary&lt;string, string&gt;();</para>
         /// <para>within.Add("code", "Y");</para>
-        /// <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>within.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>within.Add("display", "Yes");</para>
         /// <para>SetterDeathRecord.ResidenceWithinCityLimits = within;</para>
         /// <para>// Getter:</para>
@@ -3573,7 +3604,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
         /// </example>
-        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 21)]
+        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 21)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
         public bool? ResidenceWithinCityLimitsBoolean
         {
@@ -3598,17 +3629,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.ResidenceWithinCityLimits = code;
@@ -4063,7 +4094,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
+                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Father.Name.Add(name);
@@ -4107,7 +4138,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
+                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Father.Name.Add(name);
@@ -4152,7 +4183,7 @@ namespace VRDR
                     string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
                     Father.Meta.Profile = father_profile;
                     Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "FTH", "father", null));
+                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4199,7 +4230,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
+                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Mother.Name.Add(name);
@@ -4243,7 +4274,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
+                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Mother.Name.Add(name);
@@ -4288,7 +4319,7 @@ namespace VRDR
                     string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
                     Mother.Meta.Profile = mother_profile;
                     Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "MTH", "mother", null));
+                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4335,7 +4366,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
+                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     name.Given = value;
                     Spouse.Name.Add(name);
@@ -4379,7 +4410,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
+                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     name.Family = value;
                     Spouse.Name.Add(name);
@@ -4424,7 +4455,7 @@ namespace VRDR
                     string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
                     Spouse.Meta.Profile = spouse_profile;
                     Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/v3-RoleCode", "SPS", "spouse", null));
+                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
                     HumanName name = new HumanName();
                     string[] suffix = { value };
                     name.Suffix = suffix;
@@ -4451,7 +4482,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
         /// <para>elevel.Add("code", "BD");</para>
-        /// <para>elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");</para>
+        /// <para>elevel.Add("system", CodeSystems.PH_PHINVS_CDC);</para>
         /// <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
         /// <para>ExampleDeathRecord.EducationLevel = elevel;</para>
         /// <para>// Getter:</para>
@@ -4525,7 +4556,7 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+                    BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     BirthRecordIdentifier.Value = new FhirString(value);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4584,7 +4615,7 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+                    BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
@@ -4647,7 +4678,7 @@ namespace VRDR
                     string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
                     BirthRecordIdentifier.Meta.Profile = br_profile;
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+                    BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80904-6", "Birth year", null);
@@ -4967,7 +4998,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; mserv = new Dictionary&lt;string, string&gt;();</para>
         /// <para>mserv.Add("code", "Y");</para>
-        /// <para>mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>mserv.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>mserv.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.MilitaryService = uind;</para>
         /// <para>// Getter:</para>
@@ -5011,7 +5042,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Military Service. This is a convenience method, to obtain the code use the MilitaryService property instead.</summary>
+        /// <summary>Decedent's Military Service. This is a helper method, to obtain the code use the MilitaryService property instead.</summary>
         /// <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5019,8 +5050,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceBoolean}");</para>
         /// </example>
-       [Property("Military Service Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's Military Service.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
-       [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
+        [Property("Military Service Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
         public bool? MilitaryServiceBoolean
         {
             get
@@ -5044,17 +5075,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.MilitaryService = code;
@@ -5299,7 +5330,7 @@ namespace VRDR
                     FuneralHome.Meta = new Meta();
                     string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
                     FuneralHome.Active = true;
                     FuneralHome.Address.Add(DictToAddress(value));
                 }
@@ -5340,7 +5371,7 @@ namespace VRDR
                     FuneralHome.Meta = new Meta();
                     string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
                     FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept("http://terminology.hl7.org/CodeSystem/organization-type", "bus", "Non-Healthcare Business or Corporation", null));
+                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
                     FuneralHome.Active = true;
                     FuneralHome.Name = value;
                 }
@@ -5459,7 +5490,7 @@ namespace VRDR
                     string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
                     DispositionLocation.Address = DictToAddress(value);
-                    Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
                     DispositionLocation.PhysicalType = new CodeableConcept();
                     DispositionLocation.PhysicalType.Coding.Add(pt);
                     LinkObservationToLocation(DispositionMethod, DispositionLocation);
@@ -5500,7 +5531,7 @@ namespace VRDR
                     DispositionLocation.Meta = new Meta();
                     string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
                     DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    Coding pt = new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "si", "Site");
+                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
                     DispositionLocation.PhysicalType = new CodeableConcept();
                     DispositionLocation.PhysicalType.Coding.Add(pt);
                     DispositionLocation.Name = value;
@@ -5610,7 +5641,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "Y");</para>
-        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.AutopsyPerformedIndicator = code;</para>
         /// <para>// Getter:</para>
@@ -5654,7 +5685,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Autopsy Performed Indicator Boolean. This is a convenience method, to access the code use the AutopsyPerformedIndicator property.</summary>
+        /// <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
         /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5662,7 +5693,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", false, 29)]
+        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
         public bool? AutopsyPerformedIndicatorBoolean
         {
@@ -5687,17 +5718,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.AutopsyPerformedIndicator = code;
@@ -5977,7 +6008,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "Y");</para>
-        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>code.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.AutopsyResultsAvailable = code;</para>
         /// <para>// Getter:</para>
@@ -6037,7 +6068,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
         /// </example>
-        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", false, 31)]
+        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
         public bool? AutopsyResultsAvailableBoolean
         {
@@ -6062,17 +6093,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.AutopsyResultsAvailable = code;
@@ -6394,15 +6425,16 @@ namespace VRDR
                     AgeAtDeathObs.Effective = DeathDateObs?.Value;
                     AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     Quantity quant = new Quantity();
-                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")))
+                    // If the value or unit is null, put out a data absent reason
+                    if (!String.IsNullOrWhiteSpace(GetValue(value, "value")) && !String.IsNullOrWhiteSpace(GetValue(value, "unit")))
                     {
                         quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                    }
-                    if (!String.IsNullOrWhiteSpace(GetValue(value, "unit")))
-                    {
                         quant.Unit = GetValue(value, "unit");
+                        AgeAtDeathObs.Value = quant;
+                    } else { // NVSS-209
+                        AgeAtDeathObs.dataAbsentReason =  new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "unknown", "Unknown", null);
                     }
-                    AgeAtDeathObs.Value = quant;
+
                     AddReferenceToComposition(AgeAtDeathObs.Id);
                     Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
                 }
@@ -6483,7 +6515,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; ec = new Dictionary&lt;string, string&gt;();</para>
         /// <para>within.Add("code", "Y");</para>
-        /// <para>within.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>within.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>within.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.ExaminerContacted = ec;</para>
         /// <para>// Getter:</para>
@@ -6529,7 +6561,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Examiner Contacted Boolean. This is a convenience method, to access the code use ExaminerContacted instead.</summary>
+        /// <summary>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
         /// <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -6537,7 +6569,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted Boolean", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", false, 27)]
+        [Property("Examiner Contacted Boolean", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
         public bool? ExaminerContactedBoolean
         {
@@ -6562,17 +6594,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.ExaminerContacted = code;
@@ -6934,7 +6966,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "N");</para>
-        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>code.Add("display", "No");</para>
         /// <para>ExampleDeathRecord.InjuryAtWork = code;</para>
         /// <para>// Getter:</para>
@@ -7007,7 +7039,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWorkBoolean}");</para>
         /// </example>
-        [Property("Injury At Work?", Property.Types.Bool, "Death Investigation", "Did the injury occur at work?", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", false, 42)]
+        [Property("Injury At Work?", Property.Types.Bool, "Death Investigation", "Did the injury occur at work?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public bool? InjuryAtWorkBoolean
         {
@@ -7032,17 +7064,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.InjuryAtWork = code;
@@ -7059,7 +7091,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "N");</para>
-        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
         /// <para>code.Add("display", "No");</para>
         /// <para>ExampleDeathRecord.TransportationEvent = code;</para>
         /// <para>// Getter:</para>
@@ -7125,7 +7157,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Transportation Event Boolean? This is a convenience method, to access the code use the Transportation Event property instead.</summary>
+        /// <summary>Transportation Event Boolean?</summary>
         /// <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -7133,7 +7165,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
         /// </example>
-        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", false, 44)]
+        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 44)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public bool? TransportationEventBoolean
         {
@@ -7158,17 +7190,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
                         break;
                 }
                 this.TransportationEvent = code;

@@ -1391,7 +1391,7 @@ namespace VRDR
             { "Yukon", "YK" }
         };
 
-        /// <summary>Country Codes</summary>
+        /// <summary>Country Codes based on PH_Country_GEC = 2.16.840.1.113883.13.250    </summary>
         public List<KeyValuePair<string, string>> CountryCodes = new List<KeyValuePair<string, string>> {
             new KeyValuePair<string, string>("AFGHANISTAN", "AF"),
             new KeyValuePair<string, string>("AKROTIRI", "AX"),

@@ -49,7 +49,8 @@ var searchData=
   ['dor_5fdy_174',['DOR_DY',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a388fb4c3bcd2c672f3bfb6c8e4de7ce0',1,'VRDR::IJEMortality']]],
   ['dor_5fmo_175',['DOR_MO',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa294a653dd1bc223d3217aaf91c48e54',1,'VRDR::IJEMortality']]],
   ['dor_5fyr_176',['DOR_YR',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aefbe646d853a25a48f914a88c3812d1a',1,'VRDR::IJEMortality']]],
-  ['dstate_177',['DSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a76b75f2ee999c4337237e33658b5ebb7',1,'VRDR::IJEMortality']]],
-  ['dthcountry_178',['DTHCOUNTRY',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa6e95d8298dedc2c5b5d2155418dcd27',1,'VRDR::IJEMortality']]],
-  ['dthcountrycd_179',['DTHCOUNTRYCD',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a422a23d839c0d49a33fff88eba6d86f7',1,'VRDR::IJEMortality']]]
+  ['dplace_177',['DPLACE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2ada2f650e11e451ccc6d4720ea2af89',1,'VRDR::IJEMortality']]],
+  ['dstate_178',['DSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a76b75f2ee999c4337237e33658b5ebb7',1,'VRDR::IJEMortality']]],
+  ['dthcountry_179',['DTHCOUNTRY',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aa6e95d8298dedc2c5b5d2155418dcd27',1,'VRDR::IJEMortality']]],
+  ['dthcountrycd_180',['DTHCOUNTRYCD',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a422a23d839c0d49a33fff88eba6d86f7',1,'VRDR::IJEMortality']]]
 ];

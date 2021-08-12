@@ -20,11 +20,11 @@ namespace VRDR
         /// <summary>The empty constructor, used by the Default case when performing LINQ queries and there is no match</summary>
         public PlaceCode() { }
         /// <summary>The complete constructor, normally used when declaring a PlaceCode</summary>
-        public PlaceCode(String state, String county, String statecode, String city, String description, String code)
+        public PlaceCode(String state, String county, String countycode, String city, String description, String code)
         {
             this.State = state;
             this.County = county;
-            this.CountyCode = statecode;
+            this.CountyCode = countycode;
             this.City = city;
             this.Description = description;
             this.Code = code;

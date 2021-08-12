@@ -162,20 +162,38 @@ namespace VRDR.Tests
             Assert.Equal("MA", fromijefromxml.DeathLocationJurisdiction);
         }
 
+      [Fact]
+        public void ParseDeathLocationTypeIJEtoJson()
+        {
+            DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathLocationType.json")));
+            IJEMortality ijefromjson = new IJEMortality(djson);
+            DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
+
+            Assert.Equal("Death in hospital", fromijefromjson.DeathLocationType["display"]);
+        }
+
         [Fact]
         public void ParseRaceEthnicityJsonToIJE()
         {
+            // Hispanic or Latino
             DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
             IJEMortality ije1 = new IJEMortality(d);
+            Assert.Equal("N", ije1.DETHNIC1);
             Assert.Equal("H", ije1.DETHNIC2);
+            Assert.Equal("N", ije1.DETHNIC3);
             Assert.Equal("H", ije1.DETHNIC4);
             Assert.Equal("Y", ije1.RACE3);
             Assert.Equal("Y", ije1.RACE15);
             Assert.Equal("Israeili", ije1.RACE22);
             Assert.Equal("Minnesota Chippewa", ije1.RACE16);
 
+            // Non Hispanic or Latino
             DeathRecord d2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord2.json")));
             IJEMortality ije2 = new IJEMortality(d2);
+            Assert.Equal("N", ije2.DETHNIC1);
+            Assert.Equal("N", ije2.DETHNIC2);
+            Assert.Equal("N", ije2.DETHNIC3);
+            Assert.Equal("N", ije2.DETHNIC4);
             Assert.Equal("Y", ije2.RACE10);
             Assert.Equal("Hmong", ije2.RACE18);
         }
@@ -240,6 +258,20 @@ namespace VRDR.Tests
             Assert.True(americanIndian);
             Assert.True(israeili);
             Assert.True(minnesotaChippewa);
+        }
+
+        [Fact]
+        public void HandleNoEthnicityDataInJSON()
+        {
+            // if no ethnicity data is provided in FHIR, IJE should have unknowns and a blank literal
+            DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingEthnicityData.json")));
+            IJEMortality ije1 = new IJEMortality(d);
+            Assert.Equal("U", ije1.DETHNIC1);
+            Assert.Equal("U", ije1.DETHNIC2);
+            Assert.Equal("U", ije1.DETHNIC3);
+            Assert.Equal("U", ije1.DETHNIC4);
+            Assert.Equal("", ije1.DETHNIC5);
+        
         }
 
         [Fact]

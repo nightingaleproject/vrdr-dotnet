@@ -61,7 +61,6 @@ namespace VRDR
         /// <summary>Create a Cause Of Death Condition </summary>
         private Condition CauseOfDeathCondition(int index){
                     Condition CodCondition;
-                    Console.Error.WriteLine("CauseOfDeathCondition index = " + index);
                     CodCondition = new Condition();
                     CodCondition.Id = Guid.NewGuid().ToString();
                     CodCondition.Meta = new Meta();

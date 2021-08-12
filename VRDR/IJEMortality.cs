@@ -1351,6 +1351,85 @@ namespace VRDR
             }
         }
 
+        /// <summary>Marital Status--Edit Flag</summary>
+        [IJEField(31, 232, 1, "Place of Death", "DPLACE", 1)]
+        public string DPLACE
+        {
+            get
+            {
+                string code = Dictionary_Get_Full("DPLACE", "DeathLocationType", "code");
+                switch (code)
+                {
+                    case "16983000":
+                        return "1";
+                    case "450391000124102":
+                        return "2";
+                    case "63238001":
+                        return "3";
+                    case "440081000124100":
+                        return "4";
+                    case "440071000124103":
+                        return "5";
+                    case "450381000124100":
+                        return "6";
+                    case "OTH":
+                        return "7";
+                    case "UNK":
+                        return "9";
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "1":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "16983000");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Inpatient");
+                            break;
+                        case "2":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450391000124102");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in emergency Room/Outpatient");
+                            break;
+                        case "3":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "63238001");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Dead on Arrival");
+                            break;
+                        case "4":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440081000124100");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Decendent's Home");
+                            break;
+                        case "5":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440071000124103");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospice");
+                            break;
+                        case "6":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450381000124100");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in nursing home/Long term care facility");
+                            break;
+                        case "7":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "OTH");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Other(Specify)");
+                            break;
+                        case "9":
+                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "Unknown");
+                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
+                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Unknown");
+                            break;
+                    }
+                }
+            }
+        }
+
         /// <summary>County of Death Occurrence</summary>
         [IJEField(32, 233, 3, "County of Death Occurrence", "COD", 2)]
         public string COD
@@ -1585,12 +1664,22 @@ namespace VRDR
             }
         }
 
+        // The DETHNIC functions handle unknown ethnicity as follows
+        // All of the DETHNIC fields have to be unknown, U, for the ethnicity json data to be empty ex. UUUU
+            // Individual "Unknown" DETHNIC fields cannot be preserved in a roundtrip, only UUUU will return UUUU
+        // If at least one DETHNIC field is H, the json data should show Hispanic or Latino ex. NNHN will return NNHN
+        // If at least one DETHNIC field is N and no fields are H, the json data should show Non-Hispanic or Latino ex. UUNU will return NNNN
         /// <summary>Decedent of Hispanic Origin?--Mexican</summary>
         [IJEField(39, 247, 1, "Decedent of Hispanic Origin?--Mexican", "DETHNIC1", 1)]
         public string DETHNIC1
         {
             get
             {
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1614,7 +1703,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1629,6 +1718,12 @@ namespace VRDR
         {
             get
             {
+
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1652,7 +1747,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1667,8 +1762,14 @@ namespace VRDR
         {
             get
             {
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
+                } 
+
                 string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                if (ethnicities.Length == 0) 
                 {
                     return "N";
                 }
@@ -1690,7 +1791,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -1705,19 +1806,33 @@ namespace VRDR
         {
             get
             {
-                string[] hispanicOrigin = HispanicOrigin();
-                if (hispanicOrigin != null && hispanicOrigin.Length == 0)
-                {
-                    return "N";
+                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
+                // if there is no ethnicity data, then the ethnicity is unknown
+                if (ethnicityStatus.Length == 0){
+                    return "U";
                 }
-                // We need to handle cases where hispanic origin is other with or without write-in
-                else if (hispanicOrigin != null && hispanicOrigin.Length > 0 && DETHNIC1 == "N" && DETHNIC2 == "N" && DETHNIC3 == "N")
+
+                string[] hispanicOrigin = HispanicOrigin();
+                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
+                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
+                
+                // This logic will handle cases where hispanic origin is other with or without write-in
+                // It also maintains that hispanic origin and other are not mutually exclusive
+                var ethnicityText = record.EthnicityText;
+                if (!String.IsNullOrWhiteSpace(ethnicityText) && hispanicOrigin.Length > 0) // there was a write in and they are Hispanic or Latino
                 {
                     return "H";
                 }
-                else
+                else if (hispanicOriginOther.Length > 0) // there was a code for an "other" hispanic or latino ethnicity
                 {
-                    return "N";
+                    return "H";
+                }
+                else if (hispanicOrigin.Length > 0 && !hispanicOrigin.Any(element => validHispanicOrigins.Contains(element))) // they are hispanic or latino and DETHNIC 1,2,3 ="N" so DETHIC4 must be "H"
+                {
+                    return "H";
+                }
+                else {
+                    return "N"; // not hispanic or latino
                 }
             }
             set
@@ -1731,7 +1846,7 @@ namespace VRDR
                         ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
                     }
-                    else if (ethnicities.Count == 0)
+                    else if (ethnicities.Count == 0 && value == "N")
                     {
                         ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
                         record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
@@ -2632,6 +2747,7 @@ namespace VRDR
         }
 
         /// <summary>Did Tobacco Use Contribute to Death?</summary>
+        /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {

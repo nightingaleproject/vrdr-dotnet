@@ -1,0 +1,161 @@
+2018  00000100000000000420Example                                           SLast                                              Jr.       0Last                                              F 1234567891079 19400219USMA04615017MAUSNS  017B021921486 NHNNHispanic or Latino, YNNNNNNNNNYNNNN                                                                                                                                                                                                                                                                                                 secretary                                                                             2421231940MA                20190201    A                                                                                                                                                                                                                                                                                  YYY8 021920182148ND                             9                                                  M     YExample Death Location Name   671 Example Street                                                                                                                          Bedford                     MA                          01730    Middlesex                   04615                                                                                                                                                                                                                  Bedford                     01730    Middlesex                   MA                          United States               101 Example Street                                                                                                             Something                                                                                                                                                                                                                                                 Maiden                                            NHome                                                                                                                                                                                                                                                                                                        PA                            Middlesex                   017Bedford                     04615MA                                     Rupture of myocardium                                                                                                   minutes             Acute myocardial infarction                                                                                             6 days              Coronary artery thrombosis                                                                                              5 years             Atherosclerotic coronary artery disease                                                                                 7 years             Example Contributing Conditions                                                                                                                                                                                                                                                                        Bedford                                                                                                                                   MAMA                               Bedford                     Smith Funeral Home                                                                                                                                                             1011010 Example Street                            Bedford                     MAMA                          01730    022020182148Doctor                                            Middle                                            Last                                              Jr.                                                                                  11 Example Street                                 Bedford                     MAMA                          01730    01292019        MA                          MA                          USUnited States                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+2018  00000100000000000420Example                                           SLast                                              Jr.       0Last                                              F 1234567891079 19400219USMA04615017MAUSNS     B021921486 NHNNHispanic or Latino, YNNNNNNNNNYNNNN                                                                                                                                                                                                                                                                                                 secretary                                                                             2421231940MA                20190201    A                                                                                                                                                                                                                                                                                  YYY8 021920182148ND                             9                                                  M     YExample Death Location Name   671 Example Street                                                                                                                          Bedford                                                 01730                                Bedfo                                                                                                                                                                                                                  Bedford                     01730    Middlesex                   MA                          UNITED STATES               101 Example Street                                                                                                             Something                                                                                                                                                                                                                                                 Maiden                                            NHome                                                                                                                                                                                                                                                                                                        PA                            Middlesex                   017Bedford                     04615MA                                     Rupture of myocardium                                                                                                   minutes             Acute myocardial infarction                                                                                             6 days              Coronary artery thrombosis                                                                                              5 years             Atherosclerotic coronary artery disease                                                                                 7 years             Example Contributing Conditions                                                                                                                                                                                                                                                                        Bedford                                                                                                                                   MAMA                               Bedford                     Smith Funeral Home                                                                                                                                                             1011010 Example Street                            Bedford                     MAMA                          01730    022020182148Doctor                                            Middle                                            Last                                              Jr.                                                                                  11 Example Street                                 Bedford                     MAMA                          01730    01292019        MA                          MA                          USUNITED STATES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+2018  00000100000000000420Example                                           SLast                                              Jr.       0Last                                              F 1234567891079 19400219USMA04615017MAUSNS     B021921486 NHNNHispanic or Latino, YNNNNNNNNNYNNNN                                                                                                                                                                                                                                                                                                 secretary                                                                             2421231940MA                20190201    A                                                                                                                                                                                                                                                                                  YYY8 021920182148ND                             9                                                  M     YExample Death Location Name   671 Example Street                                                                                                                          Bedford                                                 01730                                Bedfo                                                                                                                                                                                                                  Bedford                     01730    Middlesex                   MA                          UNITED STATES               101 Example Street                                                                                                             Something                                                                                                                                                                                                                                                 Maiden                                            NHome                                                                                                                                                                                                                                                                                                        PA                            Middlesex                   017Bedford                     04615MA                                     Rupture of myocardium                                                                                                   minutes             Acute myocardial infarction                                                                                             6 days              Coronary artery thrombosis                                                                                              5 years             Atherosclerotic coronary artery disease                                                                                 7 years             Example Contributing Conditions                                                                                                                                                                                                                                                                        Bedford                                                                                                                                   MAMA                               Bedford                     Smith Funeral Home                                                                                                                                                             1011010 Example Street                            Bedford                     MAMA                          01730    022020182148Doctor                                            Middle                                            Last                                              Jr.                                                                                  11 Example Street                                 Bedford                     MAMA                          01730    01292019        MA                          MA                          USUNITED STATES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+
+
+name: DOD_YR loc:1 len:4 val:2018
+name: DSTATE loc:5 len:2 val:  
+name: FILENO loc:7 len:6 val:000001
+name: VOID loc:13 len:1 val:0
+name: AUXNO loc:14 len:12 val:000000000042
+name: MFILED loc:26 len:1 val:0
+name: GNAME loc:27 len:50 val:Example                                           
+name: LNAME loc:78 len:50 val:Last                                              
+name: SUFF loc:128 len:10 val:Jr.       
+name: ALIAS loc:138 len:1 val:0
+name: FLNAME loc:139 len:50 val:Last                                              
+name: SEX loc:189 len:1 val:F
+name: SEX_BYPASS loc:190 len:1 val: 
+name: SSN loc:191 len:9 val:123456789
+name: AGETYPE loc:200 len:1 val:1
+name: AGE_BYPASS loc:204 len:1 val: 
+name: DOB_YR loc:205 len:4 val:1940
+name: DOB_MO loc:209 len:2 val:02
+name: DOB_DY loc:211 len:2 val:19
+name: BPLACE_CNT loc:213 len:2 val:US
+name: BPLACE_ST loc:215 len:2 val:MA
+name: STATEC loc:225 len:2 val:MA
+name: COUNTRYC loc:227 len:2 val:US
+name: MARITAL loc:230 len:1 val:S
+name: MARITAL_BYPASS loc:231 len:1 val: 
+name: DISP loc:236 len:1 val:B
+name: DOD_MO loc:237 len:2 val:02
+name: DOD_DY loc:239 len:2 val:19
+name: TOD loc:241 len:4 val:2148
+name: DEDUC loc:245 len:1 val:6
+name: DEDUC_BYPASS loc:246 len:1 val: 
+name: DETHNIC1 loc:247 len:1 val:N
+name: DETHNIC2 loc:248 len:1 val:H
+name: DETHNIC3 loc:249 len:1 val:N
+name: DETHNIC4 loc:250 len:1 val:N
+name: DETHNIC5 loc:251 len:20 val:Hispanic or Latino, 
+name: RACE1 loc:271 len:1 val:Y
+name: RACE2 loc:272 len:1 val:N
+name: RACE3 loc:273 len:1 val:N
+name: RACE4 loc:274 len:1 val:N
+name: RACE5 loc:275 len:1 val:N
+name: RACE6 loc:276 len:1 val:N
+name: RACE7 loc:277 len:1 val:N
+name: RACE8 loc:278 len:1 val:N
+name: RACE9 loc:279 len:1 val:N
+name: RACE10 loc:280 len:1 val:N
+name: RACE11 loc:281 len:1 val:Y
+name: RACE12 loc:282 len:1 val:N
+name: RACE13 loc:283 len:1 val:N
+name: RACE14 loc:284 len:1 val:N
+name: RACE15 loc:285 len:1 val:N
+name: RACE16 loc:286 len:30 val:                              
+name: RACE17 loc:316 len:30 val:                              
+name: RACE18 loc:346 len:30 val:                              
+name: RACE19 loc:376 len:30 val:                              
+name: RACE20 loc:406 len:30 val:                              
+name: RACE21 loc:436 len:30 val:                              
+name: RACE22 loc:466 len:30 val:                              
+name: RACE23 loc:496 len:30 val:                              
+name: RACE_MVR loc:574 len:1 val: 
+name: OCCUP loc:575 len:40 val:secretary                               
+name: INDUST loc:618 len:40 val:                                        
+name: BCNO loc:661 len:6 val:242123
+name: IDOB_YR loc:667 len:4 val:1940
+name: BSTATE loc:671 len:2 val:MA
+name: DOR_YR loc:689 len:4 val:2019
+name: DOR_MO loc:693 len:2 val:02
+name: DOR_DY loc:695 len:2 val:01
+name: MANNER loc:701 len:1 val:A
+name: INJPL loc:704 len:1 val: 
+name: AUTOP loc:976 len:1 val:Y
+name: AUTOPF loc:977 len:1 val:Y
+name: TOBAC loc:978 len:1 val:Y
+name: PREG loc:979 len:1 val:8
+name: PREG_BYPASS loc:980 len:1 val: 
+name: DOI_MO loc:981 len:2 val:02
+name: DOI_DY loc:983 len:2 val:19
+name: DOI_YR loc:985 len:4 val:2018
+name: TOI_HR loc:989 len:4 val:2148
+name: WORKINJ loc:993 len:1 val:N
+name: CERTL loc:994 len:30 val:D                             
+name: INACT loc:1024 len:1 val:9
+name: TOI_UNIT loc:1075 len:1 val:M
+name: ARMEDF loc:1081 len:1 val:Y
+name: DINSTI loc:1082 len:30 val:Example Death Location Name   
+name: ADDRESS_D loc:1112 len:50 val:671 Example Street                                
+name: CITYTEXT_D loc:1252 len:28 val:Bedford                     
+name: STATETEXT_D loc:1280 len:28 val:MA                          
+name: ZIP9_D loc:1308 len:9 val:01730    
+name: CITYCODE_D loc:1345 len:5 val:04615
+name: ZIP9_R loc:1588 len:9 val:01730    
+name: COUNTYTEXT_R loc:1597 len:28 val:Middlesex                   
+name: STATETEXT_R loc:1625 len:28 val:MA                          
+name: COUNTRYTEXT_R loc:1653 len:28 val:United States               
+name: ADDRESS_R loc:1681 len:50 val:101 Example Street                                
+name: DMOMMDN loc:2058 len:50 val:Maiden                                            
+name: REFERRED loc:2108 len:1 val:N
+name: POILITRL loc:2109 len:50 val:Home                                              
+name: HOWINJ loc:2159 len:250 val:                                                                                                                                                                                                                                                          
+name: TRANSPRT loc:2409 len:30 val:PA                            
+name: COUNTYTEXT_I loc:2439 len:28 val:Middlesex                   
+name: STATECODE_I loc:2503 len:2 val:MA
+name: COD1A loc:2542 len:120 val:Rupture of myocardium                                                                                                   
+name: OTHERCONDITION loc:3102 len:240 val:Example Contributing Conditions                                                                                                                                                                                                                 
+name: DMAIDEN loc:3342 len:50 val:                                                  
+name: DISPSTATECD loc:3535 len:2 val:MA
+name: DISPSTATE loc:3537 len:28 val:MA                          
+name: FUNFACNAME loc:3598 len:100 val:Smith Funeral Home                                                                                  
+name: FUNFACADDRESS loc:3773 len:50 val:1011010 Example Street                            
+name: FUNSTATECD loc:3851 len:2 val:MA
+name: FUNSTATE loc:3853 len:28 val:MA                          
+name: FUNZIP loc:3881 len:9 val:01730    
+name: PPDATESIGNED loc:3890 len:8 val:02202018
+name: PPTIME loc:3898 len:4 val:2148
+name: CERTFIRST loc:3902 len:50 val:Doctor                                            
+name: CERTADDRESS loc:4137 len:50 val:11 Example Street                                 
+name: CERTSTATECD loc:4215 len:2 val:MA
+name: CERTSTATE loc:4217 len:28 val:MA                          
+name: CERTZIP loc:4245 len:9 val:01730    
+name: CERTDATE loc:4254 len:8 val:01292019
+name: STINJURY loc:4270 len:28 val:MA                          
+name: STATEBTH loc:4298 len:28 val:MA                          
+name: DTHCOUNTRYCD loc:4326 len:2 val:US
+name: DTHCOUNTRY loc:4328 len:28 val:United States               
+name: AGE loc:201 len:3 val:079
+name: COUNTYC loc:222 len:3 val:017
+name: COD loc:233 len:3 val:017
+name: COUNTYTEXT_D loc:1317 len:28 val:Middlesex                   
+name: DMIDDLE loc:1808 len:50 val:Something                                         
+name: COUNTYCODE_I loc:2467 len:3 val:017
+name: INTERVAL1A loc:2662 len:20 val:minutes             
+name: CERTMIDDLE loc:3952 len:50 val:Middle                                            
+name: CERTCITYTEXT loc:4187 len:28 val:Bedford                     
+name: MNAME loc:77 len:1 val:S
+name: CITYC loc:217 len:5 val:04615
+name: CITYTEXT_R loc:1560 len:28 val:Bedford                     
+name: CITYTEXT_I loc:2470 len:28 val:Bedford                     
+name: CITYCODE_I loc:2498 len:5 val:04615
+name: COD1B loc:2682 len:120 val:Acute myocardial infarction                                                                                             
+name: DBPLACECITY loc:3397 len:28 val:Bedford                     
+name: DISPCITY loc:3570 len:28 val:Bedford                     
+name: FUNCITYTEXT loc:3823 len:28 val:Bedford                     
+name: CERTLAST loc:4002 len:50 val:Last                                              
+name: INTERVAL1B loc:2802 len:20 val:6 days              
+name: CERTSUFFIX loc:4052 len:10 val:Jr.       
+name: COD1C loc:2822 len:120 val:Coronary artery thrombosis                                                                                              
+name: INTERVAL1C loc:2942 len:20 val:5 years             
+name: COD1D loc:2962 len:120 val:Atherosclerotic coronary artery disease                                                                                 
+name: INTERVAL1D loc:3082 len:20 val:7 years             
+name: LIMITS loc:229 len:1 val:N
+
+[MISMATCH]      COD: County of Death Occurrence                 "017" != "   " != "   "
+[MISMATCH]      STATETEXT_D: Place of death. State name literal                 "MA                          " != "                            " != "                            "
+[MISMATCH]      COUNTYTEXT_D: Place of death. County of Death           "Middlesex                   " != "                            " != "                            "
+[MISMATCH]      CITYCODE_D: Place of death. City FIPS code              "04615" != "Bedfo" != "Bedfo"

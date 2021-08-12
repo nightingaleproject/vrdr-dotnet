@@ -31,6 +31,9 @@
         <member name="F:VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO">
             <summary>PHINVADS Place of Occurrence.</summary>
         </member>
+        <member name="F:VRDR.CodeSystems.PH_SNOMED_CT">
+            <summary>PHINVADS SNOMED.</summary>
+        </member>
         <member name="F:VRDR.CodeSystems.PH_MaritalStatus_HL7_2x">
             <summary>PHINVADS Marital Satus.</summary>
         </member>
@@ -1420,7 +1423,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.MilitaryServiceBoolean">
-            <summary>Decedent's Military Service. This is a helper method, to obtain the code use the MilitaryService property instead.</summary>
+            <summary>Decedent's Military Service. This is a convenience method, to obtain the code use the MilitaryService property instead.</summary>
             <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
             <example>
             <para>// Setter:</para>
@@ -1601,7 +1604,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.AutopsyPerformedIndicatorBoolean">
-            <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
+            <summary>Autopsy Performed Indicator Boolean. This is a convenience method, to access the code use the AutopsyPerformedIndicator property.</summary>
             <value>autopsy performed indicator. A null value indicates "not applicable".</value>
             <example>
             <para>// Setter:</para>
@@ -1831,7 +1834,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.ExaminerContactedBoolean">
-            <summary>Examiner Contacted Boolean. This is a conenience method, to access the code use ExaminerContacted instead.</summary>
+            <summary>Examiner Contacted Boolean. This is a convenience method, to access the code use ExaminerContacted instead.</summary>
             <value>if a medical examiner was contacted. A null value indicates "unknown".</value>
             <example>
             <para>// Setter:</para>
@@ -1984,7 +1987,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.TransportationEventBoolean">
-            <summary>Transportation Event Boolean?</summary>
+            <summary>Transportation Event Boolean? This is a convenience method, to access the code use the Transportation Event property instead.</summary>
             <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
             <example>
             <para>// Setter:</para>
@@ -2436,6 +2439,9 @@
         <member name="P:VRDR.IJEMortality.MARITAL_BYPASS">
             <summary>Marital Status--Edit Flag</summary>
         </member>
+        <member name="P:VRDR.IJEMortality.DPLACE">
+            <summary>Marital Status--Edit Flag</summary>
+        </member>
         <member name="P:VRDR.IJEMortality.COD">
             <summary>County of Death Occurrence</summary>
         </member>
@@ -2582,6 +2588,7 @@
         </member>
         <member name="P:VRDR.IJEMortality.TOBAC">
             <summary>Did Tobacco Use Contribute to Death?</summary>
+            Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         </member>
         <member name="P:VRDR.IJEMortality.PREG">
             <summary>Pregnancy</summary>

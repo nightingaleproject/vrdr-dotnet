@@ -22,6 +22,8 @@ namespace VRDR
         public static string PH_YesNo_HL7_2x = "urn:oid:2.16.840.1.113883.12.136";
         /// <summary>PHINVADS Place of Occurrence.</summary>
         public static string PH_PlaceOfOccurrence_ICD_10_WHO = "urn:oid:2.16.840.1.114222.4.5.320";
+        /// <summary>PHINVADS SNOMED.</summary>
+        public static string PH_SNOMED_CT = "urn:oid:2.16.840.1.113883.6.96";
         /// <summary>PHINVADS Marital Satus.</summary>
         public static string PH_MaritalStatus_HL7_2x = "urn:oid:2.16.840.1.113883.12.2";
         /// <summary>USGS GNIS.</summary>

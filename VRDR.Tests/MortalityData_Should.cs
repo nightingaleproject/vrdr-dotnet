@@ -289,6 +289,15 @@ namespace VRDR.Tests
             Assert.Equal("U", ije5rt.DETHNIC4);
             
         }
+        [Fact]
+        public void HandleDeathLocationIJE()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            IJEMortality ije1rt = new IJEMortality(dr1);
+            Assert.Equal("4", ije1rt.DPLACE);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

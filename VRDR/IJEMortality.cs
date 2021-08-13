@@ -81,6 +81,7 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
+                Console.Error.WriteLine(" field= " + field + "offset = " + info.Location);
                 property.SetValue(this, field);
             }
             if(validate){
@@ -345,6 +346,7 @@ namespace VRDR
         /// <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
         {
+             Console.Error.WriteLine("LeftJustified_Set ije = " + ijeFieldName + " fhirFieldName= " + fhirFieldName  + "value= " + value);
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
         }
@@ -3250,6 +3252,7 @@ namespace VRDR
             }
         }
 
+
         /// <summary>Decedent's Residence - ZIP code</summary>
         [IJEField(152, 1588, 9, "Decedent's Residence - ZIP code", "ZIP9_R", 1)]
         public string ZIP9_R
@@ -3266,7 +3269,7 @@ namespace VRDR
                 }
             }
         }
-
+ 
         /// <summary>Decedent's Residence - County</summary>
         [IJEField(153, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
         public string COUNTYTEXT_R
@@ -3352,7 +3355,23 @@ namespace VRDR
                 }
             }
         }
-
+        /// <summary>Mother's First Name</summary>
+        [IJEField(168, 1958, 50, "Mother's First Name", "DMOMF", 1)]
+        public string DMOMF
+        {
+            get
+            {
+                return LeftJustified_Get("DMOMF", "MotherGivenNames");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Console.Error.WriteLine(" set DMOMF = " + value );
+                    LeftJustified_Set("DMOMF", "MotherGivenNames", value);
+                }
+            }
+         }
         /// <summary>Mother's Maiden Surname</summary>
         [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
         public string DMOMMDN

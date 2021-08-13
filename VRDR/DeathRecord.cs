@@ -2956,8 +2956,8 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's residence.</summary>
-        /// <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+        /// <summary>Decedent's Residence.</summary>
+        /// <value>Decedent's Residence. A Dictionary representing residence address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
         /// <para>"addressLine2" - address, line two</para>
         /// <para>"addressCity" - address, city</para>
@@ -3691,6 +3691,7 @@ namespace VRDR
         {
             get
             {
+                Console.Error.WriteLine("get MotherGivenname");
                 if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
                     return Mother.Name.First().Given.ToArray();
                 }
@@ -3698,6 +3699,7 @@ namespace VRDR
             }
             set
             {
+            Console.Error.WriteLine("Set MotherGivenname");
                 if (Mother == null)
                 {
                     Mother = new RelatedPerson();
@@ -3735,6 +3737,7 @@ namespace VRDR
         {
             get
             {
+                Console.Error.WriteLine("Get MotherMaidenName");
                 if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
                     return Mother.Name.First().Family;
                 }
@@ -3742,6 +3745,7 @@ namespace VRDR
             }
             set
             {
+                Console.Error.WriteLine("Set MotherMaidenName");
                 if (Mother == null)
                 {
                     Mother = new RelatedPerson();

@@ -3361,17 +3361,21 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("DMOMF", "MotherGivenNames");
+                string[] names = record.MotherGivenNames;
+                if (names != null && names.Length > 0)
+                {
+                    return names[0];
+                }
+                return "";
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Console.Error.WriteLine(" set DMOMF = " + value );
-                    LeftJustified_Set("DMOMF", "MotherGivenNames", value);
+                    record.MotherGivenNames = new string[] { value.Trim() };
                 }
             }
-         }
+        }
         /// <summary>Mother's Maiden Surname</summary>
         [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
         public string DMOMMDN

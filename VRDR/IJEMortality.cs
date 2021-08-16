@@ -81,7 +81,7 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
-                Console.Error.WriteLine(" field= " + field + "offset = " + info.Location);
+                // Console.Error.WriteLine(" field= " + field + "offset = " + info.Location);
                 property.SetValue(this, field);
             }
             if(validate){
@@ -346,7 +346,6 @@ namespace VRDR
         /// <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
         {
-             Console.Error.WriteLine("LeftJustified_Set ije = " + ijeFieldName + " fhirFieldName= " + fhirFieldName  + "value= " + value);
             IJEField info = FieldInfo(ijeFieldName);
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
         }
@@ -487,6 +486,7 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
+            Console.Error.WriteLine("Geo_Set ijeFieldName = " + ijeFieldName + "key = " + key + "dictionaryContainsKey = " + dictionary.ContainsKey(key) );
             if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
             {
                 if (isCoded)
@@ -2493,7 +2493,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Infant Death/Birth Linking - year of birth</summary>
+        /// <summary>Infant Death/Birth Linking - Birth state</summary>
         [IJEField(90, 671, 2, "Infant Death/Birth Linking - State, U.S. Territory or Canadian Province of Birth - code", "BSTATE", 1)]
         public string BSTATE
         {
@@ -2501,13 +2501,28 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
+                    return Dictionary_Geo_Get("BSTATE", "BirthRecordState", "address", "state", true);
                 }
                 return ""; // Blank
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    String birthCountry = BPLACE_CNT;
+                    String ISO31662code;
+                    switch (value){
+                        case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+                            return;  // do nothing 
+                        case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+                            ISO31662code = BPLACE_CNT;
+                            break;
+                        default:  // a 2 character state
+                            ISO31662code = BPLACE_CNT + "-" + value;
+                            break;
+                    }
+                    Dictionary_Set("STATEC", "BirthRecordState", "addressState", ISO31662code);
+                }
             }
         }
 

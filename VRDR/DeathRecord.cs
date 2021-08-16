@@ -80,6 +80,7 @@ namespace VRDR
                     CauseOfDeathConditionPathway.Entry[index] = entry;
                     return (CodCondition);
         }
+
         
         /// <summary>Cause Of Death Condition Line A (#1).</summary>
         private Condition CauseOfDeathConditionA;
@@ -129,6 +130,18 @@ namespace VRDR
         /// <summary>Birth Record Identifier.</summary>
         private Observation BirthRecordIdentifier;
 
+        private void CreateBirthRecordIdentifier(){
+            BirthRecordIdentifier = new Observation();
+            BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
+            BirthRecordIdentifier.Meta = new Meta();
+            string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
+            BirthRecordIdentifier.Meta.Profile = br_profile;
+            BirthRecordIdentifier.Status = ObservationStatus.Final;
+            BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+            BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(BirthRecordIdentifier.Id);
+            Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);  
+        }
         /// <summary>Usual Work.</summary>
         private Observation UsualWork;
 
@@ -3018,6 +3031,11 @@ namespace VRDR
                     Decedent.Address.Clear();
                     Decedent.Address.Add(DictToAddress(value));
                 }
+                // Now encode - 
+                //        Address.Country as PH_Country_GEC
+                //        Adress.County as PHVS_DivisionVitalStatistics__County
+                //        Address.City as 5 digit code as per FIPS 55-3, which are included as the preferred alternate code in https://phinvads.cdc.gov/vads/ViewValueSet.action?id=D06EE94C-4D4C-440A-AD2A-1C3CB35E6D08#
+               Address a = Decedent.Address.FirstOrDefault();
             }
         }
 
@@ -3691,7 +3709,6 @@ namespace VRDR
         {
             get
             {
-                Console.Error.WriteLine("get MotherGivenname");
                 if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
                     return Mother.Name.First().Given.ToArray();
                 }
@@ -3699,7 +3716,6 @@ namespace VRDR
             }
             set
             {
-            Console.Error.WriteLine("Set MotherGivenname");
                 if (Mother == null)
                 {
                     Mother = new RelatedPerson();
@@ -4030,22 +4046,9 @@ namespace VRDR
             {
                 if (BirthRecordIdentifier == null)
                 {
-                    BirthRecordIdentifier = new Observation();
-                    BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
-                    BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
-                    BirthRecordIdentifier.Meta.Profile = br_profile;
-                    BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
-                    BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    BirthRecordIdentifier.Value = new FhirString(value);
-                    AddReferenceToComposition(BirthRecordIdentifier.Id);
-                    Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
+                    CreateBirthRecordIdentifier();
                 }
-                else
-                {
-                    BirthRecordIdentifier.Value = new FhirString(value);
-                }
+                BirthRecordIdentifier.Value = new FhirString(value);
             }
         }
 
@@ -4080,26 +4083,30 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
                     {
-                        return CodeableConceptToDict((CodeableConcept)stateComp.Value);
+                        // If the country isn't US or CA, return XX
+                        // If the country is US or CA, strip the prefix
+                        Dictionary<string,string> dict = CodeableConceptToDict((CodeableConcept)stateComp.Value);
+                        String state = dict["code"];
+                        if (state.StartsWith("US-") || state.StartsWith("CA-"))
+                        {
+                            dict["code"] = state.Substring(3);
+                        }else{
+                            dict["code"] = "XX";
+                        }
+                        return dict;
                     }
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if (BirthRecordIdentifier == null)
+               CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["addressState"], value["addressState"], null);
+               if (BirthRecordIdentifier == null)
                 {
-                    BirthRecordIdentifier = new Observation();
-                    BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
-                    BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
-                    BirthRecordIdentifier.Meta.Profile = br_profile;
-                    BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
-                    BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateBirthRecordIdentifier();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                    component.Value = DictToCodeableConcept(value);
+                    component.Value = state;
                     BirthRecordIdentifier.Component.Add(component);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
                     Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
@@ -4110,13 +4117,13 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null)
                     {
-                        ((Observation.ComponentComponent)stateComp).Value = DictToCodeableConcept(value);
+                        ((Observation.ComponentComponent)stateComp).Value = state;
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                        component.Value = DictToCodeableConcept(value);
+                        component.Value = state;
                         BirthRecordIdentifier.Component.Add(component);
                     }
                 }
@@ -4152,20 +4159,11 @@ namespace VRDR
             {
                 if (BirthRecordIdentifier == null)
                 {
-                    BirthRecordIdentifier = new Observation();
-                    BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
-                    BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
-                    BirthRecordIdentifier.Meta.Profile = br_profile;
-                    BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
-                    BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateBirthRecordIdentifier();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80904-6", "Birth year", null);
                     component.Value = new FhirDateTime(value);
                     BirthRecordIdentifier.Component.Add(component);
-                    AddReferenceToComposition(BirthRecordIdentifier.Id);
-                    Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
                 }
                 else
                 {
@@ -7291,6 +7289,55 @@ namespace VRDR
                 if (dict.ContainsKey("addressCountry") && !String.IsNullOrEmpty(dict["addressCountry"]))
                 {
                     address.Country = dict["addressCountry"];
+                }
+            }
+            return address;
+        }
+
+       /// <summary>Convert an "address" dictionary to a FHIR Address coded for a Decedent's Residence.</summary>
+        /// <param name="dict">represents an address.</param>
+        /// <returns>the corresponding FHIR Address representation of the address.</returns>
+        private Address DictToAddressDecedentAddress(Dictionary<string, string> dict)
+        {
+            Address address = new Address();
+            if (dict != null)
+            {
+                List<string> lines = new List<string>();
+                if (dict.ContainsKey("addressLine1") && !String.IsNullOrEmpty(dict["addressLine1"]))
+                {
+                    lines.Add(dict["addressLine1"]);
+                }
+                if (dict.ContainsKey("addressLine2") && !String.IsNullOrEmpty(dict["addressLine2"]))
+                {
+                    lines.Add(dict["addressLine2"]);
+                }
+                if (lines.Count() > 0)
+                {
+                    address.Line = lines.ToArray();
+                }
+                if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
+                {
+                    address.City = dict["addressCity"];
+                    // Code as per 5 digit number in FIPS Whatever.   As per IJE.
+                }
+                if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
+                {
+                    address.District = dict["addressCounty"];
+                    //Code as 6 digit code as per the PHINVAS County code, as per IJE
+                }
+                if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
+                {
+                    address.State = dict["addressState"];
+                    // Just stick content from IJE into field without modification
+                }
+                if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
+                {
+                    address.PostalCode = dict["addressZip"];
+                }
+                if (dict.ContainsKey("addressCountry") && !String.IsNullOrEmpty(dict["addressCountry"]))
+                {
+                    address.Country = dict["addressCountry"];
+                    // Just stick content from IJE in as-is
                 }
             }
             return address;

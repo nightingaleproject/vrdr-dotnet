@@ -58,6 +58,8 @@ namespace VRDR
         /// <summary>HL7 RoleCode.</summary>
         public static string RoleCode_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-RoleCode";
 
+        /// <summary> ISO 3166-2  </summary>
+        public static string ISO_3166_2 = "urn:iso:std:iso:3166:-2";
 
     }
 

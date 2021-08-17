@@ -5905,8 +5905,7 @@ namespace VRDR
             }
             set
             {
-                String u = "unk";
-                String v = "unk";
+ 
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs(); // Create it
@@ -5916,22 +5915,29 @@ namespace VRDR
 
 
                 if ( (!String.IsNullOrWhiteSpace(GetValue(value, "value"))) && !GetValue(value, "value").Equals("999") ){ // not unknown - NVSS-209
-                    v = GetValue(value, "value");
+                    String v = GetValue(value, "value");
+                    if (v.Equals("999")){
+                        AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "unknown", "Unknown", null);
+                    }else{
+                        if (AgeAtDeathObs.Value == null){
+                            AgeAtDeathObs.Value = new Quantity();
+                        }
+                        Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                        quantity.Value = Convert.ToDecimal(v);
+                        AgeAtDeathObs.Value = quantity;
+                    }
                 }
 
-                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) && !GetValue(value, "unit").Equals("unk")){
-                    u = GetValue(value, "unit");
+                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) && !GetValue(value, "unit").Equals("9")){
+                    String u = GetValue(value, "unit");
+                    if (AgeAtDeathObs.Value == null){
+                            AgeAtDeathObs.Value = new Quantity();
+                    }
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    quantity.Unit = u;
+                    AgeAtDeathObs.Value = quantity;
                 }
-                if (!u.Equals("unk") && !v.Equals("unk")){
-                        Quantity quant = new Quantity();
-                    
-                        quant.Value = Convert.ToDecimal(GetValue(value, "value"));
-                        quant.Unit = GetValue(value, "unit");
-                        AgeAtDeathObs.Value = quant;
-                } else { // NVSS-209
-                    AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "unknown", "Unknown", null);
-                }
-            }
+              }
         }
 
         /// <summary>Pregnancy Status At Death.</summary>

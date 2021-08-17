@@ -1226,13 +1226,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", true);
+                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); // NVSS-234 -- use 2 letter encoding for country, so no translation.
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value);
+                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", false, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
                 }
             }
         }

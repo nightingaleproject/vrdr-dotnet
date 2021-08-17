@@ -3123,17 +3123,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.ResidenceWithinCityLimits = code;
@@ -4553,17 +4553,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.MilitaryService = code;
@@ -5196,17 +5196,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.AutopsyPerformedIndicator = code;
@@ -5571,17 +5571,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.AutopsyResultsAvailable = code;
@@ -6071,17 +6071,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.ExaminerContacted = code;
@@ -6541,17 +6541,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "NA";
                         code["display"] = "not applicable";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.InjuryAtWork = code;
@@ -6667,17 +6667,17 @@ namespace VRDR
                     case true:
                         code["code"] = "Y";
                         code["display"] = "Yes";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     case false:
                         code["code"] = "N";
                         code["display"] = "No";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v2-0136";
+                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
                         break;
                     default:
                         code["code"] = "UNK";
                         code["display"] = "unknown";
-                        code["system"] = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+                        code["system"] = CodeSystems.NullFlavor_HL7_V3;
                         break;
                 }
                 this.TransportationEvent = code;

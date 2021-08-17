@@ -4081,17 +4081,7 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
                     {
-                        // If the country isn't US or CA, return XX
-                        // If the country is US or CA, strip the prefix
-                        Dictionary<string,string> dict = CodeableConceptToDict((CodeableConcept)stateComp.Value);
-                        String state = dict["code"];
-                        if (state.StartsWith("US-") || state.StartsWith("CA-"))
-                        {
-                            dict["code"] = state.Substring(3);
-                        }else{
-                            dict["code"] = state;
-                        }
-                        return dict;
+                        return(CodeableConceptToDict((CodeableConcept)stateComp.Value));
                     }
                 }
                 return EmptyCodeDict();

@@ -1506,20 +1506,20 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> brs = new Dictionary<string, string>();
             Dictionary<string, string> iladdress = new Dictionary<string, string>();
-            brs.Add("addressState", "MA");
+            brs.Add("addressState", "US-MA");
             SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]);  // without country, state just passes through without US- or CA- prefix
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
         }
 
         [Fact]
         public void Get_BirthRecordState()
         {
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).BirthRecordState["code"]);
+            Assert.Equal("US-MA", ((DeathRecord)JSONRecords[0]).BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)JSONRecords[0]).BirthRecordState["system"]);
             Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).BirthRecordState["display"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).BirthRecordState["code"]);
+            Assert.Equal("US-MA", ((DeathRecord)XMLRecords[0]).BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)XMLRecords[0]).BirthRecordState["system"]);
             Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).BirthRecordState["display"]);
         }

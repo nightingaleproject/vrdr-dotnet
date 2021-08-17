@@ -1144,7 +1144,7 @@ namespace VRDR
             get
             {
                 return Dictionary_Geo_Get("BPLACE_CNT", "PlaceOfBirth", "address", "country", true);
-            }
+               }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
@@ -2500,7 +2500,13 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    return Dictionary_Get("BSTATE", "BirthRecordState", "addressState");
+                    String state =  Dictionary_Get("BSTATE", "BirthRecordState", "addressState");
+                // If the country is US or CA, strip the prefix
+                    if (state.StartsWith("US-") || state.StartsWith("CA-"))
+                    {
+                        state = state.Substring(3);
+                    }
+                    return state;
                 }
                 return ""; // Blank
             }
@@ -2517,7 +2523,7 @@ namespace VRDR
                             ISO31662code = BPLACE_CNT;
                             break;
                         default:  // a 2 character state
-                            ISO31662code = BPLACE_CNT + "-" + value;
+                            ISO31662code = /* BPLACE_CNT + "-" + */ value;
                             break;
                     }
                     Dictionary_Set("BSTATE", "BirthRecordState", "addressState", ISO31662code);

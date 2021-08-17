@@ -4081,19 +4081,24 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
                     {
+                        Console.Error.WriteLine(" BirthRecordState.get -- stateComp.Value");
                         return(CodeableConceptToDict((CodeableConcept)stateComp.Value));
                     }
+                    Console.Error.WriteLine(" BirthRecordState.get -- COuldn't find component");
                 }
+                Console.Error.WriteLine(" BirthRecordState.get -- returning empty Code Dict");
                 return EmptyCodeDict();
             }
             set
             {
                if (!value.ContainsKey("addressState")){
+                   Console.Error.WriteLine(" BirthRecordState.set -- no addressState key");
                    return;
                }
                CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["addressState"], value["addressState"], null);
                if (BirthRecordIdentifier == null)
                 {
+                    Console.Error.WriteLine(" BirthRecordState.set -- creating BirthRecordIdentifier");
                     CreateBirthRecordIdentifier();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
@@ -4108,10 +4113,12 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null)
                     {
+                        Console.Error.WriteLine(" BirthRecordState.set -- existing component");
                         ((Observation.ComponentComponent)stateComp).Value = state;
                     }
                     else
                     {
+                        Console.Error.WriteLine(" BirthRecordState.set -- new component");
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
                         component.Value = state;

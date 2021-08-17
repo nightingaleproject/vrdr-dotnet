@@ -2501,12 +2501,16 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
                     String state =  Dictionary_Get("BSTATE", "BirthRecordState", "addressState");
+                    String retState;
                 // If the country is US or CA, strip the prefix
                     if (state.StartsWith("US-") || state.StartsWith("CA-"))
                     {
-                        state = state.Substring(3);
+                        retState = state.Substring(3);
+                    } else {
+                        retState = state;
                     }
-                    return state;
+                    Console.Error.WriteLine("BSTATE.get returning " + retState + ",  BSTATE = " + state);
+                    return retState;
                 }
                 return ""; // Blank
             }
@@ -2518,15 +2522,20 @@ namespace VRDR
                     String ISO31662code;
                     switch (value){
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+                            Console.Error.WriteLine("BSTATE.set with value ZZ");
                             return;  // do nothing 
                         case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
-                            ISO31662code = BPLACE_CNT;
+                            Console.Error.WriteLine("BSTATE.set with value XX");
+                            ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
+                            Console.Error.WriteLine("BSTATE.set with value " + value );
                             ISO31662code = /* BPLACE_CNT + "-" + */ value;
                             break;
                     }
                     Dictionary_Set("BSTATE", "BirthRecordState", "addressState", ISO31662code);
+                } else {
+                    Console.Error.WriteLine("BSTATE.set with NULL value " );
                 }
             }
         }

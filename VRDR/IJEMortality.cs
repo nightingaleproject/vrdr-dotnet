@@ -2501,7 +2501,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    return Dictionary_Geo_Get("BSTATE", "BirthRecordState", "address", "state", true);
+                    return Dictionary_Get("BSTATE", "BirthRecordState", "addressState");
                 }
                 return ""; // Blank
             }
@@ -2521,7 +2521,7 @@ namespace VRDR
                             ISO31662code = BPLACE_CNT + "-" + value;
                             break;
                     }
-                    Dictionary_Set("STATEC", "BirthRecordState", "addressState", ISO31662code);
+                    Dictionary_Set("BSTATE", "BirthRecordState", "addressState", ISO31662code);
                 }
             }
         }

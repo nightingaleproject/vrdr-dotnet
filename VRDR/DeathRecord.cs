@@ -4091,7 +4091,7 @@ namespace VRDR
                         {
                             dict["code"] = state.Substring(3);
                         }else{
-                            dict["code"] = "XX";
+                            dict["code"] = state;
                         }
                         return dict;
                     }
@@ -4100,6 +4100,9 @@ namespace VRDR
             }
             set
             {
+               if (!value.ContainsKey("addressState")){
+                   return;
+               }
                CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["addressState"], value["addressState"], null);
                if (BirthRecordIdentifier == null)
                 {

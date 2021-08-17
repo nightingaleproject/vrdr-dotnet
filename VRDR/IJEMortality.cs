@@ -2461,6 +2461,10 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
+                } else {
+                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "code", "unknown");
+                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "system", CodeSystems.HL7_Data_Absent_Reason);
+                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "display", "Unknown");
                 }
             }
         }

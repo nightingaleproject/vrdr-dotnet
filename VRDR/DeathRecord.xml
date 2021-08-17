@@ -22,11 +22,20 @@
         <member name="F:VRDR.CodeSystems.PH_NullFlavor_HL7_V3">
             <summary>PHINVADS Null Flavor.</summary>
         </member>
+        <member name="F:VRDR.CodeSystems.HL7_Data_Absent_Reason">
+            <summary>HL7 Data Absent reason.</summary>
+        </member>
         <member name="F:VRDR.CodeSystems.PH_PHINVS_CDC">
             <summary>PHINVADS Local Coding System.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_YesNo_HL7_2x">
             <summary>PHINVADS Yes/No.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_County_FIPS_6_4">
+            <summary>PHINVADS County FIPS 6-4</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_Country_GEC">
+            <summary>PHINVADS Country GEC</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO">
             <summary>PHINVADS Place of Occurrence.</summary>
@@ -38,16 +47,19 @@
             <summary>PHINVADS Marital Satus.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_USGS_GNIS">
-            <summary>USGS GNIS.</summary>
+            <summary>PHINVADS USGS GNIS.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_State_FIPS_5_2">
-            <summary>FIPS 5 2.</summary>
+            <summary>PHINVADS FIPS 5 2.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.HL7_location_physical_type">
             <summary>HL7 Location Physical Type.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.HL7_identifier_type">
             <summary>HL7 Identifier Type.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.HL7_organization_type">
+            <summary>HL7 Organization Type.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_RoleCode_HL7_V3">
             <summary>PHINVADS HL7 RoleCode.</summary>
@@ -100,6 +112,9 @@
         </member>
         <member name="F:VRDR.DeathRecord.ConditionContributingToDeath">
             <summary>Condition Contributing to Death.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CauseOfDeathCondition(System.Int32)">
+            <summary>Create a Cause Of Death Condition </summary>
         </member>
         <member name="F:VRDR.DeathRecord.CauseOfDeathConditionA">
             <summary>Cause Of Death Condition Line A (#1).</summary>
@@ -1020,6 +1035,16 @@
             <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DateOfBirthDatePartAbsent">
+            <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
+            <value>the decedent's date of birth date part absent reason</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfBirthDatePartReason = "1940-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.Residence">
             <summary>Decedent's residence.</summary>
             <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
@@ -1298,6 +1323,17 @@
             <para>ExampleDeathRecord.BirthRecordId = "4242123";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.BirthRecordDataAbsentReason">
+            <summary>Birth Record Data Absent Reason.</summary>
+            <value>the data absent reason for the decedent's birth record.
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.BirthRecordDataAbsentReason = "unknown";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthRecordDataAbsentReason}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BirthRecordState">
@@ -2918,7 +2954,7 @@
             <summary>State and Territory Province Codes</summary>
         </member>
         <member name="F:VRDR.MortalityData.CountryCodes">
-            <summary>Country Codes</summary>
+            <summary>Country Codes based on PH_Country_GEC = 2.16.840.1.113883.13.250    </summary>
         </member>
         <member name="F:VRDR.MortalityData.PlaceCodes">
             <summary>Place Codes</summary>

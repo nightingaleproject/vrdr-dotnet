@@ -293,9 +293,20 @@ namespace VRDR.Tests
         public void HandleDeathLocationIJE()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
-            DeathRecord dr1 = ije1.ToDeathRecord();
-            IJEMortality ije1rt = new IJEMortality(dr1);
+            DeathRecord dr = ije1.ToDeathRecord();
+            IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
+        }
+        [Fact]
+        public void HandleUnknownBirthRecordId()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/UnknownBirthRecordId.ije")), true);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.Equal("unknown", dr1.BirthRecordDataAbsentReason["code"]);
+            Assert.Equal("http://terminology.hl7.org/CodeSystem/data-absent-reason", dr1.BirthRecordDataAbsentReason["system"]);
+            Assert.Equal("Unknown", dr1.BirthRecordDataAbsentReason["display"]);
+            IJEMortality ije1rt = new IJEMortality(dr1);
+            Assert.Equal("", ije1rt.BCNO);
         }
 
         private string FixturePath(string filePath)

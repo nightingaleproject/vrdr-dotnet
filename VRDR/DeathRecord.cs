@@ -3753,7 +3753,6 @@ namespace VRDR
         {
             get
             {
-                Console.Error.WriteLine("Get MotherMaidenName");
                 if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
                     return Mother.Name.First().Family;
                 }
@@ -3761,7 +3760,6 @@ namespace VRDR
             }
             set
             {
-                Console.Error.WriteLine("Set MotherMaidenName");
                 if (Mother == null)
                 {
                     Mother = new RelatedPerson();

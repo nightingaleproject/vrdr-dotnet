@@ -486,7 +486,6 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            Console.Error.WriteLine("Geo_Set ijeFieldName = " + ijeFieldName + "key = " + key + "dictionaryContainsKey = " + dictionary.ContainsKey(key) );
             if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
             {
                 if (isCoded)
@@ -1226,13 +1225,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); // NVSS-234 -- use 2 letter encoding for country, so no translation.
+                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", true); // NVSS-234 -- use 2 letter encoding for country, so no translation.
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", false, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
+                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
                 }
             }
         }
@@ -3319,7 +3318,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false);
+                String countryCode = Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
+                String countryName = dataLookup.CountryNameToCountryCode(countryCode);
+                return(countryName);
             }
             set
             {

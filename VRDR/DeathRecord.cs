@@ -2965,7 +2965,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
         [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).birthDate.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "birthDate")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)._birthDate.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_birthDate")]
         public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
             get

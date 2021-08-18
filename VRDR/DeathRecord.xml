@@ -1046,8 +1046,8 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.Residence">
-            <summary>Decedent's residence.</summary>
-            <value>Decedent's residence. A Dictionary representing residence address, containing the following key/value pairs:
+            <summary>Decedent's Residence.</summary>
+            <value>Decedent's Residence. A Dictionary representing residence address, containing the following key/value pairs:
             <para>"addressLine1" - address, line one</para>
             <para>"addressLine2" - address, line two</para>
             <para>"addressCity" - address, city</para>

@@ -310,7 +310,7 @@ namespace VRDR.Tests
             Assert.Equal("2019XX000000", empty.BundleIdentifier);
             empty.Identifier = "101";
             Assert.Equal("2019XX000101", empty.BundleIdentifier);
-            SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            empty.DeathLocationJurisdiction = "MA";  // 25 is the code for MA
             Assert.Equal("2019MA000101", empty.BundleIdentifier);
         }
 

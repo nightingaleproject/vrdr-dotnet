@@ -506,21 +506,17 @@ namespace VRDR
                     UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
                 }
             }
-            var jurisdictionId = this.DeathLocationAddress?["addressState"];
-            Console.WriteLine("UpdateBundleIdentifier -- jurisdictionID =" + jurisdictionId);
+            var jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
             if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
             {
                 jurisdictionId = "XX";
-                            Console.Error.WriteLine("UpdateBundleIdentifier -- aa identifer = " + this.BundleIdentifier);
             }
             else
             {
                 jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
-                            Console.Error.WriteLine("UpdateBundleIdentifier -- bb old identifer = " + this.BundleIdentifier);
             }
-            Console.Error.WriteLine("UpdateBundleIdentifier -- cc old identifer = " + this.BundleIdentifier);
             this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
-            Console.Error.WriteLine("UpdateBundleIdentifier -- dd new identifer = " + this.BundleIdentifier);
+            // Console.WriteLine("UpdateBundleIdentifier -- new identifer = " + this.BundleIdentifier);
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>

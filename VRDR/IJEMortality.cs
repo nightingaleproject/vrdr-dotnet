@@ -354,22 +354,18 @@ namespace VRDR
         private string Dictionary_Get(string ijeFieldName, string fhirFieldName, string key)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            Console.Error.WriteLine("Dictionary_Get Field: " + fhirFieldName + " key= " + key );
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (dictionary == null || !dictionary.ContainsKey(key))
             {
-                Console.Error.WriteLine("    return <nothing>");
                 return "";
             }
             string current = Convert.ToString(dictionary[key]);
             if (current != null)
             {
-                Console.Error.WriteLine("    return " + Truncate(current, info.Length).PadRight(info.Length, ' '));
                 return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
             else
             {
-                Console.Error.WriteLine("    return <nothing>");
                 return new String(' ', info.Length);
             }
         }
@@ -384,7 +380,6 @@ namespace VRDR
                 string current = Convert.ToString(dictionary[key]);
                 if (current != null)
                 {
-                    Console.Error.WriteLine("    return " + current);
                     return current;
                 }
                 else
@@ -2510,13 +2505,13 @@ namespace VRDR
                 // If the country is US or CA, strip the prefix
                     if (state.StartsWith("US-") || state.StartsWith("CA-"))
                     {
-                        Console.Error.WriteLine("Starts with US- state= " + state + "retState =" + state.Substring(2));
+                        // Console.Error.WriteLine("Starts with US- state= " + state + "retState =" + state.Substring(2));
                         retState = state.Substring(3);
                     } else {
-                        Console.Error.WriteLine("No Prefix state= " + state);
+                        // Console.Error.WriteLine("No Prefix state= " + state);
                         retState = state;
                     }
-                    Console.Error.WriteLine("BSTATE.get returning " + retState + ",  state = " + state);
+                    // Console.Error.WriteLine("BSTATE.get returning " + retState + ",  state = " + state);
                     return retState;
                 }
                 return ""; // Blank
@@ -2530,26 +2525,24 @@ namespace VRDR
                     Console.Error.WriteLine("BSTATE.set with country = " + birthCountry);
                     switch (value){
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
-                            Console.Error.WriteLine("BSTATE.set with value ZZ");
+                            // Console.Error.WriteLine("BSTATE.set with value ZZ");
                             return;  // do nothing 
                         case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
-                            Console.Error.WriteLine("BSTATE.set with value XX");
+                            // Console.Error.WriteLine("BSTATE.set with value XX");
                             ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
                             if (birthCountry.Equals("US") || birthCountry.Equals("CA")){
-                                Console.Error.WriteLine("BSTATE.set with US or CA" );
+                                // Console.Error.WriteLine("BSTATE.set with US or CA" );
                                 ISO31662code = birthCountry + "-" + value;
                             }else{
                                 ISO31662code = value;
                             }
-                            Console.Error.WriteLine("BSTATE.set with value " + ISO31662code );
+                            // Console.Error.WriteLine("BSTATE.set with value " + ISO31662code );
                             break;
                     }
-                    Dictionary_Set("BSTATE", "BirthRecordState", "addressState", ISO31662code);
-                } else {
-                    Console.Error.WriteLine("BSTATE.set with NULL value " );
-                }
+                    Dictionary_Set("BSTATE", "BirthRecordState", "code", ISO31662code);
+                } 
             }
         }
 

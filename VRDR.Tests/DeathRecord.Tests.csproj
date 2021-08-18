@@ -54,6 +54,7 @@
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityAllH.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/DeathLocation.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/DOBDatePartAbsent.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityAllUnknown.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityOtherCaseNoWriteIn.ije" CopyToOutputDirectory="PreserveNewest" />

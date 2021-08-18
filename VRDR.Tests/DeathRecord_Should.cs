@@ -1256,6 +1256,17 @@ namespace VRDR.Tests
 
         }
 
+
+        [Fact]
+        public void Get_BirthDate_Partial_Date_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthDateDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("9999", ije1.DOB_YR);
+            Assert.Equal("02", ije1.DOB_MO);
+            Assert.Equal("24", ije1.DOB_DY);
+        }
+
         [Fact]
         public void Set_Race()
         {
@@ -1547,7 +1558,7 @@ namespace VRDR.Tests
         public void Get_BirthRecord_Absent_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
-            IJEMortality ije1 = new IJEMortality(dr);
+            IJEMortality ije1 = new IJEMortality(dr); 
             Assert.Equal("", ije1.BCNO);
         }
 

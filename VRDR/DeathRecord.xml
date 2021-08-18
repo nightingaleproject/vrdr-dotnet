@@ -2319,6 +2319,9 @@
         <member name="M:VRDR.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>
+        <member name="M:VRDR.IJEMortality.BirthDate_Part_Absent_Get(System.String,System.String,System.String)">
+            <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
+        </member>
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         </member>

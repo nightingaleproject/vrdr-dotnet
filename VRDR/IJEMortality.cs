@@ -2513,7 +2513,7 @@ namespace VRDR
                         Console.Error.WriteLine("Starts with US- state= " + state + "retState =" + state.Substring(2));
                         retState = state.Substring(3);
                     } else {
-                        Console.Error.WriteLine("No Prefix state= " + state + "retState =" + state);
+                        Console.Error.WriteLine("No Prefix state= " + state);
                         retState = state;
                     }
                     Console.Error.WriteLine("BSTATE.get returning " + retState + ",  state = " + state);

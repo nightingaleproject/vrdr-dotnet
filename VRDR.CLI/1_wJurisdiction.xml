@@ -839,7 +839,7 @@
             <coding>
               <system value="urn:iso:std:iso:3166:-2" />
               <code value="US-MA" />
-              <display value="Massachusetts" />
+              <display value="US-MA" />
             </coding>
           </valueCodeableConcept>
         </component>

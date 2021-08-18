@@ -5917,7 +5917,7 @@ namespace VRDR
                 if ( (!String.IsNullOrWhiteSpace(GetValue(value, "value"))) && !GetValue(value, "value").Equals("999") ){ // not unknown - NVSS-209
                     String v = GetValue(value, "value");
                     if (v.Equals("999")){
-                        AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V, "unknown", "Unknown", null);
+                        AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
                     }else{
                         if (AgeAtDeathObs.Value == null){
                             AgeAtDeathObs.Value = new Quantity();

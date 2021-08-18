@@ -354,18 +354,22 @@ namespace VRDR
         private string Dictionary_Get(string ijeFieldName, string fhirFieldName, string key)
         {
             IJEField info = FieldInfo(ijeFieldName);
+            Console.Error.WriteLine("Dictionary_Get Field: " + fhirFieldName + " key= " + key );
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             if (dictionary == null || !dictionary.ContainsKey(key))
             {
+                Console.Error.WriteLine("    return <nothing>");
                 return "";
             }
             string current = Convert.ToString(dictionary[key]);
             if (current != null)
             {
+                Console.Error.WriteLine("    return " + Truncate(current, info.Length).PadRight(info.Length, ' '));
                 return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
             else
             {
+                Console.Error.WriteLine("    return <nothing>");
                 return new String(' ', info.Length);
             }
         }
@@ -380,6 +384,7 @@ namespace VRDR
                 string current = Convert.ToString(dictionary[key]);
                 if (current != null)
                 {
+                    Console.Error.WriteLine("    return " + current);
                     return current;
                 }
                 else
@@ -2500,16 +2505,18 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    String state =  Dictionary_Get("BSTATE", "BirthRecordState", "addressState");
+                    String state = Dictionary_Get_Full("BSTATE", "BirthRecordState", "code");
                     String retState;
                 // If the country is US or CA, strip the prefix
                     if (state.StartsWith("US-") || state.StartsWith("CA-"))
                     {
+                        Console.Error.WriteLine("Starts with US- state= " + state + "retState =" + state.Substring(2));
                         retState = state.Substring(3);
                     } else {
+                        Console.Error.WriteLine("No Prefix state= " + state + "retState =" + state.Substring(2));
                         retState = state;
                     }
-                    Console.Error.WriteLine("BSTATE.get returning " + retState + ",  BSTATE = " + state);
+                    Console.Error.WriteLine("BSTATE.get returning " + retState + ",  state = " + state);
                     return retState;
                 }
                 return ""; // Blank
@@ -2520,6 +2527,7 @@ namespace VRDR
                 {
                     String birthCountry = BPLACE_CNT;
                     String ISO31662code;
+                    Console.Error.WriteLine("BSTATE.set with country = " + birthCountry);
                     switch (value){
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
                             Console.Error.WriteLine("BSTATE.set with value ZZ");
@@ -2529,8 +2537,13 @@ namespace VRDR
                             ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
-                            Console.Error.WriteLine("BSTATE.set with value " + value );
-                            ISO31662code = /* BPLACE_CNT + "-" + */ value;
+                            if (birthCountry.Equals("US") || birthCountry.Equals("CA")){
+                                Console.Error.WriteLine("BSTATE.set with US or CA" );
+                                ISO31662code = birthCountry + "-" + value;
+                            }else{
+                                ISO31662code = value;
+                            }
+                            Console.Error.WriteLine("BSTATE.set with value " + ISO31662code );
                             break;
                     }
                     Dictionary_Set("BSTATE", "BirthRecordState", "addressState", ISO31662code);

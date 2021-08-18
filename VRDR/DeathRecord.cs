@@ -4081,7 +4081,7 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
                     {
-                        Console.Error.WriteLine(" BirthRecordState.get -- stateComp.Value");
+                        Console.Error.WriteLine(" BirthRecordState.get -- stateComp.Value - " + CodeableConceptToDict((CodeableConcept)stateComp.Value)["code"]);
                         return(CodeableConceptToDict((CodeableConcept)stateComp.Value));
                     }
                     Console.Error.WriteLine(" BirthRecordState.get -- COuldn't find component");

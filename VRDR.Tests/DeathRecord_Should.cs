@@ -1535,23 +1535,15 @@ namespace VRDR.Tests
         [Fact]
         public void Set_BirthRecord_Absent()
         {
-            Dictionary<string, string> bra = new Dictionary<string, string>();
-            bra.Add("code", "asked-unknown");
-            bra.Add("system", "http://terminology.hl7.org/CodeSystem/data-absent-reason");
-            bra.Add("display", "Asked but Unknown");
-            SetterDeathRecord.BirthRecordDataAbsentReason = bra;
-            Assert.Equal("asked-unknown", SetterDeathRecord.BirthRecordDataAbsentReason["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/data-absent-reason", SetterDeathRecord.BirthRecordDataAbsentReason["system"]);
-            Assert.Equal("Asked but Unknown", SetterDeathRecord.BirthRecordDataAbsentReason["display"]);
+            SetterDeathRecord.BirthRecordId = "";
+            Assert.Null(SetterDeathRecord.BirthRecordId);
         }
 
         [Fact]
         public void Get_BirthRecord_Absent()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
-            Assert.Equal("asked-unknown", dr.BirthRecordDataAbsentReason["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/data-absent-reason", dr.BirthRecordDataAbsentReason["system"]);
-            Assert.Equal("Asked but Unknown", dr.BirthRecordDataAbsentReason["display"]);
+            Assert.Null(dr.BirthRecordId);
         }
 
         [Fact]

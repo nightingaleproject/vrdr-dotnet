@@ -4120,76 +4120,20 @@ namespace VRDR
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    BirthRecordIdentifier.Value = new FhirString(value);                      
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
                     Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
                 }
-                else
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    BirthRecordIdentifier.Value = new FhirString(value);
-                }
-            }
-        }
-
-        /// <summary>Birth Record Data Absent Reason.</summary>
-        /// <value>the data absent reason for the decedent's birth record.
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.BirthRecordDataAbsentReason = "unknown";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthRecordDataAbsentReason}");</para>
-        /// </example>
-        [Property("Birth Record Data Absent Reason", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR').extension.where(url='http://hl7.org/fhir/StructureDefinition/data-absent-reason')", "")]
-        public Dictionary<string, string> BirthRecordDataAbsentReason
-        {
-            get
-            {
-                if (BirthRecordIdentifier != null)
-                {
-                    Extension dataAbsentReason = BirthRecordIdentifier.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
-                    if (dataAbsentReason != null && dataAbsentReason.Value != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)dataAbsentReason.Value);
-                    }
-                }
-
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (BirthRecordIdentifier == null) {
-                    BirthRecordIdentifier = new Observation();
-                    BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
-                    BirthRecordIdentifier.Meta = new Meta();
-                    string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
-                    BirthRecordIdentifier.Meta.Profile = br_profile;
-                    BirthRecordIdentifier.Status = ObservationStatus.Final;
-                    BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
-                    BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    
-                    Extension dataAbsentReason = new Extension();
-                    dataAbsentReason.Url = "http://hl7.org/fhir/StructureDefinition/data-absent-reason";
-                    CodeableConcept cc = DictToCodeableConcept(value);
-                    dataAbsentReason.Value = cc;
-                    BirthRecordIdentifier.Extension.Add(dataAbsentReason);
-
-                    AddReferenceToComposition(BirthRecordIdentifier.Id);
-                    Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
+                    BirthRecordIdentifier.Value = new FhirString(value);    
                 }
                 else
                 {
-                    BirthRecordIdentifier.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
-                    Extension dataAbsentReason = new Extension();
-                    dataAbsentReason.Url = "http://hl7.org/fhir/StructureDefinition/data-absent-reason";
-                    CodeableConcept cc = DictToCodeableConcept(value);
-                    dataAbsentReason.Value = cc;
-                    BirthRecordIdentifier.Extension.Add(dataAbsentReason);
+                    // TODO need to check for an existing data absent reason in the fhir
+                    BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.HL7_Data_Absent_Reason, "unknown", "Unknown", null);
                 }
             }
         }
-
 
         /// <summary>Birth Record State.</summary>
         /// <value>the state of the decedent's birth certificate. A Dictionary representing a code, containing the following key/value pairs:

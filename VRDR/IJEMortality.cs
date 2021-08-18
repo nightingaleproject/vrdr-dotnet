@@ -2537,14 +2537,9 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
-                } else {
-                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "code", "unknown");
-                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "system", CodeSystems.HL7_Data_Absent_Reason);
-                    Dictionary_Set("BCNO", "BirthRecordDataAbsentReason", "display", "Unknown");
-                }
+                // if value is null, the library will add the data absent reason
+                RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
+
             }
         }
 

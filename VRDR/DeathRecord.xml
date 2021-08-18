@@ -1325,17 +1325,6 @@
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
             </example>
         </member>
-        <member name="P:VRDR.DeathRecord.BirthRecordDataAbsentReason">
-            <summary>Birth Record Data Absent Reason.</summary>
-            <value>the data absent reason for the decedent's birth record.
-            </value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.BirthRecordDataAbsentReason = "unknown";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthRecordDataAbsentReason}");</para>
-            </example>
-        </member>
         <member name="P:VRDR.DeathRecord.BirthRecordState">
             <summary>Birth Record State.</summary>
             <value>the state of the decedent's birth certificate. A Dictionary representing a code, containing the following key/value pairs:

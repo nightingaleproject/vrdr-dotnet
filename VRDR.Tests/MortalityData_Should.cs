@@ -303,9 +303,7 @@ namespace VRDR.Tests
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/UnknownBirthRecordId.ije")), true);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("unknown", dr1.BirthRecordDataAbsentReason["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/data-absent-reason", dr1.BirthRecordDataAbsentReason["system"]);
-            Assert.Equal("Unknown", dr1.BirthRecordDataAbsentReason["display"]);
+            Assert.Null(dr1.BirthRecordId);
             IJEMortality ije1rt = new IJEMortality(dr1);
             Assert.Equal("", ije1rt.BCNO);
         }

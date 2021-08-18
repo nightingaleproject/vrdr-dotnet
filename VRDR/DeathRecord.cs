@@ -189,10 +189,8 @@ namespace VRDR
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
-        private const string  locationJurisdictionExtPath = "jurisdictionID"; // in 1.1 will be"http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id"
+        private const string  locationJurisdictionExtPath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
 
-
-        
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {

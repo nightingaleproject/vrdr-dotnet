@@ -4091,11 +4091,11 @@ namespace VRDR
             }
             set
             {
-               if (!value.ContainsKey("addressState")){
+               if (!value.ContainsKey("code")){
                    Console.Error.WriteLine(" BirthRecordState.set -- no addressState key");
                    return;
                }
-               CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["addressState"], value["addressState"], null);
+               CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["code"], value["code"], null);
                if (BirthRecordIdentifier == null)
                 {
                     Console.Error.WriteLine(" BirthRecordState.set -- creating BirthRecordIdentifier");

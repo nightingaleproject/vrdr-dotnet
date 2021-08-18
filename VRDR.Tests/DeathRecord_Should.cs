@@ -1506,7 +1506,7 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> brs = new Dictionary<string, string>();
             Dictionary<string, string> iladdress = new Dictionary<string, string>();
-            brs.Add("addressState", "US-MA");
+            brs.Add("code", "US-MA");
             SetterDeathRecord.BirthRecordState = brs;
             Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);

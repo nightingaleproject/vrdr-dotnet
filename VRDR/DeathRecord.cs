@@ -507,15 +507,20 @@ namespace VRDR
                 }
             }
             var jurisdictionId = this.DeathLocationAddress?["addressState"];
+            Console.WriteLine("UpdateBundleIdentifier -- jurisdictionID =" + jurisdictionId);
             if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
             {
                 jurisdictionId = "XX";
+                            Console.Error.WriteLine("UpdateBundleIdentifier -- aa identifer = " + this.BundleIdentifier);
             }
             else
             {
                 jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
+                            Console.Error.WriteLine("UpdateBundleIdentifier -- bb old identifer = " + this.BundleIdentifier);
             }
+            Console.Error.WriteLine("UpdateBundleIdentifier -- cc old identifer = " + this.BundleIdentifier);
             this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
+            Console.Error.WriteLine("UpdateBundleIdentifier -- dd new identifer = " + this.BundleIdentifier);
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
@@ -5707,6 +5712,7 @@ namespace VRDR
                     extension.Url = locationJurisdictionExtPath;
                     extension.Value = cc;
                     DeathLocationLoc.Extension.Add(extension);
+                    UpdateBundleIdentifier();
                 }
             }
         }

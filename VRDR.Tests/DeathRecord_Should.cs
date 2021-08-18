@@ -310,15 +310,7 @@ namespace VRDR.Tests
             Assert.Equal("2019XX000000", empty.BundleIdentifier);
             empty.Identifier = "101";
             Assert.Equal("2019XX000101", empty.BundleIdentifier);
-            Dictionary<string, string> dtladdress = new Dictionary<string, string>();
-            dtladdress.Add("addressLine1", "671 Example Street");
-            dtladdress.Add("addressLine2", "Line 2");
-            dtladdress.Add("addressCity", "Bedford");
-            dtladdress.Add("addressCounty", "Middlesex");
-            dtladdress.Add("addressState", "MA");
-            dtladdress.Add("addressZip", "01730");
-            dtladdress.Add("addressCountry", "United States");
-            empty.DeathLocationAddress = dtladdress;
+            SetterDeathRecord.DeathLocationJurisdiction = "MA";
             Assert.Equal("2019MA000101", empty.BundleIdentifier);
         }
 

@@ -186,6 +186,17 @@ namespace VRDR
 
         /// <summary>Death Location.</summary>
         private Location DeathLocationLoc;
+        /// <summary>Create Death Location </summary>
+        private void CreateDeathLocation(){
+            DeathLocationLoc = new Location();
+            DeathLocationLoc.Id = Guid.NewGuid().ToString();
+            DeathLocationLoc.Meta = new Meta();
+            string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+            DeathLocationLoc.Meta.Profile = deathlocation_profile;
+            LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
+            AddReferenceToComposition(DeathLocationLoc.Id);
+            Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+        }
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
@@ -5634,20 +5645,11 @@ namespace VRDR
             {
                 if (DeathLocationLoc == null)
                 {
-                    DeathLocationLoc = new Location();
-                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
-                    DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
-                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    DeathLocationLoc.Address = DictToAddress(value);
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
-                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                    CreateDeathLocation();
                 }
-                else
-                {
-                    DeathLocationLoc.Address = DictToAddress(value);
-                }
+
+                DeathLocationLoc.Address = DictToAddress(value);
+
                 UpdateBundleIdentifier();
             }
         }
@@ -5681,17 +5683,8 @@ namespace VRDR
             {
                 if (DeathLocationLoc == null)
                 {
-                    DeathLocationLoc = new Location();
-                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
-                    DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
-                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
-                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
-                }
-                else
-                {
+                    CreateDeathLocation();
+                }else{
                     DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
                 if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
@@ -5742,20 +5735,11 @@ namespace VRDR
             {
                 if (DeathLocationLoc == null)
                 {
-                    DeathLocationLoc = new Location();
-                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
-                    DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
-                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    DeathLocationLoc.Name = value;
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
-                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                    CreateDeathLocation();
                 }
-                else
-                {
-                    DeathLocationLoc.Name = value;
-                }
+
+                DeathLocationLoc.Name = value;
+                
             }
         }
 
@@ -5786,7 +5770,7 @@ namespace VRDR
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { locationJurisdictionExtPath };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
@@ -5839,7 +5823,7 @@ namespace VRDR
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+                    string[] deathlocation_profile = { locationJurisdictionExtPath };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);

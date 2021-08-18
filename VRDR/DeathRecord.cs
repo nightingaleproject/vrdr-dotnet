@@ -5409,7 +5409,7 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
+                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     if (Pronouncer != null)
                     {
@@ -5462,7 +5462,7 @@ namespace VRDR
                     string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
                     DeathDateObs.Meta.Profile = deathdate_profile;
                     DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
+                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
                     DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     Observation.ComponentComponent component = new Observation.ComponentComponent();

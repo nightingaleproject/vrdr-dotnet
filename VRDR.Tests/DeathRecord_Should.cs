@@ -1552,6 +1552,8 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
             IJEMortality ije1 = new IJEMortality(dr); 
             Assert.Equal("", ije1.BCNO);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Null(dr.BirthRecordId);
         }
 
         [Fact]

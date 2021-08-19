@@ -2093,6 +2093,11 @@
             <param name="dict">represents an address.</param>
             <returns>the corresponding FHIR Address representation of the address.</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.DatePartsToArray(Hl7.Fhir.Model.Extension)">
+            <summary>Convert a Date Part Extension to an Array.</summary>
+            <param name="datePartAbsent">a Date Part Extension.</param>
+            <returns>the corresponding array representation of the date parts.</returns>
+        </member>
         <member name="M:VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
             <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
             <param name="addr">a FHIR Address.</param>

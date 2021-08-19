@@ -7276,55 +7276,6 @@ namespace VRDR
             return address;
         }
 
-       /// <summary>Convert an "address" dictionary to a FHIR Address coded for a Decedent's Residence.</summary>
-        /// <param name="dict">represents an address.</param>
-        /// <returns>the corresponding FHIR Address representation of the address.</returns>
-        private Address DictToAddressDecedentAddress(Dictionary<string, string> dict)
-        {
-            Address address = new Address();
-            if (dict != null)
-            {
-                List<string> lines = new List<string>();
-                if (dict.ContainsKey("addressLine1") && !String.IsNullOrEmpty(dict["addressLine1"]))
-                {
-                    lines.Add(dict["addressLine1"]);
-                }
-                if (dict.ContainsKey("addressLine2") && !String.IsNullOrEmpty(dict["addressLine2"]))
-                {
-                    lines.Add(dict["addressLine2"]);
-                }
-                if (lines.Count() > 0)
-                {
-                    address.Line = lines.ToArray();
-                }
-                if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
-                {
-                    address.City = dict["addressCity"];
-                    // Code as per 5 digit number in FIPS Whatever.   As per IJE.
-                }
-                if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
-                {
-                    address.District = dict["addressCounty"];
-                    //Code as 6 digit code as per the PHINVAS County code, as per IJE
-                }
-                if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
-                {
-                    address.State = dict["addressState"];
-                    // Just stick content from IJE into field without modification
-                }
-                if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
-                {
-                    address.PostalCode = dict["addressZip"];
-                }
-                if (dict.ContainsKey("addressCountry") && !String.IsNullOrEmpty(dict["addressCountry"]))
-                {
-                    address.Country = dict["addressCountry"];
-                    // Just stick content from IJE in as-is
-                }
-            }
-            return address;
-        }
-
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
         /// <param name="addr">a FHIR Address.</param>
         /// <returns>the corresponding Dictionary representation of the FHIR Address.</returns>

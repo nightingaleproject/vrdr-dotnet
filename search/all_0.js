@@ -11,7 +11,7 @@ var searchData=
   ['address_5fr_8',['ADDRESS_R',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a33062d9871055e4779fc862b4ef1c890',1,'VRDR::IJEMortality']]],
   ['age_9',['AGE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#aac3ac78934a2a01f6d25e254837e0810',1,'VRDR::IJEMortality']]],
   ['age_5fbypass_10',['AGE_BYPASS',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a792a30b8729e44cd53e6c203448451f4',1,'VRDR::IJEMortality']]],
-  ['ageatdeath_11',['AgeAtDeath',['../class_v_r_d_r_1_1_death_record.html#abe9ddd15b9a4e64e9a8de4210021a8d7',1,'VRDR::DeathRecord']]],
+  ['ageatdeath_11',['AgeAtDeath',['../class_v_r_d_r_1_1_death_record.html#a4623bae51b3aeb87a9ed5d2c048ee9db',1,'VRDR::DeathRecord']]],
   ['agetype_12',['AGETYPE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ac75773ecdd01c84356c85a0faebb1912',1,'VRDR::IJEMortality']]],
   ['aianracecodetoracename_13',['AIANRaceCodeToRaceName',['../class_v_r_d_r_1_1_mortality_data.html#af276666561cb4dbfab6211879da779c2',1,'VRDR::MortalityData']]],
   ['aianracenametoracecode_14',['AIANRaceNameToRaceCode',['../class_v_r_d_r_1_1_mortality_data.html#a409abd8a8ad17354170207cc9dee1ee6',1,'VRDR::MortalityData']]],

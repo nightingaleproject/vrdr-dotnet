@@ -1558,6 +1558,11 @@ namespace VRDR.Tests
             Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
             Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
+            brs["code"]="MA";
+            SetterDeathRecord.BirthRecordState = brs;
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]); 
+            Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
         }
 
         [Fact]

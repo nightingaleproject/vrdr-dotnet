@@ -81,7 +81,6 @@ namespace VRDR
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
-                // Console.Error.WriteLine(" field= " + field + "offset = " + info.Location);
                 property.SetValue(this, field);
             }
             if(validate){
@@ -2583,13 +2582,10 @@ namespace VRDR
                 // If the country is US or CA, strip the prefix
                     if (state.StartsWith("US-") || state.StartsWith("CA-"))
                     {
-                        // Console.Error.WriteLine("Starts with US- state= " + state + "retState =" + state.Substring(2));
                         retState = state.Substring(3);
                     } else {
-                        // Console.Error.WriteLine("No Prefix state= " + state);
                         retState = state;
                     }
-                    // Console.Error.WriteLine("BSTATE.get returning " + retState + ",  state = " + state);
                     return retState;
                 }
                 return ""; // Blank
@@ -2600,23 +2596,18 @@ namespace VRDR
                 {
                     String birthCountry = BPLACE_CNT;
                     String ISO31662code;
-                    Console.Error.WriteLine("BSTATE.set with country = " + birthCountry);
                     switch (value){
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
-                            // Console.Error.WriteLine("BSTATE.set with value ZZ");
                             return;  // do nothing 
                         case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
-                            // Console.Error.WriteLine("BSTATE.set with value XX");
-                            ISO31662code = birthCountry;
+                             ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
                             if (birthCountry.Equals("US") || birthCountry.Equals("CA")){
-                                // Console.Error.WriteLine("BSTATE.set with US or CA" );
                                 ISO31662code = birthCountry + "-" + value;
                             }else{
                                 ISO31662code = value;
                             }
-                            // Console.Error.WriteLine("BSTATE.set with value " + ISO31662code );
                             break;
                     }
                     Dictionary_Set("BSTATE", "BirthRecordState", "code", ISO31662code);

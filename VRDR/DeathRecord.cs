@@ -81,7 +81,7 @@ namespace VRDR
                     return (CodCondition);
         }
 
-        
+
         /// <summary>Cause Of Death Condition Line A (#1).</summary>
         private Condition CauseOfDeathConditionA;
 
@@ -140,7 +140,7 @@ namespace VRDR
             BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AddReferenceToComposition(BirthRecordIdentifier.Id);
-            Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);  
+            Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
         /// <summary>Usual Work.</summary>
         private Observation UsualWork;
@@ -1507,7 +1507,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionA == null)
-                { 
+                {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
                 if (CauseOfDeathConditionA.Code != null)
@@ -1544,7 +1544,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionA == null)
-                { 
+                {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
                 CauseOfDeathConditionA.Onset = new FhirString(value);
@@ -1584,7 +1584,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionA == null)
-                { 
+                {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
                 if (CauseOfDeathConditionA.Code != null)
@@ -1593,7 +1593,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionA.Code.Text;
                     CauseOfDeathConditionA.Code = code;
                 }
-                else 
+                else
                 {
                 CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
                 }
@@ -1622,7 +1622,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionB == null)
-                { 
+                {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
 
@@ -1660,7 +1660,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionB == null)
-                { 
+                {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
                 CauseOfDeathConditionB.Onset = new FhirString(value);
@@ -1700,7 +1700,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionB == null)
-                { 
+                {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
                 if (CauseOfDeathConditionB.Code != null)
@@ -1738,14 +1738,14 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionC == null)
-                { 
+                {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
                 if (CauseOfDeathConditionC.Code != null)
                 {
                     CauseOfDeathConditionC.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionC.Code = new CodeableConcept();
                     CauseOfDeathConditionC.Code.Text = value;
@@ -1775,7 +1775,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionC == null)
-                { 
+                {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
 
@@ -1816,7 +1816,7 @@ namespace VRDR
             set
             {
                 if(CauseOfDeathConditionC == null)
-                { 
+                {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
                if (CauseOfDeathConditionC.Code != null)
@@ -1825,10 +1825,10 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionC.Code.Text;
                     CauseOfDeathConditionC.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
-                }            
+                }
             }
         }
 
@@ -1854,18 +1854,18 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionD == null)
-                { 
+                {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
                 if (CauseOfDeathConditionD.Code != null)
                 {
                     CauseOfDeathConditionD.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionD.Code = new CodeableConcept();
                     CauseOfDeathConditionD.Code.Text = value;
-                }            
+                }
             }
         }
 
@@ -1891,7 +1891,7 @@ namespace VRDR
             set
             {
                  if (CauseOfDeathConditionD == null)
-                 { 
+                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                  }
                 CauseOfDeathConditionD.Onset = new FhirString(value);
@@ -1931,7 +1931,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionD == null)
-                { 
+                {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
                if (CauseOfDeathConditionD.Code != null)
@@ -1940,7 +1940,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionD.Code.Text;
                     CauseOfDeathConditionD.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
                 }
@@ -1969,14 +1969,14 @@ namespace VRDR
             set
             {
                  if (CauseOfDeathConditionE == null)
-                 { 
+                 {
                     CauseOfDeathConditionE = CauseOfDeathCondition(4);
                  }
                 if (CauseOfDeathConditionE.Code != null)
                 {
                     CauseOfDeathConditionE.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionE.Code = new CodeableConcept();
                     CauseOfDeathConditionE.Code.Text = value;
@@ -2006,7 +2006,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionE == null)
-                 { 
+                 {
                     CauseOfDeathConditionE = CauseOfDeathCondition(4);
                  }
                 CauseOfDeathConditionE.Onset = new FhirString(value);
@@ -2047,7 +2047,7 @@ namespace VRDR
             set
             {
                  if (CauseOfDeathConditionE == null)
-                 { 
+                 {
                     CauseOfDeathConditionE = CauseOfDeathCondition(4);
                  }
                 if (CauseOfDeathConditionE.Code != null)
@@ -2056,7 +2056,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionE.Code.Text;
                     CauseOfDeathConditionE.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
                 }
@@ -2085,14 +2085,14 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionF == null)
-                 { 
+                 {
                     CauseOfDeathConditionF = CauseOfDeathCondition(5);
                  }
                   if (CauseOfDeathConditionF.Code != null)
                 {
                     CauseOfDeathConditionF.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionF.Code = new CodeableConcept();
                     CauseOfDeathConditionF.Code.Text = value;
@@ -2122,7 +2122,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionF == null)
-                 { 
+                 {
                     CauseOfDeathConditionF = CauseOfDeathCondition(5);
                  }
                 CauseOfDeathConditionF.Onset = new FhirString(value);
@@ -2163,7 +2163,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionF == null)
-                 { 
+                 {
                     CauseOfDeathConditionF = CauseOfDeathCondition(5);
                  }
                 if (CauseOfDeathConditionF.Code != null)
@@ -2172,7 +2172,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionF.Code.Text;
                     CauseOfDeathConditionF.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
                 }
@@ -2201,7 +2201,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionG == null)
-                 { 
+                 {
                     CauseOfDeathConditionG = CauseOfDeathCondition(6);
                  }
                 if (CauseOfDeathConditionG.Code != null)
@@ -2238,7 +2238,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionG == null)
-                 { 
+                 {
                     CauseOfDeathConditionG = CauseOfDeathCondition(6);
                  }
                 CauseOfDeathConditionG.Onset = new FhirString(value);
@@ -2279,7 +2279,7 @@ namespace VRDR
             set
             {
                if (CauseOfDeathConditionG == null)
-                { 
+                {
                     CauseOfDeathConditionG = CauseOfDeathCondition(6);
                 }
                 if (CauseOfDeathConditionG.Code != null)
@@ -2288,7 +2288,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionG.Code.Text;
                     CauseOfDeathConditionG.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
                 }
@@ -2317,14 +2317,14 @@ namespace VRDR
             set
             {
                if (CauseOfDeathConditionH == null)
-                 { 
+                 {
                     CauseOfDeathConditionH = CauseOfDeathCondition(7);
                  }
                 if (CauseOfDeathConditionH.Code != null)
                 {
                     CauseOfDeathConditionH.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionH.Code = new CodeableConcept();
                     CauseOfDeathConditionH.Code.Text = value;
@@ -2354,7 +2354,7 @@ namespace VRDR
             set
             {
                if (CauseOfDeathConditionH == null)
-                { 
+                {
                     CauseOfDeathConditionH = CauseOfDeathCondition(7);
                 }
                 CauseOfDeathConditionH.Onset = new FhirString(value);
@@ -2395,7 +2395,7 @@ namespace VRDR
             set
             {
               if (CauseOfDeathConditionH == null)
-                { 
+                {
                     CauseOfDeathConditionH = CauseOfDeathCondition(7);
                 }
                 if (CauseOfDeathConditionH.Code != null)
@@ -2433,14 +2433,14 @@ namespace VRDR
             set
             {
               if (CauseOfDeathConditionI == null)
-                { 
+                {
                     CauseOfDeathConditionI = CauseOfDeathCondition(8);
                 }
                 if (CauseOfDeathConditionI.Code != null)
                 {
                     CauseOfDeathConditionI.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionI.Code = new CodeableConcept();
                     CauseOfDeathConditionI.Code.Text = value;
@@ -2470,7 +2470,7 @@ namespace VRDR
             set
             {
                if (CauseOfDeathConditionI == null)
-                { 
+                {
                     CauseOfDeathConditionI = CauseOfDeathCondition(8);
                 }
                 CauseOfDeathConditionI.Onset = new FhirString(value);
@@ -2511,7 +2511,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionI == null)
-                { 
+                {
                     CauseOfDeathConditionI = CauseOfDeathCondition(8);
                 }
                 if (CauseOfDeathConditionI.Code != null)
@@ -2520,7 +2520,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionI.Code.Text;
                     CauseOfDeathConditionI.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
                 }
@@ -2549,14 +2549,14 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionJ == null)
-                { 
+                {
                     CauseOfDeathConditionJ = CauseOfDeathCondition(9);
                 }
                 if (CauseOfDeathConditionJ.Code != null)
                 {
                     CauseOfDeathConditionJ.Code.Text = value;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionJ.Code = new CodeableConcept();
                     CauseOfDeathConditionJ.Code.Text = value;
@@ -2586,7 +2586,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionJ == null)
-                { 
+                {
                     CauseOfDeathConditionJ = CauseOfDeathCondition(9);
                 }
 
@@ -2628,7 +2628,7 @@ namespace VRDR
             set
             {
                 if (CauseOfDeathConditionJ == null)
-                { 
+                {
                     CauseOfDeathConditionJ = CauseOfDeathCondition(9);
                 }
                if (CauseOfDeathConditionJ.Code != null)
@@ -2637,7 +2637,7 @@ namespace VRDR
                     code.Text = CauseOfDeathConditionJ.Code.Text;
                     CauseOfDeathConditionJ.Code = code;
                 }
-                else 
+                else
                 {
                     CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
                 }
@@ -3008,7 +3008,7 @@ namespace VRDR
         public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
             get
-            {     
+            {
                 if (Decedent.BirthDateElement != null){
                     Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
                     return DatePartsToArray(datePartAbsent);
@@ -3017,15 +3017,15 @@ namespace VRDR
             }
             set
             {
-                if (value != null && value.Length > 0) 
-                {     
+                if (value != null && value.Length > 0)
+                {
                     Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)
                     {
                         if (element != null)
-                        {                        
+                        {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
                             datePartDetails.Value = new FhirString(element.Item2);
@@ -3037,11 +3037,11 @@ namespace VRDR
                         Decedent.BirthDateElement = new Date();
                     }
                     Decedent.BirthDateElement.Extension.Add(datePart);
-                    
+
                 }
 
             }
-                
+
         }
 
         /// <summary>Decedent's Residence.</summary>
@@ -3106,7 +3106,7 @@ namespace VRDR
                     Decedent.Address.Clear();
                     Decedent.Address.Add(DictToAddress(value));
                 }
-                // Now encode - 
+                // Now encode -
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
                 //        Address.City as 5 digit code as per FIPS 55-3, which are included as the preferred alternate code in https://phinvads.cdc.gov/vads/ViewValueSet.action?id=D06EE94C-4D4C-440A-AD2A-1C3CB35E6D08#
@@ -3593,7 +3593,6 @@ namespace VRDR
                 placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
-                UpdatePlaceOfBirthState();
             }
         }
 
@@ -4124,7 +4123,7 @@ namespace VRDR
                 }
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    BirthRecordIdentifier.Value = new FhirString(value);    
+                    BirthRecordIdentifier.Value = new FhirString(value);
                 }
                 else
                 {
@@ -5807,7 +5806,7 @@ namespace VRDR
                 }
 
                 DeathLocationLoc.Name = value;
-                
+
             }
         }
 
@@ -5939,7 +5938,7 @@ namespace VRDR
             }
             set
             {
- 
+
                 if (AgeAtDeathObs == null)
                 {
                     CreateAgeAtDeathObs(); // Create it

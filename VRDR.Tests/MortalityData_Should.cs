@@ -1,4 +1,5 @@
 using Xunit;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -293,9 +294,34 @@ namespace VRDR.Tests
         public void HandleDeathLocationIJE()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
-            DeathRecord dr1 = ije1.ToDeathRecord();
-            IJEMortality ije1rt = new IJEMortality(dr1);
+            DeathRecord dr = ije1.ToDeathRecord();
+            IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
+        }
+        [Fact]
+        public void HandleUnknownBirthRecordId()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/UnknownBirthRecordId.ije")), true);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.Null(dr1.BirthRecordId);
+            IJEMortality ije1rt = new IJEMortality(dr1);
+            Assert.Equal("", ije1rt.BCNO);
+        }
+        [Fact]
+        public void HandleUnknownDOBParts()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DOBDatePartAbsent.ije")), true);
+            Assert.Equal("9999", ije1.DOB_YR);
+            Assert.Equal("01", ije1.DOB_MO);
+            Assert.Equal("01", ije1.DOB_DY);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.True(dr1.DateOfBirthDatePartAbsent != null);
+
+            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "01"), Tuple.Create("date-day", "01")};
+            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
+            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
+            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
+            Assert.Equal("9999-01-01", dr1.DateOfBirth);
         }
 
         private string FixturePath(string filePath)

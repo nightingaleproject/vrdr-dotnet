@@ -22,8 +22,11 @@
         <member name="F:VRDR.CodeSystems.PH_NullFlavor_HL7_V3">
             <summary>PHINVADS Null Flavor.</summary>
         </member>
-        <member name="F:VRDR.CodeSystems.HL7_Data_Absent_Reason">
-            <summary>HL7 Data Absent reason.</summary>
+        <member name="F:VRDR.CodeSystems.NullFlavor_HL7_V3">
+            <summary>HL7 Null Flabor.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.Data_Absent_Reason_HL7_V3">
+            <summary>HL7 Data Absent Reason </summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_PHINVS_CDC">
             <summary>PHINVADS Local Coding System.</summary>

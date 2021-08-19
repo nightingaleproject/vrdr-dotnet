@@ -4102,14 +4102,14 @@ namespace VRDR
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
                     Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
                 }
+
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     BirthRecordIdentifier.Value = new FhirString(value);    
                 }
                 else
                 {
-                    // TODO need to check for an existing data absent reason in the fhir
-                    BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.HL7_Data_Absent_Reason, "unknown", "Unknown", null);
+                    BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
                 }
             }
         }

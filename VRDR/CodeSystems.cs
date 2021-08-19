@@ -18,8 +18,11 @@ namespace VRDR
         /// <summary>PHINVADS Null Flavor.</summary>
         public static string PH_NullFlavor_HL7_V3 = "urn:oid:2.16.840.1.113883.5.1008";
         
-        /// <summary>HL7 Data Absent reason.</summary>
-        public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";     
+        /// <summary>HL7 Null Flabor.</summary>
+        public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+        
+        /// <summary>HL7 Data Absent Reason </summary>
+        public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";     
         
         /// <summary>PHINVADS Local Coding System.</summary>
         public static string PH_PHINVS_CDC = "urn:oid:2.16.840.1.114222.4.5.274";

@@ -1635,11 +1635,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> mserv = new Dictionary<string, string>();
             mserv.Add("code", "Y");
-            mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            mserv.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             mserv.Add("display", "Yes");
             SetterDeathRecord.MilitaryService = mserv;
             Assert.Equal("Y", SetterDeathRecord.MilitaryService["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.MilitaryService["system"]);
             Assert.Equal("Yes", SetterDeathRecord.MilitaryService["display"]);
             Assert.True(SetterDeathRecord.MilitaryServiceBoolean);
         }
@@ -1648,11 +1648,11 @@ namespace VRDR.Tests
         public void Get_MilitaryService()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).MilitaryServiceBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).MilitaryServiceBoolean);
         }
@@ -1936,21 +1936,21 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> api = new Dictionary<string, string>();
             api.Add("code", "Y");
-            api.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            api.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             api.Add("display", "Yes");
             SetterDeathRecord.AutopsyPerformedIndicator = api;
             Assert.Equal("Y", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
             Assert.True(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
             SetterDeathRecord.AutopsyPerformedIndicatorBoolean = false;
             Assert.Equal("N", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("No", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
             Assert.False(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
             SetterDeathRecord.AutopsyPerformedIndicatorBoolean = null;
             Assert.Equal("NA", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("not applicable", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
             Assert.Null(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
         }
@@ -1959,11 +1959,11 @@ namespace VRDR.Tests
         public void Get_AutopsyPerformedIndicator()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicatorBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicatorBoolean);
         }
@@ -1973,21 +1973,21 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ara = new Dictionary<string, string>();
             ara.Add("code", "Y");
-            ara.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            ara.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             ara.Add("display", "Yes");
             SetterDeathRecord.AutopsyResultsAvailable = ara;
             Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
             Assert.True(SetterDeathRecord.AutopsyResultsAvailableBoolean);
             SetterDeathRecord.AutopsyResultsAvailableBoolean = false;
             Assert.Equal("N", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("No", SetterDeathRecord.AutopsyResultsAvailable["display"]);
             Assert.False(SetterDeathRecord.AutopsyResultsAvailableBoolean);
             SetterDeathRecord.AutopsyResultsAvailableBoolean = null;
             Assert.Equal("NA", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("not applicable", SetterDeathRecord.AutopsyResultsAvailable["display"]);
             Assert.Null(SetterDeathRecord.AutopsyResultsAvailableBoolean);
         }
@@ -1996,11 +1996,11 @@ namespace VRDR.Tests
         public void Get_AutopsyResultsAvailable()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).AutopsyResultsAvailableBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).AutopsyResultsAvailableBoolean);
         }
@@ -2026,6 +2026,45 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_AgeAtDeath_Data_Absent()
+        {
+            Dictionary<string, string> aad1 = new Dictionary<string, string>();
+            aad1.Add("unit", "");
+            aad1.Add("value", "");
+            SetterDeathRecord.AgeAtDeath = aad1;
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+
+            Dictionary<string, string> aad2 = new Dictionary<string, string>();
+            aad2.Add("unit", "9");
+            aad2.Add("value", "999");
+            SetterDeathRecord.AgeAtDeath = aad2;
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+
+        }
+
+        [Fact]
+        public void Get_AgeAtDeath_Data_Absent()
+        {
+            DeathRecord json = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            Assert.Equal("", json.AgeAtDeath["unit"]);
+            Assert.Equal("", json.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void AgeAtDeath_RoundTrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("999", ije.AGE);
+            Assert.Equal("9", ije.AGETYPE);
+            DeathRecord dr2 = ije.ToDeathRecord();
+            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["value"]);
+        }
+
+        [Fact]
         public void Set_PregnancyStatus()
         {
             Dictionary<string, string> ps = new Dictionary<string, string>();
@@ -2042,10 +2081,10 @@ namespace VRDR.Tests
         public void Get_PregnancyStatus()
         {
             Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
             Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
             Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
             Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
         }
 
@@ -2129,21 +2168,21 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ec = new Dictionary<string, string>();
             ec.Add("code", "Y");
-            ec.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            ec.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             ec.Add("display", "Yes");
             SetterDeathRecord.ExaminerContacted = ec;
             Assert.Equal("Y", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("Yes", SetterDeathRecord.ExaminerContacted["display"]);
             Assert.True(SetterDeathRecord.ExaminerContactedBoolean);
             SetterDeathRecord.ExaminerContactedBoolean = false;
             Assert.Equal("N", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("No", SetterDeathRecord.ExaminerContacted["display"]);
             Assert.False(SetterDeathRecord.ExaminerContactedBoolean);
             SetterDeathRecord.ExaminerContactedBoolean = null;
             Assert.Equal("UNK", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("unknown", SetterDeathRecord.ExaminerContacted["display"]);
             Assert.Null(SetterDeathRecord.ExaminerContactedBoolean);
         }
@@ -2152,11 +2191,11 @@ namespace VRDR.Tests
         public void Get_ExaminerContacted()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
             Assert.False(((DeathRecord)JSONRecords[0]).ExaminerContactedBoolean);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
             Assert.False(((DeathRecord)XMLRecords[0]).ExaminerContactedBoolean);
         }
@@ -2272,21 +2311,21 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> iaw = new Dictionary<string, string>();
             iaw.Add("code", "N");
-            iaw.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            iaw.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             iaw.Add("display", "No");
             SetterDeathRecord.InjuryAtWork = iaw;
             Assert.Equal("N", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("No", SetterDeathRecord.InjuryAtWork["display"]);
             Assert.False(SetterDeathRecord.InjuryAtWorkBoolean);
             SetterDeathRecord.InjuryAtWorkBoolean = true;
             Assert.Equal("Y", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("Yes", SetterDeathRecord.InjuryAtWork["display"]);
             Assert.True(SetterDeathRecord.InjuryAtWorkBoolean);
             SetterDeathRecord.InjuryAtWorkBoolean = null;
             Assert.Equal("NA", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("not applicable", SetterDeathRecord.InjuryAtWork["display"]);
             Assert.Null(SetterDeathRecord.InjuryAtWorkBoolean);
         }
@@ -2295,11 +2334,11 @@ namespace VRDR.Tests
         public void Get_InjuryAtWork()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
             Assert.False(((DeathRecord)JSONRecords[0]).InjuryAtWorkBoolean);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
             Assert.False(((DeathRecord)XMLRecords[0]).InjuryAtWorkBoolean);
         }
@@ -2309,21 +2348,21 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ite = new Dictionary<string, string>();
             ite.Add("code", "Y");
-            ite.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+            ite.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             ite.Add("display", "Yes");
             SetterDeathRecord.TransportationEvent = ite;
             Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
             Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
             Assert.True(SetterDeathRecord.TransportationEventBoolean);
             SetterDeathRecord.TransportationEventBoolean = false;
             Assert.Equal("N", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
             Assert.Equal("No", SetterDeathRecord.TransportationEvent["display"]);
             Assert.False(SetterDeathRecord.TransportationEventBoolean);
             SetterDeathRecord.TransportationEventBoolean = null;
             Assert.Equal("UNK", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-NullFlavor", SetterDeathRecord.TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.TransportationEvent["system"]);
             Assert.Equal("unknown", SetterDeathRecord.TransportationEvent["display"]);
             Assert.Null(SetterDeathRecord.TransportationEventBoolean);
         }
@@ -2332,11 +2371,11 @@ namespace VRDR.Tests
         public void Get_TransportationEvent()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v2-0136", ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
         }

@@ -2972,6 +2972,55 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
+        /// <value>the decedent's date of birth date part absent reason</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfBirthDatePartReason = "1940-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
+        /// </example>
+        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)._birthDate.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_birthDate")]
+        public Tuple<string,string>[] DateOfBirthDatePartAbsent
+        {
+            get
+            {     
+                if (Decedent.BirthDateElement != null){
+                    Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
+                    return DatePartsToArray(datePartAbsent);
+                }
+                return null;
+            }
+            set
+            {
+                if (value != null && value.Length > 0) 
+                {     
+                    Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
+                    Extension datePart = new Extension();
+                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
+                    foreach (Tuple<string, string> element in value)
+                    {
+                        if (element != null)
+                        {                        
+                            Extension datePartDetails = new Extension();
+                            datePartDetails.Url = element.Item1;
+                            datePartDetails.Value = new FhirString(element.Item2);
+                            datePart.Extension.Add(datePartDetails);
+                        }
+
+                    }
+                    if (Decedent.BirthDateElement == null){
+                        Decedent.BirthDateElement = new Date();
+                    }
+                    Decedent.BirthDateElement.Extension.Add(datePart);
+                    
+                }
+
+            }
+                
+        }
+
         /// <summary>Decedent's Residence.</summary>
         /// <value>Decedent's Residence. A Dictionary representing residence address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
@@ -4050,13 +4099,17 @@ namespace VRDR
                     BirthRecordIdentifier.Status = ObservationStatus.Final;
                     BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
                     BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    BirthRecordIdentifier.Value = new FhirString(value);
                     AddReferenceToComposition(BirthRecordIdentifier.Id);
                     Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
                 }
+
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    BirthRecordIdentifier.Value = new FhirString(value);    
+                }
                 else
                 {
-                    BirthRecordIdentifier.Value = new FhirString(value);
+                    BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
                 }
             }
         }
@@ -7300,6 +7353,51 @@ namespace VRDR
                 }
             }
             return address;
+        }
+
+        /// <summary>Convert a Date Part Extension to an Array.</summary>
+        /// <param name="datePartAbsent">a Date Part Extension.</param>
+        /// <returns>the corresponding array representation of the date parts.</returns>
+        private Tuple<string, string>[] DatePartsToArray(Extension datePartAbsent)
+        {
+            List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+            if (datePartAbsent != null)
+            {
+                Extension yearAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "year-absent-reason").FirstOrDefault();
+                Extension monthAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "month-absent-reason").FirstOrDefault();
+                Extension dayAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "day-absent-reason").FirstOrDefault();
+                Extension yearPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-year").FirstOrDefault();
+                Extension monthPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-month").FirstOrDefault();
+                Extension dayPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-day").FirstOrDefault();
+                // Year part
+                if (yearAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
+                }
+                if (yearPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
+                }
+                // Month part
+                if (monthAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
+                }
+                if (monthPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
+                }
+                // Day Part
+                if (dayAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
+                }
+                if (dayPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
+                }
+            }
+            return dateParts.ToArray();
         }
 
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>

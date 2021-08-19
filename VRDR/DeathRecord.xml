@@ -23,7 +23,10 @@
             <summary>PHINVADS Null Flavor.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.NullFlavor_HL7_V3">
-            <summary>HL7 Data Absent reason.</summary>
+            <summary>HL7 Null Flabor.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.Data_Absent_Reason_HL7_V3">
+            <summary>HL7 Data Absent Reason </summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_PHINVS_CDC">
             <summary>PHINVADS Local Coding System.</summary>
@@ -1036,6 +1039,16 @@
             <para>ExampleDeathRecord.DateOfBirth = "1940-02-19";</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.DateOfBirthDatePartAbsent">
+            <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
+            <value>the decedent's date of birth date part absent reason</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfBirthDatePartReason = "1940-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.Residence">
@@ -2086,6 +2099,11 @@
             <param name="dict">represents an address.</param>
             <returns>the corresponding FHIR Address representation of the address.</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.DatePartsToArray(Hl7.Fhir.Model.Extension)">
+            <summary>Convert a Date Part Extension to an Array.</summary>
+            <param name="datePartAbsent">a Date Part Extension.</param>
+            <returns>the corresponding array representation of the date parts.</returns>
+        </member>
         <member name="M:VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
             <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
             <param name="addr">a FHIR Address.</param>
@@ -2300,6 +2318,9 @@
         </member>
         <member name="M:VRDR.IJEMortality.DateTime_Get(System.String,System.String,System.String)">
             <summary>Get a value on the DeathRecord whose type is some part of a DateTime.</summary>
+        </member>
+        <member name="M:VRDR.IJEMortality.BirthDate_Part_Absent_Get(System.String,System.String,System.String)">
+            <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
         </member>
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>

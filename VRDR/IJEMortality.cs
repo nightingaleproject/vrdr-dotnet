@@ -286,6 +286,27 @@ namespace VRDR
             }
         }
 
+        /// <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
+        private string BirthDate_Part_Absent_Get(string ijeFieldName, string dateType, string dateAbsentType)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Tuple<string, string>[] dpa = this.record?.DateOfBirthDatePartAbsent;
+            if (dpa != null) {
+                List<Tuple<string, string>> dateParts = dpa.ToList();
+                Tuple<string, string> datePart = dateParts.Find(x => x.Item1 == dateType);
+                if (datePart != null){
+                    return datePart.Item2.PadLeft(info.Length, '0');
+                }
+                Tuple<string, string> datePartAbsent = dateParts.Find(x => x.Item1 == dateAbsentType);
+                if (datePartAbsent != null){
+                    return string.Concat(Enumerable.Repeat("9", info.Length));
+                }
+            }
+
+            return ""; 
+        }
+
+
         /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value, bool dateOnly = false, bool withTimezoneOffset = false)
         {
@@ -1091,14 +1112,21 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
+                String year = DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
+                if (!String.IsNullOrWhiteSpace(year)){
+                    return year;
+                }
+                return BirthDate_Part_Absent_Get("DOB_YR", "date-year", "year-absent-reason");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value)) 
                 {
+                    // we will still set this for now so we can reference the value to
+                    // populate the Date Part Absent field
+                    // In FHIR we will just ignore this
                     DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value, true);
-                }
+                } 
             }
         }
 
@@ -1108,7 +1136,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOB_MO", "MM", "DateOfBirth");
+                String month = DateTime_Get("DOB_MO", "MM", "DateOfBirth");   
+                if (!String.IsNullOrWhiteSpace(month)){
+                    return month;
+                }
+                return BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason"); 
             }
             set
             {
@@ -1125,13 +1157,60 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
+                String day = DateTime_Get("DOB_DY", "dd", "DateOfBirth");
+                if (!String.IsNullOrWhiteSpace(day)){
+                    return day;
+                }
+                return BirthDate_Part_Absent_Get("DOB_DY", "date-day", "day-absent-reason");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
+                }
+                
+                // Populate the date absent parts if any of the date parts are unknown
+                // Doing all three parts at once in the last date part field 
+                // because the other fields hadn't populated the Date Part field yet
+                // and only one would ever get added to the record
+                if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99"))
+                {
+                    List<Tuple<string, string>> dateParts = record.DateOfBirthDatePartAbsent.ToList();
+                    switch (value)
+                    {
+                        case "99":
+                            dateParts.Add(Tuple.Create("day-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-day");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-day", value));
+                            dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
+                            break;
+                    }
+                    switch (DOB_MO)
+                    {
+                        case "99":
+                            dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-month");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-month", DOB_MO));
+                            dateParts.RemoveAll(x => x.Item1 == "month-absent-reason");
+                            break;
+                    }
+                    switch (DOB_YR)
+                    {
+                        case "9999":
+                            dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-year");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-year", DOB_YR));
+                            dateParts.RemoveAll(x => x.Item1 == "year-absent-reason");
+                            break;
+                    }
+                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                 }
             }
         }
@@ -2458,10 +2537,9 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
-                }
+                // if value is null, the library will add the data absent reason
+                RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
+
             }
         }
 

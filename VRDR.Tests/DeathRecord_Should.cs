@@ -1237,6 +1237,37 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_BirthDate_Partial_Date()
+        {
+            Tuple<string, string>[] datePart = { Tuple.Create("date-year", "1950"), Tuple.Create("month-absent-reason", "asked-unknown"), Tuple.Create("day-absent-reason", "asked-unknown")};
+            SetterDeathRecord.DateOfBirthDatePartAbsent = datePart;
+            Assert.Equal(datePart[0], SetterDeathRecord.DateOfBirthDatePartAbsent[0]);
+            Assert.Equal(datePart[1], SetterDeathRecord.DateOfBirthDatePartAbsent[1]);
+            Assert.Equal(datePart[2], SetterDeathRecord.DateOfBirthDatePartAbsent[2]);
+        }
+
+        [Fact]
+        public void Get_BirthDate_Partial_Date()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthDateDataAbsent.json")));
+            Assert.Equal(Tuple.Create("year-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[0]));
+            Assert.Equal(Tuple.Create("date-month", "2"), (dr.DateOfBirthDatePartAbsent[1]));
+            Assert.Equal(Tuple.Create("date-day", "24"), (dr.DateOfBirthDatePartAbsent[2]));
+
+        }
+
+
+        [Fact]
+        public void Get_BirthDate_Partial_Date_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthDateDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("9999", ije1.DOB_YR);
+            Assert.Equal("02", ije1.DOB_MO);
+            Assert.Equal("24", ije1.DOB_DY);
+        }
+
+        [Fact]
         public void Set_Race()
         {
             SetterDeathRecord.RaceText = "White";
@@ -1499,6 +1530,30 @@ namespace VRDR.Tests
         {
             Assert.Equal("4242123", ((DeathRecord)JSONRecords[0]).BirthRecordId);
             Assert.Equal("4242123", ((DeathRecord)XMLRecords[0]).BirthRecordId);
+        }
+
+        [Fact]
+        public void Set_BirthRecord_Absent()
+        {
+            SetterDeathRecord.BirthRecordId = "";
+            Assert.Null(SetterDeathRecord.BirthRecordId);
+        }
+
+        [Fact]
+        public void Get_BirthRecord_Absent()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
+            Assert.Null(dr.BirthRecordId);
+        }
+
+        [Fact]
+        public void Get_BirthRecord_Absent_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("", ije1.BCNO);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Null(dr.BirthRecordId);
         }
 
         [Fact]

@@ -22,7 +22,7 @@ namespace VRDR
         public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
         
         /// <summary>HL7 Data Absent reason.</summary>
-        public static string HL7_Data_Absent_Reason = "http://terminology.hl7.org/CodeSystem/data-absent-reason";     
+        public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";     
         
         /// <summary>PHINVADS Local Coding System.</summary>
         public static string PH_PHINVS_CDC = "urn:oid:2.16.840.1.114222.4.5.274";
@@ -37,6 +37,7 @@ namespace VRDR
         public static string PH_Country_GEC = "2.16.840.1.113883.13.250";
         /// <summary>PHINVADS Place of Occurrence.</summary>
         public static string PH_PlaceOfOccurrence_ICD_10_WHO = "urn:oid:2.16.840.1.114222.4.5.320";
+
         /// <summary>PHINVADS SNOMED.</summary>
         public static string PH_SNOMED_CT = "urn:oid:2.16.840.1.113883.6.96";
         /// <summary>PHINVADS Marital Satus.</summary>

@@ -1971,6 +1971,45 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_AgeAtDeath_Data_Absent()
+        {
+            Dictionary<string, string> aad1 = new Dictionary<string, string>();
+            aad1.Add("unit", "");
+            aad1.Add("value", "");
+            SetterDeathRecord.AgeAtDeath = aad1;
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+
+            Dictionary<string, string> aad2 = new Dictionary<string, string>();
+            aad2.Add("unit", "9");
+            aad2.Add("value", "999");
+            SetterDeathRecord.AgeAtDeath = aad2;
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+
+        }
+
+        [Fact]
+        public void Get_AgeAtDeath_Data_Absent()
+        {
+            DeathRecord json = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            Assert.Equal("", json.AgeAtDeath["unit"]);
+            Assert.Equal("", json.AgeAtDeath["value"]);
+        }
+
+        [Fact]
+        public void AgeAtDeath_RoundTrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("999", ije.AGE);
+            Assert.Equal("9", ije.AGETYPE);
+            DeathRecord dr2 = ije.ToDeathRecord();
+            Assert.Equal("", dr2.AgeAtDeath["unit"]);
+            Assert.Equal("", dr2.AgeAtDeath["value"]);
+        }
+
+        [Fact]
         public void Set_PregnancyStatus()
         {
             Dictionary<string, string> ps = new Dictionary<string, string>();

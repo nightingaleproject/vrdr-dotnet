@@ -2972,44 +2972,7 @@ namespace VRDR
             {     
                 if (Decedent.BirthDateElement != null){
                     Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-                    if (datePartAbsent != null)
-                    {
-                        Extension yearAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "year-absent-reason").FirstOrDefault();
-                        Extension monthAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "month-absent-reason").FirstOrDefault();
-                        Extension dayAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "day-absent-reason").FirstOrDefault();
-                        Extension yearPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-year").FirstOrDefault();
-                        Extension monthPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-month").FirstOrDefault();
-                        Extension dayPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-day").FirstOrDefault();
-                        // Year part
-                        if (yearAbsentPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString())); // TODO change this to the code system value?
-                        }
-                        if (yearPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
-                        }
-                        // Month part
-                        if (monthAbsentPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
-                        }
-                        if (monthPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
-                        }
-                        // Day Part
-                        if (dayAbsentPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
-                        }
-                        if (dayPart != null)
-                        {
-                            dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
-                        }
-                    }
-                    return dateParts.ToArray();
+                    return DatePartsToArray(datePartAbsent);
                 }
                 return null;
             }
@@ -7380,6 +7343,51 @@ namespace VRDR
                 }
             }
             return address;
+        }
+
+        /// <summary>Convert a Date Part Extension to an Array.</summary>
+        /// <param name="datePartAbsent">a Date Part Extension.</param>
+        /// <returns>the corresponding array representation of the date parts.</returns>
+        private Tuple<string, string>[] DatePartsToArray(Extension datePartAbsent)
+        {
+            List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+            if (datePartAbsent != null)
+            {
+                Extension yearAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "year-absent-reason").FirstOrDefault();
+                Extension monthAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "month-absent-reason").FirstOrDefault();
+                Extension dayAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "day-absent-reason").FirstOrDefault();
+                Extension yearPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-year").FirstOrDefault();
+                Extension monthPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-month").FirstOrDefault();
+                Extension dayPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-day").FirstOrDefault();
+                // Year part
+                if (yearAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
+                }
+                if (yearPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
+                }
+                // Month part
+                if (monthAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
+                }
+                if (monthPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
+                }
+                // Day Part
+                if (dayAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
+                }
+                if (dayPart != null)
+                {
+                    dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
+                }
+            }
+            return dateParts.ToArray();
         }
 
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>

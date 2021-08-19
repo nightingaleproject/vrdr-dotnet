@@ -290,7 +290,7 @@ namespace VRDR
         private string BirthDate_Part_Absent_Get(string ijeFieldName, string dateType, string dateAbsentType)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            Tuple<string, string>[] dpa = this.record == null ? null : record.DateOfBirthDatePartAbsent;
+            Tuple<string, string>[] dpa = this.record?.DateOfBirthDatePartAbsent;
             if (dpa != null) {
                 List<Tuple<string, string>> dateParts = dpa.ToList();
                 Tuple<string, string> datePart = dateParts.Find(x => x.Item1 == dateType);

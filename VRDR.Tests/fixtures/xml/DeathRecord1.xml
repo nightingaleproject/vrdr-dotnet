@@ -254,7 +254,7 @@
         <address>
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator">
             <valueCoding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="urn:oid:2.16.840.1.113883.12.136" />
               <code value="N" />
               <display value="No" />
             </valueCoding>
@@ -924,7 +924,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="urn:oid:2.16.840.1.113883.12.136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -990,7 +990,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="urn:oid:2.16.840.1.113883.12.136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1005,7 +1005,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="urn:oid:2.16.840.1.113883.12.136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -1061,7 +1061,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
+            <system value="urn:oid:2.16.840.1.113883.5.1008" />
             <code value="NA" />
             <display value="not applicable" />
           </coding>
@@ -1119,7 +1119,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <system value="urn:oid:2.16.840.1.113883.12.136" />
             <code value="N" />
             <display value="No" />
           </coding>
@@ -1208,7 +1208,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="urn:oid:2.16.840.1.113883.12.136" />
               <code value="N" />
               <display value="No" />
             </coding>
@@ -1224,7 +1224,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <system value="urn:oid:2.16.840.1.113883.12.136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>

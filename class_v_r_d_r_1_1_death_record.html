@@ -455,6 +455,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ac1c9ca35e9c6598701ca902c5ae654bf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ac1c9ca35e9c6598701ca902c5ae654bf">DateOfDeath</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ac1c9ca35e9c6598701ca902c5ae654bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decedent's Date/Time of Death.  <a href="class_v_r_d_r_1_1_death_record.html#ac1c9ca35e9c6598701ca902c5ae654bf">More...</a><br /></td></tr>
 <tr class="separator:ac1c9ca35e9c6598701ca902c5ae654bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f86ea2cf2cc4cf856bf296c32d60270"><td class="memItemLeft" align="right" valign="top">Tuple&lt; string, string &gt;[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a3f86ea2cf2cc4cf856bf296c32d60270">DateOfDeathDatePartAbsent</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a3f86ea2cf2cc4cf856bf296c32d60270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decedent's Date of Death Date Part Absent Extension.  <a href="class_v_r_d_r_1_1_death_record.html#a3f86ea2cf2cc4cf856bf296c32d60270">More...</a><br /></td></tr>
+<tr class="separator:a3f86ea2cf2cc4cf856bf296c32d60270"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0ee24f4b3702228d114e43ef1dd912c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ae0ee24f4b3702228d114e43ef1dd912c">DateOfDeathPronouncement</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ae0ee24f4b3702228d114e43ef1dd912c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decedent's Date/Time of Death Pronouncement.  <a href="class_v_r_d_r_1_1_death_record.html#ae0ee24f4b3702228d114e43ef1dd912c">More...</a><br /></td></tr>
 <tr class="separator:ae0ee24f4b3702228d114e43ef1dd912c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2499,6 +2502,35 @@ Properties</h2></td></tr>
 <p>ExampleDeathRecord.DateOfDeath = "2018-02-19T16:48:06-05:00";</p>
 <p>// Getter:</p>
 <p>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</p>
+
+</div>
+</div>
+<a id="a3f86ea2cf2cc4cf856bf296c32d60270"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f86ea2cf2cc4cf856bf296c32d60270">&#9670;&nbsp;</a></span>DateOfDeathDatePartAbsent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Tuple&lt;string,string&gt; [] VRDR.DeathRecord.DateOfDeathDatePartAbsent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decedent's Date of Death Date Part Absent Extension. </p>
+<p>the decedent's date of death date part absent reason</p>
+<p>// Setter:</p>
+<p>ExampleDeathRecord.DateOfDeathDatePartReason = "2021-02-19";</p>
+<p>// Getter:</p>
+<p>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</p>
 
 </div>
 </div>

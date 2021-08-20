@@ -1621,7 +1621,27 @@
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
           }
         ],
-        "valueDateTime": "2018-02-19T16:48:06-05:00",
+        "_valueDateTime": {
+          "extension": [
+            {
+              "url":"http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason",
+              "extension" : [
+                {
+                  "url" : "date-year",
+                  "valueInteger" : 2021
+                },
+                {
+                  "url" : "date-month",
+                  "valueInteger" : 2
+                },
+                {
+                  "url" : "day-absent-reason",
+                  "valueCode" : "asked-unknown"
+                }
+              ]
+            }
+          ]
+        },
         "component": [
           {
             "code": {

@@ -1701,6 +1701,16 @@
             <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DateOfDeathDatePartAbsent">
+            <summary>Decedent's Date of Death Date Part Absent Extension.</summary>
+            <value>the decedent's date of death date part absent reason</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DateOfDeathDatePartReason = "2021-02-19";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.DateOfDeathPronouncement">
             <summary>Decedent's Date/Time of Death Pronouncement.</summary>
             <value>the decedent's date and time of death pronouncement</value>
@@ -2321,6 +2331,9 @@
         </member>
         <member name="M:VRDR.IJEMortality.BirthDate_Part_Absent_Get(System.String,System.String,System.String)">
             <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
+        </member>
+        <member name="M:VRDR.IJEMortality.DeathDate_Part_Absent_Get(System.String,System.String,System.String)">
+            <summary>Get the date part value from DateOfDeathDatePartAbsent if it's populated</summary>
         </member>
         <member name="M:VRDR.IJEMortality.DateTime_Set(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>

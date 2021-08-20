@@ -181,6 +181,19 @@ namespace VRDR
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
 
+        private void CreateDeathDateObs() {
+            DeathDateObs = new Observation();
+            DeathDateObs.Id = Guid.NewGuid().ToString();
+            DeathDateObs.Meta = new Meta();
+            string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+            DeathDateObs.Meta.Profile = deathdate_profile;
+            DeathDateObs.Status = ObservationStatus.Final;
+            DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
+            DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(DeathDateObs.Id);
+            Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
+        }
+
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
 
@@ -5469,29 +5482,79 @@ namespace VRDR
             {
                 if (DeathDateObs == null)
                 {
-                    DeathDateObs = new Observation();
-                    DeathDateObs.Id = Guid.NewGuid().ToString();
-                    DeathDateObs.Meta = new Meta();
-                    string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
-                    DeathDateObs.Meta.Profile = deathdate_profile;
-                    DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
-                    DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateDeathDateObs();
                     if (Pronouncer != null)
                     {
                         DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Pronouncer.Id));
                     }
-                    DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathDateObs.Id);
-                    Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
                 }
-                else
-                {
-                    DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
-                }
+                
+                DeathDateObs.Value = new FhirDateTime(value);
+                DeathDateObs.Effective = new FhirDateTime(value);
+
                 UpdateBundleIdentifier();
             }
+        }
+
+        /// <summary>Decedent's Date of Death Date Part Absent Extension.</summary>
+        /// <value>the decedent's date of death date part absent reason</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfDeathDatePartReason = "2021-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
+        /// </example>
+        [Property("Date Of Death Date Part Absent", Property.Types.TupleArr, "Death Investigation", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')._valueDateTime.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_valueDateTime")]
+        public Tuple<string,string>[] DateOfDeathDatePartAbsent
+        {
+            get
+            {     
+                if (DeathDateObs != null && DeathDateObs.Value != null){
+                    Extension datePartAbsent = DeathDateObs.Value.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
+                    return DatePartsToArray(datePartAbsent);
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
+                if (value != null && value.Length > 0) 
+                {     
+                    if (DeathDateObs.Value != null)
+                    {
+                        DeathDateObs.Value.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");           
+                    }
+                    Extension datePart = new Extension();
+                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
+                    foreach (Tuple<string, string> element in value)
+                    {
+                        if (element != null)
+                        {                        
+                            Extension datePartDetails = new Extension();
+                            datePartDetails.Url = element.Item1;
+                            datePartDetails.Value = new FhirString(element.Item2);
+                            datePart.Extension.Add(datePartDetails);
+                        }
+
+                    }
+                    if (DeathDateObs.Value == null){
+                        DeathDateObs.Value = new FhirDateTime();
+                    }
+                    DeathDateObs.Value.Extension.Add(datePart);
+                    // set effective date to some arbitrary date since it is a required field
+                    // TODO the IG should be updated to put the extension on the Effective Date instead of value
+                    // since effective date is the required field
+                    DeathDateObs.Effective = new FhirDateTime("2021-01-01T00:00:00-00:00");
+                    
+                }
+
+            }
+                
         }
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
@@ -5522,21 +5585,12 @@ namespace VRDR
             {
                 if (DeathDateObs == null)
                 {
-                    DeathDateObs = new Observation();
-                    DeathDateObs.Id = Guid.NewGuid().ToString();
-                    DeathDateObs.Meta = new Meta();
-                    string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
-                    DeathDateObs.Meta.Profile = deathdate_profile;
-                    DeathDateObs.Status = ObservationStatus.Final;
-                    DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
-                    DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateDeathDateObs();
                     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
-                    AddReferenceToComposition(DeathDateObs.Id);
-                    Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
                 }
                 else
                 {

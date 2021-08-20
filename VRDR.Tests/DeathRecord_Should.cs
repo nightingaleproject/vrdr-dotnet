@@ -2477,6 +2477,18 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_DateOfDeath_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("2018", ije1.DOD_YR);
+            Assert.Equal("02", ije1.DOD_MO);
+            Assert.Equal("19", ije1.DOD_DY);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-19T16:48:06-05:00", dr2.DateOfDeath);
+        }
+
+        [Fact]
         public void Set_DateOfDeath_Partial_Date()
         {
             Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};

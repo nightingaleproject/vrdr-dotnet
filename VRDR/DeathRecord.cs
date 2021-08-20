@@ -5483,7 +5483,10 @@ namespace VRDR
                     }
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                 }
-                DeathDateObs.Value = DeathDateObs.Effective = new FhirDateTime(value);
+                
+                DeathDateObs.Value = new FhirDateTime(value);
+                DeathDateObs.Effective = new FhirDateTime(value);
+
                 UpdateBundleIdentifier();
             }
         }
@@ -5537,6 +5540,10 @@ namespace VRDR
                         DeathDateObs.Value = new FhirDateTime();
                     }
                     DeathDateObs.Value.Extension.Add(datePart);
+                    // set effective date to some arbitrary date since it is a required field
+                    // TODO the IG should be updated to put the extension on the Effective Date instead of value
+                    // since effective date is the required field
+                    DeathDateObs.Effective = new FhirDateTime("2021-01-01T00:00:00-00:00");
                     
                 }
 

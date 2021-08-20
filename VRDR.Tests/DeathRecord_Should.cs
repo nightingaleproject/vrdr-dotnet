@@ -310,15 +310,7 @@ namespace VRDR.Tests
             Assert.Equal("2019XX000000", empty.BundleIdentifier);
             empty.Identifier = "101";
             Assert.Equal("2019XX000101", empty.BundleIdentifier);
-            Dictionary<string, string> dtladdress = new Dictionary<string, string>();
-            dtladdress.Add("addressLine1", "671 Example Street");
-            dtladdress.Add("addressLine2", "Line 2");
-            dtladdress.Add("addressCity", "Bedford");
-            dtladdress.Add("addressCounty", "Middlesex");
-            dtladdress.Add("addressState", "MA");
-            dtladdress.Add("addressZip", "01730");
-            dtladdress.Add("addressCountry", "United States");
-            empty.DeathLocationAddress = dtladdress;
+            empty.DeathLocationJurisdiction = "MA";  // 25 is the code for MA
             Assert.Equal("2019MA000101", empty.BundleIdentifier);
         }
 
@@ -1560,13 +1552,17 @@ namespace VRDR.Tests
         public void Set_BirthRecordState()
         {
             Dictionary<string, string> brs = new Dictionary<string, string>();
-            brs.Add("code", "MA");
-            brs.Add("system", "urn:iso:std:iso:3166:-2");
-            brs.Add("display", "Massachusetts");
+            Dictionary<string, string> iladdress = new Dictionary<string, string>();
+            brs.Add("code", "US-MA");
             SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]);
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.BirthRecordState["display"]);
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
+            brs["code"]="MA";
+            SetterDeathRecord.BirthRecordState = brs;
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]); 
+            Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
         }
 
         [Fact]

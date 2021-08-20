@@ -2932,6 +2932,9 @@
         <member name="M:VRDR.MortalityData.DictValueFinderHelper``1(``0,System.String)">
             <summary>Given a key in a (string, string) object, return the first matching value.</summary>
         </member>
+        <member name="F:VRDR.MortalityData.CountyCodes">
+            <summary>County Codes</summary>
+        </member>
         <member name="F:VRDR.MortalityData.JurisdictionCodes">
             <summary>Jurisdiction Codes</summary>
         </member>

@@ -531,6 +531,7 @@ namespace VRDR
                         dictionary.TryGetValue(keyPrefix + "State", out state);
                         if (!String.IsNullOrWhiteSpace(state))
                         {
+                            // uses the combined state+county 5 digit code to look up the county name in FIPS 6-4
                             string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
                             if (!String.IsNullOrWhiteSpace(county))
                             {

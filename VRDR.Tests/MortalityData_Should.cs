@@ -324,6 +324,30 @@ namespace VRDR.Tests
             Assert.Equal("9999-01-01", dr1.DateOfBirth);
         }
 
+        [Fact]
+        public void HandleUnknownCODandCOUNTYC()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCUnknown.ije")), true);
+            Assert.Equal("999", ije1.COD);
+            Assert.Equal("999", ije1.COUNTYC);
+    
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.Equal("UNK", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("UNK", dr1.Residence["addressCounty"]);
+        }
+
+        [Fact]
+        public void HandleOtherCODandCOUNTYC()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCOther.ije")), true);
+            Assert.Equal("000", ije1.COD);
+            Assert.Equal("000", ije1.COUNTYC);
+    
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.Equal("OTH", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("OTH", dr1.Residence["addressCounty"]);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

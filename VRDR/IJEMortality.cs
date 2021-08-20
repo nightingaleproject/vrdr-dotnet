@@ -459,11 +459,25 @@ namespace VRDR
                 }
                 else if (geoType == "county")
                 {
-                    string state = null;
-                    dictionary.TryGetValue(keyPrefix + "State", out state);
-                    if (state != null)
+                    // check for unknown or other values
+                    string county = null;
+                    dictionary.TryGetValue(keyPrefix + "County", out county);
+                    if (county == "UNK")
                     {
-                        current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                        current = "999";
+                    } 
+                    else if (county == "OTH")
+                    {
+                        current = "000";
+                    } 
+                    else{
+                        string state = null;
+                        dictionary.TryGetValue(keyPrefix + "State", out state);
+
+                        if (state != null)
+                        {
+                            current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                        }
                     }
                 }
                 else if (geoType == "state")
@@ -527,14 +541,26 @@ namespace VRDR
                     }
                     else if (geoType == "county") // This is a tricky case, we need to know about state!
                     {
-                        string state = null;
-                        dictionary.TryGetValue(keyPrefix + "State", out state);
-                        if (!String.IsNullOrWhiteSpace(state))
+                        // Handle unknown
+                        if (value == "999")
                         {
-                            string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
-                            if (!String.IsNullOrWhiteSpace(county))
+                            dictionary[key] = "UNK";
+                        } 
+                        else if (value == "000")
+                        {
+                            dictionary[key] = "OTH";
+                        }
+                        else
+                        {
+                            string state = null;
+                            dictionary.TryGetValue(keyPrefix + "State", out state);
+                            if (!String.IsNullOrWhiteSpace(state))
                             {
-                                dictionary[key] = county;
+                                string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
+                                if (!String.IsNullOrWhiteSpace(county))
+                                {
+                                    dictionary[key] = county;
+                                }
                             }
                         }
                     }

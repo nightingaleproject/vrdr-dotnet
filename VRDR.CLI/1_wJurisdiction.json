@@ -264,7 +264,7 @@
               "district": "Middlesex",
               "state": "MA",
               "postalCode": "01730",
-              "country": "United States"
+              "country": "US"
             }
           }
         ],
@@ -1040,7 +1040,7 @@
                 {
                   "system": "urn:iso:std:iso:3166:-2",
                   "code": "US-MA",
-                  "display": "Massachusetts"
+                  "display": "US-MA"
                 }
               ]
             }
@@ -1429,7 +1429,7 @@
           "district": "Middlesex",
           "state": "MA",
           "postalCode": "01730",
-          "country": "United States"
+          "country": "US"
         }
       }
     },
@@ -1526,7 +1526,7 @@
         },
         "extension": [
           {
-            "url": "jurisdictionID",
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
             "valueCodeableConcept": {
               "coding": [ {
                 "system": "urn:oid:2.16.840.1.113883.6.92",

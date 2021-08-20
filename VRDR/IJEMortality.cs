@@ -306,6 +306,26 @@ namespace VRDR
             return ""; 
         }
 
+        /// <summary>Get the date part value from DateOfDeathDatePartAbsent if it's populated</summary>
+        private string DeathDate_Part_Absent_Get(string ijeFieldName, string dateType, string dateAbsentType)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            Tuple<string, string>[] dpa = this.record?.DateOfDeathDatePartAbsent;
+            if (dpa != null) {
+                List<Tuple<string, string>> dateParts = dpa.ToList();
+                Tuple<string, string> datePart = dateParts.Find(x => x.Item1 == dateType);
+                if (datePart != null){
+                    return datePart.Item2.PadLeft(info.Length, '0');
+                }
+                Tuple<string, string> datePartAbsent = dateParts.Find(x => x.Item1 == dateAbsentType);
+                if (datePartAbsent != null){
+                    return string.Concat(Enumerable.Repeat("9", info.Length));
+                }
+            }
+
+            return ""; 
+        }
+
 
         /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value, bool dateOnly = false, bool withTimezoneOffset = false)
@@ -744,14 +764,18 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
+                String year = DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
+                if (!String.IsNullOrWhiteSpace(year)){
+                    return year;
+                }
+                return DeathDate_Part_Absent_Get("DOD_YR", "date-year", "year-absent-reason");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value)) 
                 {
                     DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value, false, true);
-                }
+                } 
             }
         }
 
@@ -1248,7 +1272,7 @@ namespace VRDR
             get
             {
                 return Dictionary_Geo_Get("BPLACE_CNT", "PlaceOfBirth", "address", "country", true);
-            }
+               }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
@@ -1329,13 +1353,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", true);
+                return Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", true); // NVSS-234 -- use 2 letter encoding for country, so no translation.
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value);
+                    Dictionary_Geo_Set("COUNTRYC", "Residence", "address", "country", true, value); // NVSS-234 -- use 2 letter encoding for country, so no translation.
                 }
             }
         }
@@ -1631,14 +1655,18 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
+                String month = DateTime_Get("DOD_MO", "MM", "DateOfDeath");
+                if (!String.IsNullOrWhiteSpace(month)){
+                    return month;
+                }
+                return DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value)) 
                 {
                     DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
-                }
+                } 
             }
         }
 
@@ -1648,13 +1676,60 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
+                String day = DateTime_Get("DOD_DY", "dd", "DateOfDeath");
+                if (!String.IsNullOrWhiteSpace(day)){
+                    return day;
+                }
+                return DeathDate_Part_Absent_Get("DOD_DY", "date-day", "day-absent-reason");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
+                }
+                
+                // Populate the date absent parts if any of the date parts are unknown
+                // Doing all three parts at once in the last date part field 
+                // because the other fields hadn't populated the Date Part field yet
+                // and only one would ever get added to the record
+                if (String.Equals(DOD_YR, "9999") || String.Equals(DOD_MO, "99") || String.Equals(value, "99"))
+                {
+                    List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
+                    switch (value)
+                    {
+                        case "99":
+                            dateParts.Add(Tuple.Create("day-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-day");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-day", value));
+                            dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
+                            break;
+                    }
+                    switch (DOB_MO)
+                    {
+                        case "99":
+                            dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-month");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-month", DOB_MO));
+                            dateParts.RemoveAll(x => x.Item1 == "month-absent-reason");
+                            break;
+                    }
+                    switch (DOB_YR)
+                    {
+                        case "9999":
+                            dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
+                            dateParts.RemoveAll(x => x.Item1 == "date-year");
+                            break;
+                        default:
+                            dateParts.Add(Tuple.Create("date-year", DOB_YR));
+                            dateParts.RemoveAll(x => x.Item1 == "year-absent-reason");
+                            break;
+                    }
+                    record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
             }
         }
@@ -2595,7 +2670,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Infant Death/Birth Linking - year of birth</summary>
+        /// <summary>Infant Death/Birth Linking - Birth state</summary>
         [IJEField(90, 671, 2, "Infant Death/Birth Linking - State, U.S. Territory or Canadian Province of Birth - code", "BSTATE", 1)]
         public string BSTATE
         {
@@ -2603,13 +2678,41 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(BCNO))
                 {
-                    return Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
+                    String state = Dictionary_Get_Full("BSTATE", "BirthRecordState", "code");
+                    String retState;
+                // If the country is US or CA, strip the prefix
+                    if (state.StartsWith("US-") || state.StartsWith("CA-"))
+                    {
+                        retState = state.Substring(3);
+                    } else {
+                        retState = state;
+                    }
+                    return retState;
                 }
                 return ""; // Blank
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    String birthCountry = BPLACE_CNT;
+                    String ISO31662code;
+                    switch (value){
+                        case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+                            return;  // do nothing 
+                        case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+                             ISO31662code = birthCountry;
+                            break;
+                        default:  // a 2 character state
+                            if (birthCountry.Equals("US") || birthCountry.Equals("CA")){
+                                ISO31662code = birthCountry + "-" + value;
+                            }else{
+                                ISO31662code = value;
+                            }
+                            break;
+                    }
+                    Dictionary_Set("BSTATE", "BirthRecordState", "code", ISO31662code);
+                } 
             }
         }
 
@@ -3354,6 +3457,7 @@ namespace VRDR
             }
         }
 
+
         /// <summary>Decedent's Residence - ZIP code</summary>
         [IJEField(152, 1588, 9, "Decedent's Residence - ZIP code", "ZIP9_R", 1)]
         public string ZIP9_R
@@ -3370,7 +3474,7 @@ namespace VRDR
                 }
             }
         }
-
+ 
         /// <summary>Decedent's Residence - County</summary>
         [IJEField(153, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
         public string COUNTYTEXT_R
@@ -3405,7 +3509,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false);
+                String countryCode = Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
+                String countryName = dataLookup.CountryNameToCountryCode(countryCode);
+                return(countryName);
             }
             set
             {
@@ -3456,7 +3562,27 @@ namespace VRDR
                 }
             }
         }
-
+        /// <summary>Mother's First Name</summary>
+        [IJEField(168, 1958, 50, "Mother's First Name", "DMOMF", 1)]
+        public string DMOMF
+        {
+            get
+            {
+                string[] names = record.MotherGivenNames;
+                if (names != null && names.Length > 0)
+                {
+                    return names[0];
+                }
+                return "";
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    record.MotherGivenNames = new string[] { value.Trim() };
+                }
+            }
+        }
         /// <summary>Mother's Maiden Surname</summary>
         [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
         public string DMOMMDN

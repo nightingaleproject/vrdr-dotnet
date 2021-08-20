@@ -310,15 +310,7 @@ namespace VRDR.Tests
             Assert.Equal("2019XX000000", empty.BundleIdentifier);
             empty.Identifier = "101";
             Assert.Equal("2019XX000101", empty.BundleIdentifier);
-            Dictionary<string, string> dtladdress = new Dictionary<string, string>();
-            dtladdress.Add("addressLine1", "671 Example Street");
-            dtladdress.Add("addressLine2", "Line 2");
-            dtladdress.Add("addressCity", "Bedford");
-            dtladdress.Add("addressCounty", "Middlesex");
-            dtladdress.Add("addressState", "MA");
-            dtladdress.Add("addressZip", "01730");
-            dtladdress.Add("addressCountry", "United States");
-            empty.DeathLocationAddress = dtladdress;
+            empty.DeathLocationJurisdiction = "MA";  // 25 is the code for MA
             Assert.Equal("2019MA000101", empty.BundleIdentifier);
         }
 
@@ -1249,7 +1241,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthDate_Partial_Date()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthDateDataAbsent.json")));
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(Tuple.Create("year-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[0]));
             Assert.Equal(Tuple.Create("date-month", "2"), (dr.DateOfBirthDatePartAbsent[1]));
             Assert.Equal(Tuple.Create("date-day", "24"), (dr.DateOfBirthDatePartAbsent[2]));
@@ -1260,7 +1252,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BirthDate_Partial_Date_Roundtrip()
         {
-            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthDateDataAbsent.json")));
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             IJEMortality ije1 = new IJEMortality(dr); 
             Assert.Equal("9999", ije1.DOB_YR);
             Assert.Equal("02", ije1.DOB_MO);
@@ -1560,13 +1552,17 @@ namespace VRDR.Tests
         public void Set_BirthRecordState()
         {
             Dictionary<string, string> brs = new Dictionary<string, string>();
-            brs.Add("code", "MA");
-            brs.Add("system", "urn:iso:std:iso:3166:-2");
-            brs.Add("display", "Massachusetts");
+            Dictionary<string, string> iladdress = new Dictionary<string, string>();
+            brs.Add("code", "US-MA");
             SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]);
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal("Massachusetts", SetterDeathRecord.BirthRecordState["display"]);
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
+            brs["code"]="MA";
+            SetterDeathRecord.BirthRecordState = brs;
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]); 
+            Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
         }
 
         [Fact]
@@ -2474,6 +2470,48 @@ namespace VRDR.Tests
         {
             Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
             Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+        }
+
+        [Fact]
+        public void Get_DateOfDeath_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("2018", ije1.DOD_YR);
+            Assert.Equal("02", ije1.DOD_MO);
+            Assert.Equal("19", ije1.DOD_DY);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-19T16:48:06-05:00", dr2.DateOfDeath);
+        }
+
+        [Fact]
+        public void Set_DateOfDeath_Partial_Date()
+        {
+            Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
+            SetterDeathRecord.DateOfDeathDatePartAbsent = datePart;
+            Assert.Equal(datePart[0], SetterDeathRecord.DateOfDeathDatePartAbsent[0]);
+            Assert.Equal(datePart[1], SetterDeathRecord.DateOfDeathDatePartAbsent[1]);
+            Assert.Equal(datePart[2], SetterDeathRecord.DateOfDeathDatePartAbsent[2]);
+        }
+
+        [Fact]
+        public void Get_DateOfDeath_Partial_Date()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            Assert.Equal(Tuple.Create("date-year", "2021"), (dr.DateOfDeathDatePartAbsent[0]));
+            Assert.Equal(Tuple.Create("date-month", "2"), (dr.DateOfDeathDatePartAbsent[1]));
+            Assert.Equal(Tuple.Create("day-absent-reason", "asked-unknown"), (dr.DateOfDeathDatePartAbsent[2]));
+
+        }
+
+        [Fact]
+        public void Get_DateOfDeath_Partial_Date_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr); 
+            Assert.Equal("2021", ije1.DOD_YR);
+            Assert.Equal("02", ije1.DOD_MO);
+            Assert.Equal("99", ije1.DOD_DY);
         }
 
         [Fact]

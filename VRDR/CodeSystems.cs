@@ -18,10 +18,10 @@ namespace VRDR
         /// <summary>PHINVADS Null Flavor.</summary>
         public static string PH_NullFlavor_HL7_V3 = "urn:oid:2.16.840.1.113883.5.1008";
         
-        /// <summary>HL7 Null Flabor.</summary>
+        /// <summary>HL7 V3 Null Flavor.</summary>
         public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
         
-        /// <summary>HL7 Data Absent Reason </summary>
+        /// <summary>HL7 Data Absent reason.</summary>
         public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";     
         
         /// <summary>PHINVADS Local Coding System.</summary>
@@ -62,6 +62,8 @@ namespace VRDR
         /// <summary>HL7 RoleCode.</summary>
         public static string RoleCode_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-RoleCode";
 
+        /// <summary> ISO 3166-2  </summary>
+        public static string ISO_3166_2 = "urn:iso:std:iso:3166:-2";
 
     }
 

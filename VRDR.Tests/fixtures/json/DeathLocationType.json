@@ -197,7 +197,7 @@
               "city": "Methuen Town",
               "district": "Essex",
               "state": "MA",
-              "country": "United States"
+              "country": "US"
             }
           },
           {
@@ -290,7 +290,7 @@
             "city": "Arlington",
             "district": "Middlesex",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "maritalStatus": {
@@ -341,7 +341,7 @@
             "city": "Stoneham",
             "district": "Middlesex",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "qualification": [
@@ -510,7 +510,7 @@
             "city": "Brookline",
             "district": "Norfolk",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -546,7 +546,7 @@
             "city": "Saugus",
             "district": "Essex",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -633,7 +633,7 @@
           "city": "Highlands",
           "district": "Hampden",
           "state": "MA",
-          "country": "United States"
+          "country": "US"
         },
         "physicalType": {
           "coding": [
@@ -954,7 +954,7 @@
           "city": "Quincy",
           "district": "Norfolk",
           "state": "MA",
-          "country": "United States"
+          "country": "US"
         }
       }
     },

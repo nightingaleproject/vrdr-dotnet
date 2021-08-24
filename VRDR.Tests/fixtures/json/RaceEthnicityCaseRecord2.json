@@ -217,7 +217,7 @@
               "city": "Atlanta",
               "district": "DeKalb",
               "state": "GA",
-              "country": "UNITED STATES"
+              "country": "US"
             }
           }
         ],
@@ -265,7 +265,7 @@
             "city": "Atlanta",
             "district": "Fulton",
             "state": "GA",
-            "country": "UNITED STATES"
+            "country": "US"
           }
         ],
         "maritalStatus": {
@@ -307,7 +307,7 @@
             "district": "DeKalb",
             "state": "GA",
             "postalCode": "30303",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -510,7 +510,7 @@
           "city": "Atlanta",
           "district": "DeKalb",
           "state": "GA",
-          "country": "United States"
+          "country": "US"
         },
         "physicalType": {
           "coding": [
@@ -590,7 +590,7 @@
         "name": "Pecan Grove Nursing Home",
         "address": {
           "state": "MA",
-          "country": "UNITED STATES"
+          "country": "US"
         }
       }
     },

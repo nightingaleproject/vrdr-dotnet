@@ -886,7 +886,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Middlesex");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
@@ -1143,7 +1143,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.CertifierAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.CertifierAddress)</para>
@@ -3079,7 +3079,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>SetterDeathRecord.Residence = address;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
@@ -3572,7 +3572,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>SetterDeathRecord.PlaceOfBirth = address;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
@@ -4858,7 +4858,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.FuneralHomeAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.FuneralHomeAddress)</para>
@@ -5020,7 +5020,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.DispositionLocationAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.DispositionLocationAddress)</para>
@@ -5739,7 +5739,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
@@ -6207,7 +6207,7 @@ namespace VRDR
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "United States");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
         /// <para>ExampleDeathRecord.InjuryLocationAddress = address;</para>
         /// <para>// Getter:</para>
         /// <para>foreach(var pair in ExampleDeathRecord.InjuryLocationAddress)</para>

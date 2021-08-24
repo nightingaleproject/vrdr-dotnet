@@ -213,7 +213,7 @@
             <district value="Middlesex" />
             <state value="MA" />
             <postalCode value="01730" />
-            <country value="United States" />
+            <country value="US" />
           </valueAddress>
         </extension>
         <identifier>
@@ -243,7 +243,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
         <maritalStatus>
           <coding>
@@ -277,7 +277,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
         <qualification>
           <code>
@@ -383,7 +383,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
       </Organization>
     </resource>
@@ -410,7 +410,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
       </Organization>
     </resource>
@@ -489,7 +489,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
       </Location>
     </resource>
@@ -1072,7 +1072,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
       </Location>
     </resource>
@@ -1117,7 +1117,7 @@
           <district value="Middlesex" />
           <state value="MA" />
           <postalCode value="01730" />
-          <country value="United States" />
+          <country value="US" />
         </address>
       </Location>
     </resource>
@@ -1159,5 +1159,3 @@
     </resource>
   </entry>
 </Bundle>
-
-

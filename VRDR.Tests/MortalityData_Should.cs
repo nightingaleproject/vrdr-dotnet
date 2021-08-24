@@ -16,6 +16,7 @@ namespace VRDR.Tests
         }
 
         [Theory]
+        [InlineData("FL", "FL")]
         [InlineData("Florida", "FL")]
         [InlineData("FLOrida", "FL")]
         [InlineData("  FLOrida ", "FL")]
@@ -38,6 +39,7 @@ namespace VRDR.Tests
         [InlineData("ÅLAND", "FI")]
         [InlineData("CENTRAL AND SOUTHERN LINE ISLANDS", "CL")]
         [InlineData("ETHIOPIA", "ET")]
+        [InlineData("US", "US")]
         [InlineData("Fake Place", null)]
         public void CountryNameToCountryCode_Test(string input, string expected)
         {
@@ -288,7 +290,7 @@ namespace VRDR.Tests
             Assert.Equal("U", ije5rt.DETHNIC2);
             Assert.Equal("U", ije5rt.DETHNIC3);
             Assert.Equal("U", ije5rt.DETHNIC4);
-            
+
         }
         [Fact]
         public void HandleDeathLocationIJE()

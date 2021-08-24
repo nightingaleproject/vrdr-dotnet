@@ -479,11 +479,26 @@ namespace VRDR
                 }
                 else if (geoType == "county")
                 {
-                    string state = null;
-                    dictionary.TryGetValue(keyPrefix + "State", out state);
-                    if (state != null)
+                    // check for unknown or other values
+                    string county = null;
+                    dictionary.TryGetValue(keyPrefix + "County", out county);
+                    if (county == "UNK")
                     {
-                        current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                        current = "999";
+                    } 
+                    else if (county == "OTH")
+                    {
+                        current = "000";
+                    } 
+                    else
+                    {
+                        string state = null;
+                        dictionary.TryGetValue(keyPrefix + "State", out state);
+
+                        if (state != null)
+                        {
+                            current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                        }
                     }
                 }
                 else if (geoType == "state")
@@ -547,14 +562,26 @@ namespace VRDR
                     }
                     else if (geoType == "county") // This is a tricky case, we need to know about state!
                     {
-                        string state = null;
-                        dictionary.TryGetValue(keyPrefix + "State", out state);
-                        if (!String.IsNullOrWhiteSpace(state))
+                        // Handle unknown
+                        if (value == "999")
                         {
-                            string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
-                            if (!String.IsNullOrWhiteSpace(county))
+                            dictionary[key] = "UNK";
+                        } 
+                        else if (value == "000")
+                        {
+                            dictionary[key] = "OTH";
+                        }
+                        else
+                        {
+                            string state = null;
+                            dictionary.TryGetValue(keyPrefix + "State", out state);
+                            if (!String.IsNullOrWhiteSpace(state))
                             {
-                                dictionary[key] = county;
+                                string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
+                                if (!String.IsNullOrWhiteSpace(county))
+                                {
+                                    dictionary[key] = county;
+                                }
                             }
                         }
                     }
@@ -2654,11 +2681,13 @@ namespace VRDR
                 {
                     String state = Dictionary_Get_Full("BSTATE", "BirthRecordState", "code");
                     String retState;
-                // If the country is US or CA, strip the prefix
+                    // If the country is US or CA, strip the prefix
                     if (state.StartsWith("US-") || state.StartsWith("CA-"))
                     {
                         retState = state.Substring(3);
-                    } else {
+                    }
+                    else
+                    {
                         retState = state;
                     }
                     return retState;
@@ -2671,16 +2700,20 @@ namespace VRDR
                 {
                     String birthCountry = BPLACE_CNT;
                     String ISO31662code;
-                    switch (value){
+                    switch (value)
+                    {
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
                             return;  // do nothing 
-                        case "XX": //UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+                        case "XX": // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
                              ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
-                            if (birthCountry.Equals("US") || birthCountry.Equals("CA")){
+                            if (birthCountry.Equals("US") || birthCountry.Equals("CA"))
+                            {
                                 ISO31662code = birthCountry + "-" + value;
-                            }else{
+                            }
+                            else
+                            {
                                 ISO31662code = value;
                             }
                             break;

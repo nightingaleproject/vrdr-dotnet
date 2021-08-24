@@ -23,7 +23,7 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><strong>VRDR IG</strong></td>
 <td style="text-align: center;"><strong>FHIR</strong></td>
 <td style="text-align: center;"><strong>Version</strong></td>
-<td style="text-align: center;"><strong>VRDR.dotnet</strong></td>
+<td style="text-align: center;"><strong>VRDR</strong></td>
 <td style="text-align: center;"><strong>VRDR.Messaging</strong></td>
 </tr>
 <tr>
@@ -32,6 +32,13 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;">V3.1.1</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">STU2 Ballot</td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V3.2.0-preview1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.0-preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0-preview1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0-preview1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -43,7 +50,7 @@ This repository includes .NET (C#) code for
 - You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
-- To check wether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
+- To check whether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
 
@@ -58,7 +65,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.1.1" />
+  <PackageReference Include="VRDR" Version="3.2.0-preview1" />
   ...
 </ItemGroup>
 ```
@@ -223,7 +230,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.1.1" />
+  <PackageReference Include="VRDR.Messaging" Version="3.2.0-preview1" />
   ...
 </ItemGroup>
 ```

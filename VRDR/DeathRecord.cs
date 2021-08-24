@@ -4189,7 +4189,11 @@ namespace VRDR
                CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["code"], value["code"], null);
                if (BirthRecordIdentifier == null)
                 {
-                     CreateBirthRecordIdentifier();
+                    CreateBirthRecordIdentifier();
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
+                    component.Value = state;
+                    BirthRecordIdentifier.Component.Add(component);
                 }
                 else
                 {

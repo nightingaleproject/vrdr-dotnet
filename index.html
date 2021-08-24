@@ -85,13 +85,18 @@ Versions</h2>
 <p><b><a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG</b> </p>
 <p><b>FHIR</b> </p>
 <p><b>Version</b> </p>
-<p><b>VRDR.dotnet</b> </p>
+<p><b><a class="el" href="namespace_v_r_d_r.html">VRDR</a></b> </p>
 <p><b>VRDR.Messaging</b>  </p>
 <p>STU1 </p>
 <p>R4 </p>
 <p>V3.1.1 </p>
 <p><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1">github</a> </p>
-<p><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
+<p><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  </p>
+<p>STU2 Ballot </p>
+<p>R4 </p>
+<p>V3.2.0-preview1 </p>
+<p><a href="https://www.nuget.org/packages/VRDR/3.2.0-preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0-preview1">github</a> </p>
+<p><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0-preview1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
 <h2><a class="anchor" id="autotoc_md31"></a>
 Requirements</h2>
 <h3><a class="anchor" id="autotoc_md32"></a>
@@ -104,7 +109,7 @@ Development &amp; CLI Requirements</h3>
 Library Usage</h3>
 <ul>
 <li>The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> or VRDR.Messaging libraries target .NET Standard 2.0</li>
-<li>To check wether your .NET version supports a release, refer to (this)[<a href="https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support">https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support</a>] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[<a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard">https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard</a>] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.</li>
+<li>To check whether your .NET version supports a release, refer to (this)[<a href="https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support">https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support</a>] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[<a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard">https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard</a>] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md34"></a>
 Project Organization</h2>
@@ -116,7 +121,7 @@ VRDR</h3>
 Usage</h4>
 <p>This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.1.1&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.2.0-preview1&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p>You can also include a locally downloaded copy of the library instead of the NuGet version by referencing <code>DeathRecord.csproj</code> in your project configuration, for example (taken from <a class="el" href="namespace_v_r_d_r_1_1_c_l_i.html">VRDR.CLI</a>): </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">Project</span> <span class="keyword">Sdk</span>=<span class="stringliteral">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</div>
@@ -257,7 +262,7 @@ VRDR.Messaging</h3>
 Usage</h4>
 <p>This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.1.1&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.2.0-preview1&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p>Note that the VRDR.Messaging package automatically includes the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> package, a project file should not reference both.</p>

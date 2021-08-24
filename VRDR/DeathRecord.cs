@@ -4190,12 +4190,6 @@ namespace VRDR
                if (BirthRecordIdentifier == null)
                 {
                      CreateBirthRecordIdentifier();
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                    component.Value = state;
-                    BirthRecordIdentifier.Component.Add(component);
-                    AddReferenceToComposition(BirthRecordIdentifier.Id);
-                    Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
                 }
                 else
                 {
@@ -5489,7 +5483,7 @@ namespace VRDR
                     }
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                 }
-                
+
                 DeathDateObs.Value = new FhirDateTime(value);
                 DeathDateObs.Effective = new FhirDateTime(value);
 
@@ -5510,7 +5504,7 @@ namespace VRDR
         public Tuple<string,string>[] DateOfDeathDatePartAbsent
         {
             get
-            {     
+            {
                 if (DeathDateObs != null && DeathDateObs.Value != null){
                     Extension datePartAbsent = DeathDateObs.Value.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
                     return DatePartsToArray(datePartAbsent);
@@ -5523,18 +5517,18 @@ namespace VRDR
                 {
                     CreateDeathDateObs();
                 }
-                if (value != null && value.Length > 0) 
-                {     
+                if (value != null && value.Length > 0)
+                {
                     if (DeathDateObs.Value != null)
                     {
-                        DeathDateObs.Value.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");           
+                        DeathDateObs.Value.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     }
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)
                     {
                         if (element != null)
-                        {                        
+                        {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
                             datePartDetails.Value = new FhirString(element.Item2);
@@ -5550,11 +5544,11 @@ namespace VRDR
                     // TODO the IG should be updated to put the extension on the Effective Date instead of value
                     // since effective date is the required field
                     DeathDateObs.Effective = new FhirDateTime("2021-01-01T00:00:00-00:00");
-                    
+
                 }
 
             }
-                
+
         }
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>

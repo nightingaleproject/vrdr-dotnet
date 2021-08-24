@@ -260,37 +260,37 @@ NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework 
 #### Example Usages
 ```bash
 # Builds a fake death record and print out the record as FHIR XML and JSON
-dotnet run
+dotnet run --project VRDR.CLI
 
 # Read in the FHIR XML or JSON death record and print out as IJE
-dotnet run 2ije 1.xml
+dotnet run --project VRDR.CLI 2ije VRDR.CLI/1.xml
 
 # Read in the IJE death record and print out as FHIR XML
-dotnet run ije2xml 1.MOR
+dotnet run --project VRDR.CLI ije2xml VRDR.CLI/1.MOR
 
 # Read in the IJE death record and print out as FHIR JSON
-dotnet run ije2json 1.MOR
+dotnet run --project VRDR.CLI ije2json VRDR.CLI/1.MOR
 
 # Read in the FHIR XML death record and print out as FHIR JSON
-dotnet run xml2json 1.xml
+dotnet run --project VRDR.CLI xml2json VRDR.CLI/1.xml
 
 # Read in the FHIR JSON death record and print out as FHIR XML
-dotnet run json2xml 1.json
+dotnet run --project VRDR.CLI json2xml VRDR.CLI/1.json
 
 # Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON
-dotnet run json2json 1.json
+dotnet run --project VRDR.CLI json2json VRDR.CLI/1.json
 
 # Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML
-dotnet run xml2xml 1.xml
+dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1.xml
 
 # Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkXml 1.xml
+dotnet run --project VRDR.CLI checkXml VRDR.CLI/1.xml
 
 # Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs
-dotnet run checkJson 1.json
+dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
-dotnet run ije 1.MOR
+dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
 ```
 
 ### VRDR.HTTP
@@ -318,7 +318,7 @@ docker run -p 8080:8080 vrdr-microservice
 If you prefer not to use Docker, you can run it from the root project directory using [.NET Core](https://dotnet.microsoft.com/download):
 
 ```
-dotnet run
+dotnet run --project VRDR.HTTP
 ```
 
 The service will be listening locally at `http://localhost:8080`.

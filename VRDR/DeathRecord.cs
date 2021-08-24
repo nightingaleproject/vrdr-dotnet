@@ -817,11 +817,12 @@ namespace VRDR
                 {
                     InterestedParty.Identifier.Clear();
                 }
-
-                Identifier identifier = new Identifier();
-                identifier.System = value["system"];
-                identifier.Value = value["value"];
-                InterestedParty.Identifier.Add(identifier);
+                if(value.ContainsKey("system") && value.ContainsKey("value")) {
+                    Identifier identifier = new Identifier();
+                    identifier.System = value["system"];
+                    identifier.Value = value["value"];
+                    InterestedParty.Identifier.Add(identifier);
+                }
             }
         }
 
@@ -1256,10 +1257,12 @@ namespace VRDR
                 {
                     Certifier.Identifier.Clear();
                 }
-                Identifier identifier = new Identifier();
-                identifier.System = value["system"];
-                identifier.Value = value["value"];
-                Certifier.Identifier.Add(identifier);
+                if(value.ContainsKey("system") && value.ContainsKey("value")) {
+                    Identifier identifier = new Identifier();
+                    identifier.System = value["system"];
+                    identifier.Value = value["value"];
+                    Certifier.Identifier.Add(identifier);
+                }
             }
         }
 
@@ -4815,10 +4818,12 @@ namespace VRDR
                 {
                     Mortician.Identifier.Clear();
                 }
-                Identifier identifier = new Identifier();
-                identifier.System = value["system"];
-                identifier.Value = value["value"];
-                Mortician.Identifier.Add(identifier);
+                if(value.ContainsKey("system") && value.ContainsKey("value")) {
+                    Identifier identifier = new Identifier();
+                    identifier.System = value["system"];
+                    identifier.Value = value["value"];
+                    Mortician.Identifier.Add(identifier);
+                }
             }
         }
 
@@ -5448,10 +5453,12 @@ namespace VRDR
                 {
                     Pronouncer.Identifier.Clear();
                 }
-                Identifier identifier = new Identifier();
-                identifier.System = value["system"];
-                identifier.Value = value["value"];
-                Pronouncer.Identifier.Add(identifier);
+                if(value.ContainsKey("system") && value.ContainsKey("value")) {
+                    Identifier identifier = new Identifier();
+                    identifier.System = value["system"];
+                    identifier.Value = value["value"];
+                    Pronouncer.Identifier.Add(identifier);
+                }
             }
         }
 

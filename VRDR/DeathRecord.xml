@@ -23,10 +23,10 @@
             <summary>PHINVADS Null Flavor.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.NullFlavor_HL7_V3">
-            <summary>HL7 Null Flabor.</summary>
+            <summary>HL7 V3 Null Flavor.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.Data_Absent_Reason_HL7_V3">
-            <summary>HL7 Data Absent Reason </summary>
+            <summary>HL7 Data Absent reason.</summary>
         </member>
         <member name="F:VRDR.CodeSystems.PH_PHINVS_CDC">
             <summary>PHINVADS Local Coding System.</summary>
@@ -69,6 +69,9 @@
         </member>
         <member name="F:VRDR.CodeSystems.RoleCode_HL7_V3">
             <summary>HL7 RoleCode.</summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.ISO_3166_2">
+            <summary> ISO 3166-2  </summary>
         </member>
         <member name="T:VRDR.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
@@ -214,6 +217,9 @@
         </member>
         <member name="F:VRDR.DeathRecord.DeathLocationLoc">
             <summary>Death Location.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateDeathLocation">
+            <summary>Create Death Location </summary>
         </member>
         <member name="F:VRDR.DeathRecord.DeathDateObs">
             <summary>Date Of Death.</summary>
@@ -2615,7 +2621,7 @@
             <summary>Infant Death/Birth Linking - year of birth</summary>
         </member>
         <member name="P:VRDR.IJEMortality.BSTATE">
-            <summary>Infant Death/Birth Linking - year of birth</summary>
+            <summary>Infant Death/Birth Linking - Birth state</summary>
         </member>
         <member name="P:VRDR.IJEMortality.DOR_YR">
             <summary>Date of Registration--Year</summary>
@@ -2716,6 +2722,9 @@
         </member>
         <member name="P:VRDR.IJEMortality.DMIDDLE">
             <summary>Middle Name of Decedent</summary>
+        </member>
+        <member name="P:VRDR.IJEMortality.DMOMF">
+            <summary>Mother's First Name</summary>
         </member>
         <member name="P:VRDR.IJEMortality.DMOMMDN">
             <summary>Mother's Maiden Surname</summary>

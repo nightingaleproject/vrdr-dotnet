@@ -1,5 +1,15 @@
 ## Change Log
 
+### v3.2.0-preview1 - 2021-08-24
+
+* Updated to [STU2 version](http://hl7.org/fhir/us/vrdr/2021Sep/) of the VRDR IG
+* DeathLocationJurisdiction must now be specified in order to generate an IJE file
+* Country information is now universally represented in the library as a 2 character code (e.g. US instead of United States)
+* State information is now univerally represented in the library as a 2 character code (e.g. FL instead of Florida)
+* BirthRecordIdentifier.component:birthState is now represented as ISO-3166-2 (e.g. US-MA instead of MA)
+* Added support for missing data as per the STU2 IG
+* Full list of supported IJE fields [is now available](VRDRdotNETLibraryCoverage.csv).
+
 ### v3.1.1 - 2021-06-10
 
 * Reorder death record properties to reflect order in standard death certificate

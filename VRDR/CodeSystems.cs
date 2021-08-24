@@ -53,10 +53,9 @@ namespace VRDR
         /// <summary> CDC Census Industry Code  </summary>
         public static string PH_Industry_CDC_Census2010 = "urn:oid:2.16.840.1.114222.4.5.315";
         /// <summary> US NPI HL7  </summary>
-        public static string PH_Industry_CDC_Census2010 = "urn:oid:2.16.840.1.114222.4.5.315";
-        /// <summary>HL7 Identifier Type.</summary>
         public static string US_NPI_HL7 = "http://hl7.org/fhir/sid/us-npi";
-
+        /// <summary>HL7 Identifier Type.</summary>
+        public static string HL7_identifier_type = "http://terminology.hl7.org/CodeSystem/v2-0203";
        /// <summary>HL7 Organization Type.</summary>
         public static string HL7_organization_type =  "http://terminology.hl7.org/CodeSystem/organization-type";
 

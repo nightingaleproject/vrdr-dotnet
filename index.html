@@ -283,37 +283,37 @@ VRDR.CLI</h3>
 <h4><a class="anchor" id="autotoc_md45"></a>
 Example Usages</h4>
 <div class="fragment"><div class="line"># Builds a fake death record and print out the record as FHIR XML and JSON</div>
-<div class="line">dotnet run</div>
+<div class="line">dotnet run --project VRDR.CLI</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR XML or JSON death record and print out as IJE</div>
-<div class="line">dotnet run 2ije 1.xml</div>
+<div class="line">dotnet run --project VRDR.CLI 2ije VRDR.CLI/1.xml</div>
 <div class="line"> </div>
 <div class="line"># Read in the IJE death record and print out as FHIR XML</div>
-<div class="line">dotnet run ije2xml 1.MOR</div>
+<div class="line">dotnet run --project VRDR.CLI ije2xml VRDR.CLI/1.MOR</div>
 <div class="line"> </div>
 <div class="line"># Read in the IJE death record and print out as FHIR JSON</div>
-<div class="line">dotnet run ije2json 1.MOR</div>
+<div class="line">dotnet run --project VRDR.CLI ije2json VRDR.CLI/1.MOR</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR XML death record and print out as FHIR JSON</div>
-<div class="line">dotnet run xml2json 1.xml</div>
+<div class="line">dotnet run --project VRDR.CLI xml2json VRDR.CLI/1.xml</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR JSON death record and print out as FHIR XML</div>
-<div class="line">dotnet run json2xml 1.json</div>
+<div class="line">dotnet run --project VRDR.CLI json2xml VRDR.CLI/1.json</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR JSON death record, completely disassemble then reassemble, and print as FHIR JSON</div>
-<div class="line">dotnet run json2json 1.json</div>
+<div class="line">dotnet run --project VRDR.CLI json2json VRDR.CLI/1.json</div>
 <div class="line"> </div>
 <div class="line"># Read in the FHIR XML death record, completely disassemble then reassemble, and print as FHIR XML</div>
-<div class="line">dotnet run xml2xml 1.xml</div>
+<div class="line">dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1.xml</div>
 <div class="line"> </div>
 <div class="line"># Read in the given FHIR xml (being permissive) and print out the same; useful for doing validation diffs</div>
-<div class="line">dotnet run checkXml 1.xml</div>
+<div class="line">dotnet run --project VRDR.CLI checkXml VRDR.CLI/1.xml</div>
 <div class="line"> </div>
 <div class="line"># Read in the given FHIR json (being permissive) and print out the same; useful for doing validation diffs</div>
-<div class="line">dotnet run checkJson 1.json</div>
+<div class="line">dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json</div>
 <div class="line"> </div>
 <div class="line"># Read in and parse an IJE death record and print out the values for every (supported) field</div>
-<div class="line">dotnet run ije 1.MOR</div>
+<div class="line">dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md46"></a>
 VRDR.HTTP</h3>
 <p>This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</p>
@@ -328,7 +328,7 @@ Running</h4>
 <div class="line">docker build -t vrdr-microservice -f ./VRDR.HTTP/Dockerfile .</div>
 <div class="line">docker run -p 8080:8080 vrdr-microservice</div>
 </div><!-- fragment --><p>If you prefer not to use Docker, you can run it from the root project directory using <a href="https://dotnet.microsoft.com/download">.NET Core</a>:</p>
-<div class="fragment"><div class="line">dotnet run</div>
+<div class="fragment"><div class="line">dotnet run --project VRDR.HTTP</div>
 </div><!-- fragment --><p>The service will be listening locally at <code><a href="http://localhost:8080">http://localhost:8080</a></code>.</p>
 <h4><a class="anchor" id="autotoc_md48"></a>
 Publishing a Version</h4>

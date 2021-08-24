@@ -45,7 +45,7 @@ namespace VRDR
         /// <summary>Given a Jurisdiction code - return the Jurisdiction name.</summary>
         public string JurisdictionNameToJurisdictionCode(string jurisdiction)
         {
-            
+
             return DictValueFinderHelper(JurisdictionCodes, jurisdiction);
         }
          /// <summary>Given a Jurisdiction name - return the representative Jurisdiction code.</summary>
@@ -63,7 +63,16 @@ namespace VRDR
         /// <summary>Given a Country name - return the representative Country code.</summary>
         public string CountryNameToCountryCode(string country)
         {
-            return DictValueFinderHelper(CountryCodes, country);
+            if (DictKeyFinderHelper(CountryCodes, country) != null)
+            {
+                // Passed a code so just return it
+                return country;
+            }
+            else
+            {
+                // Passed a name so look up code
+                return DictValueFinderHelper(CountryCodes, country);
+            }
         }
 
         /// <summary>Given a Country code - return the representative Country name.</summary>
@@ -263,7 +272,7 @@ namespace VRDR
             ).Value;
         }
         /// <summary>Jurisdiction Codes</summary>
-        // JurisdictionCodes uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set 
+        // JurisdictionCodes uses IJE-defined two-character string as key, and provides the code defined in the US Vital Records Jurisdictions (NCHS) Value Set
         // all codes are from FIPS-5-2 except for YC which is from U.S. Board on Geographic Names (USGS - GNIS).   This is handled in the one use of this Dictionary in the code below.
          public Dictionary<string, string> JurisdictionCodes = new Dictionary<string, string>
         {

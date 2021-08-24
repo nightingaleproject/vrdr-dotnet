@@ -1464,7 +1464,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.CertifierAddress = address;
 
@@ -1667,7 +1667,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.DeathLocationAddress = address;
 
@@ -1765,7 +1765,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.DispositionLocationAddress = address;
 
@@ -1958,7 +1958,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.FuneralHomeAddress = address;
 
@@ -2296,7 +2296,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.InjuryLocationAddress = address;
 
@@ -2394,7 +2394,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 ExampleDeathRecord.InterestedPartyAddress = address;
 
@@ -2701,7 +2701,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 SetterDeathRecord.PlaceOfBirth = address;
 
@@ -2801,7 +2801,7 @@ address.Add("addressState", "MA");
 
 address.Add("addressZip", "12345");
 
-address.Add("addressCountry", "United States");
+address.Add("addressCountry", "US");
 
 SetterDeathRecord.Residence = address;
 

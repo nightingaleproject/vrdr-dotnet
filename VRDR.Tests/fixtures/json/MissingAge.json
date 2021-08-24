@@ -253,7 +253,7 @@
                             "city": "Bedford",
                             "district": "Middlesex",
                             "state": "MA",
-                            "country": "UNITED STATES"
+                            "country": "US"
                         }
                     }
                 ],
@@ -306,7 +306,7 @@
                         "district": "Middlesex",
                         "state": "MA",
                         "postalCode": "01730",
-                        "country": "UNITED STATES"
+                        "country": "US"
                     }
                 ],
                 "maritalStatus": {
@@ -352,7 +352,7 @@
                         "district": "Middlesex",
                         "state": "MA",
                         "postalCode": "01730",
-                        "country": "United States"
+                        "country": "US"
                     }
                 ]
             }
@@ -565,7 +565,7 @@
                     "city": "Bedford",
                     "district": "Middlesex",
                     "state": "MA",
-                    "country": "United States"
+                    "country": "US"
                 },
                 "physicalType": {
                     "coding": [
@@ -666,7 +666,7 @@
                     "district": "Middlesex",
                     "state": "MA",
                     "postalCode": "01730",
-                    "country": "UNITED STATES"
+                    "country": "US"
                 }
             }
         },

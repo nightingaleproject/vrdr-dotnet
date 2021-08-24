@@ -172,7 +172,7 @@
                                         "district": "Middlesex",
                                         "state": "MA",
                                         "postalCode": "01730",
-                                        "country": "United States"
+                                        "country": "US"
                                     }
                                 }
                             ],
@@ -224,7 +224,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }],
                             "maritalStatus": {"coding": [{
                                 "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
@@ -257,7 +257,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }],
                             "qualification": [{
                                 "identifier": [{"value": "789123456"}],
@@ -338,7 +338,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }]
                         }
                     },
@@ -362,7 +362,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }]
                         }
                     },
@@ -410,7 +410,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }
                         }
                     },
@@ -840,7 +840,7 @@
                                     "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
                                     "code": "N",
                                     "display": "No"
-                                  }          
+                                  }
                                 ]
                             }
                         }
@@ -882,7 +882,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }
                         }
                     },
@@ -941,7 +941,7 @@
                                 "district": "Middlesex",
                                 "state": "MA",
                                 "postalCode": "01730",
-                                "country": "United States"
+                                "country": "US"
                             }
                         }
                     },

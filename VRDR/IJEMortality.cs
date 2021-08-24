@@ -303,7 +303,7 @@ namespace VRDR
                 }
             }
 
-            return ""; 
+            return "";
         }
 
         /// <summary>Get the date part value from DateOfDeathDatePartAbsent if it's populated</summary>
@@ -323,7 +323,7 @@ namespace VRDR
                 }
             }
 
-            return ""; 
+            return "";
         }
 
 
@@ -485,11 +485,11 @@ namespace VRDR
                     if (county == "UNK")
                     {
                         current = "999";
-                    } 
+                    }
                     else if (county == "OTH")
                     {
                         current = "000";
-                    } 
+                    }
                     else
                     {
                         string state = null;
@@ -566,7 +566,7 @@ namespace VRDR
                         if (value == "999")
                         {
                             dictionary[key] = "UNK";
-                        } 
+                        }
                         else if (value == "000")
                         {
                             dictionary[key] = "OTH";
@@ -585,17 +585,9 @@ namespace VRDR
                             }
                         }
                     }
-                    else if (geoType == "state")
+                    else if (geoType == "state" || geoType == "country")
                     {
                         dictionary[key] = value;
-                    }
-                    else if (geoType == "country")
-                    {
-                        string country = dataLookup.CountryCodeToCountryName(value);
-                        if (!String.IsNullOrWhiteSpace(country))
-                        {
-                            dictionary[key] = country;
-                        }
                     }
                     else if (geoType == "insideCityLimits")
                     {
@@ -773,10 +765,10 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value)) 
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value, false, true);
-                } 
+                }
             }
         }
 
@@ -1171,13 +1163,13 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value)) 
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     // we will still set this for now so we can reference the value to
                     // populate the Date Part Absent field
                     // In FHIR we will just ignore this
                     DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value, true);
-                } 
+                }
             }
         }
 
@@ -1187,11 +1179,11 @@ namespace VRDR
         {
             get
             {
-                String month = DateTime_Get("DOB_MO", "MM", "DateOfBirth");   
+                String month = DateTime_Get("DOB_MO", "MM", "DateOfBirth");
                 if (!String.IsNullOrWhiteSpace(month)){
                     return month;
                 }
-                return BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason"); 
+                return BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason");
             }
             set
             {
@@ -1220,9 +1212,9 @@ namespace VRDR
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
-                
+
                 // Populate the date absent parts if any of the date parts are unknown
-                // Doing all three parts at once in the last date part field 
+                // Doing all three parts at once in the last date part field
                 // because the other fields hadn't populated the Date Part field yet
                 // and only one would ever get added to the record
                 if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99"))
@@ -1278,7 +1270,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "PlaceOfBirth", "addressCountry", dataLookup.CountryCodeToCountryName(value));
+                    Dictionary_Set("STATEC", "PlaceOfBirth", "addressCountry", value);
                 }
             }
         }
@@ -1664,10 +1656,10 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value)) 
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
-                } 
+                }
             }
         }
 
@@ -1689,9 +1681,9 @@ namespace VRDR
                 {
                     DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
                 }
-                
+
                 // Populate the date absent parts if any of the date parts are unknown
-                // Doing all three parts at once in the last date part field 
+                // Doing all three parts at once in the last date part field
                 // because the other fields hadn't populated the Date Part field yet
                 // and only one would ever get added to the record
                 if (String.Equals(DOD_YR, "9999") || String.Equals(DOD_MO, "99") || String.Equals(value, "99"))
@@ -1860,7 +1852,7 @@ namespace VRDR
                 // if there is no ethnicity data, then the ethnicity is unknown
                 if (ethnicityStatus.Length == 0){
                     return "U";
-                } 
+                }
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1904,7 +1896,7 @@ namespace VRDR
                 // if there is no ethnicity data, then the ethnicity is unknown
                 if (ethnicityStatus.Length == 0){
                     return "U";
-                } 
+                }
                 string[] ethnicities = HispanicOrigin();
                 if (ethnicities.Length == 0)
                 {
@@ -1947,10 +1939,10 @@ namespace VRDR
                 // if there is no ethnicity data, then the ethnicity is unknown
                 if (ethnicityStatus.Length == 0){
                     return "U";
-                } 
+                }
 
                 string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0) 
+                if (ethnicities.Length == 0)
                 {
                     return "N";
                 }
@@ -1996,7 +1988,7 @@ namespace VRDR
                 string[] hispanicOrigin = HispanicOrigin();
                 Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
                 string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
-                
+
                 // This logic will handle cases where hispanic origin is other with or without write-in
                 // It also maintains that hispanic origin and other are not mutually exclusive
                 var ethnicityText = record.EthnicityText;
@@ -2703,8 +2695,8 @@ namespace VRDR
                     switch (value)
                     {
                         case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
-                            return;  // do nothing 
-                        case "XX": // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+                            return;  // do nothing
+                        case "XX": // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA
                              ISO31662code = birthCountry;
                             break;
                         default:  // a 2 character state
@@ -2719,7 +2711,7 @@ namespace VRDR
                             break;
                     }
                     Dictionary_Set("BSTATE", "BirthRecordState", "code", ISO31662code);
-                } 
+                }
             }
         }
 
@@ -3481,7 +3473,7 @@ namespace VRDR
                 }
             }
         }
- 
+
         /// <summary>Decedent's Residence - County</summary>
         [IJEField(153, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
         public string COUNTYTEXT_R
@@ -3516,9 +3508,7 @@ namespace VRDR
         {
             get
             {
-                String countryCode = Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
-                String countryName = dataLookup.CountryNameToCountryCode(countryCode);
-                return(countryName);
+                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
             }
             set
             {
@@ -3714,7 +3704,7 @@ namespace VRDR
                             Dictionary_Set("POILITRL", "InjuryPlace", "code", "9");
                             Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
                             Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;                        
+                            break;
                     }
                 }
             }
@@ -4133,7 +4123,7 @@ namespace VRDR
                     {
                         Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "county", false, county);
                         // If we found a county, we know the country.
-                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "United States");
+                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "US");
                     }
                 }
             }
@@ -4193,7 +4183,7 @@ namespace VRDR
                     {
                         Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCounty", county);
                         // If we found a county, we know the country.
-                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "United States");
+                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "US");
                     }
                 }
             }
@@ -4400,7 +4390,7 @@ namespace VRDR
                     {
                         Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
                         // If we found a county, we know the country.
-                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "United States");
+                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "US");
                     }
                 }
             }

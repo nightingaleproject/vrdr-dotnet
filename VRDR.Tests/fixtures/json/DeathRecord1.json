@@ -264,7 +264,7 @@
               "district": "Middlesex",
               "state": "MA",
               "postalCode": "01730",
-              "country": "United States"
+              "country": "US"
             }
           }
         ],
@@ -329,7 +329,7 @@
             "district": "Middlesex",
             "state": "MA",
             "postalCode": "01730",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "maritalStatus": {
@@ -382,7 +382,7 @@
             "district": "Middlesex",
             "state": "MA",
             "postalCode": "01730",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "qualification": [
@@ -556,7 +556,7 @@
             "district": "Middlesex",
             "state": "MA",
             "postalCode": "01730",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -594,7 +594,7 @@
             "district": "Middlesex",
             "state": "MA",
             "postalCode": "01730",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -691,7 +691,7 @@
           "district": "Middlesex",
           "state": "MA",
           "postalCode": "01730",
-          "country": "United States"
+          "country": "US"
         },
         "physicalType": {
           "coding": [
@@ -1381,7 +1381,7 @@
               "system": "urn:oid:2.16.840.1.113883.12.136",
               "code": "N",
               "display": "No"
-            }          
+            }
           ]
         }
       }
@@ -1441,7 +1441,7 @@
           "district": "Middlesex",
           "state": "MA",
           "postalCode": "01730",
-          "country": "United States"
+          "country": "US"
         }
       }
     },
@@ -1569,7 +1569,7 @@
           "district": "Middlesex",
           "state": "MA",
           "postalCode": "01730",
-          "country": "United States"
+          "country": "US"
         }
       }
     },
@@ -1673,5 +1673,3 @@
     }
   ]
 }
-
-

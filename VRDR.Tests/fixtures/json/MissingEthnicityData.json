@@ -190,7 +190,7 @@
                   "valueAddress": {
                     "city": "New York",
                     "state": "YC",
-                    "country": "United States"
+                    "country": "US"
                   }
                 },
                 {
@@ -267,7 +267,7 @@
                   "district": "Queens",
                   "state": "NY",
                   "postalCode": "11101-4130",
-                  "country": "United States"
+                  "country": "US"
                 }
               ],
               "maritalStatus": {
@@ -314,7 +314,7 @@
                   "district": "New York",
                   "state": "NY",
                   "postalCode": "10013-4006",
-                  "country": "United States"
+                  "country": "US"
                 }
               ],
               "qualification": [
@@ -457,7 +457,7 @@
                   "district": "New York",
                   "state": "NY",
                   "postalCode": "10013-4006",
-                  "country": "United States"
+                  "country": "US"
                 }
               ]
             }
@@ -494,7 +494,7 @@
                   "district": "New York",
                   "state": "NY",
                   "postalCode": "10016",
-                  "country": "United States"
+                  "country": "US"
                 }
               ]
             }
@@ -564,7 +564,7 @@
               "address": {
                 "city": "Bronx",
                 "state": "NY",
-                "country": "United States"
+                "country": "US"
               },
               "physicalType": {
                 "coding": [
@@ -794,7 +794,7 @@
                 "district": "New York",
                 "state": "YC",
                 "postalCode": "10013-4006",
-                "country": "United States"
+                "country": "US"
               }
             }
           },

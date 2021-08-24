@@ -194,7 +194,7 @@
               "city": "Somerville",
               "district": "Middlesex",
               "state": "MA",
-              "country": "United States"
+              "country": "US"
             }
           },
           {
@@ -291,7 +291,7 @@
             "city": "City Point",
             "district": "Suffolk",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "maritalStatus": {
@@ -336,7 +336,7 @@
             "city": "Mansfield",
             "district": "Bristol",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ],
         "qualification": [
@@ -486,7 +486,7 @@
             "city": "Neponset",
             "district": "Suffolk",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -522,7 +522,7 @@
             "city": "Acushnet",
             "district": "Bristol",
             "state": "MA",
-            "country": "United States"
+            "country": "US"
           }
         ]
       }
@@ -603,7 +603,7 @@
           "city": "Indian Orchard",
           "district": "Hampden",
           "state": "MA",
-          "country": "United States"
+          "country": "US"
         },
         "physicalType": {
           "coding": [
@@ -844,7 +844,7 @@
           "city": "Queens",
           "district": "Queens",
           "state": "NY",
-          "country": "United States"
+          "country": "US"
         },
         "extension": [
           {
@@ -1268,7 +1268,7 @@
           "city": "Amesbury Town",
           "district": "Essex",
           "state": "MA",
-          "country": "United States"
+          "country": "US"
         }
       }
     },

@@ -271,7 +271,7 @@ namespace VRDR.Tests
             Assert.Equal("U", ije1.DETHNIC3);
             Assert.Equal("U", ije1.DETHNIC4);
             Assert.Equal("", ije1.DETHNIC5);
-        
+
         }
 
         [Fact]
@@ -429,7 +429,7 @@ namespace VRDR.Tests
             address.Add("addressCounty", "Middlesex");
             address.Add("addressState", "MA");
             address.Add("addressZip", "01730");
-            address.Add("addressCountry", "United States");
+            address.Add("addressCountry", "US");
             SetterDeathRecord.InterestedPartyAddress = address;
             Assert.Equal("12 Example Street", SetterDeathRecord.InterestedPartyAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.InterestedPartyAddress["addressLine2"]);
@@ -437,7 +437,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.InterestedPartyAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.InterestedPartyAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.InterestedPartyAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.InterestedPartyAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.InterestedPartyAddress["addressCountry"]);
         }
 
         [Fact]
@@ -449,14 +449,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
             Assert.Equal("10 Example Street", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
         }
 
         [Fact]
@@ -565,7 +565,7 @@ namespace VRDR.Tests
             caddress.Add("addressCounty", "Middlesex");
             caddress.Add("addressState", "MA");
             caddress.Add("addressZip", "01730");
-            caddress.Add("addressCountry", "United States");
+            caddress.Add("addressCountry", "US");
             SetterDeathRecord.CertifierAddress = caddress;
             Assert.Equal("11 Example Street", SetterDeathRecord.CertifierAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.CertifierAddress["addressLine2"]);
@@ -573,7 +573,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.CertifierAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.CertifierAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.CertifierAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.CertifierAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.CertifierAddress["addressCountry"]);
         }
 
         [Fact]
@@ -585,14 +585,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).CertifierAddress["addressCountry"]);
             Assert.Equal("11 Example Street", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1140,7 +1140,7 @@ namespace VRDR.Tests
             raddress.Add("addressCounty", "Middlesex");
             raddress.Add("addressState", "MA");
             raddress.Add("addressZip", "01730");
-            raddress.Add("addressCountry", "United States");
+            raddress.Add("addressCountry", "US");
             SetterDeathRecord.Residence = raddress;
             Assert.Equal("101 Example Street", SetterDeathRecord.Residence["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.Residence["addressLine2"]);
@@ -1148,7 +1148,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.Residence["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.Residence["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.Residence["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.Residence["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.Residence["addressCountry"]);
         }
 
         [Fact]
@@ -1160,14 +1160,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).Residence["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).Residence["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).Residence["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).Residence["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).Residence["addressCountry"]);
             Assert.Equal("101 Example Street", ((DeathRecord)XMLRecords[0]).Residence["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).Residence["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).Residence["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).Residence["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).Residence["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).Residence["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).Residence["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).Residence["addressCountry"]);
         }
 
         [Fact]
@@ -1253,7 +1253,7 @@ namespace VRDR.Tests
         public void Get_BirthDate_Partial_Date_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            IJEMortality ije1 = new IJEMortality(dr); 
+            IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("9999", ije1.DOB_YR);
             Assert.Equal("02", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
@@ -1294,7 +1294,7 @@ namespace VRDR.Tests
             pobaddress.Add("addressCounty", "Middlesex");
             pobaddress.Add("addressState", "MA");
             pobaddress.Add("addressZip", "01730");
-            pobaddress.Add("addressCountry", "United States");
+            pobaddress.Add("addressCountry", "US");
             SetterDeathRecord.PlaceOfBirth = pobaddress;
             Assert.Equal("1011 Example Street", SetterDeathRecord.PlaceOfBirth["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.PlaceOfBirth["addressLine2"]);
@@ -1302,7 +1302,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.PlaceOfBirth["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.PlaceOfBirth["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.PlaceOfBirth["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.PlaceOfBirth["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.PlaceOfBirth["addressCountry"]);
         }
 
         [Fact]
@@ -1314,14 +1314,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCountry"]);
             Assert.Equal("1011 Example Street", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCountry"]);
         }
 
         [Fact]
@@ -1542,7 +1542,7 @@ namespace VRDR.Tests
         public void Get_BirthRecord_Absent_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
-            IJEMortality ije1 = new IJEMortality(dr); 
+            IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("", ije1.BCNO);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Null(dr.BirthRecordId);
@@ -1555,12 +1555,12 @@ namespace VRDR.Tests
             Dictionary<string, string> iladdress = new Dictionary<string, string>();
             brs.Add("code", "US-MA");
             SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]); 
+            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
             Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
             brs["code"]="MA";
             SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]); 
+            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]);
             Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
             Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
         }
@@ -1791,7 +1791,7 @@ namespace VRDR.Tests
             fdaddress.Add("addressCounty", "Middlesex");
             fdaddress.Add("addressState", "MA");
             fdaddress.Add("addressZip", "01730");
-            fdaddress.Add("addressCountry", "United States");
+            fdaddress.Add("addressCountry", "US");
             SetterDeathRecord.FuneralHomeAddress = fdaddress;
             Assert.Equal("1011010 Example Street", SetterDeathRecord.FuneralHomeAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.FuneralHomeAddress["addressLine2"]);
@@ -1799,7 +1799,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.FuneralHomeAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.FuneralHomeAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.FuneralHomeAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1811,14 +1811,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCountry"]);
             Assert.Equal("1011010 Example Street", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1859,7 +1859,7 @@ namespace VRDR.Tests
             dladdress.Add("addressCounty", "Middlesex");
             dladdress.Add("addressState", "MA");
             dladdress.Add("addressZip", "01730");
-            dladdress.Add("addressCountry", "United States");
+            dladdress.Add("addressCountry", "US");
             SetterDeathRecord.DispositionLocationAddress = dladdress;
             Assert.Equal("999 Example Street", SetterDeathRecord.DispositionLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DispositionLocationAddress["addressLine2"]);
@@ -1867,7 +1867,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.DispositionLocationAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.DispositionLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.DispositionLocationAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.DispositionLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -1879,14 +1879,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).DispositionLocationAddress["addressCountry"]);
             Assert.Equal("603 Example Street", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DispositionLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2088,7 +2088,7 @@ namespace VRDR.Tests
         public void Set_InjuryPlace()
         {
             Dictionary<string, string> code = new Dictionary<string, string>();
-            
+
             // no description
             code["code"] = "0";
             code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
@@ -2230,7 +2230,7 @@ namespace VRDR.Tests
             iladdress.Add("addressCounty", "Middlesex");
             iladdress.Add("addressState", "MA");
             iladdress.Add("addressZip", "01730");
-            iladdress.Add("addressCountry", "United States");
+            iladdress.Add("addressCountry", "US");
             SetterDeathRecord.InjuryLocationAddress = iladdress;
             Assert.Equal("99912 Example Street", SetterDeathRecord.InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.InjuryLocationAddress["addressLine2"]);
@@ -2238,7 +2238,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.InjuryLocationAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.InjuryLocationAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.InjuryLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2250,14 +2250,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InjuryLocationAddress["addressCountry"]);
             Assert.Equal("781 Example Street", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InjuryLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2386,7 +2386,7 @@ namespace VRDR.Tests
             dtladdress.Add("addressCounty", "Middlesex");
             dtladdress.Add("addressState", "MA");
             dtladdress.Add("addressZip", "01730");
-            dtladdress.Add("addressCountry", "United States");
+            dtladdress.Add("addressCountry", "US");
             SetterDeathRecord.DeathLocationAddress = dtladdress;
             Assert.Equal("671 Example Street", SetterDeathRecord.DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DeathLocationAddress["addressLine2"]);
@@ -2394,7 +2394,7 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", SetterDeathRecord.DeathLocationAddress["addressCounty"]);
             Assert.Equal("MA", SetterDeathRecord.DeathLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.DeathLocationAddress["addressZip"]);
-            Assert.Equal("United States", SetterDeathRecord.DeathLocationAddress["addressCountry"]);
+            Assert.Equal("US", SetterDeathRecord.DeathLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2406,14 +2406,14 @@ namespace VRDR.Tests
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountry"]);
             Assert.Equal("671 Example Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCounty"]);
             Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressZip"]);
-            Assert.Equal("United States", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
+            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
         }
 
         [Fact]
@@ -2476,7 +2476,7 @@ namespace VRDR.Tests
         public void Get_DateOfDeath_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            IJEMortality ije1 = new IJEMortality(dr); 
+            IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("2018", ije1.DOD_YR);
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
@@ -2508,7 +2508,7 @@ namespace VRDR.Tests
         public void Get_DateOfDeath_Partial_Date_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            IJEMortality ije1 = new IJEMortality(dr); 
+            IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("2021", ije1.DOD_YR);
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("99", ije1.DOD_DY);

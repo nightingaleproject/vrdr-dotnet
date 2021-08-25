@@ -13,7 +13,7 @@ namespace VRDR
     {
         /// <summary>Bundle that contains the message.</summary>
         protected Bundle MessageBundle;
-        
+
         /// <summary>
         /// A Parameters entry that contains business identifiers for all messages plus additional information for Coding messages.
         /// </summary>
@@ -111,7 +111,7 @@ namespace VRDR
                     this.DeathYear = deathYear;
                 }
             }
-            this.DeathJurisdictionID = from?.DeathLocationAddress?["addressState"];
+            this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
         }
 
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
@@ -196,7 +196,7 @@ namespace VRDR
                 {
                     return null;
                 }
-                
+
             }
             set
             {
@@ -483,7 +483,7 @@ namespace VRDR
             {
                 throw new System.ArgumentException(e.Message);
             }
-            
+
             return bundle;
         }
 

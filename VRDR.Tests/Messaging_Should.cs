@@ -56,7 +56,6 @@ namespace VRDR.Tests
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
-            Assert.Equal(10,10);
             Assert.Equal((uint)1, submission.CertificateNumber);
             Assert.Equal((uint)2018, submission.DeathYear);
             Assert.Equal("42", submission.StateAuxiliaryIdentifier);

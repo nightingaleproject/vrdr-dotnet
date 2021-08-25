@@ -297,7 +297,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Two character identifierr of the jurisdiction in which the death occurred</summary>
+        /// <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
         public string DeathJurisdictionID
         {
             get

@@ -971,7 +971,22 @@
                                 "state": "MA",
                                 "postalCode": "01730",
                                 "country": "US"
-                            }
+                            },
+                            "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "urn:oid:2.16.840.1.113883.6.92",
+                                        "code": "25",
+                                        "display": "MA"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+
                         }
                     },
                     {

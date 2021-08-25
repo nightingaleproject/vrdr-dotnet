@@ -1,5 +1,9 @@
 ## Change Log
 
+### v3.2.0-preview2 - 2021-08-25
+
+* Fetch DeathLocationJurisdiction from DeathLocationJurisdiction instead of DeathLocationAddress?["addressState"] in VRDR Messaging
+
 ### v3.2.0-preview1 - 2021-08-24
 
 * Updated to [STU2 version](http://hl7.org/fhir/us/vrdr/2021Sep/) of the VRDR IG

@@ -2033,8 +2033,7 @@ namespace VRDR.Tests
             Assert.False(SetterDeathRecord.AgeAtDeathDataAbsentReason);
 
             Dictionary<string, string> aad2 = new Dictionary<string, string>();
-            aad2.Add("unit", "9");
-            aad2.Add("value", "999");
+            SetterDeathRecord.AgeAtDeathDataAbsentReason = true;
             SetterDeathRecord.AgeAtDeath = aad2;
             Assert.Equal("",SetterDeathRecord.AgeAtDeath["value"]);
             Assert.Equal("",SetterDeathRecord.AgeAtDeath["unit"]);

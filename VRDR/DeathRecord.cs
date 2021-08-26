@@ -166,9 +166,6 @@ namespace VRDR
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
 
-        /// <summary>Age At Death Absent.</summary>
-        private Boolean AgeAtDeathAbsent;
-
          /// <summary>Create Age At Death Obs</summary>
          private void CreateAgeAtDeathObs(){
             AgeAtDeathObs = new Observation();

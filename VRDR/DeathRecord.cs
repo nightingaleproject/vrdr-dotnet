@@ -182,6 +182,7 @@ namespace VRDR
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
             AgeAtDeathObs.DataAbsentReason = (CodeableConcept)null;   // not set when this is created
+            AgeAtDeathDataAbsentReason = false;
             AddReferenceToComposition(AgeAtDeathObs.Id);
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -5991,7 +5992,8 @@ namespace VRDR
         {
             get
             {
-                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null && !AgeAtDeathDataAbsentReason) // if there is a value for age, return it
+                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null && ((Quantity)AgeAtDeathObs.Value).Unit != null  &&
+                    !AgeAtDeathDataAbsentReason) // if there is a value for age, return it
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));

@@ -139,6 +139,9 @@ namespace VRDR
             BirthRecordIdentifier.Status = ObservationStatus.Final;
             BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            BirthRecordIdentifier.Value = new FhirString("");
+            BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
+
             AddReferenceToComposition(BirthRecordIdentifier.Id);
             Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
@@ -4130,7 +4133,7 @@ namespace VRDR
         {
             get
             {
-                if (BirthRecordIdentifier != null && BirthRecordIdentifier.Value != null)
+                if (BirthRecordIdentifier != null && BirthRecordIdentifier.Value != null && BirthRecordIdentifier.DataAbsentReason == (CodeableConcept)null)
                 {
                     return Convert.ToString(BirthRecordIdentifier.Value);
                 }
@@ -4145,11 +4148,56 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     BirthRecordIdentifier.Value = new FhirString(value);
-                }
-                else
-                {
+                    BirthRecordIdentifier.DataAbsentReason = (CodeableConcept)null;
+                } else {
+                    BirthRecordIdentifier.Value = new FhirString("");
                     BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
                 }
+             }
+        }
+        /// <summary>Birth Record Identifier Data Absent Reason.</summary>
+        /// <value>Data Absen Reason for the Birth Record Identifier. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - http://hl7.org/fhir/ValueSet/data-absent-reason</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>brs.Add("code", "unknown");</para>
+        /// <para>brs.Add("system", "http://hl7.org/fhir/ValueSet/data-absent-reason");</para>
+        /// <para>brs.Add("display", "unknown");</para>
+        /// <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason = brs;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
+        /// </example>
+        [Property("Birth Record Identifier Data Absent Reason", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 17)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR').dataAbsentReason", "")]
+        public Dictionary<string, string> BirthRecordIdentifierDataAbsentReason
+        {
+            get
+            {
+                if (BirthRecordIdentifier != null && BirthRecordIdentifier.DataAbsentReason != null)
+                {
+                     return CodeableConceptToDict(BirthRecordIdentifier.DataAbsentReason);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+               if (!value.ContainsKey("code")){
+                   return;
+               }
+               if (BirthRecordIdentifier == null)
+                {
+                    CreateBirthRecordIdentifier();
+
+                }
+                BirthRecordIdentifier.DataAbsentReason = DictToCodeableConcept(value);
+                BirthRecordIdentifier.Value = new FhirString("");
             }
         }
 

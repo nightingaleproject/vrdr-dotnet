@@ -2640,6 +2640,7 @@ namespace VRDR
             set
             {
                 // if value is null, the library will add the data absent reason
+
                 RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
 
             }

@@ -139,7 +139,7 @@ namespace VRDR
             BirthRecordIdentifier.Status = ObservationStatus.Final;
             BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            BirthRecordIdentifier.Value = new FhirString("");
+            BirthRecordIdentifier.Value = (FhirString) null;
             BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
 
             AddReferenceToComposition(BirthRecordIdentifier.Id);
@@ -4133,7 +4133,7 @@ namespace VRDR
         {
             get
             {
-                if (BirthRecordIdentifier != null && BirthRecordIdentifier.Value != null && BirthRecordIdentifier.DataAbsentReason == (CodeableConcept)null)
+                if (BirthRecordIdentifier != null && BirthRecordIdentifier.Value != null )
                 {
                     return Convert.ToString(BirthRecordIdentifier.Value);
                 }
@@ -4150,7 +4150,7 @@ namespace VRDR
                     BirthRecordIdentifier.Value = new FhirString(value);
                     BirthRecordIdentifier.DataAbsentReason = (CodeableConcept)null;
                 } else {
-                    BirthRecordIdentifier.Value = new FhirString("");
+                    BirthRecordIdentifier.Value = (FhirString) null;
                     BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
                 }
              }
@@ -4197,7 +4197,6 @@ namespace VRDR
 
                 }
                 BirthRecordIdentifier.DataAbsentReason = DictToCodeableConcept(value);
-                BirthRecordIdentifier.Value = new FhirString("");
             }
         }
 

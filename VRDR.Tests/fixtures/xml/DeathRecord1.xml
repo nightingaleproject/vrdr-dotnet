@@ -826,7 +826,7 @@
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <valueString value="4242123" />
+        <valueString value="242123" />
         <component>
           <code>
             <coding>

@@ -1513,15 +1513,15 @@ namespace VRDR.Tests
         [Fact]
         public void Set_BirthRecordId()
         {
-            SetterDeathRecord.BirthRecordId = "4242123";
-            Assert.Equal("4242123", SetterDeathRecord.BirthRecordId);
+            SetterDeathRecord.BirthRecordId = "242123";
+            Assert.Equal("242123", SetterDeathRecord.BirthRecordId);
         }
 
         [Fact]
         public void Get_BirthRecordId()
         {
-            Assert.Equal("4242123", ((DeathRecord)JSONRecords[0]).BirthRecordId);
-            Assert.Equal("4242123", ((DeathRecord)XMLRecords[0]).BirthRecordId);
+            Assert.Equal("242123", ((DeathRecord)JSONRecords[0]).BirthRecordId);
+            Assert.Equal("242123", ((DeathRecord)XMLRecords[0]).BirthRecordId);
         }
 
         [Fact]
@@ -1539,7 +1539,18 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Get_BirthRecord_Absent_Roundtrip()
+        public void Get_BirthRecord_Roundtrip()
+        {
+            DeathRecord dr = ((DeathRecord)JSONRecords[0]);
+            Assert.Equal("242123",dr.BirthRecordId);
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("242123", ije1.BCNO);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("242123",dr2.BirthRecordId);
+        }
+
+     [Fact]
+        public void BirthRecord_Absent_Roundtrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
             IJEMortality ije1 = new IJEMortality(dr);
@@ -1547,7 +1558,6 @@ namespace VRDR.Tests
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Null(dr.BirthRecordId);
         }
-
         [Fact]
         public void Set_BirthRecordState()
         {

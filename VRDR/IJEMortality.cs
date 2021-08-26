@@ -1055,7 +1055,7 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]))
+                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]) && !record.AgeAtDeathDataAbsentReason)
                 {
                     switch (record.AgeAtDeath["unit"].ToLower().Trim())
                     {
@@ -1117,20 +1117,26 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["value"]) && this.AGETYPE != "9")
+                if ((record.AgeAtDeath != null) && !record.AgeAtDeathDataAbsentReason && !String.IsNullOrWhiteSpace(record.AgeAtDeath["value"]) && this.AGETYPE != "9")
                 {
                     IJEField info = FieldInfo("AGE");
                     return Truncate(record.AgeAtDeath["value"], info.Length).PadLeft(info.Length, '0');
                 }
-                return "999";
+                else
+                {  // record.AgeAtDeath["value"] is not defined
+                    return "999";
+                }
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value) && value != "999")
                 {
                     Dictionary<string, string> ageAtDeath = record.AgeAtDeath;
-                    ageAtDeath["value"] = value.TrimStart('0');
-                    record.AgeAtDeath = ageAtDeath;
+                    record.AgeAtDeath["value"] = value.TrimStart('0');;
+                }
+                else
+                {
+                    record.AgeAtDeathDataAbsentReason = true;
                 }
             }
         }

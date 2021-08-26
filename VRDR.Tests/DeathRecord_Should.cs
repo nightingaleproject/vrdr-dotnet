@@ -2035,8 +2035,8 @@ namespace VRDR.Tests
             aad2.Add("unit", "9");
             aad2.Add("value", "999");
             SetterDeathRecord.AgeAtDeath = aad2;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Null(SetterDeathRecord.AgeAtDeath);
+            Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentReason);
 
         }
 
@@ -2058,6 +2058,7 @@ namespace VRDR.Tests
             DeathRecord dr2 = ije.ToDeathRecord();
             Assert.Equal("", dr2.AgeAtDeath["unit"]);
             Assert.Equal("", dr2.AgeAtDeath["value"]);
+            Assert.True(dr2.AgeAtDeathDataAbsentReason);
         }
 
         [Fact]

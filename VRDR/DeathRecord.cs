@@ -166,6 +166,9 @@ namespace VRDR
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
 
+        /// <summary>Age At Death Absent.</summary>
+        private Boolean AgeAtDeathAbsent;
+
          /// <summary>Create Age At Death Obs</summary>
          private void CreateAgeAtDeathObs(){
             AgeAtDeathObs = new Observation();
@@ -177,6 +180,8 @@ namespace VRDR
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
+            AgeAtDeathObs.Value = new Quantity();
+            AgeAtDeathObs.DataAbsentReason = (CodeableConcept)null;   // not set when this is created
             AddReferenceToComposition(AgeAtDeathObs.Id);
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -5986,7 +5991,7 @@ namespace VRDR
         {
             get
             {
-                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null)
+                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null && !AgeAtDeathDataAbsentReason) // if there is a value for age, return it
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
@@ -6004,33 +6009,61 @@ namespace VRDR
                 }
 
                 // If the value or unit is null, put out a data absent reason
-
-
-                if ( (!String.IsNullOrWhiteSpace(GetValue(value, "value"))) && !GetValue(value, "value").Equals("999") ){ // not unknown - NVSS-209
-                    String v = GetValue(value, "value");
-                    if (v.Equals("999")){
-                        AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
-                    }else{
-                        if (AgeAtDeathObs.Value == null){
-                            AgeAtDeathObs.Value = new Quantity();
-                        }
-                        Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                        quantity.Value = Convert.ToDecimal(v);
-                        AgeAtDeathObs.Value = quantity;
-                    }
-                }
-
-                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) && !GetValue(value, "unit").Equals("9")){
-                    String u = GetValue(value, "unit");
-                    if (AgeAtDeathObs.Value == null){
-                            AgeAtDeathObs.Value = new Quantity();
-                    }
+                if ( !String.IsNullOrWhiteSpace(GetValue(value, "value"))  ){  // if there is a value for age, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                    quantity.Unit = u;
+                    quantity.Value = Convert.ToDecimal(GetValue(value, "value"));
+                    AgeAtDeathObs.Value = quantity;
+                    AgeAtDeathDataAbsentReason = false; // if age is present, cancel the data absent reason
+                }
+                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) ){ // if there is a value for unit, set it
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    quantity.Unit = GetValue(value, "unit");
                     AgeAtDeathObs.Value = quantity;
                 }
               }
         }
+        /// <summary>Decedent's Age At Death Data Absent Reason.</summary>
+        /// <value>True if the data absent reason field is present</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathAbsentReason = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"AgeAtDeathDataAbsentReason: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+        /// </example>
+        [Property("Age At Death Data Absent Reason", Property.Types.Bool,"Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        public bool AgeAtDeathDataAbsentReason
+        {
+           get
+            {
+                if (AgeAtDeathObs != null && AgeAtDeathObs.DataAbsentReason != null){ // if it is present, true
+                    return true;
+                }
+                else    // else false
+                {
+                    return false;
+                }
+            }
+            set
+            {
+                if ( value == false)
+                {
+                    if (AgeAtDeathObs != null) {  // if it has been created, reset the DataAbsentReason, otherwise, nothing to do.
+                        AgeAtDeathObs.DataAbsentReason = (CodeableConcept)null;
+                    }
+                }
+                else
+                {
+                    if (AgeAtDeathObs == null) // if it hasn't been created, create it
+                    {
+                        CreateAgeAtDeathObs();
+                    }
+                    AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
+                    AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
+                }
+            }
+        }
+
 
         /// <summary>Pregnancy Status At Death.</summary>
         /// <value>pregnancy status at death. A Dictionary representing a code, containing the following key/value pairs:

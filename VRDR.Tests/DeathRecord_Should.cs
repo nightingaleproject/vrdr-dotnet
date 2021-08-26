@@ -2028,8 +2028,7 @@ namespace VRDR.Tests
             aad1.Add("unit", "");
             aad1.Add("value", "");
             SetterDeathRecord.AgeAtDeath = aad1;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Null(SetterDeathRecord.AgeAtDeath);
 
             Dictionary<string, string> aad2 = new Dictionary<string, string>();
             aad2.Add("unit", "9");

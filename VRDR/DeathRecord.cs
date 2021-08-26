@@ -181,7 +181,7 @@ namespace VRDR
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
-            AgeAtDeathObs.DataAbsentReason = (CodeableConcept)null;   // not set when this is created
+            AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
             AddReferenceToComposition(AgeAtDeathObs.Id);
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -6036,7 +6036,7 @@ namespace VRDR
         {
            get
             {
-                if (AgeAtDeathObs != null && AgeAtDeathObs.DataAbsentReason != null){ // if it is present, true
+                if (AgeAtDeathObs == null ||  AgeAtDeathObs.DataAbsentReason != null){ // if it is present, true
                     return true;
                 }
                 else    // else false

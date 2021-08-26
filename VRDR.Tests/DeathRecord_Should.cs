@@ -2032,10 +2032,10 @@ namespace VRDR.Tests
             Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
 
             Dictionary<string, string> aad2 = new Dictionary<string, string>();
-            aad2.Add("unit", "9");
-            aad2.Add("value", "999");
+            SetterDeathRecord.AgeAtDeathDataAbsentReason = true;
             SetterDeathRecord.AgeAtDeath = aad2;
-            Assert.Null(SetterDeathRecord.AgeAtDeath);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
             Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentReason);
 
         }

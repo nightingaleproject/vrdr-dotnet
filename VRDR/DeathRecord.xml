@@ -58,6 +58,15 @@
         <member name="F:VRDR.CodeSystems.HL7_location_physical_type">
             <summary>HL7 Location Physical Type.</summary>
         </member>
+        <member name="F:VRDR.CodeSystems.PH_Occupation_CDC_Census2010">
+            <summary> CDC Census Occupation Code  </summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.PH_Industry_CDC_Census2010">
+            <summary> CDC Census Industry Code  </summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.US_NPI_HL7">
+            <summary> US NPI HL7  </summary>
+        </member>
         <member name="F:VRDR.CodeSystems.HL7_identifier_type">
             <summary>HL7 Identifier Type.</summary>
         </member>
@@ -1337,6 +1346,34 @@
             <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.BirthRecordIdentifierDataAbsentReason">
+            <summary>Birth Record Identifier Data Absent Reason (Code).</summary>
+            <value>Data Absent Reason for the Birth Record Identifier. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
+            <para>brs.Add("code", "unknown");</para>
+            <para>code.Add("system", CodeSystems.Data_Absent_Reason_HL7_V3);</para>
+            <para>brs.Add("display", "unknown");</para>
+            <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason = brs;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.BirthRecordIdentifierDataAbsentBoolean">
+            <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+            <value>True if the data absent reason field is present</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.BirthRecordState">
             <summary>Birth Record State.</summary>
             <value>the state of the decedent's birth certificate. A Dictionary representing a code, containing the following key/value pairs:
@@ -1347,7 +1384,7 @@
             <example>
             <para>// Setter:</para>
             <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
-            <para>brs.Add("code", "MA");</para>
+            <para>brs.Add("code", "US-MA");</para>
             <para>brs.Add("system", "urn:iso:std:iso:3166:-2");</para>
             <para>brs.Add("display", "Massachusetts");</para>
             <para>ExampleDeathRecord.BirthRecordState = brs;</para>
@@ -1848,6 +1885,34 @@
             <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathDataAbsentReason">
+            <summary>Decedent's Age At Death Data Absent Reason (code).</summary>
+            <value>Decedent's Age At Death Data Absent Reason. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <para>"system" - the code system this code belongs to</para>
+            <para>"display" - a human readable meaning of the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+            <para>code.Add("code", "unknown");</para>
+            <para>code.Add("system", CodeSystems.Data_Absent_Reason_HL7_V3);</para>
+            <para>brs.Add("display", "unknown");</para>
+            <para>ExampleDeathRecord.DeathLocationType = code;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.AgeAtDeathDataAbsentBoolean">
+            <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+            <value>True if the data absent reason field is present</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.PregnancyStatus">
             <summary>Pregnancy Status At Death.</summary>
             <value>pregnancy status at death. A Dictionary representing a code, containing the following key/value pairs:
@@ -2099,6 +2164,17 @@
             <summary>Convert a "code" dictionary to a FHIR CodableConcept.</summary>
             <param name="dict">represents a code.</param>
             <returns>the corresponding CodeableConcept representation of the code.</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.IsDictEmptyOrDefault(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Check if a dictionary is empty or one of our</summary>
+            <param name="dict">represents a code.</param>
+            <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.DictCompare(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Check if two dictionaries are equal</summary>
+            <param name="dict1">the first dictionary.</param>
+            <param name="dict2">the dictionary to compare the first against.</param>
+            <returns>A boolean identifying whether the provided dictionaries match</returns>
         </member>
         <member name="M:VRDR.DeathRecord.CodingToDict(Hl7.Fhir.Model.Coding)">
             <summary>Convert a FHIR Coding to a "code" Dictionary</summary>

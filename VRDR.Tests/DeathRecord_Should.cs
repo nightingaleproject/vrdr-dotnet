@@ -1515,6 +1515,7 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.BirthRecordId = "242123";
             Assert.Equal("242123", SetterDeathRecord.BirthRecordId);
+            Assert.False(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
         }
 
         [Fact]
@@ -1529,6 +1530,7 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.BirthRecordId = "";
             Assert.Null(SetterDeathRecord.BirthRecordId);
+            Assert.True(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
         }
 
         [Fact]
@@ -1536,6 +1538,23 @@ namespace VRDR.Tests
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
             Assert.Null(dr.BirthRecordId);
+            Assert.True(dr.BirthRecordIdentifierDataAbsentBoolean);
+        }
+
+        [Fact]
+        public void Set_BirthRecordDataAbsentReason()
+        {
+            SetterDeathRecord.BirthRecordId = "12121212"; // Will be nulled by the setter below
+            SetterDeathRecord.BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
+                { "code", "unknown" },
+                { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
+                { "display", "unknown" }
+            };
+            Assert.Null(SetterDeathRecord.BirthRecordId);
+            Assert.True(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
+            Assert.Equal("unknown", SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["code"]);
+            Assert.Equal(CodeSystems.Data_Absent_Reason_HL7_V3, SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["system"]);
+            Assert.Equal("unknown", SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["display"]);
         }
 
         [Fact]
@@ -1543,10 +1562,12 @@ namespace VRDR.Tests
         {
             DeathRecord dr = ((DeathRecord)JSONRecords[0]);
             Assert.Equal("242123",dr.BirthRecordId);
+            Assert.False(dr.BirthRecordIdentifierDataAbsentBoolean);
             IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("242123", ije1.BCNO);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal("242123",dr2.BirthRecordId);
+            Assert.False(dr.BirthRecordIdentifierDataAbsentBoolean);
         }
 
      [Fact]
@@ -1557,22 +1578,21 @@ namespace VRDR.Tests
             Assert.Equal("", ije1.BCNO);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Null(dr.BirthRecordId);
+            Assert.True(dr.BirthRecordIdentifierDataAbsentBoolean);
         }
-        [Fact]
-        public void Set_BirthRecordState()
+        [Theory]
+        [InlineData("US-MA", "urn:iso:std:iso:3166:-2", "Massachusetts")]
+        [InlineData("MA", "urn:iso:std:iso:3166:-2", "Massachusetts")]
+        public void Set_BirthRecordState(string code, string system, string display)
         {
-            Dictionary<string, string> brs = new Dictionary<string, string>();
-            Dictionary<string, string> iladdress = new Dictionary<string, string>();
-            brs.Add("code", "US-MA");
-            SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["code"]);
-            Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal("US-MA", SetterDeathRecord.BirthRecordState["display"]);
-            brs["code"]="MA";
-            SetterDeathRecord.BirthRecordState = brs;
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["code"]);
-            Assert.Equal("urn:iso:std:iso:3166:-2", SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal("MA", SetterDeathRecord.BirthRecordState["display"]);
+            SetterDeathRecord.BirthRecordState = new Dictionary<string, string>() {
+                { "code", code },
+                { "system", system },
+                { "display", display }
+            };
+            Assert.Equal(code, SetterDeathRecord.BirthRecordState["code"]);
+            Assert.Equal(system, SetterDeathRecord.BirthRecordState["system"]);
+            Assert.Equal(display, SetterDeathRecord.BirthRecordState["display"]);
         }
 
         [Fact]
@@ -2027,8 +2047,10 @@ namespace VRDR.Tests
         {
             Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["unit"]);
             Assert.Equal("79", ((DeathRecord)JSONRecords[0]).AgeAtDeath["value"]);
+            Assert.False(((DeathRecord)JSONRecords[0]).AgeAtDeathDataAbsentBoolean);
             Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["unit"]);
             Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
+            Assert.False(((DeathRecord)XMLRecords[0]).AgeAtDeathDataAbsentBoolean);
         }
 
         [Fact]
@@ -2042,12 +2064,11 @@ namespace VRDR.Tests
             Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
 
             Dictionary<string, string> aad2 = new Dictionary<string, string>();
-            SetterDeathRecord.AgeAtDeathDataAbsentReason = true;
+            SetterDeathRecord.AgeAtDeathDataAbsentBoolean = true;
             SetterDeathRecord.AgeAtDeath = aad2;
             Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
             Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
-            Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentReason);
-
+            Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentBoolean);
         }
 
         [Fact]
@@ -2068,7 +2089,7 @@ namespace VRDR.Tests
             DeathRecord dr2 = ije.ToDeathRecord();
             Assert.Equal("", dr2.AgeAtDeath["unit"]);
             Assert.Equal("", dr2.AgeAtDeath["value"]);
-            Assert.True(dr2.AgeAtDeathDataAbsentReason);
+            Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
         }
 
         [Fact]

@@ -1055,7 +1055,7 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]) && !record.AgeAtDeathDataAbsentReason)
+                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]) && !record.AgeAtDeathDataAbsentBoolean)
                 {
                     switch (record.AgeAtDeath["unit"].ToLower().Trim())
                     {
@@ -1138,7 +1138,7 @@ namespace VRDR
                 }
                 else
                 {
-                    record.AgeAtDeathDataAbsentReason = true;
+                    record.AgeAtDeathDataAbsentBoolean = true;
                 }
             }
         }

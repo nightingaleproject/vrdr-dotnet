@@ -139,6 +139,9 @@ namespace VRDR
             BirthRecordIdentifier.Status = ObservationStatus.Final;
             BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            BirthRecordIdentifier.Value = (FhirString) null;
+            BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
+
             AddReferenceToComposition(BirthRecordIdentifier.Id);
             Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
@@ -167,7 +170,7 @@ namespace VRDR
         private Observation AgeAtDeathObs;
 
          /// <summary>Create Age At Death Obs</summary>
-         private void CreateAgeAtDeathObs(){
+        private void CreateAgeAtDeathObs(){
             AgeAtDeathObs = new Observation();
             AgeAtDeathObs.Id = Guid.NewGuid().ToString();
             AgeAtDeathObs.Meta = new Meta();
@@ -177,6 +180,8 @@ namespace VRDR
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
+            AgeAtDeathObs.Value = new Quantity();
+            AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
             AddReferenceToComposition(AgeAtDeathObs.Id);
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
@@ -4140,10 +4145,97 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     BirthRecordIdentifier.Value = new FhirString(value);
+                    BirthRecordIdentifierDataAbsentBoolean = false;
+                } else {
+                    BirthRecordIdentifier.Value = (FhirString) null;
+                    BirthRecordIdentifierDataAbsentBoolean = true;
+                }
+             }
+        }
+        /// <summary>Birth Record Identifier Data Absent Reason (Code).</summary>
+        /// <value>Data Absent Reason for the Birth Record Identifier. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>brs.Add("code", "unknown");</para>
+        /// <para>code.Add("system", CodeSystems.Data_Absent_Reason_HL7_V3);</para>
+        /// <para>brs.Add("display", "unknown");</para>
+        /// <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason = brs;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
+        /// </example>
+        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR').dataAbsentReason", "")]
+        public Dictionary<string, string> BirthRecordIdentifierDataAbsentReason
+        {
+            get
+            {
+                if (BirthRecordIdentifier?.DataAbsentReason != null && BirthRecordIdentifier.DataAbsentReason as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict(BirthRecordIdentifier.DataAbsentReason);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+               if (BirthRecordIdentifier == null)
+                {
+                    CreateBirthRecordIdentifier();
+
+                }
+                // If an empty dict is provided then this will reset the `BirthRecordIdentifier.Value`
+                // Since `EmptyCodeableDict()` is returned via the getter, implementers trying to
+                // copy one death record to another would get their BirthRecordId cleared when copying this field.
+                if(!IsDictEmptyOrDefault(value)) {
+                    BirthRecordIdentifier.DataAbsentReason = DictToCodeableConcept(value);
+                    BirthRecordIdentifier.Value = (FhirString) null; // If reason is set the data must be null;
+                }
+            }
+        }
+
+        /// <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+        /// <value>True if the data absent reason field is present</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+        /// </example>
+        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        public bool BirthRecordIdentifierDataAbsentBoolean
+        {
+           get
+            {
+                return (BirthRecordIdentifier == null || BirthRecordIdentifier.DataAbsentReason != null);
+            }
+            set
+            {
+                if (value == false)
+                {
+                    if (BirthRecordIdentifier != null) {  // if it has been created, reset the DataAbsentReason, otherwise, nothing to do.
+                        BirthRecordIdentifier.DataAbsentReason = (CodeableConcept)null;
+                    }
                 }
                 else
                 {
-                    BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
+                    // If there already is a data absent reason do not overwrite it with the default
+                    if(BirthRecordIdentifier.DataAbsentReason == null) {
+                        BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
+                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
+                            { "code", "unknown" },
+                            { "display", "unknown" },
+                            { "text", null }
+                        };
+                    }
+                    BirthRecordIdentifier.Value = (FhirString) null; // If reason is set the data must be null;
                 }
             }
         }
@@ -4157,7 +4249,7 @@ namespace VRDR
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>brs.Add("code", "MA");</para>
+        /// <para>brs.Add("code", "US-MA");</para>
         /// <para>brs.Add("system", "urn:iso:std:iso:3166:-2");</para>
         /// <para>brs.Add("display", "Massachusetts");</para>
         /// <para>ExampleDeathRecord.BirthRecordState = brs;</para>
@@ -4186,10 +4278,7 @@ namespace VRDR
             }
             set
             {
-               if (!value.ContainsKey("code")){
-                   return;
-               }
-               CodeableConcept state = new CodeableConcept(CodeSystems.ISO_3166_2, value["code"], value["code"], null);
+               CodeableConcept state = DictToCodeableConcept(value);
                if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
@@ -4486,7 +4575,6 @@ namespace VRDR
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value);
                     }
-                    return EmptyCodeableDict();
                 }
                 return EmptyCodeableDict();
             }
@@ -5986,7 +6074,7 @@ namespace VRDR
         {
             get
             {
-                if (AgeAtDeathObs != null && AgeAtDeathObs.Value != null)
+                if (AgeAtDeathObs?.Value != null && !AgeAtDeathDataAbsentBoolean) // if there is a value for age, return it
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
@@ -6002,35 +6090,110 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs(); // Create it
                 }
-
+                string extractedValue = GetValue(value, "value");
                 // If the value or unit is null, put out a data absent reason
-
-
-                if ( (!String.IsNullOrWhiteSpace(GetValue(value, "value"))) && !GetValue(value, "value").Equals("999") ){ // not unknown - NVSS-209
-                    String v = GetValue(value, "value");
-                    if (v.Equals("999")){
-                        AgeAtDeathObs.DataAbsentReason =  new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
-                    }else{
-                        if (AgeAtDeathObs.Value == null){
-                            AgeAtDeathObs.Value = new Quantity();
-                        }
-                        Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                        quantity.Value = Convert.ToDecimal(v);
-                        AgeAtDeathObs.Value = quantity;
-                    }
-                }
-
-                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) && !GetValue(value, "unit").Equals("9")){
-                    String u = GetValue(value, "unit");
-                    if (AgeAtDeathObs.Value == null){
-                            AgeAtDeathObs.Value = new Quantity();
-                    }
+                if ( !String.IsNullOrWhiteSpace(extractedValue) ){  // if there is a value for age, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                    quantity.Unit = u;
+                    quantity.Value = Convert.ToDecimal(extractedValue);
+                    AgeAtDeathObs.Value = quantity;
+                    AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
+                }
+                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) ){ // if there is a value for unit, set it
+                    Quantity quantity = (Quantity)AgeAtDeathObs.Value;
+                    quantity.Unit = GetValue(value, "unit");
                     AgeAtDeathObs.Value = quantity;
                 }
               }
         }
+
+        /// <summary>Decedent's Age At Death Data Absent Reason (code).</summary>
+        /// <value>Decedent's Age At Death Data Absent Reason. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "unknown");</para>
+        /// <para>code.Add("system", CodeSystems.Data_Absent_Reason_HL7_V3);</para>
+        /// <para>brs.Add("display", "unknown");</para>
+        /// <para>ExampleDeathRecord.DeathLocationType = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+        /// </example>
+        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", false, 2)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        public Dictionary<string, string> AgeAtDeathDataAbsentReason
+        {
+           get
+            {
+                if (AgeAtDeathObs?.DataAbsentReason != null && AgeAtDeathObs.DataAbsentReason as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)AgeAtDeathObs.DataAbsentReason);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (AgeAtDeathObs == null) // if it hasn't been created, create it
+                {
+                    CreateAgeAtDeathObs();
+                }
+                // If an empty dict is provided then this will reset the `AgeAtDeathObs.Value`
+                // Since `EmptyCodeableDict()` is returned via the getter, implementers trying to
+                // copy one death record to another would get their AgeAtDeath cleared when copying this field.
+                if(!IsDictEmptyOrDefault(value)) {
+                    AgeAtDeathObs.DataAbsentReason = DictToCodeableConcept(value);
+                    AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
+                }
+            }
+        }
+
+        /// <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+        /// <value>True if the data absent reason field is present</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+        /// </example>
+        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        public bool AgeAtDeathDataAbsentBoolean
+        {
+           get
+            {
+                return (AgeAtDeathObs == null || AgeAtDeathObs.DataAbsentReason != null);
+            }
+            set
+            {
+                if (value == false)
+                {
+                    if (AgeAtDeathObs != null) {  // if it has been created, reset the DataAbsentReason, otherwise, nothing to do.
+                        AgeAtDeathObs.DataAbsentReason = (CodeableConcept)null;
+                    }
+                }
+                else
+                {
+                    // If there already is a data absent reason do not overwrite it with the default
+                    if(AgeAtDeathObs.DataAbsentReason == null) {
+                        AgeAtDeathDataAbsentReason = new Dictionary<string, string>() {
+                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
+                            { "code", "unknown" },
+                            { "display", "Unknown" },
+                            { "text", null }
+                        };
+                    }
+                    AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
+                }
+            }
+        }
+
 
         /// <summary>Pregnancy Status At Death.</summary>
         /// <value>pregnancy status at death. A Dictionary representing a code, containing the following key/value pairs:
@@ -7298,6 +7461,23 @@ namespace VRDR
                 codeableConcept.Text = dict["text"];
             }
             return codeableConcept;
+        }
+
+        /// <summary>Check if a dictionary is empty or one of our</summary>
+        /// <param name="dict">represents a code.</param>
+        /// <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
+        private bool IsDictEmptyOrDefault(Dictionary<string, string> dict)
+        {
+            return dict.Count == 0 || DictCompare(EmptyCodeableDict(), dict) || DictCompare(EmptyCodeDict(), dict);
+        }
+
+        /// <summary>Check if two dictionaries are equal</summary>
+        /// <param name="dict1">the first dictionary.</param>
+        /// <param name="dict2">the dictionary to compare the first against.</param>
+        /// <returns>A boolean identifying whether the provided dictionaries match</returns>
+        private bool DictCompare(Dictionary<string, string> dict1, Dictionary<string, string> dict2)
+        {
+            return dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
         }
 
         /// <summary>Convert a FHIR Coding to a "code" Dictionary</summary>

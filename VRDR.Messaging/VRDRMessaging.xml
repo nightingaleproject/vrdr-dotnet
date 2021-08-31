@@ -122,7 +122,7 @@
             <summary>The year in which the death occurred</summary>
         </member>
         <member name="P:VRDR.BaseMessage.DeathJurisdictionID">
-            <summary>Two character identifeir of the jurisdiction in which the death occrred</summary>
+            <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
         </member>
         <member name="P:VRDR.BaseMessage.NCHSIdentifier">
             <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>

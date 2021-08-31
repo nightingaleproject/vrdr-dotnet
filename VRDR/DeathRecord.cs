@@ -4226,12 +4226,15 @@ namespace VRDR
                 }
                 else
                 {
-                    BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
-                        { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
-                        { "code", "unknown" },
-                        { "display", "Unknown" },
-                        { "text", null }
-                    };
+                    // If there already is a data absent reason do not overwrite it with the default
+                    if(BirthRecordIdentifier.DataAbsentReason == null) {
+                        BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
+                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
+                            { "code", "unknown" },
+                            { "display", "unknown" },
+                            { "text", null }
+                        };
+                    }
                     BirthRecordIdentifier.Value = (FhirString) null; // If reason is set the data must be null;
                 }
             }
@@ -6177,12 +6180,15 @@ namespace VRDR
                 }
                 else
                 {
-                    AgeAtDeathDataAbsentReason = new Dictionary<string, string>() {
-                        { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
-                        { "code", "unknown" },
-                        { "display", "Unknown" },
-                        { "text", null }
-                    };
+                    // If there already is a data absent reason do not overwrite it with the default
+                    if(AgeAtDeathObs.DataAbsentReason == null) {
+                        AgeAtDeathDataAbsentReason = new Dictionary<string, string>() {
+                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
+                            { "code", "unknown" },
+                            { "display", "Unknown" },
+                            { "text", null }
+                        };
+                    }
                     AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
                 }
             }

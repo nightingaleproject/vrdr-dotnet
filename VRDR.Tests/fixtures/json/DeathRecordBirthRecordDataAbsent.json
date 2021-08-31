@@ -7,7 +7,7 @@
     ]
   },
   "identifier": {
-    "value": "2019MA000001"
+    "value": "2018MA000001"
   },
   "type": "document",
   "entry": [
@@ -1554,7 +1554,7 @@
         },
         "extension": [
           {
-            "url": "jurisdictionID",
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
             "valueCodeableConcept": {
               "coding": [
                 {

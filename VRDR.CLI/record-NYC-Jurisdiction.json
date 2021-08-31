@@ -848,7 +848,7 @@
         },
         "extension": [
           {
-            "url": "jurisdictionID",
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
             "valueCodeableConcept": {
               "coding": [ {
                 "system": "https://phinvads.cdc.gov/vads/ViewValueSet.action?id=282D4DD8-39EA-4C5B-B8A9-B2C3E5878A15#",

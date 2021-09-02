@@ -1365,13 +1365,13 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BirthRecordIdentifierDataAbsentBoolean">
-            <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+            <summary>Birth Record Identifier Data Absent Boolean.</summary>
             <value>True if the data absent reason field is present</value>
             <example>
             <para>// Setter:</para>
-            <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+            <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentBoolean = true;</para>
             <para>// Getter:</para>
-            <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+            <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BirthRecordState">

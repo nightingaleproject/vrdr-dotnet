@@ -4200,13 +4200,13 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Age At Death Data Absent Boolean.</summary>
+        /// <summary>Birth Record Identifier Data Absent Boolean.</summary>
         /// <value>True if the data absent reason field is present</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AgeAtDeathAbsentBoolean = true;</para>
+        /// <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentBoolean = true;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
+        /// <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
         [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
@@ -4226,6 +4226,11 @@ namespace VRDR
                 }
                 else
                 {
+                    if (BirthRecordIdentifier == null)
+                    {
+                        CreateBirthRecordIdentifier();
+
+                    }
                     // If there already is a data absent reason do not overwrite it with the default
                     if(BirthRecordIdentifier.DataAbsentReason == null) {
                         BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
@@ -6180,6 +6185,10 @@ namespace VRDR
                 }
                 else
                 {
+                    if (AgeAtDeathObs == null)
+                    {
+                        CreateAgeAtDeathObs();
+                    }
                     // If there already is a data absent reason do not overwrite it with the default
                     if(AgeAtDeathObs.DataAbsentReason == null) {
                         AgeAtDeathDataAbsentReason = new Dictionary<string, string>() {

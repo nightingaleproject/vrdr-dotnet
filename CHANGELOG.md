@@ -1,4 +1,8 @@
-## Change Log
+## Changelog
+
+### v3.2.0-preview3 - 2021-09-01
+
+* Add methods for getting and setting AgeAtDeathAbsentReason and BirthRecordIdentifierAbsentReason. A boolean getter and setter returning whether a reason has been set has also been provided.
 
 ### v3.2.0-preview2 - 2021-08-25
 

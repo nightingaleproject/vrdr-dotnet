@@ -35,7 +35,7 @@ var searchData=
   ['certstatecd_80',['CERTSTATECD',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a1afbaa8c26724bb70fa6b9a694cbcf30',1,'VRDR::IJEMortality']]],
   ['certsuffix_81',['CERTSUFFIX',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a95e2c6fce0813cc321d56d1f0f24b5b6',1,'VRDR::IJEMortality']]],
   ['certzip_82',['CERTZIP',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7f8f05c17b2cdba09af787eff108d80e',1,'VRDR::IJEMortality']]],
-  ['change_20log_83',['Change Log',['../md__c_h_a_n_g_e_l_o_g.html',1,'']]],
+  ['changelog_83',['Changelog',['../md__c_h_a_n_g_e_l_o_g.html',1,'']]],
   ['city_84',['City',['../class_v_r_d_r_1_1_place_code.html#a0cd90b2ade2d4d92bf8e622190864955',1,'VRDR::PlaceCode']]],
   ['cityc_85',['CITYC',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab3c8147b4e29cc4b160bf16bd02c3949',1,'VRDR::IJEMortality']]],
   ['citycode_5fd_86',['CITYCODE_D',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2f2b7ca25011c53c3fe7fca0c1338a50',1,'VRDR::IJEMortality']]],

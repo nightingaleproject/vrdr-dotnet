@@ -1,5 +1,9 @@
 ## Changelog
 
+### v3.2.0-preview4 - 2021-09-02
+
+* Fixed bug that causes error when calling data absent boolean setter methods
+
 ### v3.2.0-preview3 - 2021-09-01
 
 * Add methods for getting and setting AgeAtDeathAbsentReason and BirthRecordIdentifierAbsentReason. A boolean getter and setter returning whether a reason has been set has also been provided.

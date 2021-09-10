@@ -34,6 +34,7 @@
     <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptySubmission.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/ExtractionErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/InvalidJurisdictionId.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/InvalidMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingAge.json" CopyToOutputDirectory="PreserveNewest" />

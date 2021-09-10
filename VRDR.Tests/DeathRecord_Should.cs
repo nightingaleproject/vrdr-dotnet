@@ -163,6 +163,24 @@ namespace VRDR.Tests
         }
 
       [Fact]
+        public void NoDeathLocationJurisdictionJsontoIJE()
+        {
+            DeathRecord deathRecord = new DeathRecord();
+            IJEMortality ije = new IJEMortality(deathRecord);
+            Assert.Equal("  ", ije.DSTATE);
+        }
+
+    [Fact]
+        public void InvalidDeathLocationJurisdictionJsontoIJE()
+        {
+            // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5 
+            // if the input is invalid, it will interpret the value as missing, no error is thrown
+            DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
+            IJEMortality ije = new IJEMortality(djson);
+            Assert.Equal("  ", ije.DSTATE);
+        }
+
+        [Fact]
         public void ParseDeathLocationTypeIJEtoJson()
         {
             DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathLocationType.json")));
@@ -2571,6 +2589,5 @@ namespace VRDR.Tests
                 return Path.GetRelativePath(Directory.GetCurrentDirectory(), filePath);
             }
         }
-
     }
 }

@@ -5892,7 +5892,10 @@ namespace VRDR
                     if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
                     {
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
+                        if (cc.Coding.Count > 0) {
+                            return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
+                        }
+                        
                     }
                 }
                 return null;

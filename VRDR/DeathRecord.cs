@@ -7472,21 +7472,12 @@ namespace VRDR
             return codeableConcept;
         }
 
-        /// <summary>Check if a dictionary is empty or one of our</summary>
+        /// <summary>Check if a dictionary is empty or a default empty dictionary (all values are null or empty strings)</summary>
         /// <param name="dict">represents a code.</param>
         /// <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
         private bool IsDictEmptyOrDefault(Dictionary<string, string> dict)
         {
-            return dict.Count == 0 || DictCompare(EmptyCodeableDict(), dict) || DictCompare(EmptyCodeDict(), dict);
-        }
-
-        /// <summary>Check if two dictionaries are equal</summary>
-        /// <param name="dict1">the first dictionary.</param>
-        /// <param name="dict2">the dictionary to compare the first against.</param>
-        /// <returns>A boolean identifying whether the provided dictionaries match</returns>
-        private bool DictCompare(Dictionary<string, string> dict1, Dictionary<string, string> dict2)
-        {
-            return dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
+            return dict.Count == 0 || dict.Values.All(v => v == null || v == "");
         }
 
         /// <summary>Convert a FHIR Coding to a "code" Dictionary</summary>

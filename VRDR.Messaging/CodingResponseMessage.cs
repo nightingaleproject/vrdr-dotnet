@@ -267,7 +267,7 @@ namespace VRDR
                 Record.Remove("rec_yr");
                 if (value != null)
                 {
-                    if (DeathYear != null && value <= DeathYear) {
+                    if (DeathYear != null && value < DeathYear) {
                         throw new ArgumentException("NCHS Receipt Year must be greater than or equal to Death Year, or null");
                     }
                     Record.Add("rec_yr", new UnsignedInt((int)value));

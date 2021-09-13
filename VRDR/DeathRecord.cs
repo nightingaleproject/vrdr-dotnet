@@ -5880,7 +5880,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, locationJurisdictionExtPath, false, 16)]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
         public string DeathLocationJurisdiction
         {

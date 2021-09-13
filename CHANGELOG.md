@@ -1,5 +1,13 @@
 ## Changelog
 
+### v3.2.0-preview5 - 2021-09-13
+
+* Fixed bug in how nulls are interpreted when loading description files that caused segments of records to be dropped in Canary
+* Removed incorrect extra spaces from some race strings
+* Fixed bug that caused an error if the receipt year was set to the death year when creating coded response messages
+* Improved text that describes expected values for the Death Location Jurisdiction field
+* Fixed bug that caused incorrect data to be shown in Canary for Death Location Jurisdiction
+
 ### v3.2.0-preview4 - 2021-09-02
 
 * Fixed bug that causes error when calling data absent boolean setter methods

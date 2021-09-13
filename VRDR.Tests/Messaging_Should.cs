@@ -503,6 +503,29 @@ namespace VRDR.Tests
             Assert.Equal("code2_1", code);
         }
 
+        [Theory]
+        [InlineData("2021", 2021)]
+        [InlineData("2022", 2021)]
+        [InlineData(null, 2021)]
+        public void SuccessfullySetNCHSReceiptYear(string receiptYear, uint deathYear)
+        {
+            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            message.DeathYear = deathYear;
+            message.NCHSReceiptYearString = receiptYear;
+            Assert.Equal(receiptYear, message.NCHSReceiptYearString);
+        }
+
+        [Theory]
+        [InlineData("2019", 2021)]
+        [InlineData("2020", 2021)]
+        public void NCHSReceiptYearMustBeGreaterThanOrEqualToDeathYear(string receiptYear, uint deathYear)
+        {
+            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            message.DeathYear = deathYear;
+            System.ArgumentException ex = Assert.Throws<System.ArgumentException>(() => message.NCHSReceiptYearString = receiptYear);
+            Assert.Equal("NCHS Receipt Year must be greater than or equal to Death Year, or null", ex.Message);
+        }
+
         [Fact]
         public void CreateCodingUpdate()
         {

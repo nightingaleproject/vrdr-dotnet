@@ -3025,7 +3025,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
         [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)._birthDate.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_birthDate")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
         public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
             get
@@ -3049,7 +3049,14 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = new FhirString(element.Item2);
+                            if (datePartDetails.Url == "date-year" || datePartDetails.Url == "date-month" || datePartDetails.Url == "date-day")
+                            {
+                                datePartDetails.Value = new Integer(Int32.Parse(element.Item2));
+                            }
+                            else
+                            {
+                                datePartDetails.Value = new Code(element.Item2);
+                            }
                             datePart.Extension.Add(datePartDetails);
                         }
 
@@ -5604,7 +5611,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
         /// </example>
         [Property("Date Of Death Date Part Absent", Property.Types.TupleArr, "Death Investigation", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')._valueDateTime.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_valueDateTime")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "_valueDateTime")]
         public Tuple<string,string>[] DateOfDeathDatePartAbsent
         {
             get
@@ -5635,7 +5642,14 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = new FhirString(element.Item2);
+                            if (datePartDetails.Url == "date-year" || datePartDetails.Url == "date-month" || datePartDetails.Url == "date-day")
+                            {
+                                datePartDetails.Value = new Integer(Int32.Parse(element.Item2));
+                            }
+                            else
+                            {
+                                datePartDetails.Value = new Code(element.Item2);
+                            }
                             datePart.Extension.Add(datePartDetails);
                         }
 

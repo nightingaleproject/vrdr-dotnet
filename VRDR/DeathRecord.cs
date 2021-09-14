@@ -3049,14 +3049,7 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            if (datePartDetails.Url == "date-year" || datePartDetails.Url == "date-month" || datePartDetails.Url == "date-day")
-                            {
-                                datePartDetails.Value = new Integer(Int32.Parse(element.Item2));
-                            }
-                            else
-                            {
-                                datePartDetails.Value = new Code(element.Item2);
-                            }
+                            datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
 
@@ -5642,14 +5635,7 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            if (datePartDetails.Url == "date-year" || datePartDetails.Url == "date-month" || datePartDetails.Url == "date-day")
-                            {
-                                datePartDetails.Value = new Integer(Int32.Parse(element.Item2));
-                            }
-                            else
-                            {
-                                datePartDetails.Value = new Code(element.Item2);
-                            }
+                            datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
 
@@ -7631,6 +7617,20 @@ namespace VRDR
                 }
             }
             return dateParts.ToArray();
+        }
+
+        /// <summary>Convert an element to an integer or code depending on if the input element is a date part.</summary>
+        /// <param name="pair">A key value pair, the key will be used to identify whether the element is a date part.</param>
+        private Element DatePartToIntegerOrCode(Tuple<string, string> pair)
+        {
+            if (pair.Item1 == "date-year" || pair.Item1 == "date-month" || pair.Item1 == "date-day")
+            {
+                return new Integer(Int32.Parse(pair.Item2));
+            }
+            else
+            {
+                return new Code(pair.Item2);
+            }
         }
 
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>

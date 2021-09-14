@@ -2190,6 +2190,10 @@
             <param name="datePartAbsent">a Date Part Extension.</param>
             <returns>the corresponding array representation of the date parts.</returns>
         </member>
+        <member name="M:VRDR.DeathRecord.TupleToIntegerOrCode(System.Tuple{System.String,System.String})">
+            <summary>Convert an element to an integer or code depending on if the input element is a date part.</summary>
+            <param name="pair">A key value pair, the key will be used to identify whether the element is a date part.</param>
+        </member>
         <member name="M:VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
             <summary>Convert a FHIR Address to an "address" Dictionary.</summary>
             <param name="addr">a FHIR Address.</param>

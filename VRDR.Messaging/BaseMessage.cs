@@ -114,6 +114,12 @@ namespace VRDR
             this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
         }
 
+        /// <summary>
+        /// Allow explicit casting of a message into a bundle
+        /// </summary>
+        /// <param name="message">the death record to extract the bundle from</param>
+        public static explicit operator Bundle(BaseMessage message) => message.MessageBundle;
+
         /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
         /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
@@ -531,7 +537,7 @@ namespace VRDR
         /// Construct a new instance.
         /// </summary>
         /// <param name="errorMessage">A text error message describing the problem</param>
-        /// <param name="sourceMessage">The message that cuased the problem</param>
+        /// <param name="sourceMessage">The message that caused the problem</param>
         public MessageParseException(string errorMessage, BaseMessage sourceMessage) : base(errorMessage)
         {
             this.sourceMessage = sourceMessage;

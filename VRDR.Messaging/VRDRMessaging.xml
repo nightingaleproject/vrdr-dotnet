@@ -72,6 +72,12 @@
             </summary>
             <param name="from">the death record to extract the identifiers from</param>
         </member>
+        <member name="M:VRDR.BaseMessage.op_Explicit(VRDR.BaseMessage)~Hl7.Fhir.Model.Bundle">
+            <summary>
+            Allow explicit casting of a message into a bundle
+            </summary>
+            <param name="message">the death record to extract the bundle from</param>
+        </member>
         <member name="M:VRDR.BaseMessage.ToXML(System.Boolean)">
             <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
             <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
@@ -177,7 +183,7 @@
             Construct a new instance.
             </summary>
             <param name="errorMessage">A text error message describing the problem</param>
-            <param name="sourceMessage">The message that cuased the problem</param>
+            <param name="sourceMessage">The message that caused the problem</param>
         </member>
         <member name="M:VRDR.MessageParseException.CreateExtractionErrorMessage">
             <summary>

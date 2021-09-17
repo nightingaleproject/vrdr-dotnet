@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['wracecodetoracename_578',['WRaceCodeToRaceName',['../class_v_r_d_r_1_1_mortality_data.html#a47bd577c1e02083895b6446dfebdf3b8',1,'VRDR::MortalityData']]],
-  ['wracenametoracecode_579',['WRaceNameToRaceCode',['../class_v_r_d_r_1_1_mortality_data.html#a0197b5e640164129aeebc8dde91d3d8c',1,'VRDR::MortalityData']]]
+  ['voidmessage_579',['VoidMessage',['../class_v_r_d_r_1_1_void_message.html#aec9b6037da346dff7a8ce90100fa08a0',1,'VRDR.VoidMessage.VoidMessage()'],['../class_v_r_d_r_1_1_void_message.html#a1c347502013d9bd0c52e572c2c57c243',1,'VRDR.VoidMessage.VoidMessage(DeathRecord record)']]]
 ];

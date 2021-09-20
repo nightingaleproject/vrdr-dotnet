@@ -1792,6 +1792,16 @@
             <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DeathLocationJurisdiction">
+            <summary>Death Location Jurisdiction.</summary>
+            <value>the vital record jurisdiction identifier.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.DeathLocationAddress">
             <summary>Location of Death.</summary>
             <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
@@ -1819,16 +1829,6 @@
             <para>{</para>
             <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
             <para>};</para>
-            </example>
-        </member>
-        <member name="P:VRDR.DeathRecord.DeathLocationJurisdiction">
-            <summary>Death Location Jurisdiction.</summary>
-            <value>the vital record jurisdiction identifier.</value>
-            <example>
-            <para>// Setter:</para>
-            <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
-            <para>// Getter:</para>
-            <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DeathLocationName">

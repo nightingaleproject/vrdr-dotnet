@@ -5813,65 +5813,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Location of Death.</summary>
-        /// <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
-        /// <para>"addressLine1" - address, line one</para>
-        /// <para>"addressLine2" - address, line two</para>
-        /// <para>"addressCity" - address, city</para>
-        /// <para>"addressCounty" - address, county</para>
-        /// <para>"addressState" - address, state</para>
-        /// <para>"addressZip" - address, zip</para>
-        /// <para>"addressCountry" - address, country</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>address.Add("addressLine1", "123456789 Test Street");</para>
-        /// <para>address.Add("addressLine2", "Unit 3");</para>
-        /// <para>address.Add("addressCity", "Boston");</para>
-        /// <para>address.Add("addressCounty", "Suffolk");</para>
-        /// <para>address.Add("addressState", "MA");</para>
-        /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "US");</para>
-        /// <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
-        /// <para>// Getter:</para>
-        /// <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
-        /// <para>{</para>
-        /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
-        /// <para>};</para>
-        /// </example>
-        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", true, 15)]
-        [PropertyParam("addressLine1", "address, line one")]
-        [PropertyParam("addressLine2", "address, line two")]
-        [PropertyParam("addressCity", "address, city")]
-        [PropertyParam("addressCounty", "address, county")]
-        [PropertyParam("addressState", "address, state")]
-        [PropertyParam("addressZip", "address, zip")]
-        [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
-        public Dictionary<string, string> DeathLocationAddress
-        {
-            get
-            {
-            if (DeathLocationLoc != null)
-                {
-                    return AddressToDict(DeathLocationLoc.Address);
-                }
-                return EmptyAddrDict();
-            }
-            set
-            {
-                if (DeathLocationLoc == null)
-                {
-                    CreateDeathLocation();
-                }
-
-                DeathLocationLoc.Address = DictToAddress(value);
-
-                UpdateBundleIdentifier();
-            }
-        }
-
         /// <summary>Death Location Jurisdiction.</summary>
         /// <value>the vital record jurisdiction identifier.</value>
         /// <example>
@@ -5935,6 +5876,65 @@ namespace VRDR
                     DeathLocationLoc.Extension.Add(extension);
                     UpdateBundleIdentifier();
                 }
+            }
+        }
+
+        /// <summary>Location of Death.</summary>
+        /// <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
+        /// <para>"addressLine1" - address, line one</para>
+        /// <para>"addressLine2" - address, line two</para>
+        /// <para>"addressCity" - address, city</para>
+        /// <para>"addressCounty" - address, county</para>
+        /// <para>"addressState" - address, state</para>
+        /// <para>"addressZip" - address, zip</para>
+        /// <para>"addressCountry" - address, country</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>address.Add("addressLine1", "123456789 Test Street");</para>
+        /// <para>address.Add("addressLine2", "Unit 3");</para>
+        /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCounty", "Suffolk");</para>
+        /// <para>address.Add("addressState", "MA");</para>
+        /// <para>address.Add("addressZip", "12345");</para>
+        /// <para>address.Add("addressCountry", "US");</para>
+        /// <para>ExampleDeathRecord.DeathLocationAddress = address;</para>
+        /// <para>// Getter:</para>
+        /// <para>foreach(var pair in ExampleDeathRecord.DeathLocationAddress)</para>
+        /// <para>{</para>
+        /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
+        /// <para>};</para>
+        /// </example>
+        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", true, 15)]
+        [PropertyParam("addressLine1", "address, line one")]
+        [PropertyParam("addressLine2", "address, line two")]
+        [PropertyParam("addressCity", "address, city")]
+        [PropertyParam("addressCounty", "address, county")]
+        [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressZip", "address, zip")]
+        [PropertyParam("addressCountry", "address, country")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
+        public Dictionary<string, string> DeathLocationAddress
+        {
+            get
+            {
+            if (DeathLocationLoc != null)
+                {
+                    return AddressToDict(DeathLocationLoc.Address);
+                }
+                return EmptyAddrDict();
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+
+                DeathLocationLoc.Address = DictToAddress(value);
+
+                UpdateBundleIdentifier();
             }
         }
 

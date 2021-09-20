@@ -103,6 +103,17 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void FailOnInvalidDeathLocationJurisdiction()
+        {
+            // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5 
+            // if the input is invalid, an error is thrown
+            DeathRecord deathRecord = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
+            String deathJurisdiction;
+            Exception ex = Assert.Throws<System.ArgumentException>(() => deathJurisdiction = deathRecord.DeathLocationJurisdiction);
+            Assert.Equal("Death Location Jurisdiction is required, but not found. Check the extension is formatted correctly. (Parameter 'http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id')", ex.Message);
+        }
+
+        [Fact]
         public void EmptyRecordToDescription()
         {
             DeathRecord deathRecord = new DeathRecord();
@@ -167,16 +178,6 @@ namespace VRDR.Tests
         {
             DeathRecord deathRecord = new DeathRecord();
             IJEMortality ije = new IJEMortality(deathRecord);
-            Assert.Equal("  ", ije.DSTATE);
-        }
-
-    [Fact]
-        public void InvalidDeathLocationJurisdictionJsontoIJE()
-        {
-            // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5 
-            // if the input is invalid, it will interpret the value as missing, no error is thrown
-            DeathRecord djson = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
-            IJEMortality ije = new IJEMortality(djson);
             Assert.Equal("  ", ije.DSTATE);
         }
 
@@ -2437,6 +2438,7 @@ namespace VRDR.Tests
             dtladdress.Add("addressState", "MA");
             dtladdress.Add("addressZip", "01730");
             dtladdress.Add("addressCountry", "US");
+            SetterDeathRecord.DeathLocationJurisdiction = "MA";
             SetterDeathRecord.DeathLocationAddress = dtladdress;
             Assert.Equal("671 Example Street", SetterDeathRecord.DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DeathLocationAddress["addressLine2"]);

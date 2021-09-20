@@ -5880,25 +5880,30 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
+        // The priority for this field must be before the BundleIdentifier because it is required to set the bundle identifier when using the to/from description functions
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 3)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
             {
-                if (DeathLocationLoc != null)
+                try 
                 {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
-                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
+                    if (DeathLocationLoc != null)
                     {
+                        Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        if (cc.Coding.Count > 0) {
-                            return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
-                        }
-                        
+                        // this will throw an index out of bounds error if there is no code in the extension
+                        return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code); 
                     }
+                    return null;
                 }
-                return null;
+                catch (Exception ex)
+                {
+                    // Jurisdiction is a required field. If it is not found, return a useful error so the user can address the missing field.
+                    throw new ArgumentException("Death Location Jurisdiction is required, but not found. Check the extension is formatted correctly.", locationJurisdictionExtPath, ex);
+                }
+  
             }
             set
             {

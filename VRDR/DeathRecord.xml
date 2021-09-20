@@ -2166,15 +2166,9 @@
             <returns>the corresponding CodeableConcept representation of the code.</returns>
         </member>
         <member name="M:VRDR.DeathRecord.IsDictEmptyOrDefault(System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>Check if a dictionary is empty or one of our</summary>
+            <summary>Check if a dictionary is empty or a default empty dictionary (all values are null or empty strings)</summary>
             <param name="dict">represents a code.</param>
             <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
-        </member>
-        <member name="M:VRDR.DeathRecord.DictCompare(System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>Check if two dictionaries are equal</summary>
-            <param name="dict1">the first dictionary.</param>
-            <param name="dict2">the dictionary to compare the first against.</param>
-            <returns>A boolean identifying whether the provided dictionaries match</returns>
         </member>
         <member name="M:VRDR.DeathRecord.CodingToDict(Hl7.Fhir.Model.Coding)">
             <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
@@ -2195,6 +2189,10 @@
             <summary>Convert a Date Part Extension to an Array.</summary>
             <param name="datePartAbsent">a Date Part Extension.</param>
             <returns>the corresponding array representation of the date parts.</returns>
+        </member>
+        <member name="M:VRDR.DeathRecord.DatePartToIntegerOrCode(System.Tuple{System.String,System.String})">
+            <summary>Convert an element to an integer or code depending on if the input element is a date part.</summary>
+            <param name="pair">A key value pair, the key will be used to identify whether the element is a date part.</param>
         </member>
         <member name="M:VRDR.DeathRecord.AddressToDict(Hl7.Fhir.Model.Address)">
             <summary>Convert a FHIR Address to an "address" Dictionary.</summary>

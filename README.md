@@ -6,7 +6,7 @@
 
 This repository includes .NET (C#) code for
 
-- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide](http://hl7.org/fhir/us/vrdr/).
+- Producing and consuming the Vital Records Death Reporting (VRDR) Health Level 7 (HL7) Fast Healthcare Interoperability Resources (FHIR) standard. [Click here to view the FHIR Implementation Guide STU2](http://hl7.org/fhir/us/vrdr/2021Sep/).
 - Producing and consuming FHIR messages for the exchange of VRDR documents.
 - Support for converting VRDR FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.
 - This codebase covers the subset of the IJE fields listed in this [spreadsheet](VRDRdotNETLibraryCoverage.csv).
@@ -36,9 +36,9 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.2.0-preview4</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.0-preview4">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0-preview4"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0-preview4">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V3.2.0-preview5</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.0-preview5">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0-preview5"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0-preview5">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -50,7 +50,10 @@ This repository includes .NET (C#) code for
 - You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
-- To check whether your .NET version supports a release, refer to (this)[https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support] .NET matrix. First, note whether you are using .NET Core or .NET Framework - see (here)[https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard] for distinctions between the .NET implementation option. Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. By looking at the matrix, you can see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
+- To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
+  - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options. 
+  - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. 
+    - Ex. If you are using .NET Framework 4.6.1, you can look at the matrix and see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
 
@@ -65,7 +68,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.2.0-preview4" />
+  <PackageReference Include="VRDR" Version="3.2.0-preview5" />
   ...
 </ItemGroup>
 ```
@@ -113,9 +116,9 @@ deathRecord.CODE1A = exampleCode;
 
 // Add PregnancyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
-code.Add("code", "PHC1260");
-code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");
-code.Add("display", "Not pregnant within past year");
+code.Add("code", "PHC1261");
+code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("display", "Pregnant at the time of death");
 deathRecord.PregnancyStatus = code;
 
 // Add ExaminerContacted
@@ -230,7 +233,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.2.0-preview4" />
+  <PackageReference Include="VRDR.Messaging" Version="3.2.0-preview5" />
   ...
 </ItemGroup>
 ```

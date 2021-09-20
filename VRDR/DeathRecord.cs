@@ -3025,7 +3025,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
         [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)._birthDate.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_birthDate")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
         public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
             get
@@ -3049,7 +3049,7 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = new FhirString(element.Item2);
+                            datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
 
@@ -5604,7 +5604,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
         /// </example>
         [Property("Date Of Death Date Part Absent", Property.Types.TupleArr, "Death Investigation", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')._valueDateTime.extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason')", "_valueDateTime")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "_valueDateTime")]
         public Tuple<string,string>[] DateOfDeathDatePartAbsent
         {
             get
@@ -5635,7 +5635,7 @@ namespace VRDR
                         {
                             Extension datePartDetails = new Extension();
                             datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = new FhirString(element.Item2);
+                            datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
 
@@ -5880,8 +5880,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location.", true, locationJurisdictionExtPath, false, 16)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
@@ -7475,21 +7475,12 @@ namespace VRDR
             return codeableConcept;
         }
 
-        /// <summary>Check if a dictionary is empty or one of our</summary>
+        /// <summary>Check if a dictionary is empty or a default empty dictionary (all values are null or empty strings)</summary>
         /// <param name="dict">represents a code.</param>
         /// <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
         private bool IsDictEmptyOrDefault(Dictionary<string, string> dict)
         {
-            return dict.Count == 0 || DictCompare(EmptyCodeableDict(), dict) || DictCompare(EmptyCodeDict(), dict);
-        }
-
-        /// <summary>Check if two dictionaries are equal</summary>
-        /// <param name="dict1">the first dictionary.</param>
-        /// <param name="dict2">the dictionary to compare the first against.</param>
-        /// <returns>A boolean identifying whether the provided dictionaries match</returns>
-        private bool DictCompare(Dictionary<string, string> dict1, Dictionary<string, string> dict2)
-        {
-            return dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
+            return dict.Count == 0 || dict.Values.All(v => v == null || v == "");
         }
 
         /// <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
@@ -7629,6 +7620,20 @@ namespace VRDR
                 }
             }
             return dateParts.ToArray();
+        }
+
+        /// <summary>Convert an element to an integer or code depending on if the input element is a date part.</summary>
+        /// <param name="pair">A key value pair, the key will be used to identify whether the element is a date part.</param>
+        private Element DatePartToIntegerOrCode(Tuple<string, string> pair)
+        {
+            if (pair.Item1 == "date-year" || pair.Item1 == "date-month" || pair.Item1 == "date-day")
+            {
+                return new Integer(Int32.Parse(pair.Item2));
+            }
+            else
+            {
+                return new Code(pair.Item2);
+            }
         }
 
         /// <summary>Convert a FHIR Address to an "address" Dictionary.</summary>

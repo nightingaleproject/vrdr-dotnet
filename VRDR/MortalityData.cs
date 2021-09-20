@@ -1171,7 +1171,7 @@ namespace VRDR
         public Dictionary<string, string> CDCRaceACodes = new Dictionary<string, string>()
         {
             { "2028-9", "Asian" },
-            { "2029-7", "Asian  Indian"},
+            { "2029-7", "Asian Indian"},
             { "2030-5", "Bangladeshi" },
             { "2031-3", "Bhutanese" },
             { "2032-1", "Burmese" },
@@ -1187,10 +1187,10 @@ namespace VRDR
             { "2042-0", "Malaysian" },
             { "2043-8", "Okinawan" },
             { "2044-6", "Pakistani" },
-            { "2045-3", "Sri  Lankan"},
+            { "2045-3", "Sri Lankan"},
             { "2046-1", "Thai" },
             { "2047-9", "Vietnamese" },
-            { "2048-7", "Iwo  Jiman"},
+            { "2048-7", "Iwo Jiman"},
             { "2049-5", "Maldivian" },
             { "2050-3", "Nepalese" },
             { "2051-1", "Singaporean" },

@@ -319,7 +319,7 @@ namespace VRDR.Tests
             DeathRecord dr1 = ije1.ToDeathRecord();
             Assert.True(dr1.DateOfBirthDatePartAbsent != null);
 
-            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "01"), Tuple.Create("date-day", "01")};
+            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "1"), Tuple.Create("date-day", "1")};
             Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
             Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
             Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);

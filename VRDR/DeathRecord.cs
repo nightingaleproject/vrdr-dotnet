@@ -539,17 +539,26 @@ namespace VRDR
                     UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
                 }
             }
-            var jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
-            if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
+            try
             {
-                jurisdictionId = "XX";
-            }
-            else
+                // DeathLocationJurisdiction will throw an error if it is not set
+                var jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
+                if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
+                {
+                    jurisdictionId = "XX";
+                }
+                else
+                {
+                    jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
+                }
+                this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
+            } 
+            catch (Exception ex)
             {
-                jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
+                throw new Exception("Death Location Jurisdiction must be set before updating the Bundle Identifier.", ex);
             }
-            this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
-            // Console.WriteLine("UpdateBundleIdentifier -- new identifer = " + this.BundleIdentifier);
+
+            
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
@@ -5813,6 +5822,74 @@ namespace VRDR
             }
         }
 
+        /// <summary>Death Location Jurisdiction.</summary>
+        /// <value>the vital record jurisdiction identifier.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
+        /// </example>
+        // The priority for this field must be before the BundleIdentifier because it is required to set the bundle identifier when using the to/from description functions
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 3)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
+        public string DeathLocationJurisdiction
+        {
+            get
+            {
+                try 
+                {
+                    if (DeathLocationLoc != null)
+                    {
+                        Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
+                        CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
+                        // this will throw an index out of bounds error if there is no code in the extension
+                        return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code); 
+                    }
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    // Jurisdiction is a required field. If it is not found, return a useful error so the user can address the missing field.
+                    throw new ArgumentException("Death Location Jurisdiction is required, but not found. Check that the extension is formatted correctly.", locationJurisdictionExtPath, ex);
+                }
+  
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+                else
+                {
+                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
+                }
+                if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
+                {
+                    CodeableConcept cc = new CodeableConcept();
+                    string code = MortalityData.JurisdictionNameToJurisdictionCode(value);
+                    string  system;
+                    string  display = value;
+
+                    if (value == "YC")
+                    {
+                        system = CodeSystems.PH_USGS_GNIS ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                    }
+                    else
+                    {
+                        system = CodeSystems.PH_State_FIPS_5_2 ; // All other codes are from FIPS_5-2
+                    }
+                    cc = new CodeableConcept(system, code, display, display);
+                    Extension extension = new Extension();
+                    extension.Url = locationJurisdictionExtPath;
+                    extension.Value = cc;
+                    DeathLocationLoc.Extension.Add(extension);
+                    UpdateBundleIdentifier();
+                }
+            }
+        }
+
         /// <summary>Location of Death.</summary>
         /// <value>location of death. A Dictionary representing an address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
@@ -5869,64 +5946,6 @@ namespace VRDR
                 DeathLocationLoc.Address = DictToAddress(value);
 
                 UpdateBundleIdentifier();
-            }
-        }
-
-        /// <summary>Death Location Jurisdiction.</summary>
-        /// <value>the vital record jurisdiction identifier.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DeathLocationJurisdiction = "MA";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
-        /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
-        public string DeathLocationJurisdiction
-        {
-            get
-            {
-                if (DeathLocationLoc != null)
-                {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
-                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
-                    {
-                        CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
-                    }
-                }
-                return null;
-            }
-            set
-            {
-                if (DeathLocationLoc == null)
-                {
-                    CreateDeathLocation();
-                }else{
-                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
-                }
-                if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
-                {
-                    CodeableConcept cc = new CodeableConcept();
-                    string code = MortalityData.JurisdictionNameToJurisdictionCode(value);
-                    string  system;
-                    string  display = value;
-
-                    if (value == "YC")
-                    {
-                        system = CodeSystems.PH_USGS_GNIS ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
-                    }
-                    else
-                    {
-                        system = CodeSystems.PH_State_FIPS_5_2 ; // All other codes are from FIPS_5-2
-                    }
-                    cc = new CodeableConcept(system, code, display, display);
-                    Extension extension = new Extension();
-                    extension.Url = locationJurisdictionExtPath;
-                    extension.Value = cc;
-                    DeathLocationLoc.Extension.Add(extension);
-                    UpdateBundleIdentifier();
-                }
             }
         }
 

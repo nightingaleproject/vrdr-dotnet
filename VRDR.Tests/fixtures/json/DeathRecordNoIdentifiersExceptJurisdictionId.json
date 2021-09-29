@@ -6,9 +6,6 @@
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
     ]
   },
-  "identifier": {
-    "value": "2018MA000001"
-  },
   "type": "document",
   "entry": [
     {
@@ -20,9 +17,6 @@
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
           ]
-        },
-        "identifier": {
-          "value": "99999"
         },
         "status": "final",
         "type": {
@@ -38,12 +32,6 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "date": "2019-02-01T16:47:04-05:00",
-        "author": [
-          {
-            "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-          }
-        ],
-        "title": "Death Certificate",
         "attester": [
           {
             "mode": "legal",
@@ -171,9 +159,6 @@
               },
               {
                 "reference": "urn:uuid:81899bd9-0441-45f0-9b89-9d91daa08983"
-              },
-              {
-                "reference": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d"
               }
             ]
           }
@@ -353,12 +338,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
           ]
         },
-        "identifier": [
-          {
-            "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "1234567890"
-          }
-        ],
         "name": [
           {
             "use": "official",
@@ -395,9 +374,9 @@
             "code": {
               "coding": [
                 {
-                  "system": "http://snomed.info/sct",
-                  "code": "434641000124105",
-                  "display": "Physician certified and pronounced death certificate"
+                  "system": "urn:oid:2.16.840.1.114222.4.11.7186",
+                  "code": "3060",
+                  "display": "Physicians and surgeons"
                 }
               ]
             }
@@ -415,12 +394,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
           ]
         },
-        "identifier": [
-          {
-            "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "9876543210"
-          }
-        ],
         "name": [
           {
             "use": "official",
@@ -433,35 +406,13 @@
               "Jr."
             ]
           }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "a9a45b6c-566c-4ad7-bce7-8c23751b669d",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "0000000000"
-          }
         ],
-        "name": [
+        "qualification": [
           {
-            "use": "official",
-            "family": "Last",
-            "given": [
-              "FD",
-              "Middle"
-            ],
-            "suffix": [
-              "Jr."
+            "identifier": [
+              {
+                "value": "9876543210"
+              }
             ]
           }
         ]
@@ -477,9 +428,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
           ]
         },
-        "identifier": [{
-          "value": "1"
-        }],
         "status": "completed",
         "category": {
           "coding": [
@@ -571,12 +519,10 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
           ]
         },
-        "active": true,
         "type": [
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
                 "code": "bus",
                 "display": "Non-Healthcare Business or Corporation"
               }
@@ -614,13 +560,7 @@
         },
         "organization": {
           "reference": "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa"
-        },
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "000-000-0000"
-          }
-        ]
+        }
       }
     },
     {
@@ -641,9 +581,7 @@
         "orderedBy": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/list-order",
-              "code": "priority",
-              "display": "Sorted by Priority"
+              "code": "priority"
             }
           ]
         },
@@ -692,15 +630,6 @@
           "state": "MA",
           "postalCode": "01730",
           "country": "US"
-        },
-        "physicalType": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-              "code": "si",
-              "display": "Site"
-            }
-          ]
         }
       }
     },
@@ -735,9 +664,8 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
               "code": "7878000",
-              "display": "Accidental death"
+              "display": "Accident"
             }
           ]
         }
@@ -994,8 +922,8 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "2.16.840.1.114222.4.5.274",
-              "code": "PHC1453",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
+              "code": "BD",
               "display": "College or baccalaureate degree complete"
             }
           ]
@@ -1039,7 +967,7 @@
               "coding": [
                 {
                   "system": "urn:iso:std:iso:3166:-2",
-                  "code": "US-MA",
+                  "code": "MA",
                   "display": "Massachusetts"
                 }
               ]
@@ -1050,8 +978,8 @@
               "coding": [
                 {
                   "system": "http://loinc.org",
-                  "code": "80904-6",
-                  "display": "Birth year"
+                  "code": "21112-8",
+                  "display": "Birth date"
                 }
               ]
             },
@@ -1085,7 +1013,11 @@
           "end" : "2010-01-01"
         },
         "valueCodeableConcept": {
-          "text": "secretary"
+          "coding": [
+            {
+              "display": "secretary"
+            }
+          ]
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
@@ -1101,9 +1033,49 @@
                 }
               ]
             },
-            "valueString": "State agency"
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "display": "State agency"
+                }
+              ]
+            }
           }
         ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e9b3c71b-fe74-4046-a47d-c085b8f76c63",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e9b3c71b-fe74-4046-a47d-c085b8f76c63",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "55280-2",
+              "display": "Military service"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+              "code": "Y",
+              "display": "Yes"
+            }
+          ]
+        }
       }
     },
     {
@@ -1148,40 +1120,6 @@
               "system": "http://snomed.info/sct",
               "code": "449971000124106",
               "display": "Burial"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:e9b3c71b-fe74-4046-a47d-c085b8f76c63",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "e9b3c71b-fe74-4046-a47d-c085b8f76c63",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
-          ]
-        },
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "55280-2",
-              "display": "Military service"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-              "code": "Y",
-              "display": "Yes"
             }
           ]
         }
@@ -1488,15 +1426,7 @@
                 }
               ]
             },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "urn:oid:2.16.840.1.114222.4.5.320",
-                  "code": "0",
-                  "display": "Home"
-                }
-              ]
-            }
+            "valueString": "home"
           }
         ]
       }
@@ -1564,12 +1494,12 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "effectiveDateTime": "2018-02-19T16:48:06-05:00",
+        "valueDateTime": "2018-02-19T16:48:06-05:00",
         "performer": [
           {
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
           }
         ],
-        "valueDateTime": "2018-02-19T16:48:06-05:00",
         "component": [
           {
             "code": {
@@ -1584,53 +1514,6 @@
             "valueDateTime": "2018-02-20T16:48:06-05:00"
           }
         ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:7d5ecb87-4b05-4365-9a8d-7cf75024390c",
-      "resource": {
-        "resourceType": "DocumentReference",
-        "id": "7d5ecb87-4b05-4365-9a8d-7cf75024390c",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference"
-          ]
-        },
-        "identifier": [
-          {
-            "value": "42"
-          }
-        ],
-        "status": "current",
-        "type": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "64297-5",
-              "display": "Death certificate"
-            }
-          ]
-        },
-        "date": "2020-08-07T16:41:57.698163-04:00",
-        "author": [
-          {
-            "reference": "urn:uuid:7afbe14f-932f-4639-966a-84c4e9d2f7c6"
-          }
-        ],
-        "content": [
-          {
-            "attachment": {
-              "url": "urn:uuid:cf96ffd9-fb38-479f-ba3c-5f3f36752fdb"
-            }
-          }
-        ],
-        "context": {
-          "related": [
-            {
-              "reference": "urn:uuid:cf96ffd9-fb38-479f-ba3c-5f3f36752fdb"
-            }
-          ]
-        }
       }
     }
   ]

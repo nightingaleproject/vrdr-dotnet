@@ -19,6 +19,7 @@
   <ItemGroup>
     <None Update="fixtures/json/DeathRecord1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordNoIdentifiersExceptJurisdictionId.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BadConditions.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
@@ -34,6 +35,7 @@
     <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptySubmission.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/ExtractionErrorMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/InvalidJurisdictionId.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/InvalidMessageType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingArray.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingAge.json" CopyToOutputDirectory="PreserveNewest" />

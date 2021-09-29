@@ -20,6 +20,7 @@ namespace VRDR.Tests
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordNoIdentifiers.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordNoIdentifiersExceptJurisdictionId.json"))));
         }
 
         [Fact]
@@ -69,7 +70,10 @@ namespace VRDR.Tests
             Assert.Null(submission.StateAuxiliaryIdentifier);
             Assert.Null(submission.NCHSIdentifier);
 
-            record = (DeathRecord)JSONRecords[1]; // no ids in this record
+            record = (DeathRecord)JSONRecords[1]; // no ids in this record, should error on missing jurisdiction id
+            Assert.Throws<System.ArgumentException>(() => new DeathRecordSubmission(record));
+
+            record = (DeathRecord)JSONRecords[2];
             submission = new DeathRecordSubmission(record);
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
@@ -157,7 +161,7 @@ namespace VRDR.Tests
             Assert.Equal("42", update.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", update.NCHSIdentifier);
 
-            update = new DeathRecordUpdate((DeathRecord)JSONRecords[1]); // no ids in this death record
+            update = new DeathRecordUpdate((DeathRecord)JSONRecords[2]); // no ids in this death record (except jurisdiction id which is required)
             Assert.NotNull(update.DeathRecord);
             Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);

@@ -7,6 +7,6 @@ var searchData=
   ['tojson_574',['ToJSON',['../class_v_r_d_r_1_1_death_record.html#ad6754479d0b9f0d0af10b86cf2956aab',1,'VRDR.DeathRecord.ToJSON()'],['../class_v_r_d_r_1_1_base_message.html#ad93e5924c25c3b1eb29c316a47e25f1d',1,'VRDR.BaseMessage.ToJSON()']]],
   ['tonightingale_575',['ToNightingale',['../class_v_r_d_r_1_1_h_t_t_p_1_1_nightingale.html#a5da8ea1f9eb856978660f5c433143e57',1,'VRDR::HTTP::Nightingale']]],
   ['tostring_576',['ToString',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a14f4cc8536acea7ff302d40b25a453cb',1,'VRDR::IJEMortality']]],
-  ['toxml_577',['ToXml',['../class_v_r_d_r_1_1_death_record.html#a4f57448486e1fe436bff194957389218',1,'VRDR.DeathRecord.ToXml()'],['../class_v_r_d_r_1_1_base_message.html#a6d9b02f58b46ef398f77c4ad30c35b78',1,'VRDR.BaseMessage.ToXml()']]],
-  ['toxml_578',['ToXML',['../class_v_r_d_r_1_1_death_record.html#a13b18fafac6cbdc8a5c206c1473265c4',1,'VRDR.DeathRecord.ToXML()'],['../class_v_r_d_r_1_1_base_message.html#aa77343f72455ed4e04685f05b0e75464',1,'VRDR.BaseMessage.ToXML()']]]
+  ['toxml_577',['ToXML',['../class_v_r_d_r_1_1_death_record.html#a13b18fafac6cbdc8a5c206c1473265c4',1,'VRDR.DeathRecord.ToXML()'],['../class_v_r_d_r_1_1_base_message.html#aa77343f72455ed4e04685f05b0e75464',1,'VRDR.BaseMessage.ToXML()']]],
+  ['toxml_578',['ToXml',['../class_v_r_d_r_1_1_death_record.html#a4f57448486e1fe436bff194957389218',1,'VRDR.DeathRecord.ToXml()'],['../class_v_r_d_r_1_1_base_message.html#a6d9b02f58b46ef398f77c4ad30c35b78',1,'VRDR.BaseMessage.ToXml()']]]
 ];

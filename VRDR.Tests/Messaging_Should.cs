@@ -114,6 +114,23 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateSubmissionFromBundle()
+        {
+            DeathRecordSubmission submission = new DeathRecordSubmission();
+            submission.DeathRecord = new DeathRecord();
+            submission.CertificateNumber = 42;
+            submission.StateAuxiliaryIdentifier = "identifier";
+            Bundle submissionBundle = (Bundle)submission;
+
+            DeathRecordSubmission parsed = BaseMessage.Parse<DeathRecordSubmission>(submissionBundle);
+            Assert.Equal(submission.DeathRecord.ToJson(), parsed.DeathRecord.ToJson());
+            Assert.Equal(submission.MessageType, parsed.MessageType);
+            Assert.Equal(submission.CertificateNumber, parsed.CertificateNumber);
+            Assert.Equal(submission.StateAuxiliaryIdentifier, parsed.StateAuxiliaryIdentifier);
+            Assert.Equal(submission.NCHSIdentifier, parsed.NCHSIdentifier);
+        }
+
+        [Fact]
         public void CreateUpdate()
         {
             DeathRecordUpdate submission = new DeathRecordUpdate();
@@ -169,6 +186,23 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreatUpdateFromBundle()
+        {
+            DeathRecordUpdate update = new DeathRecordUpdate();
+            update.DeathRecord = new DeathRecord();
+            update.CertificateNumber = 42;
+            update.StateAuxiliaryIdentifier = "identifier";
+            Bundle updateBundle = (Bundle)update;
+
+            DeathRecordUpdate parsed = BaseMessage.Parse<DeathRecordUpdate>(updateBundle);
+            Assert.Equal(update.DeathRecord.ToJson(), parsed.DeathRecord.ToJson());
+            Assert.Equal(update.MessageType, parsed.MessageType);
+            Assert.Equal(update.CertificateNumber, parsed.CertificateNumber);
+            Assert.Equal(update.StateAuxiliaryIdentifier, parsed.StateAuxiliaryIdentifier);
+            Assert.Equal(update.NCHSIdentifier, parsed.NCHSIdentifier);
+        }
+
+        [Fact]
         public void CreateAckForMessage()
         {
             DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
@@ -220,6 +254,20 @@ namespace VRDR.Tests
         {
             AckMessage ack = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/xml/AckMessage.xml"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
+            Assert.Equal("nightingale", ack.MessageDestination);
+            Assert.Equal("2018MA000001", ack.NCHSIdentifier);
+            Assert.Equal((uint)1, ack.CertificateNumber);
+            Assert.Equal((uint)2018, ack.DeathYear);
+            Assert.Equal("42", ack.StateAuxiliaryIdentifier);
+        }
+
+        [Fact]
+        public void CreateAckFromBundle()
+        {
+            AckMessage ackFixture = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/AckMessage.json"));
+            Bundle ackBundle = (Bundle)ackFixture;
+            AckMessage ack = BaseMessage.Parse<AckMessage>(ackBundle);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
             Assert.Equal("2018MA000001", ack.NCHSIdentifier);

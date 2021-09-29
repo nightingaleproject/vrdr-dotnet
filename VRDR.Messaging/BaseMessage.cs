@@ -357,6 +357,24 @@ namespace VRDR
         }
 
         /// <summary>
+        /// Construct the appropriate subclass of BaseMessage based on a FHIR Bundle.
+        /// The new object is checked to ensure it the same or a subtype of the type parameter.
+        /// </summary>
+        /// <typeparam name="T">the expected message type</typeparam>
+        /// <param name="bundle">A FHIR Bundle</param>
+        /// <returns>The message object of the appropriate message type</returns>
+        /// <exception cref="MessageParseException">Thrown when source does not represent the same or a subtype of the type parameter.</exception>
+        public static T Parse<T>(Bundle bundle) where T: BaseMessage
+        {
+            BaseMessage typedMessage = Parse(bundle);
+            if (!typeof(T).IsInstanceOfType(typedMessage))
+            {
+                throw new MessageParseException($"The supplied message was of type {typedMessage.GetType()}, expected {typeof(T)} or a subclass", typedMessage);
+            }
+            return (T)typedMessage;
+        }
+
+        /// <summary>
         /// Parse an XML or JSON serialization of a FHIR Bundle and construct the appropriate subclass of
         /// BaseMessage. The new object is checked to ensure it the same or a subtype of the type parameter.
         /// </summary>
@@ -398,6 +416,17 @@ namespace VRDR
                 throw new System.ArgumentException("The given input does not appear to be a valid XML or JSON FHIR message.");
             }
 
+            return Parse(bundle);
+        }
+
+        /// <summary>
+        /// Construct the appropriate subclass of BaseMessage based on a FHIR Bundle.
+        /// Clients can use the typeof operator to determine the type of message object returned.
+        /// </summary>
+        /// <param name="bundle">A FHIR Bundle</param>
+        /// <returns>The message object of the appropriate message type</returns>
+        public static BaseMessage Parse(Bundle bundle)
+        {
             BaseMessage message = new BaseMessage(bundle, true, false);
             switch (message.MessageType)
             {

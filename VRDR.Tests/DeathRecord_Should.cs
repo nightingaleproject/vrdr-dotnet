@@ -110,7 +110,7 @@ namespace VRDR.Tests
             DeathRecord deathRecord = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
             String deathJurisdiction;
             Exception ex = Assert.Throws<System.ArgumentException>(() => deathJurisdiction = deathRecord.DeathLocationJurisdiction);
-            Assert.Matches("^Death Location Jurisdiction is required, but not found. Check the extension is formatted correctly", ex.Message);
+            Assert.Matches("^Death Location Jurisdiction is required, but not found. Check that the extension is formatted correctly", ex.Message);
         }
 
         [Fact]

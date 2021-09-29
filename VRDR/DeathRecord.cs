@@ -5851,7 +5851,7 @@ namespace VRDR
                 catch (Exception ex)
                 {
                     // Jurisdiction is a required field. If it is not found, return a useful error so the user can address the missing field.
-                    throw new ArgumentException("Death Location Jurisdiction is required, but not found. Check the extension is formatted correctly.", locationJurisdictionExtPath, ex);
+                    throw new ArgumentException("Death Location Jurisdiction is required, but not found. Check that the extension is formatted correctly.", locationJurisdictionExtPath, ex);
                 }
   
             }
@@ -5860,7 +5860,9 @@ namespace VRDR
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();
-                }else{
+                }
+                else
+                {
                     DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
                 if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension

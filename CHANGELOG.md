@@ -1,5 +1,12 @@
 ## Changelog
 
+### v3.2.0 - 2021-10-01
+
+* Fixed FHIRPath and data types to support date absent extension
+* Allow casting a message to a Bundle to support the NCHS API
+* Return descriptive error when jurisdiction id is missing from VRDR record
+* Add support for passing Bundles directly to BaseMessage
+
 ### v3.2.0-preview5 - 2021-09-13
 
 * Fixed bug in how nulls are interpreted when loading description files that caused segments of records to be dropped in Canary

@@ -36,9 +36,9 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.2.0-preview5</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.0-preview5">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0-preview5"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0-preview5">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V3.2.0</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.0"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.0">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -68,7 +68,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.2.0-preview5" />
+  <PackageReference Include="VRDR" Version="3.2.0" />
   ...
 </ItemGroup>
 ```
@@ -233,7 +233,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.2.0-preview5" />
+  <PackageReference Include="VRDR.Messaging" Version="3.2.0" />
   ...
 </ItemGroup>
 ```

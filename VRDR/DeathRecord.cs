@@ -539,25 +539,17 @@ namespace VRDR
                     UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
                 }
             }
-            try
+            
+            String jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
+            if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
             {
-                // DeathLocationJurisdiction will throw an error if it is not set
-                var jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
-                if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
-                {
-                    jurisdictionId = "XX";
-                }
-                else
-                {
-                    jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
-                }
-                this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
-            } 
-            catch (Exception ex)
-            {
-                throw new Exception("Death Location Jurisdiction must be set before updating the Bundle Identifier.", ex);
+                jurisdictionId = "XX";
             }
-
+            else
+            {
+                jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
+            }
+            this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
             
         }
 
@@ -5830,30 +5822,26 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        // The priority for this field must be before the BundleIdentifier because it is required to set the bundle identifier when using the to/from description functions
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 3)]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
             {
-                try 
+                if (DeathLocationLoc != null)
                 {
-                    if (DeathLocationLoc != null)
+                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
+                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
                     {
-                        Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        // this will throw an index out of bounds error if there is no code in the extension
-                        return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code); 
+                        if (cc.Coding.Count > 0) 
+                        {
+                            return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
+                        }
                     }
-                    return null;
                 }
-                catch (Exception ex)
-                {
-                    // Jurisdiction is a required field. If it is not found, return a useful error so the user can address the missing field.
-                    throw new ArgumentException("Death Location Jurisdiction is required, but not found. Check that the extension is formatted correctly.", locationJurisdictionExtPath, ex);
-                }
-  
+                return null;
+                
             }
             set
             {

@@ -103,14 +103,12 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void FailOnInvalidDeathLocationJurisdiction()
+        public void InvalidDeathLocationJurisdiction()
         {
             // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5 
-            // if the input is invalid, an error is thrown
+            // if the input is invalid, return null, no error is thrown
             DeathRecord deathRecord = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
-            String deathJurisdiction;
-            Exception ex = Assert.Throws<System.ArgumentException>(() => deathJurisdiction = deathRecord.DeathLocationJurisdiction);
-            Assert.Matches("^Death Location Jurisdiction is required, but not found. Check that the extension is formatted correctly", ex.Message);
+            Assert.Null(deathRecord.DeathLocationJurisdiction);
         }
 
         [Fact]

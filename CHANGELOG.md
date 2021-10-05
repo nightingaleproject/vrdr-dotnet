@@ -1,5 +1,9 @@
 ## Changelog
 
+### v3.2.1 - 2021-10-05
+
+* Return null rather than an error when jurisdiction id is missing from VRDR record
+
 ### v3.2.0 - 2021-10-01
 
 * Fixed FHIRPath and data types to support date absent extension

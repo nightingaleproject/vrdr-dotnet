@@ -134,25 +134,28 @@ namespace VRDR.HTTP
             {
                 switch (record.EducationLevel["code"])
                 {
-                    case "SEC":
+                    case "PHC1448":
+                        values["education.education"] = "8th grade or less";
+                        break;
+                    case "PHC1449":
                         values["education.education"] = "9th through 12th grade; no diploma";
                         break;
-                    case "HS":
+                    case "PHC1450":
                         values["education.education"] = "High School Graduate or GED Completed";
                         break;
-                    case "PB":
+                    case "PHC1451":
                         values["education.education"] = "Some college credit, but no degree";
                         break;
-                    case "ASSOC":
+                    case "PHC1452":
                         values["education.education"] = "Associate Degree";
                         break;
-                    case "BD":
+                    case "PHC1453":
                         values["education.education"] = "Bachelor's Degree";
                         break;
-                    case "GD":
+                    case "PHC1454":
                         values["education.education"] = "Master's Degree";
                         break;
-                    case "POSTG":
+                    case "PHC1455":
                         values["education.education"] = "Doctorate Degree or Professional Degree";
                         break;
                 }
@@ -252,30 +255,30 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber"));
             SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction"));
 
+            SetYesNoValueDeathRecordBoolean(deathRecord, "MilitaryServiceBoolean", GetValue(values, "armedForcesService.armedForcesService"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyPerformedIndicatorBoolean", GetValue(values, "autopsyPerformed.autopsyPerformed"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyResultsAvailableBoolean", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "ExaminerContactedBoolean", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
-            SetYesNoValueDeathRecordCode(deathRecord, "MilitaryService", GetValue(values, "armedForcesService.armedForcesService"));
-            SetYesNoValueDeathRecordCode(deathRecord, "AutopsyPerformedIndicator", GetValue(values, "autopsyPerformed.autopsyPerformed"));
-            SetYesNoValueDeathRecordCode(deathRecord, "AutopsyResultsAvailable", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
             SetYesNoValueDeathRecordCode(deathRecord, "TobaccoUse", GetValue(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath"));
-            SetYesNoValueDeathRecordCode(deathRecord, "ExaminerContacted", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")
             {
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
             }
             else if (GetValue(values, "certifierType.certifierType") == "Medical Examiner")
             {
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "440051000124108");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Medical Examiner");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
             }
 
             SetStringValueDeathRecordString(deathRecord, "COD1A", GetValue(values, "cod.immediate"));
@@ -366,53 +369,66 @@ namespace VRDR.HTTP
             switch (GetValue(values, "education.education"))
             {
                 case "8th grade or less":
-                case "9th through 12th grade; no diploma":
                     Dictionary<string, string> edu = new Dictionary<string, string>();
-                    edu.Add("code", "SEC");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Some secondary or high school education");
+                    edu.Add("code", "PHC1448");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "8th grade or less");
+                    deathRecord.EducationLevel = edu;
+                    break;
+                case "9th through 12th grade; no diploma":
+                    edu = new Dictionary<string, string>();
+                    edu.Add("code", "PHC1449");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "9th through 12th grade; no diploma");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "High School Graduate or GED Completed":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "HS");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "High School or secondary school degree complete");
+                    edu.Add("code", "PHC1450");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "High School Graduate or GED Completed");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Some college credit, but no degree":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "PB");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Some post-baccalaureate education");
+                    edu.Add("code", "PHC1451");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "Some college credit, but no degree");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Associate Degree":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "ASSOC");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Associate's or technical degree complete");
+                    edu.Add("code", "PHC1452");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "Associate Degree");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Bachelor's Degree":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "BD");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "College or baccalaureate degree complete");
+                    edu.Add("code", "PHC1453");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "Bachelor's Degree");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Master's Degree":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "GD");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Graduate or professional Degree complete");
+                    edu.Add("code", "PHC1454");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "Master's Degree");
                     deathRecord.EducationLevel = edu;
                     break;
                 case "Doctorate Degree or Professional Degree":
                     edu = new Dictionary<string, string>();
-                    edu.Add("code", "POSTG");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Doctoral or post graduate education");
+                    edu.Add("code", "PHC1455");
+                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+                    edu.Add("display", "Doctorate Degree or Professional Degree");
+                    deathRecord.EducationLevel = edu;
+                    break;
+                default:
+                    edu = new Dictionary<string, string>();
+                    edu.Add("code", "UNK");
+                    edu.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                    edu.Add("display", "Unknown");
                     deathRecord.EducationLevel = edu;
                     break;
             }
@@ -424,36 +440,42 @@ namespace VRDR.HTTP
                 case "Natural":
                     Dictionary<string, string> mod = new Dictionary<string, string>();
                     mod.Add("code", "38605008");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Natural");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Accident":
                     mod = new Dictionary<string, string>();
                     mod.Add("code", "7878000");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Accident");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Suicide":
                     mod = new Dictionary<string, string>();
                     mod.Add("code", "44301001");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Suicide");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Homicide":
                     mod = new Dictionary<string, string>();
                     mod.Add("code", "27935005");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Homicide");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Pending Investigation":
                     mod = new Dictionary<string, string>();
                     mod.Add("code", "185973002");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Pending Investigation");
                     deathRecord.MannerOfDeathType = mod;
                     break;
                 case "Could not be determined":
                     mod = new Dictionary<string, string>();
                     mod.Add("code", "65037004");
+                    mod.Add("system", VRDR.CodeSystems.SCT);
                     mod.Add("display", "Could not be determined");
                     deathRecord.MannerOfDeathType = mod;
                     break;
@@ -464,42 +486,42 @@ namespace VRDR.HTTP
                 case "Married":
                     Dictionary<string, string> mar = new Dictionary<string, string>();
                     mar.Add("code", "M");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
                     mar.Add("display", "Married");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Legally Separated":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "L");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
                     mar.Add("display", "Legally Separated");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Widowed":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "W");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
                     mar.Add("display", "Widowed");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Divorced":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "D");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
                     mar.Add("display", "Divorced");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "Never Married":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "S");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
                     mar.Add("display", "Never Married");
                     deathRecord.MaritalStatus = mar;
                     break;
                 case "unknown":
                     mar = new Dictionary<string, string>();
                     mar.Add("code", "UNK");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
+                    mar.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
                     mar.Add("display", "unknown");
                     deathRecord.MaritalStatus = mar;
                     break;
@@ -610,54 +632,60 @@ namespace VRDR.HTTP
             prop.SetValue(deathRecord, dict, null);
         }
 
-        /// <summary>Set a Yes/No (coded) value on a DeathRecord.</summary>
-        private static void SetYesNoValueDeathRecordCode(DeathRecord deathRecord, string property, string value)
+        /// <summary>Set a Yes/No (coded) value on a DeathRecord using Boolean helpers.</summary>
+        private static void SetYesNoValueDeathRecordBoolean(DeathRecord deathRecord, string property, string value)
         {
+            Type type = deathRecord.GetType();
+            PropertyInfo prop = type.GetProperty(property);
             if (String.IsNullOrWhiteSpace(value))
             {
-                return;
+                prop.SetValue(deathRecord, null);
             }
-            if (value.Trim().ToLower() == "yes")
+            else if (value.Trim().ToLower() == "yes")
             {
-                Dictionary<string, string> mserv = new Dictionary<string, string>();
-                mserv.Add("code", "Y");
-                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                mserv.Add("display", "Yes");
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, mserv, null);
+                prop.SetValue(deathRecord, true);
             }
             else if (value.Trim().ToLower() == "no")
             {
-                Dictionary<string, string> mserv = new Dictionary<string, string>();
-                mserv.Add("code", "N");
-                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                mserv.Add("display", "No");
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, mserv, null);
+                prop.SetValue(deathRecord, false);
+            }
+            else
+            {
+                prop.SetValue(deathRecord, null);
             }
         }
 
         /// <summary>Set a Yes/No (coded) value on a DeathRecord.</summary>
-        private static void SetYesNoValueDeathRecordBool(DeathRecord deathRecord, string property, string value)
+        private static void SetYesNoValueDeathRecordCode(DeathRecord deathRecord, string property, string value)
         {
+            Dictionary<string, string> coding = new Dictionary<string, string>();
             if (String.IsNullOrWhiteSpace(value))
             {
-                return;
+                coding.Add("code", "UNK");
+                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("display", "Unknown");
             }
-            if (value.Trim().ToLower() == "yes")
+            else if (value.Trim().ToLower() == "yes")
             {
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, true, null);
+                coding.Add("code", "373066001");
+                coding.Add("system", CodeSystems.SCT);
+                coding.Add("display", "Yes");
             }
             else if (value.Trim().ToLower() == "no")
             {
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, false, null);
+                coding.Add("code", "373067005");
+                coding.Add("system", CodeSystems.SCT);
+                coding.Add("display", "No");
             }
+            else
+            {
+                coding.Add("code", "UNK");
+                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("display", "Unknown");
+            }
+            Type type = deathRecord.GetType();
+            PropertyInfo prop = type.GetProperty(property);
+            prop.SetValue(deathRecord, coding);
         }
 
         /// <summary>Set a value in a Dictionary, but only if that value is not null or whitespace.</summary>

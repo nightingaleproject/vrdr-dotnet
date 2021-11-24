@@ -30,15 +30,15 @@ namespace VRDR.HTTP
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
             SetYesNoValueDictionary(values, "meOrCoronerContacted.meOrCoronerContacted", record, "ExaminerContacted");
 
-            if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
+            if (GetValueDict(record.CertificationRole, "code") == "434651000124107")
             {
                 values["certifierType.certifierType"] = "Physician (Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "434651000124107")
+            else if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
             {
                 values["certifierType.certifierType"] = "Physician (Pronouncer and Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "440051000124108")
+            else if (GetValueDict(record.CertificationRole, "code") == "455381000124109")
             {
                 values["certifierType.certifierType"] = "Medical Examiner";
             }
@@ -264,21 +264,27 @@ namespace VRDR.HTTP
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
             }
             else if (GetValue(values, "certifierType.certifierType") == "Medical Examiner")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "440051000124108");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "455381000124109");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Medical Examiner");
                 SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
+            }
+            else
+            {
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "OTH");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Other");
+                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
             }
 
             SetStringValueDeathRecordString(deathRecord, "COD1A", GetValue(values, "cod.immediate"));
@@ -526,6 +532,15 @@ namespace VRDR.HTTP
                     deathRecord.MaritalStatus = mar;
                     break;
             }
+
+            // TODO: Add support for placeOfDeath.placeOfDeath.option
+            // Options: "Dead on arrival at hospital", "Death in home", "Death in hospice", "Death in hospital",
+            // "Death in hospital-based emergency department or outpatient department",
+            // "Death in nursing home or long term care facility", "Unknown", "Other"
+
+            // Idea: add helpers to DeathRecord.cs with "Code" suffixes that take a string code and 1) raise an error
+            // if it's not a valid code and 2) automatically assign the system and display; implement with a helper
+            // function that takes a hash of codes to system/display
 
             if (GetValue(values, "sex.sex") == "Male")
             {

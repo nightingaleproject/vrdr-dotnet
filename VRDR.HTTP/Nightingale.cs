@@ -111,8 +111,46 @@ namespace VRDR.HTTP
                     values["decedentName.middleName"] = record.GivenNames[1];
                 }
             }
-
             SetStringValueDictionary(values, "decedentName.lastName", record.FamilyName);
+
+            if (record.SpouseGivenNames != null)
+            {
+                if (record.SpouseGivenNames.Count() > 0)
+                {
+                    values["spouseName.firstName"] = record.SpouseGivenNames[0];
+                }
+                if (record.SpouseGivenNames.Count() > 1)
+                {
+                    values["spouseName.middleName"] = record.SpouseGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "spouseName.lastName", record.SpouseFamilyName);
+
+            if (record.FatherGivenNames != null)
+            {
+                if (record.FatherGivenNames.Count() > 0)
+                {
+                    values["fatherName.firstName"] = record.FatherGivenNames[0];
+                }
+                if (record.FatherGivenNames.Count() > 1)
+                {
+                    values["fatherName.middleName"] = record.FatherGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "fatherName.lastName", record.FatherFamilyName);
+
+            if (record.MotherGivenNames != null)
+            {
+                if (record.MotherGivenNames.Count() > 0)
+                {
+                    values["motherName.firstName"] = record.MotherGivenNames[0];
+                }
+                if (record.MotherGivenNames.Count() > 1)
+                {
+                    values["motherName.middleName"] = record.MotherGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "motherName.lastName", record.MotherMaidenName);
 
             if (record.CertifierGivenNames != null)
             {
@@ -125,7 +163,6 @@ namespace VRDR.HTTP
                     values["personCompletingCauseOfDeathName.middleName"] = record.CertifierGivenNames[1];
                 }
             }
-
             SetStringValueDictionary(values, "personCompletingCauseOfDeathName.lastName", record.CertifierFamilyName);
 
             SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
@@ -160,8 +197,6 @@ namespace VRDR.HTTP
                         break;
                 }
             }
-
-            SetStringValueDictionary(values, "motherName.lastName", record.MotherMaidenName);
 
             if (record.MannerOfDeathType != null && record.MannerOfDeathType.ContainsKey("code"))
             {
@@ -212,6 +247,8 @@ namespace VRDR.HTTP
                         break;
                 }
             }
+
+            SetStringValueDictionary(values, "usualOccupation.usualOccupation", record.UsualOccupation);
 
             if (record.BirthSex != null)
             {
@@ -345,30 +382,30 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressState", GetValue(values, "placeOfDisposition.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressCountry", GetValue(values, "placeOfDisposition.country"));
 
-            List<string> names = new List<string>();
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "decedentName.firstName")))
-            {
-                names.Add(GetValue(values, "decedentName.firstName"));
-            }
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "decedentName.middleName")))
-            {
-                names.Add(GetValue(values, "decedentName.middleName"));
-            }
-            deathRecord.GivenNames = names.ToArray();
-            SetStringValueDeathRecordString(deathRecord, "FamilyName", GetValue(values, "decedentName.lastName"));
+            SetNameValuesDeathRecordName(deathRecord, "GivenNames", "FamilyName",
+                                         GetValue(values, "decedentName.firstName"),
+                                         GetValue(values, "decedentName.middleName"),
+                                         GetValue(values, "decedentName.lastName"));
 
-            List<string> cnames = new List<string>();
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "personCompletingCauseOfDeathName.firstName")))
-            {
-                cnames.Add(GetValue(values, "personCompletingCauseOfDeathName.firstName"));
-            }
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "personCompletingCauseOfDeathName.middleName")))
-            {
-                cnames.Add(GetValue(values, "personCompletingCauseOfDeathName.middleName"));
-            }
-            deathRecord.CertifierGivenNames = cnames.ToArray();
+            SetNameValuesDeathRecordName(deathRecord, "SpouseGivenNames", "SpouseFamilyName",
+                                         GetValue(values, "spouseName.firstName"),
+                                         GetValue(values, "spouseName.middleName"),
+                                         GetValue(values, "spouseName.lastName"));
 
-            SetStringValueDeathRecordString(deathRecord, "CertifierFamilyName", GetValue(values, "personCompletingCauseOfDeathName.lastName"));
+            SetNameValuesDeathRecordName(deathRecord, "FatherGivenNames", "FatherFamilyName",
+                                         GetValue(values, "fatherName.firstName"),
+                                         GetValue(values, "fatherName.middleName"),
+                                         GetValue(values, "fatherName.lastName"));
+
+            SetNameValuesDeathRecordName(deathRecord, "MotherGivenNames", "MotherMaidenName",
+                                         GetValue(values, "motherName.firstName"),
+                                         GetValue(values, "motherName.middleName"),
+                                         GetValue(values, "motherName.lastName"));
+
+            SetNameValuesDeathRecordName(deathRecord, "CertifierGivenNames", "CertifierFamilyName",
+                                         GetValue(values, "personCompletingCauseOfDeathName.firstName"),
+                                         GetValue(values, "personCompletingCauseOfDeathName.middleName"),
+                                         GetValue(values, "personCompletingCauseOfDeathName.lastName"));
 
             SetStringValueDeathRecordString(deathRecord, "InjuryLocationDescription", GetValue(values, "detailsOfInjury.detailsOfInjury"));
 
@@ -438,8 +475,6 @@ namespace VRDR.HTTP
                     deathRecord.EducationLevel = edu;
                     break;
             }
-
-            SetStringValueDeathRecordString(deathRecord, "MotherMaidenName", GetValue(values, "motherName.lastName"));
 
             switch (GetValue(values, "mannerOfDeath.mannerOfDeath"))
             {
@@ -532,6 +567,8 @@ namespace VRDR.HTTP
                     deathRecord.MaritalStatus = mar;
                     break;
             }
+
+            SetStringValueDeathRecordString(deathRecord, "UsualOccupation", GetValue(values, "usualOccupation.usualOccupation"));
 
             // TODO: Add support for placeOfDeath.placeOfDeath.option
             // Options: "Dead on arrival at hospital", "Death in home", "Death in hospice", "Death in hospital",
@@ -629,7 +666,7 @@ namespace VRDR.HTTP
             prop.SetValue(deathRecord, value, null);
         }
 
-        /// <summary>Set a String value on a DeathRecord.</summary>
+        /// <summary>Set a String value on a DeathRecord within a dictionary.</summary>
         private static void SetStringValueDeathRecordDictionary(DeathRecord deathRecord, string property, string key, string value)
         {
             if (String.IsNullOrWhiteSpace(value))
@@ -701,6 +738,24 @@ namespace VRDR.HTTP
             Type type = deathRecord.GetType();
             PropertyInfo prop = type.GetProperty(property);
             prop.SetValue(deathRecord, coding);
+        }
+
+        /// <summary>Set a name value on a DeathRecord.</summary>
+        private static void SetNameValuesDeathRecordName(DeathRecord deathRecord, string givenNamesField, string familyNameField, string firstName, string middleName, string lastName)
+        {
+            List<string> names = new List<string>();
+            if (!String.IsNullOrWhiteSpace(firstName))
+            {
+                names.Add(firstName);
+            }
+            if (!String.IsNullOrWhiteSpace(middleName))
+            {
+                names.Add(middleName);
+            }
+            Type type = deathRecord.GetType();
+            PropertyInfo givenNames = type.GetProperty(givenNamesField);
+            givenNames.SetValue(deathRecord, names.ToArray());
+            SetStringValueDeathRecordString(deathRecord, familyNameField, lastName);
         }
 
         /// <summary>Set a value in a Dictionary, but only if that value is not null or whitespace.</summary>

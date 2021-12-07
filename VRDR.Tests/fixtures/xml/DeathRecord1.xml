@@ -585,7 +585,7 @@
           <coding>
             <system value="http://snomed.info/sct" />
             <code value="7878000" />
-            <display value="Accidental death" />
+            <display value="Accident" />
           </coding>
         </valueCodeableConcept>
       </Observation>
@@ -801,9 +801,9 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v3-EducationLevel" />
-            <code value="BD" />
-            <display value="College or baccalaureate degree complete" />
+            <system value="urn:oid:2.16.840.1.114222.4.5.274" />
+            <code value="PHC1453" />
+            <display value="Bachelor's Degree" />
           </coding>
         </valueCodeableConcept>
       </Observation>
@@ -1061,7 +1061,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.113883.5.1008" />
+            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
             <code value="NA" />
             <display value="not applicable" />
           </coding>

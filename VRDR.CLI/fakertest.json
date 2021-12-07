@@ -1,0 +1,1208 @@
+{
+    "resourceType": "Bundle",
+    "id": "e8dfb25f-3a7b-4530-8b85-4d2f33faf121",
+    "meta": {
+      "profile": [
+        "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document"
+      ]
+    },
+    "identifier": {
+      "system": "http://nchs.cdc.gov/vrdr_id",
+      "value": "2019GA000050"
+    },
+    "type": "document",
+    "timestamp": "2021-08-25T15:31:08.962583-04:00",
+    "entry": [
+      {
+        "fullUrl": "urn:uuid:bb0de779-6d43-4a03-a033-763f12dff8dc",
+        "resource": {
+          "resourceType": "Composition",
+          "id": "bb0de779-6d43-4a03-a033-763f12dff8dc",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate"
+            ]
+          },
+          "status": "final",
+          "type": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "64297-5",
+                "display": "Death certificate"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "date": "2021-02-09",
+          "author": [
+            {
+              "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+            }
+          ],
+          "title": "Death Certificate",
+          "attester": [
+            {
+              "mode": "legal",
+              "time": "2019-02-08",
+              "party": {
+                "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+              }
+            }
+          ],
+          "event": [
+            {
+              "code": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "103693007",
+                      "display": "Diagnostic procedure (procedure)"
+                    }
+                  ]
+                }
+              ],
+              "detail": [
+                {
+                  "reference": "urn:uuid:357dbdeb-f48f-475f-8d33-75be945c90e7"
+                }
+              ]
+            }
+          ],
+          "section": [
+            {
+              "entry": [
+                {
+                  "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+                },
+                {
+                  "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+                },
+                {
+                  "reference": "urn:uuid:3377b88b-ec07-4775-b49d-e9564488e4f8"
+                },
+                {
+                  "reference": "urn:uuid:f3d2cdba-1df3-49fa-90e4-772fc55595d5"
+                },
+                {
+                  "reference": "urn:uuid:357dbdeb-f48f-475f-8d33-75be945c90e7"
+                },
+                {
+                  "reference": "urn:uuid:1372b04b-4d72-4f6e-babd-7aa6d1d34005"
+                },
+                {
+                  "reference": "urn:uuid:585b8d03-82e1-47ab-a318-d5412cd7cbd7"
+                },
+                {
+                  "reference": "urn:uuid:0dbd0f1a-f144-4c22-bbfc-3cba086f97b6"
+                },
+                {
+                  "reference": "urn:uuid:5af0fdc8-ebb4-4fcb-97d3-d88631cc2361"
+                },
+                {
+                  "reference": "urn:uuid:114d4fd6-e252-4cc1-845d-388463b9818b"
+                },
+                {
+                  "reference": "urn:uuid:08078b20-1250-45a0-95a1-34e2d641da7b"
+                },
+                {
+                  "reference": "urn:uuid:be640140-5458-4d42-8b6b-8e3aef06b23e"
+                },
+                {
+                  "reference": "urn:uuid:8520530d-1016-4095-9aaf-6c54d4341a0c"
+                },
+                {
+                  "reference": "urn:uuid:d266abcb-4f0d-48d8-8e1f-ce2a057da82b"
+                },
+                {
+                  "reference": "urn:uuid:acc76236-e8cc-40d4-ae14-467a6e4fd303"
+                },
+                {
+                  "reference": "urn:uuid:24a1223d-6992-49bc-87b1-c20d080404b2"
+                },
+                {
+                  "reference": "urn:uuid:8225dcfb-96d2-42ea-8c54-e659f23b36f8"
+                },
+                {
+                  "reference": "urn:uuid:64903d60-91fc-46ff-915b-abbc2c6ed4d3"
+                },
+                {
+                  "reference": "urn:uuid:425f071e-bbd1-485a-8adc-c806465cb5bf"
+                },
+                {
+                  "reference": "urn:uuid:115096a3-229e-44cf-83eb-0f4b1bdedcaa"
+                },
+                {
+                  "reference": "urn:uuid:0ffe6dbb-6feb-4fba-8304-3ea49de90a5f"
+                },
+                {
+                  "reference": "urn:uuid:2cf5da26-002a-4b6b-aca2-1981925e7de2"
+                },
+                {
+                  "reference": "urn:uuid:286e143c-6fb8-4273-a10b-0d5937b7d289"
+                },
+                {
+                  "reference": "urn:uuid:44c85cb6-0c35-43f8-9ce5-9be80be5c149"
+                },
+                {
+                  "reference": "urn:uuid:cf69fc8b-aaa6-44b2-b785-10f1cdb584cb"
+                },
+                {
+                  "reference": "urn:uuid:67221a89-dda5-40fe-be75-b5999735d2cc"
+                },
+                {
+                  "reference": "urn:uuid:a75ec621-3090-4670-9feb-1380fc4f430a"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "f7dbad16-d2e4-48ef-a644-9e3cfc7b703e",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"
+            ]
+          },
+          "extension": [
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2106-3",
+                    "display": "White"
+                  }
+                },
+                {
+                  "url": "text",
+                  "valueString": "White"
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+            },
+            {
+              "extension": [
+                {
+                  "url": "detailed",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2180-8",
+                    "display": "Puerto Rican"
+                  }
+                },
+                {
+                  "url": "text",
+                  "valueString": "Puerto Rican"
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+              "valueCode": "F"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+              "valueAddress": {
+                "city": "Atlanta",
+                "state": "GA",
+                "country": "US"
+              }
+            }
+          ],
+          "identifier": [
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                    "code": "SB",
+                    "display": "Social Beneficiary Identifier"
+                  }
+                ]
+              },
+              "system": "http://hl7.org/fhir/sid/us-ssn",
+              "value": "555111234"
+            }
+          ],
+          "name": [
+            {
+              "use": "official",
+              "family": "Page",
+              "given": [
+                "Janet"
+              ]
+            }
+          ],
+          "birthDate": "1949-01-15",
+          "address": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.12.136",
+                    "code": "Y",
+                    "display": "Yes"
+                  }
+                }
+              ],
+              "line": [
+                "25 Hope Street"
+              ],
+              "city": "Atlanta",
+              "district": "Fulton",
+              "state": "GA",
+              "country": "US"
+            }
+          ],
+          "maritalStatus": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.12.2",
+                "code": "D",
+                "display": "Divorced"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b",
+        "resource": {
+          "resourceType": "Practitioner",
+          "id": "3a63ce84-dae5-4b7a-a487-30310a822c8b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
+            ]
+          },
+          "name": [
+            {
+              "use": "official",
+              "family": "Jones",
+              "given": [
+                "Sam"
+              ]
+            }
+          ],
+          "address": [
+            {
+              "line": [
+                "1 Main Street"
+              ],
+              "city": "Atlanta",
+              "state": "GA",
+              "postalCode": "30303",
+              "country": "United States"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:3377b88b-ec07-4775-b49d-e9564488e4f8",
+        "resource": {
+          "resourceType": "Practitioner",
+          "id": "3377b88b-ec07-4775-b49d-e9564488e4f8",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer"
+            ]
+          },
+          "name": [
+            {
+              "use": "official",
+              "family": "Jones",
+              "given": [
+                "Sam"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:f3d2cdba-1df3-49fa-90e4-772fc55595d5",
+        "resource": {
+          "resourceType": "Practitioner",
+          "id": "f3d2cdba-1df3-49fa-90e4-772fc55595d5",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "http://hl7.org/fhir/sid/us-npi",
+              "value": "111111AB"
+            }
+          ],
+          "name": [
+            {
+              "use": "official",
+              "family": "Winston",
+              "given": [
+                "Maureen",
+                "P"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:357dbdeb-f48f-475f-8d33-75be945c90e7",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "357dbdeb-f48f-475f-8d33-75be945c90e7",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
+            ]
+          },
+          "identifier": [
+            {
+              "value": "50"
+            }
+          ],
+          "status": "completed",
+          "category": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "103693007",
+                "display": "Diagnostic procedure"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "308646001",
+                "display": "Death certification"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "performedDateTime": "2019-02-08",
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "434641000124105",
+                    "display": "Death certification and verification by physician"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:1372b04b-4d72-4f6e-babd-7aa6d1d34005",
+        "resource": {
+          "resourceType": "Organization",
+          "id": "1372b04b-4d72-4f6e-babd-7aa6d1d34005",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party"
+            ]
+          },
+          "active": true
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:585b8d03-82e1-47ab-a318-d5412cd7cbd7",
+        "resource": {
+          "resourceType": "Organization",
+          "id": "585b8d03-82e1-47ab-a318-d5412cd7cbd7",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            ]
+          },
+          "active": true,
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                  "code": "bus",
+                  "display": "Non-Healthcare Business or Corporation"
+                }
+              ]
+            }
+          ],
+          "name": "Pecan Street Funeral Home and Crematory",
+          "address": [
+            {
+              "line": [
+                "15 Pecan Street"
+              ],
+              "city": "Atlanta",
+              "state": "GA",
+              "postalCode": "30301",
+              "country": "United States"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:0dbd0f1a-f144-4c22-bbfc-3cba086f97b6",
+        "resource": {
+          "resourceType": "PractitionerRole",
+          "id": "0dbd0f1a-f144-4c22-bbfc-3cba086f97b6",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee"
+            ]
+          },
+          "practitioner": {
+            "reference": "urn:uuid:f3d2cdba-1df3-49fa-90e4-772fc55595d5"
+          },
+          "organization": {
+            "reference": "urn:uuid:585b8d03-82e1-47ab-a318-d5412cd7cbd7"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:5af0fdc8-ebb4-4fcb-97d3-d88631cc2361",
+        "resource": {
+          "resourceType": "List",
+          "id": "5af0fdc8-ebb4-4fcb-97d3-d88631cc2361",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway"
+            ]
+          },
+          "status": "current",
+          "mode": "snapshot",
+          "source": {
+            "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+          },
+          "orderedBy": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "priority",
+                "display": "Sorted by Priority"
+              }
+            ]
+          },
+          "entry": [
+            {
+              "item": {
+                "reference": "urn:uuid:425f071e-bbd1-485a-8adc-c806465cb5bf"
+              }
+            },
+            {
+              "item": {
+                "reference": "urn:uuid:115096a3-229e-44cf-83eb-0f4b1bdedcaa"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:114d4fd6-e252-4cc1-845d-388463b9818b",
+        "resource": {
+          "resourceType": "Location",
+          "id": "114d4fd6-e252-4cc1-845d-388463b9818b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+            ]
+          },
+          "name": "Pecan Street Funeral Home and Crematory",
+          "address": {
+            "line": [
+              "15 Pecan Street"
+            ],
+            "city": "Atlanta",
+            "state": "GA",
+            "postalCode": "30301",
+            "country": "United States"
+          },
+          "physicalType": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "si",
+                "display": "Site"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:08078b20-1250-45a0-95a1-34e2d641da7b",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "08078b20-1250-45a0-95a1-34e2d641da7b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "30525-0",
+                "display": "Age"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueQuantity": {
+            "value": 72,
+            "unit": "a"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:be640140-5458-4d42-8b6b-8e3aef06b23e",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "be640140-5458-4d42-8b6b-8e3aef06b23e",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                "code": "BR",
+                "display": "Birth registry number"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueString": "515151",
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "21842-0",
+                    "display": "Birthplace"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "urn:iso:std:iso:3166:-2",
+                    "code": "US-GA",
+                    "display": "US-GA"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:8520530d-1016-4095-9aaf-6c54d4341a0c",
+        "resource": {
+          "resourceType": "RelatedPerson",
+          "id": "8520530d-1016-4095-9aaf-6c54d4341a0c",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
+            ]
+          },
+          "patient": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "relationship": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                  "code": "MTH",
+                  "display": "mother"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "family": "Shay",
+              "given": [
+                "Linda"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:d266abcb-4f0d-48d8-8e1f-ce2a057da82b",
+        "resource": {
+          "resourceType": "RelatedPerson",
+          "id": "d266abcb-4f0d-48d8-8e1f-ce2a057da82b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
+            ]
+          },
+          "patient": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "relationship": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                  "code": "FTH",
+                  "display": "father"
+                }
+              ]
+            }
+          ],
+          "name": [
+            {
+              "family": "Page"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:acc76236-e8cc-40d4-ae14-467a6e4fd303",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "acc76236-e8cc-40d4-ae14-467a6e4fd303",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "80913-7",
+                "display": "Highest level of education [US Standard Certificate of Death]"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.274",
+                "code": "PHC1455",
+                "display": "Doctorate Degree or Professional Degree"
+              }
+            ],
+            "text": "Doctorate"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:24a1223d-6992-49bc-87b1-c20d080404b2",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "24a1223d-6992-49bc-87b1-c20d080404b2",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "21843-8",
+                "display": "History of Usual occupation"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.314",
+                "code": "1010",
+                "display": "Computer Programmers"
+              }
+            ],
+            "text": "Programmer"
+          },
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "21844-6",
+                    "display": "History of Usual industry"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.114222.4.5.315",
+                    "code": "6990",
+                    "display": "Insurance carriers and related activities"
+                  }
+                ],
+                "text": "Health Insurance"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:8225dcfb-96d2-42ea-8c54-e659f23b36f8",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "8225dcfb-96d2-42ea-8c54-e659f23b36f8",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location",
+              "valueReference": {
+                "reference": "urn:uuid:64903d60-91fc-46ff-915b-abbc2c6ed4d3"
+              }
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "81956-5",
+                "display": "Date and time of death"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "effectiveDateTime": "2019-02-08T05:30:00",
+          "performer": [
+            {
+              "reference": "urn:uuid:3377b88b-ec07-4775-b49d-e9564488e4f8"
+            }
+          ],
+          "valueDateTime": "2019-02-08T05:30:00",
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80616-6",
+                    "display": "Date and time pronounced dead [US Standard Certificate of Death]"
+                  }
+                ]
+              },
+              "valueDateTime": "2019-02-08T05:30:00"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:64903d60-91fc-46ff-915b-abbc2c6ed4d3",
+        "resource": {
+          "resourceType": "Location",
+          "id": "64903d60-91fc-46ff-915b-abbc2c6ed4d3",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.6.92",
+                    "code": "13",
+                    "display": "GA"
+                  }
+                ],
+                "text": "GA"
+              }
+            }
+          ],
+          "name": "Pecan Grove Nursing Home",
+          "description": "nursing home",
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "450381000124100",
+                  "display": "Nursing Home"
+                }
+              ]
+            }
+          ],
+          "address": {
+            "state": "NY",
+            "country": "United States"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:425f071e-bbd1-485a-8adc-c806465cb5bf",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "425f071e-bbd1-485a-8adc-c806465cb5bf",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "16100001",
+                  "display": "Death Diagnosis"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "text": "Congestive heart failure"
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "onsetString": "1 hour",
+          "asserter": {
+            "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:115096a3-229e-44cf-83eb-0f4b1bdedcaa",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "115096a3-229e-44cf-83eb-0f4b1bdedcaa",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "16100001",
+                  "display": "Death Diagnosis"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "text": "breast cancer"
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "onsetString": "20 years",
+          "asserter": {
+            "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:0ffe6dbb-6feb-4fba-8304-3ea49de90a5f",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "0ffe6dbb-6feb-4fba-8304-3ea49de90a5f",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "74497-9",
+                "display": "Medical examiner or coroner was contacted [US Standard Certificate of Death]"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.12.136",
+                "code": "N",
+                "display": "No"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:2cf5da26-002a-4b6b-aca2-1981925e7de2",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "2cf5da26-002a-4b6b-aca2-1981925e7de2",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "69449-7",
+                "display": "Manner of death"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "performer": [
+            {
+              "reference": "urn:uuid:3a63ce84-dae5-4b7a-a487-30310a822c8b"
+            }
+          ],
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "38605008",
+                "display": "Natural death"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:286e143c-6fb8-4273-a10b-0d5937b7d289",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "286e143c-6fb8-4273-a10b-0d5937b7d289",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "85699-7",
+                "display": "Autopsy was performed"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.12.136",
+                "code": "N",
+                "display": "No"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:44c85cb6-0c35-43f8-9ce5-9be80be5c149",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "44c85cb6-0c35-43f8-9ce5-9be80be5c149",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location",
+              "valueReference": {
+                "reference": "urn:uuid:114d4fd6-e252-4cc1-845d-388463b9818b"
+              }
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "80905-3",
+                "display": "Body disposition method"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "performer": [
+            {
+              "reference": "urn:uuid:f3d2cdba-1df3-49fa-90e4-772fc55595d5"
+            }
+          ],
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "449961000124104",
+                "display": "Patient status determination, deceased and cremated"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:cf69fc8b-aaa6-44b2-b785-10f1cdb584cb",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "cf69fc8b-aaa6-44b2-b785-10f1cdb584cb",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "69442-2",
+                "display": "Timing of recent pregnancy in relation to death"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.5.1008",
+                "code": "NA",
+                "display": "not applicable"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:67221a89-dda5-40fe-be75-b5999735d2cc",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "67221a89-dda5-40fe-be75-b5999735d2cc",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "69443-0",
+                "display": "Did tobacco use contribute to death"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.5.1008",
+                "code": "UNK",
+                "display": "unknown"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:a75ec621-3090-4670-9feb-1380fc4f430a",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "a75ec621-3090-4670-9feb-1380fc4f430a",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
+            ]
+          },
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "55280-2",
+                "display": "Military service Narrative"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:f7dbad16-d2e4-48ef-a644-9e3cfc7b703e"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.113883.5.1008",
+                "code": "UNK",
+                "display": "unknown"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }

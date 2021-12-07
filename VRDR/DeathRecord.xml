@@ -221,8 +221,14 @@
         <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
             <summary>Injury Location.</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryLocationLoc">
+            <summary>Create Injury Location.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
             <summary>Injury Incident.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryIncidentObs">
+            <summary>Create Injury Incident.</summary>
         </member>
         <member name="F:VRDR.DeathRecord.DeathLocationLoc">
             <summary>Death Location.</summary>
@@ -428,6 +434,22 @@
             <para>ExampleDeathRecord.MannerOfDeathType = manner;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.MannerOfDeathTypeHelper">
+            <summary>Manner of Death Type.</summary>
+            <value>the manner of death type
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
+            <para>manner.Add("code", "7878000");</para>
+            <para>manner.Add("system", "");</para>
+            <para>manner.Add("display", "Accidental death");</para>
+            <para>ExampleDeathRecord.MannerOfDeathTypeHelper = MannerOfDeath.Natural;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.CertifierGivenNames">
@@ -1225,6 +1247,18 @@
             <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.MaritalStatusHelper">
+            <summary>The marital status of the decedent at the time of death.</summary>
+            <value>the marital status of the decedent at the time of death.:
+            <para>"code" - the code describing this finding</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.NeverMarried;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.FatherGivenNames">
             <summary>Given name(s) of decedent's father.</summary>
             <value>the decedent's father's name (first, middle, etc.)</value>
@@ -1334,6 +1368,16 @@
             <para>ExampleDeathRecord.EducationLevel = elevel;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EducationLevelHelper">
+            <summary>Decedent's Education Level Helper</summary>
+            <value>Decedent's Education Level.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DecedentEducationLevel = VRDR.ValueSets.EducationLevel.Bachelors_Degree;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BirthRecordId">
@@ -1659,6 +1703,18 @@
             <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DecedentDispositionMethodHelper">
+            <summary>Decedent's Disposition Method.</summary>
+            <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+            </example>
+            </value>
+        </member>
         <member name="P:VRDR.DeathRecord.AutopsyPerformedIndicator">
             <summary>Autopsy Performed Indicator.</summary>
             <value>autopsy performed indicator. A Dictionary representing a code, containing the following key/value pairs:
@@ -1869,6 +1925,16 @@
             <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DeathLocationTypeHelper">
+            <summary>Type of Death Location Helper</summary>
+            <value>type of death location code.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
             <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
@@ -1929,6 +1995,18 @@
             <para>ExampleDeathRecord.PregnancyStatus = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PregnancyStatusHelper">
+            <summary>Pregnancy Status At Death.</summary>
+            <value>pregnancy status at death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.PregnancyStatusHelper = ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatusHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.ExaminerContacted">
@@ -2042,6 +2120,18 @@
             <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.InjuryPlaceHelper">
+            <summary>Place of Injury Helper.</summary>
+            <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryPlaceHelper = "code";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlaceHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.InjuryPlaceDescription">
             <summary>Place of Injury Description.</summary>
             <value>the place of injury.</value>
@@ -2126,6 +2216,18 @@
             <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.TransportationRoleHelper">
+            <summary>Transportation Role in death.</summary>
+            <value>transportation code for role in death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.TobaccoUse">
             <summary>Tobacco Use Contributed To Death.</summary>
             <value>if tobacco use contributed to death. A Dictionary representing a code, containing the following key/value pairs:
@@ -2154,6 +2256,9 @@
         </member>
         <member name="M:VRDR.DeathRecord.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.SetCodeValue(System.String,System.String,System.String[0:,0:])">
+            <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.DictToCoding(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR Coding.</summary>
@@ -3090,6 +3195,228 @@
         </member>
         <member name="M:VRDR.PlaceCode.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>The complete constructor, normally used when declaring a PlaceCode</summary>
+        </member>
+        <member name="T:VRDR.ValueSets">
+            <summary> ValueSet Helpers </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.EducationLevel">
+            <summary> EducationLevel </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel._8th_Grade_Or_Less">
+            <summary> _8th_Grade_Or_Less </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel._9th_Through_12th_Grade_No_Diploma">
+            <summary> _9th_Through_12th_Grade_No_Diploma </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.High_School_Graduate_Or_Ged_Completed">
+            <summary> High_School_Graduate_Or_Ged_Completed </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Some_College_Credit_But_No_Degree">
+            <summary> Some_College_Credit_But_No_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Associate_Degree">
+            <summary> Associate_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Bachelors_Degree">
+            <summary> Bachelors_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Masters_Degree">
+            <summary> Masters_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Doctorate_Degree_Or_Professional_Degree">
+            <summary> Doctorate_Degree_Or_Professional_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Unknown">
+            <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MannerOfDeath">
+            <summary> MannerOfDeath </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Natural">
+            <summary> Natural </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Accident">
+            <summary> Accident </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Suicide">
+            <summary> Suicide </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Homicide">
+            <summary> Homicide </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Pending_Investigation">
+            <summary> Pending_Investigation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Could_Not_Be_Determined">
+            <summary> Could_Not_Be_Determined </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MaritalStatus">
+            <summary> MaritalStatus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Married">
+            <summary> Married </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Married_But_Separated">
+            <summary> Married_But_Separated </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Widowed">
+            <summary> Widowed </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Divorced">
+            <summary> Divorced </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Never_Married">
+            <summary> Never_Married </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Not_Classifiable">
+            <summary> Not_Classifiable </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PlaceOfInjury">
+            <summary> PlaceOfInjury </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Home">
+            <summary> Home </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Residential_Institution">
+            <summary> Residential_Institution </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.School_Other_Institutions_Public_Administrative_Area">
+            <summary> School_Other_Institutions_Public_Administrative_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Sports_And_Athletics_Area">
+            <summary> Sports_And_Athletics_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Street_Highway">
+            <summary> Street_Highway </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Trade_And_Service_Area">
+            <summary> Trade_And_Service_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Industrial_And_Construction_Area">
+            <summary> Industrial_And_Construction_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Farm">
+            <summary> Farm </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Other_Specified_Place">
+            <summary> Other_Specified_Place </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Unspecified_Place">
+            <summary> Unspecified_Place </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.No_Information">
+            <summary> No_Information </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PlaceOfDeath">
+            <summary> PlaceOfDeath </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival">
+            <summary> Hospital_Dead_On_Arrival </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Decedents_Home">
+            <summary> Decedents_Home </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospice">
+            <summary> Hospice </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient">
+            <summary> Hospital_Inpatient </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient">
+            <summary> Death_In_Emergency_Room_Outpatient </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility">
+            <summary> Death_In_Nursing_Home_Long_Term_Care_Facility </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Unknown">
+            <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.TransportationRoles">
+            <summary> TransportationRoles </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRoles.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRoles.Driver_Operator">
+            <summary> Driver_Operator </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRoles.Passenger">
+            <summary> Passenger </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRoles.Pedestrian">
+            <summary> Pedestrian </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRoles.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PregnancyStatus">
+            <summary> PregnancyStatus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year">
+            <summary> Not_Pregnant_Within_Past_Year </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death">
+            <summary> Pregnant_At_Time_Of_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death">
+            <summary> Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death">
+            <summary> Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Unknown_If_Pregnant_Within_The_Past_Year">
+            <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Applicable">
+            <summary> Not_Applicable </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MethodsOfDisposition">
+            <summary> MethodsOfDisposition </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Burial">
+            <summary> Burial </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Cremation">
+            <summary> Cremation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Donation">
+            <summary> Donation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Entombment">
+            <summary> Entombment </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Removal_From_State">
+            <summary> Removal_From_State </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Unknown">
+            <summary> Unknown </summary>
         </member>
     </members>
 </doc>

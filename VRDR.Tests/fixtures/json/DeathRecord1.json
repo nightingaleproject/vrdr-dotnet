@@ -737,7 +737,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "7878000",
-              "display": "Accidental death"
+              "display": "Accident"
             }
           ]
         }
@@ -994,9 +994,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
-              "code": "BD",
-              "display": "College or baccalaureate degree complete"
+              "system": "urn:oid:2.16.840.1.114222.4.5.274",
+              "code": "PHC1453",
+              "display": "Bachelor's Degree"
             }
           ]
         }
@@ -1310,7 +1310,7 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "urn:oid:2.16.840.1.113883.5.1008",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
               "code": "NA",
               "display": "not applicable"
             }

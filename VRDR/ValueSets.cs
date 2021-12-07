@@ -7,14 +7,14 @@ namespace VRDR
         public static class PHVS_PlaceOfDeath_NCHS {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
-                {"63238001", "Hospital Dead on Arrival", VRDR.CodeSystems.SCT},
-                {"440081000124100", "Decedent's Home", VRDR.CodeSystems.SCT},
-                {"440071000124103", "Hospice", VRDR.CodeSystems.SCT},
-                {"16983000", "Hospital Inpatient", VRDR.CodeSystems.SCT},
-                {"450391000124102", "Death in emergency Room/Outpatient", VRDR.CodeSystems.SCT},
-                {"450381000124100", "Death in nursing home/Long term care facility", VRDR.CodeSystems.SCT},
-                {"OTH", "other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3},
-                {"UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3}
+                { "63238001", "Hospital Dead on Arrival", VRDR.CodeSystems.SCT },
+                { "440081000124100", "Decedent's Home", VRDR.CodeSystems.SCT },
+                { "440071000124103", "Hospice", VRDR.CodeSystems.SCT },
+                { "16983000", "Hospital Inpatient", VRDR.CodeSystems.SCT },
+                { "450391000124102", "Death in emergency Room/Outpatient", VRDR.CodeSystems.SCT },
+                { "450381000124100", "Death in nursing home/Long term care facility", VRDR.CodeSystems.SCT },
+                { "OTH", "other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> Hospital_Dead_On_Arrival </summary>
             public static string  Hospital_Dead_On_Arrival = "63238001";

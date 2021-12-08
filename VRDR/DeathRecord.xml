@@ -1320,7 +1320,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.EducationLevel">
             <summary>Decedent's Education Level.</summary>
-            <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
+            <value>c. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
             <para>"display" - a human readable meaning of the code</para>
@@ -1334,6 +1334,16 @@
             <para>ExampleDeathRecord.EducationLevel = elevel;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.EducationLevelHelper">
+            <summary>Decedent's Education Level Helper</summary>
+            <value>Decedent's Education Level.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DecedentEducationLevel = VRDR.ValueSets.EducationLevel.Bachelors_Degree;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.BirthRecordId">

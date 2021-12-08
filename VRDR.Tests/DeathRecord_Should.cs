@@ -312,7 +312,7 @@ namespace VRDR.Tests
             SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
             Assert.Equal(VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility, SetterDeathRecord.DeathLocationTypeHelper);
             Assert.Equal("Death in nursing home/Long term care facility", SetterDeathRecord.DeathLocationType["display"]);
-            // SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue"; // This throws an exception, but how do you test this behavior?
+            // SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue"; // This throws an exception, but how do you test this
             // Assert.Equal("", SetterDeathRecord.DeathLocationTypeHelper);
         }
 
@@ -1519,13 +1519,18 @@ namespace VRDR.Tests
         public void Set_EducationLevel()
         {
             Dictionary<string, string> elevel = new Dictionary<string, string>();
-            elevel.Add("code", "BD");
-            elevel.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-            elevel.Add("display", "College or baccalaureate degree complete");
+            elevel.Add("code", VRDR.ValueSets.EducationLevel.Bachelors_Degree);
+            elevel.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+            elevel.Add("display", "Bachelor's Degree");
             SetterDeathRecord.EducationLevel = elevel;
-            Assert.Equal("BD", SetterDeathRecord.EducationLevel["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-EducationLevel", SetterDeathRecord.EducationLevel["system"]);
-            Assert.Equal("College or baccalaureate degree complete", SetterDeathRecord.EducationLevel["display"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, SetterDeathRecord.EducationLevel["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
+            Assert.Equal("Bachelor's Degree", SetterDeathRecord.EducationLevel["display"]);
+            SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Associate_Degree;
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Associate_Degree, SetterDeathRecord.EducationLevel["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
+            Assert.Equal("Associate Degree", SetterDeathRecord.EducationLevel["display"]);
+
         }
 
         [Fact]

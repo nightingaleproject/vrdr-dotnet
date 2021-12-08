@@ -4064,7 +4064,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Education Level.</summary>
-        /// <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
+        /// <value>c. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
         /// <para>"system" - the code system this code belongs to</para>
         /// <para>"display" - a human readable meaning of the code</para>
@@ -4116,6 +4116,34 @@ namespace VRDR
                 }
             }
         }
+        /// <summary>Decedent's Education Level Helper</summary>
+        /// <value>Decedent's Education Level.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentEducationLevel = VRDR.ValueSets.EducationLevel.Bachelors_Degree;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
+        /// </example>
+        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Education-Level.html", false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
+        public string EducationLevelHelper
+        {
+            get
+            {
+                if (EducationLevel.ContainsKey("code"))
+                {
+                    return EducationLevel["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("EducationLevel", value, VRDR.ValueSets.EducationLevel.Codes);
+            }
+        }
+
+
 
         /// <summary>Birth Record Identifier.</summary>
         /// <value>a birth record identification string.</value>

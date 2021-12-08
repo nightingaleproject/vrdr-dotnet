@@ -3107,35 +3107,179 @@
         <member name="T:VRDR.ValueSets">
             <summary> ValueSet Helpers </summary>
         </member>
-        <member name="T:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS">
-            <summary> PHVS_PlaceOfDeath_NCHS </summary>
+        <member name="T:VRDR.ValueSets.EducationLevel">
+            <summary> EducationLevel </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Codes">
+        <member name="F:VRDR.ValueSets.EducationLevel.Codes">
             <summary> Codes </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospital_Dead_On_Arrival">
+        <member name="F:VRDR.ValueSets.EducationLevel._8th_Grade_Or_Less">
+            <summary> _8th_Grade_Or_Less </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel._9th_Through_12th_Grade_No_Diploma">
+            <summary> _9th_Through_12th_Grade_No_Diploma </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.High_School_Graduate_Or_Ged_Completed">
+            <summary> High_School_Graduate_Or_Ged_Completed </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Some_College_Credit_But_No_Degree">
+            <summary> Some_College_Credit_But_No_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Associate_Degree">
+            <summary> Associate_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Bachelors_Degree">
+            <summary> Bachelors_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Masters_Degree">
+            <summary> Masters_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Doctorate_Degree_Or_Professional_Degree">
+            <summary> Doctorate_Degree_Or_Professional_Degree </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.EducationLevel.Unknown">
+            <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MannerOfDeath">
+            <summary> MannerOfDeath </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Natural">
+            <summary> Natural </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Accident">
+            <summary> Accident </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Suicide">
+            <summary> Suicide </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Homicide">
+            <summary> Homicide </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Pending_Investigation">
+            <summary> Pending_Investigation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MannerOfDeath.Could_Not_Be_Determined">
+            <summary> Could_Not_Be_Determined </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MaritalStatus">
+            <summary> MaritalStatus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Married">
+            <summary> Married </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Married_But_Separated">
+            <summary> Married_But_Separated </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Widowed">
+            <summary> Widowed </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Divorced">
+            <summary> Divorced </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Never_Married">
+            <summary> Never_Married </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MaritalStatus.Not_Classifiable">
+            <summary> Not_Classifiable </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PlaceOfInjury">
+            <summary> PlaceOfInjury </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Home">
+            <summary> Home </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Residential_Institution">
+            <summary> Residential_Institution </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.School_Other_Institutions_Public_Administrative_Area">
+            <summary> School_Other_Institutions_Public_Administrative_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Sports_And_Athletics_Area">
+            <summary> Sports_And_Athletics_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Street_Highway">
+            <summary> Street_Highway </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Trade_And_Service_Area">
+            <summary> Trade_And_Service_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Industrial_And_Construction_Area">
+            <summary> Industrial_And_Construction_Area </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Farm">
+            <summary> Farm </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Other_Specified_Place">
+            <summary> Other_Specified_Place </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.Unspecified_Place">
+            <summary> Unspecified_Place </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfInjury.No_Information">
+            <summary> No_Information </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PlaceOfDeath">
+            <summary> PlaceOfDeath </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival">
             <summary> Hospital_Dead_On_Arrival </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Decedents_Home">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Decedents_Home">
             <summary> Decedents_Home </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospice">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospice">
             <summary> Hospice </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospital_Inpatient">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient">
             <summary> Hospital_Inpatient </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Death_In_Emergency_Room_Outpatient">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient">
             <summary> Death_In_Emergency_Room_Outpatient </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Death_In_Nursing_Home_Long_Term_Care_Facility">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility">
             <summary> Death_In_Nursing_Home_Long_Term_Care_Facility </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Other">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Other">
             <summary> Other </summary>
         </member>
-        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Unknown">
+        <member name="F:VRDR.ValueSets.PlaceOfDeath.Unknown">
             <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PregnancyStatus">
+            <summary> PregnancyStatus </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year">
+            <summary> Not_Pregnant_Within_Past_Year </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death">
+            <summary> Pregnant_At_Time_Of_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death">
+            <summary> Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death">
+            <summary> Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Unknown_If_Pregnant_Within_The_Past_Year">
+            <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Applicable">
+            <summary> Not_Applicable </summary>
         </member>
     </members>
 </doc>

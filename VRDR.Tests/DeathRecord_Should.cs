@@ -105,7 +105,7 @@ namespace VRDR.Tests
         [Fact]
         public void InvalidDeathLocationJurisdiction()
         {
-            // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5 
+            // In input file's http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id extension uses an old format from version 3.0.0 RC5
             // if the input is invalid, return null, no error is thrown
             DeathRecord deathRecord = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/InvalidJurisdictionId.json")));
             Assert.Null(deathRecord.DeathLocationJurisdiction);
@@ -186,6 +186,8 @@ namespace VRDR.Tests
             IJEMortality ijefromjson = new IJEMortality(djson);
             DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
 
+            Assert.NotEqual(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Hospice);
+            Assert.Equal(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient);
             Assert.Equal("Death in hospital", fromijefromjson.DeathLocationType["display"]);
         }
 
@@ -302,6 +304,16 @@ namespace VRDR.Tests
             sample2.CertifierFamilyName = "2diff1xyz";
             Assert.Equal("1diff2abc", sample1.CertifierFamilyName);
             Assert.Equal("2diff1xyz", sample2.CertifierFamilyName);
+        }
+
+[Fact]
+        public void Set_DeathLocationTypeHelper()
+        {
+            SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
+            Assert.Equal(VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility, SetterDeathRecord.DeathLocationTypeHelper);
+            Assert.Equal("Death in nursing home/Long term care facility", SetterDeathRecord.DeathLocationType["display"]);
+            // SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue"; // This throws an exception, but how do you test this behavior?
+            // Assert.Equal("", SetterDeathRecord.DeathLocationTypeHelper);
         }
 
         [Fact]

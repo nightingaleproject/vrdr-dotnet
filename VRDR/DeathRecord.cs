@@ -539,7 +539,7 @@ namespace VRDR
                     UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
                 }
             }
-            
+
             String jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
             if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
             {
@@ -550,7 +550,7 @@ namespace VRDR
                 jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
             }
             this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
-            
+
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
@@ -5834,14 +5834,14 @@ namespace VRDR
                     if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
                     {
                         CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        if (cc.Coding.Count > 0) 
+                        if (cc.Coding.Count > 0)
                         {
                             return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
                         }
                     }
                 }
                 return null;
-                
+
             }
             set
             {
@@ -6087,7 +6087,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Codes);
+                SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PlaceOfDeath.Codes);
             }
         }
 

@@ -1869,6 +1869,16 @@
             <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DeathLocationTypeHelper">
+            <summary>Type of Death Location Helper</summary>
+            <value>type of death location code.</value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.AgeAtDeath">
             <summary>Age At Death.</summary>
             <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
@@ -2154,6 +2164,9 @@
         </member>
         <member name="M:VRDR.DeathRecord.RestoreReferences">
             <summary>Restores class references from a newly parsed record.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.SetCodeValue(System.String,System.String,System.String[0:,0:])">
+            <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
         </member>
         <member name="M:VRDR.DeathRecord.DictToCoding(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>Convert a "code" dictionary to a FHIR Coding.</summary>
@@ -3090,6 +3103,39 @@
         </member>
         <member name="M:VRDR.PlaceCode.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>The complete constructor, normally used when declaring a PlaceCode</summary>
+        </member>
+        <member name="T:VRDR.ValueSets">
+            <summary> ValueSet Helpers </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS">
+            <summary> PHVS_PlaceOfDeath_NCHS </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospital_Dead_On_Arrival">
+            <summary> Hospital_Dead_On_Arrival </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Decedents_Home">
+            <summary> Decedents_Home </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospice">
+            <summary> Hospice </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Hospital_Inpatient">
+            <summary> Hospital_Inpatient </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Death_In_Emergency_Room_Outpatient">
+            <summary> Death_In_Emergency_Room_Outpatient </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Death_In_Nursing_Home_Long_Term_Care_Facility">
+            <summary> Death_In_Nursing_Home_Long_Term_Care_Facility </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Unknown">
+            <summary> Unknown </summary>
         </member>
     </members>
 </doc>

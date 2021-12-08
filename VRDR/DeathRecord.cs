@@ -6064,6 +6064,33 @@ namespace VRDR
             }
         }
 
+        /// <summary>Type of Death Location Helper</summary>
+        /// <value>type of death location code.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+        /// </example>
+        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        public string DeathLocationTypeHelper
+        {
+            get
+            {
+                if (DeathLocationType.ContainsKey("code"))
+                {
+                    return DeathLocationType["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("DeathLocationType", value, VRDR.ValueSets.PHVS_PlaceOfDeath_NCHS.Codes);
+            }
+        }
+
         /// <summary>Age At Death.</summary>
         /// <value>decedent's age at time of death. A Dictionary representing a length of time, containing the following key/value pairs:
         /// <para>"value" - the quantity value</para>
@@ -7438,6 +7465,31 @@ namespace VRDR
             {
                 DeathDateObs = (Observation)dateOfDeath.Resource;
             }
+        }
+
+        /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
+        // <param name="field">the field name to set.</param>
+        // <param name="code">the code to set the field to.</param>
+        // <param name="options">the list of valid options and related display strings and code systems</param>
+        private void SetCodeValue(string field, string code, string[,] options)
+        {
+            // Iterate over the allowed options and see if the code supplies is one of them
+            for (int i = 0; i < options.GetLength(0); i += 1)
+            {
+                if (options[i, 0] == code)
+                {
+                    // Found it, so call the supplied setter with the appropriate dictionary built based on the code
+                    // using the supplied options and return
+                    Dictionary<string, string> dict = new Dictionary<string, string>();
+                    dict.Add("code", code);
+                    dict.Add("display", options[i, 1]);
+                    dict.Add("system", options[i, 2]);
+                    typeof(DeathRecord).GetProperty(field).SetValue(this, dict);
+                    return;
+                }
+            }
+            // If we got here we didn't find the code, so it's not a valid option
+            throw new System.ArgumentException($"Code '{code}' is not an allowed value for field {field}");
         }
 
         /// <summary>Convert a "code" dictionary to a FHIR Coding.</summary>

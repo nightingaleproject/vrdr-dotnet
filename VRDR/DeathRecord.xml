@@ -3267,6 +3267,24 @@
         <member name="F:VRDR.ValueSets.PlaceOfDeath.Unknown">
             <summary> Unknown </summary>
         </member>
+        <member name="T:VRDR.ValueSets.TransportationRelationships">
+            <summary> TransportationRelationships </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRelationships.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRelationships.Driver_Operator">
+            <summary> Driver_Operator </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRelationships.Passenger">
+            <summary> Passenger </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRelationships.Pedestrian">
+            <summary> Pedestrian </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.TransportationRelationships.Other">
+            <summary> Other </summary>
+        </member>
         <member name="T:VRDR.ValueSets.PregnancyStatus">
             <summary> PregnancyStatus </summary>
         </member>
@@ -3290,6 +3308,33 @@
         </member>
         <member name="F:VRDR.ValueSets.PregnancyStatus.Not_Applicable">
             <summary> Not_Applicable </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.MethodsOfDisposition">
+            <summary> MethodsOfDisposition </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Burial">
+            <summary> Burial </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Cremation">
+            <summary> Cremation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Donation">
+            <summary> Donation </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Entombment">
+            <summary> Entombment </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Removal_From_State">
+            <summary> Removal_From_State </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Other">
+            <summary> Other </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.MethodsOfDisposition.Unknown">
+            <summary> Unknown </summary>
         </member>
     </members>
 </doc>

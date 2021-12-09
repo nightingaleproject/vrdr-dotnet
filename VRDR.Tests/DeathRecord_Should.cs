@@ -312,8 +312,7 @@ namespace VRDR.Tests
             SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
             Assert.Equal(VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility, SetterDeathRecord.DeathLocationTypeHelper);
             Assert.Equal("Death in nursing home/Long term care facility", SetterDeathRecord.DeathLocationType["display"]);
-            // SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue"; // This throws an exception, but how do you test this
-            // Assert.Equal("", SetterDeathRecord.DeathLocationTypeHelper);
+            Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue");
         }
 
         [Fact]
@@ -1527,7 +1526,7 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", SetterDeathRecord.EducationLevel["display"]);
             SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Associate_Degree;
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Associate_Degree, SetterDeathRecord.EducationLevel["code"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Associate_Degree, SetterDeathRecord.EducationLevelHelper);
             Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
             Assert.Equal("Associate Degree", SetterDeathRecord.EducationLevel["display"]);
 
@@ -1536,10 +1535,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EducationLevel()
         {
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)JSONRecords[0]).EducationLevel["code"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)JSONRecords[0]).EducationLevelHelper);
             Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevel["code"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevelHelper);
             Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
         }

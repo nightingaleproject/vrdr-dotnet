@@ -7,15 +7,15 @@ namespace VRDR
             public static class EducationLevel {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "PHC1448", "8th grade or less", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1449", "9th through 12th grade; no diploma", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1450", "High School Graduate or GED Completed", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1451", "Some college credit, but no degree", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1452", "Associate Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1453", "Bachelor's Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1454", "Master's Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1455", "Doctorate Degree or Professional Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                    { "PHC1448", "8th grade or less", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1449", "9th through 12th grade; no diploma", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1450", "High School Graduate or GED Completed", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1451", "Some college credit, but no degree", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1452", "Associate Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1453", "Bachelor's Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1454", "Master's Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1455", "Doctorate Degree or Professional Degree", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> _8th_Grade_Or_Less </summary>
             public static string  _8th_Grade_Or_Less = "PHC1448";
@@ -40,12 +40,12 @@ namespace VRDR
             public static class MannerOfDeath {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "38605008", "Natural", VRDR.CodeSystems.SCT },
-                { "7878000", "Accident", VRDR.CodeSystems.SCT },
-                { "44301001", "Suicide", VRDR.CodeSystems.SCT },
-                { "27935005", "Homicide", VRDR.CodeSystems.SCT },
-                { "185973002", "Pending Investigation", VRDR.CodeSystems.SCT },
-                { "65037004", "Could not be determined", VRDR.CodeSystems.SCT }
+                    { "38605008", "Natural", VRDR.CodeSystems.SCT },
+                    { "7878000", "Accident", VRDR.CodeSystems.SCT },
+                    { "44301001", "Suicide", VRDR.CodeSystems.SCT },
+                    { "27935005", "Homicide", VRDR.CodeSystems.SCT },
+                    { "185973002", "Pending Investigation", VRDR.CodeSystems.SCT },
+                    { "65037004", "Could not be determined", VRDR.CodeSystems.SCT }
             };
             /// <summary> Natural </summary>
             public static string  Natural = "38605008";
@@ -64,12 +64,12 @@ namespace VRDR
             public static class MaritalStatus {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "M", "Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "A", "Married but Separated", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "W", "Widowed", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "D", "Divorced", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "S", "Never Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "U", "Not Classifiable", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x }
+                    { "M", "Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
+                    { "A", "Married but Separated", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
+                    { "W", "Widowed", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
+                    { "D", "Divorced", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
+                    { "S", "Never Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
+                    { "U", "Not Classifiable", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x }
             };
             /// <summary> Married </summary>
             public static string  Married = "M";
@@ -88,17 +88,17 @@ namespace VRDR
             public static class PlaceOfInjury {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "0", "Home", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "1", "Residential Institution", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "2", "School, Other Institutions, Public Administrative Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "3", "Sports and Athletics Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "4", "Street/Highway", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "5", "Trade and Service Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "6", "Industrial and Construction Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "7", "Farm", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "8", "Other Specified Place", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "9", "Unspecified Place", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
-                { "NI", "No Information", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                    { "0", "Home", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "1", "Residential Institution", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "2", "School, Other Institutions, Public Administrative Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "3", "Sports and Athletics Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "4", "Street/Highway", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "5", "Trade and Service Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "6", "Industrial and Construction Area", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "7", "Farm", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "8", "Other Specified Place", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "9", "Unspecified Place", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO },
+                    { "NI", "No Information", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> Home </summary>
             public static string  Home = "0";
@@ -127,14 +127,14 @@ namespace VRDR
             public static class PlaceOfDeath {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "63238001", "Hospital Dead on Arrival", VRDR.CodeSystems.SCT },
-                { "440081000124100", "Decedent's Home", VRDR.CodeSystems.SCT },
-                { "440071000124103", "Hospice", VRDR.CodeSystems.SCT },
-                { "16983000", "Hospital Inpatient", VRDR.CodeSystems.SCT },
-                { "450391000124102", "Death in emergency Room/Outpatient", VRDR.CodeSystems.SCT },
-                { "450381000124100", "Death in nursing home/Long term care facility", VRDR.CodeSystems.SCT },
-                { "OTH", "other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                    { "63238001", "Hospital Dead on Arrival", VRDR.CodeSystems.SCT },
+                    { "440081000124100", "Decedent's Home", VRDR.CodeSystems.SCT },
+                    { "440071000124103", "Hospice", VRDR.CodeSystems.SCT },
+                    { "16983000", "Hospital Inpatient", VRDR.CodeSystems.SCT },
+                    { "450391000124102", "Death in emergency Room/Outpatient", VRDR.CodeSystems.SCT },
+                    { "450381000124100", "Death in nursing home/Long term care facility", VRDR.CodeSystems.SCT },
+                    { "OTH", "other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                    { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> Hospital_Dead_On_Arrival </summary>
             public static string  Hospital_Dead_On_Arrival = "63238001";
@@ -153,16 +153,34 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
+            /// <summary> TransportationRelationships </summary>
+            public static class TransportationRelationships {
+                /// <summary> Codes </summary>
+                public static string[,] Codes = {
+                    { "236320001", "Driver/Operator", VRDR.CodeSystems.SCT },
+                    { "257500003", "Passenger", VRDR.CodeSystems.SCT },
+                    { "257518000", "Pedestrian", VRDR.CodeSystems.SCT },
+                    { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Driver_Operator </summary>
+            public static string  Driver_Operator = "236320001";
+            /// <summary> Passenger </summary>
+            public static string  Passenger = "257500003";
+            /// <summary> Pedestrian </summary>
+            public static string  Pedestrian = "257518000";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+        };
             /// <summary> PregnancyStatus </summary>
             public static class PregnancyStatus {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
-                { "PHC1260", "Not pregnant within past year", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1261", "Pregnant at time of death", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1262", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1263", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "PHC1264", "Unknown if pregnant within the past year", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "NA", "Not Applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                    { "PHC1260", "Not pregnant within past year", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1261", "Pregnant at time of death", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1262", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1263", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "PHC1264", "Unknown if pregnant within the past year", VRDR.CodeSystems.PH_PHINVS_CDC },
+                    { "NA", "Not Applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> Not_Pregnant_Within_Past_Year </summary>
             public static string  Not_Pregnant_Within_Past_Year = "PHC1260";
@@ -176,6 +194,33 @@ namespace VRDR
             public static string  Unknown_If_Pregnant_Within_The_Past_Year = "PHC1264";
             /// <summary> Not_Applicable </summary>
             public static string  Not_Applicable = "NA";
+        };
+            /// <summary> MethodsOfDisposition </summary>
+            public static class MethodsOfDisposition {
+                /// <summary> Codes </summary>
+                public static string[,] Codes = {
+                    { "449971000124106", "Burial", VRDR.CodeSystems.SCT },
+                    { "449961000124104", "Cremation", VRDR.CodeSystems.SCT },
+                    { "449951000124101", "Donation", VRDR.CodeSystems.SCT },
+                    { "449931000124108", "Entombment", VRDR.CodeSystems.SCT },
+                    { "449941000124103", "Removal from State", VRDR.CodeSystems.SCT },
+                    { "OTH", "other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                    { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Burial </summary>
+            public static string  Burial = "449971000124106";
+            /// <summary> Cremation </summary>
+            public static string  Cremation = "449961000124104";
+            /// <summary> Donation </summary>
+            public static string  Donation = "449951000124101";
+            /// <summary> Entombment </summary>
+            public static string  Entombment = "449931000124108";
+            /// <summary> Removal_From_State </summary>
+            public static string  Removal_From_State = "449941000124103";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
         };
    }
 }

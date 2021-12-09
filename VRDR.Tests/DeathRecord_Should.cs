@@ -1536,12 +1536,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EducationLevel()
         {
-            Assert.Equal("BD", ((DeathRecord)JSONRecords[0]).EducationLevel["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-EducationLevel", ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
-            Assert.Equal("College or baccalaureate degree complete", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
-            Assert.Equal("BD", ((DeathRecord)XMLRecords[0]).EducationLevel["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-EducationLevel", ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
-            Assert.Equal("College or baccalaureate degree complete", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)JSONRecords[0]).EducationLevel["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
+            Assert.Equal("Bachelor's Degree", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevel["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
+            Assert.Equal("Bachelor's Degree", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
         }
 
         [Fact]

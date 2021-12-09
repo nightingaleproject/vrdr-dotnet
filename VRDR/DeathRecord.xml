@@ -1320,7 +1320,7 @@
         </member>
         <member name="P:VRDR.DeathRecord.EducationLevel">
             <summary>Decedent's Education Level.</summary>
-            <value>c. A Dictionary representing a code, containing the following key/value pairs:
+            <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <para>"system" - the code system this code belongs to</para>
             <para>"display" - a human readable meaning of the code</para>

@@ -4064,7 +4064,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Education Level.</summary>
-        /// <value>c. A Dictionary representing a code, containing the following key/value pairs:
+        /// <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
         /// <para>"system" - the code system this code belongs to</para>
         /// <para>"display" - a human readable meaning of the code</para>
@@ -6095,7 +6095,7 @@ namespace VRDR
         /// <summary>Type of Death Location Helper</summary>
         /// <value>type of death location code.</value>
         /// <example>
-        /// <para>// Setter:</para>
+    /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
@@ -7501,6 +7501,10 @@ namespace VRDR
         // <param name="options">the list of valid options and related display strings and code systems</param>
         private void SetCodeValue(string field, string code, string[,] options)
         {
+            // If string is empty don't bother to set the value
+            if (code == null || code == "") {
+                return;
+            }
             // Iterate over the allowed options and see if the code supplies is one of them
             for (int i = 0; i < options.GetLength(0); i += 1)
             {

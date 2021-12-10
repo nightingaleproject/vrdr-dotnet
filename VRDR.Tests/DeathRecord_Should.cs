@@ -1970,12 +1970,9 @@ namespace VRDR.Tests
         public void Set_DecedentDispositionMethod()
         {
             Dictionary<string, string> ddm = new Dictionary<string, string>();
-            ddm.Add("code", "449971000124106");
-            ddm.Add("system", "http://snomed.info/sct");
-            ddm.Add("display", "Burial");
-            SetterDeathRecord.DecedentDispositionMethod = ddm;
-            Assert.Equal("449971000124106", SetterDeathRecord.DecedentDispositionMethod["code"]);
-            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.DecedentDispositionMethod["system"]);
+            SetterDeathRecord.DecedentDispositionMethodHelper = VRDR.ValueSets.MethodsOfDisposition.Burial;
+            Assert.Equal(VRDR.ValueSets.MethodsOfDisposition.Burial, SetterDeathRecord.DecedentDispositionMethodHelper);
+            Assert.Equal(VRDR.CodeSystems.SCT, SetterDeathRecord.DecedentDispositionMethod["system"]);
             Assert.Equal("Burial", SetterDeathRecord.DecedentDispositionMethod["display"]);
         }
 
@@ -2155,29 +2152,28 @@ namespace VRDR.Tests
             Dictionary<string, string> code = new Dictionary<string, string>();
 
             // no description
-            code["code"] = "0";
-            code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
-            code["display"] = "Home";
-            SetterDeathRecord.InjuryPlace = code;
+            // code["code"] = "0";
+            // code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
+            // code["display"] = VRDR.ValueSets.PlaceOfInjury.Home;
+            SetterDeathRecord.InjuryPlaceHelper = VRDR.ValueSets.PlaceOfInjury.Home;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
             Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
+            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);
             Assert.Equal("", SetterDeathRecord.InjuryPlace["text"]);
 
             // with description
             code["text"] = "At home, in the kitchen";
             SetterDeathRecord.InjuryPlace = code;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
+            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);
             Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlace["text"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
 
             // change description, keep code the same
             SetterDeathRecord.InjuryPlaceDescription = "At home, on the stairs";
             Assert.Equal("At home, on the stairs", SetterDeathRecord.InjuryPlace["text"]);
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
             Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal("0", SetterDeathRecord.InjuryPlace["code"]);
+            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlace["code"]);
 
             // description only
             code = new Dictionary<string, string>();

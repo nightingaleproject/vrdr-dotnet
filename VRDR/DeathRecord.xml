@@ -221,8 +221,14 @@
         <member name="F:VRDR.DeathRecord.InjuryLocationLoc">
             <summary>Injury Location.</summary>
         </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryLocationLoc">
+            <summary>Create Injury Location.</summary>
+        </member>
         <member name="F:VRDR.DeathRecord.InjuryIncidentObs">
             <summary>Injury Incident.</summary>
+        </member>
+        <member name="M:VRDR.DeathRecord.CreateInjuryIncidentObs">
+            <summary>Create Injury Incident.</summary>
         </member>
         <member name="F:VRDR.DeathRecord.DeathLocationLoc">
             <summary>Death Location.</summary>
@@ -1669,6 +1675,18 @@
             <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.DecedentDispositionMethodHelper">
+            <summary>Decedent's Disposition Method.</summary>
+            <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+            </example>
+            </value>
+        </member>
         <member name="P:VRDR.DeathRecord.AutopsyPerformedIndicator">
             <summary>Autopsy Performed Indicator.</summary>
             <value>autopsy performed indicator. A Dictionary representing a code, containing the following key/value pairs:
@@ -2060,6 +2078,18 @@
             <para>ExampleDeathRecord.InjuryPlace = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.InjuryPlaceHelper">
+            <summary>Place of Injury Helper.</summary>
+            <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.InjuryPlaceHelper = "code";</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlaceHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.InjuryPlaceDescription">

@@ -214,9 +214,30 @@ namespace VRDR
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
 
+
+          /// <summary>Create Injury Location.</summary>
+          private void CreateInjuryLocationLoc(){
+            InjuryLocationLoc = new Location();
+            InjuryLocationLoc.Id = Guid.NewGuid().ToString();
+            InjuryLocationLoc.Meta = new Meta();
+            string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+            InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+        }
+
         /// <summary>Injury Incident.</summary>
         private Observation InjuryIncidentObs;
 
+       /// <summary>Create Injury Incident.</summary>
+        private void CreateInjuryIncidentObs(){
+                    InjuryIncidentObs = new Observation();
+                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
+                    InjuryIncidentObs.Meta = new Meta();
+                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
+                    InjuryIncidentObs.Meta.Profile = iio_profile;
+                    InjuryIncidentObs.Status = ObservationStatus.Final;
+                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
+                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+        }
         /// <summary>Death Location.</summary>
         private Location DeathLocationLoc;
         /// <summary>Create Death Location </summary>
@@ -5288,6 +5309,34 @@ namespace VRDR
                 }
             }
         }
+        /// <summary>Decedent's Disposition Method.</summary>
+        /// <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+        /// </example>
+        /// </value>
+        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
+        public string DecedentDispositionMethodHelper
+        {
+            get
+            {
+                if (DecedentDispositionMethod.ContainsKey("code"))
+                {
+                    return DecedentDispositionMethod["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodsOfDisposition.Codes);
+            }
+        }
 
         private void LinkObservationToLocation(Observation observation, Location location)
         {
@@ -6472,20 +6521,13 @@ namespace VRDR
             {
                 if (InjuryLocationLoc == null)
                 {
-                    InjuryLocationLoc = new Location();
-                    InjuryLocationLoc.Id = Guid.NewGuid().ToString();
-                    InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
-                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
-                    InjuryLocationLoc.Address = DictToAddress(value);
+                    CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
-                else
-                {
-                    InjuryLocationLoc.Address = DictToAddress(value);
-                }
+
+                InjuryLocationLoc.Address = DictToAddress(value);
             }
         }
 
@@ -6513,20 +6555,12 @@ namespace VRDR
             {
                 if (InjuryLocationLoc == null)
                 {
-                    InjuryLocationLoc = new Location();
-                    InjuryLocationLoc.Id = Guid.NewGuid().ToString();
-                    InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
-                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
-                    InjuryLocationLoc.Name = value;
+                    CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
-                else
-                {
-                    InjuryLocationLoc.Name = value;
-                }
+                InjuryLocationLoc.Name = value;
             }
         }
 
@@ -6554,20 +6588,13 @@ namespace VRDR
             {
                 if (InjuryLocationLoc == null)
                 {
-                    InjuryLocationLoc = new Location();
-                    InjuryLocationLoc.Id = Guid.NewGuid().ToString();
-                    InjuryLocationLoc.Meta = new Meta();
-                    string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
-                    InjuryLocationLoc.Meta.Profile = injurylocation_profile;
-                    InjuryLocationLoc.Description = value;
+                    CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id);
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
-                else
-                {
-                    InjuryLocationLoc.Description = value;
-                }
+
+                InjuryLocationLoc.Description = value;
             }
         }
 
@@ -6595,23 +6622,12 @@ namespace VRDR
             {
                 if (InjuryIncidentObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    InjuryIncidentObs.Effective = new FhirDateTime(value);
+                    CreateInjuryIncidentObs();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
-                else
-                {
-                    InjuryIncidentObs.Effective = new FhirDateTime(value);
-                }
+                InjuryIncidentObs.Effective = new FhirDateTime(value);
             }
         }
 
@@ -6639,23 +6655,12 @@ namespace VRDR
             {
                 if (InjuryIncidentObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    InjuryIncidentObs.Value = new FhirString(value);
+                    CreateInjuryIncidentObs();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryIncidentObs.Id);
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
-                else
-                {
-                    InjuryIncidentObs.Value = new FhirString(value);
-                }
+                InjuryIncidentObs.Value = new FhirString(value);
             }
         }
 
@@ -6732,6 +6737,34 @@ namespace VRDR
                         InjuryIncidentObs.Component.Add(component);
                     }
                 }
+            }
+        }
+       /// <summary>Place of Injury Helper.</summary>
+        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryPlaceHelper = "code";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlaceHelper}");</para>
+        /// </example>
+        [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public String InjuryPlaceHelper
+        {
+            get
+            {
+                if (InjuryPlace.ContainsKey("code"))
+                {
+                    return InjuryPlace["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("InjuryPlace", value, VRDR.ValueSets.PlaceOfInjury.Codes);
             }
         }
 

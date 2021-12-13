@@ -396,11 +396,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> CertificationRole = new Dictionary<string, string>();
             CertificationRole.Add("code", "434641000124105");
-            CertificationRole.Add("system", "http://snomed.info/sct");
+            CertificationRole.Add("system", CodeSystems.SCT);
             CertificationRole.Add("display", "Physician");
             SetterDeathRecord.CertificationRole = CertificationRole;
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.CertificationRole["system"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
             Assert.Equal("Physician", SetterDeathRecord.CertificationRole["display"]);
         }
 
@@ -408,10 +408,10 @@ namespace VRDR.Tests
         public void Get_CertificationRole()
         {
             Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
             Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
             Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
             Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
         }
 
@@ -492,11 +492,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> type = new Dictionary<string, string>();
             type.Add("code", "prov");
-            type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
+            type.Add("system", CodeSystems.HL7_organization_type);
             type.Add("display", "Healthcare Provider");
             SetterDeathRecord.InterestedPartyType = type;
             Assert.Equal("prov", SetterDeathRecord.InterestedPartyType["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", SetterDeathRecord.InterestedPartyType["system"]);
+            Assert.Equal(CodeSystems.HL7_organization_type, SetterDeathRecord.InterestedPartyType["system"]);
             Assert.Equal("Healthcare Provider", SetterDeathRecord.InterestedPartyType["display"]);
         }
 
@@ -504,10 +504,10 @@ namespace VRDR.Tests
         public void Get_InterestedPartyType()
         {
             Assert.Equal("prov", ((DeathRecord)JSONRecords[0]).InterestedPartyType["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
+            Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
             Assert.Equal("Healthcare Provider", ((DeathRecord)JSONRecords[0]).InterestedPartyType["display"]);
             Assert.Equal("prov", ((DeathRecord)XMLRecords[0]).InterestedPartyType["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/organization-type", ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
+            Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
             Assert.Equal("Healthcare Provider", ((DeathRecord)XMLRecords[0]).InterestedPartyType["display"]);
         }
 
@@ -516,10 +516,10 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> type = new Dictionary<string, string>();
             type.Add("code", "7878000");
-            type.Add("system", "http://snomed.info/sct");
+            type.Add("system", CodeSystems.SCT);
             type.Add("display", "Accidental death");
             SetterDeathRecord.MannerOfDeathType = type;
-            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.MannerOfDeathType["system"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.MannerOfDeathType["system"]);
             Assert.Equal("7878000", SetterDeathRecord.MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", SetterDeathRecord.MannerOfDeathType["display"]);
         }
@@ -527,10 +527,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_MannerOfDeathType()
         {
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["system"]);
             Assert.Equal("7878000", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
             Assert.Equal("7878000", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
         }
@@ -640,10 +640,10 @@ namespace VRDR.Tests
         public void Get_CertifierQualification()
         {
             Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
             Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
             Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
             Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
         }
 
@@ -1355,24 +1355,20 @@ namespace VRDR.Tests
         [Fact]
         public void Set_MaritalStatus()
         {
-            Dictionary<string, string> code = new Dictionary<string, string>();
-            code.Add("code", "S");
-            code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-            code.Add("display", "Never Married");
-            SetterDeathRecord.MaritalStatus = code;
-            Assert.Equal("S", SetterDeathRecord.MaritalStatus["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus", SetterDeathRecord.MaritalStatus["system"]);
+            SetterDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.Never_Married;
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, SetterDeathRecord.MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, SetterDeathRecord.MaritalStatus["system"]);
             Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
         }
 
         [Fact]
         public void Get_MaritalStatus()
         {
-            Assert.Equal("S", ((DeathRecord)JSONRecords[0]).MaritalStatus["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus", ((DeathRecord)JSONRecords[0]).MaritalStatus["system"]);
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, ((DeathRecord)JSONRecords[0]).MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, ((DeathRecord)JSONRecords[0]).MaritalStatus["system"]);
             Assert.Equal("Never Married", ((DeathRecord)JSONRecords[0]).MaritalStatus["display"]);
-            Assert.Equal("S", ((DeathRecord)XMLRecords[0]).MaritalStatus["code"]);
-            Assert.Equal("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus", ((DeathRecord)XMLRecords[0]).MaritalStatus["system"]);
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, ((DeathRecord)XMLRecords[0]).MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, ((DeathRecord)XMLRecords[0]).MaritalStatus["system"]);
             Assert.Equal("Never Married", ((DeathRecord)XMLRecords[0]).MaritalStatus["display"]);
         }
 
@@ -1980,10 +1976,10 @@ namespace VRDR.Tests
         public void Get_DecedentDispositionMethod()
         {
             Assert.Equal("449971000124106", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["system"]);
             Assert.Equal("Burial", ((DeathRecord)JSONRecords[0]).DecedentDispositionMethod["display"]);
             Assert.Equal("449971000124106", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["system"]);
             Assert.Equal("Burial", ((DeathRecord)XMLRecords[0]).DecedentDispositionMethod["display"]);
         }
 
@@ -2154,14 +2150,14 @@ namespace VRDR.Tests
             // no description
             SetterDeathRecord.InjuryPlaceHelper = VRDR.ValueSets.PlaceOfInjury.Home;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal(CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO, SetterDeathRecord.InjuryPlace["system"]);
             Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);
             Assert.Equal("", SetterDeathRecord.InjuryPlace["text"]);
 
             // with description
             code["text"] = "At home, in the kitchen";
             code["code"] = VRDR.ValueSets.PlaceOfInjury.Home;
-            code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
+            code["system"] = CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO;
             code["display"] = "Home";
             SetterDeathRecord.InjuryPlace = code;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
@@ -2172,7 +2168,7 @@ namespace VRDR.Tests
             SetterDeathRecord.InjuryPlaceDescription = "At home, on the stairs";
             Assert.Equal("At home, on the stairs", SetterDeathRecord.InjuryPlace["text"]);
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
+            Assert.Equal(CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO, SetterDeathRecord.InjuryPlace["system"]);
             Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlace["code"]);
 
             // description only
@@ -2199,24 +2195,20 @@ namespace VRDR.Tests
         [Fact]
         public void Set_TransportationRole()
         {
-            Dictionary<string, string> tr = new Dictionary<string, string>();
-            tr.Add("code", "257500003");
-            tr.Add("system", "http://snomed.info/sct");
-            tr.Add("display", "Passenger");
-            SetterDeathRecord.TransportationRole = tr;
-            Assert.Equal("257500003", SetterDeathRecord.TransportationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.TransportationRole["system"]);
+            SetterDeathRecord.TransportationRoleHelper = ValueSets.TransportationRoles.Passenger;
+            Assert.Equal(ValueSets.TransportationRoles.Passenger, SetterDeathRecord.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
         }
 
         [Fact]
         public void Get_TransportationRole()
         {
-            Assert.Equal("257500003", ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
+            Assert.Equal(ValueSets.TransportationRoles.Passenger, ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
-            Assert.Equal("257500003", ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
+            Assert.Equal(ValueSets.TransportationRoles.Passenger, ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
         }
 
@@ -2262,11 +2254,11 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> tbu = new Dictionary<string, string>();
             tbu.Add("code", "373066001");
-            tbu.Add("system", "http://snomed.info/sct");
+            tbu.Add("system", CodeSystems.SCT);
             tbu.Add("display", "Yes");
             SetterDeathRecord.TobaccoUse = tbu;
             Assert.Equal("373066001", SetterDeathRecord.TobaccoUse["code"]);
-            Assert.Equal("http://snomed.info/sct", SetterDeathRecord.TobaccoUse["system"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TobaccoUse["system"]);
             Assert.Equal("Yes", SetterDeathRecord.TobaccoUse["display"]);
         }
 
@@ -2274,10 +2266,10 @@ namespace VRDR.Tests
         public void Get_TobaccoUse()
         {
             Assert.Equal("373066001", ((DeathRecord)JSONRecords[0]).TobaccoUse["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).TobaccoUse["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TobaccoUse["display"]);
             Assert.Equal("373066001", ((DeathRecord)XMLRecords[0]).TobaccoUse["code"]);
-            Assert.Equal("http://snomed.info/sct", ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
+            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).TobaccoUse["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TobaccoUse["display"]);
         }
 

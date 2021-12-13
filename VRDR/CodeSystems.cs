@@ -41,7 +41,7 @@ namespace VRDR
         /// <summary>PHINVADS SNOMED.</summary>
         public static string PH_SNOMED_CT = "urn:oid:2.16.840.1.113883.6.96";
         /// <summary>PHINVADS Marital Satus.</summary>
-        public static string PH_MaritalStatus_HL7_2x = "urn:oid:2.16.840.1.113883.12.2";
+        public static string PH_MaritalStatus_HL7_2x = "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus";
         /// <summary>PHINVADS USGS GNIS.</summary>
         public static string PH_USGS_GNIS = "urn:oid:2.16.840.1.113883.6.245";
         /// <summary>PHINVADS FIPS 5 2.</summary>

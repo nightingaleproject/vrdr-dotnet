@@ -1231,6 +1231,18 @@
             <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.MaritalStatusHelper">
+            <summary>The marital status of the decedent at the time of death.</summary>
+            <value>the marital status of the decedent at the time of death.:
+            <para>"code" - the code describing this finding</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.NeverMarried;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.FatherGivenNames">
             <summary>Given name(s) of decedent's father.</summary>
             <value>the decedent's father's name (first, middle, etc.)</value>
@@ -2174,6 +2186,18 @@
             <para>ExampleDeathRecord.TransportationRole = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.TransportationRoleHelper">
+            <summary>Transportation Role in death.</summary>
+            <value>transportation code for role in death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.TobaccoUse">
@@ -3297,22 +3321,22 @@
         <member name="F:VRDR.ValueSets.PlaceOfDeath.Unknown">
             <summary> Unknown </summary>
         </member>
-        <member name="T:VRDR.ValueSets.TransportationRelationships">
-            <summary> TransportationRelationships </summary>
+        <member name="T:VRDR.ValueSets.TransportationRoles">
+            <summary> TransportationRoles </summary>
         </member>
-        <member name="F:VRDR.ValueSets.TransportationRelationships.Codes">
+        <member name="F:VRDR.ValueSets.TransportationRoles.Codes">
             <summary> Codes </summary>
         </member>
-        <member name="F:VRDR.ValueSets.TransportationRelationships.Driver_Operator">
+        <member name="F:VRDR.ValueSets.TransportationRoles.Driver_Operator">
             <summary> Driver_Operator </summary>
         </member>
-        <member name="F:VRDR.ValueSets.TransportationRelationships.Passenger">
+        <member name="F:VRDR.ValueSets.TransportationRoles.Passenger">
             <summary> Passenger </summary>
         </member>
-        <member name="F:VRDR.ValueSets.TransportationRelationships.Pedestrian">
+        <member name="F:VRDR.ValueSets.TransportationRoles.Pedestrian">
             <summary> Pedestrian </summary>
         </member>
-        <member name="F:VRDR.ValueSets.TransportationRelationships.Other">
+        <member name="F:VRDR.ValueSets.TransportationRoles.Other">
             <summary> Other </summary>
         </member>
         <member name="T:VRDR.ValueSets.PregnancyStatus">

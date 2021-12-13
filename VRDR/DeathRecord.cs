@@ -3679,6 +3679,35 @@ namespace VRDR
             }
         }
 
+        /// <summary>The marital status of the decedent at the time of death.</summary>
+        /// <value>the marital status of the decedent at the time of death.:
+        /// <para>"code" - the code describing this finding</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.NeverMarried;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
+        /// </example>
+        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public String MaritalStatusHelper
+        {
+            get
+            {
+                if (MaritalStatus.ContainsKey("code"))
+                {
+                    return MaritalStatus["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("MaritalStatus", value, VRDR.ValueSets.MaritalStatus.Codes);
+            }
+        }
+
         /// <summary>Given name(s) of decedent's father.</summary>
         /// <value>the decedent's father's name (first, middle, etc.)</value>
         /// <example>
@@ -7051,6 +7080,34 @@ namespace VRDR
                 {
                     TransportationRoleObs.Value = DictToCodeableConcept(value);
                 }
+            }
+        }
+        /// <summary>Transportation Role in death.</summary>
+        /// <value>transportation code for role in death.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TransportationRoleHelper = VRDR.TransportationRoles.Passenger;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRoleHelper");</para>
+        /// </example>
+        [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
+        public String TransportationRoleHelper
+        {
+            get
+            {
+                if (TransportationRole.ContainsKey("code"))
+                {
+                    return TransportationRole["code"] ;
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
             }
         }
 

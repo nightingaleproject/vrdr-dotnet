@@ -180,7 +180,7 @@ namespace VRDR
                     { "PHC1262", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PH_PHINVS_CDC },
                     { "PHC1263", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PH_PHINVS_CDC },
                     { "PHC1264", "Unknown if pregnant within the past year", VRDR.CodeSystems.PH_PHINVS_CDC },
-                    { "NA", "Not Applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                    { "NA", "Not Applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Not_Pregnant_Within_Past_Year </summary>
             public static string  Not_Pregnant_Within_Past_Year = "PHC1260";

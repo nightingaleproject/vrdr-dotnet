@@ -1040,6 +1040,42 @@ namespace VRDR
             }
         }
 
+        /// <summary>Manner of Death Type.</summary>
+        /// <value>the manner of death type
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>manner.Add("code", "7878000");</para>
+        /// <para>manner.Add("system", "");</para>
+        /// <para>manner.Add("display", "Accidental death");</para>
+        /// <para>ExampleDeathRecord.MannerOfDeathTypeHelper = MannerOfDeath.Natural;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
+        /// </example>
+        [Property("Manner Of Death Type", Property.Types.String, "Death Certification", "Manner of Death Type.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Manner-of-Death.html", true, 49)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7')", "")]
+
+        public string MannerOfDeathTypeHelper
+        {
+            get
+            {
+                if (MannerOfDeathType.ContainsKey("code"))
+                {
+                    return MannerOfDeathType["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("MannerOfDeathType", value, VRDR.ValueSets.MannerOfDeath.Codes);
+            }
+        }
+
+
+
         /// <summary>Given name(s) of certifier.</summary>
         /// <value>the certifier's name (first, middle, etc.)</value>
         /// <example>
@@ -3692,7 +3728,7 @@ namespace VRDR
         [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
-        public String MaritalStatusHelper
+        public string MaritalStatusHelper
         {
             get
             {
@@ -6401,6 +6437,34 @@ namespace VRDR
             }
         }
 
+        /// <summary>Pregnancy Status At Death.</summary>
+        /// <value>pregnancy status at death.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.PregnancyStatusHelper = ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatusHelper}");</para>
+        /// </example>
+        [Property("Pregnancy Status", Property.Types.String, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public string PregnancyStatusHelper
+        {
+            get
+            {
+                if (PregnancyStatus.ContainsKey("code"))
+                {
+                    return PregnancyStatus["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
+            }
+        }
         /// <summary>Examiner Contacted.</summary>
         /// <value>if a medical examiner was contacted.</value>
         /// <example>
@@ -6762,7 +6826,7 @@ namespace VRDR
         [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public String InjuryPlaceHelper
+        public string InjuryPlaceHelper
         {
             get
             {
@@ -7095,7 +7159,7 @@ namespace VRDR
         [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
-        public String TransportationRoleHelper
+        public string TransportationRoleHelper
         {
             get
             {

@@ -41,7 +41,7 @@ namespace VRDR
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {
                     { "38605008", "Natural", VRDR.CodeSystems.SCT },
-                    { "7878000", "Accident", VRDR.CodeSystems.SCT },
+                    { "7878000", "Accidental death", VRDR.CodeSystems.SCT },
                     { "44301001", "Suicide", VRDR.CodeSystems.SCT },
                     { "27935005", "Homicide", VRDR.CodeSystems.SCT },
                     { "185973002", "Pending Investigation", VRDR.CodeSystems.SCT },

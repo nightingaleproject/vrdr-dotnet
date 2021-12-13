@@ -515,12 +515,9 @@ namespace VRDR.Tests
         public void Set_MannerOfDeathType()
         {
             Dictionary<string, string> type = new Dictionary<string, string>();
-            type.Add("code", "7878000");
-            type.Add("system", CodeSystems.SCT);
-            type.Add("display", "Accidental death");
-            SetterDeathRecord.MannerOfDeathType = type;
+            SetterDeathRecord.MannerOfDeathTypeHelper = ValueSets.MannerOfDeath.Accident;
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.MannerOfDeathType["system"]);
-            Assert.Equal("7878000", SetterDeathRecord.MannerOfDeathType["code"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accident, SetterDeathRecord.MannerOfDeathTypeHelper);
             Assert.Equal("Accidental death", SetterDeathRecord.MannerOfDeathType["display"]);
         }
 
@@ -528,10 +525,10 @@ namespace VRDR.Tests
         public void Get_MannerOfDeathType()
         {
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal("7878000", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accident, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal("7878000", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accident, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
         }
 

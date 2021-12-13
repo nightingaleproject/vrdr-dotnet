@@ -436,6 +436,22 @@
             <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.MannerOfDeathTypeHelper">
+            <summary>Manner of Death Type.</summary>
+            <value>the manner of death type
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>Dictionary&lt;string, string&gt; manner = new Dictionary&lt;string, string&gt;();</para>
+            <para>manner.Add("code", "7878000");</para>
+            <para>manner.Add("system", "");</para>
+            <para>manner.Add("display", "Accidental death");</para>
+            <para>ExampleDeathRecord.MannerOfDeathTypeHelper = MannerOfDeath.Natural;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.CertifierGivenNames">
             <summary>Given name(s) of certifier.</summary>
             <value>the certifier's name (first, middle, etc.)</value>
@@ -1979,6 +1995,18 @@
             <para>ExampleDeathRecord.PregnancyStatus = code;</para>
             <para>// Getter:</para>
             <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
+            </example>
+        </member>
+        <member name="P:VRDR.DeathRecord.PregnancyStatusHelper">
+            <summary>Pregnancy Status At Death.</summary>
+            <value>pregnancy status at death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.PregnancyStatusHelper = ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatusHelper}");</para>
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.ExaminerContacted">

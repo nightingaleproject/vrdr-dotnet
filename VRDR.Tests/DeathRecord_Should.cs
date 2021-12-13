@@ -2152,9 +2152,6 @@ namespace VRDR.Tests
             Dictionary<string, string> code = new Dictionary<string, string>();
 
             // no description
-            // code["code"] = "0";
-            // code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
-            // code["display"] = VRDR.ValueSets.PlaceOfInjury.Home;
             SetterDeathRecord.InjuryPlaceHelper = VRDR.ValueSets.PlaceOfInjury.Home;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
             Assert.Equal("urn:oid:2.16.840.1.114222.4.5.320", SetterDeathRecord.InjuryPlace["system"]);
@@ -2163,6 +2160,9 @@ namespace VRDR.Tests
 
             // with description
             code["text"] = "At home, in the kitchen";
+            code["code"] = VRDR.ValueSets.PlaceOfInjury.Home;
+            code["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
+            code["display"] = "Home";
             SetterDeathRecord.InjuryPlace = code;
             Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
             Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);

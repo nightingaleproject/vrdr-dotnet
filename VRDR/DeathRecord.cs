@@ -237,6 +237,9 @@ namespace VRDR
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
         /// <summary>Death Location.</summary>
         private Location DeathLocationLoc;
@@ -6623,9 +6626,6 @@ namespace VRDR
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
                 InjuryIncidentObs.Effective = new FhirDateTime(value);
             }
@@ -6656,9 +6656,6 @@ namespace VRDR
                 if (InjuryIncidentObs == null)
                 {
                     CreateInjuryIncidentObs();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
                 InjuryIncidentObs.Value = new FhirString(value);
             }
@@ -6705,37 +6702,21 @@ namespace VRDR
             {
                 if (InjuryIncidentObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateInjuryIncidentObs();
+                }
+
+                // Find correct component; if doesn't exist add another
+                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
+                }
+                else
+                {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
-                }
-                else
-                {
-                    // Find correct component; if doesn't exist add another
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp != null)
-                    {
-                        ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
-                    }
-                    else
-                    {
-                        Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
-                        component.Value = DictToCodeableConcept(value);
-                        InjuryIncidentObs.Component.Add(component);
-                    }
                 }
             }
         }
@@ -6840,38 +6821,23 @@ namespace VRDR
             {
                 if (InjuryIncidentObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateInjuryIncidentObs();
+                }
+
+                // Find correct component; if doesn't exist add another
+                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
+                }
+                else
+                {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69444-8", "Did death result from injury at work", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
                 }
-                else
-                {
-                    // Find correct component; if doesn't exist add another
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
-                    if (placeComp != null)
-                    {
-                        ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
-                    }
-                    else
-                    {
-                        Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69444-8", "Did death result from injury at work", null);
-                        component.Value = DictToCodeableConcept(value);
-                        InjuryIncidentObs.Component.Add(component);
-                    }
-                }
+
             }
         }
 
@@ -6966,38 +6932,21 @@ namespace VRDR
             {
                 if (InjuryIncidentObs == null)
                 {
-                    InjuryIncidentObs = new Observation();
-                    InjuryIncidentObs.Id = Guid.NewGuid().ToString();
-                    InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
-                    InjuryIncidentObs.Meta.Profile = iio_profile;
-                    InjuryIncidentObs.Status = ObservationStatus.Final;
-                    InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
-                    InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateInjuryIncidentObs();
+                }
+                // Find correct component; if doesn't exist add another
+                var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
+                if (transportComp != null)
+                {
+                    ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
+                }
+                else
+                {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
                     component.Value = DictToCodeableConcept(value);
                     InjuryIncidentObs.Component.Add(component);
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
-                    Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
-                }
-                else
-                {
-                    // Find correct component; if doesn't exist add another
-                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
-                    if (transportComp != null)
-                    {
-                        ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
                     }
-                    else
-                    {
-                        Observation.ComponentComponent component = new Observation.ComponentComponent();
-                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
-                        component.Value = DictToCodeableConcept(value);
-                        InjuryIncidentObs.Component.Add(component);
-                    }
-                }
             }
         }
 

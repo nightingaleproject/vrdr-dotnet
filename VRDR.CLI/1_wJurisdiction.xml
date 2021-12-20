@@ -585,7 +585,7 @@
           <coding>
             <system value="http://snomed.info/sct" />
             <code value="7878000" />
-            <display value="Accidental death" />
+            <display value="Accident" />
           </coding>
         </valueCodeableConcept>
       </Observation>

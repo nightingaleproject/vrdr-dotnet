@@ -68,17 +68,17 @@ outfilename = ARGV[1] + "/ValueSets.cs"
 file = file=File.open(outfilename,"w")
 
 file.puts "namespace VRDR
-    {
-         /// <summary> ValueSet Helpers </summary>
-         public static class ValueSets"
+{
+    /// <summary> ValueSet Helpers </summary>
+    public static class ValueSets"
 file.puts "    {"
 valuesets.each do |vsfile, fieldname|
         filename = ARGV[0] + "/site/" + vsfile
         value_set_data = JSON.parse(File.read(filename))
-        file.puts "            /// <summary> #{fieldname} </summary>
-            public static class #{fieldname} {
-                /// <summary> Codes </summary>
-                public static string[,] Codes = {"
+        file.puts "        /// <summary> #{fieldname} </summary>
+        public static class #{fieldname} {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {"
         groups = value_set_data["compose"]["include"]
         first = true
         groups.each { | group |
@@ -89,7 +89,7 @@ valuesets.each do |vsfile, fieldname|
             for concept in group["concept"]
                 file.puts "," if first == false
                 first = false
-                file.print "                    { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
+                file.print "                { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
             end
         }
         file.puts "\n            };"

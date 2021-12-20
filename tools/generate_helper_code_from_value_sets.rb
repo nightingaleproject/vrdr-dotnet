@@ -10,7 +10,15 @@ when the VRDR IG has been rebuilt to include all of the necessary valuesets.
 All references to codesystems use the definitions in VRDR.CodeSystems.
 
 
-Input: FHIR ValueSet file in JSON format.   For example:  http://build.fhir.org/ig/saulakravitz/vrdr/branches/FSHversion/ValueSet-PHVS-PlaceOfDeath-NCHS.json
+Inputs:   <input directory of an IG download> <output directory for file ValueSets.cs>
+Output:   ValueSets.cs in the specified directory
+
+Directions:
+  1) Download Saul's version of the VRDR IG (for now) -- http://build.fhir.org/ig/saulakravitz/vrdr/branches/FSHversion/full-ig.zip .   Once there is a stable build of the VRDR
+     IG, this script will need to be updated with the names of the relevant valuesets in the valuesets hash
+  2) Unzip the file
+  3) use the resulting full-ig directory as the first argument for this script
+  4) decide where you want the output generated, and use that as the second argument for this script
 
 Example of generated output:
 
@@ -56,16 +64,18 @@ valuesets = {
     "ValueSet-PHVS-MethodsOfDisposition-NCHS.json" => "MethodsOfDisposition"
 }
 basedir = ARGV[0]
+outfilename = ARGV[1] + "/ValueSets.cs"
+file = file=File.open(outfilename,"w")
 
-puts "namespace VRDR
+file.puts "namespace VRDR
     {
          /// <summary> ValueSet Helpers </summary>
          public static class ValueSets"
-puts "    {"
+file.puts "    {"
 valuesets.each do |vsfile, fieldname|
-        filename = ARGV[0] + "/fsh-generated/resources/" + vsfile
+        filename = ARGV[0] + "/site/" + vsfile
         value_set_data = JSON.parse(File.read(filename))
-        puts "            /// <summary> #{fieldname} </summary>
+        file.puts "            /// <summary> #{fieldname} </summary>
             public static class #{fieldname} {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {"
@@ -77,12 +87,12 @@ valuesets.each do |vsfile, fieldname|
                 system = codesystems[system]
             end
             for concept in group["concept"]
-                puts "," if first == false
+                file.puts "," if first == false
                 first = false
-                print "                    { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
+                file.print "                    { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
             end
         }
-        puts "\n            };"
+        file.puts "\n            };"
         groups.each { | group |
             system = group["system"]
             if codesystems[system]
@@ -95,12 +105,12 @@ valuesets.each do |vsfile, fieldname|
                 display = display.gsub("'","")
                 display = display.split(" ").map(&:capitalize).join("_")
                 if display[0][/\d/] then display = "_" + display end
-                puts "            /// <summary> #{display} </summary>"
-                puts "            public static string  #{display} = \"#{concept["code"]}\";"
+                file.puts "            /// <summary> #{display} </summary>"
+                file.puts "            public static string  #{display} = \"#{concept["code"]}\";"
             end
         }
-        puts "        };"
+        file.puts "        };"
 
     end
-puts "   }
+file.puts "   }
 }"

@@ -757,7 +757,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "7878000",
-              "display": "Accidental death"
+              "display": "Accident"
             }
           ]
         }

@@ -41,7 +41,7 @@ namespace VRDR
             /// <summary> Codes </summary>
             public static string[,] Codes = {
                 { "38605008", "Natural", VRDR.CodeSystems.SCT },
-                { "7878000", "Accidental death", VRDR.CodeSystems.SCT },
+                { "7878000", "Accident", VRDR.CodeSystems.SCT },
                 { "44301001", "Suicide", VRDR.CodeSystems.SCT },
                 { "27935005", "Homicide", VRDR.CodeSystems.SCT },
                 { "185973002", "Pending Investigation", VRDR.CodeSystems.SCT },
@@ -180,7 +180,7 @@ namespace VRDR
                 { "PHC1262", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PH_PHINVS_CDC },
                 { "PHC1263", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PH_PHINVS_CDC },
                 { "PHC1264", "Unknown if pregnant within the past year", VRDR.CodeSystems.PH_PHINVS_CDC },
-                { "NA", "Not Applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
+                { "NA", "Not Applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
             /// <summary> Not_Pregnant_Within_Past_Year </summary>
             public static string  Not_Pregnant_Within_Past_Year = "PHC1260";
@@ -222,5 +222,5 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
-    }
+   }
 }

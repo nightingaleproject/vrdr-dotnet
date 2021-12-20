@@ -1061,7 +1061,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.113883.5.1008" />
+            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
             <code value="NA" />
             <display value="not applicable" />
           </coding>

@@ -16,7 +16,7 @@ namespace VRDR
         public static string PH_RaceAndEthnicity_CDC = "urn:oid:2.16.840.1.113883.6.238";
 
         /// <summary>PHINVADS Null Flavor.</summary>
-        public static string PH_NullFlavor_HL7_V3 = "urn:oid:2.16.840.1.113883.5.1008";
+        public static string PH_NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"; // "urn:oid:2.16.840.1.113883.5.1008";
 
         /// <summary>HL7 V3 Null Flavor.</summary>
         public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";

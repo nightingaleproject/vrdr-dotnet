@@ -58,17 +58,17 @@ valuesets = {
 basedir = ARGV[0]
 
 puts "namespace VRDR
-    {
-         /// <summary> ValueSet Helpers </summary>
-         public static class ValueSets"
+{
+    /// <summary> ValueSet Helpers </summary>
+    public static class ValueSets"
 puts "    {"
 valuesets.each do |vsfile, fieldname|
         filename = ARGV[0] + "/fsh-generated/resources/" + vsfile
         value_set_data = JSON.parse(File.read(filename))
-        puts "            /// <summary> #{fieldname} </summary>
-            public static class #{fieldname} {
-                /// <summary> Codes </summary>
-                public static string[,] Codes = {"
+        puts "        /// <summary> #{fieldname} </summary>
+        public static class #{fieldname} {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {"
         groups = value_set_data["compose"]["include"]
         first = true
         groups.each { | group |
@@ -79,7 +79,7 @@ valuesets.each do |vsfile, fieldname|
             for concept in group["concept"]
                 puts "," if first == false
                 first = false
-                print "                    { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
+                print "                { \"#{concept["code"]}\", \"#{concept["display"]}\", #{system} }"
             end
         }
         puts "\n            };"

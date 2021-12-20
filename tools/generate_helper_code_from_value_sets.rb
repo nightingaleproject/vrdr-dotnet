@@ -64,12 +64,12 @@ puts "namespace VRDR
 puts "    {"
 valuesets.each do |vsfile, fieldname|
         filename = ARGV[0] + "/fsh-generated/resources/" + vsfile
-        ruby = JSON.parse(File.read(filename))
+        value_set_data = JSON.parse(File.read(filename))
         puts "            /// <summary> #{fieldname} </summary>
             public static class #{fieldname} {
                 /// <summary> Codes </summary>
                 public static string[,] Codes = {"
-        groups = ruby["compose"]["include"]
+        groups = value_set_data["compose"]["include"]
         first = true
         groups.each { | group |
             system = group["system"]

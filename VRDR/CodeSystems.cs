@@ -16,7 +16,7 @@ namespace VRDR
         public static string PH_RaceAndEthnicity_CDC = "urn:oid:2.16.840.1.113883.6.238";
 
         /// <summary>PHINVADS Null Flavor.</summary>
-        public static string PH_NullFlavor_HL7_V3 = "urn:oid:2.16.840.1.113883.5.1008";
+        public static string PH_NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"; // "urn:oid:2.16.840.1.113883.5.1008";
 
         /// <summary>HL7 V3 Null Flavor.</summary>
         public static string NullFlavor_HL7_V3 = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
@@ -41,7 +41,7 @@ namespace VRDR
         /// <summary>PHINVADS SNOMED.</summary>
         public static string PH_SNOMED_CT = "urn:oid:2.16.840.1.113883.6.96";
         /// <summary>PHINVADS Marital Satus.</summary>
-        public static string PH_MaritalStatus_HL7_2x = "urn:oid:2.16.840.1.113883.12.2";
+        public static string PH_MaritalStatus_HL7_2x = "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus";
         /// <summary>PHINVADS USGS GNIS.</summary>
         public static string PH_USGS_GNIS = "urn:oid:2.16.840.1.113883.6.245";
         /// <summary>PHINVADS FIPS 5 2.</summary>

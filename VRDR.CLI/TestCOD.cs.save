@@ -1,0 +1,38 @@
+using System;
+using System.IO;
+using VRDR;
+
+namespace VRDR.CLI
+{
+    class Program
+    {
+        static int Main(string[] args)
+        {
+            DeathRecord deathRecord = new DeathRecord();
+
+            // Certificate Number
+            deathRecord.Identifier = "100";
+            Console.WriteLine(deathRecord.Identifier);
+            // Decedent Name
+            deathRecord.GivenNames = new string[] { "First", "Middle" };
+            deathRecord.FamilyName = "Last";
+
+            // Cause of Death
+            deathRecord.COD1A = "Rupture of myocardium";
+            deathRecord.INTERVAL1A = "minutes";
+
+            deathRecord.COD1B = "Acute myocardial infarction";
+            deathRecord.INTERVAL1B = "6 days";
+
+            deathRecord.COD1C = "Coronary artery thrombosis";
+            deathRecord.INTERVAL1C = "5 years";
+
+            deathRecord.COD1D = "Atherosclerotic coronary artery disease";
+            deathRecord.INTERVAL1D = "7 years";
+
+            Console.WriteLine(deathRecord.ToJSON());
+
+            return 0;
+        }
+    }
+}

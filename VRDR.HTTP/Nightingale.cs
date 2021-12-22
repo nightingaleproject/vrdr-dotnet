@@ -30,15 +30,15 @@ namespace VRDR.HTTP
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
             SetYesNoValueDictionary(values, "meOrCoronerContacted.meOrCoronerContacted", record, "ExaminerContacted");
 
-            if (GetValueDict(record.CertificationRole, "code") == "434651000124107")
+            if (record.CertificationRoleHelper == "434651000124107")
             {
                 values["certifierType.certifierType"] = "Physician (Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
+            else if (record.CertificationRoleHelper == "434641000124105")
             {
                 values["certifierType.certifierType"] = "Physician (Pronouncer and Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "455381000124109")
+            else if (record.CertificationRoleHelper == "455381000124109")
             {
                 values["certifierType.certifierType"] = "Medical Examiner";
             }
@@ -167,9 +167,9 @@ namespace VRDR.HTTP
 
             SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
 
-            if (record.EducationLevel != null && record.EducationLevel.ContainsKey("code"))
+            if (record.EducationLevelHelper != null)
             {
-                switch (record.EducationLevel["code"])
+                switch (record.EducationLevelHelper)
                 {
                     case "PHC1448":
                         values["education.education"] = "8th grade or less";
@@ -198,9 +198,9 @@ namespace VRDR.HTTP
                 }
             }
 
-            if (record.MannerOfDeathType != null && record.MannerOfDeathType.ContainsKey("code"))
+            if (record.MannerOfDeathTypeHelper != null)
             {
-                switch (record.MannerOfDeathType["code"])
+                switch (record.MannerOfDeathTypeHelper)
                 {
                     case "38605008":
                         values["mannerOfDeath.mannerOfDeath"] = "Natural";
@@ -223,9 +223,9 @@ namespace VRDR.HTTP
                 }
             }
 
-            if (record.MaritalStatus != null && record.MaritalStatus.ContainsKey("code"))
+            if (record.MaritalStatusHelper != null)
             {
-                switch (record.MaritalStatus["code"])
+                switch (record.MaritalStatusHelper)
                 {
                     case "M":
                         values["maritalStatus.maritalStatus"] = "Married";
@@ -249,6 +249,42 @@ namespace VRDR.HTTP
             }
 
             SetStringValueDictionary(values, "usualOccupation.usualOccupation", record.UsualOccupation);
+
+            if (record.DeathLocationTypeHelper != null)
+            {
+                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Dead on arrival at hospital";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Decedents_Home)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in home";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospice)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospice";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospital";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospital-based emergency department or outpatient department";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in nursing home or long term care facility";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unknown)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Unknown";
+                }
+                else
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Other";
+                }
+            }
 
             if (record.BirthSex != null)
             {
@@ -301,27 +337,19 @@ namespace VRDR.HTTP
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
+                deathRecord.CertificationRoleHelper = "434651000124107";
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
+                deathRecord.CertificationRoleHelper = "434641000124105";
             }
             else if (GetValue(values, "certifierType.certifierType") == "Medical Examiner")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "455381000124109");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Medical Examiner");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.SCT);
+                deathRecord.CertificationRoleHelper = "455381000124109";
             }
             else
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "OTH");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Other");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                deathRecord.CertificationRoleHelper = "OTH";
             }
 
             SetStringValueDeathRecordString(deathRecord, "COD1A", GetValue(values, "cod.immediate"));
@@ -412,172 +440,107 @@ namespace VRDR.HTTP
             switch (GetValue(values, "education.education"))
             {
                 case "8th grade or less":
-                    Dictionary<string, string> edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1448");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "8th grade or less");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1448";
                     break;
                 case "9th through 12th grade; no diploma":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1449");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "9th through 12th grade; no diploma");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1449";
                     break;
                 case "High School Graduate or GED Completed":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1450");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "High School Graduate or GED Completed");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1450";
                     break;
                 case "Some college credit, but no degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1451");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "Some college credit, but no degree");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1451";
                     break;
                 case "Associate Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1452");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "Associate Degree");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1452";
                     break;
                 case "Bachelor's Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1453");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "Bachelor's Degree");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1453";
                     break;
                 case "Master's Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1454");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "Master's Degree");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1454";
                     break;
                 case "Doctorate Degree or Professional Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PHC1455");
-                    edu.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-                    edu.Add("display", "Doctorate Degree or Professional Degree");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1455";
                     break;
                 default:
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "UNK");
-                    edu.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
-                    edu.Add("display", "Unknown");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "UNK";
                     break;
             }
 
             switch (GetValue(values, "mannerOfDeath.mannerOfDeath"))
             {
                 case "Natural":
-                    Dictionary<string, string> mod = new Dictionary<string, string>();
-                    mod.Add("code", "38605008");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Natural");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "38605008";
                     break;
                 case "Accident":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "7878000");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Accident");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "7878000";
                     break;
                 case "Suicide":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "44301001");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Suicide");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "44301001";
                     break;
                 case "Homicide":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "27935005");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Homicide");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "27935005";
                     break;
                 case "Pending Investigation":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "185973002");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Pending Investigation");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "185973002";
                     break;
                 case "Could not be determined":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "65037004");
-                    mod.Add("system", VRDR.CodeSystems.SCT);
-                    mod.Add("display", "Could not be determined");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "65037004";
                     break;
             }
 
             switch (GetValue(values, "maritalStatus.maritalStatus"))
             {
                 case "Married":
-                    Dictionary<string, string> mar = new Dictionary<string, string>();
-                    mar.Add("code", "M");
-                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-                    mar.Add("display", "Married");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "M";
                     break;
                 case "Legally Separated":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "L");
-                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-                    mar.Add("display", "Legally Separated");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "L";
                     break;
                 case "Widowed":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "W");
-                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-                    mar.Add("display", "Widowed");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "W";
                     break;
                 case "Divorced":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "D");
-                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-                    mar.Add("display", "Divorced");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "D";
                     break;
                 case "Never Married":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "S");
-                    mar.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-                    mar.Add("display", "Never Married");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "S";
                     break;
                 case "unknown":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "UNK");
-                    mar.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
-                    mar.Add("display", "unknown");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "UNK";
                     break;
             }
 
             SetStringValueDeathRecordString(deathRecord, "UsualOccupation", GetValue(values, "usualOccupation.usualOccupation"));
 
-            // TODO: Add support for placeOfDeath.placeOfDeath.option
-            // Options: "Dead on arrival at hospital", "Death in home", "Death in hospice", "Death in hospital",
-            // "Death in hospital-based emergency department or outpatient department",
-            // "Death in nursing home or long term care facility", "Unknown", "Other"
-
-            // Idea: add helpers to DeathRecord.cs with "Code" suffixes that take a string code and 1) raise an error
-            // if it's not a valid code and 2) automatically assign the system and display; implement with a helper
-            // function that takes a hash of codes to system/display
+            switch (GetValue(values, "placeOfDeath.placeOfDeath.option"))
+            {
+                case "Dead on arrival at hospital":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival;
+                    break;
+                case "Death in home":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Decedents_Home;
+                    break;
+                case "Death in hospice":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospice;
+                    break;
+                case "Death in hospital":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient;
+                    break;
+                case "Death in hospital-based emergency department or outpatient department":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient;
+                    break;
+                case "Death in nursing home or long term care facility":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
+                    break;
+                case "Unknown":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unknown;
+                    break;
+                default:
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Other;
+                    break;
+            }
 
             if (GetValue(values, "sex.sex") == "Male")
             {

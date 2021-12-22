@@ -231,14 +231,18 @@ namespace VRDR
                 { "434651000124107", "Physician certified death certificate", VRDR.CodeSystems.SCT },
                 { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
-            /// <summary> Medical_Examiner_Coroner </summary>
+            /// <summary> Medical Examiner/Coroner </summary>
             public static string  Medical_Examiner_Coroner = "455381000124109";
-            /// <summary> Physician_Certified_And_Pronounced_Death_Certificate </summary>
+            /// <summary> Physician certified and pronounced death certificate </summary>
             public static string  Physician_Certified_And_Pronounced_Death_Certificate = "434641000124105";
-            /// <summary> Physician_Certified_Death_Certificate </summary>
+            /// <summary> Physician certified death certificate </summary>
             public static string  Physician_Certified_Death_Certificate = "434651000124107";
             /// <summary> Other </summary>
             public static string  Other = "OTH";
         };
-   }
+    }
 }
+
+
+
+

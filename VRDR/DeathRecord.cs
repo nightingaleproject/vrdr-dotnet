@@ -799,6 +799,35 @@ namespace VRDR
             }
         }
 
+        /// <summary>Certification Role Helper.</summary>
+        /// <value>the role/qualification of the person who certified the death.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CertificationRoleHelper = ValueSets.CertificationRole.InfectiousDiseasesPhysician;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</para>
+        /// </example>
+        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performer")]
+        public string CertificationRoleHelper
+        {
+            get
+            {
+                if (CertificationRole.ContainsKey("code"))
+                {
+                    return CertificationRole["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("CertificationRole", value, VRDR.ValueSets.CertificationRole.Codes);
+            }
+        }
+
         /// <summary>Interested Party Identifier.</summary>
         /// <value>the interested party identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
         /// <para>"system" - the identifier system, e.g. US NPI</para>
@@ -6219,7 +6248,7 @@ namespace VRDR
         /// <summary>Type of Death Location Helper</summary>
         /// <value>type of death location code.</value>
         /// <example>
-    /// <para>// Setter:</para>
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DeathLocationTypeHelper = "16983000";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>

@@ -348,6 +348,18 @@
             <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
             </example>
         </member>
+        <member name="P:VRDR.DeathRecord.CertificationRoleHelper">
+            <summary>Certification Role Helper.</summary>
+            <value>the role/qualification of the person who certified the death.
+            <para>"code" - the code</para>
+            </value>
+            <example>
+            <para>// Setter:</para>
+            <para>ExampleDeathRecord.CertificationRoleHelper = ValueSets.CertificationRole.InfectiousDiseasesPhysician;</para>
+            <para>// Getter:</para>
+            <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</para>
+            </example>
+        </member>
         <member name="P:VRDR.DeathRecord.InterestedPartyIdentifier">
             <summary>Interested Party Identifier.</summary>
             <value>the interested party identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
@@ -3417,6 +3429,24 @@
         </member>
         <member name="F:VRDR.ValueSets.MethodsOfDisposition.Unknown">
             <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.CertificationRole">
+            <summary> CertificationRole </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Medical_Examiner_Coroner">
+            <summary> Medical Examiner/Coroner </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Physician_Certified_And_Pronounced_Death_Certificate">
+            <summary> Physician certified and pronounced death certificate </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Physician_Certified_Death_Certificate">
+            <summary> Physician certified death certificate </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Other">
+            <summary> Other </summary>
         </member>
     </members>
 </doc>

@@ -153,8 +153,8 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
-        /// <summary> TransportationRelationships </summary>
-        public static class TransportationRelationships {
+        /// <summary> TransportationRoles </summary>
+        public static class TransportationRoles {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
                 { "236320001", "Driver/Operator", VRDR.CodeSystems.SCT },

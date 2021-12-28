@@ -437,7 +437,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.MannerOfDeathTypeHelper">
-            <summary>Manner of Death Type.</summary>
+            <summary>Manner of Death Type Helper</summary>
             <value>the manner of death type
             <para>"code" - the code</para>
             </value>
@@ -1248,7 +1248,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.MaritalStatusHelper">
-            <summary>The marital status of the decedent at the time of death.</summary>
+            <summary>The marital status of the decedent at the time of death helper method.</summary>
             <value>the marital status of the decedent at the time of death.:
             <para>"code" - the code describing this finding</para>
             </value>
@@ -1704,7 +1704,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.DecedentDispositionMethodHelper">
-            <summary>Decedent's Disposition Method.</summary>
+            <summary>Decedent's Disposition Method Helper.</summary>
             <value>the decedent's disposition method. A Dictionary representing a code, containing the following key/value pairs:
             <para>"code" - the code</para>
             <example>
@@ -1998,7 +1998,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.PregnancyStatusHelper">
-            <summary>Pregnancy Status At Death.</summary>
+            <summary>Pregnancy Status At Death Helper.</summary>
             <value>pregnancy status at death.
             <para>"code" - the code</para>
             </value>
@@ -2217,7 +2217,7 @@
             </example>
         </member>
         <member name="P:VRDR.DeathRecord.TransportationRoleHelper">
-            <summary>Transportation Role in death.</summary>
+            <summary>Transportation Role in death helper.</summary>
             <value>transportation code for role in death.
             <para>"code" - the code</para>
             </value>
@@ -3417,6 +3417,24 @@
         </member>
         <member name="F:VRDR.ValueSets.MethodsOfDisposition.Unknown">
             <summary> Unknown </summary>
+        </member>
+        <member name="T:VRDR.ValueSets.CertificationRole">
+            <summary> CertificationRole </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Codes">
+            <summary> Codes </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Medical_Examiner_Coroner">
+            <summary> Medical_Examiner_Coroner </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Physician_Certified_And_Pronounced_Death_Certificate">
+            <summary> Physician_Certified_And_Pronounced_Death_Certificate </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Physician_Certified_Death_Certificate">
+            <summary> Physician_Certified_Death_Certificate </summary>
+        </member>
+        <member name="F:VRDR.ValueSets.CertificationRole.Other">
+            <summary> Other </summary>
         </member>
     </members>
 </doc>

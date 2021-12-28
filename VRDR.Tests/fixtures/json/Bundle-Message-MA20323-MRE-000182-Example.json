@@ -1,0 +1,191 @@
+{
+  "resourceType": "Bundle",
+  "id": "Message-MA20323-MRE-000182-Example",
+  "meta": {
+    "profile": [
+      "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-CodingMessage"
+    ]
+  },
+  "type": "message",
+  "timestamp": "2020-11-18T09:42:02.4365922-05:00",
+  "entry": [
+    {
+      "fullUrl": "http://examples.org/fhir/MessageHeader/Header-MA20323-MRE-000182-Example",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "Header-MA20323-MRE-000182-Example",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-CodingMessageHeader"
+          ]
+        },
+        "eventUri": "http://nchs.cdc.gov/vrdr_coding",
+        "destination": [
+          {
+            "endpoint": "http://mitre.org/vrdr"
+          }
+        ],
+        "source": {
+          "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+        },
+        "focus": [
+          {
+            "reference": "Parameters/Parameters-MA20323-MRE-000182-Example"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://examples.org/fhir/Parameters/Parameters-MA20323-MRE-000182-Example",
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "Parameters-MA20323-MRE-000182-Example",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-DemographicCodingMessageParameters"
+          ]
+        },
+        "parameter": [
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 182
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "MA"
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2020
+          },
+          {
+            "part": [
+              {
+                "name": "RACE1E",
+                "valueCoding": {
+                  "code": "100",
+                  "system": "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-RaceCodeList-cs"
+                }
+              },
+              {
+                "name": "RACE2E",
+                "valueCoding": {
+                  "code": "300",
+                  "system": "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-RaceCodeList-cs"
+                }
+              }
+            ],
+            "name": "coded_race"
+          },
+          {
+            "part": [
+              {
+                "name": "DETHNICE",
+                "valueCoding": {
+                  "code": "999",
+                  "system": "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-HispanicOrigin-cs"
+                }
+              }
+            ],
+            "name": "coded_ethnicity"
+          },
+          {
+            "part": [
+              {
+                "name": "RACE1",
+                "valueString": "Y"
+              },
+              {
+                "name": "RACE2",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE3",
+                "valueString": "Y"
+              },
+              {
+                "name": "RACE4",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE5",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE6",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE7",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE8",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE9",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE10",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE11",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE12",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE13",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE14",
+                "valueString": "N"
+              },
+              {
+                "name": "RACE15",
+                "valueString": "N"
+              }
+            ],
+            "name": "input_race_flags"
+          },
+          {
+            "part": [
+              {
+                "name": "RACE16",
+                "valueString": "Fort Sill Apache"
+              }
+            ],
+            "name": "input_race_literals"
+          },
+          {
+            "part": [
+              {
+                "name": "DETHNIC1",
+                "valueString": "N"
+              },
+              {
+                "name": "DETHNIC2",
+                "valueString": "N"
+              },
+              {
+                "name": "DETHNIC3",
+                "valueString": "N"
+              },
+              {
+                "name": "DETHNIC4",
+                "valueString": "Y"
+              }
+            ],
+            "name": "input_ethnicity"
+          }
+        ]
+      }
+    }
+  ]
+}

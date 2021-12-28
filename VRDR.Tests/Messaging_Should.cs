@@ -344,7 +344,28 @@ namespace VRDR.Tests
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
             Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
         }
-
+[Fact]
+public void CreateCodingResponseFromJSONNew()
+        {
+            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/Bundle-Message-MA20323-MRE-000182-Example.json"));
+            Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
+            Assert.Equal("http://mitre.org/vrdr", message.MessageDestination);
+            Assert.Equal((uint)182, message.CertificateNumber);
+            Assert.Equal((uint)2020, message.DeathYear);
+            Assert.Null(message.StateAuxiliaryIdentifier);
+            Assert.Equal("2020MA000182", message.NCHSIdentifier);
+            Assert.Equal("100", message.RACE1E["code"] );
+            Assert.Equal("http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-RaceCodeList-cs", message.RACE1E["system"] );
+            Assert.Equal("300", message.RACE2E["code"] );
+            Assert.Equal("http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-RaceCodeList-cs", message.RACE2E["system"] );
+            Assert.Null(message.RACE3E);
+            Assert.Equal("999", message.DETHNICE["code"] );
+            Assert.Equal("http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-HispanicOrigin-cs", message.DETHNICE["system"] );
+            Assert.Null( message.DETHNIC5C );
+            Assert.Equal("Y", message.RACE1);
+            Assert.Equal("Fort Sill Apache", message.RACE16);
+            Assert.Equal("N", message.DETHNIC1);
+        }
         [Fact]
         public void CreateCodingUpdateFromJSON()
         {
@@ -550,7 +571,185 @@ namespace VRDR.Tests
             Assert.Equal("1", position);
             Assert.Equal("code2_1", code);
         }
+[Fact]
+        public void CreateCodingResponseNew()
+        {
+            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
 
+            Assert.Null(message.CertificateNumber);
+            message.CertificateNumber = 10;
+            Assert.Equal((uint)10, message.CertificateNumber);
+
+            Assert.Null(message.StateAuxiliaryIdentifier);
+            message.StateAuxiliaryIdentifier = "id101010";
+            Assert.Equal("id101010", message.StateAuxiliaryIdentifier);
+
+            Assert.Null(message.DeathYear);
+            message.DeathYear = 2019;
+            Assert.Equal((uint)2019, message.DeathYear);
+
+            Assert.Null(message.NCHSReceiptMonthString);
+            message.NCHSReceiptMonthString = "1";
+            Assert.Equal("01", message.NCHSReceiptMonthString);
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            message.NCHSReceiptMonthString = null;
+            Assert.Null(message.NCHSReceiptMonthString);
+
+            Assert.Null(message.NCHSReceiptMonth);
+            message.NCHSReceiptMonth = (uint)1;
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+
+            Assert.Null(message.NCHSReceiptDayString);
+            message.NCHSReceiptDayString = "9";
+            Assert.Equal("09", message.NCHSReceiptDayString);
+            Assert.Equal((uint)9, message.NCHSReceiptDay);
+            message.NCHSReceiptDayString = null;
+
+            Assert.Null(message.NCHSReceiptDay);
+            message.NCHSReceiptDay = (uint)8;
+            Assert.Equal((uint)8, message.NCHSReceiptDay);
+
+            Assert.Null(message.NCHSReceiptYearString);
+            message.NCHSReceiptYearString = "2020";
+            Assert.Equal("2020", message.NCHSReceiptYearString);
+            Assert.Equal((uint)2020, message.NCHSReceiptYear);
+            message.NCHSReceiptYearString = null;
+            Assert.Null(message.NCHSReceiptYearString);
+
+            Assert.Null(message.NCHSReceiptYear);
+            message.NCHSReceiptYear = (uint)2021;
+            Assert.Equal((uint)2021, message.NCHSReceiptYear);
+
+            Assert.Null(message.MannerOfDeath);
+            message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
+            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+
+            Assert.Null(message.CoderStatus);
+            message.CoderStatus = "8";
+            Assert.Equal("8", message.CoderStatus);
+
+            Assert.Null(message.ShipmentNumber);
+            message.ShipmentNumber = "B202101";
+            Assert.Equal("B202101", message.ShipmentNumber);
+
+            Assert.Null(message.ACMESystemRejectCodes);
+            message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+            Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+
+            Assert.Null(message.injpl);
+            message.injpl = "Back Porch";
+            Assert.Equal("Back Porch", message.injpl);
+
+            Assert.Null(message.OtherSpecifiedPlace);
+            message.OtherSpecifiedPlace = "Unique Location";
+            Assert.Equal("Unique Location", message.OtherSpecifiedPlace);
+
+            Assert.Null(message.DeathJurisdictionID);
+            message.DeathJurisdictionID = "NH";
+            Assert.Equal("NH", message.DeathJurisdictionID);
+            Assert.Equal("2019NH000010", message.NCHSIdentifier);
+
+            // Assert.Null(message.IntentionalReject);
+            // message.IntentionalReject = "5";
+            // Assert.Equal("5", message.IntentionalReject);
+
+            Assert.Null(message.int_rej);
+            message.int_rej = 5;
+            Assert.Equal(5, (int)message.int_rej);
+
+            Assert.Null(message.DETHNIC5C);
+
+            Dictionary<string, string> ethnic_dict = new Dictionary<string, string>();
+            ethnic_dict["code"] = "456";
+            ethnic_dict["system"] = CodeSystems.SCT;
+            ethnic_dict["display"] = "Some Ethnicity";
+            message.DETHNIC5C = ethnic_dict;
+            Assert.Equal("456",message.DETHNIC5C["code"]);
+            Assert.Equal(CodeSystems.SCT,message.DETHNIC5C["system"]);
+            Assert.Equal("Some Ethnicity",message.DETHNIC5C["display"]);
+
+
+            Assert.Empty(message.Ethnicity);
+            var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
+            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "123");
+            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
+            message.Ethnicity = ethnicity;
+            ethnicity = message.Ethnicity;
+            Assert.Equal(2, ethnicity.Count);
+            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+
+            Assert.Empty(message.Race);
+            var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
+            race.Add(CodingResponseMessage.RaceCode.RACE1E, "foo");
+            race.Add(CodingResponseMessage.RaceCode.RACE17C, "bar");
+            race.Add(CodingResponseMessage.RaceCode.RACEBRG, "baz");
+            message.Race = race;
+            race = message.Race;
+            Assert.Equal(3, race.Count);
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
+            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
+
+            Assert.Null(message.UnderlyingCauseOfDeath);
+            message.UnderlyingCauseOfDeath = "A04.7";
+            Assert.Equal("A04.7", message.UnderlyingCauseOfDeath);
+
+            Assert.Empty(message.CauseOfDeathRecordAxis);
+            var recordAxisCodes = new List<string>();
+            recordAxisCodes.Add("A04.7");
+            recordAxisCodes.Add("A41.9");
+            recordAxisCodes.Add("J18.9");
+            recordAxisCodes.Add("J96.0");
+            message.CauseOfDeathRecordAxis = recordAxisCodes;
+            recordAxisCodes = message.CauseOfDeathRecordAxis;
+            Assert.Equal(4, recordAxisCodes.Count);
+            Assert.Equal("A04.7", recordAxisCodes[0]);
+            Assert.Equal("A41.9", recordAxisCodes[1]);
+            Assert.Equal("J18.9", recordAxisCodes[2]);
+            Assert.Equal("J96.0", recordAxisCodes[3]);
+
+            Assert.Empty(message.CauseOfDeathEntityAxis);
+            var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
+            var entry1 = new CauseOfDeathEntityAxisEntry("1");
+            entry1.AssignedCodes.Add("code1_1");
+            entry1.AssignedCodes.Add("code1_2");
+            entityAxisEntries.Add(entry1);
+            var entry2 = new CauseOfDeathEntityAxisEntry("2");
+            entry2.AssignedCodes.Add("code2_1");
+            entityAxisEntries.Add(entry2);
+            message.CauseOfDeathEntityAxis = entityAxisEntries;
+            entityAxisEntries = message.CauseOfDeathEntityAxis;
+            Assert.Equal(2, (int)entityAxisEntries.Count);
+            Assert.Equal("1", entityAxisEntries[0].LineNumber);
+            Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
+            Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
+            Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
+            Assert.Equal("2", entityAxisEntries[1].LineNumber);
+            Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
+            Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
+            var entityAxisEntryList = message.CauseOfDeathEntityAxisList;
+            Assert.Equal(3, (int)entityAxisEntryList.Count);
+            (string line, string position, string code) = entityAxisEntryList[0];
+            Assert.Equal("1", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code1_1", code);
+            (line, position, code) = entityAxisEntryList[1];
+            Assert.Equal("1", line);
+            Assert.Equal("2", position);
+            Assert.Equal("code1_2", code);
+            (line, position, code) = entityAxisEntryList[2];
+            Assert.Equal("2", line);
+            Assert.Equal("1", position);
+            Assert.Equal("code2_1", code);
+        }
         [Theory]
         [InlineData("2021", 2021)]
         [InlineData("2022", 2021)]

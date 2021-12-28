@@ -33,6 +33,8 @@
         </member>
         <member name="T:VRDR.BaseMessage">
             <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
+            <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
+            <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
         </member>
         <member name="F:VRDR.BaseMessage.MessageBundle">
             <summary>Bundle that contains the message.</summary>
@@ -190,6 +192,364 @@
             <param name="source">the XML or JSON serialization of a FHIR Bundle</param>
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <returns>The deserialized message object</returns>
+        </member>
+        <member name="P:VRDR.BaseMessage.rec_yr">
+            <summary>rec_yr</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.rec_mo">
+            <summary>rec_mo</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.rec_dy">
+            <summary>rec_dy</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.cs">
+            <summary>cs</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.ship">
+            <summary>ship</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.sys_rej">
+            <summary>sys_rej</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.int_rej">
+            <summary>int_rej</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNICE">
+            <summary>DETHNICE</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC5C">
+            <summary>DETHNIC5C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE1E">
+            <summary>RACE1E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE2E">
+            <summary>RACE2E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE3E">
+            <summary>RACE3E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE4E">
+            <summary>RACE4E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE5E">
+            <summary>RACE5E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE6E">
+            <summary>RACE6E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE7E">
+            <summary>RACE7E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE8E">
+            <summary>RACE8E</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE16C">
+            <summary>RACE16C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE17C">
+            <summary>RACE17C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE18C">
+            <summary>RACE18C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE19C">
+            <summary>RACE19C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE20C">
+            <summary>RACE20C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE21C">
+            <summary>RACE21C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE22C">
+            <summary>RACE22C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE23C">
+            <summary>RACE23C</summary>
+            <value>Coded value in Dictionary </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC1">
+            <summary>DETHNIC1</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC2">
+            <summary>DETHNIC2</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC3">
+            <summary>DETHNIC3</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC4">
+            <summary>DETHNIC4</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.DETHNIC5">
+            <summary>DETHNIC5</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE1">
+            <summary>RACE1</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE2">
+            <summary>RACE2</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE3">
+            <summary>RACE3</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE4">
+            <summary>RACE4</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE5">
+            <summary>RACE5</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE6">
+            <summary>RACE6</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE7">
+            <summary>RACE7</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE8">
+            <summary>RACE8</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE9">
+            <summary>RACE9</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE10">
+            <summary>RACE10</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE11">
+            <summary>RACE11</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE12">
+            <summary>RACE12</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE13">
+            <summary>RACE13</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE14">
+            <summary>RACE14</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE15">
+            <summary>RACE15</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE16">
+            <summary>RACE16</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE17">
+            <summary>RACE17</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE18">
+            <summary>RACE18</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE19">
+            <summary>RACE19</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE20">
+            <summary>RACE20</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE21">
+            <summary>RACE21</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE22">
+            <summary>RACE22</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RACE23">
+            <summary>RACE23</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.COD1A">
+            <summary>COD1A</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.COD1B">
+            <summary>COD1B</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.COD1C">
+            <summary>COD1C</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.COD1D">
+            <summary>COD1D</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.INTERVAL1A">
+            <summary>INTERVAL1A</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.INTERVAL1B">
+            <summary>INTERVAL1B</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.INTERVAL1C">
+            <summary>INTERVAL1C</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.INTERVAL1D">
+            <summary>INTERVAL1D</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.OTHERCONDITION">
+            <summary>OTHERCONDITION</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.manner">
+            <summary>manner</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.injpl">
+            <summary>injpl</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.trx_flg">
+            <summary>trx_flg</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.autop">
+            <summary>autop</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.autopf">
+            <summary>autopf</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.tobac">
+            <summary>tobac</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.preg">
+            <summary>preg</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.preg_bypass">
+            <summary>preg_bypass</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.doi_mo">
+            <summary>doi_mo</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.doi_dy">
+            <summary>doi_dy</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.doi_yr">
+            <summary>doi_yr</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.toi_hr">
+            <summary>toi_hr</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.workinj">
+            <summary>workinj</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.certl">
+            <summary>certl</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.inact">
+            <summary>inact</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.auxno2">
+            <summary>auxno2</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.statesp">
+            <summary>statesp</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.sur_mo">
+            <summary>sur_mo</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.sur_dy">
+            <summary>sur_dy</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.sur_yr">
+            <summary>sur_yr</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.toi_unit">
+            <summary>toi_unit</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.manual_underlying_cause_of_death">
+            <summary>manual_underlying_cause_of_death</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.acme_underlying_cause_of_death">
+            <summary>acme_underlying_cause_of_death</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.record_cause_of_death">
+            <summary>record_cause_of_death</summary>
+            <value>string </value>
+        </member>
+        <member name="M:VRDR.BaseMessage.CodingToDict(Hl7.Fhir.Model.Coding)">
+            <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
+            <param name="coding">a FHIR Coding.</param>
+            <returns>the corresponding Dictionary representation of the code.</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.EmptyCodeDict">
+            <summary>Returns an empty "code" Dictionary.</summary>
+            <returns>an empty "code" Dictionary.</returns>
+        </member>
+        <member name="M:VRDR.BaseMessage.IsDictEmptyOrDefault(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>Check if a dictionary is empty or a default empty dictionary (all values are null or empty strings)</summary>
+            <param name="dict">represents a code.</param>
+            <returns>A boolean identifying whether the provided dictionary is empty or default.</returns>
         </member>
         <member name="T:VRDR.MessageParseException">
             <summary>

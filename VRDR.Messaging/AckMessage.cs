@@ -58,7 +58,7 @@ namespace VRDR
                 Header.Response.Identifier = value;
             }
         }
-
+        /// DELETE THIS   vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         /// <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
         public uint? BlockCount
         {

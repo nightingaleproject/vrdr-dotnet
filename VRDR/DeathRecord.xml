@@ -82,6 +82,12 @@
         <member name="F:VRDR.CodeSystems.ISO_3166_2">
             <summary> ISO 3166-2  </summary>
         </member>
+        <member name="F:VRDR.CodeSystems.RaceCodes">
+            <summary> Hispanic Origin CS (from messaging IG)  </summary>
+        </member>
+        <member name="F:VRDR.CodeSystems.HispanicOriginCodes">
+            <summary> Race Code CS (from Messaging IG)  </summary>
+        </member>
         <member name="T:VRDR.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the

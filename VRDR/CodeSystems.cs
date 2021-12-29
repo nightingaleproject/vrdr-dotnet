@@ -69,6 +69,13 @@ namespace VRDR
         /// <summary> ISO 3166-2  </summary>
         public static string ISO_3166_2 = "urn:iso:std:iso:3166:-2";
 
+        /// <summary> Hispanic Origin CS (from messaging IG)  </summary>
+        public static string RaceCodes = "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-RaceCodeList-cs";
+
+        /// <summary> Race Code CS (from Messaging IG)  </summary>
+        public static string HispanicOriginCodes = "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-HispanicOrigin-cs";
+
+
     }
 
 }

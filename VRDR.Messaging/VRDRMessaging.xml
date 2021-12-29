@@ -29,7 +29,25 @@
             <value>the message id.</value>
         </member>
         <member name="P:VRDR.AckMessage.BlockCount">
+            DELETE THIS   vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
             <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        </member>
+        <member name="T:VRDR.AliasMessage">
+            <summary>Class <c>AliasMessage</c> indicates that Alias information is being provided for a previously submitted DeathRecordSubmission message.</summary>
+        </member>
+        <member name="M:VRDR.AliasMessage.#ctor">
+            <summary>Default constructor that creates a new, empty VoidMessage.</summary>
+        </member>
+        <member name="M:VRDR.AliasMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a VoidMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the VoidMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.AliasMessage.#ctor(VRDR.DeathRecord)">
+            <summary>Constructor that takes a VRDR.DeathRecord and creates a message to Alias that record.</summary>
+            <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
         </member>
         <member name="T:VRDR.BaseMessage">
             <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
@@ -121,6 +139,7 @@
             <value>the message destination.</value>
         </member>
         <member name="P:VRDR.BaseMessage.CertificateNumber">
+            DELETE THIS vvvvvvvvvvvvvvvvvvvvvv
             <summary>Jurisdiction-assigned death certificate number</summary>
         </member>
         <member name="P:VRDR.BaseMessage.StateAuxiliaryIdentifier">
@@ -133,6 +152,7 @@
             <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
         </member>
         <member name="P:VRDR.BaseMessage.NCHSIdentifier">
+            DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>
         </member>
         <member name="M:VRDR.BaseMessage.Parse``1(System.IO.StreamReader,System.Boolean)">
@@ -533,9 +553,89 @@
             <summary>acme_underlying_cause_of_death</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.record_cause_of_death">
-            <summary>record_cause_of_death</summary>
+        <member name="P:VRDR.BaseMessage.jurisdiction_id">
+            <summary>jurisdiction_id</summary>
             <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.cert_no">
+            <summary>cert_no</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.death_year">
+            <summary>death_year</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.state_auxiliary_id">
+            <summary>state_auxiliary_id</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.ssn">
+            <summary>ssn</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.block_count">
+            <summary>block_count</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_decedent_first_name">
+            <summary>alias_decedent_first_name</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_decedent_last_name">
+            <summary>alias_decedent_last_name</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_decedent_middle_name">
+            <summary>alias_decedent_middle_name</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_decedent_name_suffix">
+            <summary>alias_decedent_name_suffix</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_father_surname">
+            <summary>alias_father_surname</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.alias_social_security_number">
+            <summary>alias_social_security_number</summary>
+            <value>string </value>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterCoding(System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.String)">
+            <summary>SetParameterCoding:   set a coding parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterCoding(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>SetParameterCoding:   set a coding parameter associated with a top level parameter (no group)</summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterCoding(System.String,System.String)">
+            <summary>GetParameterCoding:   get a coding parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterCoding(System.String)">
+            <summary>GetParameterCoding:   set a coding parameter associated with a top level parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterUnsignedInt(System.Nullable{System.UInt32},System.String,System.String)">
+            <summary>SetParameterUnsignedInt:   Set an UnsignedInt parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterUnsignedInt(System.Nullable{System.UInt32},System.String)">
+            <summary>SetParameterUnsignedInt:   Set an UnsignedInt parameter associated with a top level parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterUnsignedInt(System.String,System.String)">
+            <summary>GetParameterUnsignedInt:   Get an UnsignedInt parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterUnsignedInt(System.String)">
+            <summary>GetParameterUnsignedInt:   Get an UnsignedInt parameter associated with a top level parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterString(System.String,System.String,System.String)">
+            <summary>SetParameterString:   Get a String parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.SetParameterString(System.String,System.String)">
+            <summary>SetParameterString:   Get a String parameter associated with a top level parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterString(System.String,System.String)">
+            <summary>GetParameterString:   Get a String parameter associated with a group (top level) and field (part) parameter </summary>
+        </member>
+        <member name="M:VRDR.BaseMessage.GetParameterString(System.String)">
+            <summary>GetParameterString:   Get a String parameter associated with a top level parameter </summary>
         </member>
         <member name="M:VRDR.BaseMessage.CodingToDict(Hl7.Fhir.Model.Coding)">
             <summary>Convert a FHIR Coding to a "code" Dictionary</summary>
@@ -589,6 +689,7 @@
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
         <member name="T:VRDR.CodingResponseMessage.HispanicOrigin">
+             DELETE THIS vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
             <summary>Ethnicity codes</summary>
         </member>
         <member name="F:VRDR.CodingResponseMessage.HispanicOrigin.DETHNICE">
@@ -769,23 +870,12 @@
             <summary>Underlying cause of death code (ICD-10)</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CauseOfDeathRecordAxis">
+             DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            KEEP THIS vvvvvvvvvvvvvvvvvvvvvvv
             <summary>Record axis coding of cause of death</summary>
         </member>
         <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis">
-            <summary>Entity axis cause of death coding grouped by line. An alternate flat list of entity axis codes
-            is available via the CauseOfDeathEntityAxisList property, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList"/></summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList">
-            <summary>
-            Entity axis cause of death coding as a flat list. Provided as an alternative to the
-            CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis"/>.
-            </summary>
-            <para>Each entry in the list is a tuple with three values:</para>
-            <list type="bullet">
-            <item>Line: <see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></item>
-            <item>Position: Sequence of code within the line</item>
-            <item>Code>: ICD code</item>
-            </list>
+            <summary>Flat list of entity axis (line, position, codes)  </summary>
         </member>
         <member name="T:VRDR.CauseOfDeathEntityAxisEntry">
             <summary>Class for structuring a cause of death entity axis entry</summary>
@@ -801,48 +891,27 @@
             <item>Part I. Line e</item>
             <item>Part II</item>
             </list>
+            There can be up to 20 total entries, with up to 5 entries per line.
+            <summary>A line number from the death certificate.</summary>
         </member>
-        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.AssignedCodes">
-            <summary>The codes assigned for one of the cause of death entries in the death certificate.</summary>
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.Position">
+            <summary>The position of the code within the line.</summary>
         </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String)">
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.Code">
+            <summary>The code assigned for one of the cause of death entries in the death certificate.</summary>
+        </member>
+        <member name="F:VRDR.CauseOfDeathEntityAxisEntry.E_code_indicator">
+            <summary>A holdover from ICD-9 days.  Normally absent.  When present should be an ampersand.</summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.UInt32,System.UInt32,System.String,System.String)">
             <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier</summary>
             <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
-        </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisEntry.#ctor(System.String,System.Collections.Generic.List{System.String})">
-            <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier and corresponding codes</summary>
-            <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
-            <param name="codes">list of codes</param>
-        </member>
-        <member name="T:VRDR.CauseOfDeathEntityAxisBuilder">
-            <summary>
-            Helper class for building a List&lt;CauseOfDeathEntityAxis&gt; from a flat file. Groups codes
-            into one <c>CauseOfDeathEntityAxisEntry</c> per line and sorts codes by position.
-            </summary>
-        </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.#ctor">
-            <summary>
-            Construct a new empty instance.
-            </summary>
-        </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.ToCauseOfDeathEntityAxis">
-            <summary>
-            Build a List&lt;CauseOfDeathEntityAxis&gt; from the currently contained set of codes.
-            </summary>
-            <returns>cause of death entity axis coding list</returns>
-        </member>
-        <member name="M:VRDR.CauseOfDeathEntityAxisBuilder.Add(System.String,System.String,System.String)">
-            <summary>
-            Add a code to the list of codes that will be used to build a List&lt;CauseOfDeathEntityAxis&gt;.
-            Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
-            by the <c>ToCauseOfDeathEntityAxis</c> method.
-            </summary>
-            <param name="lineNumber"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.LineNumber"/></param>
-            <param name="position">Sequence within line</param>
-            <param name="code">ICD code</param>
-            <exception cref="T:System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
+            <param name="position"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.Position"/></param>
+            <param name="code"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.Code"/></param>
+            <param name="e_code_indicator"><see cref="F:VRDR.CauseOfDeathEntityAxisEntry.E_code_indicator"/></param>
         </member>
         <member name="T:VRDR.CodingUpdateMessage">
+             DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
         </member>
         <member name="M:VRDR.CodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
@@ -979,6 +1048,7 @@
             <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
         </member>
         <member name="P:VRDR.VoidMessage.BlockCount">
+            DELETE THIS   vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
             <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
         </member>
     </members>

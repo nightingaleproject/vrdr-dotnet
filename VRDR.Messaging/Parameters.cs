@@ -22,11 +22,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "rec_yr");
-          }
+            SetParameterUnsignedInt(value, "rec_yr");
       }
     }
     /// <summary>rec_mo</summary>
@@ -39,11 +35,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "rec_mo");
-          }
+            SetParameterUnsignedInt(value, "rec_mo");
       }
     }
     /// <summary>rec_dy</summary>
@@ -56,11 +48,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "rec_dy");
-          }
+            SetParameterUnsignedInt(value, "rec_dy");
       }
     }
     /// <summary>cs</summary>
@@ -73,11 +61,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "cs");
-          }
+            SetParameterUnsignedInt(value, "cs");
       }
     }
     /// <summary>ship</summary>
@@ -103,11 +87,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "sys_rej");
-          }
+            SetParameterUnsignedInt(value, "sys_rej");
       }
     }
     /// <summary>int_rej</summary>
@@ -120,11 +100,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "int_rej");
-          }
+            SetParameterUnsignedInt(value, "int_rej");
       }
     }
     /// <summary>DETHNICE</summary>
@@ -956,11 +932,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "doi_mo");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "doi_mo");
       }
     }
     /// <summary>doi_dy</summary>
@@ -973,11 +945,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "doi_dy");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "doi_dy");
       }
     }
     /// <summary>doi_yr</summary>
@@ -990,11 +958,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "doi_yr");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "doi_yr");
       }
     }
     /// <summary>toi_hr</summary>
@@ -1007,11 +971,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "toi_hr");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "toi_hr");
       }
     }
     /// <summary>workinj</summary>
@@ -1050,11 +1010,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "inact");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "inact");
       }
     }
     /// <summary>auxno2</summary>
@@ -1067,11 +1023,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "auxno2");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "auxno2");
       }
     }
     /// <summary>statesp</summary>
@@ -1097,11 +1049,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "sur_mo");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "sur_mo");
       }
     }
     /// <summary>sur_dy</summary>
@@ -1114,11 +1062,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "sur_dy");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "sur_dy");
       }
     }
     /// <summary>sur_yr</summary>
@@ -1131,11 +1075,7 @@ namespace VRDR
       }
       set
     {
-
-        if(value != null){
-            uint u = (uint)value;
-            SetParameterUnsignedInt(u, "input_misc_fields", "sur_yr");
-          }
+            SetParameterUnsignedInt(value, "input_misc_fields", "sur_yr");
       }
     }
     /// <summary>toi_unit</summary>
@@ -1177,17 +1117,160 @@ namespace VRDR
             SetParameterString(value, "acme_underlying_cause_of_death");
         }
         }
-    /// <summary>record_cause_of_death</summary>
+    /// <summary>jurisdiction_id</summary>
     /// <value>string </value>
-    public string record_cause_of_death
+    public string jurisdiction_id
     {
       get
       {
-          return GetParameterString( "record_cause_of_death");
+          return GetParameterString( "jurisdiction_id");
       }
       set
       {
-            SetParameterString(value, "record_cause_of_death");
+            SetParameterString(value, "jurisdiction_id");
+        }
+        }
+    /// <summary>cert_no</summary>
+    /// <value>uint </value>
+    public uint? cert_no
+    {
+      get
+      {
+          return GetParameterUnsignedInt( "cert_no");
+      }
+      set
+    {
+            SetParameterUnsignedInt(value, "cert_no");
+      }
+    }
+    /// <summary>death_year</summary>
+    /// <value>uint </value>
+    public uint? death_year
+    {
+      get
+      {
+          return GetParameterUnsignedInt( "death_year");
+      }
+      set
+    {
+            SetParameterUnsignedInt(value, "death_year");
+      }
+    }
+    /// <summary>state_auxiliary_id</summary>
+    /// <value>string </value>
+    public string state_auxiliary_id
+    {
+      get
+      {
+          return GetParameterString( "state_auxiliary_id");
+      }
+      set
+      {
+            SetParameterString(value, "state_auxiliary_id");
+        }
+        }
+    /// <summary>ssn</summary>
+    /// <value>string </value>
+    public string ssn
+    {
+      get
+      {
+          return GetParameterString( "ssn");
+      }
+      set
+      {
+            SetParameterString(value, "ssn");
+        }
+        }
+    /// <summary>block_count</summary>
+    /// <value>uint </value>
+    public uint? block_count
+    {
+      get
+      {
+          return GetParameterUnsignedInt( "block_count");
+      }
+      set
+    {
+            SetParameterUnsignedInt(value, "block_count");
+      }
+    }
+    /// <summary>alias_decedent_first_name</summary>
+    /// <value>string </value>
+    public string alias_decedent_first_name
+    {
+      get
+      {
+          return GetParameterString( "alias_decedent_first_name");
+      }
+      set
+      {
+            SetParameterString(value, "alias_decedent_first_name");
+        }
+        }
+    /// <summary>alias_decedent_last_name</summary>
+    /// <value>string </value>
+    public string alias_decedent_last_name
+    {
+      get
+      {
+          return GetParameterString( "alias_decedent_last_name");
+      }
+      set
+      {
+            SetParameterString(value, "alias_decedent_last_name");
+        }
+        }
+    /// <summary>alias_decedent_middle_name</summary>
+    /// <value>string </value>
+    public string alias_decedent_middle_name
+    {
+      get
+      {
+          return GetParameterString( "alias_decedent_middle_name");
+      }
+      set
+      {
+            SetParameterString(value, "alias_decedent_middle_name");
+        }
+        }
+    /// <summary>alias_decedent_name_suffix</summary>
+    /// <value>string </value>
+    public string alias_decedent_name_suffix
+    {
+      get
+      {
+          return GetParameterString( "alias_decedent_name_suffix");
+      }
+      set
+      {
+            SetParameterString(value, "alias_decedent_name_suffix");
+        }
+        }
+    /// <summary>alias_father_surname</summary>
+    /// <value>string </value>
+    public string alias_father_surname
+    {
+      get
+      {
+          return GetParameterString( "alias_father_surname");
+      }
+      set
+      {
+            SetParameterString(value, "alias_father_surname");
+        }
+        }
+    /// <summary>alias_social_security_number</summary>
+    /// <value>string </value>
+    public string alias_social_security_number
+    {
+      get
+      {
+          return GetParameterString( "alias_social_security_number");
+      }
+      set
+      {
+            SetParameterString(value, "alias_social_security_number");
         }
         }
   }

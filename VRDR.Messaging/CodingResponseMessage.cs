@@ -35,7 +35,7 @@ namespace VRDR
             Header.Source.Endpoint = source;
             MessageDestination = destination;
         }
-
+///  DELETE THIS vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         /// <summary>Ethnicity codes</summary>
         public enum HispanicOrigin
         {
@@ -470,20 +470,23 @@ namespace VRDR
                 Record.Add("underlying_cause_of_death", new Coding("http://hl7.org/fhir/ValueSet/icd-10", value));
             }
         }
-
+///  DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/// KEEP THIS vvvvvvvvvvvvvvvvvvvvvvv
         /// <summary>Record axis coding of cause of death</summary>
         public List<string> CauseOfDeathRecordAxis
         {
             get
             {
                 var codes = new List<string>();
-                Parameters.ParameterComponent axisEntry = Record.GetSingle("record_cause_of_death");
-                if (axisEntry != null)
+                IEnumerable<Parameters.ParameterComponent> axisEntries = Record.Get("record_cause_of_death");
+                if (axisEntries != null)
                 {
-                    foreach (Parameters.ParameterComponent entry in axisEntry.Part)
+                    foreach (Parameters.ParameterComponent entry in axisEntries)
                     {
-                        var coding = (Coding)entry.Value;
-                        codes.Add(coding.Code);
+                        if(entry.Value != null){ // guards against a misformatted entry that has a 'coding' part, instead of a value
+                            var code = ((FhirString)entry.Value).Value;
+                            codes.Add((string)code);
+                        }
                     }
                 }
                 return codes;
@@ -491,19 +494,14 @@ namespace VRDR
             set
             {
                 Record.Remove("record_cause_of_death");
-                var list = new List<Tuple<string, Base>>();
                 foreach (string code in value)
                 {
-                    var part = Tuple.Create("coding",
-                        (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
-                    list.Add(part);
+                    Record.Add("record_cause_of_death", new FhirString(code));
                 }
-                Record.Add("record_cause_of_death", list);
             }
         }
 
-        /// <summary>Entity axis cause of death coding grouped by line. An alternate flat list of entity axis codes
-        /// is available via the CauseOfDeathEntityAxisList property, <see cref="CauseOfDeathEntityAxisList"/></summary>
+        /// <summary>Flat list of entity axis (line, position, codes)  </summary>
         public List<CauseOfDeathEntityAxisEntry> CauseOfDeathEntityAxis
         {
             get
@@ -511,22 +509,38 @@ namespace VRDR
                 var entityAxisEntries = new List<CauseOfDeathEntityAxisEntry>();
                 foreach (Parameters.ParameterComponent part in Record.Get("entity_axis_code"))
                 {
-                    string lineNumber = "";
-                    var codes = new List<string>();
+                    uint lineNumber = 0;
+                    uint position = 0;
+                    string code = null;
+                    string e_code_indicator = null;
                     foreach (Parameters.ParameterComponent childPart in part.Part)
                     {
+
                         if (childPart.Name == "lineNumber")
                         {
-                            lineNumber = ((Id)childPart.Value).Value;
+                            lineNumber = (uint)((UnsignedInt)childPart.Value).Value;
+                        }
+                        else if (childPart.Name == "position")
+                        {
+                            position = (uint)((UnsignedInt)childPart.Value).Value;
                         }
                         else if (childPart.Name == "coding")
                         {
-                            var coding = (Coding)childPart.Value;
-                            codes.Add(coding.Code);
+                            code = ((FhirString)childPart.Value).Value;
+                        }
+                        else if (childPart.Name == "e_code_indicator")
+                        {
+                            e_code_indicator = ((FhirString)childPart.Value).Value;
                         }
                     }
-                    var entry = new CauseOfDeathEntityAxisEntry(lineNumber, codes);
+                    var entry = new CauseOfDeathEntityAxisEntry(lineNumber, position, code, e_code_indicator);
                     entityAxisEntries.Add(entry);
+                    if(entityAxisEntries.Count > 20){
+                        throw new System.ArgumentException($"The maximum number of entityAxisEntries is 20, found: {entityAxisEntries.Count}");
+                    }
+                    lineNumber = 0;
+                    position = 0;
+                    code = "";
                 }
                 return entityAxisEntries;
             }
@@ -535,47 +549,19 @@ namespace VRDR
                 Record.Remove("entity_axis_code");
                 foreach (CauseOfDeathEntityAxisEntry entry in value)
                 {
-                    var entityAxisEntry = new List<Tuple<string, Base>>();
-                    var part = Tuple.Create("lineNumber", (Base)(new Id(entry.LineNumber)));
-                    entityAxisEntry.Add(part);
-                    foreach (string code in entry.AssignedCodes)
-                    {
-                        part = Tuple.Create("coding", (Base)(new Coding("http://hl7.org/fhir/ValueSet/icd-10", code)));
-                        entityAxisEntry.Add(part);
-                    }
-                    Record.Add("entity_axis_code", entityAxisEntry);
+                   var list = new List<Tuple<string, Base>>();
+                   list.Add( Tuple.Create("lineNumber", (Base)(new UnsignedInt((int)entry.LineNumber))));
+                   list.Add(Tuple.Create("position", (Base)(new UnsignedInt((int)entry.Position))));
+                   list.Add(Tuple.Create("coding", (Base)(new FhirString(entry.Code))));
+                   if(entry.E_code_indicator != null){
+                        list.Add(Tuple.Create("e_code_indicator", (Base)(new FhirString(entry.E_code_indicator))));
+                   }
+                   Record.Add("entity_axis_code", list);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Entity axis cause of death coding as a flat list. Provided as an alternative to the
-        /// CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="CauseOfDeathEntityAxis"/>.
-        /// </summary>
-        /// <para>Each entry in the list is a tuple with three values:</para>
-        /// <list type="bullet">
-        /// <item>Line: <see cref="CauseOfDeathEntityAxisEntry.LineNumber"/></item>
-        /// <item>Position: Sequence of code within the line</item>
-        /// <item>Code>: ICD code</item>
-        /// </list>
-        public List<(string Line, string Position, string Code)> CauseOfDeathEntityAxisList
-        {
-            get
-            {
-                var entityAxisList = new List<(string Line, string Position, string Code)>();
-                foreach (CauseOfDeathEntityAxisEntry entry in CauseOfDeathEntityAxis)
-                {
-                    int position = 1;
-                    foreach (string code in entry.AssignedCodes)
-                    {
-                        entityAxisList.Add((Line: entry.LineNumber, Position: position.ToString(), Code: code));
-                        position++;
-                    }
-                }
-                return entityAxisList;
             }
         }
     }
+
 
     /// <summary>Class for structuring a cause of death entity axis entry</summary>
     public class CauseOfDeathEntityAxisEntry
@@ -590,94 +576,106 @@ namespace VRDR
         /// <item>Part I. Line e</item>
         /// <item>Part II</item>
         /// </list>
-        public readonly string LineNumber;
+        /// There can be up to 20 total entries, with up to 5 entries per line.
+        /// <summary>A line number from the death certificate.</summary>
+        public readonly uint LineNumber;
+        /// <summary>The position of the code within the line.</summary>
+        public readonly uint Position;
 
-        /// <summary>The codes assigned for one of the cause of death entries in the death certificate.</summary>
-        public readonly List<string> AssignedCodes;
+        /// <summary>The code assigned for one of the cause of death entries in the death certificate.</summary>
+        public readonly string Code;
+
+        /// <summary>A holdover from ICD-9 days.  Normally absent.  When present should be an ampersand.</summary>
+        public readonly string E_code_indicator;
 
         /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier</summary>
         /// <param name="lineNumber"><see cref="LineNumber"/></param>
-        public CauseOfDeathEntityAxisEntry(string lineNumber)
+        /// <param name="position"><see cref="Position"/></param>
+        /// <param name="code"><see cref="Code"/></param>
+        /// <param name="e_code_indicator"><see cref="E_code_indicator"/></param>
+        public CauseOfDeathEntityAxisEntry(uint lineNumber, uint position, string code, string e_code_indicator = null)
         {
-            this.AssignedCodes = new List<string>();
+            if (lineNumber < 1 || lineNumber > 6 || position < 1 || position > 20 || code.Length < 3)
+            {
+                throw new System.ArgumentException($"Invalid arguments lineNumber({lineNumber}), position({position}, code{code})");
+            }
+            if (e_code_indicator != null && e_code_indicator != "&")
+            {
+                throw new System.ArgumentException($"The value of the e-code-indicator argument must be \"&\", found: {e_code_indicator}");
+            }
             this.LineNumber = lineNumber;
-        }
-
-        /// <summary>Create a CauseOfDeathEntityAxisEntry with the specified line identifier and corresponding codes</summary>
-        /// <param name="lineNumber"><see cref="LineNumber"/></param>
-        /// <param name="codes">list of codes</param>
-        public CauseOfDeathEntityAxisEntry(string lineNumber, List<string> codes)
-        {
-            this.AssignedCodes = codes;
-            this.LineNumber = lineNumber;
+            this.Position = position;
+            this.Code = code;
+            this.E_code_indicator = e_code_indicator;
         }
     }
+    //  DELETE THIS vvvvvvvvvvvvvvvvvvvvvv
+    // /// <summary>
+    // /// Helper class for building a List&lt;CauseOfDeathEntityAxis&gt; from a flat file. Groups codes
+    // /// into one <c>CauseOfDeathEntityAxisEntry</c> per line and sorts codes by position.
+    // /// </summary>
+    // public class CauseOfDeathEntityAxisBuilder
+    // {
+    //     private SortedDictionary<int, SortedDictionary<int, string>> codes;
 
-    /// <summary>
-    /// Helper class for building a List&lt;CauseOfDeathEntityAxis&gt; from a flat file. Groups codes
-    /// into one <c>CauseOfDeathEntityAxisEntry</c> per line and sorts codes by position.
-    /// </summary>
-    public class CauseOfDeathEntityAxisBuilder
-    {
-        private SortedDictionary<int, SortedDictionary<int, string>> codes;
+    //     /// <summary>
+    //     /// Construct a new empty instance.
+    //     /// </summary>
+    //     public CauseOfDeathEntityAxisBuilder()
+    //     {
+    //         codes = new SortedDictionary<int, SortedDictionary<int, string>>();
+    //     }
 
-        /// <summary>
-        /// Construct a new empty instance.
-        /// </summary>
-        public CauseOfDeathEntityAxisBuilder()
-        {
-            codes = new SortedDictionary<int, SortedDictionary<int, string>>();
-        }
+    //     /// <summary>
+    //     /// Build a List&lt;CauseOfDeathEntityAxis&gt; from the currently contained set of codes.
+    //     /// </summary>
+    //     /// <returns>cause of death entity axis coding list</returns>
+    //     public List<CauseOfDeathEntityAxisEntry> ToCauseOfDeathEntityAxis()
+    //     {
+    //         var list = new List<CauseOfDeathEntityAxisEntry>();
+    //         foreach (KeyValuePair<int, SortedDictionary<int, string>> pair in codes)
+    //         {
+    //             string lineNumber = pair.Key.ToString();
+    //             var entry = new CauseOfDeathEntityAxisEntry(lineNumber);
+    //             foreach (var code in pair.Value.Values)
+    //             {
+    //                 entry.AssignedCodes.Add(code);
+    //             }
+    //             list.Add(entry);
+    //         }
+    //         return list;
+    //     }
 
-        /// <summary>
-        /// Build a List&lt;CauseOfDeathEntityAxis&gt; from the currently contained set of codes.
-        /// </summary>
-        /// <returns>cause of death entity axis coding list</returns>
-        public List<CauseOfDeathEntityAxisEntry> ToCauseOfDeathEntityAxis()
-        {
-            var list = new List<CauseOfDeathEntityAxisEntry>();
-            foreach (KeyValuePair<int, SortedDictionary<int, string>> pair in codes)
-            {
-                string lineNumber = pair.Key.ToString();
-                var entry = new CauseOfDeathEntityAxisEntry(lineNumber);
-                foreach (var code in pair.Value.Values)
-                {
-                    entry.AssignedCodes.Add(code);
-                }
-                list.Add(entry);
-            }
-            return list;
-        }
-
-        /// <summary>
-        /// Add a code to the list of codes that will be used to build a List&lt;CauseOfDeathEntityAxis&gt;.
-        /// Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
-        /// by the <c>ToCauseOfDeathEntityAxis</c> method.
-        /// </summary>
-        /// <param name="lineNumber"><see cref="CauseOfDeathEntityAxisEntry.LineNumber"/></param>
-        /// <param name="position">Sequence within line</param>
-        /// <param name="code">ICD code</param>
-        /// <exception cref="System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
-        public void Add(string lineNumber, string position, string code)
-        {
-            if (!Int32.TryParse(lineNumber, out int lineNumberValue))
-            {
-                throw new System.ArgumentException($"The value of the line argument must be a number, found: {lineNumber}");
-            }
-            if (!Int32.TryParse(position, out int positionVal))
-            {
-                throw new System.ArgumentException($"The value of the position argument must be a number, found: {position}");
-            }
-            if (code != null && code.Trim().Length > 0) // skip blank codes
-            {
-                if (!codes.ContainsKey(lineNumberValue))
-                {
-                    codes[lineNumberValue] = new SortedDictionary<int, string>();
-                }
-                codes[lineNumberValue][positionVal] = code;
-            }
-        }
-    }
+    //     /// <summary>
+    //     /// Add a code to the list of codes that will be used to build a List&lt;CauseOfDeathEntityAxis&gt;.
+    //     /// Order of code addition is not significant, codes will be ordered by <c>line</c> and <c>position</c>
+    //     /// by the <c>ToCauseOfDeathEntityAxis</c> method.
+    //     /// </summary>
+    //     /// <param name="lineNumber"><see cref="CauseOfDeathEntityAxisEntry.LineNumber"/></param>
+    //     /// <param name="position">Sequence within line</param>
+    //     /// <param name="code">ICD code</param>
+    //     /// <exception cref="System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
+    //     public void Add(string lineNumber, string position, string code)
+    //     {
+    //         if (!Int32.TryParse(lineNumber, out int lineNumberValue))
+    //         {
+    //             throw new System.ArgumentException($"The value of the line argument must be a number, found: {lineNumber}");
+    //         }
+    //         if (!Int32.TryParse(position, out int positionVal))
+    //         {
+    //             throw new System.ArgumentException($"The value of the position argument must be a number, found: {position}");
+    //         }
+    //         if (code != null && code.Trim().Length > 0) // skip blank codes
+    //         {
+    //             if (!codes.ContainsKey(lineNumberValue))
+    //             {
+    //                 codes[lineNumberValue] = new SortedDictionary<int, string>();
+    //             }
+    //             codes[lineNumberValue][positionVal] = code;
+    //         }
+    //     }
+    // }
+  ///  DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     /// <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
     public class CodingUpdateMessage : CodingResponseMessage

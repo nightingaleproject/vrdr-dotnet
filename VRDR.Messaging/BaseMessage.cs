@@ -244,7 +244,7 @@ namespace VRDR
                 Header.Destination.Add(dest);
             }
         }
-
+        /// DELETE THIS vvvvvvvvvvvvvvvvvvvvvv
         /// <summary>Jurisdiction-assigned death certificate number</summary>
         public uint? CertificateNumber
         {
@@ -323,7 +323,7 @@ namespace VRDR
                 }
             }
         }
-
+        /// DELETE THIS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         /// <summary>NCHS identifier. Format is 4-digit year, two character jurisdiction id, six character/digit certificate id.</summary>
         public string NCHSIdentifier
         {
@@ -450,6 +450,9 @@ namespace VRDR
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
                     message = new ExtractionErrorMessage(bundle, message);
+                    break;
+                case "http://nchs.cdc.gov/vrdr_alias":
+                    message = new AliasMessage(bundle);
                     break;
                 default:
                     string errorText;

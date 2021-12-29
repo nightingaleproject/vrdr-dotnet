@@ -64,5 +64,7 @@
     <None Update="fixtures/ije/EthnicityOtherCaseNoWriteIn.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityPlusOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/UnknownBirthRecordId.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/Bundle-Message-MA20323-TRX-000182-Example.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/ije/Bundle-Message-MA20323-MRE-000182-Example.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

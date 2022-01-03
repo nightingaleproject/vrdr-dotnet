@@ -934,6 +934,27 @@ public void CreateDemographicCodingResponseFromJSON()
         }
 
         [Fact]
+        public void CreateAliasMessageFromJson()
+        {
+            VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/AliasMessage.json"));
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Equal((uint)1, message.cert_no);
+            Assert.Equal("42", message.state_auxiliary_id);
+            Assert.Equal("whathisname", message.alias_father_surname);
+            Assert.Equal("2018MA000001", message.NCHSIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("nightingale", message.MessageSource);
+
+            message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/AliasMessageNoIdentifiers.json"));
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Null(message.cert_no);
+            Assert.Null(message.state_auxiliary_id);
+            Assert.Null(message.NCHSIdentifier);
+            Assert.Null(message.alias_father_surname);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("nightingale", message.MessageSource);
+        }
+        [Fact]
         public void CreateVoidForDocument()
         {
             VoidMessage message = new VoidMessage((DeathRecord)XMLRecords[0]);
@@ -946,6 +967,25 @@ public void CreateDemographicCodingResponseFromJSON()
 
             message = new VoidMessage(null);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
+            Assert.Null(message.cert_no);
+            Assert.Null(message.state_auxiliary_id);
+            Assert.Null(message.NCHSIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Null(message.MessageSource);
+        }
+        [Fact]
+        public void CreateAliasForDocument()
+        {
+            AliasMessage message = new AliasMessage((DeathRecord)XMLRecords[0]);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Equal((uint)1, message.cert_no);
+            Assert.Equal("42", message.state_auxiliary_id);
+            Assert.Equal("2018MA000001", message.NCHSIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Null(message.MessageSource);
+
+            message = new AliasMessage(null);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
             Assert.Null(message.cert_no);
             Assert.Null(message.state_auxiliary_id);
             Assert.Null(message.NCHSIdentifier);

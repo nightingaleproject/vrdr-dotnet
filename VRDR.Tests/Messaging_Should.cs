@@ -351,45 +351,47 @@ public void CreateDemographicCodingResponseFromJSON()
         [Fact]
         public void CreateCodingUpdateFromJSON()
         {
-            CodingUpdateMessage message = BaseMessage.Parse<CodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json"));
+            CodingUpdateMessage message = BaseMessage.Parse<CodingUpdateMessage>(FixtureStream("fixtures/json/Bundle-Message-MA20323-TRX-000182-Example-Update.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
-            Assert.Equal("destination", message.MessageDestination);
-            Assert.Equal((uint)1, message.cert_no);
-            Assert.Equal((uint)2018, message.DeathYear);
-            Assert.Equal("42", message.state_auxiliary_id);
-            Assert.Equal("2018MA000001", message.NCHSIdentifier);
-            var ethnicity = message.Ethnicity;
-            Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
-            var race = message.Race;
-            Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
-            Assert.Equal("A04.7", message.UnderlyingCauseOfDeath);
+            Assert.Equal((uint)182, message.cert_no);
+            Assert.Equal((uint)2020, message.death_year);
+            Assert.Null(message.state_auxiliary_id);
+            Assert.Equal("2020MA000182", message.NCHSIdentifier);
+            Assert.Equal("O159", message.acme_underlying_cause_of_death);
+            Assert.Equal("O159", message.manual_underlying_cause_of_death);
             var recordAxisCodes = message.CauseOfDeathRecordAxis;
-            Assert.Equal(4, recordAxisCodes.Count);
-            Assert.Equal("A04.7", recordAxisCodes[0]);
-            Assert.Equal("A41.9", recordAxisCodes[1]);
-            Assert.Equal("J18.9", recordAxisCodes[2]);
-            Assert.Equal("J96.0", recordAxisCodes[3]);
+            Assert.Equal(2, recordAxisCodes.Count);
+            Assert.Equal("0159", recordAxisCodes[0]);
+            Assert.Equal("I469", recordAxisCodes[1]);
             var entityAxisEntries = message.CauseOfDeathEntityAxis;
-
-            // Assert.Equal(2, (int)entityAxisEntries.Count);
-            // Assert.Equal("1", entityAxisEntries[0].LineNumber);
-            // Assert.Equal(2, (int)entityAxisEntries[0].AssignedCodes.Count);
-            // Assert.Equal("code1_1", entityAxisEntries[0].AssignedCodes[0]);
-            // Assert.Equal("code1_2", entityAxisEntries[0].AssignedCodes[1]);
-            // Assert.Equal("2", entityAxisEntries[1].LineNumber);
-            // Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
-            // Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
-        }
+            Assert.Equal(3, (int)entityAxisEntries.Count);
+            Assert.Equal((uint)1, entityAxisEntries[0].LineNumber);
+            Assert.Equal((uint)1, entityAxisEntries[0].Position);
+            Assert.Equal("I469", entityAxisEntries[0].Code);
+            Assert.Equal((uint)1, entityAxisEntries[1].LineNumber);
+            Assert.Equal((uint)2, entityAxisEntries[1].Position);
+            Assert.Equal("O159", entityAxisEntries[1].Code);
+            Assert.Equal((uint)6, entityAxisEntries[2].LineNumber);
+            Assert.Equal((uint)1, entityAxisEntries[2].Position);
+            Assert.Equal("O95", entityAxisEntries[2].Code);
+            Assert.Null(entityAxisEntries[2].E_code_indicator);
+            Assert.Equal("Cardiopulmonary arrest", message.COD1A);
+            Assert.Equal("Eclampsia", message.COD1B);
+            Assert.Null(message.COD1C);
+            Assert.Equal("A",message.manner);
+            Assert.Equal("0",message.injpl);
+            Assert.Equal("Y",message.autop);
+            Assert.Equal("Y",message.autopf);
+            Assert.Equal("N",message.tobac);
+            Assert.Equal("1",message.preg);
+            Assert.Equal((uint)11,message.doi_mo);
+            Assert.Equal((uint)2,message.doi_dy);
+            Assert.Equal((uint)2019,message.doi_yr);
+            Assert.Equal("M",message.toi_unit);
+            Assert.Equal((uint)1300,message.toi_hr);
+            Assert.Equal("N",message.workinj);
+            Assert.Equal("M",message.certl);
+}
 
         [Fact]
         public void CreateCodingResponse()

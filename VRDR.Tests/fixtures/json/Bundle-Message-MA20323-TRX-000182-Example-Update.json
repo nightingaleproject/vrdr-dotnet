@@ -1,0 +1,225 @@
+{
+  "resourceType": "Bundle",
+  "id": "Message-MA20323-TRX-000182-Example",
+  "meta": {
+    "profile": [
+      "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-CodingUpdateMessage"
+    ]
+  },
+  "type": "message",
+  "timestamp": "2020-11-19T11:40:14.3128405-05:00",
+  "entry": [
+    {
+      "fullUrl": "http://examples.org/fhir/MessageHeader/Header-for-MA20323-TRX-000182-Example-Update",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "Header-for-MA20323-TRX-000182-Example",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-CodingMessageHeader"
+          ]
+        },
+        "eventUri": "http://nchs.cdc.gov/vrdr_coding_update",
+        "destination": [
+          {
+            "endpoint": "http://mitre.org/vrdr"
+          }
+        ],
+        "source": {
+          "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+        },
+        "focus": [
+          {
+            "reference": "Parameters/Parameters-for-MA20323-TRX-000182-Example"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://examples.org/fhir/Parameters/Parameters-for-MA20323-TRX-000182-Example",
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "Parameters-for-MA20323-TRX-000182-Example",
+        "meta": {
+          "profile": [
+            "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/StructureDefinition/VRM-CauseOfDeathCodingMessageParameters"
+          ]
+        },
+        "parameter": [
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 182
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2020
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "MA"
+          },
+          {
+            "name": "acme_underlying_cause_of_death",
+            "valueString": "O159"
+          },
+          {
+            "name": "manual_underlying_cause_of_death",
+            "valueString": "O159"
+          },
+          {
+            "name": "record_cause_of_death",
+            "valueString": "0159"
+          },
+          {
+            "name": "record_cause_of_death",
+            "valueString": "I469"
+          },
+          {
+            "part": [
+              {
+                "name": "lineNumber",
+                "valueUnsignedInt": 1
+              },
+              {
+                "name": "position",
+                "valueUnsignedInt": 1
+              },
+              {
+                "name": "coding",
+                "valueString": "I469"
+              }
+            ],
+            "name": "entity_axis_code"
+          },
+          {
+            "part": [
+              {
+                "name": "lineNumber",
+                "valueUnsignedInt": 1
+              },
+              {
+                "name": "position",
+                "valueUnsignedInt": 2
+              },
+              {
+                "name": "coding",
+                "valueString": "O159"
+              }
+            ],
+            "name": "entity_axis_code"
+          },
+          {
+            "part": [
+              {
+                "name": "lineNumber",
+                "valueUnsignedInt": 6
+              },
+              {
+                "name": "position",
+                "valueUnsignedInt": 1
+              },
+              {
+                "name": "coding",
+                "valueString": "O95"
+              }
+            ],
+            "name": "entity_axis_code"
+          },
+          {
+            "part": [
+              {
+                "name": "COD1A",
+                "valueString": "Cardiopulmonary arrest"
+              },
+              {
+                "name": "COD1B",
+                "valueString": "Eclampsia"
+              },
+              {
+                "name": "COD1C"
+              },
+              {
+                "name": "COD1D"
+              },
+              {
+                "name": "INTERVAL1A",
+                "valueString": "4 hr"
+              },
+              {
+                "name": "INTERVAL1B",
+                "valueString": "3 month"
+              },
+              {
+                "name": "INTERVAL1C"
+              },
+              {
+                "name": "INTERVAL1D"
+              },
+              {
+                "name": "OTHERCONDITION"
+              }
+            ],
+            "name": "input_causes_of_death"
+          },
+          {
+            "part": [
+              {
+                "name": "manner",
+                "valueString": "A"
+              },
+              {
+                "name": "injpl",
+                "valueString": "0"
+              },
+              {
+                "name": "autop",
+                "valueString": "Y"
+              },
+              {
+                "name": "autopf",
+                "valueString": "Y"
+              },
+              {
+                "name": "tobac",
+                "valueString": "N"
+              },
+              {
+                "name": "preg",
+                "valueString": "1"
+              },
+              {
+                "name": "doi_mo",
+                "valueUnsignedInt": 11
+              },
+              {
+                "name": "doi_dy",
+                "valueUnsignedInt": 2
+              },
+              {
+                "name": "doi_yr",
+                "valueUnsignedInt": 2019
+              },
+              {
+                "name": "toi_hr",
+                "valueUnsignedInt": 1300
+              },
+              {
+                "name": "toi_unit",
+                "valueString": "M"
+              },
+              {
+                "name": "workinj",
+                "valueString": "N"
+              },
+              {
+                "name": "certl",
+                "valueString": "M"
+              }
+            ],
+            "name": "input_misc_fields"
+          }
+        ]
+      }
+    }
+  ]
+}

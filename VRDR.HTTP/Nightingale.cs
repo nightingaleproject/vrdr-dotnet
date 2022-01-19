@@ -21,8 +21,8 @@ namespace VRDR.HTTP
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
 
-            SetStringValueDictionary(values, "certificateNumber", record.Identifier);
-            SetStringValueDictionary(values, "deathLocationJurisdiction", record.DeathLocationJurisdiction);
+            SetStringValueDictionary(values, "certificateNumber.certificateNumber", record.Identifier);
+            SetStringValueDictionary(values, "deathLocationJurisdiction.deathLocationJurisdiction", record.DeathLocationJurisdiction);
 
             SetYesNoValueDictionary(values, "armedForcesService.armedForcesService", record, "MilitaryService");
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
@@ -325,8 +325,8 @@ namespace VRDR.HTTP
             // Start building the record
             DeathRecord deathRecord = new DeathRecord();
 
-            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber"));
-            SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction"));
+            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber.certificateNumber"));
+            SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction.deathLocationJurisdiction"));
 
             SetYesNoValueDeathRecordBoolean(deathRecord, "MilitaryServiceBoolean", GetValue(values, "armedForcesService.armedForcesService"));
             SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyPerformedIndicatorBoolean", GetValue(values, "autopsyPerformed.autopsyPerformed"));

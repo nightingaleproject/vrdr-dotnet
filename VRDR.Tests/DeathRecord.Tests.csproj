@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <RootNamespace>VRDR.Tests</RootNamespace>
@@ -21,7 +21,8 @@
     <None Update="fixtures/json/DeathRecordNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BadConditions.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CauseOfDeathCodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathLocationType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BirthAndDeathDateDataAbsent.json" CopyToOutputDirectory="PreserveNewest" />
@@ -30,6 +31,7 @@
     <None Update="fixtures/json/DeathRecordSubmissionNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdateNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DemographicCodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/Empty.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptySubmission.json" CopyToOutputDirectory="PreserveNewest" />
@@ -64,5 +66,14 @@
     <None Update="fixtures/ije/EthnicityOtherCaseNoWriteIn.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/EthnicityPlusOtherCase.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/UnknownBirthRecordId.ije" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures\json\CauseOfDeathCodingResponseMessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fixtures\json\CodingResponseMessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fixtures\json\DemographicCodingResponseMessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

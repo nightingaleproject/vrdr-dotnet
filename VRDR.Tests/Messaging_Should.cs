@@ -279,7 +279,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCodingResponseFromJSON()
         {
-            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
+            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CodingResponseMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);
@@ -343,6 +343,20 @@ namespace VRDR.Tests
             Assert.Equal("5", message.IntentionalReject);
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
             Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+        }
+
+        [Fact]
+        public void CreateCauseOfDeathCodingResponseFromJSON()
+        {
+            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"));
+            // TODO: Trim down json file to just Cause of Death information; implement test case
+        }
+
+        [Fact]
+        public void CreateDemographicCodingResponseFromJSON()
+        {
+            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/DemographicCodingResponseMessage.json"));
+            // TODO: Trim down json file to just Demographic information; implement test case
         }
 
         [Fact]
@@ -779,7 +793,8 @@ namespace VRDR.Tests
             Assert.IsType<AckMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"), false);
             Assert.IsType<VoidMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"), false);
+            // TODO: Replace generic CodingResponseMessage with more specific CauseOfDeath and Demographic instances
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CodingResponseMessage.json"), false);
             Assert.IsType<CodingResponseMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/CodingUpdateMessage.json"), false);
             Assert.IsType<CodingUpdateMessage>(msg);

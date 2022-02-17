@@ -1,0 +1,210 @@
+{
+    "resourceType": "Bundle",
+    "id": "7b9a5410-4f5a-4ff0-98e4-6899708e1829",
+    "timestamp": "2020-04-03T11:15:41.614703-04:00",
+    "type": "message",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
+                "eventUri": "http://nchs.cdc.gov/vrdr_coding",
+                "destination": [{"endpoint": "destination"}],
+                "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
+                "focus": [{"reference": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88"}]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88",
+            "resource": {
+                "resourceType": "Parameters",
+                "id": "041b337f-8a85-4e83-9c37-b50610b1be88",
+                "parameter": [
+                    {
+                        "name": "cert_no",
+                        "valueUnsignedInt": 1
+                    },
+                    {
+                        "name": "death_year",
+                        "valueUnsignedInt": 2018
+                    },
+                    {
+                        "name": "state_auxiliary_id",
+                        "valueString": "42"
+                    },
+                    {
+                        "name": "jurisdiction_id",
+                        "valueString": "MA"
+                    },
+                    {
+                        "name": "cs",
+                        "valueCoding": {
+                            "system": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Software/MICAR/Data_Entry_Software/ACME_TRANSAX/Documentation/auser.pdf",
+                            "code": "8"
+                        }
+                    },
+                    {
+                        "name": "ship",
+                        "valueString": "B202101"
+                    },
+                    {
+                        "name": "rec_mo",
+                        "valueUnsignedInt": 1
+                    },
+                    {
+                        "name": "rec_dy",
+                        "valueUnsignedInt": 8
+                    },
+                    {
+                        "name": "rec_yr",
+                        "valueUnsignedInt": 2021
+                    },
+                    {
+                        "name": "manner",
+                        "valueString": "Accident"
+                    },
+                    {
+                        "name": "int_rej",
+                        "valueCoding": {
+                            "system": "https://www.cdc.gov/nchs/data/dvs/2b_2017.pdf",
+                            "code": "5"
+                        }
+                    },
+                    {
+                        "name": "sys_rej",
+                        "valueString": "ACMEReject"
+                    },
+                    {
+                        "name": "injpl",
+                        "valueString": "Home"
+                    },
+                    {
+                        "name": "ethnicity",
+                        "part": [
+                            {
+                                "name": "DETHNICE",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "123"
+                                }
+                            },
+                            {
+                                "name": "DETHNIC5C",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "456"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "race",
+                        "part": [
+                            {
+                                "name": "RACE1E",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "foo"
+                                }
+                            },
+                            {
+                                "name": "RACE17C",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "bar"
+                                }
+                            },
+                            {
+                                "name": "RACEBRG",
+                                "valueCoding": {
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/Multiple_race_documentation_5-10-04.pdf",
+                                    "code": "baz"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "underlying_cause_of_death",
+                        "valueCoding": {
+                            "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                            "code": "A04.7"
+                        }
+                    },
+                    {
+                        "name": "record_cause_of_death",
+                        "part": [
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "A04.7"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "A41.9"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "J18.9"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "J96.0"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "entity_axis_code",
+                        "part": [
+                            {
+                                "name": "lineNumber",
+                                "valueId": "abcde"
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code1_1"
+                                }
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code1_2"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "entity_axis_code",
+                        "part": [
+                            {
+                                "name": "lineNumber",
+                                "valueId": "xyzzy"
+                            },
+                            {
+                                "name": "coding",
+                                "valueCoding": {
+                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
+                                    "code": "code2_1"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -9,7 +9,7 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
-                "eventUri": "http://nchs.cdc.gov/vrdr_causeofdeath_coding",
+                "eventUri": "http://nchs.cdc.gov/vrdr_demographics_coding",
                 "destination": [{"endpoint": "destination"}],
                 "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
                 "focus": [{"reference": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88"}]
@@ -80,80 +80,46 @@
                         "valueString": "Home"
                     },
                     {
-                        "name": "underlying_cause_of_death",
-                        "valueCoding": {
-                            "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                            "code": "A04.7"
-                        }
-                    },
-                    {
-                        "name": "record_cause_of_death",
+                        "name": "ethnicity",
                         "part": [
                             {
-                                "name": "coding",
+                                "name": "DETHNICE",
                                 "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "A04.7"
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "123"
                                 }
                             },
                             {
-                                "name": "coding",
+                                "name": "DETHNIC5C",
                                 "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "A41.9"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "J18.9"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "J96.0"
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/HispanicCodeTitles.pdf",
+                                    "code": "456"
                                 }
                             }
                         ]
                     },
                     {
-                        "name": "entity_axis_code",
+                        "name": "race",
                         "part": [
                             {
-                                "name": "lineNumber",
-                                "valueId": "abcde"
-                            },
-                            {
-                                "name": "coding",
+                                "name": "RACE1E",
                                 "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code1_1"
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "foo"
                                 }
                             },
                             {
-                                "name": "coding",
+                                "name": "RACE17C",
                                 "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code1_2"
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/RaceCodeList.pdf",
+                                    "code": "bar"
                                 }
-                            }
-                        ]
-                    },
-                    {
-                        "name": "entity_axis_code",
-                        "part": [
-                            {
-                                "name": "lineNumber",
-                                "valueId": "xyzzy"
                             },
                             {
-                                "name": "coding",
+                                "name": "RACEBRG",
                                 "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code2_1"
+                                    "system": "https://www.cdc.gov/nchs/data/dvs/Multiple_race_documentation_5-10-04.pdf",
+                                    "code": "baz"
                                 }
                             }
                         ]

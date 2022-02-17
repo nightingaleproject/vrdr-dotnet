@@ -448,8 +448,11 @@ namespace VRDR
                 case DemographicCodingResponseMessage.MESSAGE_TYPE:
                     message = new DemographicCodingResponseMessage(bundle);
                     break;
-                case CodingUpdateMessage.MESSAGE_TYPE:
-                    message = new CodingUpdateMessage(bundle);
+                case CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE:
+                    message = new CauseOfDeathCodingUpdateMessage(bundle);
+                    break;
+                case DemographicCodingUpdateMessage.MESSAGE_TYPE:
+                    message = new DemographicCodingUpdateMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
                     message = new ExtractionErrorMessage(bundle, message);

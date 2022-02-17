@@ -373,11 +373,11 @@
             <exception cref="T:System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
         </member>
         <member name="T:VRDR.CauseOfDeathCodingUpdateMessage">
-            <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+            <summary>Class <c>CauseOfDeathCodingUpdateMessage</c> conveys an updated coded cause of death of a decedent.</summary>
         </member>
         <member name="F:VRDR.CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE">
             <summary>
-            The event URI for CodingUpdateMessage.
+            The event URI for CauseOfDeathCodingUpdateMessage.
             </summary>
         </member>
         <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
@@ -387,9 +387,9 @@
         </member>
         <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
-            Construct a CodingResponseMessage from a FHIR Bundle.
+            Construct a CauseOfDeathCodingUpdateMessage from a FHIR Bundle.
             </summary>
-            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingUpdateMessage</param>
             <returns></returns>
         </member>
         <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(System.String,System.String)">
@@ -599,11 +599,11 @@
             <summary>Decedent race coding</summary>
         </member>
         <member name="T:VRDR.DemographicsCodingUpdateMessage">
-            <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+            <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded race and ethnicity of a decedent.</summary>
         </member>
         <member name="F:VRDR.DemographicsCodingUpdateMessage.MESSAGE_TYPE">
             <summary>
-            The event URI for CodingUpdateMessage.
+            The event URI for DemographicsCodingUpdateMessage.
             </summary>
         </member>
         <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
@@ -613,9 +613,9 @@
         </member>
         <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
-            Construct a CodingResponseMessage from a FHIR Bundle.
+            Construct a DemographicsCodingUpdateMessage from a FHIR Bundle.
             </summary>
-            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicsCodingUpdateMessage</param>
             <returns></returns>
         </member>
         <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(System.String,System.String)">

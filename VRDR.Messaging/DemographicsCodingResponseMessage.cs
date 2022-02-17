@@ -160,11 +160,11 @@ namespace VRDR
         }
     }
 
-    /// <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+    /// <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded race and ethnicity of a decedent.</summary>
     public class DemographicsCodingUpdateMessage : DemographicsCodingResponseMessage
     {
         /// <summary>
-        /// The event URI for CodingUpdateMessage.
+        /// The event URI for DemographicsCodingUpdateMessage.
         /// </summary>
         public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_demographics_coding_update";
 
@@ -176,9 +176,9 @@ namespace VRDR
         }
 
         /// <summary>
-        /// Construct a CodingResponseMessage from a FHIR Bundle.
+        /// Construct a DemographicsCodingUpdateMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicsCodingUpdateMessage</param>
         /// <returns></returns>
         internal DemographicsCodingUpdateMessage(Bundle messageBundle) : base(messageBundle)
         {

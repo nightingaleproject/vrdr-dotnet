@@ -372,11 +372,11 @@ namespace VRDR
         }
     }
 
-    /// <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+    /// <summary>Class <c>CauseOfDeathCodingUpdateMessage</c> conveys an updated coded cause of death of a decedent.</summary>
     public class CauseOfDeathCodingUpdateMessage : CauseOfDeathCodingResponseMessage
     {
         /// <summary>
-        /// The event URI for CodingUpdateMessage.
+        /// The event URI for CauseOfDeathCodingUpdateMessage.
         /// </summary>
         public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_causeofdeath_coding_update";
 
@@ -388,9 +388,9 @@ namespace VRDR
         }
 
         /// <summary>
-        /// Construct a CodingResponseMessage from a FHIR Bundle.
+        /// Construct a CauseOfDeathCodingUpdateMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingUpdateMessage</param>
         /// <returns></returns>
         internal CauseOfDeathCodingUpdateMessage(Bundle messageBundle) : base(messageBundle)
         {

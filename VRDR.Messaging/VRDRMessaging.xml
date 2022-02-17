@@ -502,123 +502,123 @@
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
             <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         </member>
-        <member name="T:VRDR.DemographicCodingResponseMessage">
+        <member name="T:VRDR.DemographicsCodingResponseMessage">
             <summary>
             A <c>CodingResponseMessage</c> that conveys the coded demographic information of a decedent.
             </summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.MESSAGE_TYPE">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.MESSAGE_TYPE">
             <summary>
             The event URI for DemographicCodingResponseMessage.
             </summary>
         </member>
-        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
-        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
             Construct a DemographicCodingResponseMessage from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicCodingResponseMessage</param>
             <returns></returns>
         </member>
-        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(System.String,System.String)">
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
-        <member name="T:VRDR.DemographicCodingResponseMessage.HispanicOrigin">
+        <member name="T:VRDR.DemographicsCodingResponseMessage.HispanicOrigin">
             <summary>Ethnicity codes</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.HispanicOrigin.DETHNICE">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE">
             <summary>Edited Hispanic Origin Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.HispanicOrigin.DETHNIC5C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C">
             <summary>Hispanic Code for Literal</summary>
         </member>
-        <member name="P:VRDR.DemographicCodingResponseMessage.Ethnicity">
+        <member name="P:VRDR.DemographicsCodingResponseMessage.Ethnicity">
             <summary>Decedent ethnicity coding</summary>
         </member>
-        <member name="T:VRDR.DemographicCodingResponseMessage.RaceCode">
+        <member name="T:VRDR.DemographicsCodingResponseMessage.RaceCode">
             <summary>Race codes</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE1E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE1E">
             <summary>First Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE2E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE2E">
             <summary>Second Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE3E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE3E">
             <summary>Third Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE4E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE4E">
             <summary>Fourth Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE5E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE5E">
             <summary>Fifth Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE6E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE6E">
             <summary>Sixth Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE7E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE7E">
             <summary>Seventh Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE8E">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE8E">
             <summary>Eighth Edited Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE16C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE16C">
             <summary>First Am. Ind Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE17C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE17C">
             <summary>Second Am. Ind Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE18C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE18C">
             <summary>First Other Asian Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE19C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE19C">
             <summary>Second Other Asian Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE20C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE20C">
             <summary>First Other PI Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE21C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE21C">
             <summary>Second Other Pi Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE22C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE22C">
             <summary>First Other Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACE23C">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE23C">
             <summary>Second Other Code</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingResponseMessage.RaceCode.RACEBRG">
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACEBRG">
             <summary>Bridged Multiple Race Code</summary>
         </member>
-        <member name="P:VRDR.DemographicCodingResponseMessage.Race">
+        <member name="P:VRDR.DemographicsCodingResponseMessage.Race">
             <summary>Decedent race coding</summary>
         </member>
-        <member name="T:VRDR.DemographicCodingUpdateMessage">
+        <member name="T:VRDR.DemographicsCodingUpdateMessage">
             <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
         </member>
-        <member name="F:VRDR.DemographicCodingUpdateMessage.MESSAGE_TYPE">
+        <member name="F:VRDR.DemographicsCodingUpdateMessage.MESSAGE_TYPE">
             <summary>
             The event URI for CodingUpdateMessage.
             </summary>
         </member>
-        <member name="M:VRDR.DemographicCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates an update for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
-        <member name="M:VRDR.DemographicCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
             Construct a CodingResponseMessage from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
             <returns></returns>
         </member>
-        <member name="M:VRDR.DemographicCodingUpdateMessage.#ctor(System.String,System.String)">
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>

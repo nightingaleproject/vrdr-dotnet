@@ -445,14 +445,14 @@ namespace VRDR
                 case CauseOfDeathCodingResponseMessage.MESSAGE_TYPE:
                     message = new CauseOfDeathCodingResponseMessage(bundle);
                     break;
-                case DemographicCodingResponseMessage.MESSAGE_TYPE:
-                    message = new DemographicCodingResponseMessage(bundle);
+                case DemographicsCodingResponseMessage.MESSAGE_TYPE:
+                    message = new DemographicsCodingResponseMessage(bundle);
                     break;
                 case CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE:
                     message = new CauseOfDeathCodingUpdateMessage(bundle);
                     break;
-                case DemographicCodingUpdateMessage.MESSAGE_TYPE:
-                    message = new DemographicCodingUpdateMessage(bundle);
+                case DemographicsCodingUpdateMessage.MESSAGE_TYPE:
+                    message = new DemographicsCodingUpdateMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":
                     message = new ExtractionErrorMessage(bundle, message);

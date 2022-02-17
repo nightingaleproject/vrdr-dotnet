@@ -5,32 +5,23 @@ using Hl7.Fhir.Model;
 namespace VRDR
 {
     /// <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
-    public class CodingResponseMessage : BaseMessage
+    public abstract class CodingResponseMessage : BaseMessage
     {
-        /// <summary>Constructor that creates a response for the specified message.</summary>
-        /// <param name="sourceMessage">the message to create a response for.</param>
-        /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public CodingResponseMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
-        {
-            this.CertificateNumber = sourceMessage?.CertificateNumber;
-            this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
-            this.DeathJurisdictionID = sourceMessage?.DeathJurisdictionID;
-            this.DeathYear = sourceMessage?.DeathYear;
-        }
 
         /// <summary>
         /// Construct a CodingResponseMessage from a FHIR Bundle.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
         /// <returns></returns>
-        internal CodingResponseMessage(Bundle messageBundle) : base(messageBundle)
+        protected CodingResponseMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
 
         /// <summary>Constructor that creates a response for the specified message.</summary>
+        /// <param name="messageType">The event URI identifying the specific type of CodingResponseMessage.</param>
         /// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        public CodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_coding")
+        protected CodingResponseMessage(string messageType, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(messageType)
         {
             Header.Source.Endpoint = source;
             MessageDestination = destination;
@@ -682,6 +673,11 @@ namespace VRDR
     /// <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
     public class CodingUpdateMessage : CodingResponseMessage
     {
+        /// <summary>
+        /// The event URI for CodingUpdateMessage.
+        /// </summary>
+        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_coding_update";
+
         /// <summary>Constructor that creates an update for the specified message.</summary>
         /// <param name="sourceMessage">the message to create a response for.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
@@ -701,9 +697,8 @@ namespace VRDR
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        public CodingUpdateMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(destination, source)
+        public CodingUpdateMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
         {
-            MessageType = "http://nchs.cdc.gov/vrdr_coding_update";
         }
     }
 }

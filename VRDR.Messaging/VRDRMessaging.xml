@@ -208,13 +208,35 @@
             Build an ExtractionErrorMessage that conveys the issues reported in this exception.
             </summary>
         </member>
-        <member name="T:VRDR.CodingResponseMessage">
-            <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
+        <member name="T:VRDR.CauseOfDeathCodingResponseMessage">
+            <summary>
+            A <c>CodingResponseMessage</c> that conveys the coded cause of death information of a decedent.
+            </summary>
         </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for CauseOfDeathCodingResponseMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a CauseOfDeathCodingResponseMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingResponseMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
+        </member>
+        <member name="T:VRDR.CodingResponseMessage">
+            <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
         </member>
         <member name="M:VRDR.CodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
@@ -223,8 +245,9 @@
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
             <returns></returns>
         </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String)">
+        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="messageType">The event URI identifying the specific type of CodingResponseMessage.</param>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
@@ -485,6 +508,11 @@
         <member name="T:VRDR.CodingUpdateMessage">
             <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
         </member>
+        <member name="F:VRDR.CodingUpdateMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for CodingUpdateMessage.
+            </summary>
+        </member>
         <member name="M:VRDR.CodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates an update for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
@@ -542,6 +570,33 @@
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
             <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
+        </member>
+        <member name="T:VRDR.DemographicCodingResponseMessage">
+            <summary>
+            A <c>CodingResponseMessage</c> that conveys the coded demographic information of a decedent.
+            </summary>
+        </member>
+        <member name="F:VRDR.DemographicCodingResponseMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for DemographicCodingResponseMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="sourceMessage">the message to create a response for.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a DemographicCodingResponseMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicCodingResponseMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.DemographicCodingResponseMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
         <member name="T:VRDR.ExtractionErrorMessage">
             <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>

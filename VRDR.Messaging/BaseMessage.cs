@@ -442,10 +442,13 @@ namespace VRDR
                 case "http://nchs.cdc.gov/vrdr_submission_void":
                     message = new VoidMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_coding":
-                    message = new CodingResponseMessage(bundle);
+                case CauseOfDeathCodingResponseMessage.MESSAGE_TYPE:
+                    message = new CauseOfDeathCodingResponseMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_coding_update":
+                case DemographicCodingResponseMessage.MESSAGE_TYPE:
+                    message = new DemographicCodingResponseMessage(bundle);
+                    break;
+                case CodingUpdateMessage.MESSAGE_TYPE:
                     message = new CodingUpdateMessage(bundle);
                     break;
                 case "http://nchs.cdc.gov/vrdr_extraction_error":

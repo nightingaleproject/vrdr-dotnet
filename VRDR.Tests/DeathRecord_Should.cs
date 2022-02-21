@@ -1268,7 +1268,7 @@ namespace VRDR.Tests
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             Assert.Equal(Tuple.Create("year-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[0]));
-            Assert.Equal(Tuple.Create("date-month", "2"), (dr.DateOfBirthDatePartAbsent[1]));
+            Assert.Equal(Tuple.Create("month-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[1]));
             Assert.Equal(Tuple.Create("date-day", "24"), (dr.DateOfBirthDatePartAbsent[2]));
 
         }
@@ -1280,8 +1280,17 @@ namespace VRDR.Tests
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
             IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("9999", ije1.DOB_YR);
-            Assert.Equal("02", ije1.DOB_MO);
+            Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+
+            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "asked-unknown"), Tuple.Create("month-absent-reason", "asked-unknown"), Tuple.Create("date-day", "24")};
+            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
+            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
+            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
+            //The DateOfBirth value is not set when there are date part absents, is this acceptable?
+            //Assert.Equal("0001-01-24", dr1.DateOfBirth); 
+
         }
 
         [Fact]

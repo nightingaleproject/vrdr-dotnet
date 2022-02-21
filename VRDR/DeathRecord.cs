@@ -3073,7 +3073,10 @@ namespace VRDR
                 {
                     return;
                 }
-                Decedent.BirthDate = value.Trim();
+                if (Decedent.BirthDateElement == null){
+                    Decedent.BirthDateElement = new Date();
+                }
+                Decedent.BirthDateElement.Value = value.Trim();
             }
         }
 
@@ -3101,7 +3104,11 @@ namespace VRDR
             {
                 if (value != null && value.Length > 0)
                 {
-                    Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
+                    if (Decedent.BirthDateElement != null){
+                        // Clear the previous date part absent and rebuild with the new data
+                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
+                    }
+                    
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)

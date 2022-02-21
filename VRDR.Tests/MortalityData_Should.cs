@@ -314,16 +314,37 @@ namespace VRDR.Tests
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DOBDatePartAbsent.ije")), true);
             Assert.Equal("9999", ije1.DOB_YR);
-            Assert.Equal("01", ije1.DOB_MO);
-            Assert.Equal("01", ije1.DOB_DY);
+            Assert.Equal("06", ije1.DOB_MO);
+            Assert.Equal("02", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
             Assert.True(dr1.DateOfBirthDatePartAbsent != null);
 
-            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "1"), Tuple.Create("date-day", "1")};
+            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "6"), Tuple.Create("date-day", "2")};
             Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
             Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
             Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
-            Assert.Equal("9999-01-01", dr1.DateOfBirth);
+            Assert.Equal("0001-06-02", dr1.DateOfBirth);
+        }
+
+        [Fact]
+        public void HandleUnknownDOBPartsCustom()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DOBPartsAllUnknown.ije")), true);
+            Assert.Equal("9999", ije1.DOB_YR);
+            Assert.Equal("99", ije1.DOB_MO);
+            Assert.Equal("99", ije1.DOB_DY);
+            DeathRecord dr1 = ije1.ToDeathRecord();
+            Assert.True(dr1.DateOfBirthDatePartAbsent != null);
+
+            //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "1990"), Tuple.Create("month-absent-reason", "unknown"), Tuple.Create("day-absent-reason", "unknown")};
+            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("month-absent-reason", "unknown"), Tuple.Create("day-absent-reason", "unknown")};
+            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
+            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
+            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
+            // TODO we use a built in Date Time to format DateOfBirth so we cannot pass in 99 for month of day
+            // the default set day and month to 01 so if there are unknowns, this field becomes invalid
+            // either remove it or remove the validation and allow 99 for day and month
+            //Assert.Equal("1999-09-99", dr1.DateOfBirth);
         }
 
         [Fact]

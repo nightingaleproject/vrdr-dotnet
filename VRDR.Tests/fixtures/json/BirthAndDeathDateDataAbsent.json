@@ -318,8 +318,8 @@
                   "valueCode" : "asked-unknown"
                 },
                 {
-                  "url" : "date-month",
-                  "valueInteger" : 2
+                  "url" : "month-absent-reason",
+                  "valueCode" : "asked-unknown"
                 },
                 {
                   "url" : "date-day",

@@ -302,7 +302,6 @@ namespace VRDR
                     return string.Concat(Enumerable.Repeat("9", info.Length));
                 }
             }
-
             return "";
         }
 
@@ -757,18 +756,23 @@ namespace VRDR
         {
             get
             {
-                String year = DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
-                if (!String.IsNullOrWhiteSpace(year)){
-                    return year;
+                String yearPart = DeathDate_Part_Absent_Get("DOD_YR", "date-year", "year-absent-reason");
+                if (!String.IsNullOrWhiteSpace(yearPart)){
+                    return yearPart;
                 }
-                return DeathDate_Part_Absent_Get("DOD_YR", "date-year", "year-absent-reason");
+                return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
+                
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "9999"))
                 {
-                    DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value, false, true);
+                    List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
+                    dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
+                    dateParts.RemoveAll(x => x.Item1 == "date-year");
+                    record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
+                DateTime_Set("DOD_YR", "yyyy", "DateOfDeath", value, false, true);
             }
         }
 
@@ -1163,15 +1167,25 @@ namespace VRDR
         {
             get
             {
-                String year = DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
-                if (!String.IsNullOrWhiteSpace(year)){
-                    return year;
+                String yearPart = BirthDate_Part_Absent_Get("DOB_YR", "date-year", "year-absent-reason");
+                if (!String.IsNullOrWhiteSpace(yearPart))
+                {
+                    return yearPart;
                 }
-                return BirthDate_Part_Absent_Get("DOB_YR", "date-year", "year-absent-reason");
+                return DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                // if unknown, set the date part absent
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "9999"))
+                {
+                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+                    if (record.DateOfBirthDatePartAbsent != null){
+                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
+                    }
+                    dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
+                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                } else
                 {
                     // we will still set this for now so we can reference the value to
                     // populate the Date Part Absent field
@@ -1187,15 +1201,25 @@ namespace VRDR
         {
             get
             {
-                String month = DateTime_Get("DOB_MO", "MM", "DateOfBirth");
-                if (!String.IsNullOrWhiteSpace(month)){
-                    return month;
+                String monthPart = BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason");
+                if (!String.IsNullOrWhiteSpace(monthPart))
+                {
+                    return monthPart;
                 }
-                return BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason");
+                return DateTime_Get("DOB_MO", "MM", "DateOfBirth");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                // if unknown, set the date part absent
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "99"))
+                {
+                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+                    if (record.DateOfBirthDatePartAbsent != null){
+                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
+                    }
+                    dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
+                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                } else
                 {
                     DateTime_Set("DOB_MO", "MM", "DateOfBirth", value, true);
                 }
@@ -1208,24 +1232,20 @@ namespace VRDR
         {
             get
             {
-                String day = DateTime_Get("DOB_DY", "dd", "DateOfBirth");
-                if (!String.IsNullOrWhiteSpace(day)){
-                    return day;
+                String dayPart = BirthDate_Part_Absent_Get("DOB_DY", "date-day", "day-absent-reason");
+                if (!String.IsNullOrWhiteSpace(dayPart)){
+                    return dayPart;
                 }
-                return BirthDate_Part_Absent_Get("DOB_DY", "date-day", "day-absent-reason");
+                return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
+                
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
-                }
-
                 // Populate the date absent parts if any of the date parts are unknown
                 // Doing all three parts at once in the last date part field
                 // because the other fields hadn't populated the Date Part field yet
                 // and only one would ever get added to the record
-                if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99"))
+                if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99") || String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> dateParts = record.DateOfBirthDatePartAbsent.ToList();
                     switch (value)
@@ -1235,6 +1255,7 @@ namespace VRDR
                             dateParts.RemoveAll(x => x.Item1 == "date-day");
                             break;
                         default:
+                            DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                             dateParts.Add(Tuple.Create("date-day", value));
                             dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
                             break;
@@ -1242,7 +1263,6 @@ namespace VRDR
                     switch (DOB_MO)
                     {
                         case "99":
-                            dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
                             dateParts.RemoveAll(x => x.Item1 == "date-month");
                             break;
                         default:
@@ -1253,7 +1273,6 @@ namespace VRDR
                     switch (DOB_YR)
                     {
                         case "9999":
-                            dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
                             dateParts.RemoveAll(x => x.Item1 == "date-year");
                             break;
                         default:
@@ -1262,6 +1281,11 @@ namespace VRDR
                             break;
                     }
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                    // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
+                    // record.DateOfBirth = "";
+                } else 
+                {
+                    DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
             }
         }
@@ -1656,18 +1680,25 @@ namespace VRDR
         {
             get
             {
-                String month = DateTime_Get("DOD_MO", "MM", "DateOfDeath");
-                if (!String.IsNullOrWhiteSpace(month)){
-                    return month;
+                
+                String monthPart = DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
+                if (!String.IsNullOrWhiteSpace(monthPart)){
+                    return monthPart;
                 }
-                return DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
+                return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
+                
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                // if unknown, create a date part absent
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "99"))
                 {
-                    DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
+                    List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
+                    dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
+                    dateParts.RemoveAll(x => x.Item1 == "date-month");
+                    record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
+                DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);   
             }
         }
 
@@ -1677,24 +1708,20 @@ namespace VRDR
         {
             get
             {
-                String day = DateTime_Get("DOD_DY", "dd", "DateOfDeath");
-                if (!String.IsNullOrWhiteSpace(day)){
-                    return day;
+                String dayPart = DeathDate_Part_Absent_Get("DOD_DY", "date-day", "day-absent-reason");
+                if (!String.IsNullOrWhiteSpace(dayPart)){
+                    return dayPart;
                 }
-                return DeathDate_Part_Absent_Get("DOD_DY", "date-day", "day-absent-reason");
+                return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
+                
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
-                }
-
                 // Populate the date absent parts if any of the date parts are unknown
                 // Doing all three parts at once in the last date part field
                 // because the other fields hadn't populated the Date Part field yet
                 // and only one would ever get added to the record
-                if (String.Equals(DOD_YR, "9999") || String.Equals(DOD_MO, "99") || String.Equals(value, "99"))
+                if (String.Equals(DOD_YR, "9999") || String.Equals(DOD_MO, "99") || String.Equals(value, "99") || String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
                     switch (value)
@@ -1708,10 +1735,9 @@ namespace VRDR
                             dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
                             break;
                     }
-                    switch (DOB_MO)
+                    switch (DOD_MO)
                     {
                         case "99":
-                            dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
                             dateParts.RemoveAll(x => x.Item1 == "date-month");
                             break;
                         default:
@@ -1719,10 +1745,9 @@ namespace VRDR
                             dateParts.RemoveAll(x => x.Item1 == "month-absent-reason");
                             break;
                     }
-                    switch (DOB_YR)
+                    switch (DOD_YR)
                     {
                         case "9999":
-                            dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
                             dateParts.RemoveAll(x => x.Item1 == "date-year");
                             break;
                         default:
@@ -1732,6 +1757,10 @@ namespace VRDR
                     }
                     record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
+                else
+                {
+                    DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
+                } 
             }
         }
 

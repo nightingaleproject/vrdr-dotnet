@@ -82,6 +82,14 @@
         <member name="F:VRDR.CodeSystems.ISO_3166_2">
             <summary> ISO 3166-2  </summary>
         </member>
+        <member name="T:VRDR.Connectathon">
+            <summary>vrdr-dotnet versions of connectathon records.</summary>
+        </member>
+        <member name="M:VRDR.Connectathon.JavierLuisPerez(System.Boolean)">
+            this can be used 2 ways, with partialRecord set to
+               false for a full record
+            or true for a partial record
+        </member>
         <member name="T:VRDR.DeathRecord">
             <summary>Class <c>DeathRecord</c> models a FHIR Vital Records Death Reporting (VRDR) Death
             Record. This class was designed to help consume and produce death records that follow the

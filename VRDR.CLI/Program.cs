@@ -749,6 +749,18 @@ namespace VRDR.CLI
                         }
                         Console.WriteLine();
                         break;
+                    case DemographicsCodingResponseMessage codingResponse:
+                        Console.WriteLine("\nEthnicity:");
+                        foreach (var entry in codingResponse.Ethnicity)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        Console.WriteLine("Race:");
+                        foreach (var entry in codingResponse.Race)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        break;
                     default:
                         Console.WriteLine("Message does not appear to be a CauseOfDeathCodingResponseMessage");
                         break;

@@ -186,7 +186,7 @@ Console.WriteLine(deathRecord.ToJSON());
 ```
 
 #### Return Coding
-An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding).
+An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](doc/Messaging.md#return-coding).
 
 ```cs
 using VRDR;

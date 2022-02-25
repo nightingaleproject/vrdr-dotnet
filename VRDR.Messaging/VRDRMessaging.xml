@@ -7,6 +7,11 @@
         <member name="T:VRDR.AckMessage">
             <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
         </member>
+        <member name="F:VRDR.AckMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for AckMessage
+            </summary>
+        </member>
         <member name="M:VRDR.AckMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an acknowledgement for the specified message.</summary>
             <param name="messageToAck">the message to create an acknowledgement for.</param>
@@ -464,6 +469,11 @@
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
         </member>
+        <member name="F:VRDR.DeathRecordSubmission.MESSAGE_TYPE">
+            <summary>
+            The event URI for DeathRecordSubmission.
+            </summary>
+        </member>
         <member name="F:VRDR.DeathRecordSubmission.deathRecord">
             <summary>Bundle that contains the message payload.</summary>
         </member>
@@ -487,6 +497,11 @@
         </member>
         <member name="T:VRDR.DeathRecordUpdate">
             <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecordUpdate.MESSAGE_TYPE">
+            <summary>
+            The event URI for DeathRecordUpdate.
+            </summary>
         </member>
         <member name="M:VRDR.DeathRecordUpdate.#ctor">
             <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
@@ -626,6 +641,11 @@
         <member name="T:VRDR.ExtractionErrorMessage">
             <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
         </member>
+        <member name="F:VRDR.ExtractionErrorMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for ExtractionErrorMessage
+            </summary>
+        </member>
         <member name="M:VRDR.ExtractionErrorMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an extraction error for the specified message.</summary>
             <param name="sourceMessage">the message that could not be processed.</param>
@@ -683,6 +703,11 @@
         </member>
         <member name="T:VRDR.VoidMessage">
             <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
+        </member>
+        <member name="F:VRDR.VoidMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for VoidMessage
+            </summary>
         </member>
         <member name="M:VRDR.VoidMessage.#ctor">
             <summary>Default constructor that creates a new, empty VoidMessage.</summary>

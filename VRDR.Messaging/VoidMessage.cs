@@ -6,8 +6,13 @@ namespace VRDR
     /// <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
     public class VoidMessage : BaseMessage
     {
+        /// <summary>
+        /// The Event URI for VoidMessage
+        /// </summary>
+        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_void";
+
         /// <summary>Default constructor that creates a new, empty VoidMessage.</summary>
-        public VoidMessage() : base("http://nchs.cdc.gov/vrdr_submission_void")
+        public VoidMessage() : base(MESSAGE_TYPE)
         {
         }
 

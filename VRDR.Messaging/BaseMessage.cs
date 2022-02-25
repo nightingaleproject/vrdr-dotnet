@@ -79,7 +79,7 @@ namespace VRDR
             Header.Event = new FhirUri(messageType);
 
             MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-            dest.Endpoint = "http://nchs.cdc.gov/vrdr_submission";
+            dest.Endpoint = DeathRecordSubmission.MESSAGE_TYPE;
             Header.Destination.Add(dest);
             MessageHeader.MessageSourceComponent src = new MessageHeader.MessageSourceComponent();
             Header.Source = src;
@@ -430,16 +430,16 @@ namespace VRDR
             BaseMessage message = new BaseMessage(bundle, true, false);
             switch (message.MessageType)
             {
-                case "http://nchs.cdc.gov/vrdr_submission":
+                case DeathRecordSubmission.MESSAGE_TYPE:
                     message = new DeathRecordSubmission(bundle, message);
                     break;
-                case "http://nchs.cdc.gov/vrdr_submission_update":
+                case DeathRecordUpdate.MESSAGE_TYPE:
                     message = new DeathRecordUpdate(bundle, message);
                     break;
-                case "http://nchs.cdc.gov/vrdr_acknowledgement":
+                case AckMessage.MESSAGE_TYPE:
                     message = new AckMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_submission_void":
+                case VoidMessage.MESSAGE_TYPE:
                     message = new VoidMessage(bundle);
                     break;
                 case CauseOfDeathCodingResponseMessage.MESSAGE_TYPE:
@@ -454,7 +454,7 @@ namespace VRDR
                 case DemographicsCodingUpdateMessage.MESSAGE_TYPE:
                     message = new DemographicsCodingUpdateMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_extraction_error":
+                case ExtractionErrorMessage.MESSAGE_TYPE:
                     message = new ExtractionErrorMessage(bundle, message);
                     break;
                 default:

@@ -5,6 +5,11 @@ namespace VRDR
     /// <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
     public class AckMessage : BaseMessage
     {
+        /// <summary>
+        /// The Event URI for AckMessage
+        /// </summary>
+        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_acknowledgement";
+
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
         public AckMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
@@ -35,7 +40,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_acknowledgement")
+        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

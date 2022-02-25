@@ -6,11 +6,16 @@ namespace VRDR
     /// <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
     public class DeathRecordSubmission : BaseMessage
     {
+        /// <summary>
+        /// The event URI for DeathRecordSubmission.
+        /// </summary>
+        public const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission";
+
         /// <summary>Bundle that contains the message payload.</summary>
         private DeathRecord deathRecord;
 
         /// <summary>Default constructor that creates a new, empty DeathRecordSubmission.</summary>
-        public DeathRecordSubmission() : base("http://nchs.cdc.gov/vrdr_submission")
+        public DeathRecordSubmission() : base(MESSAGE_TYPE)
         {
         }
 
@@ -64,17 +69,22 @@ namespace VRDR
     /// <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
     public class DeathRecordUpdate : DeathRecordSubmission
     {
+        /// <summary>
+        /// The event URI for DeathRecordUpdate.
+        /// </summary>
+        public const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_update";
+
         /// <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
         public DeathRecordUpdate() : base()
         {
-            MessageType = "http://nchs.cdc.gov/vrdr_submission_update";
+            MessageType = MESSAGE_TYPE;
         }
 
         /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
         public DeathRecordUpdate(DeathRecord record) : base(record)
         {
-            MessageType = "http://nchs.cdc.gov/vrdr_submission_update";
+            MessageType = MESSAGE_TYPE;
         }
 
         /// <summary>

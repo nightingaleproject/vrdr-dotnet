@@ -215,32 +215,32 @@
             <param name="permissive">if the parser should be permissive when parsing the given string</param>
             <returns>The deserialized message object</returns>
         </member>
-        <member name="P:VRDR.BaseMessage.rec_yr">
-            <summary>rec_yr</summary>
+        <member name="P:VRDR.BaseMessage.R_YR">
+            <summary>R_YR</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.rec_mo">
-            <summary>rec_mo</summary>
+        <member name="P:VRDR.BaseMessage.R_MO">
+            <summary>R_MO</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.rec_dy">
-            <summary>rec_dy</summary>
+        <member name="P:VRDR.BaseMessage.R_DY">
+            <summary>R_DY</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.cs">
-            <summary>cs</summary>
+        <member name="P:VRDR.BaseMessage.CS">
+            <summary>CS</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.ship">
-            <summary>ship</summary>
+        <member name="P:VRDR.BaseMessage.SHIP">
+            <summary>SHIP</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.sys_rej">
-            <summary>sys_rej</summary>
+        <member name="P:VRDR.BaseMessage.SYS_REJ">
+            <summary>SYS_REJ</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.int_rej">
-            <summary>int_rej</summary>
+        <member name="P:VRDR.BaseMessage.INT_REJ">
+            <summary>INT_REJ</summary>
             <value>uint </value>
         </member>
         <member name="P:VRDR.BaseMessage.DETHNICE">
@@ -463,116 +463,136 @@
             <summary>OTHERCONDITION</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.manner">
-            <summary>manner</summary>
+        <member name="P:VRDR.BaseMessage.MANNER">
+            <summary>MANNER</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.injpl">
-            <summary>injpl</summary>
+        <member name="P:VRDR.BaseMessage.INJPL">
+            <summary>INJPL</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.trx_flg">
-            <summary>trx_flg</summary>
+        <member name="P:VRDR.BaseMessage.TRX_FLG">
+            <summary>TRX_FLG</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.autop">
-            <summary>autop</summary>
+        <member name="P:VRDR.BaseMessage.AUTOP">
+            <summary>AUTOP</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.autopf">
-            <summary>autopf</summary>
+        <member name="P:VRDR.BaseMessage.AUTOPF">
+            <summary>AUTOPF</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.tobac">
-            <summary>tobac</summary>
+        <member name="P:VRDR.BaseMessage.TOBAC">
+            <summary>TOBAC</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.preg">
-            <summary>preg</summary>
+        <member name="P:VRDR.BaseMessage.PREG">
+            <summary>PREG</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.preg_bypass">
-            <summary>preg_bypass</summary>
+        <member name="P:VRDR.BaseMessage.PREG_BYPASS">
+            <summary>PREG_BYPASS</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.doi_mo">
-            <summary>doi_mo</summary>
+        <member name="P:VRDR.BaseMessage.DOI_MO">
+            <summary>DOI_MO</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.doi_dy">
-            <summary>doi_dy</summary>
+        <member name="P:VRDR.BaseMessage.DOI_DY">
+            <summary>DOI_DY</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.doi_yr">
-            <summary>doi_yr</summary>
+        <member name="P:VRDR.BaseMessage.DOI_YR">
+            <summary>DOI_YR</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.toi_hr">
-            <summary>toi_hr</summary>
+        <member name="P:VRDR.BaseMessage.TOI_HR">
+            <summary>TOI_HR</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.workinj">
-            <summary>workinj</summary>
+        <member name="P:VRDR.BaseMessage.WORKINJ">
+            <summary>WORKINJ</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.certl">
-            <summary>certl</summary>
+        <member name="P:VRDR.BaseMessage.CERTL">
+            <summary>CERTL</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.inact">
-            <summary>inact</summary>
+        <member name="P:VRDR.BaseMessage.INACT">
+            <summary>INACT</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.auxno2">
-            <summary>auxno2</summary>
+        <member name="P:VRDR.BaseMessage.AUXNO2">
+            <summary>AUXNO2</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.statesp">
-            <summary>statesp</summary>
+        <member name="P:VRDR.BaseMessage.STATESP">
+            <summary>STATESP</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.sur_mo">
-            <summary>sur_mo</summary>
+        <member name="P:VRDR.BaseMessage.SUR_MO">
+            <summary>SUR_MO</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.sur_dy">
-            <summary>sur_dy</summary>
+        <member name="P:VRDR.BaseMessage.SUR_DY">
+            <summary>SUR_DY</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.sur_yr">
-            <summary>sur_yr</summary>
+        <member name="P:VRDR.BaseMessage.SUR_YR">
+            <summary>SUR_YR</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.toi_unit">
-            <summary>toi_unit</summary>
+        <member name="P:VRDR.BaseMessage.TOI_UNIT">
+            <summary>TOI_UNIT</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.manual_underlying_cause_of_death">
-            <summary>manual_underlying_cause_of_death</summary>
+        <member name="P:VRDR.BaseMessage.MAN_UC">
+            <summary>MAN_UC</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.acme_underlying_cause_of_death">
-            <summary>acme_underlying_cause_of_death</summary>
+        <member name="P:VRDR.BaseMessage.ACME_UC">
+            <summary>ACME_UC</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.RAC">
+            <summary>RAC</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.lineNumber">
+            <summary>lineNumber</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.position">
+            <summary>position</summary>
+            <value>uint </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.coding">
+            <summary>coding</summary>
+            <value>string </value>
+        </member>
+        <member name="P:VRDR.BaseMessage.e_code_indicator">
+            <summary>e_code_indicator</summary>
             <value>string </value>
         </member>
         <member name="P:VRDR.BaseMessage.jurisdiction_id">
             <summary>jurisdiction_id</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.cert_no">
-            <summary>cert_no</summary>
+        <member name="P:VRDR.BaseMessage.FILENO">
+            <summary>FILENO</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.death_year">
-            <summary>death_year</summary>
+        <member name="P:VRDR.BaseMessage.DOD_YR">
+            <summary>DOD_YR</summary>
             <value>uint </value>
         </member>
-        <member name="P:VRDR.BaseMessage.state_auxiliary_id">
-            <summary>state_auxiliary_id</summary>
+        <member name="P:VRDR.BaseMessage.AUXNO">
+            <summary>AUXNO</summary>
             <value>string </value>
         </member>
-        <member name="P:VRDR.BaseMessage.ssn">
-            <summary>ssn</summary>
+        <member name="P:VRDR.BaseMessage.SSN">
+            <summary>SSN</summary>
             <value>string </value>
         </member>
         <member name="P:VRDR.BaseMessage.block_count">

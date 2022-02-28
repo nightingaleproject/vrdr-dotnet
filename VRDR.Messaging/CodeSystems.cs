@@ -1,8 +1,36 @@
 namespace VRDR
 {
+    /// <summary>Single definitions for URIs used throughout. </summary>
+    public static class URIs
+    {
+        /// <summary>Submission URI</summary>
+        public static string Submission = "http://nchs.cdc.gov/vrdr_submission";
+        /// <summary>Submission Update</summary>
+        public static string SubmissionUpdate = "http://nchs.cdc.gov/vrdr_submission_update";
+
+        /// <summary>Demographics Coding</summary>
+        public static string DemographicsCoding = "http://nchs.cdc.gov/vrdr_demographics_coding";
+        /// <summary>Demographics Coding Update</summary>
+        public static string DemographicsCodingUpdate = "http://nchs.cdc.gov/vrdr_demographics_coding_update";
+
+        /// <summary>Cause of Death Coding  URI</summary>
+        public static string CauseOfDeathCoding = "http://nchs.cdc.gov/vrdr_causeofdeath_coding";
+            /// <summary>Cause of Death Coding Update URI</summary>
+        public static string CauseOfDeathCodingUpdate = "http://nchs.cdc.gov/vrdr_causeofdeath_coding_update";
+
+        /// <summary>Acknowledgement</summary>
+        public static string Acknowledgement = "http://nchs.cdc.gov/vrdr_acknowledgement";
+        /// <summary>Extraction Error</summary>
+        public static string ExtractionError = "http://nchs.cdc.gov/vrdr_extraction_error";
+
+        /// <summary>Submission Message URI</summary>
+        public static string Alias = "http://nchs.cdc.gov/vrdr_submission_alias";
+
+        /// <summary>Submission Message URI</summary>
+        public static string Void = "http://nchs.cdc.gov/vrdr_submission_void";
+    }
     /// <summary>Single definitions for CodeSystem OIDs and URLs used throughout. </summary>
     public static class CodeSystems
-    {
         /// <summary>SNOMEDCT.</summary>
         public static string SCT = "http://snomed.info/sct";
 

@@ -31,6 +31,7 @@ namespace VRDR
     }
     /// <summary>Single definitions for CodeSystem OIDs and URLs used throughout. </summary>
     public static class CodeSystems
+    {
         /// <summary>SNOMEDCT.</summary>
         public static string SCT = "http://snomed.info/sct";
 
@@ -103,7 +104,5 @@ namespace VRDR
         /// <summary> Race Code CS (from Messaging IG)  </summary>
         public static string HispanicOriginCodes = "http://cdc.gov/nchs/nvss/fhir/vital-records-messaging/CodeSystem/VRDR-HispanicOrigin-cs";
 
-
     }
-
 }

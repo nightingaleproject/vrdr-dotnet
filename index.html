@@ -353,7 +353,6 @@ Contributing</h4>
 <div class="line">git pull origin IG-develop-vx.x.x</div>
 <div class="line">git checkout -b &lt;your-ticketnumber-branch-name&gt;</div>
 <div class="line">&lt;commit-your-IG-related-changes&gt;</div>
-<div class="line">git rebase master</div>
 <div class="line">&lt;test-with-changes-from-master&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
 </div><!-- fragment --><p> Create merge request to the IG-develop-vx.x.x branch.</p>
@@ -363,7 +362,7 @@ Contributing</h4>
 <div class="line">git checkout -b &lt;your-ticketnumber-branch-name&gt;</div>
 <div class="line">&lt;commit-bug-related-changes&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
-</div><!-- fragment --><p> Create a merge request to the master branch.</p>
+</div><!-- fragment --><p> Create a merge request to the master branch. Finally, merge master into the IG-develop-vx.x.x branch.</p>
 <h4><a class="anchor" id="autotoc_md58"></a>
 Publishing a Version</h4>
 <p >To create a new release of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> on NuGet, bump the version of the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> and VRDR.Messaging listed in the <a href="Directory.Build.props">Directory.Build.props</a> file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, <a href=".github/workflows/publish.yml">Github Actions</a> will automatically build and publish a new version of the package based on the value specified.</p>

@@ -344,7 +344,6 @@ git checkout IG-develop-vx.x.x
 git pull origin IG-develop-vx.x.x
 git checkout -b <your-ticketnumber-branch-name>
 <commit-your-IG-related-changes>
-git rebase master
 <test-with-changes-from-master>
 git push origin <your-ticketnumber-branch-name>
 ```
@@ -359,6 +358,7 @@ git checkout -b <your-ticketnumber-branch-name>
 git push origin <your-ticketnumber-branch-name>
 ```
 Create a merge request to the master branch.
+Finally, merge master into the IG-develop-vx.x.x branch.
 
 #### Publishing a Version
 

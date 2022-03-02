@@ -334,6 +334,32 @@ dotnet run --project VRDR.HTTP
 
 The service will be listening locally at `http://localhost:8080`.
 
+#### Contributing
+Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created.  
+
+##### Create a branch for IG changes:
+```
+git fetch origin
+git checkout IG-develop-vx.x.x
+git pull origin IG-develop-vx.x.x
+git checkout -b <your-ticketnumber-branch-name>
+<commit-your-IG-related-changes>
+git rebase master
+<test-with-changes-from-master>
+git push origin <your-ticketnumber-branch-name>
+```
+Create merge request to the IG-develop-vx.x.x branch.
+
+##### Create a branch for bug fixes in master 
+```
+git checkout master
+git pull origin master
+git checkout -b <your-ticketnumber-branch-name>
+<commit-bug-related-changes>
+git push origin <your-ticketnumber-branch-name>
+```
+Create a merge request to the master branch.
+
 #### Publishing a Version
 
 To create a new release of VRDR on NuGet, bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.

@@ -2,8 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>VRDR</RootNamespace>
-    <DocumentationFile>VRDRMessaging.xml</DocumentationFile>
-    <!-- <DocumentationFile>VRDRMessaging.md</DocumentationFile> -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>VRDR.Messaging</PackageId>
     <Title>FHIR VRDR Death Record Messaging</Title>
     <PackageDescription>A library for supporting FHIR messaging for VRDR FHIR death records.</PackageDescription>

@@ -222,5 +222,23 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
+        /// <summary> CertificationRole </summary>
+        public static class CertificationRole {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "455381000124109", "Medical Examiner/Coroner", VRDR.CodeSystems.SCT },
+                { "434641000124105", "Physician certified and pronounced death certificate", VRDR.CodeSystems.SCT },
+                { "434651000124107", "Physician certified death certificate", VRDR.CodeSystems.SCT },
+                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Medical_Examiner_Coroner </summary>
+            public static string  Medical_Examiner_Coroner = "455381000124109";
+            /// <summary> Physician_Certified_And_Pronounced_Death_Certificate </summary>
+            public static string  Physician_Certified_And_Pronounced_Death_Certificate = "434641000124105";
+            /// <summary> Physician_Certified_Death_Certificate </summary>
+            public static string  Physician_Certified_Death_Certificate = "434651000124107";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+        };
    }
 }

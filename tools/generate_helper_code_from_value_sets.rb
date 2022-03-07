@@ -61,7 +61,8 @@ valuesets = {
     "ValueSet-PHVS-PlaceOfDeath-NCHS.json" => "PlaceOfDeath",
     "ValueSet-PHVS-TransportationRelationships-NCHS.json" => "TransportationRoles",
     "ValueSet-PHVS-PregnancyStatus-NCHS.json" => "PregnancyStatus",
-    "ValueSet-PHVS-MethodsOfDisposition-NCHS.json" => "MethodsOfDisposition"
+    "ValueSet-PHVS-MethodsOfDisposition-NCHS.json" => "MethodsOfDisposition",
+    "ValueSet-PHVS-CertifierTypes-NCHS.json" => "CertificationRole"
 }
 basedir = ARGV[0]
 outfilename = ARGV[1] + "/ValueSets.cs"

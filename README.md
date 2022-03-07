@@ -51,8 +51,8 @@ This repository includes .NET (C#) code for
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
-  - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options. 
-  - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. 
+  - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options.
+  - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version.
     - Ex. If you are using .NET Framework 4.6.1, you can look at the matrix and see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
@@ -186,12 +186,12 @@ Console.WriteLine(deathRecord.ToJSON());
 ```
 
 #### Return Coding
-An example of producing a `CodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding).
+An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](doc/Messaging.md#return-coding).
 
 ```cs
 using VRDR;
-// Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
+// Create an empty cause of death coding response message
+CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
 // Assign the business identifiers
 message.CertificateNumber = "...";
@@ -221,7 +221,7 @@ message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();
 ```
-Note that the `CauseCodes` class from previous versions is now obsolete, use the `CodingResponseMessage` described above instead.
+Note that the `CauseCodes` class from previous versions is now obsolete, and the `CodingResponseMessage` is now an abstract base class; use the `CauseOfDeathCodingResponseMessage` and `DemographicsCodingResponseMessage` as described above instead.
 
 ### VRDR.Messaging
 

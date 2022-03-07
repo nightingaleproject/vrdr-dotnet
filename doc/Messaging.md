@@ -99,14 +99,14 @@ switch(message)
 
 ### Return Coding
 
-NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information together or separately. Here we will assume the two are coded and sent together, if they were coded separately then the corresponding code blocks would simply be omitted.
+NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes `CauseofDeathCodingResponseMessage` and `DemographicsCodingResponseMessage`, which are subtypes of the abstract class `CodingResponseMessage`.
 
-Once NCHS have determined the causes of death they can create a `CodingResponseMessage` to return that information to the jurisdiction:
+Once NCHS have determined the causes of death they can create a `CauseOfDeathCodingResponseMessage` to return that information to the jurisdiction:
 
 ```cs
 // Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint",
-                                                          "http://nchs.cdc.gov/vrdr_submission");
+CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("https://example.org/jurisdiction/endpoint",
+                                                                                  "http://nchs.cdc.gov/vrdr_submission");
 
 // Assign the business identifiers
 message.CertificateNumber = 10;
@@ -118,26 +118,13 @@ message.DeathJurisdictionID = "MA";
 message.NCHSReceiptMonthString = "1";
 message.NCHSReceiptDayString = "9";
 message.NCHSReceiptYearString = "2020";
-message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
+message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;
 message.CoderStatus = "8";
 message.ShipmentNumber = "B202101";
-message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
-message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;
+message.ACMESystemRejectCodes = CauseOfDeathCodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;
 message.OtherSpecifiedPlace = "Unique Location";
 message.IntentionalReject = "5";
-
-// Create the ethnicity coding
-var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "<ethnicity-code>");
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "<ethnicity-code>");
-message.Ethnicity = ethnicity;
-
-// Create the race coding
-var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-race.Add(CodingResponseMessage.RaceCode.RACE1E, "<race-code>");
-race.Add(CodingResponseMessage.RaceCode.RACE17C, "<race-code>");
-race.Add(CodingResponseMessage.RaceCode.RACEBRG, "<race-code>");
-message.Race = race;
 
 // Create the cause of death coding
 message.UnderlyingCauseOfDeath = "A04.7";
@@ -164,7 +151,41 @@ string jsonMessage = message.ToJSON();
 ...
 ```
 
-Note that the `CodingUpdateMessage` class supports the same constructor and properties as `CodingResponseMessage`. If a second coding message is needed to return causes of death coding or race and ethnicity coding then the same code as above can be used substituting `CodingUpdateMessage` for `CodingResponseMessage`.
+Similarly, NCHS can create a `DemographicsCodingResponseMessage` to convey coding information about the decedent's demographics.
+
+```cs
+// Create an empty coding response message
+DemographicsCodingResponseMessage message = new DemographicsCodingResponseMessage("https://example.org/jurisdiction/endpoint",
+                                                                                  "http://nchs.cdc.gov/vrdr_submission");
+
+// Assign the business identifiers
+message.CertificateNumber = 10;
+message.StateAuxiliaryIdentifier = "101010";
+message.DeathYear = 2019;
+message.DeathJurisdictionID = "MA";
+
+// Create the ethnicity coding
+var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "<ethnicity-code>");
+ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "<ethnicity-code>");
+message.Ethnicity = ethnicity;
+
+// Create the race coding
+var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
+race.Add(CodingResponseMessage.RaceCode.RACE1E, "<race-code>");
+race.Add(CodingResponseMessage.RaceCode.RACE17C, "<race-code>");
+race.Add(CodingResponseMessage.RaceCode.RACEBRG, "<race-code>");
+message.Race = race;
+
+// Create a JSON representation of the coding response message
+string jsonMessage = message.ToJSON();
+
+// Send the JSON message
+...
+```
+
+Note that the `CauseOfDeathCodingUpdateMessage` and `DemographicsCodingUpdateMessage` classes support the same constructor and properties as their corresponding initial coding response classes. If a second coding message is needed to return causes of death coding or race and ethnicity coding, then the same code as above can be used substituting `CauseOfDeathCodingUpdateMessage` for `CauseOfDeathCodingResponseMessage` or `DemographicsCodingUpdateMessage` for `DemographicsCodingResponseMessage`.
+
 
 On receipt of the `CodingResponseMessage`, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:
 
@@ -178,23 +199,29 @@ BaseMessage message = BaseMessage.Parse(messageStream);
 // Switch to determine the type of message
 switch(message)
 {
-    case CodingResponseMessage coding:
+    case CauseOfDeathCodingResponseMessage coding:
         string nchsId = coding.NCHSIdentifier;
         string stateAuxId = coding.StateAuxiliaryIdentifier;
         string cod = coding.CauseOfDeathConditionId;
-        Dictionary<CodingResponseMessage.HispanicOrigin, string> ethnicity = coding.Ethnicity;
-        Dictionary<CodingResponseMessage.RaceCode, string> race = coding.Race;
         List<string> recordAxis = coding.CauseOfDeathRecordAxis;
         List<CauseOfDeathEntityAxisEntry> entityAxis = coding.CauseOfDeathEntityAxis;
-        ProcessCoding(nchsId, stateAuxId, ethnicity, race, cod, recordAxis, entityAxis);
+        ProcessCauseOfDeathCoding(nchsId, stateAuxId, cod, recordAxis, entityAxis);
         break;
+    case CauseOfDeathCodingResponseMessage coding:
+        string nchsId = coding.NCHSIdentifier;
+        string stateAuxId = coding.StateAuxiliaryIdentifier;
+        Dictionary<CodingResponseMessage.HispanicOrigin, string> ethnicity = coding.Ethnicity;
+        Dictionary<CodingResponseMessage.RaceCode, string> race = coding.Race;
+        ProcessDemographicsCoding(nchsId, stateAuxId, ethnicity, race);
+        break;
+
     ...
 }
 ```
 
 ### Acknowledge Coding
 
-If extraction of the coding information was succesful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the `AckMessage` constructor initializes properties based on the source coding message.
+If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the `AckMessage` constructor initializes properties based on the source coding message.
 
 ```cs
 // Create the acknowledgement message
@@ -249,7 +276,7 @@ try
 {
     submissionMessage = ...;
     ExtractSubmission(submissionMessage);
-    
+
 }
 catch (Exception ex)
 {
@@ -450,7 +477,7 @@ catch (MessageParseException ex)
 
     // Validate completeness of error message
     ...
-    
+
     // Serialize the error message
     string errorReplyJson = errorReply.ToJSON();
 

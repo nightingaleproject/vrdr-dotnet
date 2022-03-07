@@ -7,6 +7,11 @@ namespace VRDR
     /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
     public class ExtractionErrorMessage : BaseMessage
     {
+        /// <summary>
+        /// The Event URI for ExtractionErrorMessage
+        /// </summary>
+        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_extraction_error";
+
         private OperationOutcome details;
 
         /// <summary>Constructor that creates an extraction error for the specified message.</summary>
@@ -40,7 +45,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an extraction error for.</param>
         /// <param name="destination">the endpoint identifier that the extraction error message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the extraction error message will be sent from.</param>
-        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_extraction_error")
+        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

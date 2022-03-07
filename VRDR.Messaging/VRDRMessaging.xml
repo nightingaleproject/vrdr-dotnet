@@ -7,6 +7,11 @@
         <member name="T:VRDR.AckMessage">
             <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
         </member>
+        <member name="F:VRDR.AckMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for AckMessage
+            </summary>
+        </member>
         <member name="M:VRDR.AckMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an acknowledgement for the specified message.</summary>
             <param name="messageToAck">the message to create an acknowledgement for.</param>
@@ -208,217 +213,107 @@
             Build an ExtractionErrorMessage that conveys the issues reported in this exception.
             </summary>
         </member>
-        <member name="T:VRDR.CodingResponseMessage">
-            <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
+        <member name="T:VRDR.CauseOfDeathCodingResponseMessage">
+            <summary>
+            A <c>CodingResponseMessage</c> that conveys the coded cause of death information of a decedent.
+            </summary>
         </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for CauseOfDeathCodingResponseMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
-            Construct a CodingResponseMessage from a FHIR Bundle.
+            Construct a CauseOfDeathCodingResponseMessage from a FHIR Bundle.
             </summary>
-            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingResponseMessage</param>
             <returns></returns>
         </member>
-        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String)">
+        <member name="M:VRDR.CauseOfDeathCodingResponseMessage.#ctor(System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
-        <member name="T:VRDR.CodingResponseMessage.HispanicOrigin">
-            <summary>Ethnicity codes</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.HispanicOrigin.DETHNICE">
-            <summary>Edited Hispanic Origin Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.HispanicOrigin.DETHNIC5C">
-            <summary>Hispanic Code for Literal</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.Ethnicity">
-            <summary>Decedent ethnicity coding</summary>
-        </member>
-        <member name="T:VRDR.CodingResponseMessage.RaceCode">
-            <summary>Race codes</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE1E">
-            <summary>First Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE2E">
-            <summary>Second Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE3E">
-            <summary>Third Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE4E">
-            <summary>Fourth Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE5E">
-            <summary>Fifth Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE6E">
-            <summary>Sixth Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE7E">
-            <summary>Seventh Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE8E">
-            <summary>Eighth Edited Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE16C">
-            <summary>First Am. Ind Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE17C">
-            <summary>Second Am. Ind Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE18C">
-            <summary>First Other Asian Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE19C">
-            <summary>Second Other Asian Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE20C">
-            <summary>First Other PI Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE21C">
-            <summary>Second Other Pi Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE22C">
-            <summary>First Other Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACE23C">
-            <summary>Second Other Code</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.RaceCode.RACEBRG">
-            <summary>Bridged Multiple Race Code</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.Race">
-            <summary>Decedent race coding</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.CoderStatus">
-            <summary>Coder Status (string, 0-9 or null)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.ShipmentNumber">
-            <summary>Shipment Number (Alpha Numeric)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonth">
-            <summary>NCHS Receipt Date Month (Numeric, 01-12 or null)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonthString">
-            <summary>NCHS Receipt Date Month (string, 01-12 or null)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDay">
-            <summary>NCHS Receipt Date Day (Numeric, 01-31 or blank)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDayString">
-            <summary>NCHS Receipt Date Day (string, 01-31 or null)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYear">
-            <summary>NCHS Receipt Date Year (Numeric, Greater than or equal to year of death or blank)</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYearString">
-            <summary>NCHS Receipt Date Year (string, Greater than year of death or null)</summary>
-        </member>
-        <member name="T:VRDR.CodingResponseMessage.MannerOfDeathEnum">
+        <member name="T:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum">
             <summary>Manner of Death Enum</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.MannerOfDeathEnum.Natural">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Natural">
             <summary>Natural cause of death</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.MannerOfDeathEnum.Accident">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident">
             <summary>Accident cause of death</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.MannerOfDeathEnum.Suicide">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Suicide">
             <summary>Suicide cause of death</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.MannerOfDeathEnum.PendingInvestigation">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.PendingInvestigation">
             <summary>Cause of death is pending investigation</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.MannerOfDeathEnum.CouldNotBeDetermined">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.CouldNotBeDetermined">
             <summary>Cause of death could not be determined</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.MannerOfDeath">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.MannerOfDeath">
             <summary>Manner of Death (or null)</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.IntentionalReject">
-            <summary>Intentional reject (1-5, 9 or null). See Coding one-character reject codes in code document for values.</summary>
-        </member>
-        <member name="T:VRDR.CodingResponseMessage.ACMESystemRejectEnum">
-            <summary>ACME System Reject Enum</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.MICARRejectDictionaryMatch">
-            <summary>MICAR Reject - Dictionary Match</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.ACMEReject">
-            <summary>ACME Reject</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.MICARRejectRuleApplication">
-            <summary>MICAR Reject - Rule Application</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.RecordReviewed">
-            <summary>Record Reviewed</summary>
-        </member>
-        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.NotRejected">
-            <summary>Not Rejected</summary>
-        </member>
-        <member name="P:VRDR.CodingResponseMessage.ACMESystemRejectCodes">
-            <summary>ACME system reject codes (or null)</summary>
-        </member>
-        <member name="T:VRDR.CodingResponseMessage.PlaceOfInjuryEnum">
+        <member name="T:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum">
             <summary>Place of Injury Enum</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.Home">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home">
             <summary>Home</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.ResidentialInstution">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.ResidentialInstution">
             <summary>Residential Institution</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.SchoolOtherInstutionOrPublicAdministrativeArea">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.SchoolOtherInstutionOrPublicAdministrativeArea">
             <summary>School, Other Institutions, Public Administrative Area</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.SportsAndAthleticsArea">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.SportsAndAthleticsArea">
             <summary>Sports and Atheletics Area</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.StreetOrHighway">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.StreetOrHighway">
             <summary>Street/Highway</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.TradeAndServiceArea">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.TradeAndServiceArea">
             <summary>Trade and Service Area</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.IndustrialAndConstructionArea">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.IndustrialAndConstructionArea">
             <summary>Industrial and Construction Area</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.Farm">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Farm">
             <summary>Farm</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.OtherSpecifiedPlace">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.OtherSpecifiedPlace">
             <summary>Other Specified Place</summary>
         </member>
-        <member name="F:VRDR.CodingResponseMessage.PlaceOfInjuryEnum.UnspecifiedPlace">
+        <member name="F:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.UnspecifiedPlace">
             <summary>Unspecified Place</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.PlaceOfInjury">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.PlaceOfInjury">
             <summary>Place of Injury (or null)</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.OtherSpecifiedPlace">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.OtherSpecifiedPlace">
             <summary>Other Specified Place of Injury</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.UnderlyingCauseOfDeath">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.UnderlyingCauseOfDeath">
             <summary>Underlying cause of death code (ICD-10)</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathRecordAxis">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.CauseOfDeathRecordAxis">
             <summary>Record axis coding of cause of death</summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.CauseOfDeathEntityAxis">
             <summary>Entity axis cause of death coding grouped by line. An alternate flat list of entity axis codes
-            is available via the CauseOfDeathEntityAxisList property, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList"/></summary>
+            is available via the CauseOfDeathEntityAxisList property, <see cref="P:VRDR.CauseOfDeathCodingResponseMessage.CauseOfDeathEntityAxisList"/></summary>
         </member>
-        <member name="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxisList">
+        <member name="P:VRDR.CauseOfDeathCodingResponseMessage.CauseOfDeathEntityAxisList">
             <summary>
             Entity axis cause of death coding as a flat list. Provided as an alternative to the
-            CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="P:VRDR.CodingResponseMessage.CauseOfDeathEntityAxis"/>.
+            CauseOfDeathEntityAxis property which groups cause codes by line, <see cref="P:VRDR.CauseOfDeathCodingResponseMessage.CauseOfDeathEntityAxis"/>.
             </summary>
             <para>Each entry in the list is a tuple with three values:</para>
             <list type="bullet">
@@ -482,28 +377,102 @@
             <param name="code">ICD code</param>
             <exception cref="T:System.ArgumentException">Thrown if <c>line</c> or <c>position</c> is not a number</exception>
         </member>
-        <member name="T:VRDR.CodingUpdateMessage">
-            <summary>Class <c>CodingUpdateMessage</c> conveys an updated coded cause of death, race and ethnicity of a decedent.</summary>
+        <member name="T:VRDR.CauseOfDeathCodingUpdateMessage">
+            <summary>Class <c>CauseOfDeathCodingUpdateMessage</c> conveys an updated coded cause of death of a decedent.</summary>
         </member>
-        <member name="M:VRDR.CodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
+        <member name="F:VRDR.CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for CauseOfDeathCodingUpdateMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
             <summary>Constructor that creates an update for the specified message.</summary>
             <param name="sourceMessage">the message to create a response for.</param>
             <param name="source">the endpoint identifier that the message will be sent from.</param>
         </member>
-        <member name="M:VRDR.CodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+        <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a CauseOfDeathCodingUpdateMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingUpdateMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.CauseOfDeathCodingUpdateMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
+        </member>
+        <member name="T:VRDR.CodingResponseMessage">
+            <summary>Class <c>CodingResponseMessage</c> conveys the coded cause of death, race and ethnicity of a decedent.</summary>
+        </member>
+        <member name="M:VRDR.CodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
             <summary>
             Construct a CodingResponseMessage from a FHIR Bundle.
             </summary>
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the CodingResponseMessage</param>
             <returns></returns>
         </member>
-        <member name="M:VRDR.CodingUpdateMessage.#ctor(System.String,System.String)">
+        <member name="M:VRDR.CodingResponseMessage.#ctor(System.String,System.String,System.String)">
             <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="messageType">The event URI identifying the specific type of CodingResponseMessage.</param>
             <param name="destination">the endpoint identifier that the response message will be sent to.</param>
             <param name="source">the endpoint identifier that the response message will be sent from.</param>
         </member>
+        <member name="P:VRDR.CodingResponseMessage.CoderStatus">
+            <summary>Coder Status (string, 0-9 or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.ShipmentNumber">
+            <summary>Shipment Number (Alpha Numeric)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonth">
+            <summary>NCHS Receipt Date Month (Numeric, 01-12 or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptMonthString">
+            <summary>NCHS Receipt Date Month (string, 01-12 or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDay">
+            <summary>NCHS Receipt Date Day (Numeric, 01-31 or blank)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptDayString">
+            <summary>NCHS Receipt Date Day (string, 01-31 or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYear">
+            <summary>NCHS Receipt Date Year (Numeric, Greater than or equal to year of death or blank)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.NCHSReceiptYearString">
+            <summary>NCHS Receipt Date Year (string, Greater than year of death or null)</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.IntentionalReject">
+            <summary>Intentional reject (1-5, 9 or null). See Coding one-character reject codes in code document for values.</summary>
+        </member>
+        <member name="T:VRDR.CodingResponseMessage.ACMESystemRejectEnum">
+            <summary>ACME System Reject Enum</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.MICARRejectDictionaryMatch">
+            <summary>MICAR Reject - Dictionary Match</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.ACMEReject">
+            <summary>ACME Reject</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.MICARRejectRuleApplication">
+            <summary>MICAR Reject - Rule Application</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.RecordReviewed">
+            <summary>Record Reviewed</summary>
+        </member>
+        <member name="F:VRDR.CodingResponseMessage.ACMESystemRejectEnum.NotRejected">
+            <summary>Not Rejected</summary>
+        </member>
+        <member name="P:VRDR.CodingResponseMessage.ACMESystemRejectCodes">
+            <summary>ACME system reject codes (or null)</summary>
+        </member>
         <member name="T:VRDR.DeathRecordSubmission">
             <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
+        </member>
+        <member name="F:VRDR.DeathRecordSubmission.MESSAGE_TYPE">
+            <summary>
+            The event URI for DeathRecordSubmission.
+            </summary>
         </member>
         <member name="F:VRDR.DeathRecordSubmission.deathRecord">
             <summary>Bundle that contains the message payload.</summary>
@@ -529,6 +498,11 @@
         <member name="T:VRDR.DeathRecordUpdate">
             <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
         </member>
+        <member name="F:VRDR.DeathRecordUpdate.MESSAGE_TYPE">
+            <summary>
+            The event URI for DeathRecordUpdate.
+            </summary>
+        </member>
         <member name="M:VRDR.DeathRecordUpdate.#ctor">
             <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
         </member>
@@ -543,8 +517,134 @@
             <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
             <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         </member>
+        <member name="T:VRDR.DemographicsCodingResponseMessage">
+            <summary>
+            A <c>CodingResponseMessage</c> that conveys the coded demographic information of a decedent.
+            </summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for DemographicCodingResponseMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="sourceMessage">the message to create a response for.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a DemographicCodingResponseMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicCodingResponseMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.DemographicsCodingResponseMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
+        </member>
+        <member name="T:VRDR.DemographicsCodingResponseMessage.HispanicOrigin">
+            <summary>Ethnicity codes</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE">
+            <summary>Edited Hispanic Origin Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C">
+            <summary>Hispanic Code for Literal</summary>
+        </member>
+        <member name="P:VRDR.DemographicsCodingResponseMessage.Ethnicity">
+            <summary>Decedent ethnicity coding</summary>
+        </member>
+        <member name="T:VRDR.DemographicsCodingResponseMessage.RaceCode">
+            <summary>Race codes</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE1E">
+            <summary>First Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE2E">
+            <summary>Second Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE3E">
+            <summary>Third Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE4E">
+            <summary>Fourth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE5E">
+            <summary>Fifth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE6E">
+            <summary>Sixth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE7E">
+            <summary>Seventh Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE8E">
+            <summary>Eighth Edited Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE16C">
+            <summary>First Am. Ind Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE17C">
+            <summary>Second Am. Ind Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE18C">
+            <summary>First Other Asian Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE19C">
+            <summary>Second Other Asian Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE20C">
+            <summary>First Other PI Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE21C">
+            <summary>Second Other Pi Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE22C">
+            <summary>First Other Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACE23C">
+            <summary>Second Other Code</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingResponseMessage.RaceCode.RACEBRG">
+            <summary>Bridged Multiple Race Code</summary>
+        </member>
+        <member name="P:VRDR.DemographicsCodingResponseMessage.Race">
+            <summary>Decedent race coding</summary>
+        </member>
+        <member name="T:VRDR.DemographicsCodingUpdateMessage">
+            <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded race and ethnicity of a decedent.</summary>
+        </member>
+        <member name="F:VRDR.DemographicsCodingUpdateMessage.MESSAGE_TYPE">
+            <summary>
+            The event URI for DemographicsCodingUpdateMessage.
+            </summary>
+        </member>
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(VRDR.BaseMessage,System.String)">
+            <summary>Constructor that creates an update for the specified message.</summary>
+            <param name="sourceMessage">the message to create a response for.</param>
+            <param name="source">the endpoint identifier that the message will be sent from.</param>
+        </member>
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(Hl7.Fhir.Model.Bundle)">
+            <summary>
+            Construct a DemographicsCodingUpdateMessage from a FHIR Bundle.
+            </summary>
+            <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicsCodingUpdateMessage</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRDR.DemographicsCodingUpdateMessage.#ctor(System.String,System.String)">
+            <summary>Constructor that creates a response for the specified message.</summary>
+            <param name="destination">the endpoint identifier that the response message will be sent to.</param>
+            <param name="source">the endpoint identifier that the response message will be sent from.</param>
+        </member>
         <member name="T:VRDR.ExtractionErrorMessage">
             <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
+        </member>
+        <member name="F:VRDR.ExtractionErrorMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for ExtractionErrorMessage
+            </summary>
         </member>
         <member name="M:VRDR.ExtractionErrorMessage.#ctor(VRDR.BaseMessage)">
             <summary>Constructor that creates an extraction error for the specified message.</summary>
@@ -603,6 +703,11 @@
         </member>
         <member name="T:VRDR.VoidMessage">
             <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
+        </member>
+        <member name="F:VRDR.VoidMessage.MESSAGE_TYPE">
+            <summary>
+            The Event URI for VoidMessage
+            </summary>
         </member>
         <member name="M:VRDR.VoidMessage.#ctor">
             <summary>Default constructor that creates a new, empty VoidMessage.</summary>

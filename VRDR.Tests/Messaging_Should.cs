@@ -277,29 +277,22 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void CreateCodingResponseFromJSON()
+        public void GenericCodingResponseMessageNoLongerSupported()
         {
-            CodingResponseMessage message = BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
-            Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
+            Assert.Throws<MessageParseException>(() => BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CodingResponseMessage.json")));
+        }
+
+        [Fact]
+        public void CreateCauseOfDeathCodingResponseFromJSON()
+        {
+            CauseOfDeathCodingResponseMessage message = BaseMessage.Parse<CauseOfDeathCodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"));
+  
+            Assert.Equal(CauseOfDeathCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);
             Assert.Equal((uint)2018, message.DeathYear);
             Assert.Equal("42", message.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
-            var ethnicity = message.Ethnicity;
-            Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
-            var race = message.Race;
-            Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
             Assert.Equal("A04.7", message.UnderlyingCauseOfDeath);
             var recordAxisCodes = message.CauseOfDeathRecordAxis;
             Assert.Equal(4, recordAxisCodes.Count);
@@ -339,17 +332,18 @@ namespace VRDR.Tests
             Assert.Equal("01", message.NCHSReceiptMonthString);
             Assert.Equal((uint)2021, message.NCHSReceiptYear);
             Assert.Equal("2021", message.NCHSReceiptYearString);
-            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            Assert.Equal(CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
             Assert.Equal("5", message.IntentionalReject);
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
-            Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+            Assert.Equal(CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
         }
 
         [Fact]
-        public void CreateCodingUpdateFromJSON()
+        public void CreateDemographicCodingResponseFromJSON()
         {
-            CodingUpdateMessage message = BaseMessage.Parse<CodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json"));
-            Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
+            DemographicsCodingResponseMessage message = BaseMessage.Parse<DemographicsCodingResponseMessage>(FixtureStream("fixtures/json/DemographicsCodingResponseMessage.json"));
+
+            Assert.Equal(DemographicsCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);
             Assert.Equal((uint)2018, message.DeathYear);
@@ -357,18 +351,37 @@ namespace VRDR.Tests
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             var ethnicity = message.Ethnicity;
             Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
             var race = message.Race;
             Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+        }
+
+        [Fact]
+        public void GenericCodingUpdateNoLongerSupported()
+        {
+            Assert.Throws<MessageParseException>(() => BaseMessage.Parse<CauseOfDeathCodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json")));
+            Assert.Throws<MessageParseException>(() => BaseMessage.Parse<DemographicsCodingUpdateMessage>(FixtureStream("fixtures/json/CodingUpdateMessage.json")));
+        }
+
+        [Fact]
+        public void CreateCauseOfDeathCodingUpdateFromJSON()
+        {
+            CauseOfDeathCodingUpdateMessage message = BaseMessage.Parse<CauseOfDeathCodingUpdateMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"));
+            Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
+            Assert.Equal((uint)1, message.CertificateNumber);
+            Assert.Equal((uint)2018, message.DeathYear);
+            Assert.Equal("42", message.StateAuxiliaryIdentifier);
+            Assert.Equal("2018MA000001", message.NCHSIdentifier);
             Assert.Equal("A04.7", message.UnderlyingCauseOfDeath);
             var recordAxisCodes = message.CauseOfDeathRecordAxis;
             Assert.Equal(4, recordAxisCodes.Count);
@@ -388,10 +401,36 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void CreateCodingResponse()
+        public void CreateDemographicsCodingUpdateFromJSON()
         {
-            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
-            Assert.Equal("http://nchs.cdc.gov/vrdr_coding", message.MessageType);
+            DemographicsCodingUpdateMessage message = BaseMessage.Parse<DemographicsCodingUpdateMessage>(FixtureStream("fixtures/json/DemographicsCodingUpdateMessage.json"));
+            Assert.Equal(DemographicsCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
+            Assert.Equal((uint)1, message.CertificateNumber);
+            Assert.Equal((uint)2018, message.DeathYear);
+            Assert.Equal("42", message.StateAuxiliaryIdentifier);
+            Assert.Equal("2018MA000001", message.NCHSIdentifier);
+            var ethnicity = message.Ethnicity;
+            Assert.Equal(2, ethnicity.Count);
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            var race = message.Race;
+            Assert.Equal(3, race.Count);
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+        }
+
+        [Fact]
+        public void CreateCauseOfDeathCodingResponse()
+        {
+            CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(CauseOfDeathCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
 
             Assert.Null(message.CertificateNumber);
@@ -439,8 +478,8 @@ namespace VRDR.Tests
             Assert.Equal((uint)2021, message.NCHSReceiptYear);
 
             Assert.Null(message.MannerOfDeath);
-            message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;
-            Assert.Equal(CodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;
+            Assert.Equal(CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
 
             Assert.Null(message.CoderStatus);
             message.CoderStatus = "8";
@@ -455,8 +494,8 @@ namespace VRDR.Tests
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
 
             Assert.Null(message.PlaceOfInjury);
-            message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;
-            Assert.Equal(CodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+            message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;
+            Assert.Equal(CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
 
             Assert.Null(message.OtherSpecifiedPlace);
             message.OtherSpecifiedPlace = "Unique Location";
@@ -470,33 +509,6 @@ namespace VRDR.Tests
             Assert.Null(message.IntentionalReject);
             message.IntentionalReject = "5";
             Assert.Equal("5", message.IntentionalReject);
-
-            Assert.Empty(message.Ethnicity);
-            var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "123");
-            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
-            message.Ethnicity = ethnicity;
-            ethnicity = message.Ethnicity;
-            Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
-
-            Assert.Empty(message.Race);
-            var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-            race.Add(CodingResponseMessage.RaceCode.RACE1E, "foo");
-            race.Add(CodingResponseMessage.RaceCode.RACE17C, "bar");
-            race.Add(CodingResponseMessage.RaceCode.RACEBRG, "baz");
-            message.Race = race;
-            race = message.Race;
-            Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
 
             Assert.Null(message.UnderlyingCauseOfDeath);
             message.UnderlyingCauseOfDeath = "A04.7";
@@ -551,13 +563,113 @@ namespace VRDR.Tests
             Assert.Equal("code2_1", code);
         }
 
+        [Fact]
+        public void CreateDemographicCodingResponse()
+        {
+            DemographicsCodingResponseMessage message = new DemographicsCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(DemographicsCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
+
+            Assert.Null(message.CertificateNumber);
+            message.CertificateNumber = 10;
+            Assert.Equal((uint)10, message.CertificateNumber);
+
+            Assert.Null(message.StateAuxiliaryIdentifier);
+            message.StateAuxiliaryIdentifier = "id101010";
+            Assert.Equal("id101010", message.StateAuxiliaryIdentifier);
+
+            Assert.Null(message.DeathYear);
+            message.DeathYear = 2019;
+            Assert.Equal((uint)2019, message.DeathYear);
+
+            Assert.Null(message.NCHSReceiptMonthString);
+            message.NCHSReceiptMonthString = "1";
+            Assert.Equal("01", message.NCHSReceiptMonthString);
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+            message.NCHSReceiptMonthString = null;
+            Assert.Null(message.NCHSReceiptMonthString);
+
+            Assert.Null(message.NCHSReceiptMonth);
+            message.NCHSReceiptMonth = (uint)1;
+            Assert.Equal((uint)1, message.NCHSReceiptMonth);
+
+            Assert.Null(message.NCHSReceiptDayString);
+            message.NCHSReceiptDayString = "9";
+            Assert.Equal("09", message.NCHSReceiptDayString);
+            Assert.Equal((uint)9, message.NCHSReceiptDay);
+            message.NCHSReceiptDayString = null;
+
+            Assert.Null(message.NCHSReceiptDay);
+            message.NCHSReceiptDay = (uint)8;
+            Assert.Equal((uint)8, message.NCHSReceiptDay);
+
+            Assert.Null(message.NCHSReceiptYearString);
+            message.NCHSReceiptYearString = "2020";
+            Assert.Equal("2020", message.NCHSReceiptYearString);
+            Assert.Equal((uint)2020, message.NCHSReceiptYear);
+            message.NCHSReceiptYearString = null;
+            Assert.Null(message.NCHSReceiptYearString);
+
+            Assert.Null(message.NCHSReceiptYear);
+            message.NCHSReceiptYear = (uint)2021;
+            Assert.Equal((uint)2021, message.NCHSReceiptYear);
+
+            Assert.Null(message.CoderStatus);
+            message.CoderStatus = "8";
+            Assert.Equal("8", message.CoderStatus);
+
+            Assert.Null(message.ShipmentNumber);
+            message.ShipmentNumber = "B202101";
+            Assert.Equal("B202101", message.ShipmentNumber);
+
+            Assert.Null(message.ACMESystemRejectCodes);
+            message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
+            Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+
+            Assert.Null(message.DeathJurisdictionID);
+            message.DeathJurisdictionID = "NH";
+            Assert.Equal("NH", message.DeathJurisdictionID);
+            Assert.Equal("2019NH000010", message.NCHSIdentifier);
+
+            Assert.Null(message.IntentionalReject);
+            message.IntentionalReject = "5";
+            Assert.Equal("5", message.IntentionalReject);
+
+            Assert.Empty(message.Ethnicity);
+            var ethnicity = new Dictionary<DemographicsCodingResponseMessage.HispanicOrigin, string>();
+            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "123");
+            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
+            message.Ethnicity = ethnicity;
+            ethnicity = message.Ethnicity;
+            Assert.Equal(2, ethnicity.Count);
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+
+            Assert.Empty(message.Race);
+            var race = new Dictionary<DemographicsCodingResponseMessage.RaceCode, string>();
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE1E, "foo");
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE17C, "bar");
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "baz");
+            message.Race = race;
+            race = message.Race;
+            Assert.Equal(3, race.Count);
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+        }
+
         [Theory]
         [InlineData("2021", 2021)]
         [InlineData("2022", 2021)]
         [InlineData(null, 2021)]
         public void SuccessfullySetNCHSReceiptYear(string receiptYear, uint deathYear)
         {
-            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            CodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             message.DeathYear = deathYear;
             message.NCHSReceiptYearString = receiptYear;
             Assert.Equal(receiptYear, message.NCHSReceiptYearString);
@@ -568,17 +680,17 @@ namespace VRDR.Tests
         [InlineData("2020", 2021)]
         public void NCHSReceiptYearMustBeGreaterThanOrEqualToDeathYear(string receiptYear, uint deathYear)
         {
-            CodingResponseMessage message = new CodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            CodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             message.DeathYear = deathYear;
             System.ArgumentException ex = Assert.Throws<System.ArgumentException>(() => message.NCHSReceiptYearString = receiptYear);
             Assert.Equal("NCHS Receipt Year must be greater than or equal to Death Year, or null", ex.Message);
         }
 
         [Fact]
-        public void CreateCodingUpdate()
+        public void CreateCauseOfDeathCodingUpdate()
         {
-            CodingUpdateMessage message = new CodingUpdateMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
-            Assert.Equal("http://nchs.cdc.gov/vrdr_coding_update", message.MessageType);
+            CauseOfDeathCodingUpdateMessage message = new CauseOfDeathCodingUpdateMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
 
             Assert.Null(message.CertificateNumber);
@@ -597,33 +709,6 @@ namespace VRDR.Tests
             message.DeathJurisdictionID = "NH";
             Assert.Equal("NH", message.DeathJurisdictionID);
             Assert.Equal("2019NH000010", message.NCHSIdentifier);
-
-            Assert.Empty(message.Ethnicity);
-            var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "123");
-            ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
-            message.Ethnicity = ethnicity;
-            ethnicity = message.Ethnicity;
-            Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(CodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
-
-            Assert.Empty(message.Race);
-            var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-            race.Add(CodingResponseMessage.RaceCode.RACE1E, "foo");
-            race.Add(CodingResponseMessage.RaceCode.RACE17C, "bar");
-            race.Add(CodingResponseMessage.RaceCode.RACEBRG, "baz");
-            message.Race = race;
-            race = message.Race;
-            Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE1E,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACE17C,"yyz"));
-            Assert.True(race.ContainsKey(CodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(CodingResponseMessage.RaceCode.RACEBRG,"yyz"));
 
             Assert.Null(message.UnderlyingCauseOfDeath);
             message.UnderlyingCauseOfDeath = "A04.7";
@@ -662,6 +747,58 @@ namespace VRDR.Tests
             Assert.Equal("2", entityAxisEntries[1].LineNumber);
             Assert.Equal(1, (int)entityAxisEntries[1].AssignedCodes.Count);
             Assert.Equal("code2_1", entityAxisEntries[1].AssignedCodes[0]);
+        }
+
+        [Fact]
+        public void CreateCodingUpdate()
+        {
+            DemographicsCodingUpdateMessage message = new DemographicsCodingUpdateMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(DemographicsCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("destination", message.MessageDestination);
+
+            Assert.Null(message.CertificateNumber);
+            message.CertificateNumber = 10;
+            Assert.Equal((uint)10, message.CertificateNumber);
+
+            Assert.Null(message.StateAuxiliaryIdentifier);
+            message.StateAuxiliaryIdentifier = "id101010";
+            Assert.Equal("id101010", message.StateAuxiliaryIdentifier);
+
+            Assert.Null(message.DeathYear);
+            message.DeathYear = 2019;
+            Assert.Equal((uint)2019, message.DeathYear);
+
+            Assert.Null(message.DeathJurisdictionID);
+            message.DeathJurisdictionID = "NH";
+            Assert.Equal("NH", message.DeathJurisdictionID);
+            Assert.Equal("2019NH000010", message.NCHSIdentifier);
+
+            Assert.Empty(message.Ethnicity);
+            var ethnicity = new Dictionary<DemographicsCodingResponseMessage.HispanicOrigin, string>();
+            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "123");
+            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
+            message.Ethnicity = ethnicity;
+            ethnicity = message.Ethnicity;
+            Assert.Equal(2, ethnicity.Count);
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+
+            Assert.Empty(message.Race);
+            var race = new Dictionary<DemographicsCodingResponseMessage.RaceCode, string>();
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE1E, "foo");
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE17C, "bar");
+            race.Add(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "baz");
+            message.Race = race;
+            race = message.Race;
+            Assert.Equal(3, race.Count);
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
         }
 
         [Fact]
@@ -779,10 +916,14 @@ namespace VRDR.Tests
             Assert.IsType<AckMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"), false);
             Assert.IsType<VoidMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"), false);
-            Assert.IsType<CodingResponseMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CodingUpdateMessage.json"), false);
-            Assert.IsType<CodingUpdateMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"), false);
+            Assert.IsType<CauseOfDeathCodingResponseMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DemographicsCodingResponseMessage.json"), false);
+            Assert.IsType<DemographicsCodingResponseMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"), false);
+            Assert.IsType<CauseOfDeathCodingUpdateMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DemographicsCodingUpdateMessage.json"), false);
+            Assert.IsType<DemographicsCodingUpdateMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"), false);
             Assert.IsType<DeathRecordSubmission>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"), false);

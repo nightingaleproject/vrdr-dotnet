@@ -739,7 +739,7 @@ namespace VRDR.CLI
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
-                    case CodingResponseMessage codingResponse:
+                    case CauseOfDeathCodingResponseMessage codingResponse:
                         Console.WriteLine($"\nUnderlying COD: {codingResponse.UnderlyingCauseOfDeath}\n");
                         Console.WriteLine($"Record Axis Codes: {String.Join(", ", codingResponse.CauseOfDeathRecordAxis.ToArray())}\n");
                         Console.WriteLine("Entity Axis Codes:");
@@ -749,8 +749,20 @@ namespace VRDR.CLI
                         }
                         Console.WriteLine();
                         break;
+                    case DemographicsCodingResponseMessage codingResponse:
+                        Console.WriteLine("\nEthnicity:");
+                        foreach (var entry in codingResponse.Ethnicity)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        Console.WriteLine("Race:");
+                        foreach (var entry in codingResponse.Race)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        break;
                     default:
-                        Console.WriteLine("Message does not appear to be a coding response message");
+                        Console.WriteLine("Message does not appear to be a CauseOfDeathCodingResponseMessage");
                         break;
                 }
             }

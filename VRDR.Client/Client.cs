@@ -47,7 +47,7 @@ public class Client
         }
 
         if (lastUpdated != null){
-            address = this.Url + "?lastUpdated=" + lastUpdated;
+            address = this.Url + "?_since=" + lastUpdated;
         }
         var response = client.GetAsync(address).Result;
         

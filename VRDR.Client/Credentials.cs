@@ -27,32 +27,5 @@ public class Credentials
         this.Username = username;
         this.Pass = pass;
     }
-    /// <summary>Returns the token for the provided credientials</summary>
-    public String GetAuthorizeToken()
-    {
-        var rclient = new RestClient(this.Url);
-        var request = new RestRequest(Method.POST);
-
-        // add credentials to the request
-        String paramString = String.Format("grant_type=password&client_id={0}&client_secret={1}&username={2}&password={3}", this.ClientId, this.ClientSecret, this.Username, this.Pass);
-        request.AddHeader("content-type", "application/x-www-form-urlencoded");
-        request.AddParameter("application/x-www-form-urlencoded", paramString, ParameterType.RequestBody);
-        
-        IRestResponse response = rclient.Execute(request);
-        string content = response.Content;
-
-        // parse the response to get the access token
-        if (!String.IsNullOrEmpty(content))
-        {
-            JObject json = JObject.Parse(content);
-            if (json["access_token"] != null)
-            {
-                String newtoken = json["access_token"].ToString();
-                return newtoken;
-            }
-            
-        }
-        return "";
-    }
 
 }

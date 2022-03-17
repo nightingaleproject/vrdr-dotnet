@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using VRDR;
-using RestSharp;
+
 
 namespace nvssclient.lib;
 public class Client
@@ -31,7 +31,7 @@ public class Client
     }
     // GetMessageResponsesAsync makes a GET request to the NVSS FHIR API server for new messages
     // responses since the provided timestamp
-    public String GetMessageResponsesAsync(String lastUpdated)
+    public HttpResponseMessage GetMessageResponsesAsync(String lastUpdated)
     {
         var address = this.Url;
         Console.WriteLine($">>> Get messages since: {lastUpdated}");
@@ -40,65 +40,108 @@ public class Client
         if (!this.LocalTesting){
             if (String.IsNullOrEmpty(this.Token))
             {
-                this.Token = this.Credentials.GetAuthorizeToken();
+                HttpResponseMessage authResponse = RefreshAccessToken();
+                // return authentication error
+                if (!authResponse.IsSuccessStatusCode)
+                {
+                    return authResponse;
+                }
             }
-            string authorization = this.Token;
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
         }
 
         if (lastUpdated != null){
             address = this.Url + "?_since=" + lastUpdated;
         }
         var response = client.GetAsync(address).Result;
-        
-        if (response.IsSuccessStatusCode)
-        {
-            var content = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(content);
-            return content;
-        }
-        else
-        {
-            Console.WriteLine(response.StatusCode);
-            return "";
-        }
 
+        // check if the token expired, refresh and try again
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            HttpResponseMessage authRetry = RefreshAccessToken();
+            // return authentication error
+            if (!authRetry.IsSuccessStatusCode)
+            {
+                return authRetry;
+            }
+            response = client.GetAsync(address).Result;
+        }
+        
+        return response;
     }
 
     // PostMessageAsync POSTS a single message to the NVSS FHIR API server for processing
-    public Boolean PostMessageAsync(BaseMessage message)
+    public HttpResponseMessage PostMessageAsync(BaseMessage message)
     {
 
         var json = message.ToJSON();
         var data = new StringContent(json, Encoding.UTF8, "application/json");
-        //using var client = new HttpClient();
 
         // if testing against the NVSS FHIR API server, add the authentication token
         if (!this.LocalTesting){
             if (String.IsNullOrEmpty(this.Token))
             {
-                this.Token = this.Credentials.GetAuthorizeToken();
+                HttpResponseMessage authResponse = RefreshAccessToken();
+                // return authentication error
+                if (!authResponse.IsSuccessStatusCode)
+                {
+                    return authResponse;
+                }
             }
-            string authorization = this.Token;
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
         }
 
         var response = client.PostAsync(this.Url, data).Result;
+
+        // check if the token expired, refresh and try again
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            HttpResponseMessage authRetry = RefreshAccessToken();
+            // return authentication error
+            if (!authRetry.IsSuccessStatusCode)
+            {
+                return authRetry;
+            }
+            response = client.PostAsync(this.Url, data).Result;
+        }
+
+        return response;
+    }
+
+    private HttpResponseMessage RefreshAccessToken(){
+        HttpResponseMessage response = GetAuthorizeToken();
         if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine($">>> Successfully submitted {message.MessageId} of type {message.GetType().Name}");
-            return true;
+            String content = response.Content.ToString();
+            // parse the response to get the access token
+            if (!String.IsNullOrEmpty(content))
+            {
+                JObject json = JObject.Parse(content);
+                if (json["access_token"] != null)
+                {
+                    string authorization = this.Token;
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
+                }
+            }
+            return response;
         }
-        else if (response.StatusCode == HttpStatusCode.Unauthorized)
-        {
-            // unauthorized, refresh token
-            Console.WriteLine($">>> Unauthorized error submitting {message.MessageId}, status: {response.StatusCode}");
-            return false;
+        else {
+            return response;
         }
-        else
-        {
-            Console.WriteLine($">>> Error submitting {message.MessageId}, status: {response.StatusCode}");
-            return false;
-        }
+    }
+
+    /// <summary>Returns the token for the client's credientials</summary>
+    public HttpResponseMessage GetAuthorizeToken()
+    {
+        // add credentials to the request
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("grant_type", "password");
+        parameters.Add("client_id", this.Credentials.ClientId);
+        parameters.Add("client_secret", this.Credentials.ClientSecret);
+        parameters.Add("username", this.Credentials.Username);
+        parameters.Add("pass", this.Credentials.Pass);
+        
+        var request = new HttpRequestMessage(HttpMethod.Post, this.Credentials.Url){Content = new FormUrlEncodedContent(parameters)};
+        var response = client.Send(request);
+
+        return response;
     }
 }

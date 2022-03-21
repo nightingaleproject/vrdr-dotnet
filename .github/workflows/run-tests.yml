@@ -21,6 +21,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.408
+    - name: Setup .NET Core 6.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.0
     - name: .net Side by Side
       run: |
         rsync -a ${DOTNET_ROOT/3.1.408/2.1.815}/* $DOTNET_ROOT/

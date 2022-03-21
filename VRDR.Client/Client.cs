@@ -20,8 +20,6 @@ public class Client
     /// <summary>The token to access the API server</summary>
     public string Token { get; set; }
     /// <summary>Constructor</summary>
-    public Client() { }
-    /// <summary>Constructor</summary>
     private HttpClient client = new HttpClient();
     public Client(String url, bool local, Credentials credentials)
     {
@@ -117,6 +115,7 @@ public class Client
                 JObject json = JObject.Parse(content);
                 if (json["access_token"] != null)
                 {
+                    this.Token = json["access_token"].ToString();
                     string authorization = this.Token;
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorization);
                 }

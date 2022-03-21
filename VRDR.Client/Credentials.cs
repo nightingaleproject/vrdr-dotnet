@@ -17,8 +17,6 @@ public class Credentials
     /// <summary>The password provided by SAMS</summary>
     public String Pass { get; }
     /// <summary>Constructor</summary>
-    public Credentials() { }
-    /// <summary>Constructor</summary>
     public Credentials(String url, String clientID, String clientSecret, String username, String pass)
     {
         this.Url = url;

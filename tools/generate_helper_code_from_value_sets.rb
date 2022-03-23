@@ -50,22 +50,41 @@ codesystems = {
     "http://snomed.info/sct" => "VRDR.CodeSystems.SCT",
     "http://terminology.hl7.org/CodeSystem/v3-NullFlavor" => "VRDR.CodeSystems.PH_NullFlavor_HL7_V3",
     "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus" => "VRDR.CodeSystems.PH_MaritalStatus_HL7_2x",
-    "urn:oid:2.16.840.1.114222.4.5.320" => "VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO",
-    "http://hl7.org/fhir/us/vrdr/CodeSystem/PH-PHINVS-CDC" =>  "VRDR.CodeSystems.PH_PHINVS_CDC"
+    "http://hl7.org/fhir/administrative-gender" => "VRDR.CodeSystems.AdministrativeGender",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" => "VRDR.CodeSystems.BypassEditFlag",
+    "http://terminology.hl7.org/CodeSystem/v3-EducationLevel" => "VRDR.CodeSystems.EducationLevel",
+    "http://terminology.hl7.org/CodeSystem/v2-0360" => "VRDR.CodeSystems.DegreeLicenceAndCertificate",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs" => "VRDR.CodeSystems.PregnancyStatus",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs" => "VRDR.CodeSystems.MissingValueReason",
+    "http://unitsofmeasure.org" => "VRDR.CodeSystems.UnitsOfMeasure",
+    "http://terminology.hl7.org/CodeSystem/v2-0136" => "VRDR.CodeSystems.YesNo"
 }
 valuesets = {
-    "ValueSet-PHVS-DecedentEducationLevel-NCHS.json" => "EducationLevel",
-    "ValueSet-PHVS-MannerOfDeath-NCHS.json" => "MannerOfDeath",
-    "ValueSet-PHVS-MaritalStatus-NCHS.json" => "MaritalStatus",
-    "ValueSet-PHVS-PlaceOfInjury-NCHS.json" => "PlaceOfInjury",
-    "ValueSet-PHVS-PlaceOfDeath-NCHS.json" => "PlaceOfDeath",
-    "ValueSet-PHVS-TransportationRelationships-NCHS.json" => "TransportationRoles",
-    "ValueSet-PHVS-PregnancyStatus-NCHS.json" => "PregnancyStatus",
-    "ValueSet-PHVS-MethodsOfDisposition-NCHS.json" => "MethodsOfDisposition"
+    "ValueSet-vrdr-administrative-gender-vs.json" => "AdministrativeGender",
+    "ValueSet-vrdr-certifier-types-vs.json" => "CertifierTypes",
+    "ValueSet-vrdr-contributory-tobacco-use-vs.json" => "ContributoryTobaccoUse",
+    "ValueSet-vrdr-edit-bypass-01-vs.json" => "EditBypass01",
+    "ValueSet-vrdr-edit-bypass-012-vs.json" => "EditBypass012",
+    "ValueSet-vrdr-edit-bypass-01234-vs.json" => "EditBypass01234",
+    "ValueSet-vrdr-edit-bypass-0124-vs.json" => "EditBypass0124",
+    "ValueSet-vrdr-education-level-vs.json" => "EducationLevel",
+    "ValueSet-vrdr-manner-of-death-vs.json" => "MannerOfDeath",
+    "ValueSet-vrdr-marital-status-vs.json" => "MaritalStatus",
+    "ValueSet-vrdr-method-of-disposition-vs.json" => "MethodOfDisposition",
+    "ValueSet-vrdr-not-applicable-vs.json" => "NotApplicable",
+    "ValueSet-vrdr-place-of-death-vs.json" => "PlaceOfDeath",
+    "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
+    "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
+    "ValueSet-vrdr-transportation-incident-role-vs.json" => "TransportationIncidentRole",
+    "ValueSet-vrdr-units-of-age-vs.json" => "UnitsOfAge",
+    "ValueSet-vrdr-yes-no-not-applicable-vs.json" => "YesNoNotApplicable",
+    "ValueSet-vrdr-yes-no-unknown-not-applicable-vs.json" => "YesNoUnknownNotApplicable",
+    "ValueSet-vrdr-yes-no-unknown-vs.json" => "YesNoUnknown"
 }
-basedir = ARGV[0]
+
 outfilename = ARGV[1] + "/ValueSets.cs"
 file = file=File.open(outfilename,"w")
+systems_without_constants = []
 
 file.puts "namespace VRDR
 {
@@ -73,7 +92,8 @@ file.puts "namespace VRDR
     public static class ValueSets"
 file.puts "    {"
 valuesets.each do |vsfile, fieldname|
-        filename = ARGV[0] + "/site/" + vsfile
+        puts "Generating output for #{vsfile}"
+        filename = ARGV[0] + "/resources/" + vsfile
         value_set_data = JSON.parse(File.read(filename))
         file.puts "        /// <summary> #{fieldname} </summary>
         public static class #{fieldname} {
@@ -85,6 +105,8 @@ valuesets.each do |vsfile, fieldname|
             system = group["system"]
             if codesystems[system]
                 system = codesystems[system]
+            else
+              systems_without_constants << system
             end
             for concept in group["concept"]
                 file.puts "," if first == false
@@ -99,11 +121,8 @@ valuesets.each do |vsfile, fieldname|
                 system = codesystems[system]
             end
             for concept in group["concept"]
-                display = concept["display"].gsub("/"," ")
-                display = display.gsub(","," ")
-                display = display.gsub(";"," ")
-                display = display.gsub("'","")
-                display = display.split(" ").map(&:capitalize).join("_")
+                display = concept["display"].split(/-[A-Z]/).first
+                display = display.split(/[^a-z]+/i).map(&:capitalize).join('_')
                 if display[0][/\d/] then display = "_" + display end
                 file.puts "            /// <summary> #{display} </summary>"
                 file.puts "            public static string  #{display} = \"#{concept["code"]}\";"
@@ -114,3 +133,15 @@ valuesets.each do |vsfile, fieldname|
     end
 file.puts "   }
 }"
+
+puts
+puts "Saw the following code systems that don't have constants:"
+puts
+puts systems_without_constants.uniq
+puts
+puts "Suggestions:"
+puts
+systems_without_constants.uniq.each do |system|
+  puts "        /// <summary> #{system} </summary>"
+  puts "        public static string XYZ = \"#{system}\";"
+end

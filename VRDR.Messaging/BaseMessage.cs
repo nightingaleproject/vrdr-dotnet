@@ -9,7 +9,7 @@ using Hl7.Fhir.Serialization;
 namespace VRDR
 {
     /// <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
-    public class BaseMessage
+    public partial class BaseMessage
     {
         /// <summary>Bundle that contains the message.</summary>
         protected Bundle MessageBundle;

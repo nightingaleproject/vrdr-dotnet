@@ -3021,35 +3021,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Date of Birth.</summary>
-        /// <value>the decedent's date of birth</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DateOfBirth = "1940-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
-        /// </example>
-        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
-        public string DateOfBirth
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).birthDate");
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value))
-                {
-                    return;
-                }
-                if (Decedent.BirthDateElement == null){
-                    Decedent.BirthDateElement = new Date();
-                }
-                Decedent.BirthDateElement.Value = value.Trim();
-            }
-        }
-
         /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
         /// <value>the decedent's date of birth date part absent reason</value>
         /// <example>
@@ -3060,13 +3031,13 @@ namespace VRDR
         /// </example>
         [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
-        public Tuple<string,string>[] DateOfBirthDatePartAbsent
+        public Tuple<string,string>[] DateOfBirth
         {
             get
             {
                 if (Decedent.BirthDateElement != null){
-                    Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    return DatePartsToArray(datePartAbsent);
+                    Extension datePart = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate").FirstOrDefault();
+                    return DatePartsToArray(datePart);
                 }
                 return null;
             }
@@ -3076,17 +3047,27 @@ namespace VRDR
                 {
                     if (Decedent.BirthDateElement != null){
                         // Clear the previous date part absent and rebuild with the new data
-                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
+                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate");
                     }
 
                     Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
+                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate";
                     foreach (Tuple<string, string> element in value)
                     {
                         if (element != null)
                         {
                             Extension datePartDetails = new Extension();
-                            datePartDetails.Url = element.Item1;
+                            switch (element.Item1){
+                                case "Date-Year":
+                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year";
+                                    break;
+                                case "Date-Month":
+                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month";
+                                    break;
+                                case "Date-Day":
+                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day";
+                                    break;
+                            }
                             datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
@@ -3119,6 +3100,7 @@ namespace VRDR
         /// <para>address.Add("addressLine1", "123 Test Street");</para>
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCityC", "1234");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
@@ -3131,6 +3113,7 @@ namespace VRDR
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
+        [PropertyParam("addressCityC", "address, _city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
@@ -3148,23 +3131,11 @@ namespace VRDR
             }
             set
             {
-                if (ResidenceWithinCityLimitsBoolean == false)
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimitsBoolean = false;
-                }
-                if (ResidenceWithinCityLimitsBoolean == true)
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimitsBoolean = true;
-                }
-                else
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                }
+
+                Decedent.Address.Clear();
+                Decedent.Address.Add(DictToAddress(value));
+                
+            
                 // Now encode -
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
@@ -3306,23 +3277,23 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Ethnicity.</summary>
-        /// <value>the decedent's ethnicity as a text string. Use the Ethnicity property to set coded ethnicity.</value>
+        /// <value>the decedent's ethnicity, maps to the IJE DETHNIC fields.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.EthnicityText = "Hispanic or Latino";</para>
+        /// <para>ExampleDeathRecord.EthnicityNew = "Hispanic or Latino";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
         /// </example>
-        [Property("EthnicityText", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
-        public string EthnicityText
+        [Property("EthnicityLiteral", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 35)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity')", "")]
+        public string EthnicityLiteral
         {
             get
             {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
+                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity").FirstOrDefault();
                 if (ethnicity != null)
                 {
-                    Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
+                    Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "HispanicLiteral").FirstOrDefault();
                     if (ethnicityText != null && ethnicityText.Value.GetType() == typeof(FhirString))
                     {
                         return ethnicityText.Value.ToString();
@@ -3332,21 +3303,21 @@ namespace VRDR
             }
             set
             {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
+                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity").FirstOrDefault();
                 if (ethnicity == null)
                 {
                     ethnicity = new Extension();
-                    ethnicity.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
+                    ethnicity.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity";
                     Decedent.Extension.Add(ethnicity);
                 }
-                Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                if (ethnicityText == null)
+                Extension ethnicityLiteral = ethnicity.Extension.Where(ext => ext.Url == "HispanicLiteral").FirstOrDefault();
+                if (ethnicityLiteral == null)
                 {
-                    ethnicityText = new Extension();
-                    ethnicityText.Url = "text";
-                    ethnicity.Extension.Add(ethnicityText);
+                    ethnicityLiteral = new Extension();
+                    ethnicityLiteral.Url = "HispanicLiteral";
+                    ethnicity.Extension.Add(ethnicityLiteral);
                 }
-                ethnicityText.Value = new FhirString(value);
+                ethnicityLiteral.Value = new FhirString(value);
             }
         }
 
@@ -3494,6 +3465,1268 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Race Black or African American.</summary>
+        /// <value>the decedent's race Black or African American. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceBlackOrAfricanAmerican = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string boaa = ExampleDeathRecord.RaceBlackOfAfricanAmerican;</para>
+        /// </example>
+        [Property("RaceBlackOrAfricanAmerican", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Black or African American.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceBlackOrAfricanAmerican
+        {
+            get
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (race != null)
+                {
+                    // White
+                    Extension boaa = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.BlackOrAfricanAmerican).FirstOrDefault();
+                    if (boaa != null){
+                        string b = boaa.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (race == null)
+                {
+                    race = new Extension();
+                    race.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url
+                race.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.BlackOrAfricanAmerican);
+                
+                Extension raceBoAA = new Extension();
+                raceBoAA.Url = ValueSets.NvssRace.BlackOrAfricanAmerican;
+                if (value == "Y")
+                {
+                    raceBoAA.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    raceBoAA.Value = new FhirBoolean(false);
+                }
+                race.Extension.Add(raceBoAA);
+                Decedent.Extension.Add(race);
+            }
+        }
+
+
+        /// <summary>Decedent's Race White.</summary>
+        /// <value>the decedent's race white. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceWhite = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceWhite;</para>
+        /// </example>
+        [Property("RaceWhite", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race White.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceWhite
+        {
+            get
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (race != null)
+                {
+                    // White
+                    Extension white = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.White).FirstOrDefault();
+                    if (white != null){
+                        string b = white.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (race == null)
+                {
+                    race = new Extension();
+                    race.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                race.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.White);
+                
+                Extension raceWhite = new Extension();
+                raceWhite.Url = ValueSets.NvssRace.White;
+                if (value == "Y")
+                {
+                    raceWhite.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    raceWhite.Value = new FhirBoolean(false);
+                }
+                race.Extension.Add(raceWhite);
+                Decedent.Extension.Add(race);
+            }
+        }
+
+        /// <summary>Decedent's Race American Indian Or Alaska Native.</summary>
+        /// <value>the decedent's race AmericanIndianOrAlaskaNative. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskaNative = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskaNative;</para>
+        /// </example>
+        [Property("RaceAmericanIndianOrAlaskaNative", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskaNative.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceAmericanIndianOrAlaskaNative
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskaNative).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskaNative);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.AmericanIndianOrAlaskaNative;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's AsianIndian.</summary>
+        /// <value>the decedent's race AsianIndian. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceAsianIndian = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceAsianIndian;</para>
+        /// </example>
+        [Property("RaceAsianIndian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AsianIndian.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceAsianIndian
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AsianIndian).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.AsianIndian);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.AsianIndian;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's Chinese.</summary>
+        /// <value>the decedent's race Chinese. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceChinese = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceChinese;</para>
+        /// </example>
+        [Property("RaceChinese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Chinese.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceChinese
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Chinese).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Chinese);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Chinese;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's Filipino.</summary>
+        /// <value>the decedent's race Filipino. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceFilipino = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceFilipino;</para>
+        /// </example>
+        [Property("RaceFilipino", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Filipino.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceFilipino
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Filipino).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url                
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Filipino);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Filipino;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's Japanese.</summary>
+        /// <value>the decedent's race Japanese. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceJapanese = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceJapanese;</para>
+        /// </example>
+        [Property("RaceJapanese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Japanese.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceJapanese
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Japanese).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Japanese);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Japanese;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's Korean.</summary>
+        /// <value>the decedent's race Korean. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceKorean = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string korean = ExampleDeathRecord.RaceKorean;</para>
+        /// </example>
+        [Property("RaceKorean", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Korean.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceKorean
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Korean).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Korean);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Korean;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's Vietnamese.</summary>
+        /// <value>the decedent's race Vietnamese. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceVietnamese = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string korean = ExampleDeathRecord.RaceVietnamese;</para>
+        /// </example>
+        [Property("RaceVietnamese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Vietnamese.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceVietnamese
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Vietnamese).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Vietnamese);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Vietnamese;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherAsian.</summary>
+        /// <value>the decedent's race OtherAsian. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherAsian= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherAsian;</para>
+        /// </example>
+        [Property("RaceOtherAsian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsian.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherAsian
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsian).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherAsian);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherAsian;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's NativeHawaiian.</summary>
+        /// <value>the decedent's race NativeHawaiian. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceNativeHawaiian= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceNativeHawaiian;</para>
+        /// </example>
+        [Property("RaceNativeHawaiian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race NativeHawaiian.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceNativeHawaiian
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.NativeHawaiian).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.NativeHawaiian);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.NativeHawaiian;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's GuamanianOrChamorro.</summary>
+        /// <value>the decedent's race GuamanianOrChamorro. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceGuamanianOrChamorro= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceGuamanianOrChamorro;</para>
+        /// </example>
+        [Property("RaceGuamanianOrChamorro", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race GuamanianOrChamorro.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceGuamanianOrChamorro
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.GuamanianOrChamorro).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url             
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.GuamanianOrChamorro);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.GuamanianOrChamorro;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's Samoan.</summary>
+        /// <value>the decedent's race Samoan. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceSamoan= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceSamoan;</para>
+        /// </example>
+        [Property("RaceSamoan", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Samoan.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceSamoan
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Samoan).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.Samoan);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.Samoan;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherPacificIslander.</summary>
+        /// <value>the decedent's race OtherPacificIslander. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherPacificIslander= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslander;</para>
+        /// </example>
+        [Property("RaceOtherPacificIslander", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslander.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherPacificIslander
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslander).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url             
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslander);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherPacificIslander;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's OtherRace.</summary>
+        /// <value>the decedent's race OtherRace. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherRace= "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherRace;</para>
+        /// </example>
+        [Property("RaceOtherRace", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRace.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherRace
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRace).FirstOrDefault();
+                    if (race != null){
+                        string b = race.Value.Equals(true) ? "Y" : "N";
+                        return b;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherRace);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherRace;
+                if (value == "Y")
+                {
+                    race.Value = new FhirBoolean(true);
+                }
+                else 
+                {
+                    race.Value = new FhirBoolean(false);
+                }
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's AmericanIndianOrAlaskanNativeLiteral1.</summary>
+        /// <value>the decedent's race RaceAmericanIndianOrAlaskanNativeLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral1= "Cherokee";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral1;</para>
+        /// </example>
+        [Property("RaceAmericanIndianOrAlaskanNativeLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskanNativeLiteral1.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceAmericanIndianOrAlaskanNativeLiteral1
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral1).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral1;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's AmericanIndianOrAlaskanNativeLiteral2.</summary>
+        /// <value>the decedent's race RaceAmericanIndianOrAlaskanNativeLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral2= "Cherokee";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral2;</para>
+        /// </example>
+        [Property("RaceAmericanIndianOrAlaskanNativeLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskanNativeLiteral2.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceAmericanIndianOrAlaskanNativeLiteral2
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral2).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url             
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral2;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+
+        /// <summary>Decedent's OtherAsianLiteral1.</summary>
+        /// <value>the decedent's race RaceOtherAsianLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherAsianLiteral1= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherAsianLiteral1;</para>
+        /// </example>
+        [Property("RaceOtherAsianLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsianLiteral1.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherAsianLiteral1
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral1).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url             
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral1);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherAsianLiteral1;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherAsianLiteral2.</summary>
+        /// <value>the decedent's race RaceOtherAsianLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherAsianLiteral2= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherAsianLiteral2;</para>
+        /// </example>
+        [Property("RaceOtherAsianLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsianLiteral2.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherAsianLiteral2
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral2).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral2);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherAsianLiteral2;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherPacificIslandLiteral1.</summary>
+        /// <value>the decedent's race RaceOtherPacificIslandLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherPacificIslandLiteral1= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslandLiteral1;</para>
+        /// </example>
+        [Property("RaceOtherPacificIslandLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslandLiteral1.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherPacificIslandLiteral1
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral1).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral1);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherPacificIslandLiteral1;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherPacificIslandLiteral2.</summary>
+        /// <value>the decedent's race RaceOtherPacificIslandLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherPacificIslandLiteral2= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslandLiteral2;</para>
+        /// </example>
+        [Property("RaceOtherPacificIslandLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslandLiteral2.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherPacificIslandLiteral2
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral2).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url               
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral2);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherPacificIslandLiteral2;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherRaceLiteral1.</summary>
+        /// <value>the decedent's race RaceOtherRaceLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherRaceLiteral1= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherRaceLiteral1;</para>
+        /// </example>
+        [Property("RaceOtherRaceLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRaceLiteral1.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherRaceLiteral1
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral1).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url              
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral1);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherRaceLiteral1;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's OtherRaceLiteral2.</summary>
+        /// <value>the decedent's race RaceOtherRaceLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceOtherRaceLiteral2= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceOtherRaceLiteral2;</para>
+        /// </example>
+        [Property("RaceOtherRaceLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRaceLiteral2.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceOtherRaceLiteral2
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension race = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral2).FirstOrDefault();
+                    if (race != null){
+                        return race.Value.ToString();
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url             
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral2);
+                
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.OtherRaceLiteral2;
+                race.Value = new FhirString(value);
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
+        /// <summary>Decedent's MissingValueReason.</summary>
+        /// <value>the decedent's race RaceMissingValueReason. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceMissingValueReason= "Vietnamese";</para>
+        /// <para>// Getter:</para>
+        /// <para>string white = ExampleDeathRecord.RaceMissingValueReason;</para>
+        /// </example>
+        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public string RaceMissingValueReason
+        {
+            get
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (raceExt != null)
+                {
+                    // White
+                    Extension missingValueReason = raceExt.Extension.Where(ext => ext.Url == ValueSets.NvssRace.MissingValueReason).FirstOrDefault();
+                    if (missingValueReason != null){
+                        Coding coding = (Coding) missingValueReason.Value;
+                        if (coding != null){
+                            return coding.Code;
+                        }
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                Extension raceExt = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault(); 
+                if (raceExt == null)
+                {
+                    raceExt = new Extension();
+                    raceExt.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+                }
+
+                // remove any preexisting extension with the same url
+                raceExt.Extension.RemoveAll(ext => ext.Url == ValueSets.NvssRace.MissingValueReason);
+
+                Extension race = new Extension();
+                race.Url = ValueSets.NvssRace.MissingValueReason;
+                Coding coding = new Coding();
+                coding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs";
+                coding.Code = value;
+                race.Value = coding;
+
+                raceExt.Extension.Add(race);
+                Decedent.Extension.Add(raceExt);
+            }
+        }
+
         /// <summary>Decedent's Race.</summary>
         /// <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
         /// the code. Use the RaceText property to set this value as a simple string, setting the value of this property will create a default value for the
@@ -3509,93 +4742,214 @@ namespace VRDR
         /// <para>};</para>
         /// </example>
         [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
-        public Tuple<string, string>[] Race
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race')", "")]
+        public List<Tuple<string, string>> Race
         {
             get
             {
-                string[] ombCodes = new string[] { };
-                string[] detailedCodes = new string[] { };
-                string[] ombDisplays = new string[] { };
-                string[] detailedDisplays = new string[] { };
-                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
-                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
-                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
-                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.display");
-                Tuple<string, string>[] raceList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
-                for (int i = 0; i < ombCodes.Length; i++)
+                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race").FirstOrDefault();
+                if (race != null)
                 {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(ombCodes[i])))
-                    {
-                        raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                    
+                    List<Tuple<string, string>> races = new List<Tuple<string, string>>();
+                    // White
+                    Extension white = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.White).FirstOrDefault();
+                    if (white != null){
+                        string b = white.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(white.Url, b));
                     }
-                    else
-                    {
-                        raceList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+
+                    // Black of African American
+                    Extension blackOrAfricanAmerican = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.BlackOrAfricanAmerican).FirstOrDefault();
+                    if (blackOrAfricanAmerican != null){
+                        string b = blackOrAfricanAmerican.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(blackOrAfricanAmerican.Url, blackOrAfricanAmerican.Value.ToString()));
                     }
+
+                    // American Indian or Alaska Native
+                    Extension americanIndianOrAlaskaNative = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskaNative).FirstOrDefault();
+                    if (americanIndianOrAlaskaNative != null){
+                        string b = americanIndianOrAlaskaNative.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(americanIndianOrAlaskaNative.Url, americanIndianOrAlaskaNative.Value.ToString()));
+                    }
+
+                    // Asian Indian
+                    Extension asianIndian = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AsianIndian).FirstOrDefault();
+                    if (asianIndian != null){
+                        string b = asianIndian.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(asianIndian.Url, asianIndian.Value.ToString()));
+                    }
+
+
+                    // Chinese
+                    Extension chinese = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Chinese).FirstOrDefault();
+                    if (chinese != null){
+                        string b = chinese.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(chinese.Url, chinese.Value.ToString()));
+                    }
+
+                    // Filipino
+                    Extension filipino = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Filipino).FirstOrDefault();
+                    if (filipino != null){
+                        string b = filipino.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(filipino.Url, filipino.Value.ToString()));
+                    }
+
+                    // Japanese
+                    Extension japanese = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Japanese).FirstOrDefault();
+                    if (japanese != null){
+                        string b = japanese.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(japanese.Url, japanese.Value.ToString()));
+                    }
+
+                    // Other Asian
+                    Extension otherAsian = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsian).FirstOrDefault();
+                    if (otherAsian != null){
+                        string b = otherAsian.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(otherAsian.Url, otherAsian.Value.ToString()));
+                    }
+
+
+                    // Native Hawaiian
+                    Extension nativeHawaiian = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.NativeHawaiian).FirstOrDefault();
+                    if (nativeHawaiian != null){
+                        string b = nativeHawaiian.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(nativeHawaiian.Url, nativeHawaiian.Value.ToString()));
+                    }
+
+                    // Guamanian or Chamorro
+                    Extension guamanianOrChamorro = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.GuamanianOrChamorro).FirstOrDefault();
+                    if (guamanianOrChamorro != null){
+                        string b = guamanianOrChamorro.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(guamanianOrChamorro.Url, guamanianOrChamorro.Value.ToString()));
+                    }
+
+                    // Samoan
+                    Extension samoan = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.Samoan).FirstOrDefault();
+                    if (samoan != null){
+                        string b = samoan.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(samoan.Url, samoan.Value.ToString()));
+                    }
+
+                    // Other Pacific Islander
+                    Extension otherPacificIslander = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslander).FirstOrDefault();
+                    if (otherPacificIslander != null){
+                        string b = otherPacificIslander.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(otherPacificIslander.Url, otherPacificIslander.Value.ToString()));
+                    }
+
+                    // Other Race
+                    Extension otherRace = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRace).FirstOrDefault();
+                    if (otherRace != null){
+                        string b = otherRace.Value.Equals(true) ? "Y" : "N";
+                        races.Add(new Tuple<string,string>(otherRace.Url, otherRace.Value.ToString()));
+                    }
+
+                    // American Indian Or Alaska Native Literal 1 
+                    Extension americanIndianOrAlaskaNativeLiteral1 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral1).FirstOrDefault();
+                    if (americanIndianOrAlaskaNativeLiteral1 != null){
+                        races.Add(new Tuple<string,string>(americanIndianOrAlaskaNativeLiteral1.Url, americanIndianOrAlaskaNativeLiteral1.Value.ToString()));
+                    }
+                    
+                    // American Indian Or Alaska Native Literal 2
+                    Extension americanIndianOrAlaskaNativeLiteral2 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral2).FirstOrDefault();
+                    if (americanIndianOrAlaskaNativeLiteral2 != null){
+                        races.Add(new Tuple<string,string>(americanIndianOrAlaskaNativeLiteral2.Url, americanIndianOrAlaskaNativeLiteral2.Value.ToString()));
+                    }
+
+                    // Other Asian Literal 1
+                    Extension otherAsianLiteral1 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral1).FirstOrDefault();
+                    if (otherAsianLiteral1 != null){
+                        races.Add(new Tuple<string,string>(otherAsianLiteral1.Url, otherAsianLiteral1.Value.ToString()));
+                    }
+
+                    // Other Asian Literal 2
+                    Extension otherAsianLiteral2 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherAsianLiteral2).FirstOrDefault();
+                    if (otherAsianLiteral2 != null){
+                        races.Add(new Tuple<string,string>(otherAsianLiteral2.Url, otherAsianLiteral2.Value.ToString()));
+                    }
+
+                    // Other Pacific Islander Literal 1
+                    Extension otherPacificIslanderLiteral1 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral1).FirstOrDefault();
+                    if (otherPacificIslanderLiteral1 != null){
+                        races.Add(new Tuple<string,string>(otherPacificIslanderLiteral1.Url, otherPacificIslanderLiteral1.Value.ToString()));
+                    }
+                    
+                    // Other Pacific Islander Literal 2
+                    Extension otherPacificIslanderLiteral2 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherPacificIslandLiteral2).FirstOrDefault();
+                    if (otherPacificIslanderLiteral2 != null){
+                        races.Add(new Tuple<string,string>(otherPacificIslanderLiteral2.Url, otherPacificIslanderLiteral2.Value.ToString()));
+                    }
+
+                    // Other Race Literal 1
+                    Extension otherRaceLiteral1 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral1).FirstOrDefault();
+                    if (otherRaceLiteral1 != null){
+                        races.Add(new Tuple<string,string>(otherRaceLiteral1.Url, otherRaceLiteral1.Value.ToString()));
+                    }
+
+                    // Other Race Literal 2
+                    Extension otherRaceLiteral2 = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.OtherRaceLiteral2).FirstOrDefault();
+                    if (otherRaceLiteral2 != null){
+                        races.Add(new Tuple<string,string>(otherRaceLiteral2.Url, otherRaceLiteral2.Value.ToString()));
+                    }
+
+                    // Missing Value Reason
+                    Extension missingValueReason = race.Extension.Where(ext => ext.Url == ValueSets.NvssRace.MissingValueReason).FirstOrDefault();
+                    if (missingValueReason != null){
+                        Coding coding = (Coding) missingValueReason.Value;
+                        if (coding != null){
+                            races.Add(new Tuple<string,string>(missingValueReason.Url, coding.Code));
+                        }
+                    }
+                    return races;
                 }
-                for (int i = 0; i < detailedCodes.Length; i++)
-                {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(detailedCodes[i])))
-                    {
-                        raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                    else
-                    {
-                        raceList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                }
-                return raceList;
+                return null;
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race");
-                Extension races = new Extension();
-                races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-                List<string> textRaceStrs = new List<string>();
-                foreach(Tuple<string,string> element in value)
-                {
-                    string display = element.Item1;
-                    string code = element.Item2;
-                    textRaceStrs.Add(display);
-                    Extension codeRace = new Extension();
-                    if (code == "1002-5" || code == "2028-9" || code == "2054-5" || code == "2076-8" || code == "2106-3")
-                    {
-                        codeRace.Url = "ombCategory";
-                    }
-                    else if (display.Equals("American Indian or Alaska Native", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Asian", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Black or African American", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Native Hawaiian or Other Pacific Islander", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("White", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        codeRace.Url = "ombCategory";
-                    }
-                    else
-                    {
-                        codeRace.Url = "detailed";
-                    }
-                    Coding coding = new Coding();
-                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
-                    if (!String.IsNullOrWhiteSpace(code))
-                    {
-                        coding.Code = code;
-                    }
-                    if (!String.IsNullOrWhiteSpace(display))
-                    {
-                        coding.Display = display;
-                    }
-                    codeRace.Value = coding;
-                    races.Extension.Add(codeRace);
-                }
-                Extension textRace = new Extension();
-                textRace.Url = "text";
-                textRace.Value = new FhirString(String.Join(", ", textRaceStrs));
-                races.Extension.Add(textRace);
-                Decedent.Extension.Add(races);
+                // NOOP
+                
+                // Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race");
+                // Extension races = new Extension();
+                // races.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Race";
+            
+                // foreach(Tuple<string,string> element in value)
+                // {
+                //     Extension race = new Extension();
+                //     race.Url = element.Item1;
+                //     switch (element.Item1)
+                //     {
+                //         case ValueSets.NvssRace.MissingValueReason:
+                //             Coding coding = new Coding();
+                //             coding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs";
+                //             coding.Code = element.Item2;
+                //             race.Value = coding;
+                //             break;
+                //         case ValueSets.NvssRace.AmericanIndianOrAlaskanNativeLiteral:
+                //         case ValueSets.NvssRace.OtherAsianLiteral:
+                //         case ValueSets.NvssRace.OtherPacificIslandLiteral:
+                //         case ValueSets.NvssRace.OtherRaceLiteral:
+                //             race.Value = new FhirString(element.Item2);
+                //             break;
+                //         default:
+                //             // Convert Y or N to true or false
+                //             if (element.Item2 == "Y")
+                //             {
+                //                 race.Value = new FhirBoolean(true);
+                //             }
+                //             else 
+                //             {
+                //                 race.Value = new FhirBoolean(false);
+                //             }
+                //             break;
+                //     }
+                //     races.Extension.Add(race);
+                // }
+                // Decedent.Extension.Add(races);
             }
         }
 
+       
         /// <summary>Decedent's Place Of Birth.</summary>
         /// <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
@@ -8070,9 +9424,23 @@ public string SpouseMaidenName
                 {
                     address.City = dict["addressCity"];
                 }
+                if (dict.ContainsKey("addressCityC") && !String.IsNullOrEmpty(dict["addressCityC"]))
+                {
+                    Extension cityCode = new Extension();
+                    cityCode.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode";
+                    cityCode.Value = new FhirString(dict["addressCityC"]);
+                    address.CityElement.Extension.Add(cityCode);
+                }
                 if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
                 {
                     address.District = dict["addressCounty"];
+                }
+                if (dict.ContainsKey("addressCountyC") && !String.IsNullOrEmpty(dict["addressCountyC"]))
+                {
+                    Extension countyCode = new Extension();
+                    countyCode.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode";
+                    countyCode.Value = new FhirString(dict["addressCountyC"]);
+                    address.CityElement.Extension.Add(countyCode);
                 }
                 if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
                 {
@@ -8091,45 +9459,30 @@ public string SpouseMaidenName
         }
 
         /// <summary>Convert a Date Part Extension to an Array.</summary>
-        /// <param name="datePartAbsent">a Date Part Extension.</param>
+        /// <param name="datePart">a Date Part Extension.</param>
         /// <returns>the corresponding array representation of the date parts.</returns>
-        private Tuple<string, string>[] DatePartsToArray(Extension datePartAbsent)
+        private Tuple<string, string>[] DatePartsToArray(Extension datePart)
         {
             List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-            if (datePartAbsent != null)
+            if (datePart != null)
             {
-                Extension yearAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "year-absent-reason").FirstOrDefault();
-                Extension monthAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "month-absent-reason").FirstOrDefault();
-                Extension dayAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "day-absent-reason").FirstOrDefault();
-                Extension yearPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-year").FirstOrDefault();
-                Extension monthPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-month").FirstOrDefault();
-                Extension dayPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-day").FirstOrDefault();
+                Extension yearPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year").FirstOrDefault();
+                Extension monthPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month").FirstOrDefault();
+                Extension dayPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day").FirstOrDefault();
                 // Year part
-                if (yearAbsentPart != null)
-                {
-                    dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
-                }
                 if (yearPart != null)
                 {
-                    dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("Date-Year", yearPart.Value.ToString()));
                 }
                 // Month part
-                if (monthAbsentPart != null)
-                {
-                    dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
-                }
                 if (monthPart != null)
                 {
-                    dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("Date-Month", monthPart.Value.ToString()));
                 }
                 // Day Part
-                if (dayAbsentPart != null)
-                {
-                    dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
-                }
                 if (dayPart != null)
                 {
-                    dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("Date-Day", dayPart.Value.ToString()));
                 }
             }
             return dateParts.ToArray();
@@ -8173,6 +9526,25 @@ public string SpouseMaidenName
                 {
                     dictionary.Add("addressLine2", "");
                 }
+                if(addr.CityElement != null)
+                {
+                    Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode").FirstOrDefault();
+                    dictionary.Add("addressCityC", cityCode.Value.ToString());
+                }
+                else
+                {
+                    dictionary.Add("addressCityC", "");
+                }
+                if(addr.DistrictElement != null)
+                {
+                    Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode").FirstOrDefault();
+                    dictionary.Add("addressCountyC", cityCode.Value.ToString());
+                }
+                else
+                {
+                    dictionary.Add("addressCountyC", "");
+                }
+
                 dictionary.Add("addressCity", addr.City);
                 dictionary.Add("addressCounty", addr.District);
                 dictionary.Add("addressState", addr.State);
@@ -8184,7 +9556,9 @@ public string SpouseMaidenName
                 dictionary.Add("addressLine1", "");
                 dictionary.Add("addressLine2", "");
                 dictionary.Add("addressCity", "");
+                dictionary.Add("addressCityC", "");
                 dictionary.Add("addressCounty", "");
+                dictionary.Add("addressCountyC", "");
                 dictionary.Add("addressState", "");
                 dictionary.Add("addressZip", "");
                 dictionary.Add("addressCountry", "");
@@ -8200,6 +9574,7 @@ public string SpouseMaidenName
             dictionary.Add("addressLine1", "");
             dictionary.Add("addressLine2", "");
             dictionary.Add("addressCity", "");
+            dictionary.Add("addressCityC", "");
             dictionary.Add("addressCounty", "");
             dictionary.Add("addressState", "");
             dictionary.Add("addressZip", "");

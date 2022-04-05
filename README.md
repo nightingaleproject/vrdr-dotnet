@@ -303,6 +303,58 @@ dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
 ```
+### VRDR.Client
+This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API). 
+
+*This package is not yet published on NuGet.*
+
+Note that the VRDR.Client package automatically includes the VRDR package and the VRDR Messaging package, a project file should not reference both.
+
+You can include a locally downloaded copy of the library instead of the NuGet version by referencing `VRDRClient.csproj` in your project configuration, for example:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  ...
+  <ItemGroup>
+    <ProjectReference Include="..\VRDR.Client\VRDRClient.csproj" />
+    ...
+  </ItemGroup>
+</Project>
+```
+
+#### Example Usage
+Authenticate to the NVSS API Server
+```
+  // Example SAMS credentials
+  string authUrl = "https://<authServerUrl>.gov/auth/oauth/v2/token";
+  string clientId = "Client-id-from-sams";
+  string clientSecret = "Client-secret-from-sams";
+  string username = "your-sams-username";
+  string pass = "your-sams-password";
+
+  // ... Create the credentials and client intance
+  Credentials credentials = new Credentials(authUrl, clientId, clientSecret, username, pass);
+  string apiUrl = "https://<thenvssapiserverurl>.gov/OSELS/NCHS/NVSSFHIRAPI/<Jurisidction-Id>/Bundles";
+  Boolean localDev = false; // false when testing against the NVSS API Server
+  client = new Client(apiUrl, localDev, credentials);
+```
+
+POST a FHIR Message to the NVSS API Server with your authenticated client
+```
+  // ... Create a FHIR Message
+  BaseMessage msg = new BaseMessage();
+  Boolean success = client.PostMessageAsync(msg);
+  // ... handle success or failure
+```
+
+GET record responses from the NVSS API Server with your authenticated client
+```
+  // lastUpdated is a timestamp of the last GET request
+  lastUpdatedStr = lastUpdated.ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
+  var content = client.GetMessageResponsesAsync(lastUpdatedStr);
+  
+  // ...parse the Bundle of Bundles in the content response
+```
 
 ### VRDR.HTTP
 This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.

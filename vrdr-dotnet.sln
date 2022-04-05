@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeathRecord.CLI", "VRDR.CLI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FhirDeathRecord.HTTP", "VRDR.HTTP\FhirDeathRecord.HTTP.csproj", "{26E609D9-ECE5-4A9C-B12D-E5A74A775CC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRDRClient", "VRDR.Client\VRDRClient.csproj", "{12518F30-0FCA-403A-A753-63D487D03A9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{26E609D9-ECE5-4A9C-B12D-E5A74A775CC6}.Release|x64.Build.0 = Release|Any CPU
 		{26E609D9-ECE5-4A9C-B12D-E5A74A775CC6}.Release|x86.ActiveCfg = Release|Any CPU
 		{26E609D9-ECE5-4A9C-B12D-E5A74A775CC6}.Release|x86.Build.0 = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|x64.Build.0 = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Debug|x86.Build.0 = Debug|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|x64.Build.0 = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{12518F30-0FCA-403A-A753-63D487D03A9C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

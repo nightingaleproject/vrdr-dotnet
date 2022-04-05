@@ -47,7 +47,6 @@ This repository includes .NET (C#) code for
 
 ### Development & CLI Requirements
 - This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
-- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
@@ -265,8 +264,6 @@ dotnet test
 
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
-
-NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework netcoreapp2.1` to the end of all the example commands below
 
 #### Example Usages
 ```bash

@@ -36,9 +36,9 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.2.1</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.1"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V3.3.0</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.0"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -68,7 +68,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.2.1" />
+  <PackageReference Include="VRDR" Version="3.3.0" />
   ...
 </ItemGroup>
 ```
@@ -233,7 +233,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.2.1" />
+  <PackageReference Include="VRDR.Messaging" Version="3.3.0" />
   ...
 </ItemGroup>
 ```
@@ -415,6 +415,8 @@ Finally, merge master into the IG-develop-vx.x.x branch.
 #### Publishing a Version
 
 To create a new release of VRDR on NuGet, bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.
+
+When publishing a new version, remember to update all the version number references in this README as well as creating a GitHub release as needed.
 
 ## License
 

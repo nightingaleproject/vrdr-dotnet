@@ -1,4 +1,3 @@
-using VRDR;
 using System;
 using System.Collections.Generic;
 
@@ -51,7 +50,7 @@ namespace VRDR
 
             record.Identifier = "000001";
 
-            record.RegisteredTime = "2022-01-09";
+            record.RegisteredTime = "2021-02-09";
 
             record.GivenNames = new string[] { "Janet" };
 
@@ -125,7 +124,7 @@ namespace VRDR
             uind.Add("text", "Health Insurance");
             record.UsualIndustryCode = uind;
 
-            record.DateOfDeath = "2022-01-08T05:30:00";
+            record.DateOfDeath = "2021-02-08T05:30:00";
 
             Dictionary<string, string> deathLoc = new Dictionary<string, string>();
             deathLoc.Add("addressCity", "Atlanta");
@@ -158,9 +157,9 @@ namespace VRDR
             address.Add("addressCountry", "US");
             record.CertifierAddress = address;
 
-            record.CertifiedTime = "2022-01-08";
+            record.CertifiedTime = "2021-02-08";
 
-            record.DateOfDeathPronouncement = "2022-01-08T05:30:00";
+            record.DateOfDeathPronouncement = "2021-02-08T05:30:00";
             record.PronouncerGivenNames = new string[] { "Sam" };
             record.PronouncerFamilyName = "Jones";
 
@@ -242,7 +241,7 @@ namespace VRDR
 
             record.Identifier = "000002";
 
-            record.RegisteredTime = "2022-01-11";
+            record.RegisteredTime = "2021-06-11";
 
             record.GivenNames = new string[] { "Madelyn" };
 
@@ -313,7 +312,7 @@ namespace VRDR
             uind.Add("text", "Fast food");
             record.UsualIndustryCode = uind;
 
-            record.DateOfDeath = "2022-01-05T14:04:00";
+            record.DateOfDeath = "2021-06-05T14:04:00";
 
             Dictionary<string, string> deathLoc = new Dictionary<string, string>();
             deathLoc.Add("addressCity", "Danville");
@@ -345,9 +344,9 @@ namespace VRDR
             address.Add("addressCountry", "US");
             record.CertifierAddress = address;
 
-            record.CertifiedTime = "2022-01-05";
+            record.CertifiedTime = "2021-06-05";
 
-            record.DateOfDeathPronouncement = "2022-01-05T15:30:00";
+            record.DateOfDeathPronouncement = "2021-06-05T15:30:00";
             record.PronouncerGivenNames = new string[] { "Adam" };
             record.PronouncerFamilyName = "Revel";
 
@@ -364,7 +363,7 @@ namespace VRDR
             manner.Add("display", "Accidental death");
             record.MannerOfDeathType = manner;
 
-            record.InjuryDate = "2022-01-05T13:00:00";
+            record.InjuryDate = "2021-06-05T13:00:00";
             record.InjuryAtWorkBoolean = false;
 
             // @check
@@ -441,7 +440,7 @@ namespace VRDR
 
             record.Identifier = "000003";
 
-            record.RegisteredTime = "2022-01-14";
+            record.RegisteredTime = "2021-01-14";
 
             record.GivenNames = new string[] { "Vivienne", "L" };
 
@@ -513,7 +512,7 @@ namespace VRDR
             uind.Add("text", "State agency");
             record.UsualIndustryCode = uind;
 
-            record.DateOfDeath = "2022-01-13T21:00:00";
+            record.DateOfDeath = "2021-01-13T21:00:00";
 
             Dictionary<string, string> deathLoc = new Dictionary<string, string>();
             deathLoc.Add("addressCity", "Lancaster");
@@ -547,9 +546,9 @@ namespace VRDR
             address.Add("addressCountry", "US");
             record.CertifierAddress = address;
 
-            record.CertifiedTime = "2022-01-13";
+            record.CertifiedTime = "2021-01-13";
 
-            record.DateOfDeathPronouncement = "2022-01-13T21:00:00";
+            record.DateOfDeathPronouncement = "2021-01-13T21:00:00";
             record.PronouncerGivenNames = new string[] { "Jim" };
             record.PronouncerFamilyName = "Black";
 
@@ -635,7 +634,7 @@ namespace VRDR
 
             record.Identifier = "000004";
 
-            record.RegisteredTime = "2022-01-15";
+            record.RegisteredTime = "2021-03-15";
 
             record.GivenNames = new string[] { "Javier", "Luis" };
 
@@ -732,7 +731,7 @@ namespace VRDR
             uind.Add("text", "construction");
             record.UsualIndustryCode = uind;
 
-            record.DateOfDeath = "2022-01-14T11:25:00";
+            record.DateOfDeath = "2021-03-14T11:25:00";
 
             record.DeathLocationName = "County Hospital";
             Dictionary<string, string> locType = new Dictionary<string, string>();
@@ -760,9 +759,9 @@ namespace VRDR
             address.Add("addressCountry", "US");
             record.CertifierAddress = address;
 
-            record.CertifiedTime = "2022-01-14";
+            record.CertifiedTime = "2021-03-14";
 
-            record.DateOfDeathPronouncement = "2022-01-14T11:35:00";
+            record.DateOfDeathPronouncement = "2021-03-14T11:35:00";
 
             if (fullRecord)
             {
@@ -790,7 +789,7 @@ namespace VRDR
             manner.Add("display", "Accidental death");
             record.MannerOfDeathType = manner;
 
-            record.InjuryDate = "2022-01-14T11:15:00";
+            record.InjuryDate = "2021-03-14T11:15:00";
             record.InjuryAtWorkBoolean = true;
 
             Dictionary<string, string> injuryPlace = new Dictionary<string, string>();

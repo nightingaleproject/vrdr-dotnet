@@ -18,7 +18,7 @@ public class Client
     /// <summary>The credentials to access the API server</summary>
     public Credentials Credentials { get; }
     /// <summary>The token to access the API server</summary>
-    public string Token { get; set; }
+    public string? Token { get; set; }
     /// <summary>Constructor</summary>
     private HttpClient client = new HttpClient();
     public Client(String url, bool local, Credentials credentials)
@@ -108,7 +108,7 @@ public class Client
         HttpResponseMessage response = GetAuthorizeToken();
         if (response.IsSuccessStatusCode)
         {
-            String content = response.Content.ToString();
+            String? content = response.Content.ToString();
             // parse the response to get the access token
             if (!String.IsNullOrEmpty(content))
             {

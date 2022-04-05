@@ -396,7 +396,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician" />
+              <display value="Physician certified and pronounced death certificate" />
             </coding>
           </function>
           <actor>

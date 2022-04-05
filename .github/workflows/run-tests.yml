@@ -36,25 +36,25 @@ jobs:
       run: |
           echo "* dotnet test VRDR.Tests/DeathRecord.Tests.csproj"
           dotnet test VRDR.Tests/DeathRecord.Tests.csproj
-          echo "* dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json"
-          dotnet run -p VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json
-          echo "* dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run -p VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml
-          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml
-          echo "* dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
-          dotnet run -p VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
-          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml"
-          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  
-          echo "* ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json"
-          ! dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1.json  
-          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  
-          echo "* dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json"
-          dotnet run -p VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   
-          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  
-          echo "* dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json"
-          dotnet run -p VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  
+          echo "* dotnet run --project VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json"
+          dotnet run --project VRDR.CLI json2json VRDR.CLI/1_wJurisdiction.json
+          echo "* dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run --project VRDR.CLI xml2xml VRDR.CLI/1_wJurisdiction.xml
+          echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.xml
+          echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
+          dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
+          echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml"
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  
+          echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json"
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json  
+          echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  
+          echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json"
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   
+          echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml"
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  
+          echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json"
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  
           echo "* ./VRDR.Tests/test_translation_service.sh"
           ./VRDR.Tests/test_translation_service.sh

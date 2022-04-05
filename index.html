@@ -94,9 +94,9 @@ Versions</h2>
 <p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  </p>
 <p >STU2 Ballot </p>
 <p >R4 </p>
-<p >V3.2.1 </p>
-<p ><a href="https://www.nuget.org/packages/VRDR/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.1">github</a> </p>
-<p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
+<p >V3.3.0 </p>
+<p ><a href="https://www.nuget.org/packages/VRDR/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.0">github</a> </p>
+<p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
 <h2><a class="anchor" id="autotoc_md38"></a>
 Requirements</h2>
 <h3><a class="anchor" id="autotoc_md39"></a>
@@ -128,7 +128,7 @@ VRDR</h3>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.2.1&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.0&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p >You can also include a locally downloaded copy of the library instead of the NuGet version by referencing <code>DeathRecord.csproj</code> in your project configuration, for example (taken from <a class="el" href="namespace_v_r_d_r_1_1_c_l_i.html">VRDR.CLI</a>): </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">Project</span> <span class="keyword">Sdk</span>=<span class="stringliteral">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</div>
@@ -270,7 +270,7 @@ VRDR.Messaging</h3>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.2.1&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.0&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p >Note that the VRDR.Messaging package automatically includes the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> package, a project file should not reference both.</p>
@@ -402,6 +402,7 @@ Contributing</h4>
 <h4><a class="anchor" id="autotoc_md61"></a>
 Publishing a Version</h4>
 <p >To create a new release of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> on NuGet, bump the version of the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> and VRDR.Messaging listed in the <a href="Directory.Build.props">Directory.Build.props</a> file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, <a href=".github/workflows/publish.yml">Github Actions</a> will automatically build and publish a new version of the package based on the value specified.</p>
+<p >When publishing a new version, remember to update all the version number references in this README as well as creating a GitHub release as needed.</p>
 <h2><a class="anchor" id="autotoc_md62"></a>
 License</h2>
 <p >Copyright 2018, 2019, 2020 The MITRE Corporation</p>

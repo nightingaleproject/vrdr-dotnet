@@ -1,5 +1,11 @@
 ## Changelog
 
+### v3.3.0 - 2022-04-05
+
+* Added a client library (VDRD.Client) for interacting with the [NVSS FHIR API](https://github.com/nightingaleproject/Reference-NCHS-API)
+* Added helper methods for setting field values that use value sets
+* Fixed bug in unknown DOB IJE to FHIR conversion
+
 ### v3.2.1 - 2021-10-05
 
 * Return null rather than an error when jurisdiction id is missing from VRDR record

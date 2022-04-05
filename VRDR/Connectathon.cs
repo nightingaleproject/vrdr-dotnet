@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 namespace VRDR
 {
-    /// <summary>vrdr-dotnet versions of connectathon records.</summary>
+    /// <summary>Class <c>Connectathon</c> provides static methods for generating records used in Connectathon testing, used in Canary and in the CLI tool</summary>
     public class Connectathon
     {
-        public static string fhirVersion = "R4";    // used to generate files
-        public Connectathon() { }
-
+        /// <summary>Generate a DeathRecord from one of 5 pre-set records, providing an optional certificate number and state</summary>
         public static DeathRecord FromId(int id, int? certificateNumber = null, string state = null)
         {
             DeathRecord record = null;
@@ -44,6 +42,7 @@ namespace VRDR
             return record;
         }
 
+        /// <summary>Generate the Janet Page example record</summary>
         public static DeathRecord JanetPage()
         {
             DeathRecord record = new DeathRecord();
@@ -228,13 +227,10 @@ namespace VRDR
                 { "system", CodeSystems.PH_NullFlavor_HL7_V3 },
                 { "display", "unknown" } };
 
-            // uncomment to generate file
-            // string filename = "1_janet_page_cancer_" + fhirVersion + ".xml";
-            // WriteRecordAsXml(record, filename);
-
             return record;
         }
 
+        /// <summary>Generate the Madelyn Patel example record</summary>
         public static DeathRecord MadelynPatel()
         {
             DeathRecord record = new DeathRecord();
@@ -427,13 +423,11 @@ namespace VRDR
                 { "code", "Y" },
                 { "system", CodeSystems.PH_YesNo_HL7_2x },
                 { "display", "Yes" } };
-            // uncomment to generate file
-            // string filename = "2_madelyn_patel_opiod_" + fhirVersion + ".xml";
-            // WriteRecordAsXml(record, filename);
 
             return record;
         }
 
+        /// <summary>Generate the Vivienne Lee Wright example record</summary>
         public static DeathRecord VivienneLeeWright()
         {
             DeathRecord record = new DeathRecord();
@@ -616,17 +610,10 @@ namespace VRDR
                 { "system", CodeSystems.PH_YesNo_HL7_2x },
                 { "display", "No" } };
 
-            // uncomment to generate file
-            // string filename = "3_vivienne_wright_pregnant_" + fhirVersion + ".xml";
-            // WriteRecordAsXml(record, filename);
-
             return record;
         }
 
-        /** this can be used 2 ways, with partialRecord set to
-         *                                  false for a full record
-         *                               or true for a partial record
-         */
+        /// <summary>Generate the Javier Luis Perez example record; this can be used to generate either a partial or full record</summary>
         public static DeathRecord JavierLuisPerez(bool partialRecord = false)
         {
             bool fullRecord = !partialRecord;
@@ -862,24 +849,13 @@ namespace VRDR
                 { "code", "N" },
                 { "system", CodeSystems.PH_YesNo_HL7_2x },
                 { "display", "No" } };
-            // uncomment to generate file
-            // string filename = "";
-            // if (fullRecord)
-            // {
-            //     filename += "4_javier_perez_accident_full_" + fhirVersion + ".xml";
-            // }
-            // else
-            // {
-            //     filename += "5_javier_perez_accident_partial_" + fhirVersion + ".xml";
-            // }
-            // WriteRecordAsXml(record, filename);
 
             return record;
         }
 
-
         // Writes record to a file named filename in a subdirectory of the current working directory
-        //  Note that you do this with docker, you will have to set a bind mount on the container
+        // Note that you do this with docker, you will have to set a bind mount on the container
+        /// <summary>Of historical interest for writing a record to a file</summary>
         public static string WriteRecordAsXml(DeathRecord record, string filename)
         {
             string parentPath = System.IO.Directory.GetCurrentDirectory() + "/connectathon_files";

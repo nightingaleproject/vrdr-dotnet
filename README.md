@@ -151,6 +151,41 @@ Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVA
 Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", deathRecord.CODE1A.Select(x => x.Key + "=" + x.Value).ToArray())}");
 ```
 
+#### Helper Methods for Value Sets
+
+For fields that contain coded values it can involve some extra effort to provide the code, the code
+system, and the display text. The VRDR library includes some helper methods to make this easier. For
+example, here's how to specify the pregnancy status using the long form specifying each of the three
+necessary values:
+
+```
+// Add PregnancyStatus
+Dictionary<string, string> code = new Dictionary<string, string>();
+code.Add("code", "PHC1261");
+code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("display", "Pregnant at the time of death");
+deathRecord.PregnancyStatus = code;
+```
+
+Here's a simpler way to accomplish the same thing by using the `PregnancyStatusHelper`:
+
+```
+deathRecord.PregnancyStatusHelper = "PHC1261";
+```
+
+The helper automatically looks up the correct code system and display string. The following helpers
+are available to simplify setting coded values:
+
+* CertificationRoleHelper
+* MannerOfDeathTypeHelper
+* MaritalStatusHelper
+* EducationLevelHelper
+* DecedentDispositionMethodHelper
+* DeathLocationTypeHelper
+* PregnancyStatusHelper
+* InjuryPlaceHelper
+* TransportationRoleHelper
+
 #### FHIR VRDR record to/from IJE Mortality format
 An example of converting a VRDR FHIR Death Record to an IJE string:
 ```cs

@@ -186,8 +186,8 @@ namespace VRDR.Tests
             IJEMortality ijefromjson = new IJEMortality(djson);
             DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
 
-            Assert.NotEqual(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Hospice);
-            Assert.Equal(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient);
+            Assert.NotEqual(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice);
+            Assert.Equal(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital);
             Assert.Equal("Death in hospital", fromijefromjson.DeathLocationType["display"]);
         }
 
@@ -309,9 +309,9 @@ namespace VRDR.Tests
 [Fact]
         public void Set_DeathLocationTypeHelper()
         {
-            SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
-            Assert.Equal(VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility, SetterDeathRecord.DeathLocationTypeHelper);
-            Assert.Equal("Death in nursing home/Long term care facility", SetterDeathRecord.DeathLocationType["display"]);
+            SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility;
+            Assert.Equal(VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility, SetterDeathRecord.DeathLocationTypeHelper);
+            Assert.Equal("Death in nursing home or long term care facility", SetterDeathRecord.DeathLocationType["display"]);
             Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue");
         }
 
@@ -515,21 +515,21 @@ namespace VRDR.Tests
         public void Set_MannerOfDeathType()
         {
             Dictionary<string, string> type = new Dictionary<string, string>();
-            SetterDeathRecord.MannerOfDeathTypeHelper = ValueSets.MannerOfDeath.Accident;
+            SetterDeathRecord.MannerOfDeathTypeHelper = ValueSets.MannerOfDeath.Accidental_Death;
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.MannerOfDeathType["system"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Accident, SetterDeathRecord.MannerOfDeathTypeHelper);
-            Assert.Equal("Accident", SetterDeathRecord.MannerOfDeathType["display"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, SetterDeathRecord.MannerOfDeathTypeHelper);
+            Assert.Equal("Accidental death", SetterDeathRecord.MannerOfDeathType["display"]);
         }
 
         [Fact]
         public void Get_MannerOfDeathType()
         {
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Accident, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
-            Assert.Equal("Accident", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)JSONRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal("Accidental death", ((DeathRecord)JSONRecords[0]).MannerOfDeathType["display"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
-            Assert.Equal(ValueSets.MannerOfDeath.Accident, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
-            Assert.Equal("Accident", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
+            Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
         }
 
         [Fact]
@@ -1527,10 +1527,10 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, SetterDeathRecord.EducationLevel["code"]);
             Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", SetterDeathRecord.EducationLevel["display"]);
-            SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Associate_Degree;
-            Assert.Equal(VRDR.ValueSets.EducationLevel.Associate_Degree, SetterDeathRecord.EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
-            Assert.Equal("Associate Degree", SetterDeathRecord.EducationLevel["display"]);
+            SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Associates_Or_Technical_Degree_Complete;
+            Assert.Equal(VRDR.ValueSets.EducationLevel.Associates_Or_Technical_Degree_Complete, SetterDeathRecord.EducationLevelHelper);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, SetterDeathRecord.EducationLevel["system"]);
+            Assert.Equal("Associate's or technical degree complete", SetterDeathRecord.EducationLevel["display"]);
 
         }
 
@@ -1538,10 +1538,10 @@ namespace VRDR.Tests
         public void Get_EducationLevel()
         {
             Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)JSONRecords[0]).EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, ((DeathRecord)JSONRecords[0]).EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", ((DeathRecord)JSONRecords[0]).EducationLevel["display"]);
             Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
         }
 

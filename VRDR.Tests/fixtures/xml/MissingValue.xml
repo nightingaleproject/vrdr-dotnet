@@ -732,8 +732,8 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.114222.4.5.274" />
-            <code value="PHC1453" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0360" />
+            <code value="BA" />
             <display value="Bachelor's Degree" />
           </coding>
         </valueCodeableConcept>

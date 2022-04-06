@@ -252,12 +252,12 @@ namespace VRDR
             public static string  Some_College_Education = "SCOL";
             /// <summary> Doctoral_Or_Post_Graduate_Education </summary>
             public static string  Doctoral_Or_Post_Graduate_Education = "POSTG";
-            /// <summary> Associate_S_Or_Technical_Degree_Complete </summary>
-            public static string  Associate_S_Or_Technical_Degree_Complete = "AA";
-            /// <summary> Bachelor_S_Degree </summary>
-            public static string  Bachelor_S_Degree = "BA";
-            /// <summary> Master_S_Degree </summary>
-            public static string  Master_S_Degree = "MA";
+            /// <summary> Associates_Or_Technical_Degree_Complete </summary>
+            public static string  Associates_Or_Technical_Degree_Complete = "AA";
+            /// <summary> Bachelors_Degree </summary>
+            public static string  Bachelors_Degree = "BA";
+            /// <summary> Masters_Degree </summary>
+            public static string  Masters_Degree = "MA";
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };

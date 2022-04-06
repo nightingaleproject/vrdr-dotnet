@@ -122,7 +122,7 @@ valuesets.each do |vsfile, fieldname|
             end
             for concept in group["concept"]
                 display = concept["display"].split(/-[A-Z]/).first
-                display = display.split(/[^a-z]+/i).map(&:capitalize).join('_')
+                display = display.gsub("'", '').split(/[^a-z]+/i).map(&:capitalize).join('_')
                 if display[0][/\d/] then display = "_" + display end
                 file.puts "            /// <summary> #{display} </summary>"
                 file.puts "            public static string  #{display} = \"#{concept["code"]}\";"

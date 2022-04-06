@@ -147,6 +147,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ad51ed0d1fba9e907ca465a25666b7375"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ad51ed0d1fba9e907ca465a25666b7375">CertificationRole</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ad51ed0d1fba9e907ca465a25666b7375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Certification Role. <a href="class_v_r_d_r_1_1_death_record.html#ad51ed0d1fba9e907ca465a25666b7375">More...</a><br /></td></tr>
 <tr class="separator:ad51ed0d1fba9e907ca465a25666b7375"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c82edaa63a4eb56875ae1ffbab6fcb2"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a6c82edaa63a4eb56875ae1ffbab6fcb2">CertificationRoleHelper</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6c82edaa63a4eb56875ae1ffbab6fcb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Certification Role Helper. <a href="class_v_r_d_r_1_1_death_record.html#a6c82edaa63a4eb56875ae1ffbab6fcb2">More...</a><br /></td></tr>
+<tr class="separator:a6c82edaa63a4eb56875ae1ffbab6fcb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a115def3635a4c9204b8b06d5f7794758"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a115def3635a4c9204b8b06d5f7794758">InterestedPartyIdentifier</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a115def3635a4c9204b8b06d5f7794758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interested Party Identifier. <a href="class_v_r_d_r_1_1_death_record.html#a115def3635a4c9204b8b06d5f7794758">More...</a><br /></td></tr>
 <tr class="separator:a115def3635a4c9204b8b06d5f7794758"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1613,6 +1616,36 @@ Properties</h2></td></tr>
 <p >ExampleDeathRecord.CertificationRole = role;</p>
 <p >// Getter:</p>
 <p >Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</p>
+
+</div>
+</div>
+<a id="a6c82edaa63a4eb56875ae1ffbab6fcb2" name="a6c82edaa63a4eb56875ae1ffbab6fcb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c82edaa63a4eb56875ae1ffbab6fcb2">&#9670;&nbsp;</a></span>CertificationRoleHelper</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string VRDR.DeathRecord.CertificationRoleHelper</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Certification Role Helper.</p>
+<p >the role/qualification of the person who certified the death. </p>
+<p >"code" - the code</p>
+<p >// Setter:</p>
+<p >ExampleDeathRecord.CertificationRoleHelper = ValueSets.CertificationRole.InfectiousDiseasesPhysician;</p>
+<p >// Getter:</p>
+<p >Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</p>
 
 </div>
 </div>

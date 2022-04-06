@@ -5,5 +5,6 @@ var searchData=
   ['client_2',['Client',['../class_client.html',1,'']]],
   ['codingresponsemessage_3',['CodingResponseMessage',['../class_v_r_d_r_1_1_coding_response_message.html',1,'VRDR']]],
   ['codingupdatemessage_4',['CodingUpdateMessage',['../class_v_r_d_r_1_1_coding_update_message.html',1,'VRDR']]],
-  ['credentials_5',['Credentials',['../class_credentials.html',1,'']]]
+  ['connectathon_5',['Connectathon',['../class_v_r_d_r_1_1_connectathon.html',1,'VRDR']]],
+  ['credentials_6',['Credentials',['../class_credentials.html',1,'']]]
 ];

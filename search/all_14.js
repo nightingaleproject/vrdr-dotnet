@@ -3,9 +3,10 @@ var searchData=
   ['cli_0',['CLI',['../namespace_v_r_d_r_1_1_c_l_i.html',1,'VRDR']]],
   ['http_1',['HTTP',['../namespace_v_r_d_r_1_1_h_t_t_p.html',1,'VRDR']]],
   ['tests_2',['Tests',['../namespace_v_r_d_r_1_1_tests.html',1,'VRDR']]],
-  ['void_3',['VOID',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a143ad2c67638c2ad405ddc33599ecf10',1,'VRDR::IJEMortality']]],
-  ['voidmessage_4',['VoidMessage',['../class_v_r_d_r_1_1_void_message.html#aec9b6037da346dff7a8ce90100fa08a0',1,'VRDR.VoidMessage.VoidMessage()'],['../class_v_r_d_r_1_1_void_message.html#a1c347502013d9bd0c52e572c2c57c243',1,'VRDR.VoidMessage.VoidMessage(DeathRecord record)'],['../class_v_r_d_r_1_1_void_message.html',1,'VRDR.VoidMessage']]],
-  ['vrdr_5',['VRDR',['../namespace_v_r_d_r.html',1,'']]],
-  ['vrdr_20_2enet_6',['VRDR .NET',['../index.html',1,'']]],
-  ['vrdrlistener_7',['VRDRListener',['../class_v_r_d_r_1_1_h_t_t_p_1_1_v_r_d_r_listener.html',1,'VRDR::HTTP']]]
+  ['vivienneleewright_3',['VivienneLeeWright',['../class_v_r_d_r_1_1_connectathon.html#af7a87c515328de95aa27f85592c90bda',1,'VRDR::Connectathon']]],
+  ['void_4',['VOID',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a143ad2c67638c2ad405ddc33599ecf10',1,'VRDR::IJEMortality']]],
+  ['voidmessage_5',['VoidMessage',['../class_v_r_d_r_1_1_void_message.html#aec9b6037da346dff7a8ce90100fa08a0',1,'VRDR.VoidMessage.VoidMessage()'],['../class_v_r_d_r_1_1_void_message.html#a1c347502013d9bd0c52e572c2c57c243',1,'VRDR.VoidMessage.VoidMessage(DeathRecord record)'],['../class_v_r_d_r_1_1_void_message.html',1,'VRDR.VoidMessage']]],
+  ['vrdr_6',['VRDR',['../namespace_v_r_d_r.html',1,'']]],
+  ['vrdr_20_2enet_7',['VRDR .NET',['../index.html',1,'']]],
+  ['vrdrlistener_8',['VRDRListener',['../class_v_r_d_r_1_1_h_t_t_p_1_1_v_r_d_r_listener.html',1,'VRDR::HTTP']]]
 ];

@@ -21,8 +21,8 @@ namespace VRDR.HTTP
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
 
-            SetStringValueDictionary(values, "certificateNumber", record.Identifier);
-            SetStringValueDictionary(values, "deathLocationJurisdiction", record.DeathLocationJurisdiction);
+            SetStringValueDictionary(values, "certificateNumber.certificateNumber", record.Identifier);
+            SetStringValueDictionary(values, "deathLocationJurisdiction.deathLocationJurisdiction", record.DeathLocationJurisdiction);
 
             SetYesNoValueDictionary(values, "armedForcesService.armedForcesService", record, "MilitaryService");
             SetYesNoValueDictionary(values, "autopsyPerformed.autopsyPerformed", record, "AutopsyPerformedIndicator");
@@ -30,15 +30,15 @@ namespace VRDR.HTTP
             SetYesNoValueDictionary(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath", record, "TobaccoUse");
             SetYesNoValueDictionary(values, "meOrCoronerContacted.meOrCoronerContacted", record, "ExaminerContacted");
 
-            if (GetValueDict(record.CertificationRole, "code") == "434641000124105")
+            if (record.CertificationRoleHelper == "434651000124107")
             {
                 values["certifierType.certifierType"] = "Physician (Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "434651000124107")
+            else if (record.CertificationRoleHelper == "434641000124105")
             {
                 values["certifierType.certifierType"] = "Physician (Pronouncer and Certifier)";
             }
-            else if (GetValueDict(record.CertificationRole, "code") == "440051000124108")
+            else if (record.CertificationRoleHelper == "455381000124109")
             {
                 values["certifierType.certifierType"] = "Medical Examiner";
             }
@@ -111,8 +111,46 @@ namespace VRDR.HTTP
                     values["decedentName.middleName"] = record.GivenNames[1];
                 }
             }
-
             SetStringValueDictionary(values, "decedentName.lastName", record.FamilyName);
+
+            if (record.SpouseGivenNames != null)
+            {
+                if (record.SpouseGivenNames.Count() > 0)
+                {
+                    values["spouseName.firstName"] = record.SpouseGivenNames[0];
+                }
+                if (record.SpouseGivenNames.Count() > 1)
+                {
+                    values["spouseName.middleName"] = record.SpouseGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "spouseName.lastName", record.SpouseFamilyName);
+
+            if (record.FatherGivenNames != null)
+            {
+                if (record.FatherGivenNames.Count() > 0)
+                {
+                    values["fatherName.firstName"] = record.FatherGivenNames[0];
+                }
+                if (record.FatherGivenNames.Count() > 1)
+                {
+                    values["fatherName.middleName"] = record.FatherGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "fatherName.lastName", record.FatherFamilyName);
+
+            if (record.MotherGivenNames != null)
+            {
+                if (record.MotherGivenNames.Count() > 0)
+                {
+                    values["motherName.firstName"] = record.MotherGivenNames[0];
+                }
+                if (record.MotherGivenNames.Count() > 1)
+                {
+                    values["motherName.middleName"] = record.MotherGivenNames[1];
+                }
+            }
+            SetStringValueDictionary(values, "motherName.lastName", record.MotherMaidenName);
 
             if (record.CertifierGivenNames != null)
             {
@@ -125,44 +163,44 @@ namespace VRDR.HTTP
                     values["personCompletingCauseOfDeathName.middleName"] = record.CertifierGivenNames[1];
                 }
             }
-
             SetStringValueDictionary(values, "personCompletingCauseOfDeathName.lastName", record.CertifierFamilyName);
 
             SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
 
-            if (record.EducationLevel != null && record.EducationLevel.ContainsKey("code"))
+            if (record.EducationLevelHelper != null)
             {
-                switch (record.EducationLevel["code"])
+                switch (record.EducationLevelHelper)
                 {
-                    case "SEC":
+                    case "PHC1448":
+                        values["education.education"] = "8th grade or less";
+                        break;
+                    case "PHC1449":
                         values["education.education"] = "9th through 12th grade; no diploma";
                         break;
-                    case "HS":
+                    case "PHC1450":
                         values["education.education"] = "High School Graduate or GED Completed";
                         break;
-                    case "PB":
+                    case "PHC1451":
                         values["education.education"] = "Some college credit, but no degree";
                         break;
-                    case "ASSOC":
+                    case "PHC1452":
                         values["education.education"] = "Associate Degree";
                         break;
-                    case "BD":
+                    case "PHC1453":
                         values["education.education"] = "Bachelor's Degree";
                         break;
-                    case "GD":
+                    case "PHC1454":
                         values["education.education"] = "Master's Degree";
                         break;
-                    case "POSTG":
+                    case "PHC1455":
                         values["education.education"] = "Doctorate Degree or Professional Degree";
                         break;
                 }
             }
 
-            SetStringValueDictionary(values, "motherName.lastName", record.MotherMaidenName);
-
-            if (record.MannerOfDeathType != null && record.MannerOfDeathType.ContainsKey("code"))
+            if (record.MannerOfDeathTypeHelper != null)
             {
-                switch (record.MannerOfDeathType["code"])
+                switch (record.MannerOfDeathTypeHelper)
                 {
                     case "38605008":
                         values["mannerOfDeath.mannerOfDeath"] = "Natural";
@@ -185,9 +223,9 @@ namespace VRDR.HTTP
                 }
             }
 
-            if (record.MaritalStatus != null && record.MaritalStatus.ContainsKey("code"))
+            if (record.MaritalStatusHelper != null)
             {
-                switch (record.MaritalStatus["code"])
+                switch (record.MaritalStatusHelper)
                 {
                     case "M":
                         values["maritalStatus.maritalStatus"] = "Married";
@@ -207,6 +245,44 @@ namespace VRDR.HTTP
                     case "UNK":
                         values["maritalStatus.maritalStatus"] = "unknown";
                         break;
+                }
+            }
+
+            SetStringValueDictionary(values, "usualOccupation.usualOccupation", record.UsualOccupation);
+
+            if (record.DeathLocationTypeHelper != null)
+            {
+                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Dead on arrival at hospital";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Decedents_Home)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in home";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospice)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospice";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospital";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in hospital-based emergency department or outpatient department";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Death in nursing home or long term care facility";
+                }
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unknown)
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Unknown";
+                }
+                else
+                {
+                    values["placeOfDeath.placeOfDeath.option"] = "Other";
                 }
             }
 
@@ -249,33 +325,31 @@ namespace VRDR.HTTP
             // Start building the record
             DeathRecord deathRecord = new DeathRecord();
 
-            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber"));
-            SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction"));
+            SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber.certificateNumber"));
+            SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction.deathLocationJurisdiction"));
 
+            SetYesNoValueDeathRecordBoolean(deathRecord, "MilitaryServiceBoolean", GetValue(values, "armedForcesService.armedForcesService"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyPerformedIndicatorBoolean", GetValue(values, "autopsyPerformed.autopsyPerformed"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyResultsAvailableBoolean", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
+            SetYesNoValueDeathRecordBoolean(deathRecord, "ExaminerContactedBoolean", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
-            SetYesNoValueDeathRecordCode(deathRecord, "MilitaryService", GetValue(values, "armedForcesService.armedForcesService"));
-            SetYesNoValueDeathRecordCode(deathRecord, "AutopsyPerformedIndicator", GetValue(values, "autopsyPerformed.autopsyPerformed"));
-            SetYesNoValueDeathRecordCode(deathRecord, "AutopsyResultsAvailable", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
             SetYesNoValueDeathRecordCode(deathRecord, "TobaccoUse", GetValue(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath"));
-            SetYesNoValueDeathRecordCode(deathRecord, "ExaminerContacted", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
             if (GetValue(values, "certifierType.certifierType") == "Physician (Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434641000124105");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                deathRecord.CertificationRoleHelper = "434651000124107";
             }
             else if (GetValue(values, "certifierType.certifierType") == "Physician (Pronouncer and Certifier)")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "434651000124107");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Physician (Pronouncer and Certifier)");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                deathRecord.CertificationRoleHelper = "434641000124105";
             }
             else if (GetValue(values, "certifierType.certifierType") == "Medical Examiner")
             {
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "code", "440051000124108");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "display", "Medical Examiner");
-                SetStringValueDeathRecordDictionary(deathRecord, "CertificationRole", "system", "http://snomed.info/sct");
+                deathRecord.CertificationRoleHelper = "455381000124109";
+            }
+            else
+            {
+                deathRecord.CertificationRoleHelper = "OTH";
             }
 
             SetStringValueDeathRecordString(deathRecord, "COD1A", GetValue(values, "cod.immediate"));
@@ -336,172 +410,135 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressState", GetValue(values, "placeOfDisposition.state"));
             SetStringValueDeathRecordDictionary(deathRecord, "DispositionLocationAddress", "addressCountry", GetValue(values, "placeOfDisposition.country"));
 
-            List<string> names = new List<string>();
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "decedentName.firstName")))
-            {
-                names.Add(GetValue(values, "decedentName.firstName"));
-            }
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "decedentName.middleName")))
-            {
-                names.Add(GetValue(values, "decedentName.middleName"));
-            }
-            deathRecord.GivenNames = names.ToArray();
-            SetStringValueDeathRecordString(deathRecord, "FamilyName", GetValue(values, "decedentName.lastName"));
+            SetNameValuesDeathRecordName(deathRecord, "GivenNames", "FamilyName",
+                                         GetValue(values, "decedentName.firstName"),
+                                         GetValue(values, "decedentName.middleName"),
+                                         GetValue(values, "decedentName.lastName"));
 
-            List<string> cnames = new List<string>();
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "personCompletingCauseOfDeathName.firstName")))
-            {
-                cnames.Add(GetValue(values, "personCompletingCauseOfDeathName.firstName"));
-            }
-            if (!String.IsNullOrWhiteSpace(GetValue(values, "personCompletingCauseOfDeathName.middleName")))
-            {
-                cnames.Add(GetValue(values, "personCompletingCauseOfDeathName.middleName"));
-            }
-            deathRecord.CertifierGivenNames = cnames.ToArray();
+            SetNameValuesDeathRecordName(deathRecord, "SpouseGivenNames", "SpouseFamilyName",
+                                         GetValue(values, "spouseName.firstName"),
+                                         GetValue(values, "spouseName.middleName"),
+                                         GetValue(values, "spouseName.lastName"));
 
-            SetStringValueDeathRecordString(deathRecord, "CertifierFamilyName", GetValue(values, "personCompletingCauseOfDeathName.lastName"));
+            SetNameValuesDeathRecordName(deathRecord, "FatherGivenNames", "FatherFamilyName",
+                                         GetValue(values, "fatherName.firstName"),
+                                         GetValue(values, "fatherName.middleName"),
+                                         GetValue(values, "fatherName.lastName"));
+
+            SetNameValuesDeathRecordName(deathRecord, "MotherGivenNames", "MotherMaidenName",
+                                         GetValue(values, "motherName.firstName"),
+                                         GetValue(values, "motherName.middleName"),
+                                         GetValue(values, "motherName.lastName"));
+
+            SetNameValuesDeathRecordName(deathRecord, "CertifierGivenNames", "CertifierFamilyName",
+                                         GetValue(values, "personCompletingCauseOfDeathName.firstName"),
+                                         GetValue(values, "personCompletingCauseOfDeathName.middleName"),
+                                         GetValue(values, "personCompletingCauseOfDeathName.lastName"));
 
             SetStringValueDeathRecordString(deathRecord, "InjuryLocationDescription", GetValue(values, "detailsOfInjury.detailsOfInjury"));
 
             switch (GetValue(values, "education.education"))
             {
                 case "8th grade or less":
+                    deathRecord.EducationLevelHelper = "PHC1448";
+                    break;
                 case "9th through 12th grade; no diploma":
-                    Dictionary<string, string> edu = new Dictionary<string, string>();
-                    edu.Add("code", "SEC");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Some secondary or high school education");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1449";
                     break;
                 case "High School Graduate or GED Completed":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "HS");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "High School or secondary school degree complete");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1450";
                     break;
                 case "Some college credit, but no degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "PB");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Some post-baccalaureate education");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1451";
                     break;
                 case "Associate Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "ASSOC");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Associate's or technical degree complete");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1452";
                     break;
                 case "Bachelor's Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "BD");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "College or baccalaureate degree complete");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1453";
                     break;
                 case "Master's Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "GD");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Graduate or professional Degree complete");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1454";
                     break;
                 case "Doctorate Degree or Professional Degree":
-                    edu = new Dictionary<string, string>();
-                    edu.Add("code", "POSTG");
-                    edu.Add("system", "http://terminology.hl7.org/CodeSystem/v3-EducationLevel");
-                    edu.Add("display", "Doctoral or post graduate education");
-                    deathRecord.EducationLevel = edu;
+                    deathRecord.EducationLevelHelper = "PHC1455";
+                    break;
+                default:
+                    deathRecord.EducationLevelHelper = "UNK";
                     break;
             }
-
-            SetStringValueDeathRecordString(deathRecord, "MotherMaidenName", GetValue(values, "motherName.lastName"));
 
             switch (GetValue(values, "mannerOfDeath.mannerOfDeath"))
             {
                 case "Natural":
-                    Dictionary<string, string> mod = new Dictionary<string, string>();
-                    mod.Add("code", "38605008");
-                    mod.Add("display", "Natural");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "38605008";
                     break;
                 case "Accident":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "7878000");
-                    mod.Add("display", "Accident");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "7878000";
                     break;
                 case "Suicide":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "44301001");
-                    mod.Add("display", "Suicide");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "44301001";
                     break;
                 case "Homicide":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "27935005");
-                    mod.Add("display", "Homicide");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "27935005";
                     break;
                 case "Pending Investigation":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "185973002");
-                    mod.Add("display", "Pending Investigation");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "185973002";
                     break;
                 case "Could not be determined":
-                    mod = new Dictionary<string, string>();
-                    mod.Add("code", "65037004");
-                    mod.Add("display", "Could not be determined");
-                    deathRecord.MannerOfDeathType = mod;
+                    deathRecord.MannerOfDeathTypeHelper = "65037004";
                     break;
             }
 
             switch (GetValue(values, "maritalStatus.maritalStatus"))
             {
                 case "Married":
-                    Dictionary<string, string> mar = new Dictionary<string, string>();
-                    mar.Add("code", "M");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-                    mar.Add("display", "Married");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "M";
                     break;
                 case "Legally Separated":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "L");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-                    mar.Add("display", "Legally Separated");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "L";
                     break;
                 case "Widowed":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "W");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-                    mar.Add("display", "Widowed");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "W";
                     break;
                 case "Divorced":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "D");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-                    mar.Add("display", "Divorced");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "D";
                     break;
                 case "Never Married":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "S");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
-                    mar.Add("display", "Never Married");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "S";
                     break;
                 case "unknown":
-                    mar = new Dictionary<string, string>();
-                    mar.Add("code", "UNK");
-                    mar.Add("system", "http://terminology.hl7.org/CodeSystem/v3-NullFlavor");
-                    mar.Add("display", "unknown");
-                    deathRecord.MaritalStatus = mar;
+                    deathRecord.MaritalStatusHelper = "UNK";
+                    break;
+            }
+
+            SetStringValueDeathRecordString(deathRecord, "UsualOccupation", GetValue(values, "usualOccupation.usualOccupation"));
+
+            switch (GetValue(values, "placeOfDeath.placeOfDeath.option"))
+            {
+                case "Dead on arrival at hospital":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival;
+                    break;
+                case "Death in home":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Decedents_Home;
+                    break;
+                case "Death in hospice":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospice;
+                    break;
+                case "Death in hospital":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient;
+                    break;
+                case "Death in hospital-based emergency department or outpatient department":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient;
+                    break;
+                case "Death in nursing home or long term care facility":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
+                    break;
+                case "Unknown":
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unknown;
+                    break;
+                default:
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Other;
                     break;
             }
 
@@ -592,7 +629,7 @@ namespace VRDR.HTTP
             prop.SetValue(deathRecord, value, null);
         }
 
-        /// <summary>Set a String value on a DeathRecord.</summary>
+        /// <summary>Set a String value on a DeathRecord within a dictionary.</summary>
         private static void SetStringValueDeathRecordDictionary(DeathRecord deathRecord, string property, string key, string value)
         {
             if (String.IsNullOrWhiteSpace(value))
@@ -610,54 +647,78 @@ namespace VRDR.HTTP
             prop.SetValue(deathRecord, dict, null);
         }
 
-        /// <summary>Set a Yes/No (coded) value on a DeathRecord.</summary>
-        private static void SetYesNoValueDeathRecordCode(DeathRecord deathRecord, string property, string value)
+        /// <summary>Set a Yes/No (coded) value on a DeathRecord using Boolean helpers.</summary>
+        private static void SetYesNoValueDeathRecordBoolean(DeathRecord deathRecord, string property, string value)
         {
+            Type type = deathRecord.GetType();
+            PropertyInfo prop = type.GetProperty(property);
             if (String.IsNullOrWhiteSpace(value))
             {
-                return;
+                prop.SetValue(deathRecord, null);
             }
-            if (value.Trim().ToLower() == "yes")
+            else if (value.Trim().ToLower() == "yes")
             {
-                Dictionary<string, string> mserv = new Dictionary<string, string>();
-                mserv.Add("code", "Y");
-                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                mserv.Add("display", "Yes");
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, mserv, null);
+                prop.SetValue(deathRecord, true);
             }
             else if (value.Trim().ToLower() == "no")
             {
-                Dictionary<string, string> mserv = new Dictionary<string, string>();
-                mserv.Add("code", "N");
-                mserv.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                mserv.Add("display", "No");
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, mserv, null);
+                prop.SetValue(deathRecord, false);
+            }
+            else
+            {
+                prop.SetValue(deathRecord, null);
             }
         }
 
         /// <summary>Set a Yes/No (coded) value on a DeathRecord.</summary>
-        private static void SetYesNoValueDeathRecordBool(DeathRecord deathRecord, string property, string value)
+        private static void SetYesNoValueDeathRecordCode(DeathRecord deathRecord, string property, string value)
         {
+            Dictionary<string, string> coding = new Dictionary<string, string>();
             if (String.IsNullOrWhiteSpace(value))
             {
-                return;
+                coding.Add("code", "UNK");
+                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("display", "Unknown");
             }
-            if (value.Trim().ToLower() == "yes")
+            else if (value.Trim().ToLower() == "yes")
             {
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, true, null);
+                coding.Add("code", "373066001");
+                coding.Add("system", CodeSystems.SCT);
+                coding.Add("display", "Yes");
             }
             else if (value.Trim().ToLower() == "no")
             {
-                Type type = deathRecord.GetType();
-                PropertyInfo prop = type.GetProperty(property);
-                prop.SetValue(deathRecord, false, null);
+                coding.Add("code", "373067005");
+                coding.Add("system", CodeSystems.SCT);
+                coding.Add("display", "No");
             }
+            else
+            {
+                coding.Add("code", "UNK");
+                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("display", "Unknown");
+            }
+            Type type = deathRecord.GetType();
+            PropertyInfo prop = type.GetProperty(property);
+            prop.SetValue(deathRecord, coding);
+        }
+
+        /// <summary>Set a name value on a DeathRecord.</summary>
+        private static void SetNameValuesDeathRecordName(DeathRecord deathRecord, string givenNamesField, string familyNameField, string firstName, string middleName, string lastName)
+        {
+            List<string> names = new List<string>();
+            if (!String.IsNullOrWhiteSpace(firstName))
+            {
+                names.Add(firstName);
+            }
+            if (!String.IsNullOrWhiteSpace(middleName))
+            {
+                names.Add(middleName);
+            }
+            Type type = deathRecord.GetType();
+            PropertyInfo givenNames = type.GetProperty(givenNamesField);
+            givenNames.SetValue(deathRecord, names.ToArray());
+            SetStringValueDeathRecordString(deathRecord, familyNameField, lastName);
         }
 
         /// <summary>Set a value in a Dictionary, but only if that value is not null or whitespace.</summary>

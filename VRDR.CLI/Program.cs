@@ -473,6 +473,12 @@ namespace VRDR.CLI
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
                 return 0;
             }
+            else if (args.Length == 4 && args[0] == "connectathon")
+            {
+                DeathRecord d = Connectathon.FromId(Int16.Parse(args[1]), Int16.Parse(args[2]), args[3]);
+                Console.WriteLine(d.ToJson());
+                return 0;
+            }
             else if (args.Length == 2 && args[0] == "description")
             {
                 DeathRecord d = new DeathRecord(File.ReadAllText(args[1]));

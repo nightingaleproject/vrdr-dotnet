@@ -36,9 +36,9 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V3.2.1</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.2.1"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.2.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
+<td style="text-align: center;">V3.3.0</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.0"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -47,7 +47,6 @@ This repository includes .NET (C#) code for
 
 ### Development & CLI Requirements
 - This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
-- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
@@ -68,7 +67,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.2.1" />
+  <PackageReference Include="VRDR" Version="3.3.0" />
   ...
 </ItemGroup>
 ```
@@ -152,6 +151,41 @@ Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVA
 Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", deathRecord.CODE1A.Select(x => x.Key + "=" + x.Value).ToArray())}");
 ```
 
+#### Helper Methods for Value Sets
+
+For fields that contain coded values it can involve some extra effort to provide the code, the code
+system, and the display text. The VRDR library includes some helper methods to make this easier. For
+example, here's how to specify the pregnancy status using the long form specifying each of the three
+necessary values:
+
+```
+// Add PregnancyStatus
+Dictionary<string, string> code = new Dictionary<string, string>();
+code.Add("code", "PHC1261");
+code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("display", "Pregnant at the time of death");
+deathRecord.PregnancyStatus = code;
+```
+
+Here's a simpler way to accomplish the same thing by using the `PregnancyStatusHelper`:
+
+```
+deathRecord.PregnancyStatusHelper = "PHC1261";
+```
+
+The helper automatically looks up the correct code system and display string. The following helpers
+are available to simplify setting coded values:
+
+* CertificationRoleHelper
+* MannerOfDeathTypeHelper
+* MaritalStatusHelper
+* EducationLevelHelper
+* DecedentDispositionMethodHelper
+* DeathLocationTypeHelper
+* PregnancyStatusHelper
+* InjuryPlaceHelper
+* TransportationRoleHelper
+
 #### FHIR VRDR record to/from IJE Mortality format
 An example of converting a VRDR FHIR Death Record to an IJE string:
 ```cs
@@ -233,7 +267,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.2.1" />
+  <PackageReference Include="VRDR.Messaging" Version="3.3.0" />
   ...
 </ItemGroup>
 ```
@@ -265,8 +299,6 @@ dotnet test
 
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
-
-NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework netcoreapp2.1` to the end of all the example commands below
 
 #### Example Usages
 ```bash
@@ -302,6 +334,58 @@ dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
+```
+### VRDR.Client
+This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API). 
+
+*This package is not yet published on NuGet.*
+
+Note that the VRDR.Client package automatically includes the VRDR package and the VRDR Messaging package, a project file should not reference both.
+
+You can include a locally downloaded copy of the library instead of the NuGet version by referencing `VRDRClient.csproj` in your project configuration, for example:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  ...
+  <ItemGroup>
+    <ProjectReference Include="..\VRDR.Client\VRDRClient.csproj" />
+    ...
+  </ItemGroup>
+</Project>
+```
+
+#### Example Usage
+Authenticate to the NVSS API Server
+```
+  // Example SAMS credentials
+  string authUrl = "https://<authServerUrl>.gov/auth/oauth/v2/token";
+  string clientId = "Client-id-from-sams";
+  string clientSecret = "Client-secret-from-sams";
+  string username = "your-sams-username";
+  string pass = "your-sams-password";
+
+  // ... Create the credentials and client intance
+  Credentials credentials = new Credentials(authUrl, clientId, clientSecret, username, pass);
+  string apiUrl = "https://<thenvssapiserverurl>.gov/OSELS/NCHS/NVSSFHIRAPI/<Jurisidction-Id>/Bundles";
+  Boolean localDev = false; // false when testing against the NVSS API Server
+  client = new Client(apiUrl, localDev, credentials);
+```
+
+POST a FHIR Message to the NVSS API Server with your authenticated client
+```
+  // ... Create a FHIR Message
+  BaseMessage msg = new BaseMessage();
+  Boolean success = client.PostMessageAsync(msg);
+  // ... handle success or failure
+```
+
+GET record responses from the NVSS API Server with your authenticated client
+```
+  // lastUpdated is a timestamp of the last GET request
+  lastUpdatedStr = lastUpdated.ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
+  var content = client.GetMessageResponsesAsync(lastUpdatedStr);
+  
+  // ...parse the Bundle of Bundles in the content response
 ```
 
 ### VRDR.HTTP
@@ -363,6 +447,8 @@ Finally, merge master into the IG-develop-vx.x.x branch.
 #### Publishing a Version
 
 To create a new release of VRDR on NuGet, bump the version of the VRDR and VRDR.Messaging listed in the [Directory.Build.props](Directory.Build.props) file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, [Github Actions](.github/workflows/publish.yml) will automatically build and publish a new version of the package based on the value specified.
+
+When publishing a new version, remember to update all the version number references in this README as well as creating a GitHub release as needed.
 
 ## License
 

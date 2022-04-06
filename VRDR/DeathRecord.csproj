@@ -2,8 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>VRDR</RootNamespace>
-    <DocumentationFile>DeathRecord.xml</DocumentationFile>
-    <!-- <DocumentationFile>DeathRecord.md</DocumentationFile> -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>VRDR</PackageId>
     <Title>FHIR VRDR Death Record</Title>
     <PackageDescription>A library for producing and consuming VRDR FHIR death records.</PackageDescription>

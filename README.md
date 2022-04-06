@@ -47,7 +47,6 @@ This repository includes .NET (C#) code for
 
 ### Development & CLI Requirements
 - This repository is built using .NET Core 3.1, download [here](https://dotnet.microsoft.com/download)
-- You can also use .NET Core 2.1, see VRDR.CLI section below for instructions
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
@@ -151,6 +150,41 @@ Console.WriteLine($"Cause of Death Part I, Line a: {deathRecord.COD1A}");
 Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}");
 Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", deathRecord.CODE1A.Select(x => x.Key + "=" + x.Value).ToArray())}");
 ```
+
+#### Helper Methods for Value Sets
+
+For fields that contain coded values it can involve some extra effort to provide the code, the code
+system, and the display text. The VRDR library includes some helper methods to make this easier. For
+example, here's how to specify the pregnancy status using the long form specifying each of the three
+necessary values:
+
+```
+// Add PregnancyStatus
+Dictionary<string, string> code = new Dictionary<string, string>();
+code.Add("code", "PHC1261");
+code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("display", "Pregnant at the time of death");
+deathRecord.PregnancyStatus = code;
+```
+
+Here's a simpler way to accomplish the same thing by using the `PregnancyStatusHelper`:
+
+```
+deathRecord.PregnancyStatusHelper = "PHC1261";
+```
+
+The helper automatically looks up the correct code system and display string. The following helpers
+are available to simplify setting coded values:
+
+* CertificationRoleHelper
+* MannerOfDeathTypeHelper
+* MaritalStatusHelper
+* EducationLevelHelper
+* DecedentDispositionMethodHelper
+* DeathLocationTypeHelper
+* PregnancyStatusHelper
+* InjuryPlaceHelper
+* TransportationRoleHelper
 
 #### FHIR VRDR record to/from IJE Mortality format
 An example of converting a VRDR FHIR Death Record to an IJE string:
@@ -265,8 +299,6 @@ dotnet test
 
 ### VRDR.CLI
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
-
-NOTE: If you would like to run the CLI using .NET core 2.1, append `--framework netcoreapp2.1` to the end of all the example commands below
 
 #### Example Usages
 ```bash

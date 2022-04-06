@@ -2,9 +2,13 @@ name: Run Test Suite on PR or push to master
 
 on:
   push:
-    branches: [ master IG-develop-v1.3 ]
+    branches:
+      - master
+      - 'IG-develop-*'
   pull_request:
-    branches: [ master IG-develop-v1.3 ]
+    branches:
+      - master
+      - 'IG-develop-*'
 
 jobs:
   test:

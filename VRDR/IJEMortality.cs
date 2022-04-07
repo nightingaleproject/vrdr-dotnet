@@ -745,7 +745,12 @@ namespace VRDR
 
         private string Get_MappingFHIRToIJE(Dictionary<string,string> mapping, string fhirField, string ijeField)
         {
-            string fhirCode = (string)typeof(DeathRecord).GetProperty($"{fhirField}Helper").GetValue(this.record);
+            PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
+            if (helperProperty == null)
+            {
+                throw new NullReferenceException($"No helper method found called '{fhirField}Helper'");
+            }
+            string fhirCode = (string)helperProperty.GetValue(this.record);
             if (String.IsNullOrWhiteSpace(fhirCode))
             {
                 return "";
@@ -768,7 +773,12 @@ namespace VRDR
             {
                 try
                 {
-                    typeof(DeathRecord).GetProperty($"{fhirField}Helper").SetValue(this.record, mapping[value]);
+                    PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
+                    if (helperProperty == null)
+                    {
+                        throw new NullReferenceException($"No helper method found called '{fhirField}Helper'");
+                    }
+                    helperProperty.SetValue(this.record, mapping[value]);
                 }
                 catch (KeyNotFoundException)
                 {
@@ -1843,11 +1853,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass01234.FHIRToIJE, "EducationLevelEditFlag", "DEDUC_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass01234.IJEToFHIR, "DEDUC_BYPASS", "EducationLevelEditFlag", value);
             }
         }
 

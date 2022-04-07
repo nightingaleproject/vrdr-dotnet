@@ -123,7 +123,7 @@ namespace VRDR.Tests
         public void EmptyRecordToIJE()
         {
             DeathRecord deathRecord = new DeathRecord();
-            string ije = new IJEMortality(deathRecord).ToString();
+            string ije = new IJEMortality(deathRecord, false).ToString(); // Don't validate since empty record
             Assert.NotNull(ije);
         }
 
@@ -175,7 +175,7 @@ namespace VRDR.Tests
         public void NoDeathLocationJurisdictionJsontoIJE()
         {
             DeathRecord deathRecord = new DeathRecord();
-            IJEMortality ije = new IJEMortality(deathRecord);
+            IJEMortality ije = new IJEMortality(deathRecord, false); // Don't raise validation errors on empty record
             Assert.Equal("  ", ije.DSTATE);
         }
 

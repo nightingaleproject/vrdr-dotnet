@@ -54,10 +54,23 @@ namespace VRDR
         /// <summary>IJE data lookup helper. Thread-safe singleton!</summary>
         private MortalityData dataLookup = MortalityData.Instance;
 
+        /// <summary>Validation errors encountered while converting a record</summary>
+        private List<string> validationErrors = new List<string>();
+
         /// <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
-        public IJEMortality(DeathRecord record)
+        public IJEMortality(DeathRecord record, bool validate = true)
         {
             this.record = record;
+            if (validate)
+            {
+                // We need to force a conversion to happen by calling ToString() if we want to validate
+                ToString();
+                if (validationErrors.Count > 0)
+                {
+                    string errorString = $"Found {validationErrors.Count} validation errors:\n{String.Join("\n", validationErrors)}";
+                    throw new ArgumentOutOfRangeException(errorString);
+                }
+            }
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
@@ -83,8 +96,10 @@ namespace VRDR
                 // Set the value on this IJEMortality (and the embedded record)
                 property.SetValue(this, field);
             }
-            if(validate){
-                this.Validate();
+            if (validate && validationErrors.Count > 0)
+            {
+                string errorString = $"Found {validationErrors.Count} validation errors:\n{String.Join("\n", validationErrors)}";
+                throw new ArgumentOutOfRangeException(errorString);
             }
         }
 
@@ -117,18 +132,6 @@ namespace VRDR
         public DeathRecord ToDeathRecord()
         {
             return this.record;
-        }
-
-       /// <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
-        private Boolean Validate()
-        {
-            string dstate = this.DSTATE;
-            Boolean valid = dataLookup.JurisdictionNameToJurisdictionCode(dstate) != null;
-            string code = dataLookup.JurisdictionNameToJurisdictionCode(dstate);
-             if (!valid){
-                throw new ArgumentOutOfRangeException("DSTATE value of " + dstate + " is invalid.");
-            }
-            return(true);
         }
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -782,7 +785,12 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
+                string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
+                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                {
+                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                }
+                return value;
             }
             set
             {

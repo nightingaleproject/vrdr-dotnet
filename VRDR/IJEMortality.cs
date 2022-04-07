@@ -772,7 +772,7 @@ namespace VRDR
                 }
                 catch (KeyNotFoundException)
                 {
-                    validationErrors.Add($"Error: Unable to find FHIR EducationLevel mapping for IJE DEDUC field value '{value}'");
+                    validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
                 }
             }
         }

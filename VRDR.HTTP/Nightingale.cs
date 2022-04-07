@@ -252,31 +252,31 @@ namespace VRDR.HTTP
 
             if (record.DeathLocationTypeHelper != null)
             {
-                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival)
+                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Dead_On_Arrival_At_Hospital)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Dead on arrival at hospital";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Decedents_Home)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Home)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in home";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospice)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospice";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospital";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital_Based_Emergency_Department_Or_Outpatient_Department)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospital-based emergency department or outpatient department";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in nursing home or long term care facility";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unknown)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unk)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Unknown";
                 }
@@ -517,25 +517,25 @@ namespace VRDR.HTTP
             switch (GetValue(values, "placeOfDeath.placeOfDeath.option"))
             {
                 case "Dead on arrival at hospital":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Dead_On_Arrival_At_Hospital;
                     break;
                 case "Death in home":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Decedents_Home;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Home;
                     break;
                 case "Death in hospice":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospice;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice;
                     break;
                 case "Death in hospital":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital;
                     break;
                 case "Death in hospital-based emergency department or outpatient department":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital_Based_Emergency_Department_Or_Outpatient_Department;
                     break;
                 case "Death in nursing home or long term care facility":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility;
                     break;
                 case "Unknown":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unknown;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unk;
                     break;
                 default:
                     deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Other;

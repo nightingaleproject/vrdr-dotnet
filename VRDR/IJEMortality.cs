@@ -743,6 +743,40 @@ namespace VRDR
         }
 
 
+        private string Get_MappingFHIRToIJE(Dictionary<string,string> mapping, string fhirField, string ijeField)
+        {
+            string fhirCode = (string)typeof(DeathRecord).GetProperty($"{fhirField}Helper").GetValue(this.record);
+            if (String.IsNullOrWhiteSpace(fhirCode))
+            {
+                return "";
+            }
+            try
+            {
+                return mapping[fhirCode];
+            }
+            catch (KeyNotFoundException)
+            {
+                validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
+                return "";
+             }
+
+        }
+
+        private void Set_MappingIJEToFHIR(Dictionary<string,string> mapping, string ijeField, string fhirField, string value)
+        {
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                try
+                {
+                    typeof(DeathRecord).GetProperty($"{fhirField}Helper").SetValue(this.record, mapping[value]);
+                }
+                catch (KeyNotFoundException)
+                {
+                    validationErrors.Add($"Error: Unable to find FHIR EducationLevel mapping for IJE DEDUC field value '{value}'");
+                }
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
         //
         // Class Properties that provide getters and setters for each of the IJE
@@ -1795,34 +1829,11 @@ namespace VRDR
         {
             get
             {
-                string educationLevelCode = record.EducationLevelHelper;
-                if (String.IsNullOrWhiteSpace(educationLevelCode))
-                {
-                    return "";
-                }
-                try
-                {
-                    return Mappings.EducationLevel.FHIRToIJE[educationLevelCode];
-                }
-                catch (KeyNotFoundException)
-                {
-                    validationErrors.Add($"Error: Unable to find IJE DEDUC mapping for FHIR EducationLevel field value '{educationLevelCode}'");
-                    return "";
-                }
+                return Get_MappingFHIRToIJE(Mappings.EducationLevel.FHIRToIJE, "EducationLevel", "DEDUC");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    try
-                    {
-                        record.EducationLevelHelper = Mappings.EducationLevel.IJEToFHIR[value];
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        validationErrors.Add($"Error: Unable to find FHIR EducationLevel mapping for IJE DEDUC field value '{value}'");
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.EducationLevel.IJEToFHIR, "DEDUC", "EducationLevel", value);
             }
         }
 

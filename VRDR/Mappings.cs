@@ -12,7 +12,7 @@ namespace VRDR
         public static class EducationLevel
         {
             /// <summary>IJE -> FHIR Mapping for EducationLevel</summary>
-            public static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
             {
                 { "1", "ELEM"},
                 { "2", "SEC"},
@@ -25,7 +25,7 @@ namespace VRDR
                 { "9", "UNK"},
             };
             /// <summary>FHIR -> IJE Mapping for EducationLevel</summary>
-            public static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
             {
                 { "ELEM", "1"},
                 { "SEC", "2"},

@@ -1,5 +1,16 @@
 ## Changelog
 
+### v3.3.1 - 2022-04-07
+
+* Added the CertificationRoleHelper method
+* Documented the new helper methods in the README
+* Copied the Connectathon record generation code into VRDR from Canary (will eventually be removed from the Canary code base)
+* Updated code for converting from the Nightingale data format to FHIR
+* Added functionality to the VRDR.CLI application for generating Connectathon records from the command line
+* Added a ruby script for generating a large quantity of FHIR records using the Connectathon records
+* Added a ruby script for converting an Excel file with records in pseudo-IJE format into a set of FHIR records for testing
+* Removed support for the now-obsolete netcoreapp2.1
+
 ### v3.3.0 - 2022-04-05
 
 * Added a client library (VDRD.Client) for interacting with the [NVSS FHIR API](https://github.com/nightingaleproject/Reference-NCHS-API)

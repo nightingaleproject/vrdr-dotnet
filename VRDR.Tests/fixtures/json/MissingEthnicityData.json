@@ -885,9 +885,9 @@
               "valueCodeableConcept": {
                 "coding": [
                   {
-                    "system": "urn:oid:2.16.840.1.114222.4.5.274",
-                    "code": "PHC1452",
-                    "display": "Associate degree (e.g. AA, SS)"
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+                    "code": "AA",
+                    "display": "Associate degree"
                   }
                 ]
               }

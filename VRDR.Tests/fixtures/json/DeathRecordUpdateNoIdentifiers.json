@@ -575,8 +575,8 @@
                             }]},
                             "subject": {"reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"},
                             "valueCodeableConcept": {"coding": [            {
-                                "system": "urn:oid:2.16.840.1.114222.4.5.274",
-                                "code": "PHC1453",
+                                "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+                                "code": "BA",
                                 "display": "Bachelor's Degree"
                               }]}
                         }

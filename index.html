@@ -66,7 +66,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_README"></a> <a href="https://travis-ci.org/nightingaleproject/vrdr-dotnet"><img src="https://travis-ci.org/nightingaleproject/vrdr-dotnet.svg?branch=master" alt="Build Status" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nuget.org/packages/VRDR"><img src="https://img.shields.io/nuget/v/VRDR?label=VRDR%20%28nuget%29" alt="Nuget" class="inline"/></a> <a href="https://www.nuget.org/packages/VRDR.Messaging"><img src="https://img.shields.io/nuget/v/VRDR.Messaging?label=VRDR.Messaging%20%28nuget%29" alt="Nuget" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 vrdr-dotnet</h1>
 <p >This repository includes .NET (C#) code for</p>
 <ul>
@@ -75,10 +75,10 @@ vrdr-dotnet</h1>
 <li>Support for converting <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR records to and from the Inter-Jurisdictional Exchange (IJE) Mortality format, as well as companion microservice for performing conversions.</li>
 <li>This codebase covers the subset of the IJE fields listed in this <a href="VRDRdotNETLibraryCoverage.csv">spreadsheet</a>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Documentation</h2>
 <p ><a href="https://nightingaleproject.github.io/vrdr-dotnet/">Doxygen Docs</a></p>
-<h2><a class="anchor" id="autotoc_md37"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Versions</h2>
 <table class="versionTable" border="3">
 </table>
@@ -94,17 +94,17 @@ Versions</h2>
 <p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  </p>
 <p >STU2 Ballot </p>
 <p >R4 </p>
-<p >V3.3.0 </p>
-<p ><a href="https://www.nuget.org/packages/VRDR/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.0">github</a> </p>
-<p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.0">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<p >V3.3.1 </p>
+<p ><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1">github</a> </p>
+<p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  &lt;/tbody&gt; </p>
+<h2><a class="anchor" id="autotoc_md39"></a>
 Requirements</h2>
-<h3><a class="anchor" id="autotoc_md39"></a>
+<h3><a class="anchor" id="autotoc_md40"></a>
 Development &amp; CLI Requirements</h3>
 <ul>
 <li>This repository is built using .NET Core 3.1, download <a href="https://dotnet.microsoft.com/download">here</a> </li>
 </ul>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md41"></a>
 Library Usage</h3>
 <ul>
 <li>The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> or VRDR.Messaging libraries target .NET Standard 2.0</li>
@@ -117,17 +117,17 @@ Library Usage</h3>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Project Organization</h2>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md43"></a>
 VRDR</h3>
 <p >This directory contains a FHIR Death Record library for consuming and producing <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR. This library also includes support for converting to and from the Inter-Jurisdictional Exchange (IJE) Mortality format.</p>
 <p >For API documentation, <a class="el" href="md__v_r_d_r__death_record.html">click here</a>.</p>
-<h4><a class="anchor" id="autotoc_md43"></a>
+<h4><a class="anchor" id="autotoc_md44"></a>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.0&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.1&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p >You can also include a locally downloaded copy of the library instead of the NuGet version by referencing <code>DeathRecord.csproj</code> in your project configuration, for example (taken from <a class="el" href="namespace_v_r_d_r_1_1_c_l_i.html">VRDR.CLI</a>): </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">Project</span> <span class="keyword">Sdk</span>=<span class="stringliteral">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</div>
@@ -137,7 +137,7 @@ Usage</h4>
 <div class="line">    ...</div>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md44"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md45"></a>
 Producing Example</h4>
 <p >The following snippet is a quick example of producing a from-scratch FHIR <a class="el" href="namespace_v_r_d_r.html">VRDR</a> record using this library, and then printing it out as a JSON string. For a complete example, <a href="https://github.com/nightingaleproject/csharp-fhir-death-record/blob/master/VRDR.CLI/Program.cs#L23">click here</a>. </p><div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
@@ -183,7 +183,7 @@ Producing Example</h4>
 <div class="line">Console.WriteLine(deathRecord.ToJSON());</div>
 <div class="ttc" id="aclass_v_r_d_r_1_1_code_systems_html"><div class="ttname"><a href="class_v_r_d_r_1_1_code_systems.html">VRDR.CodeSystems</a></div><div class="ttdef"><b>Definition:</b> CodeSystems.cs:5</div></div>
 <div class="ttc" id="anamespace_v_r_d_r_html"><div class="ttname"><a href="namespace_v_r_d_r.html">VRDR</a></div><div class="ttdef"><b>Definition:</b> Program.cs:18</div></div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md45"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md46"></a>
 Consuming Example</h4>
 <p >An example of consuming a <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR document (in XML format) using this library, and printing some details from it: </p><div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
@@ -201,7 +201,7 @@ Consuming Example</h4>
 <div class="line">Console.WriteLine($<span class="stringliteral">&quot;Cause of Death Part I, Line a: {deathRecord.COD1A}&quot;</span>);</div>
 <div class="line">Console.WriteLine($<span class="stringliteral">&quot;Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}&quot;</span>);</div>
 <div class="line">Console.WriteLine($<span class="stringliteral">&quot;Cause of Death Part I Code, Line a: {String.Join(&quot;</span>, <span class="stringliteral">&quot;, deathRecord.CODE1A.Select(x =&gt; x.Key + &quot;</span>=<span class="stringliteral">&quot; + x.Value).ToArray())}&quot;</span>);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md46"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md47"></a>
 Helper Methods for Value Sets</h4>
 <p >For fields that contain coded values it can involve some extra effort to provide the code, the code system, and the display text. The <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library includes some helper methods to make this easier. For example, here's how to specify the pregnancy status using the long form specifying each of the three necessary values:</p>
 <div class="fragment"><div class="line">// Add PregnancyStatus</div>
@@ -224,7 +224,7 @@ Helper Methods for Value Sets</h4>
 <li>InjuryPlaceHelper</li>
 <li>TransportationRoleHelper</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md47"></a>
+<h4><a class="anchor" id="autotoc_md48"></a>
 FHIR VRDR record to/from IJE Mortality format</h4>
 <p >An example of converting a <a class="el" href="namespace_v_r_d_r.html">VRDR</a> FHIR Death Record to an IJE string: </p><div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
@@ -250,7 +250,7 @@ FHIR VRDR record to/from IJE Mortality format</h4>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Print out the converted FHIR DeathRecord as a JSON string</span></div>
 <div class="line">Console.WriteLine(deathRecord.ToJSON());</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md49"></a>
 Return Coding</h4>
 <p >An example of producing a <code>CodingResponseMessage</code> for handling the returned message from NCHS containing coded causes. For a complete example, <a href="https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding">click here</a>.</p>
 <div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
@@ -285,14 +285,14 @@ Return Coding</h4>
 <div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
 <div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
 </div><!-- fragment --><p> Note that the <code>CauseCodes</code> class from previous versions is now obsolete, use the <code>CodingResponseMessage</code> described above instead.</p>
-<h3><a class="anchor" id="autotoc_md49"></a>
+<h3><a class="anchor" id="autotoc_md50"></a>
 VRDR.Messaging</h3>
 <p >This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.</p>
-<h4><a class="anchor" id="autotoc_md50"></a>
+<h4><a class="anchor" id="autotoc_md51"></a>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
-<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.0&quot;</span> /&gt;</div>
+<div class="line">  &lt;<span class="keywordtype">PackageReference</span> <span class="keyword">Include</span>=<span class="stringliteral">&quot;VRDR.Messaging&quot;</span> <span class="keyword">Version</span>=<span class="stringliteral">&quot;3.3.1&quot;</span> /&gt;</div>
 <div class="line">  ...</div>
 <div class="line">&lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 </div><!-- fragment --><p >Note that the VRDR.Messaging package automatically includes the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> package, a project file should not reference both.</p>
@@ -305,16 +305,16 @@ Usage</h4>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
 </div><!-- fragment --><p >Use of the VRDR.Messaging library to support various message exchange scenarios is described in <a class="el" href="md_doc__messaging.html">`doc/Messaging.md`</a>.</p>
-<h3><a class="anchor" id="autotoc_md51"></a>
+<h3><a class="anchor" id="autotoc_md52"></a>
 VRDR.Tests</h3>
 <p >This directory contains unit and functional tests for the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library.</p>
-<h4><a class="anchor" id="autotoc_md52"></a>
+<h4><a class="anchor" id="autotoc_md53"></a>
 Usage</h4>
 <p >The tests are automatically run by this repositories Travis CI config, but can be run locally by executing the following command in the root project directory: </p><div class="fragment"><div class="line">dotnet test</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md53"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md54"></a>
 VRDR.CLI</h3>
 <p >This directory contains a sample command line interface app that uses the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library to do a few different things.</p>
-<h4><a class="anchor" id="autotoc_md54"></a>
+<h4><a class="anchor" id="autotoc_md55"></a>
 Example Usages</h4>
 <div class="fragment"><div class="line"># Builds a fake death record and print out the record as FHIR XML and JSON</div>
 <div class="line">dotnet run --project VRDR.CLI</div>
@@ -348,7 +348,7 @@ Example Usages</h4>
 <div class="line"> </div>
 <div class="line"># Read in and parse an IJE death record and print out the values for every (supported) field</div>
 <div class="line">dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR</div>
-</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md55"></a>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md56"></a>
 VRDR.Client</h3>
 <p >This directory contains classes and functions to connect to the <a href="https://github.com/nightingaleproject/Reference-NCHS-API">NVSS API server</a>, authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the <a href="https://github.com/nightingaleproject/Reference-Client-API">Reference Client Implementation</a>.</p>
 <p ><em>This package is not yet published on NuGet.</em></p>
@@ -361,7 +361,7 @@ VRDR.Client</h3>
 <div class="line">    ...</div>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md56"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md57"></a>
 Example Usage</h4>
 <p >Authenticate to the NVSS API Server </p><div class="fragment"><div class="line">// Example SAMS credentials</div>
 <div class="line">string authUrl = &quot;https://&lt;authServerUrl&gt;.gov/auth/oauth/v2/token&quot;;</div>
@@ -384,14 +384,14 @@ Example Usage</h4>
 <div class="line">var content = client.GetMessageResponsesAsync(lastUpdatedStr);</div>
 <div class="line"> </div>
 <div class="line">// ...parse the Bundle of Bundles in the content response</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md57"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md58"></a>
 VRDR.HTTP</h3>
 <p >This directory contains a deployable microservice that exposes endpoints for conversion of IJE flat files to DeathRecord JSON or XML, and vice versa.</p>
 <p >The current available endpoints to <code>POST</code> to are: </p><div class="fragment"><div class="line">http://&lt;server&gt;:8080/xml   &lt;- For requesting a record as FHIR in XML format</div>
 <div class="line">http://&lt;server&gt;:8080/json  &lt;- For requesting a record as FHIR in JSON format</div>
 <div class="line">http://&lt;server&gt;:8080/ije   &lt;- For requesting a record as IJE</div>
 </div><!-- fragment --><p >Include a <code>Content-Type</code> header indicating what format the record is represented as in the body of the message (e.g. <code>application/fhir+json</code>, <code>application/fhir+xml</code>, or <code>application/ije</code>.).</p>
-<h4><a class="anchor" id="autotoc_md58"></a>
+<h4><a class="anchor" id="autotoc_md59"></a>
 Running</h4>
 <p >To build a Dockerized version from scratch (from source), you can do so by running (inside the project root directory):</p>
 <div class="fragment"><div class="line">dotnet publish</div>
@@ -400,11 +400,11 @@ Running</h4>
 </div><!-- fragment --><p >If you prefer not to use Docker, you can run it from the root project directory using <a href="https://dotnet.microsoft.com/download">.NET Core</a>:</p>
 <div class="fragment"><div class="line">dotnet run --project VRDR.HTTP</div>
 </div><!-- fragment --><p >The service will be listening locally at <code><a href="http://localhost:8080">http://localhost:8080</a></code>.</p>
-<h4><a class="anchor" id="autotoc_md59"></a>
+<h4><a class="anchor" id="autotoc_md60"></a>
 Contributing</h4>
 <p >Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created. <br  />
 </p>
-<p ><a class="anchor" id="autotoc_md60"></a> </p><h5>Create a branch for IG changes:</h5>
+<p ><a class="anchor" id="autotoc_md61"></a> </p><h5>Create a branch for IG changes:</h5>
 <div class="fragment"><div class="line">git fetch origin</div>
 <div class="line">git checkout IG-develop-vx.x.x</div>
 <div class="line">git pull origin IG-develop-vx.x.x</div>
@@ -413,24 +413,24 @@ Contributing</h4>
 <div class="line">&lt;test-with-changes-from-master&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
 </div><!-- fragment --><p> Create merge request to the IG-develop-vx.x.x branch.</p>
-<p ><a class="anchor" id="autotoc_md61"></a> </p><h5>Create a branch for bug fixes in master</h5>
+<p ><a class="anchor" id="autotoc_md62"></a> </p><h5>Create a branch for bug fixes in master</h5>
 <div class="fragment"><div class="line">git checkout master</div>
 <div class="line">git pull origin master</div>
 <div class="line">git checkout -b &lt;your-ticketnumber-branch-name&gt;</div>
 <div class="line">&lt;commit-bug-related-changes&gt;</div>
 <div class="line">git push origin &lt;your-ticketnumber-branch-name&gt;</div>
 </div><!-- fragment --><p> Create a merge request to the master branch. Finally, merge master into the IG-develop-vx.x.x branch.</p>
-<h4><a class="anchor" id="autotoc_md62"></a>
+<h4><a class="anchor" id="autotoc_md63"></a>
 Publishing a Version</h4>
 <p >To create a new release of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> on NuGet, bump the version of the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> and VRDR.Messaging listed in the <a href="Directory.Build.props">Directory.Build.props</a> file. Whenever a commit is merged into the master branch that changes the Directory.Build.props file, <a href=".github/workflows/publish.yml">Github Actions</a> will automatically build and publish a new version of the package based on the value specified.</p>
 <p >When publishing a new version, remember to update all the version number references in this README as well as creating a GitHub release as needed.</p>
-<h2><a class="anchor" id="autotoc_md63"></a>
+<h2><a class="anchor" id="autotoc_md64"></a>
 License</h2>
 <p >Copyright 2018, 2019, 2020 The MITRE Corporation</p>
 <p >Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
 <div class="fragment"><div class="line">http://www.apache.org/licenses/LICENSE-2.0</div>
 </div><!-- fragment --><p >Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
-<h3><a class="anchor" id="autotoc_md64"></a>
+<h3><a class="anchor" id="autotoc_md65"></a>
 Contact Information</h3>
 <p >For questions or comments about vrdr-dotnet, please send email to </p><pre class="fragment">cdc-nvss-feedback-list@lists.mitre.org
 </pre> </div></div><!-- PageDoc -->

@@ -471,7 +471,7 @@ namespace VRDR
             string current = Convert.ToString(dictionary[key]);
             if (isCoded)
             {
-                if (geoType == "place"|| geoType == "city")
+                if (geoType == "place") //|| geoType == "city")
                 {
                     string state = null;
                     string county = null;
@@ -508,11 +508,11 @@ namespace VRDR
                 }
                 else if (geoType == "state")
                 {
-                    current = dataLookup.StateNameToStateCode(current);
+                    //current = dataLookup.StateNameToStateCode(current);
                 }
                 else if (geoType == "country")
                 {
-                    current = dataLookup.CountryNameToCountryCode(current);
+                    //current = dataLookup.CountryNameToCountryCode(current);
                 }
                 else if (geoType == "insideCityLimits")
                 {
@@ -550,7 +550,8 @@ namespace VRDR
             {
                 if (isCoded)
                 {
-                    if (geoType == "place" || geoType == "city") // This is a tricky case, we need to know about county and state!
+                    // v1.3 removed lookups for city
+                    if (geoType == "place") // This is a tricky case, we need to know about county and state!
                     {
                         string state = null;
                         string county = null;
@@ -565,31 +566,32 @@ namespace VRDR
                             }
                         }
                     }
-                    else if (geoType == "county") // This is a tricky case, we need to know about state!
-                    {
-                        // Handle unknown
-                        if (value == "999")
-                        {
-                            dictionary[key] = "UNK";
-                        }
-                        else if (value == "000")
-                        {
-                            dictionary[key] = "OTH";
-                        }
-                        else
-                        {
-                            string state = null;
-                            dictionary.TryGetValue(keyPrefix + "State", out state);
-                            if (!String.IsNullOrWhiteSpace(state))
-                            {
-                                string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
-                                if (!String.IsNullOrWhiteSpace(county))
-                                {
-                                    dictionary[key] = county;
-                                }
-                            }
-                        }
-                    }
+                    // v1.3 remove this lookup for county and state
+                    // else if (geoType == "county") // This is a tricky case, we need to know about state!
+                    // {
+                    //     // Handle unknown
+                    //     if (value == "999")
+                    //     {
+                    //         dictionary[key] = "UNK";
+                    //     }
+                    //     else if (value == "000")
+                    //     {
+                    //         dictionary[key] = "OTH";
+                    //     }
+                    //     else
+                    //     {
+                    //         string state = null;
+                    //         dictionary.TryGetValue(keyPrefix + "State", out state);
+                    //         if (!String.IsNullOrWhiteSpace(state))
+                    //         {
+                    //             string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
+                    //             if (!String.IsNullOrWhiteSpace(county))
+                    //             {
+                    //                 dictionary[key] = county;
+                    //             }
+                    //         }
+                    //     }
+                    // }
                     else if (geoType == "state" || geoType == "country")
                     {
                         dictionary[key] = value;
@@ -4094,7 +4096,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_R", "Residence", "address", "county", false, value);
+                }
             }
         }
 
@@ -4108,7 +4113,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STATETEXT_R", "Residence", "address", "state", false, value);
+                }
             }
         }
 
@@ -4122,7 +4130,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTRYTEXT_R", "Residence", "address", "country", false, value);
+                }
             }
         }
 
@@ -4192,6 +4203,96 @@ namespace VRDR
             }
         }
 
+        /// <summary>Pre directional </summary>
+        [IJEField(146, 1495, 10, "Place of death. Decedent's Residence - Pre Directional", "PREDIR_R", 2)]
+        public string PREDIR_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("PREDIR_R", "Residence", "address", "predir", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("PREDIR_R", "Residence", "address", "predir", false, value);
+                }
+            }
+        }
+
+        /// <summary>Street name</summary>
+        [IJEField(147, 1505, 28, "Place of death. Decedent's Residence - Street Name", "STNAME_R", 3)]
+        public string STNAME_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("STNAME_R", "Residence", "address", "stname", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STNAME_R", "Residence", "address", "stname", false, value);
+                }
+            }
+        }
+
+        /// <summary>Street designator</summary>
+        [IJEField(148, 1533, 10, "Place of death. Decedent's Residence - Street Designator", "STDESIG_R", 4)]
+        public string STDESIG_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("STDESIG_R", "Residence", "address", "stdesig", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STDESIG_R", "Residence", "address", "stdesig", false, value);
+                }
+            }
+        }
+
+        /// <summary>Post Directional</summary>
+        [IJEField(149, 1543, 10, "Place of death. Decedent's Residence - Post directional", "POSTDIR_R", 5)]
+        public string POSTDIR_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("POSTDIR_R", "Residence", "address", "postdir", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("POSTDIR_R", "Residence", "address", "postdir", false, value);
+                }
+            }
+        }
+
+        /// <summary>Unit number</summary>
+        [IJEField(150, 1553, 7, "Place of death. Decedent's Residence - Unit number", "UNITNUM_R", 6)]
+        public string UNITNUM_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("UNITNUM_R", "Residence", "address", "unitnum", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("UNITNUM_R", "Residence", "address", "unitnum", false, value);
+                }
+            }
+        }
+
         /// <summary>Hispanic</summary>
         [IJEField(160, 1736, 3, "Hispanic", "DETHNICE", 1)]
         public string DETHNICE
@@ -4233,6 +4334,7 @@ namespace VRDR
             }
             set
             {
+
                 // NOTE: This is a placeholder, the IJE field HISPOLDC is not currently implemented in FHIR
             }
         }
@@ -4240,6 +4342,7 @@ namespace VRDR
         /// <summary>Race - old NCHS single race codes</summary>
         [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
         public string RACEOLDC
+        
         {
             get
             {
@@ -4927,6 +5030,24 @@ namespace VRDR
             }
         }
 
+
+        /// <summary>Decedent's Birth Place City - Code</summary>
+        [IJEField(194, 3392, 5, "Decedent's Birth Place City - Code", "DBPLACECITYCODE", 3)]
+        public string DBPLACECITYCODE
+        {
+            get
+            {
+                return Dictionary_Geo_Get("DBPLACECITYCODE", "PlaceOfBirth", "address", "cityC", false);
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("DBPLACECITYCODE", "PlaceOfBirth", "address", "cityC", false, value);
+                }
+            }
+        }
+
         /// <summary>Decedent's Birth Place City - Literal</summary>
         [IJEField(196, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 3)]
         public string DBPLACECITY
@@ -4940,13 +5061,23 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "city", false, value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "county", false, county);
-                    }
+                }
+            }
+        }
+
+        /// <summary>Informant's Relationship</summary>
+        [IJEField(200, 3505, 30, "Informant's Relationship", "INFORMRELATE", 3)]
+        public string INFORMRELATE
+        {
+            get
+            {
+                return Dictionary_Get("INFORMRELATE", "ContactRelationship", "text");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Set("INFORMRELATE", "ContactRelationship", "text", value);
                 }
             }
         }
@@ -5645,7 +5776,7 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("STATEBTH", "PlaceOfBirth", "address", "state", false, value);
             }
         }
 
@@ -5936,7 +6067,21 @@ namespace VRDR
             }
             set
             {
-                // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
+                
+            }
+        }
+        // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
+        /// <summary>Marital Descriptor</summary>
+        [IJEField(246, 4377, 50, "Martial Descriptor", "MARITAL_DESCRIP", 1)]
+        public string MARITAL_DESCRIP
+        {
+            get
+            {
+                return Dictionary_Get("MARITAL_DESCRIP", "MaritalStatus", "text");
+            }
+            set
+            {
+                Dictionary_Set("MARITAL_DESCRIP", "MaritalStatus", "text", value);
             }
         }
     }

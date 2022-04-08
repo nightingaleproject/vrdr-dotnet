@@ -123,7 +123,7 @@ namespace VRDR.Tests
         public void EmptyRecordToIJE()
         {
             DeathRecord deathRecord = new DeathRecord();
-            string ije = new IJEMortality(deathRecord).ToString();
+            string ije = new IJEMortality(deathRecord, false).ToString(); // Don't validate since empty record
             Assert.NotNull(ije);
         }
 
@@ -175,7 +175,7 @@ namespace VRDR.Tests
         public void NoDeathLocationJurisdictionJsontoIJE()
         {
             DeathRecord deathRecord = new DeathRecord();
-            IJEMortality ije = new IJEMortality(deathRecord);
+            IJEMortality ije = new IJEMortality(deathRecord, false); // Don't raise validation errors on empty record
             Assert.Equal("  ", ije.DSTATE);
         }
 
@@ -1531,7 +1531,6 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.EducationLevel.Associates_Or_Technical_Degree_Complete, SetterDeathRecord.EducationLevelHelper);
             Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, SetterDeathRecord.EducationLevel["system"]);
             Assert.Equal("Associate's or technical degree complete", SetterDeathRecord.EducationLevel["display"]);
-
         }
 
         [Fact]
@@ -1543,6 +1542,34 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, ((DeathRecord)XMLRecords[0]).EducationLevelHelper);
             Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, ((DeathRecord)XMLRecords[0]).EducationLevel["system"]);
             Assert.Equal("Bachelor's Degree", ((DeathRecord)XMLRecords[0]).EducationLevel["display"]);
+        }
+
+        [Fact]
+        public void Set_EducationLevelEditFlag()
+        {
+            Dictionary<string, string> elef = new Dictionary<string, string>();
+            elef.Add("code", VRDR.ValueSets.EditBypass01234.Edit_Failed_Data_Queried_And_Verified);
+            elef.Add("system", VRDR.CodeSystems.BypassEditFlag);
+            elef.Add("display", "Edit Failed, Data Queried, and Verified");
+            SetterDeathRecord.EducationLevelEditFlag = elef;
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.EducationLevelEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Failed, Data Queried, and Verified", SetterDeathRecord.EducationLevelEditFlag["display"]);
+            SetterDeathRecord.EducationLevelEditFlagHelper = VRDR.ValueSets.EditBypass01234.Edit_Passed;
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, SetterDeathRecord.EducationLevelEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.EducationLevelEditFlag["display"]);
+        }
+
+        [Fact]
+        public void Get_EducationLevelEditFlag()
+        {
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, ((DeathRecord)JSONRecords[0]).EducationLevelEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).EducationLevelEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass01234.Edit_Passed, ((DeathRecord)XMLRecords[0]).EducationLevelEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).EducationLevelEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).EducationLevelEditFlag["display"]);
         }
 
         [Fact]

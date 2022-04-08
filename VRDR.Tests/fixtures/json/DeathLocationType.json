@@ -984,9 +984,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
-              "code": "GD",
-              "display": "Graduate or professional Degree complete"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+              "code": "MA",
+              "display": "Master's Degree"
             }
           ]
         }

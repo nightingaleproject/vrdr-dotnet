@@ -788,6 +788,15 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" />
         </meta>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"/>
+              <code value="0"/>
+              <display value="Edit Passed"/>
+            </coding>
+          </valueCodeableConcept>
+        </extension>
         <status value="final" />
         <code>
           <coding>

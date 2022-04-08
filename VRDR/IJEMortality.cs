@@ -54,10 +54,23 @@ namespace VRDR
         /// <summary>IJE data lookup helper. Thread-safe singleton!</summary>
         private MortalityData dataLookup = MortalityData.Instance;
 
+        /// <summary>Validation errors encountered while converting a record</summary>
+        private List<string> validationErrors = new List<string>();
+
         /// <summary>Constructor that takes a <c>DeathRecord</c>.</summary>
-        public IJEMortality(DeathRecord record)
+        public IJEMortality(DeathRecord record, bool validate = true)
         {
             this.record = record;
+            if (validate)
+            {
+                // We need to force a conversion to happen by calling ToString() if we want to validate
+                ToString();
+                if (validationErrors.Count > 0)
+                {
+                    string errorString = $"Found {validationErrors.Count} validation errors:\n{String.Join("\n", validationErrors)}";
+                    throw new ArgumentOutOfRangeException(errorString);
+                }
+            }
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
@@ -83,8 +96,10 @@ namespace VRDR
                 // Set the value on this IJEMortality (and the embedded record)
                 property.SetValue(this, field);
             }
-            if(validate){
-                this.Validate();
+            if (validate && validationErrors.Count > 0)
+            {
+                string errorString = $"Found {validationErrors.Count} validation errors:\n{String.Join("\n", validationErrors)}";
+                throw new ArgumentOutOfRangeException(errorString);
             }
         }
 
@@ -117,18 +132,6 @@ namespace VRDR
         public DeathRecord ToDeathRecord()
         {
             return this.record;
-        }
-
-       /// <summary>Validates this IJE string.  Throws an exception if it is invalid, otherwise returns true</summary>
-        private Boolean Validate()
-        {
-            string dstate = this.DSTATE;
-            Boolean valid = dataLookup.JurisdictionNameToJurisdictionCode(dstate) != null;
-            string code = dataLookup.JurisdictionNameToJurisdictionCode(dstate);
-             if (!valid){
-                throw new ArgumentOutOfRangeException("DSTATE value of " + dstate + " is invalid.");
-            }
-            return(true);
         }
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -739,6 +742,61 @@ namespace VRDR
             }
         }
 
+        /// <summary>Given a Dictionary mapping FHIR codes to IJE strings and the relevant FHIR and IJE fields pull the value
+        /// from the FHIR record object and provide the appropriate IJE string</summary>
+        /// <param name="mapping">Dictionary for mapping the desired concept from FHIR to IJE; these dictionaries are defined in Mappings.cs</param>
+        /// <param name="fhirField">Name of the FHIR field to get from the record; must have a related Helper property, e.g., EducationLevel must have EducationLevelHelper</param>
+        /// <param name="ijeField">Name of the IJE field that the FHIR field content is being placed into</param>
+        /// <returns>The IJE value of the field translated from the FHIR value on the record</returns>
+        private string Get_MappingFHIRToIJE(Dictionary<string,string> mapping, string fhirField, string ijeField)
+        {
+            PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
+            if (helperProperty == null)
+            {
+                throw new NullReferenceException($"No helper method found called '{fhirField}Helper'");
+            }
+            string fhirCode = (string)helperProperty.GetValue(this.record);
+            if (String.IsNullOrWhiteSpace(fhirCode))
+            {
+                return "";
+            }
+            try
+            {
+                return mapping[fhirCode];
+            }
+            catch (KeyNotFoundException)
+            {
+                validationErrors.Add($"Error: Unable to find IJE {ijeField} mapping for FHIR {fhirField} field value '{fhirCode}'");
+                return "";
+             }
+
+        }
+
+        /// <summary>Given a Dictionary mapping IJE codes to FHIR strings and the relevant IJE and FHIR fields translate the IJE
+        /// string to the appropriate FHIR code and set the value on the FHIR record object</summary>
+        /// <param name="mapping">Dictionary for mapping the desired concept from IJE to FHIR; these dictionaries are defined in Mappings.cs</param>
+        /// <param name="ijeField">Name of the IJE field that the FHIR field content is being set from</param>
+        /// <param name="fhirField">Name of the FHIR field to set on the record; must have a related Helper property, e.g., EducationLevel must have EducationLevelHelper</param>
+        /// <param name="value">The value to translate from IJE to FHIR and set on the record</param>
+        private void Set_MappingIJEToFHIR(Dictionary<string,string> mapping, string ijeField, string fhirField, string value)
+        {
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                try
+                {
+                    PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
+                    if (helperProperty == null)
+                    {
+                        throw new NullReferenceException($"No helper method found called '{fhirField}Helper'");
+                    }
+                    helperProperty.SetValue(this.record, mapping[value]);
+                }
+                catch (KeyNotFoundException)
+                {
+                    validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
+                }
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -782,7 +840,12 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
+                string value = LeftJustified_Get("DSTATE", "DeathLocationJurisdiction");
+                if (dataLookup.JurisdictionNameToJurisdictionCode(value) == null)
+                {
+                    validationErrors.Add("DSTATE value of " + value + " is invalid.");
+                }
+                return value;
             }
             set
             {
@@ -1787,76 +1850,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("DEDUC", "EducationLevel", "code");
-                switch (code)
-                {
-                    case "PHC1448": // Elementary School
-                        return "1";
-                    case "PHC1449": // Some secondary or high school education
-                        return "2";
-                    case "PHC1450": // High School Graduate or GED Completed
-                        return "3";
-                    case "PHC1451": // Some College education
-                        return "4";
-                    case "PHC1452": // Associate's or technical degree complete
-                        return "5";
-                    case "PHC1453": // College or baccalaureate degree complete
-                        return "6";
-                    case "PHC1454": // Graduate or professional Degree complete
-                        return "7";
-                    case "PHC1455": // Doctoral or post graduate education
-                        return "8";
-                    case "UNK": // Unknown
-                        return "9";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.EducationLevel.FHIRToIJE, "EducationLevel", "DEDUC");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Dictionary_Set("DEDUC", "EducationLevel", "system", CodeSystems.PH_PHINVS_CDC); // CDC Local Coding System, except for UNK
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1448");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "8th grade or less");
-                            break;
-                        case "2":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1449");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "9th through 12th grade; no diploma");
-                            break;
-                        case "3":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1450");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "High School Graduate or GED Completed");
-                            break;
-                        case "4":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1451");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Some college credit, but no degree");
-                            break;
-                        case "5":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1452");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Associate Degree");
-                            break;
-                        case "6":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1453");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Bachelor's Degree");
-                            break;
-                        case "7":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1454");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Master's Degree");
-                            break;
-                        case "8":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "PHC1455");
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Doctorate Degree or Professional Degree");
-                            break;
-                        case "9":
-                            Dictionary_Set("DEDUC", "EducationLevel", "code", "UNK");
-                            Dictionary_Set("DEDUC", "EducationLevel", "system", CodeSystems.PH_NullFlavor_HL7_V3);   // CDC Null Flavor Coding System
-                            Dictionary_Set("DEDUC", "EducationLevel", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.EducationLevel.IJEToFHIR, "DEDUC", "EducationLevel", value);
             }
         }
 
@@ -1866,11 +1864,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass01234.FHIRToIJE, "EducationLevelEditFlag", "DEDUC_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass01234.IJEToFHIR, "DEDUC_BYPASS", "EducationLevelEditFlag", value);
             }
         }
 

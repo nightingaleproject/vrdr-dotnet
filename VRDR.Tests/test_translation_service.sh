@@ -3,6 +3,8 @@
 # Start translation service
 cd VRDR.HTTP
 dotnet run &
+SERVICE_PID=$!
+echo "Translation service running as PID $SERVICE_PID"
 sleep 10
 
 # Convert FHIR JSON => IJE
@@ -26,6 +28,9 @@ if diff ije1.tmp ije2.tmp; then
   echo "IJE matched! Roundtrip passed!"
 else
   echo "IJE was different! Roundtrip failed!"
+  # Kill the translation service
+  echo "Killing translation service running as PID $SERVICE_PID"
+  kill $SERVICE_PID
   exit 1
 fi
 
@@ -37,6 +42,10 @@ curl --data-binary "@1.nightingale" -H "Content-Type: application/nightingale" -
 
 # Convert FHIR JSON => Nightingale
 curl --data-binary "@1.nightingale.json" -H "Content-Type: application/fhir+json" -X POST http://localhost:8080/nightingale > 2.nightingale
+
+# Kill the translation service
+echo "Killing translation service running as PID $SERVICE_PID"
+kill $SERVICE_PID
 
 # Test that nightingale records are the same
 if diff 1.nightingale 2.nightingale; then

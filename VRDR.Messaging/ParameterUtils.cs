@@ -207,11 +207,6 @@ namespace VRDR
         {
             if (group == null)
             { // not part of a group
-                Record.Remove(field);
-                if(s != null && s.Length > 0){ // Fields with empty strings should be not be included
-                    Record.Add(field, new FhirString(s));
-                }
-                return;
             }
             // Get the group
             var g = Record.GetSingle(group);
@@ -251,34 +246,18 @@ namespace VRDR
             }
         }
         /// <summary>SetParameterString:   Get a String parameter associated with a top level parameter </summary>
-                private void SetParameterString(string s, string field)
+        private void SetParameterString(string s, string field)
         {
-            SetParameterString(s, null, field);
+            Record.Remove(field);
+            // Fields with empty strings should be not be included
+            if (!String.IsNullOrEmpty(s))
+            {
+                Record.Add(field, new FhirString(s));
+            }
+            return;
         }
         /// <summary>GetParameterString:   Get a String parameter associated with a group (top level) and field (part) parameter </summary>
-        private string GetParameterString(string group, string field)
-        {
-            if (group != null)
-            {
-                var g = Record.GetSingle(group);
-                if (g == null){ // group doesn't exist
-                    return null;
-                }
-                var element = g.Part.Find(elem => elem.Name == field);
-                if ((element != null) && (element.Value != null))
-                {
-                    return ((FhirString)element.Value).Value;
-                }
-                else
-                {
-                    return null; // field in group doesn't exist
-                }
-            }
-            else
-            {  // group doesn't exist
-                return null;
-            }
-        }
+
         /// <summary>GetParameterString:   Get a String parameter associated with a top level parameter </summary>
         private string GetParameterString(string field)
         {

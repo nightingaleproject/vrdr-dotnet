@@ -742,7 +742,8 @@ namespace VRDR
             }
         }
 
-
+        /// <summary>Given a Dictionary mapping FHIR codes to IJE strings and the relevant FHIR and IJE fields pull the value
+        /// from the FHIR record object and provide the appropriate IJE string</summary>
         private string Get_MappingFHIRToIJE(Dictionary<string,string> mapping, string fhirField, string ijeField)
         {
             PropertyInfo helperProperty = typeof(DeathRecord).GetProperty($"{fhirField}Helper");
@@ -767,6 +768,8 @@ namespace VRDR
 
         }
 
+        /// <summary>Given a Dictionary mapping IJE codes to FHIR strings and the relevant IJE and FHIR fields translate the IJE
+        /// string to the appropriate FHIR code and set the value on the FHIR record object</summary>
         private void Set_MappingIJEToFHIR(Dictionary<string,string> mapping, string ijeField, string fhirField, string value)
         {
             if (!String.IsNullOrWhiteSpace(value))

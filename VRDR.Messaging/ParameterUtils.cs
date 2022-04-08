@@ -19,182 +19,52 @@ namespace VRDR
     public partial class BaseMessage
     {
         // =================Coding=======================
-        /// <summary>SetParameterCoding:   set a coding parameter associated with a group (top level) and field (part) parameter </summary>
-        private void SetParameterCoding(Dictionary<string, string> dict, string group, string field)
-        {
-            if (group == null)
-            { // not part of a group
-                Record.Remove(field);
-                if (dict != null){
-                    Coding c = DictToCoding(dict);
-                    Record.Add(field, c);
-                }
-                return;
-            }
-            // Get the group
-            var g = Record.GetSingle(group);
-            var list = new List<Tuple<string, Base>>();
-            if (g != null)
-            {
-
-                // if the group exists, convert to list.  If list includes field, set the value
-                foreach (Parameters.ParameterComponent item in g.Part)
-                {
-                    var value = (Base)item.Value;
-                    if (item.Name == field)
-                    {
-                        if(dict != null){ // replace item if dict is not null, otherwise, don't add it to list
-                            list.Add(Tuple.Create(item.Name, (Base)DictToCoding(dict)));
-                        }
-                    }else {
-                        list.Add(Tuple.Create(item.Name, (Base)item.Value));
-                    }
-                }
-            }
-            // If list doesn't include field, and value is not null, add it with the value
-            var element = list.Find(elem => elem.Item1 == field);
-            if (element == null && dict != null)
-            {
-                var part = Tuple.Create(field, (Base)DictToCoding(dict));
-                list.Add(part);
-            }
-            // If the group exists, remove it.
-            if (g != null)
-            {
-                Record.Remove(group);
-            }
-            // Insert the list as the new group
-            if(list.Count > 0){
-                Record.Add(group, list);
-            }
-        }
-        /// <summary>SetParameterCoding:   set a coding parameter associated with a top level parameter (no group)</summary>
+        /// <summary>SetParameterCoding:   set a coding parameter associated with a top level parameter</summary>
         private void SetParameterCoding(Dictionary<string, string> dict, string field)
         {
-            SetParameterCoding(dict, null, field);
-        }
-       /// <summary>GetParameterCoding:   get a coding parameter associated with a group (top level) and field (part) parameter </summary>
-        private Dictionary<string, string> GetParameterCoding(string group, string field)
-        {
-            if (group != null)
+            Record.Remove(field);
+            if (!IsDictEmptyOrDefault(dict))
             {
-                var g = Record.GetSingle(group);
-                if (g == null){
-                    return null;
-                }
-                var element = g.Part.Find(elem => elem.Name == field);
-                if (element != null && element.Value != null)
-                {
-                    return CodingToDict((Coding)(element.Value));
-                }
-                else
-                {
-                    return null; // field in group doesn't exist
-                }
-            }
-            else
-            {  // group doesn't exist
-                return null;
+                Coding c = DictToCoding(dict);
+                Record.Add(field, c);
             }
         }
-       /// <summary>GetParameterCoding:   set a coding parameter associated with a top level parameter </summary>
+
+        /// <summary>GetParameterCoding:   set a coding parameter associated with a top level parameter </summary>
         private Dictionary<string, string> GetParameterCoding(string field)
         {
             Parameters.ParameterComponent f = Record.GetSingle(field);
-            if( f == null){
+            if (f == null)
+            {
                 return null;
-            } else {
+            }
+            else
+            {
                 return CodingToDict((Coding)(f.Value));
             }
         }
 
         // =================UnsignedInt=======================
-       /// <summary>SetParameterUnsignedInt:   Set an UnsignedInt parameter associated with a group (top level) and field (part) parameter </summary>
-        private void SetParameterUnsignedInt(uint? u, string group, string field)
-        {
-            if (group == null)
-            { // not part of a group
-                Record.Remove(field);
-                if(u != null){
-                    Record.Add(field, new UnsignedInt((int)u));
-                }
-                return;
-            }
-            // Get the group
-            var g = Record.GetSingle(group);
-            var list = new List<Tuple<string, Base>>();
-            if (g != null)
-            {
-
-                // if the group exists, convert to list.  If list includes field, set the value
-                foreach (Parameters.ParameterComponent item in g.Part)
-                {
-                    if (item.Name == field)
-                    {
-                        if(u != null){ // replace item if u is not null, otherwise, don't add it to list
-                            list.Add(Tuple.Create(item.Name, (Base)new UnsignedInt((int)u)));
-                        }
-                    }else {
-                        list.Add(Tuple.Create(item.Name, (Base)item.Value));
-                    }
-                }
-            }
-            // If list doesn't include field, add it with the value
-            var element = list.Find(elem => elem.Item1 == field);
-            if (element == null)
-            {
-                if(u != null){
-                    list.Add(Tuple.Create(field, (Base)new UnsignedInt((int)u)));
-                }
-            }
-            // If the group exists, remove it.
-            if (g != null)
-            {
-                Record.Remove(group);
-            }
-            // Insert the list as the new group
-            if(list.Count > 0){
-                Record.Add(group, list);
-            }
-        }
         /// <summary>SetParameterUnsignedInt:   Set an UnsignedInt parameter associated with a top level parameter </summary>
         private void SetParameterUnsignedInt(uint? u, string field)
         {
-            SetParameterUnsignedInt(u, null, field);
-        }
-       /// <summary>GetParameterUnsignedInt:   Get an UnsignedInt parameter associated with a group (top level) and field (part) parameter </summary>
-        private uint? GetParameterUnsignedInt(string group, string field)
-        {
-            if (group != null)
+            Record.Remove(field);
+            if (u != null)
             {
-                var g = Record.GetSingle(group);
-                if(g == null){
-                    return null;
-                }
-                var element = g.Part.Find(elem => elem.Name == field);
-                if (element != null && element.Value != null)
-                {
-                    UnsignedInt uI = (UnsignedInt)element.Value;
-                    uint u = (uint)uI.Value;
-                    return u;
-                }
-                else
-                {
-                    return null; // field in group doesn't exist
-                }
-            }
-            else
-            {  // group doesn't exist
-                return null;
+                Record.Add(field, new UnsignedInt((int)u));
             }
         }
-       /// <summary>GetParameterUnsignedInt:   Get an UnsignedInt parameter associated with a top level parameter </summary>
+
+        /// <summary>GetParameterUnsignedInt:   Get an UnsignedInt parameter associated with a top level parameter </summary>
         private uint? GetParameterUnsignedInt(string field)
         {
             Parameters.ParameterComponent f = Record.GetSingle(field);
-            if (f == null){
+            if (f == null)
+            {
                 return null;
-            } else {
+            }
+            else
+            {
                 UnsignedInt uI = (UnsignedInt)f.Value;
                 uint u = (uint)uI.Value;
                 return u;
@@ -202,49 +72,6 @@ namespace VRDR
         }
 
         // =================String=======================
-        /// <summary>SetParameterString:   Get a String parameter associated with a group (top level) and field (part) parameter </summary>
-       private void SetParameterString(string s, string group, string field)
-        {
-            if (group == null)
-            { // not part of a group
-            }
-            // Get the group
-            var g = Record.GetSingle(group);
-            var list = new List<Tuple<string, Base>>();
-            if (g != null)
-            {
-
-                // if the group exists, convert to list.  If list includes field, set the value
-                foreach (Parameters.ParameterComponent item in g.Part)
-                {
-                    var value = item.Value;
-                    if (item.Name == field)
-                    {
-                        if(s != null && s.Length > 0){ // null values or empty strings should not be added
-                            list.Add(Tuple.Create(item.Name,(Base) new FhirString(s)));
-                        }
-                    }else{
-                            list.Add(Tuple.Create(item.Name,(Base) value));
-                    }
-                }
-            }
-            // If list doesn't include field, add it with the value
-            var element = list.Find(elem => elem.Item1 == field);
-            if (element == null)
-            {
-                var part = Tuple.Create(field, (Base)new FhirString(s));
-                list.Add(part);
-            }
-            // If the group exists, remove it.
-            if (g != null)
-            {
-                Record.Remove(group);
-            }
-            // Insert the list as the new group
-            if(list.Count > 0){
-                Record.Add(group, list);
-            }
-        }
         /// <summary>SetParameterString:   Get a String parameter associated with a top level parameter </summary>
         private void SetParameterString(string s, string field)
         {
@@ -256,15 +83,17 @@ namespace VRDR
             }
             return;
         }
-        /// <summary>GetParameterString:   Get a String parameter associated with a group (top level) and field (part) parameter </summary>
 
         /// <summary>GetParameterString:   Get a String parameter associated with a top level parameter </summary>
         private string GetParameterString(string field)
         {
             Parameters.ParameterComponent f = Record.GetSingle(field);
-            if (f == null){
+            if (f == null)
+            {
                 return null;
-            } else {
+            }
+            else
+            {
                 FhirString fs = (FhirString)f.Value;
                 string s = (string)fs.Value;
                 return s;

@@ -1,7 +1,7 @@
 # This script takes the JSON files that are generated as part of the VRDR IG and creates an output
-# file with static strings for each StructureDefinition URL
+# file with static URL strings for each StructureDefinition, Extension, and IG HTML page
 #
-# Usage: ruby tools/generate_concept_mappings_from_VRDR_IG.rb <path-to-json-files> > ../VRDR/ProfileURLs.cs
+# Usage: ruby tools/generate_concept_mappings_from_VRDR_IG.rb <path-to-json-files> > VRDR/URLs.cs
 #
 # If you need to generate the concept map JSON files, first install sushi (https://github.com/FHIR/sushi) then
 #
@@ -32,6 +32,19 @@ structure_definitions = structure_definition_files.each do |structure_definition
   structure_definition_hash[name] = url
 end
 
+# Helper method to transform a StructureDefinition URL into a human-visitable link
+# Note: Will need to be updated as IG moves through different publishing stages
+def structure_definition_url_to_ig_url(url)
+  # Transform this: http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-education-level
+  # Into this:      http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-education-level.html
+  url.gsub('http://hl7.org/fhir/us/vrdr/StructureDefinition/', 'http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-') + '.html'
+end
+
+# Helper method to determine whether a URL is an Extension or a Profile
+def url_type(url)
+  if url.include?('/vrdr-') then 'profile' else 'extension' end
+end
+
 # Create a template for the output file
 
 template = <<-EOT
@@ -40,11 +53,31 @@ template = <<-EOT
 namespace VRDR
 {
     /// <summary>Profile URLs</summary>
-    public static class ProfileURLs
+    public static class ProfileURL
+    {
+<% structure_definition_hash.select { |name, url| url_type(url) == 'profile' }.each do |name, url| -%>
+        /// <summary>URL for <%= name %></summary>
+        public const string <%= name %> = "<%= url %>";
+
+<% end -%>
+    }
+
+    /// <summary>Extension URLs</summary>
+    public static class ExtensionURL
+    {
+<% structure_definition_hash.select { |name, url| url_type(url) == 'extension' }.each do |name, url| -%>
+        /// <summary>URL for <%= name %></summary>
+        public const string <%= name %> = "<%= url %>";
+
+<% end -%>
+    }
+
+    /// <summary>IG URLs</summary>
+    public static class IGURL
     {
 <% structure_definition_hash.each do |name, url| -%>
         /// <summary>URL for <%= name %></summary>
-        public const string <%= name %> = "<%= url %>";
+        public const string <%= name %> = "<%= structure_definition_url_to_ig_url(url) %>";
 
 <% end -%>
     }

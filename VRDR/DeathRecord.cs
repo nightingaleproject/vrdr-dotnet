@@ -134,7 +134,7 @@ namespace VRDR
             BirthRecordIdentifier = new Observation();
             BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
             BirthRecordIdentifier.Meta = new Meta();
-            string[] br_profile = { ProfileURLs.BirthRecordIdentifier };
+            string[] br_profile = { ProfileURL.BirthRecordIdentifier };
             BirthRecordIdentifier.Meta.Profile = br_profile;
             BirthRecordIdentifier.Status = ObservationStatus.Final;
             BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
@@ -4194,7 +4194,7 @@ namespace VRDR
             DecedentEducationLevel = new Observation();
             DecedentEducationLevel.Id = Guid.NewGuid().ToString();
             DecedentEducationLevel.Meta = new Meta();
-            string[] educationlevel_profile = { ProfileURLs.DecedentEducationLevel };
+            string[] educationlevel_profile = { ProfileURL.DecedentEducationLevel };
             DecedentEducationLevel.Meta.Profile = educationlevel_profile;
             DecedentEducationLevel.Status = ObservationStatus.Final;
             DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
@@ -4219,7 +4219,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, ProfileURLs.DecedentEducationLevel, false, 34)]
+        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, ProfileURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4251,7 +4251,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, ProfileURLs.DecedentEducationLevel, false, 34)]
+        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
         public string EducationLevelHelper
@@ -4286,7 +4286,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
         /// </example>
-        [Property("Education Level Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, ProfileURLs.DecedentEducationLevel, false, 34)]
+        // TODO: This URL should be the html one, and those should be generated as well
+        [Property("Education Level Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4297,7 +4298,7 @@ namespace VRDR
             {
                 if (DecedentEducationLevel != null && DecedentEducationLevel.Extension != null)
                 {
-                    Extension editFlag = DecedentEducationLevel.Extension.FirstOrDefault(extension => extension.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag");
+                    Extension editFlag = DecedentEducationLevel.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (editFlag != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)editFlag.Value);
@@ -4311,9 +4312,9 @@ namespace VRDR
                 {
                     CreateEmptyEducationLevelObservation();
                 }
-                DecedentEducationLevel.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag");
+                DecedentEducationLevel.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 Extension editFlag = new Extension();
-                editFlag.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag";
+                editFlag.Url = ExtensionURL.BypassEditFlag;
                 editFlag.Value = DictToCodeableConcept(value);
                 DecedentEducationLevel.Extension.Add(editFlag);
             }
@@ -4327,7 +4328,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level Edit Flag: {ExampleDeathRecord.EducationLevelHelperEditFlag}");</para>
         /// </example>
-        [Property("Education Level Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, ProfileURLs.DecedentEducationLevel, false, 34)]
+        [Property("Education Level Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
         public string EducationLevelEditFlagHelper
@@ -4354,7 +4355,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
         /// </example>
-        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, ProfileURLs.BirthRecordIdentifier, true, 16)]
+        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, IGURL.BirthRecordIdentifier, true, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordId
         {

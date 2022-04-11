@@ -1684,6 +1684,60 @@
           ]
         }
       }
+    },
+    {
+      "fullUrl": "urn:uuid:c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues"
+          ]
+        },
+        "parameter": [
+          {
+            "name": "PLACE1_1",
+            "valueString": "A"
+          },
+          {
+            "name": "PLACE1_2",
+            "valueString": "B"
+          },
+          {
+            "name": "PLACE1_3",
+            "valueString": "C"
+          },
+          {
+            "name": "PLACE1_4",
+            "valueString": "D"
+          },
+          {
+            "name": "PLACE1_5",
+            "valueString": "E"
+          },
+          {
+            "name": "PLACE1_6",
+            "valueString": "F"
+          },
+          {
+            "name": "PLACE8_1",
+            "valueString": "AAAAAAAA"
+          },
+          {
+            "name": "PLACE8_2",
+            "valueString": "BBBBBBBB"
+          },
+          {
+            "name": "PLACE8_3",
+            "valueString": "CCCCCCCC"
+          },
+          {
+            "name": "PLACE20",
+            "valueString": "AAAAAAAAAAAAAAAAAAAA"
+          }
+        ]
+      }
     }
   ]
 }

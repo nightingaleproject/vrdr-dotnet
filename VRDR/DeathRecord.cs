@@ -7346,16 +7346,25 @@ namespace VRDR
             }
         }
 
-        /// <summary>Create an empty EmergingIssues Parameters, to be populated in any of the EmergingIssues setters.</summary>
-        private void CreateEmptyEmergingIssuesParameters()
+        /// <summary>Set an emerging issue value, creating an empty EmergingIssues Parameters as needed.</summary>
+        private void SetEmergingIssue(string identifier, string value)
         {
-            EmergingIssues = new Parameters();
-            EmergingIssues.Id = Guid.NewGuid().ToString();
-            EmergingIssues.Meta = new Meta();
-            string[] profile = { ProfileURL.ParametersForEmergingIssues };
-            EmergingIssues.Meta.Profile = profile;
-            AddReferenceToComposition(EmergingIssues.Id);
-            Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
+                if (EmergingIssues == null)
+                {
+                    EmergingIssues = new Parameters();
+                    EmergingIssues.Id = Guid.NewGuid().ToString();
+                    EmergingIssues.Meta = new Meta();
+                    string[] profile = { ProfileURL.ParametersForEmergingIssues };
+                    EmergingIssues.Meta.Profile = profile;
+                    AddReferenceToComposition(EmergingIssues.Id);
+                    Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
+                }
+                EmergingIssues.Remove(identifier);
+                if (value != null)
+                {
+                    EmergingIssues.Add(identifier, new FhirString(value));
+                }
+
         }
 
         /// <summary>Emerging Issue Field Length 1 Number 1</summary>
@@ -7376,15 +7385,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_1");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_1", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_1", value);
             }
         }
 
@@ -7406,15 +7407,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_2");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_2", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_2", value);
             }
         }
 
@@ -7436,15 +7429,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_3");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_3", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_3", value);
             }
         }
 
@@ -7466,15 +7451,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_4");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_4", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_4", value);
             }
         }
 
@@ -7496,15 +7473,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_5");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_5", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_5", value);
             }
         }
 
@@ -7526,15 +7495,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE1_6");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE1_6", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE1_6", value);
             }
         }
 
@@ -7556,15 +7517,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE8_1");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE8_1", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE8_1", value);
             }
         }
 
@@ -7586,15 +7539,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE8_2");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE8_2", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE8_2", value);
             }
         }
 
@@ -7616,15 +7561,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE8_3");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE8_3", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE8_3", value);
             }
         }
 
@@ -7646,15 +7583,7 @@ namespace VRDR
             }
             set
             {
-                if (EmergingIssues == null)
-                {
-                    CreateEmptyEmergingIssuesParameters();
-                }
-                EmergingIssues.Remove("PLACE20");
-                if (value != null)
-                {
-                    EmergingIssues.Add("PLACE20", new FhirString(value));
-                }
+                SetEmergingIssue("PLACE20", value);
             }
         }
 

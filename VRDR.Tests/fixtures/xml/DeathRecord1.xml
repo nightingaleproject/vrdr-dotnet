@@ -1363,4 +1363,55 @@
       </DocumentReference>
     </resource>
   </entry>
+  <entry>
+    <fullUrl value="urn:uuid:7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
+    <resource>
+      <Parameters>
+        <id value="7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues"/>
+        </meta>
+        <parameter>
+          <name value="PLACE1_1"/>
+          <valueString value="A"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE1_2"/>
+          <valueString value="B"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE1_3"/>
+          <valueString value="C"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE1_4"/>
+          <valueString value="D"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE1_5"/>
+          <valueString value="E"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE1_6"/>
+          <valueString value="F"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE8_1"/>
+          <valueString value="AAAAAAAA"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE8_2"/>
+          <valueString value="BBBBBBBB"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE8_3"/>
+          <valueString value="CCCCCCCC"/>
+        </parameter>
+        <parameter>
+          <name value="PLACE20"/>
+          <valueString value="AAAAAAAAAAAAAAAAAAAA"/>
+        </parameter>
+      </Parameters>
+    </resource>
+  </entry>
 </Bundle>

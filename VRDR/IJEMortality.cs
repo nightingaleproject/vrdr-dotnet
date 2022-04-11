@@ -377,6 +377,10 @@ namespace VRDR
             string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
             if (current != null)
             {
+                if (current.Length > info.Length)
+                {
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} containst string '{current}' too long for IJE field {ijeFieldName} of length {info.Length}");
+                }
                 return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
             else
@@ -388,8 +392,11 @@ namespace VRDR
         /// <summary>Set a value on the DeathRecord whose IJE type is a left justified string.</summary>
         private void LeftJustified_Set(string ijeFieldName, string fhirFieldName, string value)
         {
-            IJEField info = FieldInfo(ijeFieldName);
-            typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                IJEField info = FieldInfo(ijeFieldName);
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value.Trim());
+            }
         }
 
         /// <summary>Get a value on the DeathRecord whose property is a Dictionary type.</summary>
@@ -990,10 +997,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("LNAME", "FamilyName", value.Trim());
-                }
+                LeftJustified_Set("LNAME", "FamilyName", value);
             }
         }
 
@@ -1007,10 +1011,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("SUFF", "Suffix", value.Trim());
-                }
+                LeftJustified_Set("SUFF", "Suffix", value);
             }
         }
 
@@ -1038,10 +1039,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("FLNAME", "FatherFamilyName", value.Trim());
-                }
+                LeftJustified_Set("FLNAME", "FatherFamilyName", value);
             }
         }
 
@@ -1109,10 +1107,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("SSN", "SSN", value);
-                }
+                LeftJustified_Set("SSN", "SSN", value);
             }
         }
 
@@ -2863,10 +2858,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("OCCUP", "UsualOccupation", value.Trim());
-                }
+                LeftJustified_Set("OCCUP", "UsualOccupation", value);
             }
         }
 
@@ -2895,10 +2887,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("INDUST", "UsualIndustry", value.Trim());
-                }
+                LeftJustified_Set("INDUST", "UsualIndustry", value);
             }
         }
 
@@ -3930,10 +3919,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("DINSTI", "DeathLocationName", value.Trim());
-                }
+                LeftJustified_Set("DINSTI", "DeathLocationName", value);
             }
         }
 
@@ -4498,10 +4484,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("DMOMMDN", "MotherMaidenName", value.Trim());
-                }
+                LeftJustified_Set("DMOMMDN", "MotherMaidenName", value);
             }
         }
 
@@ -4628,10 +4611,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("HOWINJ", "InjuryDescription", value.Trim());
-                }
+                LeftJustified_Set("HOWINJ", "InjuryDescription", value);
             }
         }
 
@@ -5009,10 +4989,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("DMAIDEN", "MaidenName", value);
-                }
+                LeftJustified_Set("DMAIDEN", "MaidenName", value);
             }
         }
 
@@ -5182,10 +5159,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value.Trim());
-                }
+                LeftJustified_Set("FUNFACNAME", "FuneralHomeName", value);
             }
         }
 
@@ -5463,10 +5437,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("CERTLAST", "CertifierFamilyName", value.Trim());
-                }
+                LeftJustified_Set("CERTLAST", "CertifierFamilyName", value);
             }
         }
 
@@ -5480,10 +5451,7 @@ namespace VRDR
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value.Trim());
-                }
+                LeftJustified_Set("CERTSUFFIX", "CertifierSuffix", value);
             }
         }
 
@@ -5854,12 +5822,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_1", "EmergingIssue1_1");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_1", "EmergingIssue1_1", value);
             }
         }
 
@@ -5869,12 +5836,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_2", "EmergingIssue1_2");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_2", "EmergingIssue1_2", value);
             }
         }
 
@@ -5884,12 +5850,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_3", "EmergingIssue1_3");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_3", "EmergingIssue1_3", value);
             }
         }
 
@@ -5899,12 +5864,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_4", "EmergingIssue1_4");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_4", "EmergingIssue1_4", value);
             }
         }
 
@@ -5914,12 +5878,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_5", "EmergingIssue1_5");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_5", "EmergingIssue1_5", value);
             }
         }
 
@@ -5929,12 +5892,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_6", "EmergingIssue1_6");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_6", "EmergingIssue1_6", value);
             }
         }
 
@@ -5944,12 +5906,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_1", "EmergingIssue8_1");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_1", "EmergingIssue8_1", value);
             }
         }
 
@@ -5959,12 +5920,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_2", "EmergingIssue8_2");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_2", "EmergingIssue8_2", value);
             }
         }
 
@@ -5974,12 +5934,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_3", "EmergingIssue8_3");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_3", "EmergingIssue8_3", value);
             }
         }
 
@@ -5989,12 +5948,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE20", "EmergingIssue20");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE20", "EmergingIssue20", value);
             }
         }
 

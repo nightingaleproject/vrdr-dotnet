@@ -130,6 +130,10 @@ namespace VRDR
         /// <summary>Birth Record Identifier.</summary>
         private Observation BirthRecordIdentifier;
 
+        /// <summary>Emerging Issues.</summary>
+        protected Parameters EmergingIssues;
+
+
         private void CreateBirthRecordIdentifier(){
             BirthRecordIdentifier = new Observation();
             BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
@@ -7342,6 +7346,246 @@ namespace VRDR
             }
         }
 
+        /// <summary>Set an emerging issue value, creating an empty EmergingIssues Parameters as needed.</summary>
+        private void SetEmergingIssue(string identifier, string value)
+        {
+                if (EmergingIssues == null)
+                {
+                    EmergingIssues = new Parameters();
+                    EmergingIssues.Id = Guid.NewGuid().ToString();
+                    EmergingIssues.Meta = new Meta();
+                    string[] profile = { ProfileURL.ParametersForEmergingIssues };
+                    EmergingIssues.Meta.Profile = profile;
+                    AddReferenceToComposition(EmergingIssues.Id);
+                    Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
+                }
+                EmergingIssues.Remove(identifier);
+                if (value != null)
+                {
+                    EmergingIssues.Add(identifier, new FhirString(value));
+                }
+
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 1</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_1 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_1')", "value")]
+        public string EmergingIssue1_1
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_1")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_1", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 2</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_2 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_2')", "value")]
+        public string EmergingIssue1_2
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_2")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_2", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 3</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_3 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_3')", "value")]
+        public string EmergingIssue1_3
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_3")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_3", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 4</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_4 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_4')", "value")]
+        public string EmergingIssue1_4
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_4")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_4", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 5</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_5 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_5')", "value")]
+        public string EmergingIssue1_5
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_5")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_5", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 6</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_6 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_6')", "value")]
+        public string EmergingIssue1_6
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_6")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE1_6", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 1</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_1 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_1')", "value")]
+        public string EmergingIssue8_1
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_1")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE8_1", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 2</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_2 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_2')", "value")]
+        public string EmergingIssue8_2
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_2")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE8_2", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 3</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_3 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_3')", "value")]
+        public string EmergingIssue8_3
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_3")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE8_3", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 20</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue20 = "XXXXXXXXXXXXXXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE20')", "value")]
+        public string EmergingIssue20
+        {
+            get
+            {
+                return EmergingIssues?.GetSingleValue<FhirString>("PLACE20")?.Value;
+            }
+            set
+            {
+                SetEmergingIssue("PLACE20", value);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -7708,6 +7952,13 @@ namespace VRDR
             if (dateOfDeath != null)
             {
                 DeathDateObs = (Observation)dateOfDeath.Resource;
+            }
+
+            // Grab Emerging Parameters
+            var emergingIssues = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Parameters);
+            if (emergingIssues != null)
+            {
+                EmergingIssues = (Parameters)emergingIssues.Resource;
             }
         }
 

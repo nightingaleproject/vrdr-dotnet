@@ -2599,6 +2599,246 @@ namespace VRDR
             }
         }
 
+        /// <summary>First Edited Code</summary>
+        [IJEField(67, 526, 3, "First Edited Code", "RACE1E", 1)]
+        public string RACE1E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Second Edited Code</summary>
+        [IJEField(68, 529, 3, "Second Edited Code", "RACE2E", 1)]
+        public string RACE2E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Third Edited Code</summary>
+        [IJEField(69, 532, 3, "Third Edited Code", "RACE3E", 1)]
+        public string RACE3E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Fourth Edited Code</summary>
+        [IJEField(70, 535, 3, "Fourth Edited Code", "RACE4E", 1)]
+        public string RACE4E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Fifth Edited Code</summary>
+        [IJEField(71, 538, 3, "Fifth Edited Code", "RACE5E", 1)]
+        public string RACE5E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Sixth Edited Code</summary>
+        [IJEField(72, 541, 3, "Sixth Edited Code", "RACE6E", 1)]
+        public string RACE6E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Seventh Edited Code</summary>
+        [IJEField(73, 544, 3, "Seventh Edited Code", "RACE7E", 1)]
+        public string RACE7E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Eighth Edited Code</summary>
+        [IJEField(74, 547, 3, "Eighth Edited Code", "RACE8E", 1)]
+        public string RACE8E
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>First American Indian Code</summary>
+        [IJEField(75, 550, 3, "First American Indian Code", "RACE16C", 1)]
+        public string RACE16C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Second American Indian Code</summary>
+        [IJEField(76, 553, 3, "Second American Indian Code", "RACE17C", 1)]
+        public string RACE17C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>First Other Asian Code</summary>
+        [IJEField(77, 556, 3, "First Other Asian Code", "RACE18C", 1)]
+        public string RACE18C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Second Other Asian Code</summary>
+        [IJEField(78, 559, 3, "Second Other Asian Code", "RACE19C", 1)]
+        public string RACE19C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>First Other Pacific Islander Code</summary>
+        [IJEField(79, 562, 3, "First Other Pacific Islander Code", "RACE20C", 1)]
+        public string RACE20C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Second Other Pacific Islander Code</summary>
+        [IJEField(80, 565, 3, "Second Other Pacific Islander Code", "RACE21C", 1)]
+        public string RACE21C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>First Other Race Code</summary>
+        [IJEField(81, 568, 3, "First Other Race Code", "RACE22C", 1)]
+        public string RACE22C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Second Other Race Code</summary>
+        [IJEField(82, 571, 3, "Second Other Race Code", "RACE23C", 1)]
+        public string RACE23C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
         /// <summary>Decedent's Race--Missing</summary>
         [IJEField(83, 574, 1, "Decedent's Race--Missing", "RACE_MVR", 1)]
         public string RACE_MVR
@@ -2630,6 +2870,21 @@ namespace VRDR
             }
         }
 
+        /// <summary>Occupation -- Code</summary>
+        [IJEField(85, 615, 3, "Occupation -- Code", "OCCUPC", 1)]
+        public string OCCUPC
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field OCCUPC is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field OCCUPC is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Industry -- Literal (OPTIONAL)</summary>
         [IJEField(86, 618, 40, "Industry -- Literal (OPTIONAL)", "INDUST", 1)]
         public string INDUST
@@ -2644,6 +2899,21 @@ namespace VRDR
                 {
                     LeftJustified_Set("INDUST", "UsualIndustry", value.Trim());
                 }
+            }
+        }
+
+        /// <summary>Industry -- Code</summary>
+        [IJEField(87, 658, 3, "Industry -- Code", "INDUSTC", 1)]
+        public string INDUSTC
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field INDUSTC is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field INDUSTC is not currently implemented in FHIR
             }
         }
 
@@ -2751,8 +3021,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Receipt date -- Year</summary>
+        [IJEField(91, 673, 4, "Receipt date -- Year", "R_YR", 1)]
+        public string R_YR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
+        /// <summary>Receipt date -- Month</summary>
+        [IJEField(92, 677, 2, "Receipt date -- Month", "R_MO", 1)]
+        public string R_MO
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
+        /// <summary>Receipt date -- Day</summary>
+        [IJEField(93, 679, 2, "Receipt date -- Day", "R_DY", 1)]
+        public string R_DY
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
+        /// <summary>Occupation -- 4 digit Code (OPTIONAL)</summary>
+        [IJEField(94, 681, 4, "Occupation -- 4 digit Code (OPTIONAL)", "OCCUPC4", 1)]
+        public string OCCUPC4
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field OCCUPC4 is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field OCCUPC4 is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Industry -- 4 digit Code (OPTIONAL)</summary>
+        [IJEField(95, 685, 4, "Industry -- 4 digit Code (OPTIONAL)", "INDUSTC4", 1)]
+        public string INDUSTC4
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field INDUSTC4 is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field INDUSTC4 is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Date of Registration--Year</summary>
-        [IJEField(95, 689, 4, "Date of Registration--Year", "DOR_YR", 1)]
+        [IJEField(96, 689, 4, "Date of Registration--Year", "DOR_YR", 1)]
         public string DOR_YR
         {
             get
@@ -2769,7 +3114,7 @@ namespace VRDR
         }
 
         /// <summary>Date of Registration--Month</summary>
-        [IJEField(96, 693, 2, "Date of Registration--Month", "DOR_MO", 1)]
+        [IJEField(97, 693, 2, "Date of Registration--Month", "DOR_MO", 1)]
         public string DOR_MO
         {
             get
@@ -2786,7 +3131,7 @@ namespace VRDR
         }
 
         /// <summary>Date of Registration--Day</summary>
-        [IJEField(97, 695, 2, "Date of Registration--Day", "DOR_DY", 1)]
+        [IJEField(98, 695, 2, "Date of Registration--Day", "DOR_DY", 1)]
         public string DOR_DY
         {
             get
@@ -2802,8 +3147,23 @@ namespace VRDR
             }
         }
 
+        /// <summary>FILLER 2 for expansion</summary>
+        [IJEField(99, 697, 4, "FILLER 2 for expansion", "FILLER2", 1)]
+        public string FILLER2
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field  is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field  is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Manner of Death</summary>
-        [IJEField(99, 701, 1, "Manner of Death", "MANNER", 1)]
+        [IJEField(100, 701, 1, "Manner of Death", "MANNER", 1)]
         public string MANNER
         {
             get
@@ -2867,8 +3227,38 @@ namespace VRDR
             }
         }
 
+        /// <summary>Intentional Reject</summary>
+        [IJEField(101, 702, 1, "Intentional Reject", "INT_REJ", 1)]
+        public string INT_REJ
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
+        /// <summary>Acme System Reject Codes</summary>
+        [IJEField(102, 703, 1, "Acme System Reject Codes", "SYS_REJ", 1)]
+        public string SYS_REJ
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
         /// <summary>Place of Injury (computer generated)</summary>
-        [IJEField(102, 704, 1, "Place of Injury (computer generated)", "INJPL", 1)]
+        [IJEField(103, 704, 1, "Place of Injury (computer generated)", "INJPL", 1)]
         public string INJPL
         {
             get
@@ -2900,8 +3290,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Manual Underlying Cause</summary>
+        [IJEField(104, 705, 5, "Manual Underlying Cause", "MAN_UC", 1)]
+        public string MAN_UC
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ManualUnderlyingCauseOfDeath
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ManualUnderlyingCauseOfDeath
+            }
+        }
+
+        /// <summary>ACME Underlying Cause</summary>
+        [IJEField(105, 710, 5, "ACME Underlying Cause", "ACME_UC", 1)]
+        public string ACME_UC
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: AutomatedUnderlyingCauseOfDeath
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: AutomatedUnderlyingCauseOfDeath
+            }
+        }
+
+        /// <summary>Entity-axis codes</summary>
+        [IJEField(106, 715, 160, "Entity-axis codes", "EAC", 1)]
+        public string EAC
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: EntityAxisCauseOfDeath
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: EntityAxisCauseOfDeath
+            }
+        }
+
+        /// <summary>Transax conversion flag: Computer Generated</summary>
+        [IJEField(107, 875, 1, "Transax conversion flag: Computer Generated", "TRX_FLG", 1)]
+        public string TRX_FLG
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodingStatusValues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+            }
+        }
+
+        /// <summary>Record-axis codes</summary>
+        [IJEField(108, 876, 100, "Record-axis codes", "RAC", 1)]
+        public string RAC
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: RecordAxisCauseOfDeath
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: RecordAxisCauseOfDeath
+            }
+        }
+
         /// <summary>Was Autopsy performed</summary>
-        [IJEField(108, 976, 1, "Was Autopsy performed", "AUTOP", 1)]
+        [IJEField(109, 976, 1, "Was Autopsy performed", "AUTOP", 1)]
         public string AUTOP
         {
             get
@@ -2945,7 +3410,7 @@ namespace VRDR
         }
 
         /// <summary>Were Autopsy Findings Available to Complete the Cause of Death?</summary>
-        [IJEField(109, 977, 1, "Were Autopsy Findings Available to Complete the Cause of Death?", "AUTOPF", 1)]
+        [IJEField(110, 977, 1, "Were Autopsy Findings Available to Complete the Cause of Death?", "AUTOPF", 1)]
         public string AUTOPF
         {
             get
@@ -2990,7 +3455,7 @@ namespace VRDR
 
         /// <summary>Did Tobacco Use Contribute to Death?</summary>
         /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
-        [IJEField(110, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
+        [IJEField(111, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
             // Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
@@ -3049,7 +3514,7 @@ namespace VRDR
         }
 
         /// <summary>Pregnancy</summary>
-        [IJEField(111, 979, 1, "Pregnancy", "PREG", 1)]
+        [IJEField(112, 979, 1, "Pregnancy", "PREG", 1)]
         public string PREG
         {
             get
@@ -3114,7 +3579,7 @@ namespace VRDR
         }
 
         /// <summary>If Female--Edit Flag: From EDR only</summary>
-        [IJEField(112, 980, 1, "If Female--Edit Flag: From EDR only", "PREG_BYPASS", 1)]
+        [IJEField(113, 980, 1, "If Female--Edit Flag: From EDR only", "PREG_BYPASS", 1)]
         public string PREG_BYPASS
         {
             get
@@ -3128,7 +3593,7 @@ namespace VRDR
         }
 
         /// <summary>Date of injury--month</summary>
-        [IJEField(113, 981, 2, "Date of injury--month", "DOI_MO", 1)]
+        [IJEField(114, 981, 2, "Date of injury--month", "DOI_MO", 1)]
         public string DOI_MO
         {
             get
@@ -3145,7 +3610,7 @@ namespace VRDR
         }
 
         /// <summary>Date of injury--day</summary>
-        [IJEField(114, 983, 2, "Date of injury--day", "DOI_DY", 1)]
+        [IJEField(115, 983, 2, "Date of injury--day", "DOI_DY", 1)]
         public string DOI_DY
         {
             get
@@ -3162,7 +3627,7 @@ namespace VRDR
         }
 
         /// <summary>Date of injury--year</summary>
-        [IJEField(115, 985, 4, "Date of injury--year", "DOI_YR", 1)]
+        [IJEField(116, 985, 4, "Date of injury--year", "DOI_YR", 1)]
         public string DOI_YR
         {
             get
@@ -3179,7 +3644,7 @@ namespace VRDR
         }
 
         /// <summary>Time of injury</summary>
-        [IJEField(116, 989, 4, "Time of injury", "TOI_HR", 1)]
+        [IJEField(117, 989, 4, "Time of injury", "TOI_HR", 1)]
         public string TOI_HR
         {
             get
@@ -3196,7 +3661,7 @@ namespace VRDR
         }
 
         /// <summary>Time of injury</summary>
-        [IJEField(117, 993, 1, "Injury at work", "WORKINJ", 1)]
+        [IJEField(118, 993, 1, "Injury at work", "WORKINJ", 1)]
         public string WORKINJ
         {
             get
@@ -3240,7 +3705,7 @@ namespace VRDR
         }
 
         /// <summary>Title of Certifier</summary>
-        [IJEField(118, 994, 30, "Title of Certifier", "CERTL", 1)]
+        [IJEField(119, 994, 30, "Title of Certifier", "CERTL", 1)]
         public string CERTL
         {
             get
@@ -3286,7 +3751,7 @@ namespace VRDR
         }
 
         /// <summary>Activity at time of death (computer generated)</summary>
-        [IJEField(119, 1024, 1, "Activity at time of death (computer generated)", "INACT", 1)]
+        [IJEField(120, 1024, 1, "Activity at time of death (computer generated)", "INACT", 1)]
         public string INACT
         {
             get
@@ -3307,8 +3772,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Auxiliary State file number</summary>
+        [IJEField(121, 1025, 12, "Auxiliary State file number", "AUXNO2", 1)]
+        public string AUXNO2
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathCertificateDocument
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathCertificateDocument
+            }
+        }
+
+        /// <summary>State Specific Data</summary>
+        [IJEField(122, 1037, 30, "State Specific Data", "STATESP", 1)]
+        public string STATESP
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathCertificate
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathCertificate
+            }
+        }
+
+        /// <summary>Surgery Date--month</summary>
+        [IJEField(123, 1067, 2, "Surgery Date--month", "SUR_MO", 1)]
+        public string SUR_MO
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: SurgeryDate
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: SurgeryDate
+            }
+        }
+
+        /// <summary>Surgery Date--day</summary>
+        [IJEField(124, 1069, 2, "Surgery Date--day", "SUR_DY", 1)]
+        public string SUR_DY
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: SurgeryDate
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: SurgeryDate
+            }
+        }
+
+        /// <summary>Surgery Date--year</summary>
+        [IJEField(125, 1071, 4, "Surgery Date--year", "SUR_YR", 1)]
+        public string SUR_YR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: SurgeryDate
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: SurgeryDate
+            }
+        }
+
         /// <summary>Time of Injury Unit</summary>
-        [IJEField(125, 1075, 1, "Time of Injury Unit", "TOI_UNIT", 1)]
+        [IJEField(126, 1075, 1, "Time of Injury Unit", "TOI_UNIT", 1)]
         public string TOI_UNIT
         {
             get
@@ -3321,8 +3861,23 @@ namespace VRDR
             }
         }
 
+        /// <summary>For possible future change in transax</summary>
+        [IJEField(127, 1076, 5, "For possible future change in transax", "BLANK1", 1)]
+        public string BLANK1
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK1 is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK1 is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Decedent ever served in Armed Forces?</summary>
-        [IJEField(127, 1081, 1, "Decedent ever served in Armed Forces?", "ARMEDF", 1)]
+        [IJEField(128, 1081, 1, "Decedent ever served in Armed Forces?", "ARMEDF", 1)]
         public string ARMEDF
         {
             get
@@ -3366,7 +3921,7 @@ namespace VRDR
         }
 
         /// <summary>Death Institution name</summary>
-        [IJEField(128, 1082, 30, "Death Institution name", "DINSTI", 1)]
+        [IJEField(129, 1082, 30, "Death Institution name", "DINSTI", 1)]
         public string DINSTI
         {
             get
@@ -3383,7 +3938,7 @@ namespace VRDR
         }
 
         /// <summary>Long String address for place of death</summary>
-        [IJEField(129, 1112, 50, "Long String address for place of death", "ADDRESS_D", 1)]
+        [IJEField(130, 1112, 50, "Long String address for place of death", "ADDRESS_D", 1)]
         public string ADDRESS_D
         {
             get
@@ -3399,8 +3954,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Place of death. Street number</summary>
+        [IJEField(131, 1162, 10, "Place of death. Street number", "STNUM_D", 1)]
+        public string STNUM_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Place of death. Pre Directional</summary>
+        [IJEField(132, 1172, 10, "Place of death. Pre Directional", "PREDIR_D", 1)]
+        public string PREDIR_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Place of death. Street name</summary>
+        [IJEField(133, 1182, 50, "Place of death. Street name", "STNAME_D", 1)]
+        public string STNAME_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Place of death. Street designator</summary>
+        [IJEField(134, 1232, 10, "Place of death. Street designator", "STDESIG_D", 1)]
+        public string STDESIG_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Place of death. Post Directional</summary>
+        [IJEField(135, 1242, 10, "Place of death. Post Directional", "POSTDIR_D", 1)]
+        public string POSTDIR_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
         /// <summary>Place of death. City or Town name</summary>
-        [IJEField(135, 1252, 28, "Place of death. City or Town name", "CITYTEXT_D", 1)]
+        [IJEField(136, 1252, 28, "Place of death. City or Town name", "CITYTEXT_D", 1)]
         public string CITYTEXT_D
         {
             get
@@ -3417,7 +4047,7 @@ namespace VRDR
         }
 
         /// <summary>Place of death. State name literal</summary>
-        [IJEField(136, 1280, 28, "Place of death. State name literal", "STATETEXT_D", 1)]
+        [IJEField(137, 1280, 28, "Place of death. State name literal", "STATETEXT_D", 1)]
         public string STATETEXT_D
         {
             get
@@ -3431,7 +4061,7 @@ namespace VRDR
         }
 
         /// <summary>Place of death. Zip code</summary>
-        [IJEField(137, 1308, 9, "Place of death. Zip code", "ZIP9_D", 1)]
+        [IJEField(138, 1308, 9, "Place of death. Zip code", "ZIP9_D", 1)]
         public string ZIP9_D
         {
             get
@@ -3448,7 +4078,7 @@ namespace VRDR
         }
 
         /// <summary>Place of death. County of Death</summary>
-        [IJEField(138, 1317, 28, "Place of death. County of Death", "COUNTYTEXT_D", 2)]
+        [IJEField(139, 1317, 28, "Place of death. County of Death", "COUNTYTEXT_D", 2)]
         public string COUNTYTEXT_D
         {
             get
@@ -3462,7 +4092,7 @@ namespace VRDR
         }
 
         /// <summary>Place of death. City FIPS code</summary>
-        [IJEField(139, 1345, 5, "Place of death. City FIPS code", "CITYCODE_D", 1)]
+        [IJEField(140, 1345, 5, "Place of death. City FIPS code", "CITYCODE_D", 1)]
         public string CITYCODE_D
         {
             get
@@ -3475,8 +4105,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Place of death. Longitude</summary>
+        [IJEField(141, 1350, 17, "Place of death. Longitude", "LONG_D", 1)]
+        public string LONG_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Place of Death. Latitude</summary>
+        [IJEField(142, 1367, 17, "Place of Death. Latitude", "LAT_D", 1)]
+        public string LAT_D
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DeathLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DeathLocation
+            }
+        }
+
+        /// <summary>Decedent's spouse living at decedent's DOD?</summary>
+        [IJEField(143, 1384, 1, "Decedent's spouse living at decedent's DOD?", "SPOUSELV", 1)]
+        public string SPOUSELV
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Decedent
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Decedent
+            }
+        }
+
+        /// <summary>Spouse's First Name</summary>
+        [IJEField(144, 1385, 50, "Spouse's First Name", "SPOUSEF", 1)]
+        public string SPOUSEF
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+            }
+        }
+
+        /// <summary>Husband's Surname/Wife's Maiden Last Name</summary>
+        [IJEField(145, 1435, 50, "Husband's Surname/Wife's Maiden Last Name", "SPOUSEL", 1)]
+        public string SPOUSEL
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+            }
+        }
+
         /// <summary>Decedent's Residence - City or Town name</summary>
-        [IJEField(151, 1560, 28, "Decedent's Residence - City or Town name", "CITYTEXT_R", 3)]
+        [IJEField(152, 1560, 28, "Decedent's Residence - City or Town name", "CITYTEXT_R", 3)]
         public string CITYTEXT_R
         {
             get
@@ -3494,7 +4199,7 @@ namespace VRDR
 
 
         /// <summary>Decedent's Residence - ZIP code</summary>
-        [IJEField(152, 1588, 9, "Decedent's Residence - ZIP code", "ZIP9_R", 1)]
+        [IJEField(153, 1588, 9, "Decedent's Residence - ZIP code", "ZIP9_R", 1)]
         public string ZIP9_R
         {
             get
@@ -3511,7 +4216,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Residence - County</summary>
-        [IJEField(153, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
+        [IJEField(154, 1597, 28, "Decedent's Residence - County", "COUNTYTEXT_R", 1)]
         public string COUNTYTEXT_R
         {
             get
@@ -3525,7 +4230,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Residence - State name</summary>
-        [IJEField(154, 1625, 28, "Decedent's Residence - State name", "STATETEXT_R", 1)]
+        [IJEField(155, 1625, 28, "Decedent's Residence - State name", "STATETEXT_R", 1)]
         public string STATETEXT_R
         {
             get
@@ -3539,7 +4244,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Residence - COUNTRY name</summary>
-        [IJEField(155, 1653, 28, "Decedent's Residence - COUNTRY name", "COUNTRYTEXT_R", 1)]
+        [IJEField(156, 1653, 28, "Decedent's Residence - COUNTRY name", "COUNTRYTEXT_R", 1)]
         public string COUNTRYTEXT_R
         {
             get
@@ -3553,7 +4258,7 @@ namespace VRDR
         }
 
         /// <summary>Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.</summary>
-        [IJEField(156, 1681, 50, "Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.", "ADDRESS_R", 1)]
+        [IJEField(157, 1681, 50, "Long string address for decedent's place of residence same as above but allows states to choose the way they capture information.", "ADDRESS_R", 1)]
         public string ADDRESS_R
         {
             get
@@ -3569,8 +4274,128 @@ namespace VRDR
             }
         }
 
+        /// <summary>Old NCHS residence state code</summary>
+        [IJEField(158, 1731, 2, "Old NCHS residence state code", "RESSTATE", 1)]
+        public string RESSTATE
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field RESSTATE is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field RESSTATE is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Old NCHS residence city/county combo code</summary>
+        [IJEField(159, 1733, 3, "Old NCHS residence city/county combo code", "RESCON", 1)]
+        public string RESCON
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field RESCON is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field RESCON is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Hispanic</summary>
+        [IJEField(160, 1736, 3, "Hispanic", "DETHNICE", 1)]
+        public string DETHNICE
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Bridged Race</summary>
+        [IJEField(161, 1739, 2, "Bridged Race", "NCHSBRIDGE", 1)]
+        public string NCHSBRIDGE
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field NCHSBRIDGE is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field NCHSBRIDGE is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Hispanic - old NCHS single ethnicity codes</summary>
+        [IJEField(162, 1741, 1, "Hispanic - old NCHS single ethnicity codes", "HISPOLDC", 1)]
+        public string HISPOLDC
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field HISPOLDC is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field HISPOLDC is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Race - old NCHS single race codes</summary>
+        [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
+        public string RACEOLDC
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field RACEOLDC is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field RACEOLDC is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Hispanic Origin - Specify</summary>
+        [IJEField(164, 1743, 15, "Hispanic Origin - Specify", "HISPSTSP", 1)]
+        public string HISPSTSP
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field HISPSTSP is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field HISPSTSP is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Race - Specify</summary>
+        [IJEField(165, 1758, 50, "Race - Specify", "RACESTSP", 1)]
+        public string RACESTSP
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field RACESTSP is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field RACESTSP is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Middle Name of Decedent</summary>
-        [IJEField(165, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
+        [IJEField(166, 1808, 50, "Middle Name of Decedent", "DMIDDLE", 2)]
         public string DMIDDLE
         {
             get
@@ -3595,8 +4420,39 @@ namespace VRDR
                 }
             }
         }
+
+        /// <summary>Father's First Name</summary>
+        [IJEField(167, 1858, 50, "Father's First Name", "DDADF", 1)]
+        public string DDADF
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentFather
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentFather
+            }
+        }
+
+        /// <summary>Father's Middle Name</summary>
+        [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 1)]
+        public string DDADMID
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentFather
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentFather
+            }
+        }
+
         /// <summary>Mother's First Name</summary>
-        [IJEField(168, 1958, 50, "Mother's First Name", "DMOMF", 1)]
+        [IJEField(169, 1958, 50, "Mother's First Name", "DMOMF", 1)]
         public string DMOMF
         {
             get
@@ -3616,8 +4472,24 @@ namespace VRDR
                 }
             }
         }
+
+        /// <summary>Mother's Middle Name</summary>
+        [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 1)]
+        public string DMOMMID
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentMother
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentMother
+            }
+        }
+
         /// <summary>Mother's Maiden Surname</summary>
-        [IJEField(170, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
+        [IJEField(171, 2058, 50, "Mother's Maiden Surname", "DMOMMDN", 1)]
         public string DMOMMDN
         {
             get
@@ -3634,7 +4506,7 @@ namespace VRDR
         }
 
         /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
-        [IJEField(171, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
+        [IJEField(172, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
         {
             get
@@ -3651,7 +4523,7 @@ namespace VRDR
         }
 
         /// <summary>Place of Injury- literal</summary>
-        [IJEField(172, 2109, 50, "Place of Injury- literal", "POILITRL", 1)]
+        [IJEField(173, 2109, 50, "Place of Injury- literal", "POILITRL", 1)]
         public string POILITRL
         {
             get
@@ -3747,7 +4619,7 @@ namespace VRDR
         }
 
         /// <summary>Describe How Injury Occurred</summary>
-        [IJEField(173, 2159, 250, "Describe How Injury Occurred", "HOWINJ", 1)]
+        [IJEField(174, 2159, 250, "Describe How Injury Occurred", "HOWINJ", 1)]
         public string HOWINJ
         {
             get
@@ -3764,7 +4636,7 @@ namespace VRDR
         }
 
         /// <summary>If Transportation Accident, Specify</summary>
-        [IJEField(174, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
+        [IJEField(175, 2409, 30, "If Transportation Accident, Specify", "TRANSPRT", 1)]
         public string TRANSPRT
         {
             get
@@ -3808,7 +4680,7 @@ namespace VRDR
         }
 
         /// <summary>County of Injury - literal</summary>
-        [IJEField(175, 2439, 28, "County of Injury - literal", "COUNTYTEXT_I", 1)]
+        [IJEField(176, 2439, 28, "County of Injury - literal", "COUNTYTEXT_I", 1)]
         public string COUNTYTEXT_I
         {
             get
@@ -3822,7 +4694,7 @@ namespace VRDR
         }
 
         /// <summary>County of Injury code</summary>
-        [IJEField(176, 2467, 3, "County of Injury code", "COUNTYCODE_I", 2)]
+        [IJEField(177, 2467, 3, "County of Injury code", "COUNTYCODE_I", 2)]
         public string COUNTYCODE_I
         {
             get
@@ -3839,7 +4711,7 @@ namespace VRDR
         }
 
         /// <summary>Town/city of Injury - literal</summary>
-        [IJEField(177, 2470, 28, "Town/city of Injury - literal", "CITYTEXT_I", 3)]
+        [IJEField(178, 2470, 28, "Town/city of Injury - literal", "CITYTEXT_I", 3)]
         public string CITYTEXT_I
         {
             get
@@ -3856,7 +4728,7 @@ namespace VRDR
         }
 
         /// <summary>Town/city of Injury code</summary>
-        [IJEField(178, 2498, 5, "Town/city of Injury code", "CITYCODE_I", 3)]
+        [IJEField(179, 2498, 5, "Town/city of Injury code", "CITYCODE_I", 3)]
         public string CITYCODE_I
         {
             get
@@ -3870,7 +4742,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Injury - code</summary>
-        [IJEField(179, 2503, 2, "State, U.S. Territory or Canadian Province of Injury - code", "STATECODE_I", 1)]
+        [IJEField(180, 2503, 2, "State, U.S. Territory or Canadian Province of Injury - code", "STATECODE_I", 1)]
         public string STATECODE_I
         {
             get
@@ -3886,8 +4758,68 @@ namespace VRDR
             }
         }
 
+        /// <summary>Place of injury. Longitude</summary>
+        [IJEField(181, 2505, 17, "Place of injury. Longitude", "LONG_I", 1)]
+        public string LONG_I
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: InjuryLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: InjuryLocation
+            }
+        }
+
+        /// <summary>Place of injury. Latitude</summary>
+        [IJEField(182, 2522, 17, "Place of injury. Latitude", "LAT_I", 1)]
+        public string LAT_I
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: InjuryLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: InjuryLocation
+            }
+        }
+
+        /// <summary>Old NCHS education code if collected - receiving state will recode as they prefer</summary>
+        [IJEField(183, 2539, 2, "Old NCHS education code if collected - receiving state will recode as they prefer", "OLDEDUC", 1)]
+        public string OLDEDUC
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field OLDEDUC is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field OLDEDUC is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Replacement Record -- suggested codes</summary>
+        [IJEField(184, 2541, 1, "Replacement Record -- suggested codes", "REPLACE", 1)]
+        public string REPLACE
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>Cause of Death Part I Line a</summary>
-        [IJEField(184, 2542, 120, "Cause of Death Part I Line a", "COD1A", 1)]
+        [IJEField(185, 2542, 120, "Cause of Death Part I Line a", "COD1A", 1)]
         public string COD1A
         {
             get
@@ -3907,7 +4839,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Interval, Line a</summary>
-        [IJEField(185, 2662, 20, "Cause of Death Part I Interval, Line a", "INTERVAL1A", 2)]
+        [IJEField(186, 2662, 20, "Cause of Death Part I Interval, Line a", "INTERVAL1A", 2)]
         public string INTERVAL1A
         {
             get
@@ -3927,7 +4859,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Line b</summary>
-        [IJEField(186, 2682, 120, "Cause of Death Part I Line b", "COD1B", 3)]
+        [IJEField(187, 2682, 120, "Cause of Death Part I Line b", "COD1B", 3)]
         public string COD1B
         {
             get
@@ -3947,7 +4879,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Interval, Line b</summary>
-        [IJEField(187, 2802, 20, "Cause of Death Part I Interval, Line b", "INTERVAL1B", 4)]
+        [IJEField(188, 2802, 20, "Cause of Death Part I Interval, Line b", "INTERVAL1B", 4)]
         public string INTERVAL1B
         {
             get
@@ -3967,7 +4899,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Line c</summary>
-        [IJEField(188, 2822, 120, "Cause of Death Part I Line c", "COD1C", 5)]
+        [IJEField(189, 2822, 120, "Cause of Death Part I Line c", "COD1C", 5)]
         public string COD1C
         {
             get
@@ -3987,7 +4919,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Interval, Line c</summary>
-        [IJEField(189, 2942, 20, "Cause of Death Part I Interval, Line c", "INTERVAL1C", 6)]
+        [IJEField(190, 2942, 20, "Cause of Death Part I Interval, Line c", "INTERVAL1C", 6)]
         public string INTERVAL1C
         {
             get
@@ -4007,7 +4939,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Line d</summary>
-        [IJEField(190, 2962, 120, "Cause of Death Part I Line d", "COD1D", 7)]
+        [IJEField(191, 2962, 120, "Cause of Death Part I Line d", "COD1D", 7)]
         public string COD1D
         {
             get
@@ -4027,7 +4959,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part I Interval, Line d</summary>
-        [IJEField(191, 3082, 20, "Cause of Death Part I Interval, Line d", "INTERVAL1D", 8)]
+        [IJEField(192, 3082, 20, "Cause of Death Part I Interval, Line d", "INTERVAL1D", 8)]
         public string INTERVAL1D
         {
             get
@@ -4047,7 +4979,7 @@ namespace VRDR
         }
 
         /// <summary>Cause of Death Part II</summary>
-        [IJEField(192, 3102, 240, "Cause of Death Part II", "OTHERCONDITION", 1)]
+        [IJEField(193, 3102, 240, "Cause of Death Part II", "OTHERCONDITION", 1)]
         public string OTHERCONDITION
         {
             get
@@ -4068,7 +5000,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Maiden Name</summary>
-        [IJEField(193, 3342, 50, "Decedent's Maiden Name", "DMAIDEN", 1)]
+        [IJEField(194, 3342, 50, "Decedent's Maiden Name", "DMAIDEN", 1)]
         public string DMAIDEN
         {
             get
@@ -4085,7 +5017,7 @@ namespace VRDR
         }
 
         /// <summary>Decedent's Birth Place City - Literal</summary>
-        [IJEField(195, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 3)]
+        [IJEField(196, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 3)]
         public string DBPLACECITY
         {
             get
@@ -4108,8 +5040,68 @@ namespace VRDR
             }
         }
 
+        /// <summary>Spouse's Middle Name</summary>
+        [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 1)]
+        public string SPOUSEMIDNAME
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+            }
+        }
+
+        /// <summary>Spouse's Suffix</summary>
+        [IJEField(198, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
+        public string SPOUSESUFFIX
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+            }
+        }
+
+        /// <summary>Father's Suffix</summary>
+        [IJEField(199, 3485, 10, "Father's Suffix", "FATHERSUFFIX", 1)]
+        public string FATHERSUFFIX
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentFather
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentFather
+            }
+        }
+
+        /// <summary>Mother's Suffix</summary>
+        [IJEField(200, 3495, 10, "Mother's Suffix", "MOTHERSSUFFIX", 1)]
+        public string MOTHERSSUFFIX
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DecedentMother
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DecedentMother
+            }
+        }
+
         /// <summary>State, U.S. Territory or Canadian Province of Disposition - code</summary>
-        [IJEField(201, 3535, 2, "State, U.S. Territory or Canadian Province of Disposition - code", "DISPSTATECD", 1)]
+        [IJEField(202, 3535, 2, "State, U.S. Territory or Canadian Province of Disposition - code", "DISPSTATECD", 1)]
         public string DISPSTATECD
         {
             get
@@ -4126,7 +5118,7 @@ namespace VRDR
         }
 
         /// <summary>Disposition State or Territory - Literal</summary>
-        [IJEField(202, 3537, 28, "Disposition State or Territory - Literal", "DISPSTATE", 1)]
+        [IJEField(203, 3537, 28, "Disposition State or Territory - Literal", "DISPSTATE", 1)]
         public string DISPSTATE
         {
             get
@@ -4139,8 +5131,23 @@ namespace VRDR
             }
         }
 
+        /// <summary>Disposition City - Code</summary>
+        [IJEField(204, 3565, 5, "Disposition City - Code", "DISPCITYCODE", 1)]
+        public string DISPCITYCODE
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: DispositionLocation
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: DispositionLocation
+            }
+        }
+
         /// <summary>Disposition City - Literal</summary>
-        [IJEField(204, 3570, 28, "Disposition City - Literal", "DISPCITY", 3)]
+        [IJEField(205, 3570, 28, "Disposition City - Literal", "DISPCITY", 3)]
         public string DISPCITY
         {
             get
@@ -4166,7 +5173,7 @@ namespace VRDR
         }
 
         /// <summary>Funeral Facility Name</summary>
-        [IJEField(205, 3598, 100, "Funeral Facility Name", "FUNFACNAME", 1)]
+        [IJEField(206, 3598, 100, "Funeral Facility Name", "FUNFACNAME", 1)]
         public string FUNFACNAME
         {
             get
@@ -4182,8 +5189,98 @@ namespace VRDR
             }
         }
 
+        /// <summary>Funeral Facility - Street number</summary>
+        [IJEField(207, 3698, 10, "Funeral Facility - Street number", "FUNFACSTNUM", 1)]
+        public string FUNFACSTNUM
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
+        /// <summary>Funeral Facility - Pre Directional</summary>
+        [IJEField(208, 3708, 10, "Funeral Facility - Pre Directional", "FUNFACPREDIR", 1)]
+        public string FUNFACPREDIR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
+        /// <summary>Funeral Facility - Street name</summary>
+        [IJEField(209, 3718, 28, "Funeral Facility - Street name", "FUNFACSTRNAME", 1)]
+        public string FUNFACSTRNAME
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
+        /// <summary>Funeral Facility - Street designator</summary>
+        [IJEField(210, 3746, 10, "Funeral Facility - Street designator", "FUNFACSTRDESIG", 1)]
+        public string FUNFACSTRDESIG
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
+        /// <summary>Funeral Facility - Post Directional</summary>
+        [IJEField(211, 3756, 10, "Funeral Facility - Post Directional", "FUNPOSTDIR", 1)]
+        public string FUNPOSTDIR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
+        /// <summary>Funeral Facility - Unit or apt number</summary>
+        [IJEField(212, 3766, 7, "Funeral Facility - Unit or apt number", "FUNUNITNUM", 1)]
+        public string FUNUNITNUM
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: FuneralHome
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: FuneralHome
+            }
+        }
+
         /// <summary>Long string address for Funeral Facility same as above but allows states to choose the way they capture information.</summary>
-        [IJEField(212, 3773, 50, "Long string address for Funeral Facility same as above but allows states to choose the way they capture information.", "FUNFACADDRESS", 1)]
+        [IJEField(213, 3773, 50, "Long string address for Funeral Facility same as above but allows states to choose the way they capture information.", "FUNFACADDRESS", 1)]
         public string FUNFACADDRESS
         {
             get
@@ -4200,7 +5297,7 @@ namespace VRDR
         }
 
         /// <summary>Funeral Facility - City or Town name</summary>
-        [IJEField(213, 3823, 28, "Funeral Facility - City or Town name", "FUNCITYTEXT", 3)]
+        [IJEField(214, 3823, 28, "Funeral Facility - City or Town name", "FUNCITYTEXT", 3)]
         public string FUNCITYTEXT
         {
             get
@@ -4226,7 +5323,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Funeral Facility - code</summary>
-        [IJEField(214, 3851, 2, "State, U.S. Territory or Canadian Province of Funeral Facility - code", "FUNSTATECD", 1)]
+        [IJEField(215, 3851, 2, "State, U.S. Territory or Canadian Province of Funeral Facility - code", "FUNSTATECD", 1)]
         public string FUNSTATECD
         {
             get
@@ -4243,7 +5340,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Funeral Facility - literal</summary>
-        [IJEField(215, 3853, 28, "State, U.S. Territory or Canadian Province of Funeral Facility - literal", "FUNSTATE", 1)]
+        [IJEField(216, 3853, 28, "State, U.S. Territory or Canadian Province of Funeral Facility - literal", "FUNSTATE", 1)]
         public string FUNSTATE
         {
             get
@@ -4257,7 +5354,7 @@ namespace VRDR
         }
 
         /// <summary>Funeral Facility - ZIP</summary>
-        [IJEField(216, 3881, 9, "Funeral Facility - ZIP", "FUNZIP", 1)]
+        [IJEField(217, 3881, 9, "Funeral Facility - ZIP", "FUNZIP", 1)]
         public string FUNZIP
         {
             get
@@ -4274,7 +5371,7 @@ namespace VRDR
         }
 
         /// <summary>Person Pronouncing Date Signed</summary>
-        [IJEField(217, 3890, 8, "Person Pronouncing Date Signed", "PPDATESIGNED", 1)]
+        [IJEField(218, 3890, 8, "Person Pronouncing Date Signed", "PPDATESIGNED", 1)]
         public string PPDATESIGNED
         {
             get
@@ -4291,7 +5388,7 @@ namespace VRDR
         }
 
         /// <summary>Person Pronouncing Time Pronounced</summary>
-        [IJEField(218, 3898, 4, "Person Pronouncing Time Pronounced", "PPTIME", 1)]
+        [IJEField(219, 3898, 4, "Person Pronouncing Time Pronounced", "PPTIME", 1)]
         public string PPTIME
         {
             get
@@ -4308,7 +5405,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier's First Name</summary>
-        [IJEField(219, 3902, 50, "Certifier's First Name", "CERTFIRST", 1)]
+        [IJEField(220, 3902, 50, "Certifier's First Name", "CERTFIRST", 1)]
         public string CERTFIRST
         {
             get
@@ -4330,7 +5427,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier's Middle Name</summary>
-        [IJEField(220, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 2)]
+        [IJEField(221, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 2)]
         public string CERTMIDDLE
         {
             get
@@ -4357,7 +5454,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier's Last Name</summary>
-        [IJEField(221, 4002, 50, "Certifier's Last Name", "CERTLAST", 3)]
+        [IJEField(222, 4002, 50, "Certifier's Last Name", "CERTLAST", 3)]
         public string CERTLAST
         {
             get
@@ -4374,7 +5471,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier's Suffix Name</summary>
-        [IJEField(222, 4052, 10, "Certifier's Suffix Name", "CERTSUFFIX", 4)]
+        [IJEField(223, 4052, 10, "Certifier's Suffix Name", "CERTSUFFIX", 4)]
         public string CERTSUFFIX
         {
             get
@@ -4390,8 +5487,98 @@ namespace VRDR
             }
         }
 
+        /// <summary>Certifier - Street number</summary>
+        [IJEField(224, 4062, 10, "Certifier - Street number", "CERTSTNUM", 1)]
+        public string CERTSTNUM
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
+        /// <summary>Certifier - Pre Directional</summary>
+        [IJEField(225, 4072, 10, "Certifier - Pre Directional", "CERTPREDIR", 1)]
+        public string CERTPREDIR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
+        /// <summary>Certifier - Street name</summary>
+        [IJEField(226, 4082, 28, "Certifier - Street name", "CERTSTRNAME", 1)]
+        public string CERTSTRNAME
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
+        /// <summary>Certifier - Street designator</summary>
+        [IJEField(227, 4110, 10, "Certifier - Street designator", "CERTSTRDESIG", 1)]
+        public string CERTSTRDESIG
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
+        /// <summary>Certifier - Post Directional</summary>
+        [IJEField(228, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
+        public string CERTPOSTDIR
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
+        /// <summary>Certifier - Unit or apt number</summary>
+        [IJEField(229, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
+        public string CERTUNITNUM
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: Certifier
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: Certifier
+            }
+        }
+
         /// <summary>Long string address for Certifier same as above but allows states to choose the way they capture information.</summary>
-        [IJEField(229, 4137, 50, "Long string address for Certifier same as above but allows states to choose the way they capture information.", "CERTADDRESS", 1)]
+        [IJEField(230, 4137, 50, "Long string address for Certifier same as above but allows states to choose the way they capture information.", "CERTADDRESS", 1)]
         public string CERTADDRESS
         {
             get
@@ -4408,7 +5595,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier - City or Town name</summary>
-        [IJEField(230, 4187, 28, "Certifier - City or Town name", "CERTCITYTEXT", 2)]
+        [IJEField(231, 4187, 28, "Certifier - City or Town name", "CERTCITYTEXT", 2)]
         public string CERTCITYTEXT
         {
             get
@@ -4433,7 +5620,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Certifier - code</summary>
-        [IJEField(231, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 1)]
+        [IJEField(232, 4215, 2, "State, U.S. Territory or Canadian Province of Certifier - code", "CERTSTATECD", 1)]
         public string CERTSTATECD
         {
             get
@@ -4450,7 +5637,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Certifier - literal</summary>
-        [IJEField(232, 4217, 28, "State, U.S. Territory or Canadian Province of Certifier - literal", "CERTSTATE", 1)]
+        [IJEField(233, 4217, 28, "State, U.S. Territory or Canadian Province of Certifier - literal", "CERTSTATE", 1)]
         public string CERTSTATE
         {
             get
@@ -4464,7 +5651,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier - Zip</summary>
-        [IJEField(233, 4245, 9, "Certifier - Zip", "CERTZIP", 1)]
+        [IJEField(234, 4245, 9, "Certifier - Zip", "CERTZIP", 1)]
         public string CERTZIP
         {
             get
@@ -4481,7 +5668,7 @@ namespace VRDR
         }
 
         /// <summary>Certifier Date Signed</summary>
-        [IJEField(234, 4254, 8, "Certifier Date Signed", "CERTDATE", 1)]
+        [IJEField(235, 4254, 8, "Certifier Date Signed", "CERTDATE", 1)]
         public string CERTDATE
         {
             get
@@ -4497,8 +5684,23 @@ namespace VRDR
             }
         }
 
+        /// <summary>Date Filed</summary>
+        [IJEField(236, 4262, 8, "Date Filed", "FILEDATE", 1)]
+        public string FILEDATE
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field FILEDATE is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field FILEDATE is not currently implemented in FHIR
+            }
+        }
+
         /// <summary>State, U.S. Territory or Canadian Province of Injury - literal</summary>
-        [IJEField(236, 4270, 28, "State, U.S. Territory or Canadian Province of Injury - literal", "STINJURY", 1)]
+        [IJEField(237, 4270, 28, "State, U.S. Territory or Canadian Province of Injury - literal", "STINJURY", 1)]
         public string STINJURY
         {
             get
@@ -4512,7 +5714,7 @@ namespace VRDR
         }
 
         /// <summary>State, U.S. Territory or Canadian Province of Birth - literal</summary>
-        [IJEField(237, 4298, 28, "State, U.S. Territory or Canadian Province of Birth - literal", "STATEBTH", 1)]
+        [IJEField(238, 4298, 28, "State, U.S. Territory or Canadian Province of Birth - literal", "STATEBTH", 1)]
         public string STATEBTH
         {
             get
@@ -4526,7 +5728,7 @@ namespace VRDR
         }
 
         /// <summary>Country of Death - Code</summary>
-        [IJEField(238, 4326, 2, "Country of Death - Code", "DTHCOUNTRYCD", 1)]
+        [IJEField(239, 4326, 2, "Country of Death - Code", "DTHCOUNTRYCD", 1)]
         public string DTHCOUNTRYCD
         {
             get
@@ -4543,7 +5745,7 @@ namespace VRDR
         }
 
         /// <summary>Country of Death - Literal</summary>
-        [IJEField(239, 4328, 28, "Country of Death - Literal", "DTHCOUNTRY", 1)]
+        [IJEField(240, 4328, 28, "Country of Death - Literal", "DTHCOUNTRY", 1)]
         public string DTHCOUNTRY
         {
             get
@@ -4553,6 +5755,276 @@ namespace VRDR
             set
             {
                 // NOOP
+            }
+        }
+
+        /// <summary>SSA State Source of Death</summary>
+        [IJEField(241, 4356, 3, "SSA State Source of Death", "SSADTHCODE", 1)]
+        public string SSADTHCODE
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field SSADTHCODE is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field SSADTHCODE is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>SSA Foreign Country Indicator</summary>
+        [IJEField(242, 4359, 1, "SSA Foreign Country Indicator", "SSAFOREIGN", 1)]
+        public string SSAFOREIGN
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field SSAFOREIGN is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field SSAFOREIGN is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>SSA EDR Verify Code</summary>
+        [IJEField(243, 4360, 1, "SSA EDR Verify Code", "SSAVERIFY", 1)]
+        public string SSAVERIFY
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field SSAVERIFY is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field SSAVERIFY is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>SSA Date of SSN Verification</summary>
+        [IJEField(244, 4361, 8, "SSA Date of SSN Verification", "SSADATEVER", 1)]
+        public string SSADATEVER
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field SSADATEVER is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field SSADATEVER is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>SSA Date of State Transmission</summary>
+        [IJEField(245, 4369, 8, "SSA Date of State Transmission", "SSADATETRANS", 1)]
+        public string SSADATETRANS
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field SSADATETRANS is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field SSADATETRANS is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Hispanic Code for Literal</summary>
+        [IJEField(247, 4427, 3, "Hispanic Code for Literal", "DETHNIC5C", 1)]
+        public string DETHNIC5C
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 1</summary>
+        [IJEField(248, 4430, 1, "Blank for One-Byte Field 1", "PLACE1_1", 1)]
+        public string PLACE1_1
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 2</summary>
+        [IJEField(249, 4431, 1, "Blank for One-Byte Field 2", "PLACE1_2", 1)]
+        public string PLACE1_2
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 3</summary>
+        [IJEField(250, 4432, 1, "Blank for One-Byte Field 3", "PLACE1_3", 1)]
+        public string PLACE1_3
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 4</summary>
+        [IJEField(251, 4433, 1, "Blank for One-Byte Field 4", "PLACE1_4", 1)]
+        public string PLACE1_4
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 5</summary>
+        [IJEField(252, 4434, 1, "Blank for One-Byte Field 5", "PLACE1_5", 1)]
+        public string PLACE1_5
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for One-Byte Field 6</summary>
+        [IJEField(253, 4435, 1, "Blank for One-Byte Field 6", "PLACE1_6", 1)]
+        public string PLACE1_6
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for Eight-Byte Field 1</summary>
+        [IJEField(254, 4436, 8, "Blank for Eight-Byte Field 1", "PLACE8_1", 1)]
+        public string PLACE8_1
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for Eight-Byte Field 2</summary>
+        [IJEField(255, 4444, 8, "Blank for Eight-Byte Field 2", "PLACE8_2", 1)]
+        public string PLACE8_2
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for Eight-Byte Field 3</summary>
+        [IJEField(256, 4452, 8, "Blank for Eight-Byte Field 3", "PLACE8_3", 1)]
+        public string PLACE8_3
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for Twenty-Byte Field</summary>
+        [IJEField(257, 4460, 20, "Blank for Twenty-Byte Field", "PLACE20", 1)]
+        public string PLACE20
+        {
+            get
+            {
+                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
+                return "";
+            }
+            set
+            {
+                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+            }
+        }
+
+        /// <summary>Blank for future expansion</summary>
+        [IJEField(258, 4480, 250, "Blank for future expansion", "BLANK2", 1)]
+        public string BLANK2
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK2 is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK2 is not currently implemented in FHIR
+            }
+        }
+
+        /// <summary>Blank for Jurisdictional Use Only</summary>
+        [IJEField(259, 4730, 271, "Blank for Jurisdictional Use Only", "BLANK3", 1)]
+        public string BLANK3
+        {
+            get
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
+                return "";
+            }
+            set
+            {
+                // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
             }
         }
     }

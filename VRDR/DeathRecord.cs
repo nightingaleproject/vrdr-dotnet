@@ -3484,31 +3484,44 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Race Black or African American.</summary>
-        /// <value>the decedent's race Black or African American. A tuple, where the first value of the tuple is the display value, and the second is
+        /// <summary>Decedent's Boolean Race values.</summary>
+        /// <value>the decedent's race. A tuple, where the first value of the tuple is the display value, and the second is
         /// the IJE code Y or N.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceBlackOrAfricanAmerican = "Y";</para>
+        /// <para>ExampleDeathRecord.RaceBoolean = {NvssRace.BlackOrAfricanAmerican, "Y"};</para>
         /// <para>// Getter:</para>
         /// <para>string boaa = ExampleDeathRecord.RaceBlackOfAfricanAmerican;</para>
         /// </example>
-        [Property("RaceBlackOrAfricanAmerican", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Black or African American.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BlackOrAfricanAmerican')", "")]
-        public string RaceBlackOrAfricanAmerican
+        [Property("RaceBoolean", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Black or African American.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public List<Tuple<string, string>> RaceBoolean
         {
             get
             {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == RaceAndEthnicity.NvssRace.BlackOrAfricanAmerican).FirstOrDefault();
-                if (component != null)
+                // filter the boolean race values
+                List<string> booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
+
+                var booleanRaces = new List<Tuple<string, string>>(){};
+                foreach(string raceCode in booleanRaceCodes)
                 {
-                    if (Convert.ToBoolean(component.Value))
+                    Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == raceCode).FirstOrDefault();
+                    if (component != null)
                     {
-                        return "Y";
+                        if (Convert.ToBoolean(component.Value))
+                        {   
+                            var race = Tuple.Create(raceCode, "Y");
+                            booleanRaces.Add(race);
+                        }
+                        else
+                        {
+                            var race = Tuple.Create(raceCode, "N");
+                            booleanRaces.Add(race);
+                        } 
                     }
-                    return "N";
                 }
-                return null;
+
+                return booleanRaces;
             }
             set
             {
@@ -3516,150 +3529,58 @@ namespace VRDR
                 {
                     CreateRaceEthnicityObs();
                 }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.BlackOrAfricanAmerican);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.BlackOrAfricanAmerican;
-                coding["display"] = NvssRace.BlackOrAfricanAmerican;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
+                foreach (Tuple<string, string> element in value)
                 {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's Race White.</summary>
-        /// <value>the decedent's race white. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceWhite = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceWhite;</para>
-        /// </example>
-        [Property("RaceWhite", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race White.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='White')", "")]
-        public string RaceWhite
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.White).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
+                    InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
+                    var coding = EmptyRaceEthnicityCodeDict();
+                    coding["code"] = element.Item1;
+                    coding["display"] = element.Item1;
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = DictToCodeableConcept(coding);
+                    if (element.Item2 == "Y")
                     {
-                        return "Y";
+                        component.Value = new FhirBoolean(true);
                     }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.White);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.White;
-                coding["display"] = NvssRace.White;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's Race American Indian Or Alaska Native.</summary>
-        /// <value>the decedent's race AmericanIndianOrAlaskaNative. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskaNative = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskaNative;</para>
-        /// </example>
-        [Property("RaceAmericanIndianOrAlaskaNative", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskaNative.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='AmericanIndianOrAlaskaNative')", "")]
-        public string RaceAmericanIndianOrAlaskaNative
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskaNative).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
+                    else
                     {
-                        return "Y";
+                        component.Value = new FhirBoolean(false);
                     }
-                    return "N";
+                    InputRaceandEthnicity.Component.Add(component);
                 }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskaNative);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.AmericanIndianOrAlaskaNative;
-                coding["display"] = NvssRace.AmericanIndianOrAlaskaNative;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
+
             }
         }
 
-        /// <summary>Decedent's AsianIndian.</summary>
-        /// <value>the decedent's race AsianIndian. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
+        /// <summary>Decedent's Literal Race values.</summary>
+        /// <value>the decedent's race. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the literal string value.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceAsianIndian = "Y";</para>
+        /// <para>ExampleDeathRecord.RaceBoolean = {NvssRace.RaceAmericanIndianOrAlaskanNativeLiteral1, "Cherokee"};</para>
         /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceAsianIndian;</para>
+        /// <para>List<Tuple<string, string>> literalRaces = ExampleDeathRecord.RaceLiteral;</para>
         /// </example>
-        [Property("RaceAsianIndian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AsianIndian.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='AsianIndian')", "")]
-        public string RaceAsianIndian
+        [Property("RaceLiteral", Property.Types.TupleArr, "Decedent Demographics", "Decedent Race Literal.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public List<Tuple<string, string>> RaceLiteral
         {
             get
             {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.AsianIndian).FirstOrDefault();
-                if (component != null)
+                // filter the boolean race values
+                List<string> literalRaceCodes = NvssRace.GetLiteralRaceCodes();
+
+                var literalRaces = new List<Tuple<string, string>>(){};
+                foreach(string raceCode in literalRaceCodes)
                 {
-                    if (Convert.ToBoolean(component.Value))
+                    Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == raceCode).FirstOrDefault();
+                    if (component != null)
                     {
-                        return "Y";
+                        var race = Tuple.Create(raceCode, component.Value.ToString());
+                        literalRaces.Add(race);
                     }
-                    return "N";
                 }
-                return null;
+
+                return literalRaces;
             }
             set
             {
@@ -3667,890 +3588,18 @@ namespace VRDR
                 {
                     CreateRaceEthnicityObs();
                 }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.AsianIndian);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.AsianIndian;
-                coding["display"] = NvssRace.AsianIndian;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
+                foreach (Tuple<string, string> element in value)
                 {
-                    component.Value = new FhirBoolean(true);
+                    InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
+                    var coding = EmptyRaceEthnicityCodeDict();
+                    coding["code"] = element.Item1;
+                    coding["display"] = element.Item1;
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = DictToCodeableConcept(coding);
+                    component.Value = new FhirString(element.Item2);
+                    InputRaceandEthnicity.Component.Add(component);
                 }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
 
-
-        /// <summary>Decedent's Chinese.</summary>
-        /// <value>the decedent's race Chinese. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceChinese = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceChinese;</para>
-        /// </example>
-        [Property("RaceChinese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Chinese.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Chinese')", "")]
-        public string RaceChinese
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Chinese).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Chinese);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Chinese;
-                coding["display"] = NvssRace.Chinese;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's Filipino.</summary>
-        /// <value>the decedent's race Filipino. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceFilipino = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceFilipino;</para>
-        /// </example>
-        [Property("RaceFilipino", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Filipino.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Filipino')", "")]
-        public string RaceFilipino
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Filipino).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Filipino);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Filipino;
-                coding["display"] = NvssRace.Filipino;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's Japanese.</summary>
-        /// <value>the decedent's race Japanese. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceJapanese = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceJapanese;</para>
-        /// </example>
-        [Property("RaceJapanese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Japanese.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Japanese')", "")]
-        public string RaceJapanese
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Japanese).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Japanese);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Japanese;
-                coding["display"] = NvssRace.Japanese;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's Korean.</summary>
-        /// <value>the decedent's race Korean. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceKorean = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string korean = ExampleDeathRecord.RaceKorean;</para>
-        /// </example>
-        [Property("RaceKorean", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Korean.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Korean')", "")]
-        public string RaceKorean
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Korean).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Korean);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Korean;
-                coding["display"] = NvssRace.Korean;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's Vietnamese.</summary>
-        /// <value>the decedent's race Vietnamese. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceVietnamese = "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string korean = ExampleDeathRecord.RaceVietnamese;</para>
-        /// </example>
-        [Property("RaceVietnamese", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Vietnamese.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Vietnamese')", "")]
-        public string RaceVietnamese
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Vietnamese).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Vietnamese);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Vietnamese;
-                coding["display"] = NvssRace.Vietnamese;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherAsian.</summary>
-        /// <value>the decedent's race OtherAsian. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherAsian= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherAsian;</para>
-        /// </example>
-        [Property("RaceOtherAsian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsian.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherAsian')", "")]
-        public string RaceOtherAsian
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherAsian).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherAsian);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherAsian;
-                coding["display"] = NvssRace.OtherAsian;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's NativeHawaiian.</summary>
-        /// <value>the decedent's race NativeHawaiian. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceNativeHawaiian= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceNativeHawaiian;</para>
-        /// </example>
-        [Property("RaceNativeHawaiian", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race NativeHawaiian.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='NativeHawaiian')", "")]
-        public string RaceNativeHawaiian
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.NativeHawaiian).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.NativeHawaiian);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.NativeHawaiian;
-                coding["display"] = NvssRace.NativeHawaiian;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's GuamanianOrChamorro.</summary>
-        /// <value>the decedent's race GuamanianOrChamorro. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceGuamanianOrChamorro= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceGuamanianOrChamorro;</para>
-        /// </example>
-        [Property("RaceGuamanianOrChamorro", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race GuamanianOrChamorro.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='GuamanianOrChamorro')", "")]
-        public string RaceGuamanianOrChamorro
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.GuamanianOrChamorro).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.GuamanianOrChamorro);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.GuamanianOrChamorro;
-                coding["display"] = NvssRace.GuamanianOrChamorro;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's Samoan.</summary>
-        /// <value>the decedent's race Samoan. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceSamoan= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceSamoan;</para>
-        /// </example>
-        [Property("RaceSamoan", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Samoan.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='Samoan')", "")]
-        public string RaceSamoan
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.Samoan).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.Samoan);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.Samoan;
-                coding["display"] = NvssRace.Samoan;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherPacificIslander.</summary>
-        /// <value>the decedent's race OtherPacificIslander. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherPacificIslander= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslander;</para>
-        /// </example>
-        [Property("RaceOtherPacificIslander", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslander.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherPacificIslander')", "")]
-        public string RaceOtherPacificIslander
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslander).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslander);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherPacificIslander;
-                coding["display"] = NvssRace.OtherPacificIslander;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's OtherRace.</summary>
-        /// <value>the decedent's race OtherRace. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the IJE code Y or N.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherRace= "Y";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherRace;</para>
-        /// </example>
-        [Property("RaceOtherRace", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRace.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherRace')", "")]
-        public string RaceOtherRace
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherRace).FirstOrDefault();
-                if (component != null)
-                {
-                    if (Convert.ToBoolean(component.Value))
-                    {
-                        return "Y";
-                    }
-                    return "N";
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherRace);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherRace;
-                coding["display"] = NvssRace.OtherRace;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                if (value == "Y")
-                {
-                    component.Value = new FhirBoolean(true);
-                }
-                else
-                {
-                    component.Value = new FhirBoolean(false);
-                }
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's AmericanIndianOrAlaskanNativeLiteral1.</summary>
-        /// <value>the decedent's race RaceAmericanIndianOrAlaskanNativeLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral1= "Cherokee";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral1;</para>
-        /// </example>
-        [Property("RaceAmericanIndianOrAlaskanNativeLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskanNativeLiteral1.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='AmericanIndianOrAlaskanNativeLiteral1')", "")]
-        public string RaceAmericanIndianOrAlaskanNativeLiteral1
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskanNativeLiteral1).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.AmericanIndianOrAlaskanNativeLiteral1;
-                coding["display"] = NvssRace.AmericanIndianOrAlaskanNativeLiteral1;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's AmericanIndianOrAlaskanNativeLiteral2.</summary>
-        /// <value>the decedent's race RaceAmericanIndianOrAlaskanNativeLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral2= "Cherokee";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceAmericanIndianOrAlaskanNativeLiteral2;</para>
-        /// </example>
-        [Property("RaceAmericanIndianOrAlaskanNativeLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race AmericanIndianOrAlaskanNativeLiteral2.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='AmericanIndianOrAlaskanNativeLiteral2')", "")]
-        public string RaceAmericanIndianOrAlaskanNativeLiteral2
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskanNativeLiteral2).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.AmericanIndianOrAlaskanNativeLiteral2;
-                coding["display"] = NvssRace.AmericanIndianOrAlaskanNativeLiteral2;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-
-        /// <summary>Decedent's OtherAsianLiteral1.</summary>
-        /// <value>the decedent's race RaceOtherAsianLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherAsianLiteral1= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherAsianLiteral1;</para>
-        /// </example>
-        [Property("RaceOtherAsianLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsianLiteral1.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherAsianLiteral1')", "")]
-        public string RaceOtherAsianLiteral1
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherAsianLiteral1).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherAsianLiteral1);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherAsianLiteral1;
-                coding["display"] = NvssRace.OtherAsianLiteral1;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherAsianLiteral2.</summary>
-        /// <value>the decedent's race RaceOtherAsianLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherAsianLiteral2= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherAsianLiteral2;</para>
-        /// </example>
-        [Property("RaceOtherAsianLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherAsianLiteral2.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherAsianLiteral2')", "")]
-        public string RaceOtherAsianLiteral2
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherAsianLiteral2).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherAsianLiteral2);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherAsianLiteral2;
-                coding["display"] = NvssRace.OtherAsianLiteral2;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherPacificIslandLiteral1.</summary>
-        /// <value>the decedent's race RaceOtherPacificIslandLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherPacificIslandLiteral1= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslandLiteral1;</para>
-        /// </example>
-        [Property("RaceOtherPacificIslandLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslandLiteral1.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherPacificIslandLiteral1')", "")]
-        public string RaceOtherPacificIslandLiteral1
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslandLiteral1).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslandLiteral1);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherPacificIslandLiteral1;
-                coding["display"] = NvssRace.OtherPacificIslandLiteral1;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherPacificIslandLiteral2.</summary>
-        /// <value>the decedent's race RaceOtherPacificIslandLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherPacificIslandLiteral2= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherPacificIslandLiteral2;</para>
-        /// </example>
-        [Property("RaceOtherPacificIslandLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherPacificIslandLiteral2.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherPacificIslandLiteral2')", "")]
-        public string RaceOtherPacificIslandLiteral2
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslandLiteral2).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherPacificIslandLiteral2);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherPacificIslandLiteral2;
-                coding["display"] = NvssRace.OtherPacificIslandLiteral2;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherRaceLiteral1.</summary>
-        /// <value>the decedent's race RaceOtherRaceLiteral1. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherRaceLiteral1= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherRaceLiteral1;</para>
-        /// </example>
-        [Property("RaceOtherRaceLiteral1", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRaceLiteral1.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherRaceLiteral1')", "")]
-        public string RaceOtherRaceLiteral1
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherRaceLiteral1).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherRaceLiteral1);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherRaceLiteral1;
-                coding["display"] = NvssRace.OtherRaceLiteral1;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
-            }
-        }
-
-        /// <summary>Decedent's OtherRaceLiteral2.</summary>
-        /// <value>the decedent's race RaceOtherRaceLiteral2. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceOtherRaceLiteral2= "Vietnamese";</para>
-        /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceOtherRaceLiteral2;</para>
-        /// </example>
-        [Property("RaceOtherRaceLiteral2", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race OtherRaceLiteral2.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='OtherRaceLiteral2')", "")]
-        public string RaceOtherRaceLiteral2
-        {
-            get
-            {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.OtherRaceLiteral2).FirstOrDefault();
-                if (component != null)
-                {
-                    return Convert.ToString(component.Value); 
-                }
-                return null;
-            }
-            set
-            {
-                if (InputRaceandEthnicity == null)
-                {
-                    CreateRaceEthnicityObs();
-                }
-                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.OtherRaceLiteral2);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.OtherRaceLiteral2;
-                coding["display"] = NvssRace.OtherRaceLiteral2;
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
-                component.Value = new FhirString(value);
-                InputRaceandEthnicity.Component.Add(component);
             }
         }
 

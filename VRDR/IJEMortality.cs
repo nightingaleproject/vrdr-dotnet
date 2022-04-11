@@ -671,6 +671,13 @@ namespace VRDR
             return Array.Find(raceStatus, element => element.Item1 == name).Item2;
         }
 
+        /// <summary>Checks if the given race exists in the record.</summary>
+        private string Get_Race_Boolean(string name)
+        {
+            Tuple<string, string>[] raceStatus = record.RaceBoolean.ToArray();
+            return Array.Find(raceStatus, element => element.Item1 == name).Item2;
+        }
+
         /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
         private string[] Get_Race_AIAN_Literals()
         {
@@ -723,6 +730,14 @@ namespace VRDR
             List<Tuple<string, string>> raceStatus = record.Race;
             raceStatus.Add(Tuple.Create(name, value));
             record.Race = raceStatus.Distinct().ToList();
+        }
+
+        /// <summary>Adds the given race boolean to the record.</summary>
+        private void Set_Race_Boolean(string name, string value)
+        {
+            List<Tuple<string, string>> raceBooleanStatus = record.RaceBoolean;
+            raceBooleanStatus.Add(Tuple.Create(name, value));
+            record.RaceBoolean = raceBooleanStatus.Distinct().ToList();
         }
 
         /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>

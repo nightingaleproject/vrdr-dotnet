@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace VRDR
 {
     /// <summary> String representations of IJE Race fields </summary>
@@ -50,5 +51,42 @@ namespace VRDR
         public const string OtherRaceLiteral2 = "OtherRaceLiteral2";
         /// <summary> MissingValueReason </summary>
         public const string MissingValueReason = "MissingValueReason";
+        /// <summary> GetBooleanRaceCodes Returns a list of the Boolean Race Codes, Y or N values </summary>
+        public static List<string> GetBooleanRaceCodes()
+        {
+            List<string> booleanRaceCodes = new List<string>();
+            booleanRaceCodes.Add(NvssRace.White);
+            booleanRaceCodes.Add(NvssRace.BlackOrAfricanAmerican);
+            booleanRaceCodes.Add(NvssRace.AmericanIndianOrAlaskaNative);
+            booleanRaceCodes.Add(NvssRace.AsianIndian);
+            booleanRaceCodes.Add(NvssRace.Chinese);
+            booleanRaceCodes.Add(NvssRace.Filipino);
+            booleanRaceCodes.Add(NvssRace.Japanese);
+            booleanRaceCodes.Add(NvssRace.Korean);
+            booleanRaceCodes.Add(NvssRace.Vietnamese);
+            booleanRaceCodes.Add(NvssRace.OtherAsian);
+            booleanRaceCodes.Add(NvssRace.NativeHawaiian);
+            booleanRaceCodes.Add(NvssRace.GuamanianOrChamorro);
+            booleanRaceCodes.Add(NvssRace.Samoan);
+            booleanRaceCodes.Add(NvssRace.OtherPacificIslander);
+            booleanRaceCodes.Add(NvssRace.OtherRace);
+            return booleanRaceCodes;
+        }
+        /// <summary> GetLiteralRaceCodes Returns a list of the literal Race Codes</summary>
+        public static List<string> GetLiteralRaceCodes()
+        {
+            List<string> literalRaceCodes = new List<string>();
+            literalRaceCodes.Add(NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
+            literalRaceCodes.Add(NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
+            literalRaceCodes.Add(NvssRace.OtherAsianLiteral1);
+            literalRaceCodes.Add(NvssRace.OtherAsianLiteral2);
+            literalRaceCodes.Add(NvssRace.OtherPacificIslandLiteral1);
+            literalRaceCodes.Add(NvssRace.OtherPacificIslandLiteral2);
+            literalRaceCodes.Add(NvssRace.OtherRaceLiteral1);
+            literalRaceCodes.Add(NvssRace.OtherRaceLiteral2);
+            return literalRaceCodes;
+        }
     };
+
+
 }

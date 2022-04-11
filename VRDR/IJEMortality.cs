@@ -5822,12 +5822,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_1", "EmergingIssue1_1");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_1", "EmergingIssue1_1", value);
             }
         }
 
@@ -5837,12 +5836,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_2", "EmergingIssue1_2");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_2", "EmergingIssue1_2", value);
             }
         }
 
@@ -5852,12 +5850,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_3", "EmergingIssue1_3");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_3", "EmergingIssue1_3", value);
             }
         }
 
@@ -5867,12 +5864,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_4", "EmergingIssue1_4");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_4", "EmergingIssue1_4", value);
             }
         }
 
@@ -5882,12 +5878,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_5", "EmergingIssue1_5");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_5", "EmergingIssue1_5", value);
             }
         }
 
@@ -5897,12 +5892,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE1_6", "EmergingIssue1_6");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE1_6", "EmergingIssue1_6", value);
             }
         }
 
@@ -5912,12 +5906,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_1", "EmergingIssue8_1");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_1", "EmergingIssue8_1", value);
             }
         }
 
@@ -5927,12 +5920,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_2", "EmergingIssue8_2");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_2", "EmergingIssue8_2", value);
             }
         }
 
@@ -5942,12 +5934,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE8_3", "EmergingIssue8_3");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE8_3", "EmergingIssue8_3", value);
             }
         }
 
@@ -5957,12 +5948,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ParamsForEmergingIssues
-                return "";
+                return LeftJustified_Get("PLACE20", "EmergingIssue20");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ParamsForEmergingIssues
+                LeftJustified_Set("PLACE20", "EmergingIssue20", value);
             }
         }
 

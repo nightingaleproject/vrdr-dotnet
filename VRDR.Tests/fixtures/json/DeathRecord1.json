@@ -963,7 +963,19 @@
             ],
             "suffix": [
               "Ph.D."
-            ]
+            ],
+            "use": "official"
+          },
+          {
+            "family": "Maiden",
+            "given": [
+              "Spouse",
+              "Middle"
+            ],
+            "suffix": [
+              "Ph.D."
+            ],
+            "use": "maiden"
           }
         ]
       }

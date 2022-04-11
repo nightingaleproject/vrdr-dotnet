@@ -1289,7 +1289,7 @@ namespace VRDR.Tests
             Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
             Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
             //The DateOfBirth value is not set when there are date part absents, is this acceptable?
-            //Assert.Equal("0001-01-24", dr1.DateOfBirth); 
+            //Assert.Equal("0001-01-24", dr1.DateOfBirth);
 
         }
 
@@ -1502,6 +1502,19 @@ namespace VRDR.Tests
             Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).SpouseFamilyName);
         }
 
+    [Fact]
+        public void Set_SpouseMaidenName()
+        {
+            SetterDeathRecord.SpouseMaidenName = "Maiden";
+            Assert.Equal("Maiden", SetterDeathRecord.SpouseMaidenName);
+        }
+
+        [Fact]
+        public void Get_SpouseMaidenName()
+        {
+            Assert.Equal("Maiden", ((DeathRecord)JSONRecords[0]).SpouseMaidenName);
+            Assert.Equal("Maiden", ((DeathRecord)XMLRecords[0]).SpouseMaidenName);
+        }
         [Fact]
         public void Set_SpouseSuffix()
         {

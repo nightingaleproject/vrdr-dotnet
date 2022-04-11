@@ -124,6 +124,20 @@ namespace VRDR
         /// <summary>Decedent's Spouse.</summary>
         private RelatedPerson Spouse;
 
+        private void CreateSpouse(){
+            Spouse = new RelatedPerson();
+            Spouse.Id = Guid.NewGuid().ToString();
+            Spouse.Meta = new Meta();
+            string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-spouse" };
+            string[] br_profile = { ProfileURL.DecedentSpouse };
+            Spouse.Meta.Profile = br_profile;
+            Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
+            AddReferenceToComposition(Spouse.Id);
+            Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+        }
+
+
         /// <summary>Decedent Education Level.</summary>
         private Observation DecedentEducationLevel;
 
@@ -3137,7 +3151,7 @@ namespace VRDR
                         // Clear the previous date part absent and rebuild with the new data
                         Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     }
-                    
+
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)
@@ -4067,8 +4081,11 @@ namespace VRDR
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null) {
-                    return Spouse.Name.First().Given.ToArray();
+                if (Spouse != null && Spouse.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -4076,22 +4093,19 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                   HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
-                }
-                else
-                {
-                    Spouse.Name.First().Given = value;
                 }
 
             }
@@ -4111,8 +4125,8 @@ namespace VRDR
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null) {
-                    return Spouse.Name.First().Family;
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').family");
                 }
                 return null;
             }
@@ -4120,24 +4134,20 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Family = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
                 }
-                else
-                {
-                    Spouse.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -4155,9 +4165,54 @@ namespace VRDR
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null) {
+                if (Spouse != null && Spouse.Name != null ) {
+                    HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
+                    return suffixes != null ? suffixes[0] : null;
+                }
+                return null;
+            }
 
-                    return Spouse.Name.First().Suffix.FirstOrDefault();
+            set
+            {
+                if (Spouse == null)
+                {
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Suffix = suffix;
+                    Spouse.Name.Add(name);
+                }
+
+            }
+        }
+
+        /// <summary>Spouse's Maiden Name.</summary>
+        /// <value>the decedent's spouse's maiden name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
+        /// </example>
+        [Property("Spouse Maiden Name", Property.Types.String, "Decedent Demographics", "Spouse's Maiden Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden')", "family")]
+public string SpouseMaidenName
+        {
+            get
+            {
+
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -4165,29 +4220,22 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+                    CreateSpouse();
                 }
-                else
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
-                    string[] suffix = { value };
-                    Spouse.Name.First().Suffix = suffix;
+                    name.Family = value;
                 }
-
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
+                    name.Family = value;
+                    Spouse.Name.Add(name);
+                }
             }
         }
-
         /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
         private void CreateEmptyEducationLevelObservation()
         {
@@ -7566,6 +7614,7 @@ namespace VRDR
                     if (!causeConditions.Contains((Condition)condition.Resource))
                     {
                         remainingConditions.Add((Condition)condition.Resource);
+
                     }
                 }
             }

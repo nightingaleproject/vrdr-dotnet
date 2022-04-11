@@ -772,7 +772,15 @@
           </coding>
         </relationship>
         <name>
+          <use value="official" />
           <family value="Last" />
+          <given value="Spouse" />
+          <given value="Middle" />
+          <suffix value="Ph.D." />
+        </name>
+        <name>
+          <use value="maiden" />
+          <family value="Maiden" />
           <given value="Spouse" />
           <given value="Middle" />
           <suffix value="Ph.D." />

@@ -213,8 +213,7 @@
         <gender value="female"/>
         <birthDate value="1940-02-19"/>
         <address>
-          <extension
-                    url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">
             <valueCoding>
               <system value="http://terminology.hl7.org/CodeSystem/v2-0136"/>
               <code value="Y"/>
@@ -1136,7 +1135,7 @@
       <Observation>
         <id value="54266078-489a-4133-a4e2-633269806304" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-usual-work" />
         </meta>
         <status value="final" />
         <code>
@@ -1183,7 +1182,7 @@
       <Observation>
         <id value="1de659ac-56be-48de-a87b-1e272aa4fa24" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service" />
         </meta>
         <status value="final" />
         <code>
@@ -1198,7 +1197,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.113883.12.136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>

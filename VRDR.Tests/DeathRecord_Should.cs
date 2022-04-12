@@ -1426,18 +1426,13 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EducationLevel()
         {
-            Dictionary<string, string> elevel = new Dictionary<string, string>();
-            elevel.Add("code", VRDR.ValueSets.EducationLevel.Bachelors_Degree);
-            elevel.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-            elevel.Add("display", "Bachelor's Degree");
-            SetterDeathRecord.EducationLevel = elevel;
+            SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Bachelors_Degree;
             Assert.Equal(VRDR.ValueSets.EducationLevel.Bachelors_Degree, SetterDeathRecord.EducationLevel["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_PHINVS_CDC, SetterDeathRecord.EducationLevel["system"]);
-            Assert.Equal("Bachelor's Degree", SetterDeathRecord.EducationLevel["display"]);
+            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, SetterDeathRecord.EducationLevel["system"]);
+            Assert.Equal("Bachelor's degree", SetterDeathRecord.EducationLevel["display"]);
             SetterDeathRecord.EducationLevelHelper = VRDR.ValueSets.EducationLevel.Associates_Or_Technical_Degree_Complete;
             Assert.Equal(VRDR.ValueSets.EducationLevel.Associates_Or_Technical_Degree_Complete, SetterDeathRecord.EducationLevelHelper);
-            Assert.Equal(VRDR.CodeSystems.DegreeLicenceAndCertificate, SetterDeathRecord.EducationLevel["system"]);
-            Assert.Equal("Associate's or technical degree complete", SetterDeathRecord.EducationLevel["display"]);
+
         }
 
         [Fact]
@@ -1628,29 +1623,16 @@ namespace VRDR.Tests
         [Fact]
         public void Set_MilitaryService()
         {
-            Dictionary<string, string> mserv = new Dictionary<string, string>();
-            mserv.Add("code", "Y");
-            mserv.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
-            mserv.Add("display", "Yes");
-            SetterDeathRecord.MilitaryService = mserv;
-            Assert.Equal("Y", SetterDeathRecord.MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.MilitaryService["system"]);
-            Assert.Equal("Yes", SetterDeathRecord.MilitaryService["display"]);
-            Assert.True(SetterDeathRecord.MilitaryServiceBoolean);
+            SetterDeathRecord.MilitaryServiceHelper = VRDR.ValueSets.YesNoUnknown.Yes;
+            Assert.Equal( VRDR.ValueSets.YesNoUnknown.Yes,SetterDeathRecord.MilitaryServiceHelper);
         }
 
         [Fact]
         public void Get_MilitaryService()
         {
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
-            Assert.True(((DeathRecord)JSONRecords[0]).MilitaryServiceBoolean);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
-            Assert.True(((DeathRecord)XMLRecords[0]).MilitaryServiceBoolean);
-        }
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes,((DeathRecord)JSONRecords[0]).MilitaryServiceHelper);
+            Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes,((DeathRecord)XMLRecords[0]).MilitaryServiceHelper);
+         }
 
         [Fact]
         public void Set_MorticianGivenNames()
@@ -2183,11 +2165,11 @@ namespace VRDR.Tests
         public void Get_ExaminerContacted()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
             Assert.Equal("N",((DeathRecord)JSONRecords[0]).ExaminerContactedHelper);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
             Assert.Equal("N",((DeathRecord)XMLRecords[0]).ExaminerContactedHelper);
         }
@@ -2326,11 +2308,11 @@ namespace VRDR.Tests
         public void Get_InjuryAtWork()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
             Assert.Equal("N",((DeathRecord)JSONRecords[0]).InjuryAtWorkHelper);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
             Assert.Equal("N",((DeathRecord)XMLRecords[0]).InjuryAtWorkHelper);
         }
@@ -2363,11 +2345,11 @@ namespace VRDR.Tests
         public void Get_TransportationEvent()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
         }

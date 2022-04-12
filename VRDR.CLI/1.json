@@ -861,7 +861,7 @@
         "id": "097c0d70-6807-48c0-9710-7d4e96726234",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-father"
           ]
         },
         "patient": {
@@ -895,7 +895,7 @@
         "id": "0113aba7-3a33-48f3-a1f9-a76f050d37f1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-mother"
           ]
         },
         "patient": {
@@ -929,7 +929,7 @@
         "id": "db1ec90f-038a-4ebc-b714-3b92c76b5fb8",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-spouse"
           ]
         },
         "patient": {
@@ -1055,7 +1055,7 @@
         "id": "fee9f666-7099-4259-9a6c-25cf57f75654",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-usual-work"
           ]
         },
         "status": "final",
@@ -1148,7 +1148,7 @@
         "id": "e9b3c71b-fe74-4046-a47d-c085b8f76c63",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service"
           ]
         },
         "status": "final",

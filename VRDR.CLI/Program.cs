@@ -160,15 +160,6 @@ namespace VRDR.CLI
                 // FamilyName
                 deathRecord.FamilyName = "Last";
 
-                // AliasGivenNames
-                deathRecord.AliasGivenNames = new string[] { "FirstNameAlias", "MiddleAlias" };
-
-                // AliasFamilyName
-                deathRecord.AliasFamilyName = "LastNameAlias";
-
-                // AliasSuffix
-                deathRecord.AliasSuffix = "Jr.";
-
                 // Suffix
                 deathRecord.Suffix = "Jr.";
 

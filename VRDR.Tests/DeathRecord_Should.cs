@@ -1068,50 +1068,6 @@ namespace VRDR.Tests
             Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
         }
 
-        [Fact]
-        public void Set_AliasGivenNames()
-        {
-            SetterDeathRecord.AliasGivenNames = new string[] { "FirstNameAlias", "MiddleAlias" };
-            Assert.Equal("FirstNameAlias", SetterDeathRecord.AliasGivenNames[0]);
-            Assert.Equal("MiddleAlias", SetterDeathRecord.AliasGivenNames[1]);
-        }
-
-        [Fact]
-        public void Get_AliasGivenNames()
-        {
-            Assert.Equal("FirstNameAlias", ((DeathRecord)JSONRecords[0]).AliasGivenNames[0]);
-            Assert.Equal("MiddleAlias", ((DeathRecord)JSONRecords[0]).AliasGivenNames[1]);
-            Assert.Equal("FirstNameAlias", ((DeathRecord)XMLRecords[0]).AliasGivenNames[0]);
-            Assert.Equal("MiddleAlias", ((DeathRecord)XMLRecords[0]).AliasGivenNames[1]);
-        }
-
-        [Fact]
-        public void Set_AliasFamilyName()
-        {
-            SetterDeathRecord.AliasFamilyName = "LastNameAlias";
-            Assert.Equal("LastNameAlias", SetterDeathRecord.AliasFamilyName);
-        }
-
-        [Fact]
-        public void Get_AliasFamilyName()
-        {
-            Assert.Equal("LastNameAlias", ((DeathRecord)JSONRecords[0]).AliasFamilyName);
-            Assert.Equal("LastNameAlias", ((DeathRecord)XMLRecords[0]).AliasFamilyName);
-        }
-
-        [Fact]
-        public void Set_AliasSuffix()
-        {
-            SetterDeathRecord.AliasSuffix = "Jr.";
-            Assert.Equal("Jr.", SetterDeathRecord.AliasSuffix);
-        }
-
-        [Fact]
-        public void Get_AliasSuffix()
-        {
-            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).AliasSuffix);
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).AliasSuffix);
-        }
 
         [Fact]
         public void Set_Gender()
@@ -1289,7 +1245,7 @@ namespace VRDR.Tests
             Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
             Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
             //The DateOfBirth value is not set when there are date part absents, is this acceptable?
-            //Assert.Equal("0001-01-24", dr1.DateOfBirth); 
+            //Assert.Equal("0001-01-24", dr1.DateOfBirth);
 
         }
 

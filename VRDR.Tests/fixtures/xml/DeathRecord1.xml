@@ -722,6 +722,7 @@
           </coding>
         </relationship>
         <name>
+          <use value="official" />
           <family value="Last" />
           <given value="Father" />
           <given value="Middle" />

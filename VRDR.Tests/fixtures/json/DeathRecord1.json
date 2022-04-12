@@ -873,7 +873,7 @@
         "id": "097c0d70-6807-48c0-9710-7d4e96726234",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-father"
           ]
         },
         "patient": {
@@ -888,6 +888,7 @@
         }],
         "name": [
           {
+            "use": "official",
             "family": "Last",
             "given": [
               "Father",
@@ -907,7 +908,7 @@
         "id": "0113aba7-3a33-48f3-a1f9-a76f050d37f1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-mother"
           ]
         },
         "patient": {
@@ -922,6 +923,18 @@
         }],
         "name": [
           {
+            "use": "official",
+            "family": "Married",
+            "given": [
+              "Mother",
+              "Middle"
+            ],
+            "suffix": [
+              "Dr."
+            ]
+          },
+          {
+            "use": "maiden",
             "family": "Maiden",
             "given": [
               "Mother",
@@ -931,6 +944,7 @@
               "Dr."
             ]
           }
+
         ]
       }
     },
@@ -941,7 +955,7 @@
         "id": "db1ec90f-038a-4ebc-b714-3b92c76b5fb8",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-spouse"
           ]
         },
         "patient": {
@@ -987,7 +1001,7 @@
         "id": "79c8753a-bb2b-4e99-800c-cabfe9b97b57",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-education-=level"
           ]
         },
         "extension": [
@@ -1035,7 +1049,7 @@
         "id": "327874e2-3e59-4c0d-9fb2-a5a9f9cc7f6c",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
           ]
         },
         "status": "final",

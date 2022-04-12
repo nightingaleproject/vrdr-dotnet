@@ -287,6 +287,29 @@ namespace VRDR
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
 
+        // Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact
+        // present); takes an optional flag to determine if this extension should include the time field, which is not always needed
+        private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
+        {
+            Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
+            Extension year = new Extension(ExtensionURL.DateYear, null);
+            year.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            partialDateTime.Extension.Add(year);
+            Extension month = new Extension(ExtensionURL.DateMonth, null);
+            month.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            partialDateTime.Extension.Add(month);
+            Extension day = new Extension(ExtensionURL.DateDay, null);
+            day.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            partialDateTime.Extension.Add(day);
+            if (includeTime)
+            {
+                Extension time = new Extension(ExtensionURL.DateTime, null);
+                time.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                partialDateTime.Extension.Add(time);
+            }
+            return partialDateTime;
+        }
+
         private void CreateDeathDateObs() {
             DeathDateObs = new Observation();
             DeathDateObs.Id = Guid.NewGuid().ToString();
@@ -296,6 +319,11 @@ namespace VRDR
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
             DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
+            // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
+            // by default set up all the PartialDate extensions with a default state of "data absent"
+            DeathDateObs.Value = new FhirDateTime();
+            DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
@@ -5499,6 +5527,62 @@ namespace VRDR
         //     }
         // }
 
+        // These are (incomplete and untested) getter and setter helpers for anything that uses a PartialDateTime, allowing a caller to get or
+        // set a particular field on the extension; they currently assume that the extension and the sub-parts are always present; see notes above
+        // DeathYear method just below for some details on thought process
+        // Issue: right now implemented to take an int, but the Time extension is a valueTime
+        private Element GetPartialDateTime(Extension partialDateTime, string partURL)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
+            if (part != null)
+            {
+                Extension dataAbsent = part.Value.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                if (dataAbsent != null)
+                {
+                    return null;
+                }
+                return part.Value;
+            }
+            return null;
+        }
+
+        private void SetPartialDateTime(Extension partialDateTime, string partURL, int? value)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
+            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            if (value != null)
+            {
+                part.Value = new UnsignedInt(value);
+            }
+            else
+            {
+                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                partialDateTime.Extension.Add(part);
+            }
+        }
+
+        // TODO: The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
+        // These getters and setters 1) use the DeathDateObs Observation 2) get and set values on the PartialDateTime extension using helpers that
+        // can be reused across year, month, etc. 3) interpret null as data being absent, and so set the data absent reason if value is null 4) when
+        // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
+        // TODO: Add a summary and Property and FHIRPath
+        // TODO: Add DeathMonth, DeathDay, etc.
+        public int? DeathYear
+        {
+            get
+            {
+                // TODO: This needs to first look in the valueDateTime and only if that's not there look in the extension
+                if (DeathDateObs != null && DeathDateObs.Value != null)
+                {
+                    Element element = GetPartialDateTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                SetPartialDateTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
 
         /// <summary>Decedent's Date/Time of Death.</summary>
         /// <value>the decedent's date and time of death</value>
@@ -5508,6 +5592,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
+        // TODO: We'll want to keep and rewrite this as a helper that uses the other methods for setting and getting the date
         [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
@@ -5531,72 +5616,13 @@ namespace VRDR
                     // }
                 }
 
-                DeathDateObs.Value = new FhirDateTime(value);
-                DeathDateObs.Effective = new FhirDateTime(value);
+                //DeathDateObs.Value = new FhirDateTime(value);
+                //DeathDateObs.Effective = new FhirDateTime(value);
 
                 UpdateBundleIdentifier();
             }
         }
 
-        /// <summary>Decedent's Date of Death Date Part Absent Extension.</summary>
-        /// <value>the decedent's date of death date part absent reason</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DateOfDeathDatePartReason = "2021-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
-        /// </example>
-        [Property("Date Of Death Date Part Absent", Property.Types.TupleArr, "Death Investigation", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "_valueDateTime")]
-        public Tuple<string,string>[] DateOfDeathDatePartAbsent
-        {
-            get
-            {
-                if (DeathDateObs != null && DeathDateObs.Value != null){
-                    Extension datePartAbsent = DeathDateObs.Value.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    return DatePartsToArray(datePartAbsent);
-                }
-                return null;
-            }
-            set
-            {
-                if (DeathDateObs == null)
-                {
-                    CreateDeathDateObs();
-                }
-                if (value != null && value.Length > 0)
-                {
-                    if (DeathDateObs.Value != null)
-                    {
-                        DeathDateObs.Value.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
-                    }
-                    Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
-                    foreach (Tuple<string, string> element in value)
-                    {
-                        if (element != null)
-                        {
-                            Extension datePartDetails = new Extension();
-                            datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = DatePartToIntegerOrCode(element);
-                            datePart.Extension.Add(datePartDetails);
-                        }
-
-                    }
-                    if (DeathDateObs.Value == null){
-                        DeathDateObs.Value = new FhirDateTime();
-                    }
-                    DeathDateObs.Value.Extension.Add(datePart);
-                    // set effective date to some arbitrary date since it is a required field
-                    // TODO the IG should be updated to put the extension on the Effective Date instead of value
-                    // since effective date is the required field
-                    DeathDateObs.Effective = new FhirDateTime("2021-01-01T00:00:00-00:00");
-
-                }
-
-            }
-
-        }
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
         /// <value>the decedent's date and time of death pronouncement</value>

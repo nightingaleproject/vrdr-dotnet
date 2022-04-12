@@ -466,9 +466,11 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification"
           ]
         },
-        "identifier": [{
-          "value": "1"
-        }],
+        "identifier": [
+          {
+            "value": "1"
+          }
+        ],
         "status": "completed",
         "category": {
           "coding": [
@@ -496,7 +498,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Physician"
+                  "display": "Physician certified and pronounced death certificate"
                 }
               ]
             },
@@ -951,7 +953,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2"
           ]
         },
-        "valueCodeableConcept": {
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "16100001",
+                "display": "Death diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
           "text": "Example Contributing Conditions"
         },
         "subject": {
@@ -981,7 +994,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "valueCodeableConcept": {
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "16100001",
+                "display": "Death diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -1035,7 +1059,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "valueCodeableConcept": {
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "16100001",
+                "display": "Death diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -1088,7 +1123,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "valueCodeableConcept": {
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "16100001",
+                "display": "Death diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
           "text": "Coronary artery thrombosis"
         },
         "subject": {
@@ -1134,7 +1180,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "valueCodeableConcept": {
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "16100001",
+                "display": "Death diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
           "text": "Atherosclerotic coronary artery disease"
         },
         "subject": {
@@ -1183,13 +1240,17 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "FTH"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "FTH",
+                "display": "father"
+              }
+            ]
+          }
+        ],
         "name": [
           {
             "use": "official",
@@ -1218,17 +1279,21 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "MTH"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "MTH",
+                "display": "mother"
+              }
+            ]
+          }
+        ],
         "name": [
           {
-            "use": "official",
-            "family": "Married",
+            "use": "maiden",
+            "family": "Maiden",
             "given": [
               "Mother",
               "Middle"
@@ -1238,8 +1303,8 @@
             ]
           },
           {
-            "use": "maiden",
-            "family": "Maiden",
+            "use": "official",
+            "family": "Family",
             "given": [
               "Mother",
               "Middle"
@@ -1265,15 +1330,31 @@
         "patient": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "relationship": [{
-          "coding": [
-            {
-              "code": "SPS"
-            }
-          ]
-        }],
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "SPS",
+                "display": "spouse"
+              }
+            ]
+          }
+        ],
         "name": [
           {
+            "use": "maiden",
+            "family": "Maiden",
+            "given": [
+              "Spouse",
+              "Middle"
+            ],
+            "suffix": [
+              "Ph.D."
+            ]
+          },
+          {
+            "use": "official",
             "family": "Last",
             "given": [
               "Spouse",
@@ -1424,9 +1505,9 @@
             }
           ]
         },
-        "effectivePeriod" : {
-          "start" : "1965-01-01",
-          "end" : "2010-01-01"
+        "effectivePeriod": {
+          "start": "1965-01-01",
+          "end": "2010-01-01"
         },
         "valueCodeableConcept": {
           "coding": [
@@ -1908,9 +1989,9 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                "system": "2.16.840.1.113883.6.92",
-                "code": "25",
-                "display": "MA"
+                  "system": "2.16.840.1.113883.6.92",
+                  "code": "25",
+                  "display": "MA"
                 }
               ]
             }
@@ -1954,13 +2035,13 @@
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "effectiveDateTime": "2018-02-19T16:48:06-05:00",
+        "effectiveDateTime": "2019-02-19T16:48:06-05:00",
         "performer": [
           {
             "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
           }
         ],
-        "valueDateTime": "2018-02-19T16:48:06-05:00",
+        "valueDateTime": "2019-02-19T16:48:06-05:00",
         "component": [
           {
             "code": {
@@ -1989,7 +2070,7 @@
         },
         "identifier": [
           {
-            "type":  {
+            "type": {
               "text": "XYZ"
             }
           },

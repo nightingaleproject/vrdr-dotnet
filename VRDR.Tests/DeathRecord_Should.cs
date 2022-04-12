@@ -2628,6 +2628,67 @@ namespace VRDR.Tests
             Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
         }
 
+        [Fact]
+        public void Set_EmergingIssues()
+        {
+            SetterDeathRecord.EmergingIssue1_1 = "A";
+            SetterDeathRecord.EmergingIssue1_2 = "B";
+            SetterDeathRecord.EmergingIssue1_3 = "C";
+            SetterDeathRecord.EmergingIssue1_4 = "D";
+            SetterDeathRecord.EmergingIssue1_5 = "E";
+            SetterDeathRecord.EmergingIssue1_6 = "F";
+            SetterDeathRecord.EmergingIssue8_1 = "AAAAAAAA";
+            SetterDeathRecord.EmergingIssue8_2 = "BBBBBBBB";
+            SetterDeathRecord.EmergingIssue8_3 = "CCCCCCCC";
+            SetterDeathRecord.EmergingIssue20 = "AAAAAAAAAAAAAAAAAAAA";
+            Assert.Equal("A", SetterDeathRecord.EmergingIssue1_1);
+            Assert.Equal("B", SetterDeathRecord.EmergingIssue1_2);
+            Assert.Equal("C", SetterDeathRecord.EmergingIssue1_3);
+            Assert.Equal("D", SetterDeathRecord.EmergingIssue1_4);
+            Assert.Equal("E", SetterDeathRecord.EmergingIssue1_5);
+            Assert.Equal("F", SetterDeathRecord.EmergingIssue1_6);
+            Assert.Equal("AAAAAAAA", SetterDeathRecord.EmergingIssue8_1);
+            Assert.Equal("BBBBBBBB", SetterDeathRecord.EmergingIssue8_2);
+            Assert.Equal("CCCCCCCC", SetterDeathRecord.EmergingIssue8_3);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", SetterDeathRecord.EmergingIssue20);
+            IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
+            Assert.Equal("A", ije.PLACE1_1);
+            Assert.Equal("B", ije.PLACE1_2);
+            Assert.Equal("C", ije.PLACE1_3);
+            Assert.Equal("D", ije.PLACE1_4);
+            Assert.Equal("E", ije.PLACE1_5);
+            Assert.Equal("F", ije.PLACE1_6);
+            Assert.Equal("AAAAAAAA", ije.PLACE8_1);
+            Assert.Equal("BBBBBBBB", ije.PLACE8_2);
+            Assert.Equal("CCCCCCCC", ije.PLACE8_3);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ije.PLACE20);
+        }
+
+        [Fact]
+        public void Get_EmergingIssues()
+        {
+            Assert.Equal("A", ((DeathRecord)JSONRecords[0]).EmergingIssue1_1);
+            Assert.Equal("A", ((DeathRecord)XMLRecords[0]).EmergingIssue1_1);
+            Assert.Equal("B", ((DeathRecord)JSONRecords[0]).EmergingIssue1_2);
+            Assert.Equal("B", ((DeathRecord)XMLRecords[0]).EmergingIssue1_2);
+            Assert.Equal("C", ((DeathRecord)JSONRecords[0]).EmergingIssue1_3);
+            Assert.Equal("C", ((DeathRecord)XMLRecords[0]).EmergingIssue1_3);
+            Assert.Equal("D", ((DeathRecord)JSONRecords[0]).EmergingIssue1_4);
+            Assert.Equal("D", ((DeathRecord)XMLRecords[0]).EmergingIssue1_4);
+            Assert.Equal("E", ((DeathRecord)JSONRecords[0]).EmergingIssue1_5);
+            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).EmergingIssue1_5);
+            Assert.Equal("F", ((DeathRecord)JSONRecords[0]).EmergingIssue1_6);
+            Assert.Equal("F", ((DeathRecord)XMLRecords[0]).EmergingIssue1_6);
+            Assert.Equal("AAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue8_1);
+            Assert.Equal("AAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue8_1);
+            Assert.Equal("BBBBBBBB", ((DeathRecord)JSONRecords[0]).EmergingIssue8_2);
+            Assert.Equal("BBBBBBBB", ((DeathRecord)XMLRecords[0]).EmergingIssue8_2);
+            Assert.Equal("CCCCCCCC", ((DeathRecord)JSONRecords[0]).EmergingIssue8_3);
+            Assert.Equal("CCCCCCCC", ((DeathRecord)XMLRecords[0]).EmergingIssue8_3);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue20);
+            Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue20);
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

@@ -3964,8 +3964,11 @@ namespace VRDR
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
-                    return Mother.Name.First().Given.ToArray();
+                if (Mother != null && Mother.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3973,22 +3976,19 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                   HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    Mother.Name.First().Given = value;
                 }
 
             }
@@ -4008,8 +4008,9 @@ namespace VRDR
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
-                    return Mother.Name.First().Family;
+
+                if (Mother != null && Mother.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -4017,24 +4018,20 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
                     name.Family = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
                 }
-                else
-                {
-                    Mother.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -4052,34 +4049,31 @@ namespace VRDR
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null) {
-
-                    return Mother.Name.First().Suffix.FirstOrDefault();
+                if (Mother != null && Mother.Name != null ) {
+                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
+                    return suffixes != null ? suffixes[0] : null;
                 }
                 return null;
             }
+
             set
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Suffix = suffix;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    string[] suffix = { value };
-                    Mother.Name.First().Suffix = suffix;
                 }
 
             }

@@ -748,6 +748,14 @@
           </coding>
         </relationship>
         <name>
+          <use value="official"/>
+          <family value="Family" />
+          <given value="Mother" />
+          <given value="Middle" />
+          <suffix value="Dr." />
+        </name>
+        <name>
+          <use value="maiden"/>
           <family value="Maiden" />
           <given value="Mother" />
           <given value="Middle" />

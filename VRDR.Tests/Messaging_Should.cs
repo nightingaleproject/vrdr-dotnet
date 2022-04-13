@@ -57,7 +57,7 @@ namespace VRDR.Tests
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal((uint)1, submission.CertificateNumber);
-            Assert.Equal((uint)2018, submission.DeathYear);
+            Assert.Equal((uint)2019, submission.DeathYear);
             Assert.Equal("42", submission.StateAuxiliaryIdentifier);
             Assert.Equal("2018MA000001", submission.NCHSIdentifier);
 
@@ -286,7 +286,7 @@ namespace VRDR.Tests
         public void CreateCauseOfDeathCodingResponseFromJSON()
         {
             CauseOfDeathCodingResponseMessage message = BaseMessage.Parse<CauseOfDeathCodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"));
-  
+
             Assert.Equal(CauseOfDeathCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);

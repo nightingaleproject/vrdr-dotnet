@@ -2447,8 +2447,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
-            Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]

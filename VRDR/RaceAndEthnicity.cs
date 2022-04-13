@@ -87,6 +87,19 @@ namespace VRDR
             return literalRaceCodes;
         }
     };
+    /// <summary> String representations of IJE Ethnicity fields </summary>  
+    public static class NvssEthnicity {
+        /// <summary> Mexican </summary>
+        public const string Mexican = "HispanicMexican";
+        /// <summary> PuertoRican </summary>
+        public const string PuertoRican = "HispanicPuertoRican";
+        /// <summary> Cuban </summary>
+        public const string Cuban = "HispanicCuban";
+        /// <summary> Other </summary>
+        public const string Other = "HispanicOther";
+        /// <summary> Literal </summary>
+        public const string Literal = "HispanicLiteral";
+    }
 
 
 }

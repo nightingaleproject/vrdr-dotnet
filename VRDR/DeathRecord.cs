@@ -250,7 +250,7 @@ namespace VRDR
             InputRaceandEthnicity = new Observation();
             InputRaceandEthnicity.Id = Guid.NewGuid().ToString();
             InputRaceandEthnicity.Meta = new Meta();
-            string[] raceethnicity_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity" };
+            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
             InputRaceandEthnicity.Meta.Profile = raceethnicity_profile;
             InputRaceandEthnicity.Status = ObservationStatus.Final;
             Dictionary<string, string> coding = new Dictionary<string, string>();
@@ -2825,7 +2825,7 @@ namespace VRDR
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
+        /// <summary>Decedent's Legal Name - Given. Middle name should be the last entry.</summary>
         /// <value>the decedent's name (first, etc., middle)</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -2834,7 +2834,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
-        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 0)]
+        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, ProfileURL.Decedent, true, 0)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string[] GivenNames
         {
@@ -2868,7 +2868,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
-        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 5)]
+        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, ProfileURL.Decedent, true, 5)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string FamilyName
         {
@@ -2901,7 +2901,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
         /// </example>
-        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 6)]
+        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, ProfileURL.Decedent, true, 6)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string Suffix
         {
@@ -2936,7 +2936,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
         /// </example>
-        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 10)]
+        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, ProfileURL.Decedent, true, 10)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='maiden')", "family")]
         public string MaidenName
         {
@@ -2969,7 +2969,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
         /// </example>
-        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 11)]
+        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, ProfileURL.Decedent, true, 11)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
         public string Gender
         {
@@ -3009,6 +3009,38 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Sex at Death.</summary>
+        /// <value>the decedent's sex at time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SexAtDeath = "F";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</para>
+        /// </example>
+        [Property("Sex At Death", Property.Types.String, "Decedent Demographics", "Decedent's Sex at Death.", true, ProfileURL.Decedent, true, 12)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
+        public Dictionary<string, string> SexAtDeath
+        {
+            get
+            {
+                Extension sex = Decedent.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath");
+                if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)sex.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath");
+                Extension sex = new Extension();
+                sex.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath";
+                sex.Value = DictToCodeableConcept(value);
+                Decedent.Extension.Add(sex);
+            }
+        }
+
+        // Should this be removed for IG v1.3 updates?
         /// <summary>Decedent's Birth Sex.</summary>
         /// <value>the decedent's birth sex</value>
         /// <example>
@@ -3017,7 +3049,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
         /// </example>
-        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 12)]
+        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, ProfileURL.Decedent, true, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
         public string BirthSex
         {
@@ -3040,6 +3072,7 @@ namespace VRDR
             }
         }
 
+        // TODO implement at end of v1.3 updates with other partial dates
         /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
         /// <value>the decedent's date of birth date part absent reason</value>
         /// <example>
@@ -3048,7 +3081,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
-        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, ProfileURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
         public Tuple<string,string>[] DateOfBirth
         {
@@ -3128,7 +3161,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
         /// </example>
-        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 19)]
+        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, ProfileURL.Decedent, true, 19)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -3178,7 +3211,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits['display']}");</para>
         /// </example>
-        [Property("Residence Within City Limits", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 20)]
+        [Property("Residence Within City Limits", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, ProfileURL.Decedent, true, 20)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -3189,10 +3222,10 @@ namespace VRDR
             {
                 if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
                 {
-                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
+                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator);
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value as CodeableConcept != null)
                     {
-                        return CodingToDict((Coding)cityLimits.Value);
+                        return CodeableConceptToDict((CodeableConcept)cityLimits.Value);
                     }
                 }
                 return EmptyCodeDict();
@@ -3205,15 +3238,16 @@ namespace VRDR
                     {
                         Decedent.Address.Add(new Address());
                     }
-                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator);
                     Extension withinCityLimits = new Extension();
-                    withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
-                    withinCityLimits.Value = DictToCoding(value);
+                    withinCityLimits.Url = ExtensionURL.WithinCityLimitsIndicator;
+                    withinCityLimits.Value = DictToCodeableConcept(value);
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
         }
 
+        // Todo remove in V1.3 IG updates
         /// <summary>Decedent's residence is/is not within city limits. This is a convenience method, to access the coded value use ResidenceWithinCityLimits.</summary>
         /// <value>Decedent's residence is/is not within city limits. A null value means "not applicable".</value>
         /// <example>
@@ -3222,7 +3256,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
         /// </example>
-        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 21)]
+        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, ProfileURL.Decedent, true, 21)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
         public bool? ResidenceWithinCityLimitsBoolean
         {
@@ -3272,7 +3306,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
         /// </example>
-        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 13)]
+        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, ProfileURL.Decedent, true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).identifier.where(system='http://hl7.org/fhir/sid/us-ssn')", "")]
         public string SSN
         {
@@ -3295,192 +3329,244 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Ethnicity.</summary>
-        /// <value>the decedent's ethnicity, maps to the IJE DETHNIC fields.</value>
+        /// <summary>Decedent's Ethnicity Hispanic Mexican.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.EthnicityNew = "Hispanic or Latino";</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity1['display']}");</para>
         /// </example>
-        [Property("EthnicityLiteral", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity')", "")]
+        [Property("Ethnicity1", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Mexican.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public Dictionary<string, string> Ethnicity1
+        {
+            get
+            {
+                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
+                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (InputRaceandEthnicity == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Mexican;
+                coding["display"] = NvssEthnicity.Mexican;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceandEthnicity.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Puerto Rican.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity2 = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity2['display']}");</para>
+        /// </example>
+        [Property("Ethnicity2", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Puerto Rican.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public Dictionary<string, string> Ethnicity2
+        {
+            get
+            {
+                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
+                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (InputRaceandEthnicity == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.PuertoRican;
+                coding["display"] = NvssEthnicity.PuertoRican;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceandEthnicity.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Cuban.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity3 = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity3['display']}");</para>
+        /// </example>
+        [Property("Ethnicity3", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Cuban.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public Dictionary<string, string> Ethnicity3
+        {
+            get
+            {
+                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
+                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (InputRaceandEthnicity == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Cuban;
+                coding["display"] = NvssEthnicity.Cuban;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceandEthnicity.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Other.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity4 = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
+        /// </example>
+        [Property("Ethnicity4", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Other.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public Dictionary<string, string> Ethnicity4
+        {
+            get
+            {
+                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
+                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (InputRaceandEthnicity == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Other;
+                coding["display"] = NvssEthnicity.Other;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceandEthnicity.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Literal.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EthnicityLiteral = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
+        /// </example>
+        [Property("EthnicityLiteral", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
         public string EthnicityLiteral
         {
             get
             {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity").FirstOrDefault();
-                if (ethnicity != null)
+                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                if (ethnicity != null && ethnicity.Value != null)
                 {
-                    Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "HispanicLiteral").FirstOrDefault();
-                    if (ethnicityText != null && ethnicityText.Value.GetType() == typeof(FhirString))
-                    {
-                        return ethnicityText.Value.ToString();
-                    }
+                    return ethnicity.Value.ToString();
                 }
-                return null;
+                return "";
             }
             set
             {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity").FirstOrDefault();
-                if (ethnicity == null)
+                if (InputRaceandEthnicity == null)
                 {
-                    ethnicity = new Extension();
-                    ethnicity.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-Ethnicity";
-                    Decedent.Extension.Add(ethnicity);
+                    CreateRaceEthnicityObs();
                 }
-                Extension ethnicityLiteral = ethnicity.Extension.Where(ext => ext.Url == "HispanicLiteral").FirstOrDefault();
-                if (ethnicityLiteral == null)
-                {
-                    ethnicityLiteral = new Extension();
-                    ethnicityLiteral.Url = "HispanicLiteral";
-                    ethnicity.Extension.Add(ethnicityLiteral);
-                }
-                ethnicityLiteral.Value = new FhirString(value);
-            }
-        }
-
-        /// <summary>Decedent's Ethnicity.</summary>
-        /// <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
-        /// the code. Use the EthnicityText property to set this value as a simple string, setting the value of this property will create a default value for the
-        /// EthnicityText property by concatenating the supplied code display texts.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
-        /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
-        /// <para>// Getter:</para>
-        /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
-        /// <para>{</para>
-        /// <para>  Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
-        /// <para>};</para>
-        /// </example>
-        [Property("Ethnicity", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
-        public Tuple<string, string>[] Ethnicity
-        {
-            get
-            {
-                string[] ombCodes = new string[] { };
-                string[] detailedCodes = new string[] { };
-                string[] ombDisplays = new string[] { };
-                string[] detailedDisplays = new string[] { };
-                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
-                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
-                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
-                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.display");
-                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
-                for (int i = 0; i < ombCodes.Length; i++)
-                {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i])))
-                    {
-                        ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
-                    }
-                    else
-                    {
-                        ethnicityList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
-                    }
-                }
-                for (int i = 0; i < detailedCodes.Length; i++)
-                {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i])))
-                    {
-                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                    else
-                    {
-                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                }
-                return ethnicityList;
-            }
-            set
-            {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity");
-                Extension ethnicities = new Extension();
-                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
-                List<string> textEthStrs = new List<string>();
-                foreach (Tuple<string, string> element in value)
-                {
-                    string display = element.Item1;
-                    string code = element.Item2;
-                    textEthStrs.Add(display);
-                    Extension codeEthnicity = new Extension();
-                    if (code == "2135-2" || code == "2186-5")
-                    {
-                        codeEthnicity.Url = "ombCategory";
-                    }
-                    else if (display.Equals("Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Not Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        codeEthnicity.Url = "ombCategory";
-                    }
-                    else
-                    {
-                        codeEthnicity.Url = "detailed";
-                    }
-                    Coding coding = new Coding();
-                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
-                    if (!String.IsNullOrWhiteSpace(code))
-                    {
-                        coding.Code = code;
-                    }
-                    if (!String.IsNullOrWhiteSpace(display))
-                    {
-                        coding.Display = display;
-                    }
-                    codeEthnicity.Value = coding;
-                    ethnicities.Extension.Add(codeEthnicity);
-                }
-                Extension textEth = new Extension();
-                textEth.Url = "text";
-                textEth.Value = new FhirString(String.Join(", ", textEthStrs));
-                ethnicities.Extension.Add(textEth);
-                Decedent.Extension.Add(ethnicities);
-            }
-        }
-
-        /// <summary>Decedent's Race.</summary>
-        /// <value>the decedent's race as a text string. Use the Race property to set coded race.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceText = "White";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Race Text: {ExampleDeathRecord.RaceText}");</para>
-        /// </example>
-        [Property("RaceText", Property.Types.String, "Decedent Demographics", "Decedent's Race.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 37)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
-        public string RaceText
-        {
-            get
-            {
-                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
-                if (race != null)
-                {
-                    Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                    if (raceText != null && raceText.Value.GetType() == typeof(FhirString))
-                    {
-                        return raceText.Value.ToString();
-                    }
-                }
-                return null;
-            }
-            set
-            {
-                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
-                if (race == null)
-                {
-                    race = new Extension();
-                    race.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-                    Decedent.Extension.Add(race);
-                }
-                Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                if (raceText == null)
-                {
-                    raceText = new Extension();
-                    raceText.Url = "text";
-                    race.Extension.Add(raceText);
-                }
-                raceText.Value = new FhirString(value);
+                InputRaceandEthnicity.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Literal;
+                coding["display"] = NvssEthnicity.Literal;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = new FhirString(value);
+                InputRaceandEthnicity.Component.Add(component);
             }
         }
 
@@ -3493,7 +3579,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>string boaa = ExampleDeathRecord.RaceBlackOfAfricanAmerican;</para>
         /// </example>
-        [Property("RaceBoolean", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Black or African American.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
+        [Property("RaceBoolean", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race Black or African American.", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
         public List<Tuple<string, string>> RaceBoolean
         {
@@ -3560,7 +3646,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>List<Tuple<string, string>> literalRaces = ExampleDeathRecord.RaceLiteral;</para>
         /// </example>
-        [Property("RaceLiteral", Property.Types.TupleArr, "Decedent Demographics", "Decedent Race Literal.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
+        [Property("RaceLiteral", Property.Types.TupleArr, "Decedent Demographics", "Decedent Race Literal.", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
         public List<Tuple<string, string>> RaceLiteral
         {
@@ -3603,31 +3689,34 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's MissingValueReason.</summary>
-        /// <value>the decedent's race RaceMissingValueReason. A tuple, where the first value of the tuple is the display value, and the second is
-        /// the literal string.</value>
+        /// <summary>Decedent's Race MissingValueReason.</summary>
+        /// <value>why the decedent's race is missing. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceMissingValueReason= "Vietnamese";</para>
+        /// <para>Dictionary&lt;string, string&gt; mvr = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>mvr.Add("code", "R");</para>
+        /// <para>mvr.Add("system", CodeSystems.MissingValueReason);</para>
+        /// <para>mvr.Add("display", "Refused");</para>
+        /// <para>ExampleDeathRecord.RaceMissingValueReason = mvr;</para>
         /// <para>// Getter:</para>
-        /// <para>string white = ExampleDeathRecord.RaceMissingValueReason;</para>
+        /// <para>Console.WriteLine($"Missing Race: {ExampleDeathRecord.RaceMissingValueReason['display']}");</para>
         /// </example>
-        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity", true, 38)]
+        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
-        public string RaceMissingValueReason
+        public Dictionary<string, string> RaceMissingValueReason
         {
             get
             {
-                Observation.ComponentComponent component = InputRaceandEthnicity.Component.Where(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason).FirstOrDefault();
-                if (component != null)
+                Observation.ComponentComponent raceMVR = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
+                if (raceMVR != null && raceMVR.Value != null && raceMVR.Value as CodeableConcept != null)
                 {
-                    Coding coding = (Coding) component.Value;
-                    if (coding != null)
-                    {
-                        return coding.Code;
-                    }         
+                    return CodeableConceptToDict((CodeableConcept)raceMVR.Value);
                 }
-                return null;
+                return EmptyCodeDict();
             }
             set
             {
@@ -3641,12 +3730,7 @@ namespace VRDR
                 coding["display"] = NvssRace.MissingValueReason;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = DictToCodeableConcept(coding);
-                
-                Coding missingCode = new Coding();
-                missingCode.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs";
-                missingCode.Code = value;
-                component.Value = missingCode;
-                
+                component.Value = DictToCodeableConcept(value);
                 InputRaceandEthnicity.Component.Add(component);
             }
         }
@@ -3675,7 +3759,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
         /// </example>
-        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 15)]
+        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, ProfileURL.Decedent, true, 15)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -3719,7 +3803,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.Contact}");</para>
         /// </example>
-        [Property("Contact Relationship", Property.Types.Dictionary, "Decedent Demographics", "The informant's relationship to the decedent", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [Property("Contact Relationship", Property.Types.Dictionary, "Decedent Demographics", "The informant's relationship to the decedent", true, ProfileURL.Decedent, true, 24)]
         [PropertyParam("relationship", "The relationship to the decedent.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "contact")]
         public Dictionary<string, string> ContactRelationship
@@ -3758,7 +3842,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, ProfileURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -3767,9 +3851,9 @@ namespace VRDR
         {
             get
             {
-                if (Decedent != null && Decedent.MaritalStatus != null)
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus as CodeableConcept != null)
                 {
-                    return CodeableConceptToDict(Decedent.MaritalStatus);
+                    return CodeableConceptToDict((CodeableConcept)Decedent.MaritalStatus);
                 }
                 return EmptyCodeDict();
             }
@@ -3779,6 +3863,49 @@ namespace VRDR
             }
         }
 
+        /// <summary>The marital status edit flag.</summary>
+        /// <value>the marital status edit flag
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "S");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");</para>
+        /// <para>code.Add("display", "Never Married");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
+        /// </example>
+        [Property("Marital Status Bypass", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, ProfileURL.Decedent, true, 24)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public Dictionary<string, string> MaritalStatusBypass
+        {
+            get
+            {
+                Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.BypassEditFlag);
+                if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)addressExt.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                Extension ext = new Extension();
+                ext.Url = ExtensionURL.BypassEditFlag;
+                ext.Value = DictToCodeableConcept(value);
+                Decedent.MaritalStatus.Extension.Add(ext);
+            }
+
+        }
+
+        // TODO remove in v1.3 updates?
         /// <summary>The marital status of the decedent at the time of death helper method.</summary>
         /// <value>the marital status of the decedent at the time of death.:
         /// <para>"code" - the code describing this finding</para>
@@ -3789,7 +3916,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, ProfileURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
         public string MaritalStatusHelper
@@ -4206,7 +4333,7 @@ namespace VRDR
         /// </example>
         [Property("Spouse Maiden Name", Property.Types.String, "Decedent Demographics", "Spouse's Maiden Name.", true, IGURL.DecedentSpouse, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden')", "family")]
-public string SpouseMaidenName
+        public string SpouseMaidenName
         {
             get
             {
@@ -4236,6 +4363,48 @@ public string SpouseMaidenName
                 }
             }
         }
+        /// <summary>Spouse Alive.</summary>
+        /// <value>whether the decedent's spouse is alive
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "Y");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.SpouseAlive = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.SpouseAlive["display"]}");</para>
+        /// </example>
+        [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, ProfileURL.Decedent, false, 27)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]
+        public Dictionary<string, string> SpouseAlive
+        {
+            get
+            {
+                Extension spouseExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.SpouseAlive);
+                if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null) {
+
+                    return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+
+                Extension ext = new Extension();
+                ext.Url = ExtensionURL.SpouseAlive;
+                ext.Value = DictToCodeableConcept(value);
+                Decedent.MaritalStatus.Extension.Add(ext);
+            }
+        }
+
         /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
         private void CreateEmptyEducationLevelObservation()
         {
@@ -4291,6 +4460,7 @@ public string SpouseMaidenName
                 DecedentEducationLevel.Value = DictToCodeableConcept(value);
             }
         }
+
         /// <summary>Decedent's Education Level Helper</summary>
         /// <value>Decedent's Education Level.</value>
         /// <example>
@@ -8190,42 +8360,42 @@ public string SpouseMaidenName
                 if (dict.ContainsKey("addressStnum") && !String.IsNullOrEmpty(dict["addressStnum"]))
                 {
                     Extension stnum = new Extension();
-                    stnum.Url = "stnum";
+                    stnum.Url = ExtensionURL.StreetNumber;
                     stnum.Value = new FhirString(dict["addressStnum"]);
                     address.Extension.Add(stnum);
                 }
                 if (dict.ContainsKey("addressPredir") && !String.IsNullOrEmpty(dict["addressPredir"]))
                 {
                     Extension predir = new Extension();
-                    predir.Url = "predir";
+                    predir.Url = ExtensionURL.PreDirectional;
                     predir.Value = new FhirString(dict["addressPredir"]);
                     address.Extension.Add(predir);
                 }
                 if (dict.ContainsKey("addressStname") && !String.IsNullOrEmpty(dict["addressStname"]))
                 {
                     Extension stname = new Extension();
-                    stname.Url = "stname";
+                    stname.Url = ExtensionURL.StreetName;
                     stname.Value = new FhirString(dict["addressStname"]);
                     address.Extension.Add(stname);
                 }
                 if (dict.ContainsKey("addressStdesig") && !String.IsNullOrEmpty(dict["addressStdesig"]))
                 {
                     Extension stdesig = new Extension();
-                    stdesig.Url = "stdesig";
+                    stdesig.Url = ExtensionURL.StreetDesignator;
                     stdesig.Value = new FhirString(dict["addressStdesig"]);
                     address.Extension.Add(stdesig);
                 }
                 if (dict.ContainsKey("addressPostdir") && !String.IsNullOrEmpty(dict["addressPostdir"]))
                 {
                     Extension postdir = new Extension();
-                    postdir.Url = "stdesig";
+                    postdir.Url = ExtensionURL.PostDirectional;
                     postdir.Value = new FhirString(dict["addressPostdir"]);
                     address.Extension.Add(postdir);
                 }
                 if (dict.ContainsKey("addressUnitnum") && !String.IsNullOrEmpty(dict["addressUnitnum"]))
                 {
                     Extension unitnum = new Extension();
-                    unitnum.Url = "unitnum";
+                    unitnum.Url = ExtensionURL.UnitOrAptNumber;
                     unitnum.Value = new FhirString(dict["addressUnitnum"]);
                     address.Extension.Add(unitnum);
                 }
@@ -8321,27 +8491,36 @@ public string SpouseMaidenName
                     dictionary.Add("addressCountyC", "");
                 }
                 
-                Extension stnum = addr.Extension.Where(ext => ext.Url == "stnum").FirstOrDefault();
+                Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 dictionary.Add("addressStnum", stnum.Value.ToString());
 
-                Extension predir = addr.Extension.Where(ext => ext.Url == "predir").FirstOrDefault();
+                Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
                 dictionary.Add("addressPredir", predir.Value.ToString());
 
-                Extension stname = addr.Extension.Where(ext => ext.Url == "stname").FirstOrDefault();
+                Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
                 dictionary.Add("addressStname", stname.Value.ToString());
 
-                Extension stdesig = addr.Extension.Where(ext => ext.Url == "stdesig").FirstOrDefault();
+                Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 dictionary.Add("addressStdesig", stdesig.Value.ToString());
 
-                Extension postdir = addr.Extension.Where(ext => ext.Url == "postdir").FirstOrDefault();
+                Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 dictionary.Add("addressPostdir", postdir.Value.ToString());
 
-                Extension unitnum = addr.Extension.Where(ext => ext.Url == "unitnum").FirstOrDefault();
+                Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 dictionary.Add("addressUnitnum", unitnum.Value.ToString());
 
+                //Check for possible state extension
+                Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
+                if (stateExt != null)
+                {
+                    dictionary.Add("addressState",stateExt.Value.ToString());
+                } 
+                else
+                {
+                    dictionary.Add("addressState", addr.State);
+                }
                 dictionary.Add("addressCity", addr.City);
                 dictionary.Add("addressCounty", addr.District);
-                dictionary.Add("addressState", addr.State);
                 dictionary.Add("addressZip", addr.PostalCode);
                 dictionary.Add("addressCountry", addr.Country);
             }

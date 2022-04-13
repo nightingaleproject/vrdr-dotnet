@@ -877,8 +877,8 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                    LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
+                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }
@@ -1068,29 +1068,11 @@ namespace VRDR
         {
             get
             {
-                return record.BirthSex;
+                return Get_MappingFHIRToIJE(Mappings.AdministrativeGender.FHIRToIJE, "SexAtDeath", "SEX");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    record.BirthSex = value.Trim();
-                    string code = value == "U" ? "UNK" : value;
-                    string display = "";
-                    if (code == "M")
-                    {
-                        display = "Male";
-                    }
-                    else if (code == "F")
-                    {
-                        display = "Female";
-                    }
-                    else if (code == "UNK")
-                    {
-                        display = "Unknown";
-                    }
-                    LeftJustified_Set("SEX", "Gender", display);
-                }
+                Set_MappingIJEToFHIR(Mappings.ActivityAtTimeOfDeath.IJEToFHIR, "SEX", "SexAtDeath", value);
             }
         }
 
@@ -1359,7 +1341,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "PlaceOfBirth", "addressCountry", value);
+                    Dictionary_Set("BPLACE_CNT", "PlaceOfBirth", "addressCountry", value);
                 }
             }
         }
@@ -1422,7 +1404,7 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATEC", "Residence", "address", "state", true);
+                return Dictionary_Geo_Get("STATEC", "Residence", "address", "State", true);
             }
             set
             {
@@ -1456,33 +1438,11 @@ namespace VRDR
         {
             get
             {
-                switch (record.ResidenceWithinCityLimitsBoolean)
-                {
-                    case true: // Yes
-                        return "Y";
-                    case false: // No
-                        return "N";
-                    default: // Unknown
-                        return "U";
-                }
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "ResidenceWithinCityLimits", "LIMITS");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            record.ResidenceWithinCityLimitsBoolean = true;
-                            break;
-                        case "N":
-                            record.ResidenceWithinCityLimitsBoolean = false;
-                            break;
-                        default:
-                            record.ResidenceWithinCityLimitsBoolean = null;
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "LIMITS", "ResidenceWithinCityLimits", value);
             }
         }
 
@@ -1492,63 +1452,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get("MARITAL", "MaritalStatus", "code");
-                switch (code)
-                {
-                    case "M":
-                    case "A":
-                    case "W":
-                    case "D":
-                    case "S":
-                        return code;
-                    case "I":
-                    case "L":
-                    case "P":
-                    case "T":
-                    case "U":
-                    case "UNK":
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MaritalStatus.FHIRToIJE, "MaritalStatus", "MARITAL");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "M":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Married");
-                            break;
-                        case "A":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Annulled");
-                            break;
-                        case "W":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Widowed");
-                            break;
-                        case "D":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Divorced");
-                            break;
-                        case "S":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Never Married");
-                            break;
-                        case "U":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", "value");
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MaritalStatus.IJEToFHIR, "MARITAL", "MaritalStatus", value);
             }
         }
 
@@ -1558,11 +1466,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass0124.FHIRToIJE, "MaritalStatus", "MARITAL_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalStatus", value);
             }
         }
 
@@ -1883,40 +1791,11 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
-                {
-                    return "N";
-                }
-                if (Array.Exists(ethnicities, element => element == "Mexican" || element == "2148-5"))
-                {
-                    return "H";
-                }
-                return "N";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity1", "DETHNIC1");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Mexican", "2148-5"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
             }
         }
 
@@ -1926,41 +1805,11 @@ namespace VRDR
         {
             get
             {
-
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
-                {
-                    return "N";
-                }
-                if (Array.Exists(ethnicities, element => element == "Puerto Rican" || element == "2180-8"))
-                {
-                    return "H";
-                }
-                return "N";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity2", "DETHNIC2");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Puerto Rican", "2180-8"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
             }
         }
 
@@ -1970,41 +1819,11 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
-                {
-                    return "N";
-                }
-                if (Array.Exists(ethnicities, element => element == "Cuban" || element == "2182-4"))
-                {
-                    return "H";
-                }
-                return "N";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity3", "DETHNIC3");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Cuban", "2182-4"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
             }
         }
 
@@ -2014,52 +1833,11 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-
-                string[] hispanicOrigin = HispanicOrigin();
-                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
-                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
-
-                // This logic will handle cases where hispanic origin is other with or without write-in
-                // It also maintains that hispanic origin and other are not mutually exclusive
-                var ethnicityText = record.EthnicityText;
-                if (!String.IsNullOrWhiteSpace(ethnicityText) && hispanicOrigin.Length > 0) // there was a write in and they are Hispanic or Latino
-                {
-                    return "H";
-                }
-                else if (hispanicOriginOther.Length > 0) // there was a code for an "other" hispanic or latino ethnicity
-                {
-                    return "H";
-                }
-                else if (hispanicOrigin.Length > 0 && !hispanicOrigin.Any(element => validHispanicOrigins.Contains(element))) // they are hispanic or latino and DETHNIC 1,2,3 ="N" so DETHIC4 must be "H"
-                {
-                    return "H";
-                }
-                else {
-                    return "N"; // not hispanic or latino
-                }
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity4", "DETHNIC4");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
             }
         }
 
@@ -2727,14 +2505,11 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE_MVR", "RaceMissingValueReason");
+                return Get_MappingFHIRToIJE(Mappings.RaceMissingValueReason.FHIRToIJE, "RaceMissingValueReason", "RACE_MVR");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    record.RaceMissingValueReason(value);
-                }
+                Set_MappingIJEToFHIR(Mappings.RaceMissingValueReason.IJEToFHIR, "RACE_MVR", "RaceMissingValueReason", value);
             }
         }
 
@@ -4017,12 +3792,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Decedent
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "SpouseAlive", "SPOUSELV");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Decedent
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
             }
         }
 
@@ -4124,14 +3898,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATETEXT_R", "Residence", "address", "state", false);
+                // expand STATEC 2 letter code to full name
+                var stateCode = Dictionary_Geo_Get("STATEC", "Residence", "address", "state", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Dictionary_Geo_Set("STATETEXT_R", "Residence", "address", "state", false, value);
-                }
+                // NOOP, this field does not exist in FHIR
             }
         }
 
@@ -4141,14 +3915,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
+                // This is Now just the two letter code.  Need to map it to country name
+                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); 
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.CountryCodeToCountryName(countryCode);
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Dictionary_Geo_Set("COUNTRYTEXT_R", "Residence", "address", "country", false, value);
-                }
+                // NOOP, field does not exist in FHIR
             }
         }
 
@@ -5787,11 +5561,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATEBTH", "PlaceOfBirth", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
+
             }
             set
             {
-                Dictionary_Geo_Set("STATEBTH", "PlaceOfBirth", "address", "state", false, value);
+                // NOOP, field does not exist in FHIR
             }
         }
 

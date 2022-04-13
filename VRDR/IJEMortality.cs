@@ -5462,7 +5462,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Certifier's Middle Name</summary>
+        /// <summary>Certifier's Middle Name </summary>
         [IJEField(221, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 2)]
         public string CERTMIDDLE
         {

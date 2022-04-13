@@ -4441,7 +4441,7 @@ namespace VRDR
         }
 
         /// <summary>Father's Middle Name</summary>
-        [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 1)]
+        [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 2)]
         public string DDADMID
         {// TODO: Implement mapping to FHIR record location: DecedentFather
             get
@@ -4490,7 +4490,7 @@ namespace VRDR
         }
 
         /// <summary>Mother's Middle Name</summary>
-        [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 1)]
+        [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 2)]
         public string DMOMMID
         {// TODO: Implement mapping to FHIR record location: DecedentMother
             get
@@ -5060,7 +5060,7 @@ namespace VRDR
         }
 
         /// <summary>Spouse's Middle Name</summary>
-        [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 1)]
+        [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 2)]
         public string SPOUSEMIDNAME
         {// TODO: Implement mapping to FHIR record location: DecedentSpouse
             get

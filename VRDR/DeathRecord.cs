@@ -210,6 +210,20 @@ namespace VRDR
         /// <summary>Autopsy Performed.</summary>
         private Observation AutopsyPerformed;
 
+        /// <summary>Create Autopsy Performed </summary>
+        private void CreateAutopsyPerformed(){
+            AutopsyPerformed = new Observation();
+            AutopsyPerformed.Id = Guid.NewGuid().ToString();
+            AutopsyPerformed.Meta = new Meta();
+            string[] autopsyperformed_profile = { ProfileURL.AutopsyPerformedIndicator };
+            AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
+            AutopsyPerformed.Status = ObservationStatus.Final;
+            AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
+            AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(AutopsyPerformed.Id);
+            Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+        }
+
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
 
@@ -5546,26 +5560,14 @@ public string SpouseMaidenName
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                }
+
+                AutopsyPerformed.Value = DictToCodeableConcept(value);
             }
         }
 
-        /// <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
+        /// <summary>Autopsy Performed Indicator Helper. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
         /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5573,45 +5575,21 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 29)]
+        [Property("Autopsy Performed Indicator Helper", Property.Types.String, "Death Investigation", "Autopsy Performed Indicator.", true, IGURL.AutopsyPerformedIndicator, true, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyPerformedIndicatorBoolean
+        public string AutopsyPerformedIndicatorHelper
         {
             get
             {
-                var code = this.AutopsyPerformedIndicator;
-                switch (code["code"])
+                if (AutopsyPerformedIndicator.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return AutopsyPerformedIndicator["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.AutopsyPerformedIndicator = code;
+                SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
@@ -5956,80 +5934,39 @@ public string SpouseMaidenName
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                }
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
+                component.Value = DictToCodeableConcept(value);
+                AutopsyPerformed.Component.Clear();
+                AutopsyPerformed.Component.Add(component);
             }
         }
 
-        /// <summary>Autopsy Results Available Boolean. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
+        /// <summary>Autopsy Results Available Helper. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
         /// <value>autopsy results available. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutopsyResultsAvailableBoolean = false;</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailableHelper = "N";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
+        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableHelper}");</para>
         /// </example>
-        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 31)]
+        [Property("Autopsy Results Available Helper", Property.Types.String, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, IGURL.AutopsyPerformedIndicator, true, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyResultsAvailableBoolean
+        public string AutopsyResultsAvailableHelper
         {
             get
             {
-                var code = this.AutopsyResultsAvailable;
-                switch (code["code"])
+                if (AutopsyResultsAvailable.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return AutopsyResultsAvailable["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.AutopsyResultsAvailable = code;
+                SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
             }
         }
 

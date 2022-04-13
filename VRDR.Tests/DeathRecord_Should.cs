@@ -1990,36 +1990,36 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> api = new Dictionary<string, string>();
             api.Add("code", "Y");
-            api.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+            api.Add("system", VRDR.CodeSystems.YesNo);
             api.Add("display", "Yes");
             SetterDeathRecord.AutopsyPerformedIndicator = api;
             Assert.Equal("Y", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
-            Assert.True(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
-            SetterDeathRecord.AutopsyPerformedIndicatorBoolean = false;
+            Assert.Equal("Y",SetterDeathRecord.AutopsyPerformedIndicatorHelper);
+            SetterDeathRecord.AutopsyPerformedIndicatorHelper = "N";
             Assert.Equal("N", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
             Assert.Equal("No", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
-            Assert.False(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
-            SetterDeathRecord.AutopsyPerformedIndicatorBoolean = null;
-            Assert.Equal("NA", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
-            Assert.Equal("not applicable", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
-            Assert.Null(SetterDeathRecord.AutopsyPerformedIndicatorBoolean);
+            Assert.Equal("N",SetterDeathRecord.AutopsyPerformedIndicatorHelper);
+            SetterDeathRecord.AutopsyPerformedIndicatorHelper = "UNK";
+            Assert.Equal("UNK", SetterDeathRecord.AutopsyPerformedIndicator["code"]);
+            Assert.Equal(VRDR.CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.AutopsyPerformedIndicator["system"]);
+            Assert.Equal("unknown", SetterDeathRecord.AutopsyPerformedIndicator["display"]);
+            Assert.Equal("UNK",SetterDeathRecord.AutopsyPerformedIndicatorHelper);
         }
 
         [Fact]
         public void Get_AutopsyPerformedIndicator()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicator["display"]);
-            Assert.True(((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicatorBoolean);
+            Assert.Equal("Y",((DeathRecord)JSONRecords[0]).AutopsyPerformedIndicatorHelper);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicator["display"]);
-            Assert.True(((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicatorBoolean);
+            Assert.Equal("Y",((DeathRecord)XMLRecords[0]).AutopsyPerformedIndicatorHelper);
         }
 
         [Fact]
@@ -2027,36 +2027,36 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ara = new Dictionary<string, string>();
             ara.Add("code", "Y");
-            ara.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+            ara.Add("system", VRDR.CodeSystems.YesNo);
             ara.Add("display", "Yes");
             SetterDeathRecord.AutopsyResultsAvailable = ara;
             Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
-            Assert.True(SetterDeathRecord.AutopsyResultsAvailableBoolean);
-            SetterDeathRecord.AutopsyResultsAvailableBoolean = false;
+            Assert.Equal("Y",SetterDeathRecord.AutopsyResultsAvailableHelper);
+            SetterDeathRecord.AutopsyResultsAvailableHelper = "N";
             Assert.Equal("N", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("No", SetterDeathRecord.AutopsyResultsAvailable["display"]);
-            Assert.False(SetterDeathRecord.AutopsyResultsAvailableBoolean);
-            SetterDeathRecord.AutopsyResultsAvailableBoolean = null;
+            Assert.Equal("N",SetterDeathRecord.AutopsyResultsAvailableHelper);
+            SetterDeathRecord.AutopsyResultsAvailableHelper = "NA";
             Assert.Equal("NA", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.AutopsyResultsAvailable["system"]);
             Assert.Equal("not applicable", SetterDeathRecord.AutopsyResultsAvailable["display"]);
-            Assert.Null(SetterDeathRecord.AutopsyResultsAvailableBoolean);
+            Assert.Equal("NA",SetterDeathRecord.AutopsyResultsAvailableHelper);
         }
 
         [Fact]
         public void Get_AutopsyResultsAvailable()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).AutopsyResultsAvailable["display"]);
-            Assert.True(((DeathRecord)JSONRecords[0]).AutopsyResultsAvailableBoolean);
+            Assert.Equal("Y",((DeathRecord)JSONRecords[0]).AutopsyResultsAvailableHelper);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).AutopsyResultsAvailable["display"]);
-            Assert.True(((DeathRecord)XMLRecords[0]).AutopsyResultsAvailableBoolean);
+            Assert.Equal("Y",((DeathRecord)XMLRecords[0]).AutopsyResultsAvailableHelper);
         }
 
         [Fact]

@@ -1001,7 +1001,7 @@
       <Observation>
         <id value="4a122c51-878c-476d-ad49-543c50b71166" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator" />
         </meta>
         <status value="final" />
         <code>
@@ -1016,7 +1016,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.113883.12.136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1031,7 +1031,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="urn:oid:2.16.840.1.113883.12.136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>

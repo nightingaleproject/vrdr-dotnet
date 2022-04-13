@@ -176,7 +176,7 @@ namespace VRDR
             manner.Add("display", "Natural death");
             record.MannerOfDeathType = manner;
 
-            record.AutopsyPerformedIndicatorBoolean = false;
+            record.AutopsyPerformedIndicatorHelper = "N";
 
             Dictionary<string, string> fdaddress = new Dictionary<string, string>();
             fdaddress.Add("addressLine1", "15 Pecan Street");
@@ -373,9 +373,9 @@ namespace VRDR
 
             record.InjuryLocationDescription = "5590 Lockwood Drive 20621 US";
 
-            record.AutopsyPerformedIndicatorBoolean = true;
+            record.AutopsyPerformedIndicatorHelper = "Y";
 
-            record.AutopsyResultsAvailableBoolean = true;
+            record.AutopsyResultsAvailableHelper = "Y";
 
             Dictionary<string, string> fdaddress = new Dictionary<string, string>();
             fdaddress.Add("addressLine1", "Lilly Lane");
@@ -560,8 +560,8 @@ namespace VRDR
             manner.Add("display", "Natural death");
             record.MannerOfDeathType = manner;
 
-            record.AutopsyPerformedIndicatorBoolean = true;
-            record.AutopsyResultsAvailableBoolean = true;
+            record.AutopsyPerformedIndicatorHelper = "Y";
+            record.AutopsyResultsAvailableHelper = "Y";
 
             Dictionary<string, string> morticianId = new Dictionary<string, string>();
             morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
@@ -795,8 +795,8 @@ namespace VRDR
             codeT.Add("display", "Vehicle driver");
             record.TransportationRole = codeT;
             record.TransportationEventBoolean = true;
-            record.AutopsyPerformedIndicatorBoolean = false;
-            record.AutopsyResultsAvailableBoolean = false;
+            record.AutopsyPerformedIndicatorHelper = "N";
+            record.AutopsyResultsAvailableHelper = "N";
             if (fullRecord)
             {
                 Dictionary<string, string> fdaddress = new Dictionary<string, string>();

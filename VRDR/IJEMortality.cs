@@ -3360,41 +3360,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOP", "AutopsyPerformedIndicator", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "AutopsyPerformedIndicator", "AUTOP");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "AUTOP", "AutopsyPerformedIndicator", value);
             }
         }
 
@@ -3404,41 +3374,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOPF", "AutopsyResultsAvailable", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "AutopsyResultsAvailable", "AUTOPF");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "AUTOPF", "AutopsyResultsAvailable", value);
             }
         }
 
@@ -3508,62 +3448,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("PREG", "PregnancyStatus", "code");
-                switch (code)
-                {
-                    case "PHC1260": // Not pregnant within past year
-                        return "1";
-                    case "PHC1261": // Pregnant at time of death
-                        return "2";
-                    case "PHC1262": // Not pregnant, but pregnant within 42 days of death
-                        return "3";
-                    case "PHC1263": // Not pregnant, but pregnant 43 days to 1 year before death
-                        return "4";
-                    case "PHC1264": // Unknown if pregnant within the past year
-                        return "9";
-                    case "NA": // Not applicable
-                        return "8";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PregnancyStatus.FHIRToIJE, "PregnancyStatus", "PREG");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1260");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant within past year");
-                            break;
-                        case "2":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1261");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Pregnant at time of death");
-                            break;
-                        case "3":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1262");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
-                            break;
-                        case "4":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1263");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
-                            break;
-                        case "9":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1264");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Unknown if pregnant within the past year");
-                            break;
-                        case "8":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not applicable");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.PregnancyStatus.IJEToFHIR, "PREG", "PregnancyStatus", value);
             }
         }
 
@@ -3573,11 +3462,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass012.FHIRToIJE, "PregnancyStatusEditFlag", "PREG_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass012.IJEToFHIR, "PREG_BYPASS", "PregnancyStatusEditFlag", value);
             }
         }
 

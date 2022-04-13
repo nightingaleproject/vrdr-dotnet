@@ -260,6 +260,20 @@ namespace VRDR
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
 
+        /// <summary> Create Pregnancy Status. </summary>
+        private void CreatePregnancyObs(){
+            PregnancyObs = new Observation();
+            PregnancyObs.Id = Guid.NewGuid().ToString();
+            PregnancyObs.Meta = new Meta();
+            string[] p_profile = { IGURL.DecedentPregnancyStatus };
+            PregnancyObs.Meta.Profile = p_profile;
+            PregnancyObs.Status = ObservationStatus.Final;
+            PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
+            PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PregnancyObs.Id);
+            Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+        }
+
         /// <summary>Examiner Contacted.</summary>
         private Observation ExaminerContactedObs;
 
@@ -4273,7 +4287,7 @@ public string SpouseMaidenName
             {
                 if (DecedentEducationLevel != null && DecedentEducationLevel.Extension != null)
                 {
-                    Extension editFlag = DecedentEducationLevel.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    Extension editFlag = DecedentEducationLevel.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (editFlag != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)editFlag.Value);
@@ -4287,11 +4301,16 @@ public string SpouseMaidenName
                 {
                     CreateEmptyEducationLevelObservation();
                 }
-                DecedentEducationLevel.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                if (DecedentEducationLevel.Value != null && DecedentEducationLevel.Value.Extension != null){
+                    DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
                 Extension editFlag = new Extension();
                 editFlag.Url = ExtensionURL.BypassEditFlag;
+                if(DecedentEducationLevel.Value == null){
+                    DecedentEducationLevel.Value = new CodeableConcept();
+                }
                 editFlag.Value = DictToCodeableConcept(value);
-                DecedentEducationLevel.Extension.Add(editFlag);
+                DecedentEducationLevel.Value.Extension.Add(editFlag);
             }
         }
 
@@ -6403,12 +6422,12 @@ public string SpouseMaidenName
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "PHC1260");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");</para>
+        /// <para>code.Add("code", "1");</para>
+        /// <para>code.Add("system", VRDR.CodeSystems.PregnancyStatus);</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
-        /// <para>ExampleDeathRecord.PregnancyStatus = code;</para>
+        /// <para>ExampleDeathRecord.PregnancyObs = code;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
+        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyObs['display']}");</para>
         /// </example>
         [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
@@ -6429,22 +6448,9 @@ public string SpouseMaidenName
             {
                 if (PregnancyObs == null)
                 {
-                    PregnancyObs = new Observation();
-                    PregnancyObs.Id = Guid.NewGuid().ToString();
-                    PregnancyObs.Meta = new Meta();
-                    string[] p_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
-                    PregnancyObs.Meta.Profile = p_profile;
-                    PregnancyObs.Status = ObservationStatus.Final;
-                    PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
-                    PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(PregnancyObs.Id);
-                    Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+                    CreatePregnancyObs();
                 }
-                else
-                {
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                }
+                PregnancyObs.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -6476,6 +6482,89 @@ public string SpouseMaidenName
                 SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
             }
         }
+        /// <summary>Decedent's Pregnancy Status at Death Edit Flag.</summary>
+        /// <value>the decedent's pregnancy status at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>elevel.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.EducationLevelEditFlag = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
+        /// </example>
+        // TODO: This URL should be the html one, and those should be generated as well
+        [Property("Decedent's Pregnancy Status at Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public Dictionary<string, string> PregnancyStatusEditFlag
+        {
+            get
+            {
+                if (PregnancyObs != null && PregnancyObs.Value != null && PregnancyObs.Value.Extension != null)
+                {
+                    Extension editFlag = PregnancyObs.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (editFlag != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                    }
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (PregnancyObs == null)
+                {
+                    CreatePregnancyObs();
+                }
+                if (PregnancyObs.Value != null && PregnancyObs.Value.Extension != null){
+                    PregnancyObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
+                Extension editFlag = new Extension();
+                editFlag.Url = ExtensionURL.BypassEditFlag;
+                editFlag.Value = DictToCodeableConcept(value);
+                if(PregnancyObs.Value == null){
+                    PregnancyObs.Value = new CodeableConcept();
+                }
+                PregnancyObs.Value.Extension.Add(editFlag);
+            }
+        }
+
+        /// <summary>Decedent's Pregnancy Status Edit Flag Helper</summary>
+        /// <value>Decedent's Pregnancy Status Edit Flag.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentPregnancyStatusEditFlag = VRDR.ValueSets.EditBypass012.EditPassed;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Pregnancy Status Edit Flag: {ExampleDeathRecord.PregnancyStatusHelperEditFlag}");</para>
+        /// </example>
+        [Property("Pregnancy Status Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public string PregnancyStatusEditFlagHelper
+        {
+            get
+            {
+                if (PregnancyStatusEditFlag.ContainsKey("code"))
+                {
+                    return PregnancyStatusEditFlag["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+            }
+        }
+
+
         /// <summary>Examiner Contacted.</summary>
         /// <value>if a medical examiner was contacted.</value>
         /// <example>

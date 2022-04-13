@@ -2124,24 +2124,52 @@ namespace VRDR.Tests
         public void Set_PregnancyStatus()
         {
             Dictionary<string, string> ps = new Dictionary<string, string>();
-            ps.Add("code", "PHC1260");
-            ps.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");
+            ps.Add("code", "1");
+            ps.Add("system", VRDR.CodeSystems.PregnancyStatus);
             ps.Add("display", "Not pregnant within past year");
             SetterDeathRecord.PregnancyStatus = ps;
-            Assert.Equal("PHC1260", SetterDeathRecord.PregnancyStatus["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.5.274", SetterDeathRecord.PregnancyStatus["system"]);
+            Assert.Equal("1", SetterDeathRecord.PregnancyStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, SetterDeathRecord.PregnancyStatus["system"]);
             Assert.Equal("Not pregnant within past year", SetterDeathRecord.PregnancyStatus["display"]);
         }
 
         [Fact]
         public void Get_PregnancyStatus()
         {
-            Assert.Equal("NA", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
-            Assert.Equal("not applicable", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
-            Assert.Equal("NA", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
-            Assert.Equal("not applicable", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
+            Assert.Equal("1", ((DeathRecord)JSONRecords[0]).PregnancyStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, ((DeathRecord)JSONRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", ((DeathRecord)JSONRecords[0]).PregnancyStatus["display"]);
+            Assert.Equal("1", ((DeathRecord)XMLRecords[0]).PregnancyStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PregnancyStatus, ((DeathRecord)XMLRecords[0]).PregnancyStatus["system"]);
+            Assert.Equal("Not pregnant within past year", ((DeathRecord)XMLRecords[0]).PregnancyStatus["display"]);
+        }
+
+        [Fact]
+        public void Set_PregnancyStatusEditFlag()
+        {
+            Dictionary<string, string> elef = new Dictionary<string, string>();
+            elef.Add("code", VRDR.ValueSets.EditBypass012.Edit_Failed_Data_Queried_And_Verified);
+            elef.Add("system", VRDR.CodeSystems.BypassEditFlag);
+            elef.Add("display", "Edit Failed Data Queried And Verified");
+            SetterDeathRecord.PregnancyStatusEditFlag = elef;
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.PregnancyStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Failed Data Queried And Verified", SetterDeathRecord.PregnancyStatusEditFlag["display"]);
+            SetterDeathRecord.PregnancyStatusEditFlagHelper = VRDR.ValueSets.EditBypass012.Edit_Passed;
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, SetterDeathRecord.PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.PregnancyStatusEditFlag["display"]);
+        }
+
+        [Fact]
+        public void Get_PregnancyStatusEditFlag()
+        {
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).PregnancyStatusEditFlag["display"]);
+            Assert.Equal(VRDR.ValueSets.EditBypass012.Edit_Passed, ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlagHelper);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).PregnancyStatusEditFlag["display"]);
         }
 
         [Fact]

@@ -202,6 +202,7 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
+                { "8", "8" },
                 { "9", "9" },
             };
             /// <summary>FHIR -> IJE Mapping for PregnancyStatus</summary>
@@ -211,6 +212,7 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
+                { "8", "8" },
                 { "9", "9" },
             };
         }

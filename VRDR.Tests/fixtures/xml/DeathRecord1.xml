@@ -305,7 +305,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician certified and pronounced death certificate" />
+              <display value="Physician" />
             </coding>
           </code>
         </qualification>
@@ -388,7 +388,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician" />
+              <display value="Physician certified and pronounced death certificate" />
             </coding>
           </function>
           <actor>
@@ -1569,7 +1569,7 @@
       <Observation>
         <id value="0de58d4e-6306-4bf9-8d8f-a53d465e0816" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date" />
         </meta>
         <status value="final" />
         <code>
@@ -1582,11 +1582,11 @@
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <effectiveDateTime value="2018-02-19T16:48:06-05:00" />
+        <effectiveDateTime value="2019-02-19T16:48:06-05:00" />
         <performer>
           <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
         </performer>
-        <valueDateTime value="2018-02-19T16:48:06-05:00" />
+        <valueDateTime value="2019-02-19T16:48:06-05:00" />
         <component>
           <code>
             <coding>
@@ -1595,7 +1595,7 @@
               <display value="Date and time pronounced dead" />
             </coding>
           </code>
-          <valueDateTime value="2018-02-20T16:48:06-05:00" />
+          <valueDateTime value="2019-02-20T16:48:06-05:00" />
         </component>
       </Observation>
     </resource>

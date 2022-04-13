@@ -388,10 +388,10 @@ namespace VRDR.Tests
         {
             Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
+            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
             Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertificationRole["system"]);
-            Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
+            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
         }
 
         [Fact]
@@ -617,10 +617,10 @@ namespace VRDR.Tests
         {
             Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
             Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
+            Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
         }
 
         [Fact]
@@ -2456,11 +2456,11 @@ namespace VRDR.Tests
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
             IJEMortality ije1 = new IJEMortality(dr);
-            Assert.Equal("2018", ije1.DOD_YR);
+            Assert.Equal("2019", ije1.DOD_YR);
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2018-02-19T16:48:06-05:00", dr2.DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:06-05:00", dr2.DateOfDeath);
         }
 
         [Fact]
@@ -2503,8 +2503,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeathPronouncement()
         {
-            Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
-            Assert.Equal("2018-02-20T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeathPronouncement);
+            Assert.Equal("2019-02-20T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeathPronouncement);
         }
 
         [Fact]

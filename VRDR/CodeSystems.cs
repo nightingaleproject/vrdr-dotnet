@@ -29,7 +29,7 @@ namespace VRDR
         /// <summary>HL7 Data Absent reason.</summary>
         public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
 
-        /// <summary>HL7 Data Absent reason.</summary>
+        /// <summary>HL7 Yes No.</summary>
         public static string YesNo_0136HL7_V2 = "http://terminology.hl7.org/CodeSystem/v2-0136";
 
         /// <summary>PHINVADS Local Coding System.</summary>

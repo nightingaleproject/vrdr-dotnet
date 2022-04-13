@@ -386,7 +386,7 @@
                 {
                   "system": "http://snomed.info/sct",
                   "code": "434641000124105",
-                  "display": "Physician certified and pronounced death certificate"
+                  "display": "Physician"
                 }
               ]
             }
@@ -1362,8 +1362,7 @@
             ],
             "suffix": [
               "Ph.D."
-            ],
-            "use": "official"
+            ]
           },
           {
             "family": "Maiden",
@@ -2053,7 +2052,7 @@
                 }
               ]
             },
-            "valueDateTime": "2018-02-20T16:48:06-05:00"
+            "valueDateTime": "2019-02-20T16:48:06-05:00"
           }
         ]
       }

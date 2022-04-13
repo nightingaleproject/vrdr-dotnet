@@ -289,16 +289,20 @@ namespace VRDR
             }
         }
 
-        /// <summary>Get the date part value from DateOfBirthNew if it's populated</summary>
-        private string BirthDate_Part_Get(string ijeFieldName, string dateType)
+        /// <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
+        private string BirthDate_Part_Absent_Get(string ijeFieldName, string dateType, string dateAbsentType)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            Tuple<string, string>[] dp = this.record?.DateOfBirthNew;
-            if (dp != null) {
-                List<Tuple<string, string>> dateParts = dp.ToList();
+            Tuple<string, string>[] dpa = this.record?.DateOfBirthDatePartAbsent;
+            if (dpa != null) {
+                List<Tuple<string, string>> dateParts = dpa.ToList();
                 Tuple<string, string> datePart = dateParts.Find(x => x.Item1 == dateType);
                 if (datePart != null){
                     return datePart.Item2.PadLeft(info.Length, '0');
+                }
+                Tuple<string, string> datePartAbsent = dateParts.Find(x => x.Item1 == dateAbsentType);
+                if (datePartAbsent != null){
+                    return string.Concat(Enumerable.Repeat("9", info.Length));
                 }
             }
             return "";
@@ -621,53 +625,10 @@ namespace VRDR
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
-        /// <summary>If the decedent was of hispanic origin, returns a list of ethnicities.</summary>
-        private string[] HispanicOrigin()
-        {
-            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-            List<string> ethnicities = new List<string>();
-            // Check if hispanic origin
-            if (Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
-            {
-                foreach(Tuple<string, string> tuple in ethnicityStatus)
-                {
-                    ethnicities.Add(tuple.Item1);
-                    ethnicities.Add(tuple.Item2);
-                }
-            }
-            return ethnicities.ToArray();
-        }
-
-        /// <summary>If the decedent was of hispanic origin, returns a list of OTHER ethnicities (not Mexican, Cuban, or Puerto Rican).</summary>
-        private Tuple<string, string>[] HispanicOriginOther()
-        {
-            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-            List<Tuple<string, string>> ethnicities = new List<Tuple<string, string>>();
-            foreach(Tuple<string, string> tuple in ethnicityStatus)
-            {
-                if (tuple.Item1.ToUpper() != "Non Hispanic or Latino".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Hispanic or Latino".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Mexican".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Puerto Rican".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Cuban".ToUpper())
-                {
-                    if (tuple.Item2.ToUpper() != "2186-5".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2135-2".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2148-5".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2180-8".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2182-4".ToUpper())
-                    {
-                        ethnicities.Add(tuple);
-                    }
-                }
-            }
-            return ethnicities.ToArray();
-        }
-
         /// <summary>Checks if the given race exists in the record.</summary>
-        private string Get_Race(string name)
+        private string Get_Race_Literal(string name)
         {
-            Tuple<string, string>[] raceStatus = record.Race.ToArray();
+            Tuple<string, string>[] raceStatus = record.RaceLiteral.ToArray();
             return Array.Find(raceStatus, element => element.Item1 == name).Item2;
         }
 
@@ -678,58 +639,12 @@ namespace VRDR
             return Array.Find(raceStatus, element => element.Item1 == name).Item2;
         }
 
-        /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
-        private string[] Get_Race_AIAN_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
-            string[] filterCodes = { "1002-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
-        private string[] Get_Race_A_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
-            string[] filterCodes = { "2028-9", "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Black or African American Race literals on the record.</summary>
-        private string[] Get_Race_BAA_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
-            string[] filterCodes = { "2054-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
-        private string[] Get_Race_NHOPI_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
-            string[] filterCodes = { "2076-8", "2086-7", "2080-0", "2079-2" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves White Race literals on the record.</summary>
-        private string[] Get_Race_W_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
-            string[] filterCodes = { "2106-3" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves OTHER Race literals on the record.</summary>
-        private string[] Get_Race_OTHER_Literals()
-        {
-            return Get_Race_W_Literals().ToList().Concat(Get_Race_BAA_Literals().ToList()).ToArray();
-        }
-
         /// <summary>Adds the given race to the record.</summary>
-        private void Set_Race(string name, string value)
+        private void Set_Race_Literal(string name, string value)
         {
-            List<Tuple<string, string>> raceStatus = record.Race;
+            List<Tuple<string, string>> raceStatus = record.RaceLiteral;
             raceStatus.Add(Tuple.Create(name, value));
-            record.Race = raceStatus.Distinct().ToList();
+            record.RaceLiteral = raceStatus.Distinct().ToList();
         }
 
         /// <summary>Adds the given race boolean to the record.</summary>
@@ -1220,27 +1135,37 @@ namespace VRDR
             }
         }
 
-        /// <summary>Date of Birth--Year</summary>
+                /// <summary>Date of Birth--Year</summary>
         [IJEField(19, 205, 4, "Date of Birth--Year", "DOB_YR", 1)]
         public string DOB_YR
         {
             get
             {
-                String yearPart = BirthDate_Part_Get("DOB_YR", "Date-Year");
+                String yearPart = BirthDate_Part_Absent_Get("DOB_YR", "date-year", "year-absent-reason");
                 if (!String.IsNullOrWhiteSpace(yearPart))
                 {
                     return yearPart;
                 }
-                return "9999";
+                return DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
             }
             set
             {
-                List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-                    if (record.DateOfBirth != null){
-                        dateParts = record.DateOfBirth.ToList();
+                // if unknown, set the date part absent
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "9999"))
+                {
+                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+                    if (record.DateOfBirthDatePartAbsent != null){
+                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
                     }
-                dateParts.Add(Tuple.Create("Date-Year", value));
-                record.DateOfBirth = dateParts.ToList().ToArray();; 
+                    dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
+                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                } else
+                {
+                    // we will still set this for now so we can reference the value to
+                    // populate the Date Part Absent field
+                    // In FHIR we will just ignore this
+                    DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value, true);
+                }
             }
         }
 
@@ -1250,21 +1175,28 @@ namespace VRDR
         {
             get
             {
-                String monthPart = BirthDate_Part_Get("DOB_MO", "Date-Month");
+                String monthPart = BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason");
                 if (!String.IsNullOrWhiteSpace(monthPart))
                 {
                     return monthPart;
                 }
-                return "99";
+                return DateTime_Get("DOB_MO", "MM", "DateOfBirth");
             }
             set
             {
-                List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-                    if (record.DateOfBirth != null){
-                        dateParts = record.DateOfBirth.ToList();
+                // if unknown, set the date part absent
+                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "99"))
+                {
+                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
+                    if (record.DateOfBirthDatePartAbsent != null){
+                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
                     }
-                dateParts.Add(Tuple.Create("Date-Month", value));
-                record.DateOfBirth = dateParts.ToList().ToArray();; 
+                    dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
+                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                } else
+                {
+                    DateTime_Set("DOB_MO", "MM", "DateOfBirth", value, true);
+                }
             }
         }
 
@@ -1274,9 +1206,8 @@ namespace VRDR
         {
             get
             {
-                String dayPart = BirthDate_Part_Get("DOB_DY", "Date-Day");
-                if (!String.IsNullOrWhiteSpace(dayPart))
-                {
+                String dayPart = BirthDate_Part_Absent_Get("DOB_DY", "date-day", "day-absent-reason");
+                if (!String.IsNullOrWhiteSpace(dayPart)){
                     return dayPart;
                 }
                 return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
@@ -1322,7 +1253,8 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } else
+                } 
+                else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
@@ -1872,13 +1804,13 @@ namespace VRDR
         {
             get
             {   
-                return LeftJustified_Get("RACE1", "RaceWhite");
+                return Get_Race_Boolean(NvssRace.White);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceWhite(value);
+                    Set_Race_Boolean(NvssRace.White, value);
                 }
             }
         }
@@ -1889,13 +1821,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE2", "RaceBlackOrAfricanAmerican");
+                return Get_Race_Boolean(NvssRace.BlackOrAfricanAmerican);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceBlackOrAfricanAmerican(value);
+                    Set_Race_Boolean(NvssRace.BlackOrAfricanAmerican, value);
                 }
             }
         }
@@ -1906,13 +1838,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE3", "RaceAmericanIndianOrAlaskaNative");
+                return Get_Race_Boolean(NvssRace.AmericanIndianOrAlaskaNative);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceAmericanIndianOrAlaskaNative(value);
+                    Set_Race_Boolean(NvssRace.AmericanIndianOrAlaskaNative, value);
                 }
             }
         }
@@ -1923,13 +1855,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE4", "RaceAsianIndian");
+                return Get_Race_Boolean(NvssRace.AsianIndian);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceAsianIndian(value);
+                    Set_Race_Boolean(NvssRace.AsianIndian, value);
                 }
             }
         }
@@ -1940,13 +1872,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE5", "RaceChinese");
+                return Get_Race_Boolean(NvssRace.Chinese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceChinese(value);
+                    Set_Race_Boolean(NvssRace.Chinese, value);
                 }
             }
         }
@@ -1957,13 +1889,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE6", "RaceFilipino");
+                return Get_Race_Boolean(NvssRace.Filipino);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceFilipino(value);
+                    Set_Race_Boolean(NvssRace.Filipino, value);
                 }
             }
         }
@@ -1974,13 +1906,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE7", "RaceJapanese");
+                return Get_Race_Boolean(NvssRace.Japanese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceJapanese(value);
+                    Set_Race_Boolean(NvssRace.Japanese, value);
                 }
             }
         }
@@ -1991,13 +1923,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE8", "RaceKorean");
+                return Get_Race_Boolean(NvssRace.Korean);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceKorean(value);
+                    Set_Race_Boolean(NvssRace.Korean, value);
                 }
             }
         }
@@ -2008,13 +1940,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE9", "RaceVietnamese");
+                return Get_Race_Boolean(NvssRace.Vietnamese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceVietnamese(value);
+                    Set_Race_Boolean(NvssRace.Vietnamese, value);
                 }
             }
         }
@@ -2025,13 +1957,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE10", "RaceOtherAsian");
+                return Get_Race_Boolean(NvssRace.OtherAsian);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherAsian(value);
+                    Set_Race_Boolean(NvssRace.OtherAsian, value);
                 }
                 
             }
@@ -2043,13 +1975,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE11", "RaceNativeHawaiian");
+                return Get_Race_Boolean(NvssRace.NativeHawaiian);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceNativeHawaiian(value);
+                    Set_Race_Boolean(NvssRace.NativeHawaiian, value);
                 }
             }
         }
@@ -2060,13 +1992,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE12", "RaceGuamanianOrChamorro");
+                return Get_Race_Boolean(NvssRace.GuamanianOrChamorro);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceGuamanianOrChamorro(value);
+                    Set_Race_Boolean(NvssRace.GuamanianOrChamorro, value);
                 }
             }
         }
@@ -2077,13 +2009,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE13", "RaceSamoan");
+                return Get_Race_Boolean(NvssRace.Samoan);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceSamoan(value);
+                    Set_Race_Boolean(NvssRace.Samoan, value);
                 }
             }
         }
@@ -2094,13 +2026,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE14", "RaceOtherPacificIslander");
+                return Get_Race_Boolean(NvssRace.OtherPacificIslander);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherPacificIslander(value);
+                    Set_Race_Boolean(NvssRace.OtherPacificIslander, value);
                 }
             }
         }
@@ -2111,13 +2043,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE15", RaceOtherRace);
+                return Get_Race_Boolean(NvssRace.OtherRace);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherRace(value);
+                    Set_Race_Boolean(NvssRace.OtherRace, value);
                 }
             }
         }
@@ -2128,13 +2060,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE16", "RaceAmericanIndianOrAlaskanNativeLiteral1");
+                return Get_Race_Literal(NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceAmericanIndianOrAlaskanNativeLiteral1(value);
+                    Set_Race_Boolean(NvssRace.AmericanIndianOrAlaskanNativeLiteral1, value);
                 }
             }
         }
@@ -2145,14 +2077,13 @@ namespace VRDR
         {
             get
             {
-                // TODO handle second
-                return LeftJustified_Get("RACE17", "RaceAmericanIndianOrAlaskanNativeLiteral2");
+                return Get_Race_Literal(NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceAmericanIndianOrAlaskanNativeLiteral2(value);
+                    Set_Race_Boolean(NvssRace.AmericanIndianOrAlaskanNativeLiteral2, value);
                 }
             }
         }
@@ -2163,13 +2094,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE18", "RaceOtherAsianLiteral1");
+                return Get_Race_Literal(NvssRace.OtherAsianLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherAsianLiteral1(value);
+                    Set_Race_Boolean(NvssRace.OtherAsianLiteral1, value);
                 }
             }
         }
@@ -2180,13 +2111,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE19", "RaceOtherAsianLiteral2");
+                return Get_Race_Literal(NvssRace.OtherAsianLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherAsianLiteral2(value);
+                    Set_Race_Boolean(NvssRace.OtherAsianLiteral2, value);
                 }
             }
         }
@@ -2197,13 +2128,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE20", "RaceOtherPacificIslanderLiteral1");
+                return Get_Race_Literal(NvssRace.OtherPacificIslandLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherPacificIslandLiteral1(value);
+                    Set_Race_Boolean(NvssRace.OtherPacificIslandLiteral1, value);
                 }
             }
         }
@@ -2214,13 +2145,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE21", "RaceOtherPacificIslanderLiteral2");
+                return Get_Race_Literal(NvssRace.OtherPacificIslandLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherPacificIslandLiteral2(value);
+                    Set_Race_Boolean(NvssRace.OtherPacificIslandLiteral2, value);
                 }
             }
         }
@@ -2231,13 +2162,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE22", "RaceOtherRaceLiteral1");
+                return Get_Race_Literal(NvssRace.OtherRaceLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherRaceLiteral1(value);
+                    Set_Race_Boolean(NvssRace.OtherRaceLiteral1, value);
                 }
             }
         }
@@ -2248,13 +2179,13 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("RACE23", "RaceOtherRaceLiteral2");
+                return Get_Race_Literal(NvssRace.OtherRaceLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.RaceOtherRaceLiteral2(value);
+                    Set_Race_Boolean(NvssRace.OtherRaceLiteral2, value);
                 }
             }
         }

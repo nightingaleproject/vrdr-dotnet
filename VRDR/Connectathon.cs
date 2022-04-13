@@ -55,9 +55,9 @@ namespace VRDR
 
             record.FamilyName = "Page";
 
-            record.Race = new Tuple<string, string>[] { Tuple.Create("White", "2106-3") };
+            record.RaceBoolean = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y") };
 
-            record.Ethnicity = new Tuple<string, string>[] { Tuple.Create("Puerto Rican", "2180-8") };
+            record.Ethnicity2Helper = "Y";
 
             record.BirthSex = "F";
 
@@ -243,9 +243,13 @@ namespace VRDR
 
             record.FamilyName = "Patel";
 
-            record.Race = new Tuple<string, string>[] { Tuple.Create("Asian Indian", "2029-7") };
+            record.RaceBoolean = new List<Tuple<string, string>> { Tuple.Create(NvssRace.AsianIndian, "Y") };
 
-            record.Ethnicity = new Tuple<string, string>[] { Tuple.Create("Not Hispanic or Latino", "2186-5") };
+            record.Ethnicity1Helper = "N";
+            record.Ethnicity2Helper = "N";
+            record.Ethnicity3Helper = "N";
+            record.Ethnicity4Helper = "N";
+            record.EthnicityLiteral = "";
 
             record.BirthSex = "F";
 
@@ -440,9 +444,10 @@ namespace VRDR
 
             record.FamilyName = "Wright";
 
-            record.Race = new Tuple<string, string>[] { Tuple.Create("White", "2106-3"), Tuple.Create("American Indian or Alaska Native", "1002-5") };
+            record.RaceBoolean = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "Y") };
 
-            record.Ethnicity = new Tuple<string, string>[] { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Salvadoran", "2161-8")};
+            record.Ethnicity4Helper = "Y";
+            record.EthnicityLiteral = "Salvadoran";
 
             record.BirthSex = "F";
 
@@ -628,9 +633,9 @@ namespace VRDR
             record.FamilyName = "Perez";
             record.Suffix = "Jr.";
 
-            record.Race = new Tuple<string, string>[] { Tuple.Create("White", "2106-3"), Tuple.Create("Black", "2054-5") };
+            record.RaceBoolean = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.BlackOrAfricanAmerican, "Y") };
 
-            record.Ethnicity = new Tuple<string, string>[] { Tuple.Create("Cuban", "2182-4") };
+            record.Ethnicity3Helper = "Y";
 
             record.BirthSex = "M";
 

@@ -3072,7 +3072,36 @@ namespace VRDR
             }
         }
 
-        // TODO implement at end of v1.3 updates with other partial dates
+        /// <summary>Decedent's Date of Birth.</summary>
+        /// <value>the decedent's date of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DateOfBirth = "1940-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
+        /// </example>
+        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        public string DateOfBirth
+        {
+            get
+            {
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).birthDate");
+            }
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
+                if (Decedent.BirthDateElement == null){
+                    Decedent.BirthDateElement = new Date();
+                }
+                Decedent.BirthDateElement.Value = value.Trim();
+            }
+        }
+
+        
         /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
         /// <value>the decedent's date of birth date part absent reason</value>
         /// <example>
@@ -3081,15 +3110,15 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
-        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, ProfileURL.Decedent, true, 14)]
+        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
-        public Tuple<string,string>[] DateOfBirth
+        public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
             get
             {
                 if (Decedent.BirthDateElement != null){
-                    Extension datePart = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate").FirstOrDefault();
-                    return DatePartsToArray(datePart);
+                    Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
+                    return DatePartsToArray(datePartAbsent);
                 }
                 return null;
             }
@@ -3099,27 +3128,17 @@ namespace VRDR
                 {
                     if (Decedent.BirthDateElement != null){
                         // Clear the previous date part absent and rebuild with the new data
-                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate");
+                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     }
 
                     Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate";
+                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)
                     {
                         if (element != null)
                         {
                             Extension datePartDetails = new Extension();
-                            switch (element.Item1){
-                                case "Date-Year":
-                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year";
-                                    break;
-                                case "Date-Month":
-                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month";
-                                    break;
-                                case "Date-Day":
-                                    datePartDetails.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day";
-                                    break;
-                            }
+                            datePartDetails.Url = element.Item1;
                             datePartDetails.Value = DatePartToIntegerOrCode(element);
                             datePart.Extension.Add(datePartDetails);
                         }
@@ -3378,6 +3397,33 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Ethnicity 1 Helper</summary>
+        /// <value>Decedent's Ethnicity 1.</value>
+        /// <example>
+        /// <para>// Setter:</para> 
+        /// <para>ExampleDeathRecord.EthnicityLevel = VRDR.ValueSets.YesNoUnknown.Yes;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 1 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 1.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public string Ethnicity1Helper
+        {
+            get
+            {
+                if (Ethnicity1.ContainsKey("code"))
+                {
+                    return Ethnicity1["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
         /// <summary>Decedent's Ethnicity Hispanic Puerto Rican.</summary>
         /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -3424,6 +3470,33 @@ namespace VRDR
                 component.Code = DictToCodeableConcept(coding);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceandEthnicity.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity 2 Helper</summary>
+        /// <value>Decedent's Ethnicity 2.</value>
+        /// <example>
+        /// <para>// Setter:</para> 
+        /// <para>ExampleDeathRecord.Ethnicity2Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 2 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 2.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public string Ethnicity2Helper
+        {
+            get
+            {
+                if (Ethnicity2.ContainsKey("code"))
+                {
+                    return Ethnicity2["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
@@ -3476,6 +3549,33 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Ethnicity 3 Helper</summary>
+        /// <value>Decedent's Ethnicity 3.</value>
+        /// <example>
+        /// <para>// Setter:</para> 
+        /// <para>ExampleDeathRecord.Ethnicity3Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity3Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 3 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 3.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public string Ethnicity3Helper
+        {
+            get
+            {
+                if (Ethnicity3.ContainsKey("code"))
+                {
+                    return Ethnicity3["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
         /// <summary>Decedent's Ethnicity Hispanic Other.</summary>
         /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -3525,6 +3625,33 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Ethnicity 4 Helper</summary>
+        /// <value>Decedent's Ethnicity 4.</value>
+        /// <example>
+        /// <para>// Setter:</para> 
+        /// <para>ExampleDeathRecord.Ethnicity4Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity4Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 4 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 4.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        public string Ethnicity4Helper
+        {
+            get
+            {
+                if (Ethnicity4.ContainsKey("code"))
+                {
+                    return Ethnicity4["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
         /// <summary>Decedent's Ethnicity Hispanic Literal.</summary>
         /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -3538,9 +3665,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
         /// </example>
         [Property("EthnicityLiteral", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("ethnicity", "The literal string to describe ethnicity.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
         public string EthnicityLiteral
         {

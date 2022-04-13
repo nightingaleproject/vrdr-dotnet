@@ -1289,7 +1289,7 @@ namespace VRDR.Tests
             Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
             Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
             //The DateOfBirth value is not set when there are date part absents, is this acceptable?
-            //Assert.Equal("0001-01-24", dr1.DateOfBirth); 
+            //Assert.Equal("0001-01-24", dr1.DateOfBirth);
 
         }
 
@@ -1725,24 +1725,24 @@ namespace VRDR.Tests
             mserv.Add("code", "Y");
             mserv.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
             mserv.Add("display", "Yes");
-            SetterDeathRecord.MilitaryService = mserv;
+            SetterDeathRecord.MilitaryServiceHelper = "Y";
             Assert.Equal("Y", SetterDeathRecord.MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, SetterDeathRecord.MilitaryService["system"]);
             Assert.Equal("Yes", SetterDeathRecord.MilitaryService["display"]);
-            Assert.True(SetterDeathRecord.MilitaryServiceBoolean);
+            Assert.Equal("Y",SetterDeathRecord.MilitaryServiceHelper);
         }
 
         [Fact]
         public void Get_MilitaryService()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).MilitaryService["display"]);
-            Assert.True(((DeathRecord)JSONRecords[0]).MilitaryServiceBoolean);
+            Assert.Equal("Y",((DeathRecord)JSONRecords[0]).MilitaryServiceHelper);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).MilitaryService["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).MilitaryService["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).MilitaryService["display"]);
-            Assert.True(((DeathRecord)XMLRecords[0]).MilitaryServiceBoolean);
+            Assert.Equal("Y",((DeathRecord)XMLRecords[0]).MilitaryServiceHelper);
         }
 
         [Fact]

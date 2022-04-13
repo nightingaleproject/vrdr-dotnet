@@ -826,7 +826,7 @@ namespace VRDR
                     return yearPart;
                 }
                 return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1295,7 +1295,7 @@ namespace VRDR
                     return dayPart;
                 }
                 return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
-                
+
             }
             set
             {
@@ -1341,7 +1341,7 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } else 
+                } else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
@@ -1738,13 +1738,13 @@ namespace VRDR
         {
             get
             {
-                
+
                 String monthPart = DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
                 if (!String.IsNullOrWhiteSpace(monthPart)){
                     return monthPart;
                 }
                 return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1756,7 +1756,7 @@ namespace VRDR
                     dateParts.RemoveAll(x => x.Item1 == "date-month");
                     record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
-                DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);   
+                DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
             }
         }
 
@@ -1771,7 +1771,7 @@ namespace VRDR
                     return dayPart;
                 }
                 return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1818,7 +1818,7 @@ namespace VRDR
                 else
                 {
                     DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
-                } 
+                }
             }
         }
 
@@ -3871,42 +3871,13 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("ARMEDF", "MilitaryService", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "MilitaryService", "ARMEDF");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "Y");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "N");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("ARMEDF", "MilitaryService", "code", "UNK");
-                            Dictionary_Set("ARMEDF", "MilitaryService", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("ARMEDF", "MilitaryService", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "ARMEDF", "MilitaryService", value);
             }
+
         }
 
         /// <summary>Death Institution name</summary>

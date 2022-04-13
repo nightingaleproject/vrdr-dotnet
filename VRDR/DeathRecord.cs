@@ -152,6 +152,22 @@ namespace VRDR
         /// <summary>Usual Work.</summary>
         private Observation UsualWork;
 
+        /// <summary>Create Usual Work.</summary>
+        private void CreateUsualWork(){
+            UsualWork = new Observation();
+            UsualWork.Id = Guid.NewGuid().ToString();
+            UsualWork.Meta = new Meta();
+            string[] usualwork_profile = { ProfileURL.DecedentUsualWork };
+            UsualWork.Meta.Profile = usualwork_profile;
+            UsualWork.Status = ObservationStatus.Final;
+            UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
+            UsualWork.Category.Add(new CodeableConcept(CodeSystems.ObservationCategory,"social-history",null, null));
+            UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            UsualWork.Effective = new Period();
+            AddReferenceToComposition(UsualWork.Id);
+            Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+        }
+
         /// <summary>Whether the decedent served in the military</summary>
         private Observation MilitaryServiceObs;
 
@@ -3141,7 +3157,7 @@ namespace VRDR
                         // Clear the previous date part absent and rebuild with the new data
                         Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     }
-                    
+
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)
@@ -4599,7 +4615,6 @@ namespace VRDR
                 }
             }
         }
-
         /// <summary>Decedent's Usual Occupation (Code).</summary>
         /// <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -4616,7 +4631,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", false, 39)]
+        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, IGURL.DecedentUsualWork, false, 39)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4636,23 +4651,10 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    UsualWork.Effective = new Period();
-                    UsualWork.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                    CreateUsualWork();
                 }
-                else
-                {
-                    UsualWork.Value = DictToCodeableConcept(value);
-                }
+                UsualWork.Value = DictToCodeableConcept(value);
+
             }
         }
 
@@ -4664,7 +4666,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
         /// </example>
-        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 40)]
+        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 40)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupation
         {
@@ -4696,7 +4698,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Start of Usual Occupation: {ExampleDeathRecord.UsualOccupationStart}");</para>
         /// </example>
-        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 41)]
+        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 41)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupationStart
         {
@@ -4712,25 +4714,12 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateUsualWork();
                     UsualWork.Effective = new Period(new FhirDateTime(value), null);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
-                else if (UsualWork.Effective as Period != null)
+                if (UsualWork.Effective as Period != null)
                 {
                     ((Period)UsualWork.Effective).Start = value;
-                }
-                else
-                {
-                    UsualWork.Effective = new Period(new FhirDateTime(value), null);
                 }
             }
         }
@@ -4743,7 +4732,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"End of Usual Occupation: {ExampleDeathRecord.UsualOccupationEnd}");</para>
         /// </example>
-        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 42)]
+        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupationEnd
         {
@@ -4759,29 +4748,15 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateUsualWork();
                     UsualWork.Effective = new Period(null, new FhirDateTime(value));
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
-                else if (UsualWork.Effective as Period != null)
+                if (UsualWork.Effective as Period != null)
                 {
                     ((Period)UsualWork.Effective).End = value;
                 }
-                else
-                {
-                    UsualWork.Effective = new Period(null, new FhirDateTime(value));
-                }
             }
         }
-
         /// <summary>Decedent's Usual Industry (Code).</summary>
         /// <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -4798,7 +4773,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
         /// </example>
-        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", false, 43)]
+        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, IGURL.DecedentUsualWork, false, 43)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4822,30 +4797,16 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    UsualWork.Meta.Profile = employmenthistory_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    UsualWork.Effective = new Period();
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                    CreateUsualWork();
                 }
-                else
-                {
-                    UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
-                }
+
+                UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
+
+                component.Value = DictToCodeableConcept(value);
+                UsualWork.Component.Add(component);
+
             }
         }
 
@@ -4857,7 +4818,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
         /// </example>
-        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 44)]
+        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, IGURL.DecedentUsualWork, true, 44)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualIndustry
         {
@@ -4919,7 +4880,7 @@ namespace VRDR
                     MilitaryServiceObs = new Observation();
                     MilitaryServiceObs.Id = Guid.NewGuid().ToString();
                     MilitaryServiceObs.Meta = new Meta();
-                    string[] militaryhistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" };
+                    string[] militaryhistory_profile = { ProfileURL.DecedentMilitaryService };
                     MilitaryServiceObs.Meta.Profile = militaryhistory_profile;
                     MilitaryServiceObs.Status = ObservationStatus.Final;
                     MilitaryServiceObs.Code = new CodeableConcept(CodeSystems.LOINC, "55280-2", "Military service Narrative", null);
@@ -4939,49 +4900,25 @@ namespace VRDR
         /// <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MilitaryServiceBoolean = true;</para>
+        /// <para>ExampleDeathRecord.MilitaryServiceHelper = Y;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceBoolean}");</para>
+        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</para>
         /// </example>
-        [Property("Military Service Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
+        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
-        public bool? MilitaryServiceBoolean
+         public string MilitaryServiceHelper
         {
             get
             {
-                var code = this.MilitaryService;
-                switch (code["code"])
+                if (MilitaryService.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Unknown
-                        return null;
+                    return(MilitaryService["code"]);
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "UNK";
-                        code["display"] = "unknown";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.MilitaryService = code;
+                SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 

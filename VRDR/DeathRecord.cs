@@ -2869,109 +2869,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Alias Name(s). Middle name should be the last entry.</summary>
-        /// <value>the decedent's alias name (first, etc., middle)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>string[] names = { "FirstAlias", "MiddleAlias" };</para>
-        /// <para>ExampleDeathRecord.AliasGivenNames = names;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
-        /// </example>
-        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 7)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "first")]
-        public string[] AliasGivenNames
-        {
-            get
-            {
-                string[] names = GetAllString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').given");
-                return names != null ? names : new string[0];
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    name.Given = value;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Alias Family Name.</summary>
-        /// <value>the decedent's alias family name (i.e. last name)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AliasFamilyName = "AliasLast";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
-        /// </example>
-        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 8)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "family")]
-        public string AliasFamilyName
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').family");
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    name.Family = value;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    name.Family = value;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Alias Suffix.</summary>
-        /// <value>the decedent's alias suffix</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AliasSuffix = "Jr.";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
-        /// </example>
-        [Property("Alias Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 9)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "suffix")]
-        public string AliasSuffix
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').suffix");
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
         /// <summary>Decedent's Maiden Name.</summary>
         /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
         /// <example>
@@ -3141,7 +3038,7 @@ namespace VRDR
                         // Clear the previous date part absent and rebuild with the new data
                         Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
                     }
-                    
+
                     Extension datePart = new Extension();
                     datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
                     foreach (Tuple<string, string> element in value)

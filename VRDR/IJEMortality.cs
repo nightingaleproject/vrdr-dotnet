@@ -826,7 +826,7 @@ namespace VRDR
                     return yearPart;
                 }
                 return DateTime_Get("DOD_YR", "yyyy", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1295,7 +1295,7 @@ namespace VRDR
                     return dayPart;
                 }
                 return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
-                
+
             }
             set
             {
@@ -1341,7 +1341,7 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } else 
+                } else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
@@ -1738,13 +1738,13 @@ namespace VRDR
         {
             get
             {
-                
+
                 String monthPart = DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
                 if (!String.IsNullOrWhiteSpace(monthPart)){
                     return monthPart;
                 }
                 return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1756,7 +1756,7 @@ namespace VRDR
                     dateParts.RemoveAll(x => x.Item1 == "date-month");
                     record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
                 }
-                DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);   
+                DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
             }
         }
 
@@ -1771,7 +1771,7 @@ namespace VRDR
                     return dayPart;
                 }
                 return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
-                
+
             }
             set
             {
@@ -1818,7 +1818,7 @@ namespace VRDR
                 else
                 {
                     DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
-                } 
+                }
             }
         }
 
@@ -4139,30 +4139,40 @@ namespace VRDR
         /// <summary>Spouse's First Name</summary>
         [IJEField(144, 1385, 50, "Spouse's First Name", "SPOUSEF", 1)]
         public string SPOUSEF
+        // TODO: Implement mapping from FHIR record location: DecedentSpouse
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                string[] names = record.SpouseGivenNames;
+                if (names.Length > 0)
+                {
+                    return names[0];
+                }
                 return "";
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    record.SpouseGivenNames = new string[] { value.Trim() };
+                }
             }
         }
 
         /// <summary>Husband's Surname/Wife's Maiden Last Name</summary>
         [IJEField(145, 1435, 50, "Husband's Surname/Wife's Maiden Last Name", "SPOUSEL", 1)]
         public string SPOUSEL
-        {
+        { // TODO: Implement mapping from FHIR record location: DecedentSpouse
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentSpouse
-                return "";
+                return LeftJustified_Get("SPOUSEL", "SpouseMaidenName");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("SPOUSEL", "SpouseMaidenName", value);
+                }
             }
         }
 
@@ -4411,29 +4421,49 @@ namespace VRDR
         [IJEField(167, 1858, 50, "Father's First Name", "DDADF", 1)]
         public string DDADF
         {
+            // TODO: Implement mapping from FHIR record location: DecedentFather
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentFather
+                string[] names = record.FatherGivenNames;
+                if (names != null && names.Length > 0)
+                {
+                    return names[0];
+                }
                 return "";
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentFather
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    record.FatherGivenNames = new string[] { value.Trim() };
+                }
             }
         }
 
         /// <summary>Father's Middle Name</summary>
-        [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 1)]
+        [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 2)]
         public string DDADMID
-        {
+        {// TODO: Implement mapping to FHIR record location: DecedentFather
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentFather
+                string[] names = record.FatherGivenNames;
+                if (names != null && names.Length > 1)
+                {
+                    return names[1];
+                }
                 return "";
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentFather
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    if (record.FatherGivenNames != null)
+                    {
+                        List<string> names = record.FatherGivenNames.ToList();
+                        names.Add(value.Trim());
+                        record.FatherGivenNames = names.ToArray();
+                    }
+                }
             }
         }
 
@@ -4460,17 +4490,29 @@ namespace VRDR
         }
 
         /// <summary>Mother's Middle Name</summary>
-        [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 1)]
+        [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 2)]
         public string DMOMMID
-        {
+        {// TODO: Implement mapping to FHIR record location: DecedentMother
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentMother
+                string[] names = record.MotherGivenNames;
+                if (names != null && names.Length > 1)
+                {
+                    return names[1];
+                }
                 return "";
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentMother
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    if (record.MotherGivenNames != null)
+                    {
+                        List<string> names = record.MotherGivenNames.ToList();
+                        names.Add(value.Trim());
+                        record.MotherGivenNames = names.ToArray();
+                    }
+                }
             }
         }
 
@@ -5018,47 +5060,64 @@ namespace VRDR
         }
 
         /// <summary>Spouse's Middle Name</summary>
-        [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 1)]
+        [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 2)]
         public string SPOUSEMIDNAME
-        {
+        {// TODO: Implement mapping to FHIR record location: DecedentSpouse
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentSpouse
+                string[] names = record.SpouseGivenNames;
+                if (names != null && names.Length > 1)
+                {
+                    return names[1];
+                }
                 return "";
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    if (record.SpouseGivenNames != null)
+                    {
+                        List<string> names = record.SpouseGivenNames.ToList();
+                        names.Add(value.Trim());
+                        record.SpouseGivenNames = names.ToArray();
+                    }
+                }
             }
         }
 
         /// <summary>Spouse's Suffix</summary>
         [IJEField(198, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
         public string SPOUSESUFFIX
-        {
+         {
+            // TODO: Implement mapping from FHIR record location: DecedentSpouse
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentSpouse
-                return "";
+                return LeftJustified_Get("SPOUSESUFFIX", "Suffix");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentSpouse
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("SPOUSESUFFIX", "Suffix", value.Trim());
+                }
             }
         }
-
         /// <summary>Father's Suffix</summary>
         [IJEField(199, 3485, 10, "Father's Suffix", "FATHERSUFFIX", 1)]
         public string FATHERSUFFIX
         {
+            // TODO: Implement mapping from FHIR record location: DecedentFather
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentFather
-                return "";
+                return LeftJustified_Get("FATHERSUFFIX", "Suffix");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentFather
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("FATHERSUFFIX", "Suffix", value.Trim());
+                }
             }
         }
 
@@ -5066,14 +5125,17 @@ namespace VRDR
         [IJEField(200, 3495, 10, "Mother's Suffix", "MOTHERSSUFFIX", 1)]
         public string MOTHERSSUFFIX
         {
+            // TODO: Implement mapping from FHIR record location: DecedentMother
             get
             {
-                // TODO: Implement mapping from FHIR record location: DecedentMother
-                return "";
+                return LeftJustified_Get("MOTHERSSUFFIX", "Suffix");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DecedentMother
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("MOTHERSSUFFIX", "Suffix", value.Trim());
+                }
             }
         }
 
@@ -5400,7 +5462,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Certifier's Middle Name</summary>
+        /// <summary>Certifier's Middle Name </summary>
         [IJEField(221, 3952, 50, "Certifier's Middle Name", "CERTMIDDLE", 2)]
         public string CERTMIDDLE
         {

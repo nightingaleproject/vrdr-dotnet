@@ -118,11 +118,51 @@ namespace VRDR
         /// <summary>Decedent's Father.</summary>
         private RelatedPerson Father;
 
+                /// <summary>Create Spouse.</summary>
+        private void CreateFather(){
+            Father = new RelatedPerson();
+            Father.Id = Guid.NewGuid().ToString();
+            Father.Meta = new Meta();
+            string[] father_profile = { ProfileURL.DecedentFather };
+            Father.Meta.Profile = father_profile;
+            Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
+            AddReferenceToComposition(Father.Id);
+            Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
+        }
+
         /// <summary>Decedent's Mother.</summary>
         private RelatedPerson Mother;
 
+        /// <summary>Create Mother.</summary>
+        private void CreateMother(){
+            Mother = new RelatedPerson();
+            Mother.Id = Guid.NewGuid().ToString();
+            Mother.Meta = new Meta();
+            string[] mother_profile = { ProfileURL.DecedentMother };
+            Mother.Meta.Profile = mother_profile;
+            Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
+            AddReferenceToComposition(Mother.Id);
+            Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
+        }
+
         /// <summary>Decedent's Spouse.</summary>
         private RelatedPerson Spouse;
+
+        /// <summary>Create Spouse.</summary>
+        private void CreateSpouse(){
+            Spouse = new RelatedPerson();
+            Spouse.Id = Guid.NewGuid().ToString();
+            Spouse.Meta = new Meta();
+            string[] spouse_profile = { ProfileURL.DecedentSpouse };
+            Spouse.Meta.Profile = spouse_profile;
+            Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
+            AddReferenceToComposition(Spouse.Id);
+            Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+        }
+
 
         /// <summary>Decedent Education Level.</summary>
         private Observation DecedentEducationLevel;
@@ -3690,14 +3730,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
         /// </example>
-        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 28)]
+        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, IGURL.DecedentFather , false, 28)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string[] FatherGivenNames
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Given != null) {
-                    return Father.Name.First().Given.ToArray();
+                if (Father != null && Father.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3705,22 +3748,19 @@ namespace VRDR
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
+                    CreateFather();
+                }
+                   HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
-                }
-                else
-                {
-                    Father.Name.First().Given = value;
                 }
 
             }
@@ -3734,14 +3774,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
         /// </example>
-        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 29)]
+        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, IGURL.DecedentFather, false, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherFamilyName
         {
-            get
+           get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Family != null) {
-                    return Father.Name.First().Family;
+                if (Father != null && Father.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').family");
                 }
                 return null;
             }
@@ -3749,24 +3789,20 @@ namespace VRDR
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
+                    CreateFather();
+                }
+                HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Family = value;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
                 }
-                else
-                {
-                    Father.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -3778,40 +3814,37 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
         /// </example>
-        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 30)]
+        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, IGURL.DecedentFather, false, 30)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherSuffix
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Suffix != null) {
-
-                    return Father.Name.First().Suffix.FirstOrDefault();
+                if (Father != null && Father.Name != null ) {
+                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
+                    return suffixes != null ? suffixes[0] : null;
                 }
                 return null;
             }
+
             set
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
+                    CreateFather();
+                }
+                HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Suffix = suffix;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
-                }
-                else
-                {
-                    string[] suffix = { value };
-                    Father.Name.First().Suffix = suffix;
                 }
 
             }
@@ -3826,14 +3859,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
         /// </example>
-        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 31)]
+        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, IGURL.DecedentMother, false, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string[] MotherGivenNames
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
-                    return Mother.Name.First().Given.ToArray();
+                if (Mother != null && Mother.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3841,22 +3877,19 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                   HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    Mother.Name.First().Given = value;
                 }
 
             }
@@ -3870,14 +3903,15 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
         /// </example>
-        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 32)]
+        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, IGURL.DecedentMother, false, 32)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherMaidenName
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
-                    return Mother.Name.First().Family;
+
+                if (Mother != null && Mother.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -3885,24 +3919,20 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
                     name.Family = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
                 }
-                else
-                {
-                    Mother.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -3914,40 +3944,37 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
         /// </example>
-        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 33)]
+        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, IGURL.DecedentMother, false, 33)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherSuffix
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null) {
-
-                    return Mother.Name.First().Suffix.FirstOrDefault();
+                if (Mother != null && Mother.Name != null ) {
+                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
+                    return suffixes != null ? suffixes[0] : null;
                 }
                 return null;
             }
+
             set
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Suffix = suffix;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    string[] suffix = { value };
-                    Mother.Name.First().Suffix = suffix;
                 }
 
             }
@@ -3962,14 +3989,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
         /// </example>
-        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 25)]
+        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, IGURL.DecedentSpouse, false, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string[] SpouseGivenNames
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null) {
-                    return Spouse.Name.First().Given.ToArray();
+                if (Spouse != null && Spouse.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3977,22 +4007,19 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                   HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
-                }
-                else
-                {
-                    Spouse.Name.First().Given = value;
                 }
 
             }
@@ -4006,14 +4033,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
         /// </example>
-        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 26)]
+        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, IGURL.DecedentSpouse, false, 26)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseFamilyName
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null) {
-                    return Spouse.Name.First().Family;
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').family");
                 }
                 return null;
             }
@@ -4021,24 +4048,20 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Family = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
                 }
-                else
-                {
-                    Spouse.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -4050,15 +4073,59 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
         /// </example>
-        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 27)]
+        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, IGURL.DecedentSpouse, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseSuffix
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null) {
+                if (Spouse != null && Spouse.Name != null ) {
+                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
+                    return suffixes != null ? suffixes[0] : null;
+                }
+                return null;
+            }
 
-                    return Spouse.Name.First().Suffix.FirstOrDefault();
+            set
+            {
+                if (Spouse == null)
+                {
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Suffix = suffix;
+                    Spouse.Name.Add(name);
+                }
+
+            }
+        }
+
+        /// <summary>Spouse's Maiden Name.</summary>
+        /// <value>the decedent's spouse's maiden name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
+        /// </example>
+        [Property("Spouse Maiden Name", Property.Types.String, "Decedent Demographics", "Spouse's Maiden Name.", true, IGURL.DecedentSpouse, false, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden')", "family")]
+public string SpouseMaidenName
+        {
+            get
+            {
+
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -4066,29 +4133,22 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+                    CreateSpouse();
                 }
-                else
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
-                    string[] suffix = { value };
-                    Spouse.Name.First().Suffix = suffix;
+                    name.Family = value;
                 }
-
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
+                    name.Family = value;
+                    Spouse.Name.Add(name);
+                }
             }
         }
-
         /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
         private void CreateEmptyEducationLevelObservation()
         {
@@ -4120,7 +4180,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, ProfileURL.DecedentEducationLevel, false, 34)]
+        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -7707,6 +7767,7 @@ namespace VRDR
                     if (!causeConditions.Contains((Condition)condition.Resource))
                     {
                         remainingConditions.Add((Condition)condition.Resource);
+
                     }
                 }
             }

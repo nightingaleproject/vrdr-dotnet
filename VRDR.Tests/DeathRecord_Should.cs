@@ -1458,6 +1458,19 @@ namespace VRDR.Tests
             Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).SpouseFamilyName);
         }
 
+    [Fact]
+        public void Set_SpouseMaidenName()
+        {
+            SetterDeathRecord.SpouseMaidenName = "Maiden";
+            Assert.Equal("Maiden", SetterDeathRecord.SpouseMaidenName);
+        }
+
+        [Fact]
+        public void Get_SpouseMaidenName()
+        {
+            Assert.Equal("Maiden", ((DeathRecord)JSONRecords[0]).SpouseMaidenName);
+            Assert.Equal("Maiden", ((DeathRecord)XMLRecords[0]).SpouseMaidenName);
+        }
         [Fact]
         public void Set_SpouseSuffix()
         {

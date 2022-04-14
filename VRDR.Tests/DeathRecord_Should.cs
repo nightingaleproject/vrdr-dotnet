@@ -20,6 +20,7 @@ namespace VRDR.Tests
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
+            //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
             SetterDeathRecord = new DeathRecord();
         }
 
@@ -226,28 +227,7 @@ namespace VRDR.Tests
             DeathRecord d2 = ije2.ToDeathRecord();
 
             // Ethnicity tuple
-            bool hispanicOrLatino = false;
-            bool puertoRican = false;
-            // IJE format is limited in roundtripping "other" hispanic origin types like Dominican
-            foreach(var pair in d2.Ethnicity)
-            {
-                switch(pair.Item1)
-                {
-                    case "Hispanic or Latino":
-                        Assert.Equal("2135-2", pair.Item2);
-                        hispanicOrLatino = true;
-                        break;
-                    case "Puerto Rican":
-                        Assert.Equal("2180-8", pair.Item2);
-                        puertoRican = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            Assert.Equal(2, d2.Ethnicity.Length);
-            Assert.True(hispanicOrLatino);
-            Assert.True(puertoRican);
+            Assert.Equal(d2.Ethnicity2Helper, "Y");
 
             // Race tuple
             bool americanIndian = false;
@@ -273,7 +253,7 @@ namespace VRDR.Tests
                         break;
                 }
             }
-            Assert.Equal(3, d2.Race.Length);
+            Assert.Equal(3, d2.Race.Count);
             Assert.True(americanIndian);
             Assert.True(israeili);
             Assert.True(minnesotaChippewa);
@@ -1189,24 +1169,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Ethnicity()
         {
-            SetterDeathRecord.EthnicityText = "Not Hispanic or Latino";
-            Assert.Equal("Not Hispanic or Latino", SetterDeathRecord.EthnicityText);
-            Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
-            SetterDeathRecord.Ethnicity = ethnicity;
-            Assert.Equal(ethnicity[0], SetterDeathRecord.Ethnicity[0]);
-            Assert.Equal(ethnicity[1], SetterDeathRecord.Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", SetterDeathRecord.EthnicityText);
+            SetterDeathRecord.EthnicityLiteral = "Hispanic or Latino, Puerto Rican";
+            SetterDeathRecord.Ethnicity2Helper = "Y";
+            Assert.Equal("Y", SetterDeathRecord.Ethnicity2Helper);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", SetterDeathRecord.EthnicityLiteral);
         }
 
         [Fact]
         public void Get_Ethnicity()
         {
-            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)JSONRecords[0]).Ethnicity[0]);
-            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)JSONRecords[0]).Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)JSONRecords[0]).EthnicityText);
-            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)XMLRecords[0]).Ethnicity[0]);
-            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)XMLRecords[0]).Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)XMLRecords[0]).EthnicityText);
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).Ethnicity4Helper);
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).Ethnicity2Helper);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)JSONRecords[0]).EthnicityLiteral);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).Ethnicity4Helper);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).Ethnicity2Helper);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)XMLRecords[0]).EthnicityLiteral);
         }
 
         [Fact]
@@ -1252,26 +1229,47 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            SetterDeathRecord.RaceText = "White";
-            Assert.Equal("White", SetterDeathRecord.RaceText);
-            Tuple<string, string>[] race = {Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")};
+            List<Tuple<string, string>> race = new List<Tuple<string, string>>{Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander")};
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander", SetterDeathRecord.RaceText);
+            Assert.Equal(race[2], SetterDeathRecord.Race[2]);
         }
 
         [Fact]
         public void Get_Race()
         {
-            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)JSONRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)JSONRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)JSONRecords[0]).Race[2]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)JSONRecords[0]).RaceText);
-            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)XMLRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)XMLRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)XMLRecords[0]).Race[2]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)XMLRecords[0]).RaceText);
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)JSONRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)JSONRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)JSONRecords[0]).Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)JSONRecords[0]).Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)JSONRecords[0]).Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)JSONRecords[0]).Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)JSONRecords[0]).Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)JSONRecords[0]).Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)JSONRecords[0]).Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)JSONRecords[0]).Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)JSONRecords[0]).Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)JSONRecords[0]).Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)JSONRecords[0]).Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)JSONRecords[0]).Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)JSONRecords[0]).Race[14]);
+
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)XMLRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)XMLRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)XMLRecords[0]).Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)XMLRecords[0]).Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)XMLRecords[0]).Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)XMLRecords[0]).Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)XMLRecords[0]).Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)XMLRecords[0]).Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)XMLRecords[0]).Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)XMLRecords[0]).Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)XMLRecords[0]).Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)XMLRecords[0]).Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)XMLRecords[0]).Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)XMLRecords[0]).Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)XMLRecords[0]).Race[14]);
         }
 
         [Fact]

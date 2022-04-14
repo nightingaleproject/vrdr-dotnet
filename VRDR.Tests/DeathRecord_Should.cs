@@ -2229,6 +2229,14 @@ namespace VRDR.Tests
             Assert.Equal(ValueSets.TransportationRoles.Passenger, SetterDeathRecord.TransportationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
+            SetterDeathRecord.TransportationRoleHelper = "Hover Board Rider";
+            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRoleHelper);
+            Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRole["text"]);
+            Assert.Equal("OTH", SetterDeathRecord.TransportationRole["code"]);
+            Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.TransportationRole["system"]);
+            Assert.Equal("Other", SetterDeathRecord.TransportationRole["display"]);
+
+
         }
 
         [Fact]

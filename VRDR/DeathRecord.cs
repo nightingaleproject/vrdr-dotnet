@@ -283,6 +283,20 @@ namespace VRDR
         /// <summary>Transportation Role.</summary>
         private Observation TransportationRoleObs;
 
+        /// <summary>Create Transportation Role. </summary>
+        private void CreateTransportationRoleObs(){
+            TransportationRoleObs = new Observation();
+            TransportationRoleObs.Id = Guid.NewGuid().ToString();
+            TransportationRoleObs.Meta = new Meta();
+            string[] t_profile = { VRDR.ProfileURL.DecedentTransportationRole };
+            TransportationRoleObs.Meta.Profile = t_profile;
+            TransportationRoleObs.Status = ObservationStatus.Final;
+            TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
+            TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(TransportationRoleObs.Id);
+            Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
+        }
+
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
 
@@ -7228,22 +7242,10 @@ public string SpouseMaidenName
             {
                 if (TransportationRoleObs == null)
                 {
-                    TransportationRoleObs = new Observation();
-                    TransportationRoleObs.Id = Guid.NewGuid().ToString();
-                    TransportationRoleObs.Meta = new Meta();
-                    string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
-                    TransportationRoleObs.Meta.Profile = t_profile;
-                    TransportationRoleObs.Status = ObservationStatus.Final;
-                    TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-                    TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(TransportationRoleObs.Id);
-                    Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
+                    CreateTransportationRoleObs();
                 }
-                else
-                {
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                }
+                TransportationRoleObs.Value = DictToCodeableConcept(value);
+
             }
         }
         /// <summary>Transportation Role in death helper.</summary>
@@ -7265,13 +7267,29 @@ public string SpouseMaidenName
             {
                 if (TransportationRole.ContainsKey("code"))
                 {
-                    return TransportationRole["code"] ;
+                    string code = TransportationRole["code"] ;
+                    if (code == "OTH"){
+                        if (TransportationRole.ContainsKey("text")){
+                            return (TransportationRole["text"]);
+                        }
+                        return("Other");
+                    }
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value)){ //other
+                    if (TransportationRoleObs == null)
+                    {
+                        CreateTransportationRoleObs();
+                    }
+                    TransportationRoleObs.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value);
+                }
+                else
+                { // normal path
+                    SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                }
             }
         }
 

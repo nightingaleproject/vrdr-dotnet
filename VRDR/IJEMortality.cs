@@ -722,32 +722,32 @@ namespace VRDR
             record.Race = raceStatus.Distinct().ToList().ToArray();
         }
 
-        /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
-        private string Get_YNU(string fhirFieldName)
-        {
-            object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (status == null)
-            {
-                return "U";
-            }
-            else
-            {
-                return ((bool)status) ? "Y" : "N";
-            }
-        }
+        // /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
+        // private string Get_YNU(string fhirFieldName)
+        // {
+        //     object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+        //     if (status == null)
+        //     {
+        //         return "U";
+        //     }
+        //     else
+        //     {
+        //         return ((bool)status) ? "Y" : "N";
+        //     }
+        // }
 
-        /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
-        private void Set_YNU(string fhirFieldName, string value)
-        {
-            if (value != "U" && value == "Y")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
-            }
-            else if (value != "U" && value == "N")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
-            }
-        }
+        // /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
+        // private void Set_YNU(string fhirFieldName, string value)
+        // {
+        //     if (value != "U" && value == "Y")
+        //     {
+        //         typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
+        //     }
+        //     else if (value != "U" && value == "N")
+        //     {
+        //         typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
+        //     }
+        // }
 
         /// <summary>Given a Dictionary mapping FHIR codes to IJE strings and the relevant FHIR and IJE fields pull the value
         /// from the FHIR record object and provide the appropriate IJE string</summary>
@@ -4530,20 +4530,17 @@ namespace VRDR
             }
         }
 
-        /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
+             /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         [IJEField(172, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
         {
             get
             {
-                return Get_YNU("ExaminerContactedBoolean");
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "ExaminerContacted", "REFERRED");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("ExaminerContactedBoolean", value);
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "REFERRED", "ExaminerContacted", value);
             }
         }
 

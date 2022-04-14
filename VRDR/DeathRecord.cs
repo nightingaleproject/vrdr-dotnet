@@ -6551,7 +6551,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
         /// </example>
-        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", true, 26)]
+        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, IGURL.ExaminerContacted, true, 26)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6575,7 +6575,7 @@ public string SpouseMaidenName
                     ExaminerContactedObs = new Observation();
                     ExaminerContactedObs.Id = Guid.NewGuid().ToString();
                     ExaminerContactedObs.Meta = new Meta();
-                    string[] ec_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
+                    string[] ec_profile = { ProfileURL.ExaminerContacted };
                     ExaminerContactedObs.Meta.Profile = ec_profile;
                     ExaminerContactedObs.Status = ObservationStatus.Final;
                     ExaminerContactedObs.Code = new CodeableConcept(CodeSystems.LOINC, "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
@@ -6599,45 +6599,21 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted Boolean", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", true, 27)]
+        [Property("Examiner Contacted Helper", Property.Types.String, "Death Investigation", "Examiner Contacted.", true, IGURL.ExaminerContacted, true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
-        public bool? ExaminerContactedBoolean
+        public string ExaminerContactedHelper
         {
             get
             {
-                var code = this.ExaminerContacted;
-                switch (code["code"])
+                if (ExaminerContacted.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Unknown
-                        return null;
+                    return ExaminerContacted["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "UNK";
-                        code["display"] = "unknown";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.ExaminerContacted = code;
+                SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 

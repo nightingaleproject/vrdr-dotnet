@@ -168,7 +168,7 @@ namespace VRDR
             record.COD1B = "breast cancer";
             record.INTERVAL1B = "20 years";
 
-            record.ExaminerContactedBoolean = false;
+            record.ExaminerContactedHelper = "N";
 
             Dictionary<string, string> manner = new Dictionary<string, string>();
             manner.Add("code", "38605008");
@@ -351,7 +351,7 @@ namespace VRDR
 
             record.ContributingConditions = "hypertensive heart disease";
 
-            record.ExaminerContactedBoolean = true;
+            record.ExaminerContactedHelper = "Y";
 
             Dictionary<string, string> manner = new Dictionary<string, string>();
             manner.Add("code", "7878000");
@@ -552,7 +552,7 @@ namespace VRDR
             record.COD1B = "Eclampsia";
             record.INTERVAL1B = "3 months";
 
-            record.ExaminerContactedBoolean = true;
+            record.ExaminerContactedHelper = "Y";
 
             Dictionary<string, string> manner = new Dictionary<string, string>();
             manner.Add("code", "38605008");
@@ -758,14 +758,14 @@ namespace VRDR
 
             record.COD1A = "Blunt head trauma";
             record.COD1B = "Automobile accident";
-            record.ExaminerContactedBoolean = null; // use null to set to unknown
+            record.ExaminerContactedHelper = "UNK"; // use null to set to unknown
             if (fullRecord)
             {
                 record.INTERVAL1A = "30 min";
                 record.INTERVAL1B = "30 min";
                 record.COD1C = "Epilepsy";
                 record.INTERVAL1C = "20 years";
-                record.ExaminerContactedBoolean = true;
+                record.ExaminerContactedHelper = "Y";
                 record.InjuryLocationDescription = "15 Industrial Drive 19901 US";
             }
 

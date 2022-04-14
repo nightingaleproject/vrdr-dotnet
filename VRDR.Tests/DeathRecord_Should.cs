@@ -2219,36 +2219,36 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ec = new Dictionary<string, string>();
             ec.Add("code", "Y");
-            ec.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+            ec.Add("system", VRDR.CodeSystems.YesNo);
             ec.Add("display", "Yes");
             SetterDeathRecord.ExaminerContacted = ec;
             Assert.Equal("Y", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("Yes", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.True(SetterDeathRecord.ExaminerContactedBoolean);
-            SetterDeathRecord.ExaminerContactedBoolean = false;
+            Assert.Equal("Y", SetterDeathRecord.ExaminerContactedHelper);
+            SetterDeathRecord.ExaminerContactedHelper = "N";
             Assert.Equal("N", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("No", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.False(SetterDeathRecord.ExaminerContactedBoolean);
-            SetterDeathRecord.ExaminerContactedBoolean = null;
+            Assert.Equal("N", SetterDeathRecord.ExaminerContactedHelper);
+            SetterDeathRecord.ExaminerContactedHelper = "UNK";
             Assert.Equal("UNK", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("unknown", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.Null(SetterDeathRecord.ExaminerContactedBoolean);
+            Assert.Equal("UNK",SetterDeathRecord.ExaminerContactedHelper);
         }
 
         [Fact]
         public void Get_ExaminerContacted()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
-            Assert.False(((DeathRecord)JSONRecords[0]).ExaminerContactedBoolean);
+            Assert.Equal("N",((DeathRecord)JSONRecords[0]).ExaminerContactedHelper);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
-            Assert.False(((DeathRecord)XMLRecords[0]).ExaminerContactedBoolean);
+            Assert.Equal("N",((DeathRecord)XMLRecords[0]).ExaminerContactedHelper);
         }
 
         [Fact]

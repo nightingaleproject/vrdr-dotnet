@@ -3443,62 +3443,16 @@ namespace VRDR
         }
 
         /// <summary>Did Tobacco Use Contribute to Death?</summary>
-        /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         [IJEField(111, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
-            // Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
             get
             {
-                string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");
-                switch (code)
-                {
-                    case "373066001": // Yes
-                        return "Y";
-                    case "373067005": // No
-                        return "N";
-                    case "2931005": // Probably
-                        return "P";
-                    case "UNK": // Unknown
-                        return "U";
-                    case "NASK": // Not asked
-                        return "C"; // maps to not on certificate
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.ContributoryTobaccoUse.FHIRToIJE, "TobaccoUse", "TOBAC");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373066001");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373067005");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
-                            break;
-                        case "P":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "2931005");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Probably");
-                            break;
-                        case "U":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Unknown");
-                            break;
-                        case "C":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "NASK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Not asked");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.ContributoryTobaccoUse.IJEToFHIR, "TOBAC", "TobaccoUse", value);
             }
         }
 

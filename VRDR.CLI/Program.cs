@@ -352,7 +352,7 @@ namespace VRDR.CLI
                 deathRecord.TransportationRole = tr;
 
                 // ExaminerContacted
-                deathRecord.ExaminerContactedBoolean = false;
+                deathRecord.ExaminerContactedHelper = "N";
 
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();

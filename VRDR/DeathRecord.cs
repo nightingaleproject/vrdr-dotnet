@@ -7241,7 +7241,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
         /// </example>
-        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Tobacco-Use-Contributed-To-Death.html", true, 32)]
+        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, IGURL.TobaccoUseContributedToDeath , true, 32)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -7263,7 +7263,7 @@ public string SpouseMaidenName
                     TobaccoUseObs = new Observation();
                     TobaccoUseObs.Id = Guid.NewGuid().ToString();
                     TobaccoUseObs.Meta = new Meta();
-                    string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
+                    string[] tb_profile = { ProfileURL.TobaccoUseContributedToDeath };
                     TobaccoUseObs.Meta.Profile = tb_profile;
                     TobaccoUseObs.Status = ObservationStatus.Final;
                     TobaccoUseObs.Code = new CodeableConcept(CodeSystems.LOINC, "69443-0", "Did tobacco use contribute to death", null);
@@ -7276,6 +7276,32 @@ public string SpouseMaidenName
                 {
                     TobaccoUseObs.Value = DictToCodeableConcept(value);
                 }
+            }
+        }
+
+        /// <summary>Tobacco Use Helper. This is a convenience method, to access the code use TobaccoUse instead.</summary>
+        /// <value>From a value set..</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TobaccoUseHelper = "N";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
+        /// </example>
+        [Property("Tobacco Use Helper", Property.Types.String, "Death Investigation", "Tobacco Use.", true, IGURL.TobaccoUseContributedToDeath, true, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0')", "")]
+        public string TobaccoUseHelper
+        {
+            get
+            {
+                if (TobaccoUse.ContainsKey("code"))
+                {
+                    return TobaccoUse["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
             }
         }
 

@@ -169,33 +169,42 @@ namespace VRDR.HTTP
 
             if (record.EducationLevelHelper != null)
             {
-                switch (record.EducationLevelHelper)
+                string[,] options = ValueSets.EducationLevel.Codes;
+                // Iterate over the allowed options and see if the code supplies is one of them
+                for (int i = 0; i < options.GetLength(0); i += 1)
                 {
-                    case "PHC1448":
-                        values["education.education"] = "8th grade or less";
-                        break;
-                    case "PHC1449":
-                        values["education.education"] = "9th through 12th grade; no diploma";
-                        break;
-                    case "PHC1450":
-                        values["education.education"] = "High School Graduate or GED Completed";
-                        break;
-                    case "PHC1451":
-                        values["education.education"] = "Some college credit, but no degree";
-                        break;
-                    case "PHC1452":
-                        values["education.education"] = "Associate Degree";
-                        break;
-                    case "PHC1453":
-                        values["education.education"] = "Bachelor's Degree";
-                        break;
-                    case "PHC1454":
-                        values["education.education"] = "Master's Degree";
-                        break;
-                    case "PHC1455":
-                        values["education.education"] = "Doctorate Degree or Professional Degree";
-                        break;
+                    if (options[i, 0] == record.EducationLevelHelper)
+                    {
+                        values["education.education"] = options[i, 1];
+                    }
                 }
+                //  switch (record.EducationLevelHelper)
+                // {
+                //     case "PHC1448":
+                //         values["education.education"] = "8th grade or less";
+                //         break;
+                //     case "PHC1449":
+                //         values["education.education"] = "9th through 12th grade; no diploma";
+                //         break;
+                //     case "PHC1450":
+                //         values["education.education"] = "High School Graduate or GED Completed";
+                //         break;
+                //     case "PHC1451":
+                //         values["education.education"] = "Some college credit, but no degree";
+                //         break;
+                //     case "PHC1452":
+                //         values["education.education"] = "Associate Degree";
+                //         break;
+                //     case "PHC1453":
+                //         values["education.education"] = "Bachelor's Degree";
+                //         break;
+                //     case "PHC1454":
+                //         values["education.education"] = "Master's Degree";
+                //         break;
+                //     case "PHC1455":
+                //         values["education.education"] = "Doctorate Degree or Professional Degree";
+                //         break;
+                // }
             }
 
             if (record.MannerOfDeathTypeHelper != null)
@@ -328,9 +337,9 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber.certificateNumber"));
             SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction.deathLocationJurisdiction"));
 
-            SetYesNoValueDeathRecordBoolean(deathRecord, "MilitaryServiceBoolean", GetValue(values, "armedForcesService.armedForcesService"));
-            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyPerformedIndicatorBoolean", GetValue(values, "autopsyPerformed.autopsyPerformed"));
-            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyResultsAvailableBoolean", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
+            SetStringValueDeathRecordString(deathRecord, "MilitaryServiceHelper", GetValue(values, "armedForcesService.armedForcesService"));
+            SetStringValueDeathRecordString(deathRecord, "AutopsyPerformedIndicatorHelper", GetValue(values, "autopsyPerformed.autopsyPerformed"));
+            SetStringValueDeathRecordString(deathRecord, "AutopsyResultsAvailableHelper", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
             SetYesNoValueDeathRecordBoolean(deathRecord, "ExaminerContactedBoolean", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
             SetYesNoValueDeathRecordCode(deathRecord, "TobaccoUse", GetValue(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath"));
@@ -677,7 +686,7 @@ namespace VRDR.HTTP
             if (String.IsNullOrWhiteSpace(value))
             {
                 coding.Add("code", "UNK");
-                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("system", VRDR.CodeSystems.NullFlavor_HL7_V3);
                 coding.Add("display", "Unknown");
             }
             else if (value.Trim().ToLower() == "yes")
@@ -695,7 +704,7 @@ namespace VRDR.HTTP
             else
             {
                 coding.Add("code", "UNK");
-                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("system", VRDR.CodeSystems.NullFlavor_HL7_V3);
                 coding.Add("display", "Unknown");
             }
             Type type = deathRecord.GetType();

@@ -4293,7 +4293,7 @@ public string SpouseMaidenName
                         return CodeableConceptToDict((CodeableConcept)editFlag.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -6516,7 +6516,7 @@ public string SpouseMaidenName
                         return CodeableConceptToDict((CodeableConcept)editFlag.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {

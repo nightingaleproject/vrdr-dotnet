@@ -276,7 +276,7 @@ namespace VRDR
                     InjuryIncidentObs = new Observation();
                     InjuryIncidentObs.Id = Guid.NewGuid().ToString();
                     InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
+                    string[] iio_profile = { ProfileURL.InjuryIncident };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
@@ -6718,8 +6718,8 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
-        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "description")]
+        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
+        [ FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile=ProfileURL.InjuryLocation)", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -6752,7 +6752,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
         /// </example>
-        [Property("Injury Date/Time", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 37)]
+        [Property("Injury Date/Time", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, IGURL.InjuryIncident, true, 37)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDate
         {
@@ -6782,7 +6782,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
         /// </example>
-        [Property("Injury Description", Property.Types.String, "Death Investigation", "Description of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 38)]
+        [Property("Injury Description", Property.Types.String, "Death Investigation", "Description of Injury.", true, IGURL.InjuryIncident, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDescription
         {
@@ -6804,94 +6804,6 @@ public string SpouseMaidenName
             }
         }
 
-        /// <summary>Place of Injury.</summary>
-        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "0");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.320");</para>
-        /// <para>code.Add("display", "Home");</para>
-        /// <para>ExampleDeathRecord.InjuryPlace = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
-        /// </example>
-        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public Dictionary<string, string> InjuryPlace
-        {
-            get
-            {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
-                {
-                    // Find correct component
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp?.Value != null && placeComp.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)placeComp.Value);
-                    }
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (InjuryIncidentObs == null)
-                {
-                    CreateInjuryIncidentObs();
-                }
-
-                // Find correct component; if doesn't exist add another
-                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                if (placeComp != null)
-                {
-                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
-                }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
-                    component.Value = DictToCodeableConcept(value);
-                    InjuryIncidentObs.Component.Add(component);
-                }
-            }
-        }
-       /// <summary>Place of Injury Helper.</summary>
-        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryPlaceHelper = "code";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlaceHelper}");</para>
-        /// </example>
-        [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public string InjuryPlaceHelper
-        {
-            get
-            {
-                if (InjuryPlace.ContainsKey("code"))
-                {
-                    return InjuryPlace["code"];
-                }
-                return null;
-            }
-            set
-            {
-                SetCodeValue("InjuryPlace", value, VRDR.ValueSets.PlaceOfInjury.Codes);
-            }
-        }
-
         /// <summary>Place of Injury Description.</summary>
         /// <value>the place of injury.</value>
         /// <example>
@@ -6900,27 +6812,47 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Place of Injury Description: {ExampleDeathRecord.InjuryPlaceDescription}");</para>
         /// </example>
-        [Property("Injury Place Description", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 40)]
+        [Property("Injury Place Description", Property.Types.String, "Death Investigation", "Place of Injury.", true, IGURL.InjuryIncident, true, 40)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryPlaceDescription
         {
             get
             {
-                var injuryPlace = this.InjuryPlace;
-                if (injuryPlace.ContainsKey("text") && injuryPlace["text"] != null)
+                // Find the component
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
                 {
-                    return injuryPlace["text"];
+                    // Find correct component
+                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    {
+                        Dictionary<string, string> dict = CodeableConceptToDict((CodeableConcept)placeComp.Value);
+                        if ( dict.ContainsKey("text")){
+                                    return (dict["text"]);
+                        }
+                    }
                 }
-                else
-                {
-                    return "";
-                }
+                return "";
             }
             set
             {
-                var injuryPlace = this.InjuryPlace;
-                injuryPlace["text"] = value;
-                this.InjuryPlace = injuryPlace;
+                if (InjuryIncidentObs == null){
+                    CreateInjuryIncidentObs();
+                }
+                // Find correct component; if doesn't exist add another
+                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = new CodeableConcept(null, null, null, value);
+                }
+                else
+                {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    InjuryIncidentObs.Component.Add(component);
+                }
             }
         }
 
@@ -6934,13 +6866,13 @@ public string SpouseMaidenName
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "N");</para>
-        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
+        /// <para>code.Add("system", CodeSystems.YesNo);</para>
         /// <para>code.Add("display", "No");</para>
         /// <para>ExampleDeathRecord.InjuryAtWork = code;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWork['display']}");</para>
         /// </example>
-        [Property("Injury At Work?", Property.Types.Dictionary, "Death Investigation", "Did the injury occur at work?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 41)]
+        [Property("Injury At Work?", Property.Types.Dictionary, "Death Investigation", "Did the injury occur at work?", true, IGURL.InjuryIncident, true, 41)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6952,7 +6884,8 @@ public string SpouseMaidenName
                 if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
                 {
                     // Find correct component
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
+                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                    && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
                     if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)placeComp.Value);
@@ -6984,53 +6917,29 @@ public string SpouseMaidenName
             }
         }
 
-        /// <summary>Injury At Work? This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
+        /// <summary>Injury At Work Helper This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
         /// <value>did the injury occur at work? A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryAtWorkBoolean = true;</para>
+        /// <para>ExampleDeathRecord.InjuryAtWorkHelper = true;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWorkBoolean}");</para>
+        /// <para>Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</para>
         /// </example>
-        [Property("Injury At Work?", Property.Types.Bool, "Death Investigation", "Did the injury occur at work?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 42)]
+        [Property("Injury At Work Helper", Property.Types.String, "Death Investigation", "Did the injury occur at work?", true, IGURL.InjuryIncident, true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public bool? InjuryAtWorkBoolean
+        public string InjuryAtWorkHelper
         {
             get
             {
-                var code = this.InjuryAtWork;
-                switch (code["code"])
+                if (InjuryAtWork.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return InjuryAtWork["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.InjuryAtWork = code;
+                SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
             }
         }
 
@@ -7050,7 +6959,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
         /// </example>
-        [Property("Transportation Event?", Property.Types.Dictionary, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 43)]
+        [Property("Transportation Event?", Property.Types.Dictionary, "Death Investigation", "Was the injury associated with a transportation event?", true, IGURL.InjuryIncident, true, 43)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -7101,7 +7010,7 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
         /// </example>
-        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 44)]
+        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, IGURL.InjuryIncident, true, 44)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public bool? TransportationEventBoolean
         {

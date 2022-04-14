@@ -360,14 +360,14 @@ namespace VRDR
             record.MannerOfDeathType = manner;
 
             record.InjuryDate = "2021-06-05T13:00:00";
-            record.InjuryAtWorkBoolean = false;
+            record.InjuryAtWorkHelper = "N";
 
             // @check
-            Dictionary<string, string> injuryPlace = new Dictionary<string, string>();
-            injuryPlace.Add("code", "0");
-            injuryPlace.Add("system", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-            injuryPlace.Add("display", "Home");
-            record.InjuryPlace = injuryPlace;
+            // Dictionary<string, string> injuryPlace = new Dictionary<string, string>();
+            // injuryPlace.Add("code", "0");
+            // injuryPlace.Add("system", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
+            // injuryPlace.Add("display", "Home");
+            // record.InjuryPlace = injuryPlace;
 
             record.InjuryDescription = "drug toxicity";
 
@@ -777,13 +777,13 @@ namespace VRDR
             record.MannerOfDeathType = manner;
 
             record.InjuryDate = "2021-03-14T11:15:00";
-            record.InjuryAtWorkBoolean = true;
+            record.InjuryAtWorkHelper = "Y";
 
-            Dictionary<string, string> injuryPlace = new Dictionary<string, string>();
-            injuryPlace.Add("code", "4");
-            injuryPlace.Add("system", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-            injuryPlace.Add("display", "street");
-            record.InjuryPlace = injuryPlace;
+            // Dictionary<string, string> injuryPlace = new Dictionary<string, string>();
+            // injuryPlace.Add("code", "4");
+            // injuryPlace.Add("system", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
+            // injuryPlace.Add("display", "street");
+            // record.InjuryPlace = injuryPlace;
 
             record.InjuryDescription = "unrestrained ejected driver in rollover motor vehicle accident";
 

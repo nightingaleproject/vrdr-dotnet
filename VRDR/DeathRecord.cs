@@ -393,7 +393,7 @@ namespace VRDR
             CauseOfDeathConditionPathway = new List();
             CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
             CauseOfDeathConditionPathway.Meta = new Meta();
-            string[] causeofdeathconditionpathway_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
+            string[] causeofdeathconditionpathway_profile = { ProfileURL.CauseOfDeathPathway };
             CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
             CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
             CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
@@ -1503,7 +1503,7 @@ namespace VRDR
         /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-of-Death-Pathway.html", true, 50)]
+        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
         public Tuple<string, string /*, Dictionary<string, string>*/>[] CausesOfDeath
         {

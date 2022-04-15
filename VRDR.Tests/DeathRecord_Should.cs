@@ -238,7 +238,7 @@ namespace VRDR.Tests
             DeathRecord d2 = ije2.ToDeathRecord();
 
             // Ethnicity tuple
-            Assert.Equal(d2.Ethnicity2Helper, "Y");
+            Assert.Equal("Y", d2.Ethnicity2Helper);
 
             // Race tuple
             foreach(var pair in d2.Race)

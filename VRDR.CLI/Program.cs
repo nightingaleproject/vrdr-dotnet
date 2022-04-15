@@ -190,11 +190,10 @@ namespace VRDR.CLI
                 deathRecord.SSN = "123456789";
 
                 // Ethnicity
-                Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
-                deathRecord.Ethnicity = ethnicity;
+                deathRecord.Ethnicity2Helper = "H";
 
                 // Race
-                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), Tuple.Create("Native Hawaiian", "2079-2") };
+                Tuple<string, string>[] race = { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslander, "Y") };
                 deathRecord.Race = race;
 
                 // MaritalStatus

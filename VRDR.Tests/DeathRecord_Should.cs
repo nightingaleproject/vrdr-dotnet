@@ -2197,6 +2197,8 @@ namespace VRDR.Tests
             Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
         }
 
+        // TODO: AgeAtDeath edit bypass flag test(s)
+
         [Fact]
         public void Set_PregnancyStatus()
         {

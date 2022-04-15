@@ -6028,12 +6028,16 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').editbypassflag", "")] // TODO: Correct this path
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs')", "")] // TODO: Correct this path
         public Dictionary<string, string> AgeAtDeathEditBypassFlag
         {
             get
             {
-                // TODO: Age at death edit bypass flag
+                Extension editFlag = AgeAtDeathObs?.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs");
+                if (editFlag != null && editFlag.Value != null && editFlag.Value.GetType() == typeof(CodeableConcept))
+                {
+                    return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                }
                 return EmptyCodeableDict();
             }
             set
@@ -6042,7 +6046,12 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs();
                 }
-                // TODO: Set age at death edit bypass flag
+
+                AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs");
+                Extension editFlag = new Extension();
+                editFlag.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                editFlag.Value = DictToCodeableConcept(value);
+                AgeAtDeathObs.Extension.Add(editFlag);
             }
         }
 

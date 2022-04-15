@@ -5983,8 +5983,7 @@ namespace VRDR
         [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age", true, 2)]
         [PropertyParam("type", "The unit type, from UnitsOfAge ValueSet.")]
         [PropertyParam("units", "The quantity value.")]
-        [PropertyParam("edit flag", "")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
             get
@@ -5994,10 +5993,9 @@ namespace VRDR
                     Dictionary<string, string> age = new Dictionary<string, string>();
                     age.Add("units", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
                     age.Add("type", ((Quantity)AgeAtDeathObs.Value).Unit);
-                    age.Add("edit flag", null); // TODO: edit bypass flag
                     return age;
                 }
-                return new Dictionary<string, string>() { { "type", "" }, { "units", "" }, { "edit flag", " " } };
+                return new Dictionary<string, string>() { { "type", "" }, { "units", "" } };
             }
             set
             {
@@ -6022,12 +6020,30 @@ namespace VRDR
                     AgeAtDeathObs.Value = quantity;
                     AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
                 }
-                extractedValue = GetValue(value, "edit flag");
-                if (!String.IsNullOrWhiteSpace(extractedValue))
-                {
-                    // TODO: edit bypass flag
-                }
               }
+        }
+
+        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').editbypassflag", "")] // TODO: Correct this path
+        public Dictionary<string, string> AgeAtDeathEditBypassFlag
+        {
+            get
+            {
+                // TODO: Age at death edit bypass flag
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (AgeAtDeathObs == null) // if it hasn't been created, create it
+                {
+                    CreateAgeAtDeathObs();
+                }
+                // TODO: Set age at death edit bypass flag
+            }
         }
 
         /// <summary>Decedent's Age At Death Data Absent Reason (code).</summary>
@@ -6051,7 +6067,7 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public Dictionary<string, string> AgeAtDeathDataAbsentReason
         {
            get
@@ -6087,7 +6103,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
         [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public bool AgeAtDeathDataAbsentBoolean
         {
            get

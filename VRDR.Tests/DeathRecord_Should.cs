@@ -845,18 +845,18 @@ namespace VRDR.Tests
             Assert.Equal("7 years", ((DeathRecord)XMLRecords[0]).INTERVAL1D);
         }
 
-        [Fact]
-        public void Set_CODE1D()
-        {
-            Dictionary<string, string> code = new Dictionary<string, string>();
-            code.Add("code", "code 4");
-            code.Add("system", "system 4");
-            code.Add("display", "display 4");
-            SetterDeathRecord.CODE1D = code;
-            Assert.Equal("code 4", SetterDeathRecord.CODE1D["code"]);
-            Assert.Equal("system 4", SetterDeathRecord.CODE1D["system"]);
-            Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
-        }
+        // [Fact]
+        // public void Set_CODE1D()
+        // {
+        //     Dictionary<string, string> code = new Dictionary<string, string>();
+        //     code.Add("code", "code 4");
+        //     code.Add("system", "system 4");
+        //     code.Add("display", "display 4");
+        //     SetterDeathRecord.CODE1D = code;
+        //     Assert.Equal("code 4", SetterDeathRecord.CODE1D["code"]);
+        //     Assert.Equal("system 4", SetterDeathRecord.CODE1D["system"]);
+        //     Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
+        // }
 
 
         [Fact]

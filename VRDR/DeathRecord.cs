@@ -1448,9 +1448,9 @@ namespace VRDR
         {
             get
             {
-                if (ConditionContributingToDeath != null && ConditionContributingToDeath.Code != null && ConditionContributingToDeath.Code.Text != null)
+                if (ConditionContributingToDeath != null && ConditionContributingToDeath.Value != null)
                 {
-                    return ConditionContributingToDeath.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)ConditionContributingToDeath.Value))["text"];
                 }
                 return null;
             }
@@ -1458,7 +1458,7 @@ namespace VRDR
             {
                 if (ConditionContributingToDeath != null)
                 {
-                    ConditionContributingToDeath.Code.Text = value;
+                    ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
                 }
                 else
                 {
@@ -1470,8 +1470,7 @@ namespace VRDR
                     string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
-                    ConditionContributingToDeath.Code = new CodeableConcept();
-                    ConditionContributingToDeath.Code.Text = value;
+                    ConditionContributingToDeath.Value= new CodeableConcept(null, null, null, value);
                     AddReferenceToComposition(ConditionContributingToDeath.Id);
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
                 }
@@ -1611,9 +1610,9 @@ namespace VRDR
         {
             get
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Value != null)
                 {
-                    return CauseOfDeathConditionA.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionA.Value))["text"];
                 }
                 return null;
             }
@@ -1623,15 +1622,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                if (CauseOfDeathConditionA.Code != null)
-                {
-                    CauseOfDeathConditionA.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionA.Code = new CodeableConcept();
-                    CauseOfDeathConditionA.Code.Text = value;
-                }
+                CauseOfDeathConditionA.Value= new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1746,9 +1737,9 @@ namespace VRDR
         {
             get
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Value != null)
                 {
-                    return CauseOfDeathConditionB.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionB.Value))["text"];
                 }
                 return null;
             }
@@ -1758,16 +1749,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-
-                if (CauseOfDeathConditionB.Code != null)
-                {
-                    CauseOfDeathConditionB.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionB.Code = new CodeableConcept();
-                    CauseOfDeathConditionB.Code.Text = value;
-                }
+                CauseOfDeathConditionB.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1881,9 +1863,9 @@ namespace VRDR
         {
             get
             {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Value != null)
                 {
-                    return CauseOfDeathConditionC.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionC.Value))["text"];
                 }
                 return null;
             }
@@ -1893,15 +1875,9 @@ namespace VRDR
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
-                if (CauseOfDeathConditionC.Code != null)
-                {
-                    CauseOfDeathConditionC.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionC.Code = new CodeableConcept();
-                    CauseOfDeathConditionC.Code.Text = value;
-                }
+
+                CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
+
             }
         }
 
@@ -2015,9 +1991,9 @@ namespace VRDR
         {
             get
             {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Value != null)
                 {
-                    return CauseOfDeathConditionD.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionD.Value))["text"];
                 }
                 return null;
             }
@@ -2027,15 +2003,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
-                if (CauseOfDeathConditionD.Code != null)
-                {
-                    CauseOfDeathConditionD.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionD.Code = new CodeableConcept();
-                    CauseOfDeathConditionD.Code.Text = value;
-                }
+                CauseOfDeathConditionD.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -2103,38 +2071,38 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
         /// </example>
-        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1D
-        {
-            get
-            {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionD.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionD == null)
-                {
-                    CauseOfDeathConditionD = CauseOfDeathCondition(3);
-                }
-               if (CauseOfDeathConditionD.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionD.Code.Text;
-                    CauseOfDeathConditionD.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
+        // [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1D
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionD.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if (CauseOfDeathConditionD == null)
+        //         {
+        //             CauseOfDeathConditionD = CauseOfDeathCondition(3);
+        //         }
+        //        if (CauseOfDeathConditionD.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionD.Code.Text;
+        //             CauseOfDeathConditionD.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
 
 
@@ -7103,7 +7071,7 @@ public string SpouseMaidenName
             {
                 if (condition != null)
                 {
-                    if (!causeConditions.Contains((Observation)condition.Resource))
+                    if (!causeConditions.Contains((Observation)condition.Resource)) // should never trigger, since now Part1 and Part2 are observations with different codes
                     {
                         remainingConditions.Add((Observation)condition.Resource);
 
@@ -7868,7 +7836,7 @@ public string SpouseMaidenName
                     }
                     else if (property.Value["Type"] == Property.Types.TupleCOD)
                     {
-                        value = property.Value["Value"].ToObject<Tuple<string, string, Dictionary<string, string>>[]>();
+                        value = property.Value["Value"].ToObject<Tuple<string, string /*, Dictionary<string, string>*/>[]>();
                     }
                     else if (property.Value["Type"] == Property.Types.Dictionary)
                     {

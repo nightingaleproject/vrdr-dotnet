@@ -55,7 +55,7 @@ namespace VRDR
 
             record.FamilyName = "Page";
 
-            record.Race = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y") };
+            record.Race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y") };
 
             record.Ethnicity2Helper = "Y";
 
@@ -243,7 +243,7 @@ namespace VRDR
 
             record.FamilyName = "Patel";
 
-            record.Race = new List<Tuple<string, string>> { Tuple.Create(NvssRace.AsianIndian, "Y") };
+            record.Race = new Tuple<string, string>[] { Tuple.Create(NvssRace.AsianIndian, "Y") };
 
             record.Ethnicity1Helper = "N";
             record.Ethnicity2Helper = "N";
@@ -444,7 +444,7 @@ namespace VRDR
 
             record.FamilyName = "Wright";
 
-            record.Race = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "Y") };
+            record.Race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "Y") };
 
             record.Ethnicity4Helper = "Y";
             record.EthnicityLiteral = "Salvadoran";
@@ -633,7 +633,7 @@ namespace VRDR
             record.FamilyName = "Perez";
             record.Suffix = "Jr.";
 
-            record.Race = new List<Tuple<string, string>> { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.BlackOrAfricanAmerican, "Y") };
+            record.Race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.BlackOrAfricanAmerican, "Y") };
 
             record.Ethnicity3Helper = "Y";
 

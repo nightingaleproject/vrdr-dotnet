@@ -3032,7 +3032,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</para>
         /// </example>
-        [Property("Sex At Death", Property.Types.String, "Decedent Demographics", "Decedent's Sex at Death.", true, ProfileURL.Decedent, true, 12)]
+        [Property("Sex At Death", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Sex at Death.", true, ProfileURL.Decedent, true, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
         public Dictionary<string, string> SexAtDeath
         {
@@ -3152,7 +3152,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
         /// </example>
-        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, ProfileURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
         public Tuple<string,string>[] DateOfBirthDatePartAbsent
         {
@@ -3745,7 +3745,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
         /// </example>
-        [Property("EthnicityLiteral", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
+        [Property("EthnicityLiteral", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, ProfileURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("ethnicity", "The literal string to describe ethnicity.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
         public string EthnicityLiteral
@@ -3790,7 +3790,7 @@ namespace VRDR
         /// </example>
         [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
-        public List<Tuple<string, string>> Race
+        public Tuple<string, string>[] Race
         {
             get
             {
@@ -3802,7 +3802,7 @@ namespace VRDR
 
                 if (InputRaceandEthnicity == null)
                 {
-                    return races;
+                    return races.ToArray();
                 }
                 foreach(string raceCode in raceCodes)
                 {
@@ -3836,7 +3836,7 @@ namespace VRDR
                     }
                 }
 
-                return races;
+                return races.ToArray();
             }
             set
             {
@@ -3890,7 +3890,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Missing Race: {ExampleDeathRecord.RaceMissingValueReason['display']}");</para>
         /// </example>
-        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
+        [Property("RaceMissingValueReason", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, ProfileURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
         public Dictionary<string, string> RaceMissingValueReason
         {
@@ -4106,10 +4106,13 @@ namespace VRDR
         {
             get
             {
-                Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.BypassEditFlag);
-                if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
+                if (Decedent.MaritalStatus != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)addressExt.Value);
+                    Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)addressExt.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -4625,7 +4628,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.SpouseAlive["display"]}");</para>
         /// </example>
-        [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, ProfileURL.Decedent, false, 27)]
+        [Property("Spouse Alive", Property.Types.Dictionary, "Decedent Demographics", "Spouse Alive", true, ProfileURL.Decedent, false, 27)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -8686,31 +8689,47 @@ namespace VRDR
             return address;
         }
 
+
         /// <summary>Convert a Date Part Extension to an Array.</summary>
-        /// <param name="datePart">a Date Part Extension.</param>
+        /// <param name="datePartAbsent">a Date Part Extension.</param>
         /// <returns>the corresponding array representation of the date parts.</returns>
-        private Tuple<string, string>[] DatePartsToArray(Extension datePart)
+        private Tuple<string, string>[] DatePartsToArray(Extension datePartAbsent)
         {
             List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-            if (datePart != null)
+            if (datePartAbsent != null)
             {
-                Extension yearPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year").FirstOrDefault();
-                Extension monthPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month").FirstOrDefault();
-                Extension dayPart = datePart.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day").FirstOrDefault();
+                Extension yearAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "year-absent-reason").FirstOrDefault();
+                Extension monthAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "month-absent-reason").FirstOrDefault();
+                Extension dayAbsentPart = datePartAbsent.Extension.Where(ext => ext.Url == "day-absent-reason").FirstOrDefault();
+                Extension yearPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-year").FirstOrDefault();
+                Extension monthPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-month").FirstOrDefault();
+                Extension dayPart = datePartAbsent.Extension.Where(ext => ext.Url == "date-day").FirstOrDefault();
                 // Year part
+                if (yearAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("year-absent-reason", yearAbsentPart.Value.ToString()));
+                }
                 if (yearPart != null)
                 {
-                    dateParts.Add(Tuple.Create("Date-Year", yearPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("date-year", yearPart.Value.ToString()));
                 }
                 // Month part
+                if (monthAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("month-absent-reason", monthAbsentPart.Value.ToString()));
+                }
                 if (monthPart != null)
                 {
-                    dateParts.Add(Tuple.Create("Date-Month", monthPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("date-month", monthPart.Value.ToString()));
                 }
                 // Day Part
+                if (dayAbsentPart != null)
+                {
+                    dateParts.Add(Tuple.Create("day-absent-reason", dayAbsentPart.Value.ToString()));
+                }
                 if (dayPart != null)
                 {
-                    dateParts.Add(Tuple.Create("Date-Day", dayPart.Value.ToString()));
+                    dateParts.Add(Tuple.Create("date-day", dayPart.Value.ToString()));
                 }
             }
             return dateParts.ToArray();

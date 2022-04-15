@@ -228,27 +228,7 @@
           }
         ],
         "gender" : "female",
-        "_birthDate" : {
-          "extension" : [
-            {
-              "extension" : [
-                {
-                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
-                  "valueInteger" : 10
-                },
-                {
-                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
-                  "valueInteger" : 2004
-                },
-                {
-                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
-                  "valueInteger" : 11
-                }
-              ],
-              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
-            }
-          ]
-        },
+        "birthDate": "1940-02-19",
         "address" : [
           {
             "extension" : [

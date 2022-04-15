@@ -210,20 +210,7 @@
           <suffix value="Jr." />
         </name>
         <gender value="female"/>
-        <birthDate>
-          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate">
-            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day">
-              <valueInteger value="10"/>
-            </extension>
-            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year">
-              <valueInteger value="2004"/>
-            </extension>
-            <extension
-                      url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month">
-              <valueInteger value="11"/>
-            </extension>
-          </extension>
-        </birthDate>
+        <birthDate value="1940-02-19"/>
         <address>
           <extension
                     url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">

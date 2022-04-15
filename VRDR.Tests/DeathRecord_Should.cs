@@ -241,33 +241,21 @@ namespace VRDR.Tests
             Assert.Equal(d2.Ethnicity2Helper, "Y");
 
             // Race tuple
-            bool americanIndian = false;
-            bool israeili = false;
-            bool minnesotaChippewa = false;
             foreach(var pair in d2.Race)
             {
                 switch(pair.Item1)
                 {
-                    case "American Indian or Alaska Native":
-                        Assert.Equal("1002-5", pair.Item2);
-                        americanIndian = true;
+                    case NvssRace.White:
+                        Assert.Equal("Y", pair.Item2);
                         break;
-                    case "Israeili":
-                        Assert.Equal("2127-9", pair.Item2);
-                        israeili = true;
-                        break;
-                    case "Minnesota Chippewa":
-                        Assert.Equal("1139-5", pair.Item2);
-                        minnesotaChippewa = true;
+                    case NvssRace.AmericanIndianOrAlaskaNative:
+                        Assert.Equal("N", pair.Item2);
                         break;
                     default:
                         break;
                 }
             }
-            Assert.Equal(3, d2.Race.Count);
-            Assert.True(americanIndian);
-            Assert.True(israeili);
-            Assert.True(minnesotaChippewa);
+            Assert.Equal(15, d2.Race.Length);
         }
 
         [Fact]
@@ -1234,7 +1222,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            List<Tuple<string, string>> race = new List<Tuple<string, string>>{Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander")};
+            Tuple<string, string>[] race = new Tuple<string, string>[]{Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander")};
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);

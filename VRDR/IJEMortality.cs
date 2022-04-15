@@ -641,9 +641,9 @@ namespace VRDR
         /// <summary>Adds the given race to the record.</summary>
         private void Set_Race(string name, string value)
         {
-            List<Tuple<string, string>> raceStatus = record.Race;
+            List<Tuple<string, string>> raceStatus = record.Race.ToList();
             raceStatus.Add(Tuple.Create(name, value));
-            record.Race = raceStatus.Distinct().ToList();
+            record.Race = raceStatus.Distinct().ToArray();
         }
 
         /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>

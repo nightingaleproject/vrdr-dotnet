@@ -122,12 +122,12 @@ namespace VRDR.CLI
                 // INTERVAL1A
                 deathRecord.INTERVAL1A = "minutes";
 
-                // CODE1A
-                Dictionary<string, string> code1a = new Dictionary<string, string>();
-                code1a.Add("code", "I21.0");
-                code1a.Add("system", "http://hl7.org/fhir/sid/icd-10");
-                code1a.Add("display", "Acute transmural myocardial infarction of anterior wall");
-                deathRecord.CODE1A = code1a;
+                // // CODE1A
+                // Dictionary<string, string> code1a = new Dictionary<string, string>();
+                // code1a.Add("code", "I21.0");
+                // code1a.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                // code1a.Add("display", "Acute transmural myocardial infarction of anterior wall");
+                // deathRecord.CODE1A = code1a;
 
                 // COD1B
                 deathRecord.COD1B = "Acute myocardial infarction";
@@ -135,12 +135,12 @@ namespace VRDR.CLI
                 // INTERVAL1B
                 deathRecord.INTERVAL1B = "6 days";
 
-                // CODE1B
-                Dictionary<string, string> code1b = new Dictionary<string, string>();
-                code1b.Add("code", "I21.9");
-                code1b.Add("system", "http://hl7.org/fhir/sid/icd-10");
-                code1b.Add("display", "Acute myocardial infarction, unspecified");
-                deathRecord.CODE1B = code1b;
+                // // CODE1B
+                // Dictionary<string, string> code1b = new Dictionary<string, string>();
+                // code1b.Add("code", "I21.9");
+                // code1b.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                // code1b.Add("display", "Acute myocardial infarction, unspecified");
+                // deathRecord.CODE1B = code1b;
 
                 // COD1C
                 deathRecord.COD1C = "Coronary artery thrombosis";

@@ -56,26 +56,26 @@ namespace VRDR
         private Observation MannerOfDeath;
 
         /// <summary>Condition Contributing to Death.</summary>
-        private Condition ConditionContributingToDeath;
+        private Observation ConditionContributingToDeath;
 
         /// <summary>Create a Cause Of Death Condition </summary>
-        private Condition CauseOfDeathCondition(int index){
-                    Condition CodCondition;
-                    CodCondition = new Condition();
+        private Observation CauseOfDeathCondition(int index){
+                    Observation CodCondition;
+                    CodCondition = new Observation();
                     CodCondition.Id = Guid.NewGuid().ToString();
                     CodCondition.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { ProfileURL.CauseOfDeathPart1 };
                     CodCondition.Meta.Profile = condition_profile;
-                    CodCondition.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
+                    CodCondition.Code = new CodeableConcept(CodeSystems.LOINC, "69453-9", "Cause of death [US Standard Certificate of Death]", null);
                     CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CodCondition.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
+                    CodCondition.Performer.Add (new ResourceReference("urn:uuid:" + Certifier.Id));
                     AddReferenceToComposition(CodCondition.Id);
                     Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
                     {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                        foreach (var i in Enumerable.Range(0, 4)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[index] = entry;
                     return (CodCondition);
@@ -83,34 +83,16 @@ namespace VRDR
 
 
         /// <summary>Cause Of Death Condition Line A (#1).</summary>
-        private Condition CauseOfDeathConditionA;
+        private Observation CauseOfDeathConditionA;
 
         /// <summary>Cause Of Death Condition Line B (#2).</summary>
-        private Condition CauseOfDeathConditionB;
+        private Observation CauseOfDeathConditionB;
 
         /// <summary>Cause Of Death Condition Line C (#3).</summary>
-        private Condition CauseOfDeathConditionC;
+        private Observation CauseOfDeathConditionC;
 
         /// <summary>Cause Of Death Condition Line D (#4).</summary>
-        private Condition CauseOfDeathConditionD;
-
-        /// <summary>Cause Of Death Condition Line E (#5).</summary>
-        private Condition CauseOfDeathConditionE;
-
-        /// <summary>Cause Of Death Condition Line F (#6).</summary>
-        private Condition CauseOfDeathConditionF;
-
-        /// <summary>Cause Of Death Condition Line G (#7).</summary>
-        private Condition CauseOfDeathConditionG;
-
-        /// <summary>Cause Of Death Condition Line H (#8).</summary>
-        private Condition CauseOfDeathConditionH;
-
-        /// <summary>Cause Of Death Condition Line I (#9).</summary>
-        private Condition CauseOfDeathConditionI;
-
-        /// <summary>Cause Of Death Condition Line J (#10).</summary>
-        private Condition CauseOfDeathConditionJ;
+        private Observation CauseOfDeathConditionD;
 
         /// <summary>Cause Of Death Condition Pathway.</summary>
         private List CauseOfDeathConditionPathway;
@@ -1480,16 +1462,15 @@ namespace VRDR
                 }
                 else
                 {
-                    ConditionContributingToDeath = new Condition();
+                    ConditionContributingToDeath = new Observation();
                     ConditionContributingToDeath.Id = Guid.NewGuid().ToString();
                     ConditionContributingToDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    ConditionContributingToDeath.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
+                    ConditionContributingToDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     ConditionContributingToDeath.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
+                    string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
-                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
+                    ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
                     ConditionContributingToDeath.Code = new CodeableConcept();
-                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
                     ConditionContributingToDeath.Code.Text = value;
                     AddReferenceToComposition(ConditionContributingToDeath.Id);
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
@@ -1525,51 +1506,28 @@ namespace VRDR
         /// </example>
         [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-of-Death-Pathway.html", true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
-        public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
+        public Tuple<string, string /*, Dictionary<string, string>*/>[] CausesOfDeath
         {
             get
             {
-                List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"])))
+                List<Tuple<string, string/*, Dictionary<string, string>*/>> results = new List<Tuple<string, string /*, Dictionary<string, string>*/>>();
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) /*|| (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"]))*/ )
                 {
-                    results.Add(Tuple.Create(COD1A, INTERVAL1A, CODE1A));
+                    results.Add(Tuple.Create(COD1A, INTERVAL1A /*, CODE1A)*/));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])))
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) /*|| (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])) */)
                 {
-                    results.Add(Tuple.Create(COD1B, INTERVAL1B, CODE1B));
+                    results.Add(Tuple.Create(COD1B, INTERVAL1B/* , CODE1B*/));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])))
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) /*|| (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])) */)
                 {
-                    results.Add(Tuple.Create(COD1C, INTERVAL1C, CODE1C));
+                    results.Add(Tuple.Create(COD1C, INTERVAL1C /*, CODE1C */));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])))
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) /*||  (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])) */)
                 {
-                    results.Add(Tuple.Create(COD1D, INTERVAL1D, CODE1D));
+                    results.Add(Tuple.Create(COD1D, INTERVAL1D  /*, CODE1D */));
                 }
-                if (!String.IsNullOrEmpty(COD1E) || !String.IsNullOrEmpty(INTERVAL1E) || (CODE1E != null && !String.IsNullOrEmpty(CODE1E["code"])))
-                {
-                    results.Add(Tuple.Create(COD1E, INTERVAL1E, CODE1E));
-                }
-                if (!String.IsNullOrEmpty(COD1F) || !String.IsNullOrEmpty(INTERVAL1F) || (CODE1F != null && !String.IsNullOrEmpty(CODE1F["code"])))
-                {
-                    results.Add(Tuple.Create(COD1F, INTERVAL1F, CODE1F));
-                }
-                if (!String.IsNullOrEmpty(COD1G) || !String.IsNullOrEmpty(INTERVAL1G) || (CODE1G != null && !String.IsNullOrEmpty(CODE1G["code"])))
-                {
-                    results.Add(Tuple.Create(COD1G, INTERVAL1G, CODE1G));
-                }
-                if (!String.IsNullOrEmpty(COD1H) || !String.IsNullOrEmpty(INTERVAL1H) || (CODE1H != null && !String.IsNullOrEmpty(CODE1H["code"])))
-                {
-                    results.Add(Tuple.Create(COD1H, INTERVAL1H, CODE1H));
-                }
-                if (!String.IsNullOrEmpty(COD1I) || !String.IsNullOrEmpty(INTERVAL1I) || (CODE1I != null && !String.IsNullOrEmpty(CODE1I["code"])))
-                {
-                    results.Add(Tuple.Create(COD1I, INTERVAL1I, CODE1I));
-                }
-                if (!String.IsNullOrEmpty(COD1J) || !String.IsNullOrEmpty(INTERVAL1J) || (CODE1J != null && !String.IsNullOrEmpty(CODE1J["code"])))
-                {
-                    results.Add(Tuple.Create(COD1J, INTERVAL1J, CODE1J));
-                }
+
                 return results.ToArray();
             }
             set
@@ -1580,62 +1538,62 @@ namespace VRDR
                     {
                         COD1A = value[0].Item1;
                         INTERVAL1A = value[0].Item2;
-                        CODE1A = value[0].Item3;
+                        // CODE1A = value[0].Item3;
                     }
                     if (value.Length > 1)
                     {
                         COD1B = value[1].Item1;
                         INTERVAL1B = value[1].Item2;
-                        CODE1B = value[1].Item3;
+                        // CODE1B = value[1].Item3;
                     }
                     if (value.Length > 2)
                     {
                         COD1C = value[2].Item1;
                         INTERVAL1C = value[2].Item2;
-                        CODE1C = value[2].Item3;
+                        // CODE1C = value[2].Item3;
                     }
                     if (value.Length > 3)
                     {
                         COD1D = value[3].Item1;
                         INTERVAL1D = value[3].Item2;
-                        CODE1D = value[3].Item3;
+                        // CODE1D = value[3].Item3;
                     }
-                    if (value.Length > 4)
-                    {
-                        COD1E = value[4].Item1;
-                        INTERVAL1E = value[4].Item2;
-                        CODE1E = value[4].Item3;
-                    }
-                    if (value.Length > 5)
-                    {
-                        COD1F = value[5].Item1;
-                        INTERVAL1F = value[5].Item2;
-                        CODE1F = value[5].Item3;
-                    }
-                    if (value.Length > 6)
-                    {
-                        COD1G = value[6].Item1;
-                        INTERVAL1G = value[6].Item2;
-                        CODE1G = value[6].Item3;
-                    }
-                    if (value.Length > 7)
-                    {
-                        COD1H = value[7].Item1;
-                        INTERVAL1H = value[7].Item2;
-                        CODE1H = value[7].Item3;
-                    }
-                    if (value.Length > 8)
-                    {
-                        COD1I = value[8].Item1;
-                        INTERVAL1I = value[8].Item2;
-                        CODE1I = value[8].Item3;
-                    }
-                    if (value.Length > 9)
-                    {
-                        COD1J = value[9].Item1;
-                        INTERVAL1J = value[9].Item2;
-                        CODE1J = value[9].Item3;
-                    }
+                    // if (value.Length > 4)
+                    // {
+                    //     COD1E = value[4].Item1;
+                    //     INTERVAL1E = value[4].Item2;
+                    //     CODE1E = value[4].Item3;
+                    // }
+                    // if (value.Length > 5)
+                    // {
+                    //     COD1F = value[5].Item1;
+                    //     INTERVAL1F = value[5].Item2;
+                    //     CODE1F = value[5].Item3;
+                    // }
+                    // if (value.Length > 6)
+                    // {
+                    //     COD1G = value[6].Item1;
+                    //     INTERVAL1G = value[6].Item2;
+                    //     CODE1G = value[6].Item3;
+                    // }
+                    // if (value.Length > 7)
+                    // {
+                    //     COD1H = value[7].Item1;
+                    //     INTERVAL1H = value[7].Item2;
+                    //     CODE1H = value[7].Item3;
+                    // }
+                    // if (value.Length > 8)
+                    // {
+                    //     COD1I = value[8].Item1;
+                    //     INTERVAL1I = value[8].Item2;
+                    //     CODE1I = value[8].Item3;
+                    // }
+                    // if (value.Length > 9)
+                    // {
+                    //     COD1J = value[9].Item1;
+                    //     INTERVAL1J = value[9].Item2;
+                    //     CODE1J = value[9].Item3;
+                    // }
                 }
             }
         }
@@ -1648,7 +1606,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
         /// </example>
-        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1A
         {
             get
@@ -1685,16 +1643,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
         /// </example>
-        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1A
         {
             get
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Onset != null)
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Component != null)
                 {
-                    return CauseOfDeathConditionA.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1702,58 +1665,73 @@ namespace VRDR
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                CauseOfDeathConditionA.Onset = new FhirString(value);
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
+
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionA.Component.Add(component);
+                }
             }
+
         }
 
-        /// <summary>Cause of Death Part I Code, Line a.</summary>
-        /// <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.0");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
-        /// <para>ExampleDeathRecord.CODE1A = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
-        /// </example>
-        [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1A
-        {
-            get
-            {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionA.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if(CauseOfDeathConditionA == null)
-                {
-                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
-                }
-                if (CauseOfDeathConditionA.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionA.Code.Text;
-                    CauseOfDeathConditionA.Code = code;
-                }
-                else
-                {
-                CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
+        // /// <summary>Cause of Death Part I Code, Line a.</summary>
+        // /// <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.0");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
+        // /// <para>ExampleDeathRecord.CODE1A = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
+        // /// </example>
+        // [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1A
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionA.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionA == null)
+        //         {
+        //             CauseOfDeathConditionA = CauseOfDeathCondition(0);
+        //         }
+        //         if (CauseOfDeathConditionA.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionA.Code.Text;
+        //             CauseOfDeathConditionA.Code = code;
+        //         }
+        //         else
+        //         {
+        //         CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
         /// <summary>Cause of Death Part I, Line b.</summary>
         /// <value>the first underlying cause of death literal.</value>
@@ -1763,7 +1741,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
         /// </example>
-        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1B
         {
             get
@@ -1801,16 +1779,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
         /// </example>
-        [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1B
+     [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
+       public string INTERVAL1B
         {
             get
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Onset != null)
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Component != null)
                 {
-                    return CauseOfDeathConditionB.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1818,58 +1801,72 @@ namespace VRDR
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-                CauseOfDeathConditionB.Onset = new FhirString(value);
-            }
-        }
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
 
-        /// <summary>Cause of Death Part I Code, Line b.</summary>
-        /// <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1B = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
-        /// </example>
-        [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1B
-        {
-            get
-            {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionB.Code);
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionB.Component.Add(component);
                 }
-                return EmptyCodeDict();
             }
-            set
-            {
-                if(CauseOfDeathConditionB == null)
-                {
-                    CauseOfDeathConditionB = CauseOfDeathCondition(1);
-                }
-                if (CauseOfDeathConditionB.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionB.Code.Text;
-                    CauseOfDeathConditionB.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
-                }
-                            }
+
         }
+        // /// <summary>Cause of Death Part I Code, Line b.</summary>
+        // /// <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1B = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
+        // /// </example>
+        // [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1B
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionB.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionB == null)
+        //         {
+        //             CauseOfDeathConditionB = CauseOfDeathCondition(1);
+        //         }
+        //         if (CauseOfDeathConditionB.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionB.Code.Text;
+        //             CauseOfDeathConditionB.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
+        //         }
+        //                     }
+        // }
 
         /// <summary>Cause of Death Part I, Line c.</summary>
         /// <value>the second underlying cause of death literal.</value>
@@ -1879,7 +1876,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
         /// </example>
-        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1C
         {
             get
@@ -1916,16 +1913,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
         /// </example>
-        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1C
         {
             get
             {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Onset != null)
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Component != null)
                 {
-                    return CauseOfDeathConditionC.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1933,59 +1935,72 @@ namespace VRDR
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
 
-                CauseOfDeathConditionC.Onset = new FhirString(value);
-              }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line c.</summary>
-        /// <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1C = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
-        /// </example>
-        [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1C
-        {
-            get
-            {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionC.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if(CauseOfDeathConditionC == null)
-                {
-                    CauseOfDeathConditionC = CauseOfDeathCondition(2);
-                }
-               if (CauseOfDeathConditionC.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionC.Code.Text;
-                    CauseOfDeathConditionC.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionC.Component.Add(component);
                 }
             }
         }
+
+        // /// <summary>Cause of Death Part I Code, Line c.</summary>
+        // /// <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1C = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
+        // /// </example>
+        // [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1C
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionC.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionC == null)
+        //         {
+        //             CauseOfDeathConditionC = CauseOfDeathCondition(2);
+        //         }
+        //        if (CauseOfDeathConditionC.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionC.Code.Text;
+        //             CauseOfDeathConditionC.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
         /// <summary>Cause of Death Part I, Line d.</summary>
         /// <value>the third underlying cause of death literal.</value>
@@ -1995,7 +2010,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
         /// </example>
-        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1D
         {
             get
@@ -2032,24 +2047,43 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
         /// </example>
-        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1D
         {
             get
             {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Onset != null)
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Component != null)
                 {
-                    return CauseOfDeathConditionD.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
-                 if (CauseOfDeathConditionD == null)
-                 {
+                if(CauseOfDeathConditionD == null)
+                {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
-                 }
-                CauseOfDeathConditionD.Onset = new FhirString(value);
+                }
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
+
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionD.Component.Add(component);
+                }
             }
         }
 
@@ -2069,7 +2103,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
         /// </example>
-        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -2102,702 +2136,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Cause of Death Part I, Line e.</summary>
-        /// <value>the fourth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1E = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
-        /// </example>
-        [Property("COD1E", Property.Types.String, "Death Certification", "Cause of Death Part I, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
-                {
-                    return CauseOfDeathConditionE.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                 if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                if (CauseOfDeathConditionE.Code != null)
-                {
-                    CauseOfDeathConditionE.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionE.Code = new CodeableConcept();
-                    CauseOfDeathConditionE.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line e.</summary>
-        /// <value>the fourth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1E = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
-        /// </example>
-        [Property("INTERVAL1E", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Onset != null)
-                {
-                    return CauseOfDeathConditionE.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                CauseOfDeathConditionE.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line e.</summary>
-        /// <value>the fourth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1E = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
-        /// </example>
-        [Property("CODE1E", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionE.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                 if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                if (CauseOfDeathConditionE.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionE.Code.Text;
-                    CauseOfDeathConditionE.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I, Line f.</summary>
-        /// <value>the fifth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1F = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
-        /// </example>
-        [Property("COD1F", Property.Types.String, "Death Certification", "Cause of Death Part I, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
-                {
-                    return CauseOfDeathConditionF.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                  if (CauseOfDeathConditionF.Code != null)
-                {
-                    CauseOfDeathConditionF.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionF.Code = new CodeableConcept();
-                    CauseOfDeathConditionF.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line f.</summary>
-        /// <value>the fifth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1F = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
-        /// </example>
-        [Property("INTERVAL1F", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Onset != null)
-                {
-                    return CauseOfDeathConditionF.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                CauseOfDeathConditionF.Onset = new FhirString(value);
-            }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line f.</summary>
-        /// <value>the fifth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1F = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
-        /// </example>
-        [Property("CODE1F", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionF.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                if (CauseOfDeathConditionF.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionF.Code.Text;
-                    CauseOfDeathConditionF.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
-                }
-             }
-        }
-
-        /// <summary>Cause of Death Part I, Line g.</summary>
-        /// <value>the sixth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1G = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
-        /// </example>
-        [Property("COD1G", Property.Types.String, "Death Certification", "Cause of Death Part I, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
-                {
-                    return CauseOfDeathConditionG.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionG == null)
-                 {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                 }
-                if (CauseOfDeathConditionG.Code != null)
-                {
-                    CauseOfDeathConditionG.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionG.Code = new CodeableConcept();
-                    CauseOfDeathConditionG.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line g.</summary>
-        /// <value>the sixth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1G = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
-        /// </example>
-        [Property("INTERVAL1G", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Onset != null)
-                {
-                    return CauseOfDeathConditionG.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionG == null)
-                 {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                 }
-                CauseOfDeathConditionG.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line g.</summary>
-        /// <value>the sixth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1G = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
-        /// </example>
-        [Property("CODE1G", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionG.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-               if (CauseOfDeathConditionG == null)
-                {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                }
-                if (CauseOfDeathConditionG.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionG.Code.Text;
-                    CauseOfDeathConditionG.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I, Line h.</summary>
-        /// <value>the seventh underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1H = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
-        /// </example>
-        [Property("COD1H", Property.Types.String, "Death Certification", "Cause of Death Part I, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
-                {
-                    return CauseOfDeathConditionH.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionH == null)
-                 {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                 }
-                if (CauseOfDeathConditionH.Code != null)
-                {
-                    CauseOfDeathConditionH.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionH.Code = new CodeableConcept();
-                    CauseOfDeathConditionH.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line h.</summary>
-        /// <value>the seventh underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1H = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
-        /// </example>
-        [Property("INTERVAL1H", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Onset != null)
-                {
-                    return CauseOfDeathConditionH.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionH == null)
-                {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                }
-                CauseOfDeathConditionH.Onset = new FhirString(value);
-            }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line h.</summary>
-        /// <value>the seventh underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1H = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
-        /// </example>
-        [Property("CODE1H", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionH.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-              if (CauseOfDeathConditionH == null)
-                {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                }
-                if (CauseOfDeathConditionH.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionH.Code.Text;
-                    CauseOfDeathConditionH.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionH.Code = DictToCodeableConcept(value);
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I, Line i.</summary>
-        /// <value>the eighth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1I = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
-        /// </example>
-        [Property("COD1I", Property.Types.String, "Death Certification", "Cause of Death Part I, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
-                {
-                    return CauseOfDeathConditionI.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-              if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                if (CauseOfDeathConditionI.Code != null)
-                {
-                    CauseOfDeathConditionI.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionI.Code = new CodeableConcept();
-                    CauseOfDeathConditionI.Code.Text = value;
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line i.</summary>
-        /// <value>the eighth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1I = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
-        /// </example>
-        [Property("INTERVAL1I", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Onset != null)
-                {
-                    return CauseOfDeathConditionI.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                CauseOfDeathConditionI.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line i.</summary>
-        /// <value>the eighth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1I = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
-        /// </example>
-        [Property("CODE1I", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionI.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                if (CauseOfDeathConditionI.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionI.Code.Text;
-                    CauseOfDeathConditionI.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I, Line j.</summary>
-        /// <value>the ninth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1J = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
-        /// </example>
-        [Property("COD1J", Property.Types.String, "Death Certification", "Cause of Death Part I, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
-                {
-                    return CauseOfDeathConditionJ.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-                if (CauseOfDeathConditionJ.Code != null)
-                {
-                    CauseOfDeathConditionJ.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionJ.Code = new CodeableConcept();
-                    CauseOfDeathConditionJ.Code.Text = value;
-                }
-             }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line j.</summary>
-        /// <value>the ninth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1J = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
-        /// </example>
-        [Property("INTERVAL1J", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Onset != null)
-                {
-                    return CauseOfDeathConditionJ.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-
-                CauseOfDeathConditionJ.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line j.</summary>
-        /// <value>the ninth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1J = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
-        /// </example>
-        [Property("CODE1J", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionJ.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-               if (CauseOfDeathConditionJ.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionJ.Code.Text;
-                    CauseOfDeathConditionJ.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -7702,17 +7040,18 @@ public string SpouseMaidenName
             }
 
             // Grab Causes of Death using CauseOfDeathConditionPathway
-            List<Condition> causeConditions = new List<Condition>();
+            List<Observation> causeConditions = new List<Observation>();
             if (CauseOfDeathConditionPathway != null)
             {
                 foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
                 {
                     if (condition != null && condition.Item != null && condition.Item.Reference != null)
                     {
-                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
+                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69453-9") &&
+                        (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
                         if (codCond != null)
                         {
-                            causeConditions.Add((Condition)codCond.Resource);
+                            causeConditions.Add((Observation)codCond.Resource);
                         }
                     }
                 }
@@ -7732,41 +7071,41 @@ public string SpouseMaidenName
                 {
                     CauseOfDeathConditionD = causeConditions[3];
                 }
-                if (causeConditions.Count() > 4)
-                {
-                    CauseOfDeathConditionE = causeConditions[4];
-                }
-                if (causeConditions.Count() > 5)
-                {
-                    CauseOfDeathConditionF = causeConditions[5];
-                }
-                if (causeConditions.Count() > 6)
-                {
-                    CauseOfDeathConditionG = causeConditions[6];
-                }
-                if (causeConditions.Count() > 7)
-                {
-                    CauseOfDeathConditionH = causeConditions[7];
-                }
-                if (causeConditions.Count() > 8)
-                {
-                    CauseOfDeathConditionI = causeConditions[8];
-                }
-                if (causeConditions.Count() > 9)
-                {
-                    CauseOfDeathConditionJ = causeConditions[9];
-                }
+                // if (causeConditions.Count() > 4)
+                // {
+                //     CauseOfDeathConditionE = causeConditions[4];
+                // }
+                // if (causeConditions.Count() > 5)
+                // {
+                //     CauseOfDeathConditionF = causeConditions[5];
+                // }
+                // if (causeConditions.Count() > 6)
+                // {
+                //     CauseOfDeathConditionG = causeConditions[6];
+                // }
+                // if (causeConditions.Count() > 7)
+                // {
+                //     CauseOfDeathConditionH = causeConditions[7];
+                // }
+                // if (causeConditions.Count() > 8)
+                // {
+                //     CauseOfDeathConditionI = causeConditions[8];
+                // }
+                // if (causeConditions.Count() > 9)
+                // {
+                //     CauseOfDeathConditionJ = causeConditions[9];
+                // }
             }
 
             // Grab Condition Contributing To Death
-            List<Condition> remainingConditions = new List<Condition>();
-            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition ))
+            List<Observation> remainingConditions = new List<Observation>();
+            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69441-4")))
             {
                 if (condition != null)
                 {
-                    if (!causeConditions.Contains((Condition)condition.Resource))
+                    if (!causeConditions.Contains((Observation)condition.Resource))
                     {
-                        remainingConditions.Add((Condition)condition.Resource);
+                        remainingConditions.Add((Observation)condition.Resource);
 
                     }
                 }

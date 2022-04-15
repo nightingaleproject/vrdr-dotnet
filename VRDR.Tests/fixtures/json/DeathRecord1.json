@@ -767,14 +767,14 @@
     {
       "fullUrl": "urn:uuid:b66d97ea-56b1-4397-8de3-fb989007485b",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "b66d97ea-56b1-4397-8de3-fb989007485b",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -787,10 +787,34 @@
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "onsetString": "minutes",
-        "asserter": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "minutes"
+            }
+          }
+        ],
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }
+        }]
       }
     },
     {

@@ -488,27 +488,27 @@ namespace VRDR
                 }
                 else if (geoType == "county")
                 {
-                    // check for unknown or other values
-                    string county = null;
-                    dictionary.TryGetValue(keyPrefix + "County", out county);
-                    if (county == "UNK")
-                    {
-                        current = "999";
-                    }
-                    else if (county == "OTH")
-                    {
-                        current = "000";
-                    }
-                    else
-                    {
-                        string state = null;
-                        dictionary.TryGetValue(keyPrefix + "State", out state);
+                    // // check for unknown or other values
+                    // string county = null;
+                    // dictionary.TryGetValue(keyPrefix + "County", out county);
+                    // if (county == "UNK")
+                    // {
+                    //     current = "999";
+                    // }
+                    // else if (county == "OTH")
+                    // {
+                    //     current = "000";
+                    // }
+                    // else
+                    // {
+                    //     string state = null;
+                    //     dictionary.TryGetValue(keyPrefix + "State", out state);
 
-                        if (state != null)
-                        {
-                            current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
-                        }
-                    }
+                    //     if (state != null)
+                    //     {
+                    //         current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
+                    //     }
+                    // }
                 }
                 else if (geoType == "state")
                 {
@@ -1714,10 +1714,22 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity1", "DETHNIC1");
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity1", "DETHNIC1");
+                if (code == "Y")
+                {
+                    code = "H";
+                }
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = "U";
+                }
+                return code;
             }
             set
             {
+                if (value == "H"){
+                    value = "Y";
+                }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
             }
         }
@@ -1728,10 +1740,22 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity2", "DETHNIC2");
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity2", "DETHNIC2");
+                if (code == "Y")
+                {
+                    code = "H";
+                }
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = "U";
+                }
+                return code;
             }
             set
             {
+                if (value == "H"){
+                    value = "Y";
+                }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
             }
         }
@@ -1742,10 +1766,22 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity3", "DETHNIC3");
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity3", "DETHNIC3");
+                if (code == "Y")
+                {
+                    code = "H";
+                }
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = "U";
+                }
+                return code;
             }
             set
             {
+                if (value == "H"){
+                    value = "Y";
+                }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
             }
         }
@@ -1756,10 +1792,22 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity4", "DETHNIC4");
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity4", "DETHNIC4");
+                if (code == "Y")
+                {
+                    code = "H";
+                }
+                if (String.IsNullOrWhiteSpace(code))
+                {
+                    code = "U";
+                }
+                return code;
             }
             set
             {
+                if (value == "H"){
+                    value = "Y";
+                }
                 Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
             }
         }

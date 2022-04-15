@@ -3283,10 +3283,10 @@ namespace VRDR
             {
                 if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
                 {
-                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator);
-                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value as CodeableConcept != null)
+                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Where(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator).FirstOrDefault();
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value as Coding != null)
                     {
-                        return CodeableConceptToDict((CodeableConcept)cityLimits.Value);
+                        return CodingToDict((Coding)cityLimits.Value);
                     }
                 }
                 return EmptyCodeDict();
@@ -3302,7 +3302,7 @@ namespace VRDR
                     Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator);
                     Extension withinCityLimits = new Extension();
                     withinCityLimits.Url = ExtensionURL.WithinCityLimitsIndicator;
-                    withinCityLimits.Value = DictToCodeableConcept(value);
+                    withinCityLimits.Value = DictToCoding(value);
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
@@ -3442,10 +3442,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
-                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -3518,10 +3521,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
-                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -3594,10 +3600,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
-                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -3670,10 +3679,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
-                if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -3740,10 +3752,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
-                if (ethnicity != null && ethnicity.Value != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return ethnicity.Value.ToString();
+                    Observation.ComponentComponent ethnicity = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                    if (ethnicity != null && ethnicity.Value != null)
+                    {
+                        return ethnicity.Value.ToString();
+                    }
                 }
                 return "";
             }
@@ -3881,10 +3896,13 @@ namespace VRDR
         {
             get
             {
-                Observation.ComponentComponent raceMVR = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
-                if (raceMVR != null && raceMVR.Value != null && raceMVR.Value as CodeableConcept != null)
+                if (InputRaceandEthnicity != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)raceMVR.Value);
+                    Observation.ComponentComponent raceMVR = InputRaceandEthnicity.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
+                    if (raceMVR != null && raceMVR.Value != null && raceMVR.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)raceMVR.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -8718,26 +8736,33 @@ namespace VRDR
         private Dictionary<string, string> AddressToDict(Address addr)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("addressLine1", "");
+            dictionary.Add("addressLine2", "");
+            dictionary.Add("addressCity", "");
+            dictionary.Add("addressCityC", "");
+            dictionary.Add("addressCounty", "");
+            dictionary.Add("addressCountyC", "");
+            dictionary.Add("addressState", "");
+            dictionary.Add("addressZip", "");
+            dictionary.Add("addressCountry", "");
+            dictionary.Add("addressStnum", "");
+            dictionary.Add("addressPredir", "");
+            dictionary.Add("addressStname", "");
+            dictionary.Add("addressStdesig", "");
+            dictionary.Add("addressPostdir", "");
+            dictionary.Add("addressUnitnum", "");
             if (addr != null)
             {
                 if (addr.Line != null && addr.Line.Count() > 0)
                 {
-                    dictionary.Add("addressLine1", addr.Line.First());
-                }
-                else
-                {
-                    dictionary.Add("addressLine1", "");
-                }
-                if (addr.Line != null && addr.Line.Count() > 1)
-                {
-                    dictionary.Add("addressLine2", addr.Line.Last());
-                }
-                else
-                {
-                    dictionary.Add("addressLine2", "");
+                    dictionary["addressLine1"] = addr.Line.First();
                 }
 
-                dictionary.Add("addressCityC", "");
+                if (addr.Line != null && addr.Line.Count() > 1)
+                {
+                    dictionary["addressLine2"] = addr.Line.Last();
+                }
+
                 if(addr.CityElement != null)
                 {
                     Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode").FirstOrDefault();
@@ -8747,7 +8772,6 @@ namespace VRDR
                     }
                 }
 
-                dictionary.Add("addressCountyC", "");
                 if(addr.DistrictElement != null)
                 {
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode").FirstOrDefault();
@@ -8759,41 +8783,41 @@ namespace VRDR
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 if (stnum != null)
                 {
-                    dictionary.Add("addressStnum", stnum.Value.ToString());
+                    dictionary["addressStnum"] = stnum.Value.ToString();
                 }
 
                 Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
                 if (predir != null)
                 {
-                    dictionary.Add("addressPredir", predir.Value.ToString());
+                    dictionary["addressPredir"] = predir.Value.ToString();
                 }
 
                 Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
                 if (stname != null)
                 {
-                    dictionary.Add("addressStname", stname.Value.ToString());
+                    dictionary["addressStname"] = stname.Value.ToString();
                 }
                 
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 if (stdesig != null)
                 {
-                    dictionary.Add("addressStdesig", stdesig.Value.ToString());
+                    dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
                 
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 if (postdir != null)
                 {
-                    dictionary.Add("addressPostdir", postdir.Value.ToString());
+                    dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
                 
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 if (unitnum != null)
                 {
-                    dictionary.Add("addressUnitnum", unitnum.Value.ToString());
+                    dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
                 
                 //Check for possible state extension
-                dictionary.Add("addressState", addr.State);
+                dictionary["addressState"] = addr.State;
                 if (addr.StateElement != null) 
                 {
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
@@ -8802,23 +8826,22 @@ namespace VRDR
                         dictionary["addressState"] = stateExt.Value.ToString();
                     } 
                 }
-
-                dictionary.Add("addressCity", addr.City);
-                dictionary.Add("addressCounty", addr.District);
-                dictionary.Add("addressZip", addr.PostalCode);
-                dictionary.Add("addressCountry", addr.Country);
-            }
-            else
-            {
-                dictionary.Add("addressLine1", "");
-                dictionary.Add("addressLine2", "");
-                dictionary.Add("addressCity", "");
-                dictionary.Add("addressCityC", "");
-                dictionary.Add("addressCounty", "");
-                dictionary.Add("addressCountyC", "");
-                dictionary.Add("addressState", "");
-                dictionary.Add("addressZip", "");
-                dictionary.Add("addressCountry", "");
+                if (addr.City != null)
+                {
+                    dictionary["addressCity"] = addr.City;
+                }
+                if (addr.District != null)
+                {
+                    dictionary["addressCounty"] = addr.District;
+                }
+                if (addr.PostalCode != null)
+                {
+                    dictionary["addressZip"] = addr.PostalCode;
+                }
+                if (addr.Country != null)
+                {
+                    dictionary["addressCountry"] = addr.Country;
+                }
             }
             return dictionary;
         }

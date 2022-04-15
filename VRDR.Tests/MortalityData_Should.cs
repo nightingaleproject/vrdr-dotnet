@@ -355,8 +355,8 @@ namespace VRDR.Tests
             Assert.Equal("999", ije1.COUNTYC);
     
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("UNK", dr1.DeathLocationAddress["addressCounty"]);
-            Assert.Equal("UNK", dr1.Residence["addressCounty"]);
+            Assert.Equal("999", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("999", dr1.Residence["addressCountyC"]);
         }
 
         [Fact]
@@ -367,8 +367,8 @@ namespace VRDR.Tests
             Assert.Equal("000", ije1.COUNTYC);
     
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("OTH", dr1.DeathLocationAddress["addressCounty"]);
-            Assert.Equal("OTH", dr1.Residence["addressCounty"]);
+            Assert.Equal("000", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("000", dr1.Residence["addressCountyC"]);
         }
 
         private string FixturePath(string filePath)

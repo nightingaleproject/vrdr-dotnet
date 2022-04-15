@@ -243,8 +243,10 @@
             "use" : "official",
             "family" : "Patel",
             "given" : [
-              "Madelyn"
-            ]
+              "Madelyn",
+              "Middle"
+            ],
+            "suffix" : ["Jr."]
           }
         ],
         "gender" : "female",
@@ -307,6 +309,7 @@
               ]
             },
             "state" : "VA",
+            "postalCode" : "01730",
             "country" : "US"
           }
         ],

@@ -166,10 +166,6 @@
           <profile
                   value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent"/>
         </meta>
-        <text>
-          <status value="generated"/>
-          <div xmlns="http://www.w3.org/1999/xhtml"><p><b>Madelyn Patel (OFFICIAL)</b> female, DoB:  ( Social Beneficiary Identifier: 987654321)</p></div>
-        </text>
         <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive">
           <valueCodeableConcept>
             <coding>
@@ -210,6 +206,8 @@
           <use value="official"/>
           <family value="Patel"/>
           <given value="Madelyn"/>
+          <given value="Middle" />
+          <suffix value="Jr." />
         </name>
         <gender value="female"/>
         <birthDate>
@@ -251,6 +249,7 @@
             </extension>
           </district>
           <state value="VA"/>
+          <postalCode value="01730"/>
           <country value="US"/>
         </address>
         <maritalStatus>

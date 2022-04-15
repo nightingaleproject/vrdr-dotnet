@@ -975,58 +975,17 @@ namespace VRDR
         {
             get
             {
-                if (record.AgeAtDeath != null && !String.IsNullOrWhiteSpace(record.AgeAtDeath["unit"]) && !record.AgeAtDeathDataAbsentBoolean)
-                {
-                    switch (record.AgeAtDeath["unit"].ToLower().Trim())
-                    {
-                        case "a":
-                            return "1";
-                        case "d":
-                            return "4";
-                        case "h":
-                            return "5";
-                        case "min":
-                            return "6";
-                        case "mo":
-                            return "2";
-                        case "unk":
-                            return "9";
-                        case "wk":
-                            return "3";
-                    }
-                }
-                return "9";
+                String fhirValue = Dictionary_Get("AGETYPE", "AgeAtDeath", "type");
+                String ijeValue;
+                Mappings.UnitsOfAge.FHIRToIJE.TryGetValue(fhirValue ?? "", out ijeValue); // null-coalesce to empty string to avoid NPE
+                return ijeValue ?? "9";
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
+                String fhirValue;
+                if (!String.IsNullOrWhiteSpace(value) && Mappings.UnitsOfAge.IJEToFHIR.TryGetValue(value, out fhirValue))
                 {
-                    Dictionary<string, string> ageAtDeath = new Dictionary<string, string>();
-                    switch (value.Trim())
-                    {
-                        case "1":
-                            ageAtDeath["unit"] = "a";
-                            break;
-                        case "4":
-                            ageAtDeath["unit"] = "d";
-                            break;
-                        case "5":
-                            ageAtDeath["unit"] = "h";
-                            break;
-                        case "6":
-                            ageAtDeath["unit"] = "min";
-                            break;
-                        case "2":
-                            ageAtDeath["unit"] = "mo";
-                            break;
-                        case "9":
-                            ageAtDeath["unit"] = "unk";
-                            break;
-                        case "3":
-                            ageAtDeath["unit"] = "wk";
-                            break;
-                    }
-                    record.AgeAtDeath = ageAtDeath;
+                    Dictionary_Set("AGETYPE", "AgeAtDeath", "type", fhirValue);
                 }
             }
         }
@@ -1040,7 +999,7 @@ namespace VRDR
                 if ((record.AgeAtDeath != null) && this.AGETYPE != "9")
                 {
                     IJEField info = FieldInfo("AGE");
-                    return Truncate(record.AgeAtDeath["value"], info.Length).PadLeft(info.Length, '0');
+                    return Truncate(record.AgeAtDeath["units"], info.Length).PadLeft(info.Length, '0');
                 }
                 else
                 {  // record.AgeAtDeath["value"] is not defined
@@ -1051,10 +1010,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value) && value != "999")
                 {
-                    Dictionary<string, string> ageAtDeath = record.AgeAtDeath;
-                    ageAtDeath["value"] = value.TrimStart('0');
-                    record.AgeAtDeath = ageAtDeath;
-                    ;
+                    Dictionary_Set("AGE", "AgeAtDeath", "units", value.TrimStart('0'));
                 }
                 else
                 {
@@ -1069,11 +1025,15 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Dictionary_Get("AGE_BYPASS", "AgeAtDeath", "edit flag");
             }
             set
             {
-                // NOOP
+                String fhirValue;
+                if (Mappings.EditBypass01.IJEToFHIR.TryGetValue(value ?? "", out fhirValue))
+                {
+                    Dictionary_Set("AGE_BYPASS", "AgeAtDeath", "edit flag", fhirValue);
+                }
             }
         }
 

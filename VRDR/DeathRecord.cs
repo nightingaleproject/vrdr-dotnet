@@ -279,7 +279,7 @@ namespace VRDR
             string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
             AgeAtDeathObs.Meta.Profile = age_profile;
             AgeAtDeathObs.Status = ObservationStatus.Final;
-            AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
+            AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
@@ -5975,14 +5975,15 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/stu3/valueset-age-units.html</para>
+        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
-        [PropertyParam("value", "The quantity value.")]
-        [PropertyParam("unit", "The quantity unit.")]
+        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age", true, 2)]
+        [PropertyParam("type", "The unit type, from UnitsOfAge ValueSet.")]
+        [PropertyParam("units", "The quantity value.")]
+        [PropertyParam("edit flag", "")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
@@ -5991,11 +5992,12 @@ namespace VRDR
                 if (AgeAtDeathObs?.Value != null && !AgeAtDeathDataAbsentBoolean) // if there is a value for age, return it
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
-                    age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
-                    age.Add("unit", ((Quantity)AgeAtDeathObs.Value).Unit);
+                    age.Add("units", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
+                    age.Add("type", ((Quantity)AgeAtDeathObs.Value).Unit);
+                    age.Add("edit flag", null); // TODO: edit bypass flag
                     return age;
                 }
-                return new Dictionary<string, string>() { { "value", "" }, { "unit", "" } };
+                return new Dictionary<string, string>() { { "type", "" }, { "units", "" }, { "edit flag", " " } };
             }
             set
             {
@@ -6004,7 +6006,7 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs(); // Create it
                 }
-                string extractedValue = GetValue(value, "value");
+                string extractedValue = GetValue(value, "units");
                 // If the value or unit is null, put out a data absent reason
                 if ( !String.IsNullOrWhiteSpace(extractedValue) ){  // if there is a value for age, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
@@ -6012,10 +6014,18 @@ namespace VRDR
                     AgeAtDeathObs.Value = quantity;
                     AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
                 }
-                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) ){ // if there is a value for unit, set it
+                extractedValue = GetValue(value, "type");
+                if (!String.IsNullOrWhiteSpace(extractedValue))
+                { // if there is a value for unit, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                    quantity.Unit = GetValue(value, "unit");
+                    quantity.Unit = extractedValue;
                     AgeAtDeathObs.Value = quantity;
+                    AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
+                }
+                extractedValue = GetValue(value, "edit flag");
+                if (!String.IsNullOrWhiteSpace(extractedValue))
+                {
+                    // TODO: edit bypass flag
                 }
               }
         }

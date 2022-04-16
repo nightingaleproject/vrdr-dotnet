@@ -1025,14 +1025,23 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("AGE_BYPASS", "AgeAtDeath", "edit flag");
+                String fhirValue = record.AgeAtDeathEditBypassFlag["code"];
+                if (String.IsNullOrWhiteSpace(fhirValue)) {
+                    return null;
+
+                }
+                return Mappings.EditBypass01.FHIRToIJE[fhirValue];
             }
             set
             {
                 String fhirValue;
                 if (Mappings.EditBypass01.IJEToFHIR.TryGetValue(value ?? "", out fhirValue))
                 {
-                    Dictionary_Set("AGE_BYPASS", "AgeAtDeath", "edit flag", fhirValue);
+                    Dictionary<string, string> bypass = new Dictionary<string, string>();
+                    bypass["system"] = "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs";
+                    bypass["code"] = fhirValue;
+                    // TODO: Set dispaly
+                    this.record.AgeAtDeathEditBypassFlag = bypass;
                 }
             }
         }

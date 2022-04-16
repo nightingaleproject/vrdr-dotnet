@@ -2197,7 +2197,47 @@ namespace VRDR.Tests
             Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
         }
 
-        // TODO: AgeAtDeath edit bypass flag test(s)
+        [Fact]
+        public void AgeAtDeath_EditFlag()
+        {
+            Dictionary<string, string> flag = new Dictionary<string, string>();
+            flag.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs");
+            flag.Add("code", "0");
+            flag.Add("display", "Edit Passed");
+            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
+            Assert.Equal("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs", SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("0", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+
+            flag = new Dictionary<string, string>();
+            flag.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs");
+            flag.Add("code", "1");
+            flag.Add("display", "Edit Failed, Data Queried, and Verified");
+            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
+            Assert.Equal("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs", SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("1", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Failed, Data Queried, and Verified", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+        }
+
+        [Fact]
+        public void AgeAtDeath_EditFlag_RoundTrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            Dictionary<string, string> flag = new Dictionary<string, string>();
+            flag.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs");
+            flag.Add("code", "0");
+            flag.Add("display", "Edit Passed");
+            dr.AgeAtDeathEditBypassFlag = flag;
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("999", ije.AGE);
+            Assert.Equal("9", ije.AGETYPE);
+            Assert.Equal("0", ije.AGE_BYPASS);
+            DeathRecord dr2 = ije.ToDeathRecord();
+            Assert.Equal("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs", dr2.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("0", dr2.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Passed", dr2.AgeAtDeathEditBypassFlag["display"]);
+        }
 
         [Fact]
         public void Set_PregnancyStatus()

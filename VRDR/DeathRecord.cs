@@ -276,7 +276,7 @@ namespace VRDR
             AgeAtDeathObs = new Observation();
             AgeAtDeathObs.Id = Guid.NewGuid().ToString();
             AgeAtDeathObs.Meta = new Meta();
-            string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
+            string[] age_profile = { ProfileURL.DecedentAge };
             AgeAtDeathObs.Meta.Profile = age_profile;
             AgeAtDeathObs.Status = ObservationStatus.Final;
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
@@ -5980,7 +5980,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age", true, 2)]
+        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("type", "The unit type, from UnitsOfAge ValueSet.")]
         [PropertyParam("units", "The quantity value.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
@@ -6023,17 +6023,33 @@ namespace VRDR
               }
         }
 
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
+        /// <summary>Decedent's Age At Death Edit Flag.</summary>
+        /// <value>the decedent's age at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ageEdit = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ageEdit.Add("code", "0");</para>
+        /// <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>ageEdit.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathEditBypassFlag = ageEdit;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditBypassFlag['display']}");</para>
+        /// </example>
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
         public Dictionary<string, string> AgeAtDeathEditBypassFlag
         {
             get
             {
-                Extension editFlag = AgeAtDeathObs?.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs");
+                Extension editFlag = AgeAtDeathObs?.Extension.Find(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 if (editFlag != null && editFlag.Value != null && editFlag.Value.GetType() == typeof(CodeableConcept))
                 {
                     return CodeableConceptToDict((CodeableConcept)editFlag.Value);
@@ -6047,9 +6063,9 @@ namespace VRDR
                     CreateAgeAtDeathObs();
                 }
 
-                AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs");
+                AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 Extension editFlag = new Extension();
-                editFlag.Url = "http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-edit-bypass-01-vs";
+                editFlag.Url = ExtensionURL.BypassEditFlag;
                 editFlag.Value = DictToCodeableConcept(value);
                 AgeAtDeathObs.Extension.Add(editFlag);
             }
@@ -6071,7 +6087,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", false, 2)]
+        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, false, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6111,7 +6127,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
+        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, true, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public bool AgeAtDeathDataAbsentBoolean
         {

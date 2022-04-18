@@ -2178,47 +2178,14 @@ namespace VRDR.Tests
             Dictionary<string, string> code = new Dictionary<string, string>();
 
             // no description
-            SetterDeathRecord.InjuryPlaceHelper = VRDR.ValueSets.PlaceOfInjury.Home;
-            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
-            Assert.Equal(CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO, SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);
-            Assert.Equal("", SetterDeathRecord.InjuryPlace["text"]);
-
-            // with description
-            code["text"] = "At home, in the kitchen";
-            code["code"] = VRDR.ValueSets.PlaceOfInjury.Home;
-            code["system"] = CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO;
-            code["display"] = "Home";
-            SetterDeathRecord.InjuryPlace = code;
-            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
-            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlaceHelper);
-            Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlace["text"]);
-
-            // change description, keep code the same
-            SetterDeathRecord.InjuryPlaceDescription = "At home, on the stairs";
-            Assert.Equal("At home, on the stairs", SetterDeathRecord.InjuryPlace["text"]);
-            Assert.Equal("Home", SetterDeathRecord.InjuryPlace["display"]);
-            Assert.Equal(CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO, SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal(VRDR.ValueSets.PlaceOfInjury.Home, SetterDeathRecord.InjuryPlace["code"]);
-
-            // description only
-            code = new Dictionary<string, string>();
-            code["text"] = "At home, in the kitchen";
-            SetterDeathRecord.InjuryPlace = code;
-            Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlace["text"]);
-            Assert.Equal("", SetterDeathRecord.InjuryPlace["code"]);
-            Assert.Equal("", SetterDeathRecord.InjuryPlace["system"]);
-            Assert.Equal("", SetterDeathRecord.InjuryPlace["display"]);
+            SetterDeathRecord.InjuryPlaceDescription = "At home, in the kitchen";
+            Assert.Equal("At home, in the kitchen", SetterDeathRecord.InjuryPlaceDescription);
         }
 
         [Fact]
         public void Get_InjuryPlace()
         {
-            Assert.Equal("Home", ((DeathRecord)JSONRecords[0]).InjuryPlace["display"]);
-            Assert.Equal("At home, in the kitchen", ((DeathRecord)JSONRecords[0]).InjuryPlace["text"]);
             Assert.Equal("At home, in the kitchen", ((DeathRecord)JSONRecords[0]).InjuryPlaceDescription);
-            Assert.Equal("Home", ((DeathRecord)XMLRecords[0]).InjuryPlace["display"]);
-            Assert.Equal("At home, in the kitchen", ((DeathRecord)XMLRecords[0]).InjuryPlace["text"]);
             Assert.Equal("At home, in the kitchen", ((DeathRecord)XMLRecords[0]).InjuryPlaceDescription);
         }
 
@@ -2255,36 +2222,36 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> ec = new Dictionary<string, string>();
             ec.Add("code", "Y");
-            ec.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+            ec.Add("system", VRDR.CodeSystems.YesNo);
             ec.Add("display", "Yes");
             SetterDeathRecord.ExaminerContacted = ec;
             Assert.Equal("Y", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("Yes", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.True(SetterDeathRecord.ExaminerContactedBoolean);
-            SetterDeathRecord.ExaminerContactedBoolean = false;
+            Assert.Equal("Y", SetterDeathRecord.ExaminerContactedHelper);
+            SetterDeathRecord.ExaminerContactedHelper = "N";
             Assert.Equal("N", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("No", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.False(SetterDeathRecord.ExaminerContactedBoolean);
-            SetterDeathRecord.ExaminerContactedBoolean = null;
+            Assert.Equal("N", SetterDeathRecord.ExaminerContactedHelper);
+            SetterDeathRecord.ExaminerContactedHelper = "UNK";
             Assert.Equal("UNK", SetterDeathRecord.ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.ExaminerContacted["system"]);
             Assert.Equal("unknown", SetterDeathRecord.ExaminerContacted["display"]);
-            Assert.Null(SetterDeathRecord.ExaminerContactedBoolean);
+            Assert.Equal("UNK",SetterDeathRecord.ExaminerContactedHelper);
         }
 
         [Fact]
         public void Get_ExaminerContacted()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).ExaminerContacted["display"]);
-            Assert.False(((DeathRecord)JSONRecords[0]).ExaminerContactedBoolean);
+            Assert.Equal("N",((DeathRecord)JSONRecords[0]).ExaminerContactedHelper);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).ExaminerContacted["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).ExaminerContacted["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).ExaminerContacted["display"]);
-            Assert.False(((DeathRecord)XMLRecords[0]).ExaminerContactedBoolean);
+            Assert.Equal("N",((DeathRecord)XMLRecords[0]).ExaminerContactedHelper);
         }
 
         [Fact]
@@ -2398,36 +2365,36 @@ namespace VRDR.Tests
         {
             Dictionary<string, string> iaw = new Dictionary<string, string>();
             iaw.Add("code", "N");
-            iaw.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+            iaw.Add("system", VRDR.CodeSystems.YesNo);
             iaw.Add("display", "No");
             SetterDeathRecord.InjuryAtWork = iaw;
             Assert.Equal("N", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("No", SetterDeathRecord.InjuryAtWork["display"]);
-            Assert.False(SetterDeathRecord.InjuryAtWorkBoolean);
-            SetterDeathRecord.InjuryAtWorkBoolean = true;
+            Assert.Equal("N",SetterDeathRecord.InjuryAtWorkHelper);
+            SetterDeathRecord.InjuryAtWorkHelper = "Y";
             Assert.Equal("Y", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("Yes", SetterDeathRecord.InjuryAtWork["display"]);
-            Assert.True(SetterDeathRecord.InjuryAtWorkBoolean);
-            SetterDeathRecord.InjuryAtWorkBoolean = null;
+            Assert.Equal("Y",SetterDeathRecord.InjuryAtWorkHelper);
+            SetterDeathRecord.InjuryAtWorkHelper = "NA";
             Assert.Equal("NA", SetterDeathRecord.InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.InjuryAtWork["system"]);
             Assert.Equal("not applicable", SetterDeathRecord.InjuryAtWork["display"]);
-            Assert.Null(SetterDeathRecord.InjuryAtWorkBoolean);
+            Assert.Equal("NA",SetterDeathRecord.InjuryAtWorkHelper);
         }
 
         [Fact]
         public void Get_InjuryAtWork()
         {
             Assert.Equal("N", ((DeathRecord)JSONRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)JSONRecords[0]).InjuryAtWork["display"]);
-            Assert.False(((DeathRecord)JSONRecords[0]).InjuryAtWorkBoolean);
+            Assert.Equal("N",((DeathRecord)JSONRecords[0]).InjuryAtWorkHelper);
             Assert.Equal("N", ((DeathRecord)XMLRecords[0]).InjuryAtWork["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).InjuryAtWork["system"]);
             Assert.Equal("No", ((DeathRecord)XMLRecords[0]).InjuryAtWork["display"]);
-            Assert.False(((DeathRecord)XMLRecords[0]).InjuryAtWorkBoolean);
+            Assert.Equal("N",((DeathRecord)XMLRecords[0]).InjuryAtWorkHelper);
         }
 
         [Fact]
@@ -2458,11 +2425,11 @@ namespace VRDR.Tests
         public void Get_TransportationEvent()
         {
             Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
             Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
             Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
             Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
         }

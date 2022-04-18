@@ -583,7 +583,7 @@ namespace VRDR
 
             Tuple<string, string> raceTuple = Array.Find(raceStatus, element => element.Item1 == name);
             if (raceTuple != null)
-            {   
+            {
                 return raceTuple.Item2;
             }
             return "";
@@ -1195,7 +1195,7 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } 
+                }
                 else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
@@ -1433,13 +1433,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "county", true);
+                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "countyCode", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "county", true, value);
+                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "countyCode", true, value);
                 }
             }
         }
@@ -1793,7 +1793,7 @@ namespace VRDR
         public string RACE1
         {
             get
-            {   
+            {
                 return Get_Race(NvssRace.White);
             }
             set
@@ -1955,7 +1955,7 @@ namespace VRDR
                 {
                     Set_Race(NvssRace.OtherAsian, value);
                 }
-                
+
             }
         }
 
@@ -3472,7 +3472,7 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", true, value); //SAK
             }
         }
 
@@ -3482,11 +3482,11 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_D", "DeathLocationAddress", "address", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_D", "DeathLocationAddress", "address", "cityCode", true);
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("CITYCODE_D", "DeathLocationAddress", "address", "cityCode", true, value);
             }
         }
 
@@ -3650,7 +3650,7 @@ namespace VRDR
             get
             {
                 // This is Now just the two letter code.  Need to map it to country name
-                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); 
+                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.CountryCodeToCountryName(countryCode);
             }
@@ -3865,7 +3865,7 @@ namespace VRDR
         /// <summary>Race - old NCHS single race codes</summary>
         [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
         public string RACEOLDC
-        
+
         {
             get
             {
@@ -4145,7 +4145,7 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("COUNTYTEXT_I", "InjuryLocationAddress", "address", "county", true, value);
             }
         }
 
@@ -4155,13 +4155,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true);
+                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyCode", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyCode", true, value);
                 }
             }
         }
@@ -5509,7 +5509,7 @@ namespace VRDR
             }
             set
             {
-                
+
             }
         }
         // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR

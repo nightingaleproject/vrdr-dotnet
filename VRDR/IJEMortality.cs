@@ -583,7 +583,7 @@ namespace VRDR
 
             Tuple<string, string> raceTuple = Array.Find(raceStatus, element => element.Item1 == name);
             if (raceTuple != null)
-            {   
+            {
                 return raceTuple.Item2;
             }
             return "";
@@ -1195,7 +1195,7 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } 
+                }
                 else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
@@ -1793,7 +1793,7 @@ namespace VRDR
         public string RACE1
         {
             get
-            {   
+            {
                 return Get_Race(NvssRace.White);
             }
             set
@@ -1955,7 +1955,7 @@ namespace VRDR
                 {
                     Set_Race(NvssRace.OtherAsian, value);
                 }
-                
+
             }
         }
 
@@ -3570,7 +3570,7 @@ namespace VRDR
             get
             {
                 // This is Now just the two letter code.  Need to map it to country name
-                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); 
+                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.CountryCodeToCountryName(countryCode);
             }
@@ -3785,7 +3785,7 @@ namespace VRDR
         /// <summary>Race - old NCHS single race codes</summary>
         [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
         public string RACEOLDC
-        
+
         {
             get
             {
@@ -4881,10 +4881,6 @@ namespace VRDR
             }
             set
             {
-<<<<<<< HEAD
-=======
-                // NOOP
->>>>>>> f469923 (added support for Certifier Address.  Need to merge SUpport for address fields from Decedent PR for this to work)
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("CERTSTNUM", "CertifierAddress", "address", "stnum", false, value);
@@ -5422,7 +5418,7 @@ namespace VRDR
             }
             set
             {
-                
+
             }
         }
         // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR

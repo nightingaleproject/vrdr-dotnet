@@ -1053,9 +1053,9 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
-            <code value="NA" />
-            <display value="not applicable" />
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs" />
+            <code value="1" />
+            <display value="Not pregnant within past year" />
           </coding>
         </valueCodeableConcept>
       </Observation>

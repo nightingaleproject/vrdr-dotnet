@@ -210,6 +210,20 @@ namespace VRDR
         /// <summary>Autopsy Performed.</summary>
         private Observation AutopsyPerformed;
 
+        /// <summary>Create Autopsy Performed </summary>
+        private void CreateAutopsyPerformed(){
+            AutopsyPerformed = new Observation();
+            AutopsyPerformed.Id = Guid.NewGuid().ToString();
+            AutopsyPerformed.Meta = new Meta();
+            string[] autopsyperformed_profile = { ProfileURL.AutopsyPerformedIndicator };
+            AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
+            AutopsyPerformed.Status = ObservationStatus.Final;
+            AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
+            AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(AutopsyPerformed.Id);
+            Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+        }
+
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
 
@@ -246,6 +260,20 @@ namespace VRDR
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
 
+        /// <summary> Create Pregnancy Status. </summary>
+        private void CreatePregnancyObs(){
+            PregnancyObs = new Observation();
+            PregnancyObs.Id = Guid.NewGuid().ToString();
+            PregnancyObs.Meta = new Meta();
+            string[] p_profile = { IGURL.DecedentPregnancyStatus };
+            PregnancyObs.Meta.Profile = p_profile;
+            PregnancyObs.Status = ObservationStatus.Final;
+            PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
+            PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PregnancyObs.Id);
+            Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+        }
+
         /// <summary>Examiner Contacted.</summary>
         private Observation ExaminerContactedObs;
 
@@ -254,6 +282,20 @@ namespace VRDR
 
         /// <summary>Transportation Role.</summary>
         private Observation TransportationRoleObs;
+
+        /// <summary>Create Transportation Role. </summary>
+        private void CreateTransportationRoleObs(){
+            TransportationRoleObs = new Observation();
+            TransportationRoleObs.Id = Guid.NewGuid().ToString();
+            TransportationRoleObs.Meta = new Meta();
+            string[] t_profile = { VRDR.ProfileURL.DecedentTransportationRole };
+            TransportationRoleObs.Meta.Profile = t_profile;
+            TransportationRoleObs.Status = ObservationStatus.Final;
+            TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
+            TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(TransportationRoleObs.Id);
+            Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
+        }
 
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
@@ -4259,13 +4301,13 @@ public string SpouseMaidenName
             {
                 if (DecedentEducationLevel != null && DecedentEducationLevel.Extension != null)
                 {
-                    Extension editFlag = DecedentEducationLevel.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    Extension editFlag = DecedentEducationLevel.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (editFlag != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)editFlag.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -4273,11 +4315,16 @@ public string SpouseMaidenName
                 {
                     CreateEmptyEducationLevelObservation();
                 }
-                DecedentEducationLevel.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                if (DecedentEducationLevel.Value != null && DecedentEducationLevel.Value.Extension != null){
+                    DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
                 Extension editFlag = new Extension();
                 editFlag.Url = ExtensionURL.BypassEditFlag;
+                if(DecedentEducationLevel.Value == null){
+                    DecedentEducationLevel.Value = new CodeableConcept();
+                }
                 editFlag.Value = DictToCodeableConcept(value);
-                DecedentEducationLevel.Extension.Add(editFlag);
+                DecedentEducationLevel.Value.Extension.Add(editFlag);
             }
         }
 
@@ -5546,26 +5593,14 @@ public string SpouseMaidenName
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                }
+
+                AutopsyPerformed.Value = DictToCodeableConcept(value);
             }
         }
 
-        /// <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
+        /// <summary>Autopsy Performed Indicator Helper. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
         /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5573,45 +5608,21 @@ public string SpouseMaidenName
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 29)]
+        [Property("Autopsy Performed Indicator Helper", Property.Types.String, "Death Investigation", "Autopsy Performed Indicator.", true, IGURL.AutopsyPerformedIndicator, true, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyPerformedIndicatorBoolean
+        public string AutopsyPerformedIndicatorHelper
         {
             get
             {
-                var code = this.AutopsyPerformedIndicator;
-                switch (code["code"])
+                if (AutopsyPerformedIndicator.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return AutopsyPerformedIndicator["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.AutopsyPerformedIndicator = code;
+                SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
@@ -5956,80 +5967,39 @@ public string SpouseMaidenName
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                }
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
+                component.Value = DictToCodeableConcept(value);
+                AutopsyPerformed.Component.Clear();
+                AutopsyPerformed.Component.Add(component);
             }
         }
 
-        /// <summary>Autopsy Results Available Boolean. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
+        /// <summary>Autopsy Results Available Helper. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
         /// <value>autopsy results available. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutopsyResultsAvailableBoolean = false;</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailableHelper = "N";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
+        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableHelper}");</para>
         /// </example>
-        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 31)]
+        [Property("Autopsy Results Available Helper", Property.Types.String, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, IGURL.AutopsyPerformedIndicator, true, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyResultsAvailableBoolean
+        public string AutopsyResultsAvailableHelper
         {
             get
             {
-                var code = this.AutopsyResultsAvailable;
-                switch (code["code"])
+                if (AutopsyResultsAvailable.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return AutopsyResultsAvailable["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.AutopsyResultsAvailable = code;
+                SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
             }
         }
 
@@ -6466,12 +6436,12 @@ public string SpouseMaidenName
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "PHC1260");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");</para>
+        /// <para>code.Add("code", "1");</para>
+        /// <para>code.Add("system", VRDR.CodeSystems.PregnancyStatus);</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
-        /// <para>ExampleDeathRecord.PregnancyStatus = code;</para>
+        /// <para>ExampleDeathRecord.PregnancyObs = code;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
+        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyObs['display']}");</para>
         /// </example>
         [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
@@ -6492,22 +6462,9 @@ public string SpouseMaidenName
             {
                 if (PregnancyObs == null)
                 {
-                    PregnancyObs = new Observation();
-                    PregnancyObs.Id = Guid.NewGuid().ToString();
-                    PregnancyObs.Meta = new Meta();
-                    string[] p_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
-                    PregnancyObs.Meta.Profile = p_profile;
-                    PregnancyObs.Status = ObservationStatus.Final;
-                    PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
-                    PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(PregnancyObs.Id);
-                    Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+                    CreatePregnancyObs();
                 }
-                else
-                {
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                }
+                PregnancyObs.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -6539,6 +6496,89 @@ public string SpouseMaidenName
                 SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
             }
         }
+        /// <summary>Decedent's Pregnancy Status at Death Edit Flag.</summary>
+        /// <value>the decedent's pregnancy status at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>elevel.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.EducationLevelEditFlag = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
+        /// </example>
+        // TODO: This URL should be the html one, and those should be generated as well
+        [Property("Decedent's Pregnancy Status at Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public Dictionary<string, string> PregnancyStatusEditFlag
+        {
+            get
+            {
+                if (PregnancyObs != null && PregnancyObs.Value != null && PregnancyObs.Value.Extension != null)
+                {
+                    Extension editFlag = PregnancyObs.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (editFlag != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (PregnancyObs == null)
+                {
+                    CreatePregnancyObs();
+                }
+                if (PregnancyObs.Value != null && PregnancyObs.Value.Extension != null){
+                    PregnancyObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
+                Extension editFlag = new Extension();
+                editFlag.Url = ExtensionURL.BypassEditFlag;
+                editFlag.Value = DictToCodeableConcept(value);
+                if(PregnancyObs.Value == null){
+                    PregnancyObs.Value = new CodeableConcept();
+                }
+                PregnancyObs.Value.Extension.Add(editFlag);
+            }
+        }
+
+        /// <summary>Decedent's Pregnancy Status Edit Flag Helper</summary>
+        /// <value>Decedent's Pregnancy Status Edit Flag.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentPregnancyStatusEditFlag = VRDR.ValueSets.EditBypass012.EditPassed;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Pregnancy Status Edit Flag: {ExampleDeathRecord.PregnancyStatusHelperEditFlag}");</para>
+        /// </example>
+        [Property("Pregnancy Status Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public string PregnancyStatusEditFlagHelper
+        {
+            get
+            {
+                if (PregnancyStatusEditFlag.ContainsKey("code"))
+                {
+                    return PregnancyStatusEditFlag["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+            }
+        }
+
+
         /// <summary>Examiner Contacted.</summary>
         /// <value>if a medical examiner was contacted.</value>
         /// <example>
@@ -7202,22 +7242,10 @@ public string SpouseMaidenName
             {
                 if (TransportationRoleObs == null)
                 {
-                    TransportationRoleObs = new Observation();
-                    TransportationRoleObs.Id = Guid.NewGuid().ToString();
-                    TransportationRoleObs.Meta = new Meta();
-                    string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
-                    TransportationRoleObs.Meta.Profile = t_profile;
-                    TransportationRoleObs.Status = ObservationStatus.Final;
-                    TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-                    TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(TransportationRoleObs.Id);
-                    Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
+                    CreateTransportationRoleObs();
                 }
-                else
-                {
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                }
+                TransportationRoleObs.Value = DictToCodeableConcept(value);
+
             }
         }
         /// <summary>Transportation Role in death helper.</summary>
@@ -7239,13 +7267,29 @@ public string SpouseMaidenName
             {
                 if (TransportationRole.ContainsKey("code"))
                 {
-                    return TransportationRole["code"] ;
+                    string code = TransportationRole["code"] ;
+                    if (code == "OTH"){
+                        if (TransportationRole.ContainsKey("text")){
+                            return (TransportationRole["text"]);
+                        }
+                        return("Other");
+                    }
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value)){ //other
+                    if (TransportationRoleObs == null)
+                    {
+                        CreateTransportationRoleObs();
+                    }
+                    TransportationRoleObs.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value);
+                }
+                else
+                { // normal path
+                    SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                }
             }
         }
 

@@ -805,15 +805,7 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" />
         </meta>
-        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
-          <valueCodeableConcept>
-            <coding>
-              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"/>
-              <code value="0"/>
-              <display value="Edit Passed"/>
-            </coding>
-          </valueCodeableConcept>
-        </extension>
+
         <status value="final" />
         <code>
           <coding>
@@ -826,6 +818,15 @@
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
         <valueCodeableConcept>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+            <valueCodeableConcept>
+              <coding>
+                <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"/>
+                <code value="0"/>
+                <display value="Edit Passed"/>
+              </coding>
+            </valueCodeableConcept>
+          </extension>
           <coding>
             <system value="http://terminology.hl7.org/CodeSystem/v2-0360" />
             <code value="BA" />
@@ -1001,7 +1002,7 @@
       <Observation>
         <id value="4a122c51-878c-476d-ad49-543c50b71166" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator" />
         </meta>
         <status value="final" />
         <code>
@@ -1016,7 +1017,7 @@
         </subject>
         <valueCodeableConcept>
           <coding>
-            <system value="urn:oid:2.16.840.1.113883.12.136" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
             <code value="Y" />
             <display value="Yes" />
           </coding>
@@ -1031,7 +1032,7 @@
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="urn:oid:2.16.840.1.113883.12.136" />
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
               <code value="Y" />
               <display value="Yes" />
             </coding>
@@ -1072,7 +1073,7 @@
       <Observation>
         <id value="437fe2c1-7701-4b72-a9f3-bc6e7575508e" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy" />
         </meta>
         <status value="final" />
         <code>
@@ -1086,10 +1087,19 @@
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
         <valueCodeableConcept>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+              <valueCodeableConcept>
+                <coding>
+                  <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"/>
+                  <code value="0"/>
+                  <display value="Edit Passed"/>
+                </coding>
+              </valueCodeableConcept>
+          </extension>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
-            <code value="NA" />
-            <display value="not applicable" />
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs" />
+            <code value="1" />
+            <display value="Not pregnant within past year" />
           </coding>
         </valueCodeableConcept>
       </Observation>

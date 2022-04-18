@@ -807,7 +807,24 @@
         },
         "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }]
+        }],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "minutes"
+            }
+          }
+        ]
+
       }
     },
     {

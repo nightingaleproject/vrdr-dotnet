@@ -432,6 +432,7 @@
             <coding>
               <system value="http://terminology.hl7.org/CodeSystem/v2-0136"/>
               <code value="Y"/>
+              <display value="Yes"/>
             </coding>
           </valueCodeableConcept>
         </component>

@@ -3495,7 +3495,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3574,7 +3574,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3653,7 +3653,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3732,7 +3732,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
@@ -3949,7 +3949,7 @@ namespace VRDR
                         return CodeableConceptToDict((CodeableConcept)raceMVR.Value);
                     }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {

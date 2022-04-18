@@ -103,15 +103,15 @@ namespace VRDR.CLI
                 certifierIdentifier.Add("value", "1234567890");
                 deathRecord.CertifierIdentifier = certifierIdentifier;
 
-                // CertifierLicenseNumber
-                deathRecord.CertifierLicenseNumber = "789123456";
+                // // CertifierLicenseNumber
+                // deathRecord.CertifierLicenseNumber = "789123456";
 
-                // CertifierQualification
-                Dictionary<string, string> qualification = new Dictionary<string, string>();
-                qualification.Add("code", "434641000124105");
-                qualification.Add("system", "http://snomed.info/sct");
-                qualification.Add("display", "Physician certified and pronounced death certificate");
-                deathRecord.CertifierQualification = qualification;
+                // // CertifierQualification
+                // Dictionary<string, string> qualification = new Dictionary<string, string>();
+                // qualification.Add("code", "434641000124105");
+                // qualification.Add("system", "http://snomed.info/sct");
+                // qualification.Add("display", "Physician certified and pronounced death certificate");
+                // deathRecord.CertifierQualification = qualification;
 
                 // ContributingConditions
                 deathRecord.ContributingConditions = "Example Contributing Conditions";

@@ -4875,12 +4875,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTNUM", "CertifierAddress", "address", "stnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTNUM", "CertifierAddress", "address", "stnum", false, value);
+                }
             }
         }
 
@@ -4890,12 +4893,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTPREDIR", "CertifierAddress", "address", "predir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTPREDIR", "CertifierAddress", "address", "predir", false, value);
+                }
             }
         }
 
@@ -4905,12 +4911,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTRNAME", "CertifierAddress", "address", "stname", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTRNAME", "CertifierAddress", "address", "stname", false, value);
+                }
             }
         }
 
@@ -4920,12 +4929,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTRDESIG", "CertifierAddress", "address", "stdesig", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTRDESIG", "CertifierAddress", "address", "stdesig", false, value);
+                }
             }
         }
 
@@ -4933,29 +4945,35 @@ namespace VRDR
         [IJEField(228, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
         public string CERTPOSTDIR
         {
-            get
+           get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTPOSTDIR", "CertifierAddress", "address", "postdir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTPOSTDIR", "CertifierAddress", "address", "postdir", false, value);
+                }
             }
+
         }
 
         /// <summary>Certifier - Unit or apt number</summary>
         [IJEField(229, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
         public string CERTUNITNUM
         {
-            get
+           get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTUNITNUM", "CertifierAddress", "address", "unitnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTUNITNUM", "CertifierAddress", "address", "unitnum", false, value);
+                }
             }
         }
 
@@ -4989,14 +5007,14 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "addressCity", value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
-                        // If we found a county, we know the country.
-                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "US");
-                    }
+                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    // string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
+                    // if (!String.IsNullOrWhiteSpace(county))
+                    // {
+                    //     Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
+                    //     // If we found a county, we know the country.
+                    //     Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "US");
+                    // }
                 }
             }
         }

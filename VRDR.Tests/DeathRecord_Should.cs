@@ -580,6 +580,12 @@ namespace VRDR.Tests
             caddress.Add("addressState", "MA");
             caddress.Add("addressZip", "01730");
             caddress.Add("addressCountry", "US");
+            caddress.Add("addressPredir", "W");
+            caddress.Add("addressPostdir", "E");
+            caddress.Add("addressStname", "Example");
+            caddress.Add("addressStnum", "11");
+            caddress.Add("addressStdesig", "Street");
+            caddress.Add("addressUnitnum", "3");
             SetterDeathRecord.CertifierAddress = caddress;
             Assert.Equal("11 Example Street", SetterDeathRecord.CertifierAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.CertifierAddress["addressLine2"]);
@@ -588,6 +594,12 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.CertifierAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.CertifierAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.CertifierAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.CertifierAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.CertifierAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.CertifierAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.CertifierAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.CertifierAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.CertifierAddress["addressUnitnum"]);
         }
 
         [Fact]
@@ -609,43 +621,43 @@ namespace VRDR.Tests
             Assert.Equal("US", ((DeathRecord)XMLRecords[0]).CertifierAddress["addressCountry"]);
         }
 
-        [Fact]
-        public void Set_CertifierQualification()
-        {
-            Dictionary<string, string> qualification = new Dictionary<string, string>();
-            qualification.Add("code", "3060");
-            qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
-            qualification.Add("display", "Physicians and surgeons");
-            SetterDeathRecord.CertifierQualification = qualification;
-            Assert.Equal("3060", SetterDeathRecord.CertifierQualification["code"]);
-            Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", SetterDeathRecord.CertifierQualification["system"]);
-            Assert.Equal("Physicians and surgeons", SetterDeathRecord.CertifierQualification["display"]);
-        }
+        // [Fact]
+        // public void Set_CertifierQualification()
+        // {
+        //     Dictionary<string, string> qualification = new Dictionary<string, string>();
+        //     qualification.Add("code", "3060");
+        //     qualification.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");
+        //     qualification.Add("display", "Physicians and surgeons");
+        //     SetterDeathRecord.CertifierQualification = qualification;
+        //     Assert.Equal("3060", SetterDeathRecord.CertifierQualification["code"]);
+        //     Assert.Equal("urn:oid:2.16.840.1.114222.4.11.7186", SetterDeathRecord.CertifierQualification["system"]);
+        //     Assert.Equal("Physicians and surgeons", SetterDeathRecord.CertifierQualification["display"]);
+        // }
 
-        [Fact]
-        public void Get_CertifierQualification()
-        {
-            Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physician", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
-            Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
-            Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
-            Assert.Equal("Physician", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
-        }
+        // [Fact]
+        // public void Get_CertifierQualification()
+        // {
+        //     Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertifierQualification["code"]);
+        //     Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertifierQualification["system"]);
+        //     Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertifierQualification["display"]);
+        //     Assert.Equal("434641000124105", ((DeathRecord)XMLRecords[0]).CertifierQualification["code"]);
+        //     Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).CertifierQualification["system"]);
+        //     Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertifierQualification["display"]);
+        // }
 
-        [Fact]
-        public void Set_CertifierLicenseNumber()
-        {
-            SetterDeathRecord.CertifierLicenseNumber = "789123456";
-            Assert.Equal("789123456", SetterDeathRecord.CertifierLicenseNumber);
-        }
+        // [Fact]
+        // public void Set_CertifierLicenseNumber()
+        // {
+        //     SetterDeathRecord.CertifierLicenseNumber = "789123456";
+        //     Assert.Equal("789123456", SetterDeathRecord.CertifierLicenseNumber);
+        // }
 
-        [Fact]
-        public void Get_CertifierLicenseNumber()
-        {
-            Assert.Equal("789123456", ((DeathRecord)JSONRecords[0]).CertifierLicenseNumber);
-            Assert.Equal("789123456", ((DeathRecord)XMLRecords[0]).CertifierLicenseNumber);
-        }
+        // [Fact]
+        // public void Get_CertifierLicenseNumber()
+        // {
+        //     Assert.Equal("789123456", ((DeathRecord)JSONRecords[0]).CertifierLicenseNumber);
+        //     Assert.Equal("789123456", ((DeathRecord)XMLRecords[0]).CertifierLicenseNumber);
+        // }
 
         [Fact]
         public void Set_ContributingConditions()

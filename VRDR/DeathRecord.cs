@@ -1230,7 +1230,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
-        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 5)]
+        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, IGURL.Certifier, true, 5)]
         [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
         public string[] CertifierGivenNames
         {
@@ -1362,15 +1362,21 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 8)]
+        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, IGURL.Certifier, true, 8)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressStnum", "address, stnum")]
+        [PropertyParam("addressPredir", "address, predir")]
+        [PropertyParam("addressPostdir", "address, postdir")]
+        [PropertyParam("addressStname", "address, stname")]
+        [PropertyParam("addressStrdesig", "address, strdesig")]
+        [PropertyParam("addressUnitnum", "address, unitnum")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "address")]
         public Dictionary<string, string> CertifierAddress
         {
             get
@@ -1384,67 +1390,67 @@ namespace VRDR
             }
         }
 
-        /// <summary>Certifier Qualification.</summary>
-        /// <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>qualification.Add("code", "434641000124105");</para>
-        /// <para>qualification.Add("system", CodeSystems.SCT);</para>
-        /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
-        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
-        /// </example>
-        [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 9)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
-        public Dictionary<string, string> CertifierQualification
-        {
-            get
-            {
-                Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-                if (qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null)
-                {
-                    return CodeableConceptToDict(qualification.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (Certifier.Qualification.FirstOrDefault() == null)
-                {
-                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-                    qualification.Code = DictToCodeableConcept(value);
-                    Certifier.Qualification.Add(qualification);
-                }
-                else
-                {
-                    Certifier.Qualification.First().Code = DictToCodeableConcept(value);
-                }
-            }
-        }
+        // /// <summary>Certifier Qualification.</summary>
+        // /// <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>qualification.Add("code", "434641000124105");</para>
+        // /// <para>qualification.Add("system", CodeSystems.SCT);</para>
+        // /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
+        // /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+        // /// </example>
+        // [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 9)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        // public Dictionary<string, string> CertifierQualification
+        // {
+        //     get
+        //     {
+        //         Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
+        //         if (qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null)
+        //         {
+        //             return CodeableConceptToDict(qualification.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if (Certifier.Qualification.FirstOrDefault() == null)
+        //         {
+        //             Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+        //             qualification.Code = DictToCodeableConcept(value);
+        //             Certifier.Qualification.Add(qualification);
+        //         }
+        //         else
+        //         {
+        //             Certifier.Qualification.First().Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Certifier Identifier.</summary>
-        /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        /// <para>identifier.Add("value", "1234567890");</para>
-        /// <para>ExampleDeathRecord.CertifierIdentifier = identifier;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
-        /// </example>
+        // /// <summary>Certifier Identifier.</summary>
+        // /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        // /// <para>"system" - the identifier system, e.g. US NPI</para>
+        // /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        // /// <para>identifier.Add("value", "1234567890");</para>
+        // /// <para>ExampleDeathRecord.CertifierIdentifier = identifier;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
+        // /// </example>
         [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 10)]
         [PropertyParam("system", "The identifier system.")]
         [PropertyParam("value", "The identifier value.")]
@@ -1477,50 +1483,50 @@ namespace VRDR
             }
         }
 
-        /// <summary>Certifier License Number.</summary>
-        /// <value>A string containing the certifier license number.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
-        /// </example>
-        [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
-        public string CertifierLicenseNumber
-        {
-            get
-            {
-                Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-                if (qualification != null && qualification.Identifier.FirstOrDefault() != null)
-                {
-                    if (!String.IsNullOrWhiteSpace(qualification.Identifier.First().Value))
-                    {
-                        return qualification.Identifier.First().Value;
-                    }
-                    return null;
-                }
-                return null;
-            }
-            set
-            {
-                if (Certifier.Qualification.FirstOrDefault() == null)
-                {
-                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    qualification.Identifier.Add(identifier);
-                    Certifier.Qualification.Add(qualification);
-                }
-                else
-                {
-                    Certifier.Qualification.First().Identifier.Clear();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    Certifier.Qualification.First().Identifier.Add(identifier);
-                }
-            }
-        }
+        // /// <summary>Certifier License Number.</summary>
+        // /// <value>A string containing the certifier license number.</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+        // /// </example>
+        // [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        // public string CertifierLicenseNumber
+        // {
+        //     get
+        //     {
+        //         Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
+        //         if (qualification != null && qualification.Identifier.FirstOrDefault() != null)
+        //         {
+        //             if (!String.IsNullOrWhiteSpace(qualification.Identifier.First().Value))
+        //             {
+        //                 return qualification.Identifier.First().Value;
+        //             }
+        //             return null;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         if (Certifier.Qualification.FirstOrDefault() == null)
+        //         {
+        //             Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+        //             Identifier identifier = new Identifier();
+        //             identifier.Value = value;
+        //             qualification.Identifier.Add(identifier);
+        //             Certifier.Qualification.Add(qualification);
+        //         }
+        //         else
+        //         {
+        //             Certifier.Qualification.First().Identifier.Clear();
+        //             Identifier identifier = new Identifier();
+        //             identifier.Value = value;
+        //             Certifier.Qualification.First().Identifier.Add(identifier);
+        //         }
+        //     }
+        // }
 
         /// <summary>Significant conditions that contributed to death but did not result in the underlying cause.
         /// Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
@@ -2470,7 +2476,7 @@ namespace VRDR
             }
         }
 
-        
+
         /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
         /// <value>the decedent's date of birth date part absent reason</value>
         /// <example>
@@ -2577,8 +2583,8 @@ namespace VRDR
                 }
                 Decedent.Address.Clear();
                 Decedent.Address.Add(DictToAddress(value));
-                
-            
+
+
                 // Now encode -
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
@@ -2802,7 +2808,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 1 Helper</summary>
         /// <value>Decedent's Ethnicity 1.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.EthnicityLevel = VRDR.ValueSets.YesNoUnknown.Yes;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
@@ -2881,7 +2887,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 2 Helper</summary>
         /// <value>Decedent's Ethnicity 2.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity2Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
@@ -2960,7 +2966,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 3 Helper</summary>
         /// <value>Decedent's Ethnicity 3.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity3Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity3Helper}");</para>
@@ -3039,7 +3045,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 4 Helper</summary>
         /// <value>Decedent's Ethnicity 4.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity4Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity4Helper}");</para>
@@ -3147,7 +3153,7 @@ namespace VRDR
                             string raceBool = ((FhirBoolean)component.Value).ToString();
 
                             if (Convert.ToBoolean(raceBool))
-                            {   
+                            {
                                 var race = Tuple.Create(raceCode, "Y");
                                 races.Add(race);
                             }
@@ -3155,7 +3161,7 @@ namespace VRDR
                             {
                                 var race = Tuple.Create(raceCode, "N");
                                 races.Add(race);
-                            } 
+                            }
                         }
                         else
                         {
@@ -3279,7 +3285,7 @@ namespace VRDR
                 SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
             }
         }
-       
+
         /// <summary>Decedent's Place Of Birth.</summary>
         /// <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
@@ -3411,7 +3417,7 @@ namespace VRDR
                 {
                     Decedent.MaritalStatus = DictToCodeableConcept(value);
                 }
-                else 
+                else
                 {
                     string text = Decedent.MaritalStatus.Text;
                     Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
@@ -3419,7 +3425,7 @@ namespace VRDR
                     Decedent.MaritalStatus.Extension.Add(bypass);
                     Decedent.MaritalStatus.Text = text;
                 }
-                
+
             }
         }
 
@@ -3558,7 +3564,7 @@ namespace VRDR
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
                 }
-                Decedent.MaritalStatus.Text = value;  
+                Decedent.MaritalStatus.Text = value;
             }
         }
 
@@ -7839,7 +7845,7 @@ namespace VRDR
                     {
                         address.City = dict["addressCity"];
                     }
-                    
+
                 }
                 if (dict.ContainsKey("addressCountyC") && !String.IsNullOrEmpty(dict["addressCountyC"]))
                 {
@@ -8026,9 +8032,9 @@ namespace VRDR
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
                     if (districtCode != null){
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
-                    } 
+                    }
                 }
-                
+
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 if (stnum != null)
                 {
@@ -8046,34 +8052,34 @@ namespace VRDR
                 {
                     dictionary["addressStname"] = stname.Value.ToString();
                 }
-                
+
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 if (stdesig != null)
                 {
                     dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
-                
+
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 if (postdir != null)
                 {
                     dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
-                
+
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 if (unitnum != null)
                 {
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
-                
+
                 //Check for possible state extension
                 dictionary["addressState"] = addr.State;
-                if (addr.StateElement != null) 
+                if (addr.StateElement != null)
                 {
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
                     if (stateExt != null)
                     {
                         dictionary["addressState"] = stateExt.Value.ToString();
-                    } 
+                    }
                 }
                 if (addr.City != null)
                 {
@@ -8121,7 +8127,7 @@ namespace VRDR
             dictionary.Add("display", "");
             return dictionary;
         }
-        
+
         /// <summary>Returns an empty "code" Dictionary for race and ethnicity.</summary>
         /// <returns>an empty "code" Dictionary.</returns>
         private Dictionary<string, string> EmptyRaceEthnicityCodeDict()

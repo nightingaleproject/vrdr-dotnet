@@ -49,16 +49,16 @@ jobs:
           echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
           dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml"
-          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json"
-          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json  
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json
           echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml
           echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json
           echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml
           echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json
           echo "* ./VRDR.Tests/test_translation_service.sh"
-          echo " DISABLED ./VRDR.Tests/test_translation_service.sh"
+          echo " ./VRDR.Tests/test_translation_service.sh DISABLE FOR 1.3"

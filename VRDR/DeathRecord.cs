@@ -6023,7 +6023,7 @@ namespace VRDR
               }
         }
 
-        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]

@@ -1489,7 +1489,8 @@
               "system": "http://snomed.info/sct",
               "code": "257500003",
               "display": "Passenger"
-          }]}},
+          }]}
+          },
           {
             "code": {
               "coding": [

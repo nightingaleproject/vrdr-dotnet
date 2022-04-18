@@ -1212,28 +1212,6 @@
                 }
               ]
             }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69444-8",
-                  "display": "Did death result from injury at work"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69448-9",
-                  "display": "Injury leading to death associated with transportation event"
-                }
-              ]
-            }
           }
         ]
       }

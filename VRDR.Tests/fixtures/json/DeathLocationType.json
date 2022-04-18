@@ -1181,29 +1181,7 @@
         },
         "subject": {
           "reference": "urn:uuid:b7cff225-dc4a-45ff-b998-a1f230eb8282"
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69448-9",
-                  "display": "Injury leading to death associated with transportation event"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-                  "code": "N",
-                  "display": "No"
-                }
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     {

@@ -20,6 +20,7 @@ namespace VRDR.Tests
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
+            //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
             SetterDeathRecord = new DeathRecord();
         }
 
@@ -149,8 +150,8 @@ namespace VRDR.Tests
         {
             DeathRecord sample1 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml")));
             DeathRecord sample2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
-            Assert.Equal("Last", sample1.FamilyName);
-            Assert.Equal("Last", sample2.FamilyName);
+            Assert.Equal("Patel", sample1.FamilyName);
+            Assert.Equal("Patel", sample2.FamilyName);
             sample1.FamilyName = "1changed2abc";
             sample2.FamilyName = "2changed1xyz";
             Assert.Equal("1changed2abc", sample1.FamilyName);
@@ -197,14 +198,25 @@ namespace VRDR.Tests
             // Hispanic or Latino
             DeathRecord d = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord.json")));
             IJEMortality ije1 = new IJEMortality(d);
-            Assert.Equal("N", ije1.DETHNIC1);
+            Assert.Equal("H", ije1.DETHNIC1);
             Assert.Equal("H", ije1.DETHNIC2);
-            Assert.Equal("N", ije1.DETHNIC3);
+            Assert.Equal("H", ije1.DETHNIC3);
             Assert.Equal("H", ije1.DETHNIC4);
-            Assert.Equal("Y", ije1.RACE3);
-            Assert.Equal("Y", ije1.RACE15);
-            Assert.Equal("Israeili", ije1.RACE22);
-            Assert.Equal("Minnesota Chippewa", ije1.RACE16);
+            Assert.Equal("Y", ije1.RACE1);
+            Assert.Equal("N", ije1.RACE2);
+            Assert.Equal("N", ije1.RACE3);
+            Assert.Equal("N", ije1.RACE4);
+            Assert.Equal("N", ije1.RACE5);
+            Assert.Equal("N", ije1.RACE6);
+            Assert.Equal("N", ije1.RACE7);
+            Assert.Equal("N", ije1.RACE8);
+            Assert.Equal("N", ije1.RACE9);
+            Assert.Equal("N", ije1.RACE10);
+            Assert.Equal("N", ije1.RACE11);
+            Assert.Equal("N", ije1.RACE12);
+            Assert.Equal("N", ije1.RACE13);
+            Assert.Equal("N", ije1.RACE14);
+            Assert.Equal("N", ije1.RACE15);
 
             // Non Hispanic or Latino
             DeathRecord d2 = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/RaceEthnicityCaseRecord2.json")));
@@ -226,57 +238,24 @@ namespace VRDR.Tests
             DeathRecord d2 = ije2.ToDeathRecord();
 
             // Ethnicity tuple
-            bool hispanicOrLatino = false;
-            bool puertoRican = false;
-            // IJE format is limited in roundtripping "other" hispanic origin types like Dominican
-            foreach(var pair in d2.Ethnicity)
-            {
-                switch(pair.Item1)
-                {
-                    case "Hispanic or Latino":
-                        Assert.Equal("2135-2", pair.Item2);
-                        hispanicOrLatino = true;
-                        break;
-                    case "Puerto Rican":
-                        Assert.Equal("2180-8", pair.Item2);
-                        puertoRican = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            Assert.Equal(2, d2.Ethnicity.Length);
-            Assert.True(hispanicOrLatino);
-            Assert.True(puertoRican);
+            Assert.Equal("Y", d2.Ethnicity2Helper);
 
             // Race tuple
-            bool americanIndian = false;
-            bool israeili = false;
-            bool minnesotaChippewa = false;
             foreach(var pair in d2.Race)
             {
                 switch(pair.Item1)
                 {
-                    case "American Indian or Alaska Native":
-                        Assert.Equal("1002-5", pair.Item2);
-                        americanIndian = true;
+                    case NvssRace.White:
+                        Assert.Equal("Y", pair.Item2);
                         break;
-                    case "Israeili":
-                        Assert.Equal("2127-9", pair.Item2);
-                        israeili = true;
-                        break;
-                    case "Minnesota Chippewa":
-                        Assert.Equal("1139-5", pair.Item2);
-                        minnesotaChippewa = true;
+                    case NvssRace.AmericanIndianOrAlaskaNative:
+                        Assert.Equal("N", pair.Item2);
                         break;
                     default:
                         break;
                 }
             }
-            Assert.Equal(3, d2.Race.Length);
-            Assert.True(americanIndian);
-            Assert.True(israeili);
-            Assert.True(minnesotaChippewa);
+            Assert.Equal(15, d2.Race.Length);
         }
 
         [Fact]
@@ -1032,12 +1011,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_GivenNames()
         {
-            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).GivenNames[0]);
-            Assert.Equal("Something", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[2]);
-            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
-            Assert.Equal("Something", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[2]);
+            Assert.Equal("Madelyn", ((DeathRecord)JSONRecords[0]).GivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).GivenNames[1]);
+            Assert.Equal("Madelyn", ((DeathRecord)XMLRecords[0]).GivenNames[0]);
+            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).GivenNames[1]);
         }
 
         [Fact]
@@ -1050,8 +1027,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FamilyName()
         {
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).FamilyName);
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).FamilyName);
+            Assert.Equal("Patel", ((DeathRecord)JSONRecords[0]).FamilyName);
+            Assert.Equal("Patel", ((DeathRecord)XMLRecords[0]).FamilyName);
         }
 
         [Fact]
@@ -1068,33 +1045,33 @@ namespace VRDR.Tests
             Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).Suffix);
         }
 
+        // v1.3 OBE tests
+        // [Fact]
+        // public void Set_Gender()
+        // {
+        //     SetterDeathRecord.Gender = "male";
+        //     Assert.Equal("male", SetterDeathRecord.Gender);
+        // }
+
+        // [Fact]
+        // public void Get_Gender()
+        // {
+        //     Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
+        //     Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
+        // }
 
         [Fact]
-        public void Set_Gender()
+        public void Set_SexAtDeath()
         {
-            SetterDeathRecord.Gender = "male";
-            Assert.Equal("male", SetterDeathRecord.Gender);
+            SetterDeathRecord.SexAtDeathHelper = "female";
+            Assert.Equal("female", SetterDeathRecord.SexAtDeathHelper);
         }
 
         [Fact]
-        public void Get_Gender()
+        public void Get_SexAtDeath()
         {
-            Assert.Equal("male", ((DeathRecord)JSONRecords[0]).Gender);
-            Assert.Equal("male", ((DeathRecord)XMLRecords[0]).Gender);
-        }
-
-        [Fact]
-        public void Set_BirthSex()
-        {
-            SetterDeathRecord.BirthSex = "F";
-            Assert.Equal("F", SetterDeathRecord.BirthSex);
-        }
-
-        [Fact]
-        public void Get_BirthSex()
-        {
-            Assert.Equal("F", ((DeathRecord)JSONRecords[0]).BirthSex);
-            Assert.Equal("F", ((DeathRecord)XMLRecords[0]).BirthSex);
+            Assert.Equal("unknown", ((DeathRecord)JSONRecords[0]).SexAtDeathHelper);
+            Assert.Equal("unknown", ((DeathRecord)XMLRecords[0]).SexAtDeathHelper);
         }
 
         [Fact]
@@ -1122,7 +1099,17 @@ namespace VRDR.Tests
             raddress.Add("addressState", "MA");
             raddress.Add("addressZip", "01730");
             raddress.Add("addressCountry", "US");
+            raddress.Add("addressCityC", "1234");
+            raddress.Add("addressCountyC", "123");
+            raddress.Add("addressStnum", "101");
+            raddress.Add("addressPredir", "N");
+            raddress.Add("addressStname", "Example");
+            raddress.Add("addressStdesig", "St");
+            raddress.Add("addressPostdir", "W");
+            raddress.Add("addressUnitnum", "A");
+
             SetterDeathRecord.Residence = raddress;
+            
             Assert.Equal("101 Example Street", SetterDeathRecord.Residence["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.Residence["addressLine2"]);
             Assert.Equal("Bedford", SetterDeathRecord.Residence["addressCity"]);
@@ -1130,23 +1117,32 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.Residence["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.Residence["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.Residence["addressCountry"]);
+
+            Assert.Equal("1234", SetterDeathRecord.Residence["addressCityC"]);
+            Assert.Equal("123", SetterDeathRecord.Residence["addressCountyC"]);
+            Assert.Equal("101", SetterDeathRecord.Residence["addressStnum"]);
+            Assert.Equal("N", SetterDeathRecord.Residence["addressPredir"]);
+            Assert.Equal("Example", SetterDeathRecord.Residence["addressStname"]);
+            Assert.Equal("St", SetterDeathRecord.Residence["addressStdesig"]);
+            Assert.Equal("W", SetterDeathRecord.Residence["addressPostdir"]);
+            Assert.Equal("A", SetterDeathRecord.Residence["addressUnitnum"]);
         }
 
         [Fact]
         public void Get_Residence()
         {
-            Assert.Equal("101 Example Street", ((DeathRecord)JSONRecords[0]).Residence["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).Residence["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).Residence["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).Residence["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).Residence["addressState"]);
+            Assert.Equal("5590 Lockwood Drive", ((DeathRecord)JSONRecords[0]).Residence["addressLine1"]);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).Residence["addressLine2"]);
+            Assert.Equal("Danville", ((DeathRecord)JSONRecords[0]).Residence["addressCity"]);
+            Assert.Equal("Fairfax", ((DeathRecord)JSONRecords[0]).Residence["addressCounty"]);
+            Assert.Equal("VA", ((DeathRecord)JSONRecords[0]).Residence["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).Residence["addressZip"]);
             Assert.Equal("US", ((DeathRecord)JSONRecords[0]).Residence["addressCountry"]);
-            Assert.Equal("101 Example Street", ((DeathRecord)XMLRecords[0]).Residence["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).Residence["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).Residence["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).Residence["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).Residence["addressState"]);
+            Assert.Equal("5590 Lockwood Drive", ((DeathRecord)XMLRecords[0]).Residence["addressLine1"]);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).Residence["addressLine2"]);
+            Assert.Equal("Danville", ((DeathRecord)XMLRecords[0]).Residence["addressCity"]);
+            Assert.Equal("Fairfax", ((DeathRecord)XMLRecords[0]).Residence["addressCounty"]);
+            Assert.Equal("VA", ((DeathRecord)XMLRecords[0]).Residence["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).Residence["addressZip"]);
             Assert.Equal("US", ((DeathRecord)XMLRecords[0]).Residence["addressCountry"]);
         }
@@ -1168,8 +1164,8 @@ namespace VRDR.Tests
         [Fact]
         public void Set_ResidenceWithinCityLimits()
         {
-            Assert.False(((DeathRecord)JSONRecords[0]).ResidenceWithinCityLimitsBoolean);
-            Assert.False(((DeathRecord)XMLRecords[0]).ResidenceWithinCityLimitsBoolean);
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).ResidenceWithinCityLimitsHelper);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).ResidenceWithinCityLimitsHelper);
         }
 
         [Fact]
@@ -1182,31 +1178,24 @@ namespace VRDR.Tests
         [Fact]
         public void Get_SSN()
         {
-            Assert.Equal("123456789", ((DeathRecord)JSONRecords[0]).SSN);
-            Assert.Equal("123456789", ((DeathRecord)XMLRecords[0]).SSN);
+            Assert.Equal("987654321", ((DeathRecord)JSONRecords[0]).SSN);
+            Assert.Equal("987654321", ((DeathRecord)XMLRecords[0]).SSN);
         }
 
         [Fact]
         public void Set_Ethnicity()
         {
-            SetterDeathRecord.EthnicityText = "Not Hispanic or Latino";
-            Assert.Equal("Not Hispanic or Latino", SetterDeathRecord.EthnicityText);
-            Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
-            SetterDeathRecord.Ethnicity = ethnicity;
-            Assert.Equal(ethnicity[0], SetterDeathRecord.Ethnicity[0]);
-            Assert.Equal(ethnicity[1], SetterDeathRecord.Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", SetterDeathRecord.EthnicityText);
+            SetterDeathRecord.EthnicityLiteral = "Hispanic or Latino, Puerto Rican";
+            SetterDeathRecord.Ethnicity2Helper = "Y";
+            Assert.Equal("Y", SetterDeathRecord.Ethnicity2Helper);
+            Assert.Equal("Hispanic or Latino, Puerto Rican", SetterDeathRecord.EthnicityLiteral);
         }
 
         [Fact]
         public void Get_Ethnicity()
         {
-            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)JSONRecords[0]).Ethnicity[0]);
-            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)JSONRecords[0]).Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)JSONRecords[0]).EthnicityText);
-            Assert.Equal(Tuple.Create("Hispanic or Latino", "2135-2"), ((DeathRecord)XMLRecords[0]).Ethnicity[0]);
-            Assert.Equal(Tuple.Create("Puerto Rican", "2180-8"), ((DeathRecord)XMLRecords[0]).Ethnicity[1]);
-            Assert.Equal("Hispanic or Latino, Puerto Rican", ((DeathRecord)XMLRecords[0]).EthnicityText);
+            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).Ethnicity1Helper);
+            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).Ethnicity1Helper);
         }
 
         [Fact]
@@ -1252,26 +1241,47 @@ namespace VRDR.Tests
         [Fact]
         public void Set_Race()
         {
-            SetterDeathRecord.RaceText = "White";
-            Assert.Equal("White", SetterDeathRecord.RaceText);
-            Tuple<string, string>[] race = {Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8")};
+            Tuple<string, string>[] race = new Tuple<string, string>[]{Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslandLiteral1, "White, Native Hawaiian or Other Pacific Islander")};
             SetterDeathRecord.Race = race;
             Assert.Equal(race[0], SetterDeathRecord.Race[0]);
             Assert.Equal(race[1], SetterDeathRecord.Race[1]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander", SetterDeathRecord.RaceText);
+            Assert.Equal(race[2], SetterDeathRecord.Race[2]);
         }
 
         [Fact]
         public void Get_Race()
         {
-            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)JSONRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)JSONRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)JSONRecords[0]).Race[2]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)JSONRecords[0]).RaceText);
-            Assert.Equal(Tuple.Create("White", "2106-3"), ((DeathRecord)XMLRecords[0]).Race[0]);
-            Assert.Equal(Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), ((DeathRecord)XMLRecords[0]).Race[1]);
-            Assert.Equal(Tuple.Create("Native Hawaiian", "2079-2"), ((DeathRecord)XMLRecords[0]).Race[2]);
-            Assert.Equal("White, Native Hawaiian or Other Pacific Islander, Native Hawaiian", ((DeathRecord)XMLRecords[0]).RaceText);
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)JSONRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)JSONRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)JSONRecords[0]).Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)JSONRecords[0]).Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)JSONRecords[0]).Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)JSONRecords[0]).Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)JSONRecords[0]).Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)JSONRecords[0]).Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)JSONRecords[0]).Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)JSONRecords[0]).Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)JSONRecords[0]).Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)JSONRecords[0]).Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)JSONRecords[0]).Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)JSONRecords[0]).Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)JSONRecords[0]).Race[14]);
+
+            Assert.Equal(Tuple.Create(NvssRace.White, "Y"), ((DeathRecord)XMLRecords[0]).Race[0]);
+            Assert.Equal(Tuple.Create(NvssRace.BlackOrAfricanAmerican, "N"), ((DeathRecord)XMLRecords[0]).Race[1]);
+            Assert.Equal(Tuple.Create(NvssRace.AmericanIndianOrAlaskaNative, "N"), ((DeathRecord)XMLRecords[0]).Race[2]);
+            Assert.Equal(Tuple.Create(NvssRace.AsianIndian, "N"), ((DeathRecord)XMLRecords[0]).Race[3]);
+            Assert.Equal(Tuple.Create(NvssRace.Chinese, "N"), ((DeathRecord)XMLRecords[0]).Race[4]);
+            Assert.Equal(Tuple.Create(NvssRace.Filipino, "N"), ((DeathRecord)XMLRecords[0]).Race[5]);
+            Assert.Equal(Tuple.Create(NvssRace.Japanese, "N"), ((DeathRecord)XMLRecords[0]).Race[6]);
+            Assert.Equal(Tuple.Create(NvssRace.Korean, "N"), ((DeathRecord)XMLRecords[0]).Race[7]);
+            Assert.Equal(Tuple.Create(NvssRace.Vietnamese, "N"), ((DeathRecord)XMLRecords[0]).Race[8]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherAsian, "N"), ((DeathRecord)XMLRecords[0]).Race[9]);
+            Assert.Equal(Tuple.Create(NvssRace.NativeHawaiian, "N"), ((DeathRecord)XMLRecords[0]).Race[10]);
+            Assert.Equal(Tuple.Create(NvssRace.GuamanianOrChamorro, "N"), ((DeathRecord)XMLRecords[0]).Race[11]);
+            Assert.Equal(Tuple.Create(NvssRace.Samoan, "N"), ((DeathRecord)XMLRecords[0]).Race[12]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherPacificIslander, "N"), ((DeathRecord)XMLRecords[0]).Race[13]);
+            Assert.Equal(Tuple.Create(NvssRace.OtherRace, "N"), ((DeathRecord)XMLRecords[0]).Race[14]);
         }
 
         [Fact]
@@ -1298,19 +1308,19 @@ namespace VRDR.Tests
         [Fact]
         public void Get_PlaceOfBirth()
         {
-            Assert.Equal("1011 Example Street", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressZip"]);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine1"]);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Roanoke", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCity"]);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCounty"]);
+            Assert.Equal("VA", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressState"]);
+            Assert.Equal("", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressZip"]);
             Assert.Equal("US", ((DeathRecord)JSONRecords[0]).PlaceOfBirth["addressCountry"]);
-            Assert.Equal("1011 Example Street", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressZip"]);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine1"]);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressLine2"]);
+            Assert.Equal("Roanoke", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCity"]);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCounty"]);
+            Assert.Equal("VA", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressState"]);
+            Assert.Equal("", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressZip"]);
             Assert.Equal("US", ((DeathRecord)XMLRecords[0]).PlaceOfBirth["addressCountry"]);
         }
 
@@ -1332,6 +1342,59 @@ namespace VRDR.Tests
             Assert.Equal(ValueSets.MaritalStatus.Never_Married, ((DeathRecord)XMLRecords[0]).MaritalStatus["code"]);
             Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, ((DeathRecord)XMLRecords[0]).MaritalStatus["system"]);
             Assert.Equal("Never Married", ((DeathRecord)XMLRecords[0]).MaritalStatus["display"]);
+        }
+
+        [Fact]
+        public void Set_MaritalBypass()
+        {
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.MaritalBypass["display"]);
+        }
+
+        [Fact]
+        public void Get_MaritalBypass()
+        {
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)JSONRecords[0]).MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).MaritalBypass["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)XMLRecords[0]).MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).MaritalBypass["display"]);
+        }
+
+        [Fact]
+        public void Get_MaritalBypassHelper()
+        {
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+        }
+
+        [Fact]
+        public void Get_MaritalStatusAndBypass()
+        {
+            SetterDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.Never_Married;
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, SetterDeathRecord.MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, SetterDeathRecord.MaritalStatus["system"]);
+            Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+        }
+
+        [Fact]
+        public void Set_MaritalDescriptor()
+        {
+            SetterDeathRecord.MaritalStatusLiteral = "Single";
+            Assert.Equal("Single", SetterDeathRecord.MaritalStatusLiteral);
+        }
+
+        [Fact]
+        public void Get_MaritalDescriptor()
+        {
+            Assert.Equal("Single", ((DeathRecord)JSONRecords[0]).MaritalStatusLiteral);
+            Assert.Equal("Single", ((DeathRecord)XMLRecords[0]).MaritalStatusLiteral);
         }
 
         [Fact]
@@ -1424,6 +1487,42 @@ namespace VRDR.Tests
         {
             Assert.Equal("Dr.", ((DeathRecord)JSONRecords[0]).MotherSuffix);
             Assert.Equal("Dr.", ((DeathRecord)XMLRecords[0]).MotherSuffix);
+        }
+
+        [Fact]
+        public void Set_ContactRelationship()
+        {
+            Dictionary<string, string> relationship = new Dictionary<string, string>();
+            relationship.Add("text", "sibling");
+            SetterDeathRecord.ContactRelationship = relationship;
+            Assert.Equal("sibling", SetterDeathRecord.ContactRelationship["text"]);
+        }
+
+        [Fact]
+        public void Get_ContactRelationship()
+        {
+            Assert.Equal("Friend of family", ((DeathRecord)JSONRecords[0]).ContactRelationship["text"]);
+            Assert.Equal("Friend of family", ((DeathRecord)XMLRecords[0]).ContactRelationship["text"]);
+        }
+
+        [Fact]
+        public void Set_SpouseLiving()
+        {
+            SetterDeathRecord.SpouseAliveHelper = ValueSets.YesNoUnknownNotApplicable.Yes;
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, SetterDeathRecord.SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.SpouseAlive["system"]);
+            Assert.Equal("Yes", SetterDeathRecord.SpouseAlive["display"]);
+        }
+
+        [Fact]
+        public void Get_SpouseLiving()
+        {
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)JSONRecords[0]).SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).SpouseAlive["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).SpouseAlive["display"]);
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)XMLRecords[0]).SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).SpouseAlive["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).SpouseAlive["display"]);
         }
 
         [Fact]

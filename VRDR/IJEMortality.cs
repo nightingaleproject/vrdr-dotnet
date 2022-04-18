@@ -475,7 +475,7 @@ namespace VRDR
             string current = Convert.ToString(dictionary[key]);
             if (isCoded)
             {
-                if (geoType == "place"|| geoType == "city")
+                if (geoType == "place") //|| geoType == "city")
                 {
                     string state = null;
                     string county = null;
@@ -486,37 +486,13 @@ namespace VRDR
                         current = dataLookup.StateNameAndCountyNameAndPlaceNameToPlaceCode(state, county, current);
                     }
                 }
-                else if (geoType == "county")
-                {
-                    // check for unknown or other values
-                    string county = null;
-                    dictionary.TryGetValue(keyPrefix + "County", out county);
-                    if (county == "UNK")
-                    {
-                        current = "999";
-                    }
-                    else if (county == "OTH")
-                    {
-                        current = "000";
-                    }
-                    else
-                    {
-                        string state = null;
-                        dictionary.TryGetValue(keyPrefix + "State", out state);
-
-                        if (state != null)
-                        {
-                            current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
-                        }
-                    }
-                }
                 else if (geoType == "state")
                 {
-                    current = dataLookup.StateNameToStateCode(current);
+                    //current = dataLookup.StateNameToStateCode(current);
                 }
                 else if (geoType == "country")
                 {
-                    current = dataLookup.CountryNameToCountryCode(current);
+                    //current = dataLookup.CountryNameToCountryCode(current);
                 }
                 else if (geoType == "insideCityLimits")
                 {
@@ -534,6 +510,7 @@ namespace VRDR
                     }
                 }
             }
+
             if (current != null)
             {
                 return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
@@ -554,7 +531,8 @@ namespace VRDR
             {
                 if (isCoded)
                 {
-                    if (geoType == "place" || geoType == "city") // This is a tricky case, we need to know about county and state!
+                    // v1.3 removed lookups for city
+                    if (geoType == "place") // This is a tricky case, we need to know about county and state!
                     {
                         string state = null;
                         string county = null;
@@ -569,31 +547,6 @@ namespace VRDR
                             }
                         }
                     }
-                    else if (geoType == "county") // This is a tricky case, we need to know about state!
-                    {
-                        // Handle unknown
-                        if (value == "999")
-                        {
-                            dictionary[key] = "UNK";
-                        }
-                        else if (value == "000")
-                        {
-                            dictionary[key] = "OTH";
-                        }
-                        else
-                        {
-                            string state = null;
-                            dictionary.TryGetValue(keyPrefix + "State", out state);
-                            if (!String.IsNullOrWhiteSpace(state))
-                            {
-                                string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
-                                if (!String.IsNullOrWhiteSpace(county))
-                                {
-                                    dictionary[key] = county;
-                                }
-                            }
-                        }
-                    }
                     else if (geoType == "state" || geoType == "country")
                     {
                         dictionary[key] = value;
@@ -604,6 +557,10 @@ namespace VRDR
                         {
                             dictionary[key] = "False";
                         }
+                    }
+                    else
+                    {
+                        dictionary[key] = value.Trim();
                     }
                 }
                 else
@@ -619,107 +576,25 @@ namespace VRDR
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
-        /// <summary>If the decedent was of hispanic origin, returns a list of ethnicities.</summary>
-        private string[] HispanicOrigin()
-        {
-            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-            List<string> ethnicities = new List<string>();
-            // Check if hispanic origin
-            if (Array.Exists(ethnicityStatus, element => element.Item1 == "Hispanic or Latino" || element.Item2 == "2135-2"))
-            {
-                foreach(Tuple<string, string> tuple in ethnicityStatus)
-                {
-                    ethnicities.Add(tuple.Item1);
-                    ethnicities.Add(tuple.Item2);
-                }
-            }
-            return ethnicities.ToArray();
-        }
-
-        /// <summary>If the decedent was of hispanic origin, returns a list of OTHER ethnicities (not Mexican, Cuban, or Puerto Rican).</summary>
-        private Tuple<string, string>[] HispanicOriginOther()
-        {
-            Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-            List<Tuple<string, string>> ethnicities = new List<Tuple<string, string>>();
-            foreach(Tuple<string, string> tuple in ethnicityStatus)
-            {
-                if (tuple.Item1.ToUpper() != "Non Hispanic or Latino".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Hispanic or Latino".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Mexican".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Puerto Rican".ToUpper() &&
-                    tuple.Item1.ToUpper() != "Cuban".ToUpper())
-                {
-                    if (tuple.Item2.ToUpper() != "2186-5".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2135-2".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2148-5".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2180-8".ToUpper() &&
-                        tuple.Item2.ToUpper() != "2182-4".ToUpper())
-                    {
-                        ethnicities.Add(tuple);
-                    }
-                }
-            }
-            return ethnicities.ToArray();
-        }
-
         /// <summary>Checks if the given race exists in the record.</summary>
-        private bool Get_Race(string code, string display)
+        private string Get_Race(string name)
         {
-            return Array.Exists(record.Race, element => element.Item1 == display || element.Item2 == code);
-        }
+            Tuple<string, string>[] raceStatus = record.Race.ToArray();
 
-        /// <summary>Retrieves American Indian or Alaska Native Race literals on the record.</summary>
-        private string[] Get_Race_AIAN_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceAIANCodes).ToArray();
-            string[] filterCodes = { "1002-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Asian Race literals (not including ones captured by distinct fields).</summary>
-        private string[] Get_Race_A_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceACodes).ToArray();
-            string[] filterCodes = { "2028-9", "2039-6", "2040-4", "2047-9", "2036-2", "2034-7", "2029-7" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Black or African American Race literals on the record.</summary>
-        private string[] Get_Race_BAA_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceBAACodes).ToArray();
-            string[] filterCodes = { "2054-5" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves Native Hawaiian or Other Pacific Islander Race literals on the record.</summary>
-        private string[] Get_Race_NHOPI_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceNHOPICodes).ToArray();
-            string[] filterCodes = { "2076-8", "2086-7", "2080-0", "2079-2" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves White Race literals on the record.</summary>
-        private string[] Get_Race_W_Literals()
-        {
-            KeyValuePair<string, string>[] literals = record.Race.Select(race => new KeyValuePair<string, string>(race.Item2, race.Item1)).Intersect(dataLookup.CDCRaceWCodes).ToArray();
-            string[] filterCodes = { "2106-3" };
-            return literals.Where(race => !filterCodes.Contains(race.Key)).Select(race => race.Value).ToArray();
-        }
-
-        /// <summary>Retrieves OTHER Race literals on the record.</summary>
-        private string[] Get_Race_OTHER_Literals()
-        {
-            return Get_Race_W_Literals().ToList().Concat(Get_Race_BAA_Literals().ToList()).ToArray();
+            Tuple<string, string> raceTuple = Array.Find(raceStatus, element => element.Item1 == name);
+            if (raceTuple != null)
+            {   
+                return raceTuple.Item2;
+            }
+            return "";
         }
 
         /// <summary>Adds the given race to the record.</summary>
-        private void Set_Race(string code, string display)
+        private void Set_Race(string name, string value)
         {
             List<Tuple<string, string>> raceStatus = record.Race.ToList();
-            raceStatus.Add(Tuple.Create(display, code));
-            record.Race = raceStatus.Distinct().ToList().ToArray();
+            raceStatus.Add(Tuple.Create(name, value));
+            record.Race = raceStatus.Distinct().ToArray();
         }
 
         // /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
@@ -819,6 +694,7 @@ namespace VRDR
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
         {
+            // REFER TO UPDATES IN DOB_XX FOR IGv1.3
             get
             {
                 String yearPart = DeathDate_Part_Absent_Get("DOD_YR", "date-year", "year-absent-reason");
@@ -858,8 +734,8 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                     Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                    LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
+                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }
@@ -1049,29 +925,11 @@ namespace VRDR
         {
             get
             {
-                return record.BirthSex;
+                return Get_MappingFHIRToIJE(Mappings.AdministrativeGender.FHIRToIJE, "SexAtDeath", "SEX");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    record.BirthSex = value.Trim();
-                    string code = value == "U" ? "UNK" : value;
-                    string display = "";
-                    if (code == "M")
-                    {
-                        display = "Male";
-                    }
-                    else if (code == "F")
-                    {
-                        display = "Female";
-                    }
-                    else if (code == "UNK")
-                    {
-                        display = "Unknown";
-                    }
-                    LeftJustified_Set("SEX", "Gender", display);
-                }
+                Set_MappingIJEToFHIR(Mappings.AdministrativeGender.IJEToFHIR, "SEX", "SexAtDeath", value);
             }
         }
 
@@ -1219,7 +1077,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Date of Birth--Year</summary>
+                /// <summary>Date of Birth--Year</summary>
         [IJEField(19, 205, 4, "Date of Birth--Year", "DOB_YR", 1)]
         public string DOB_YR
         {
@@ -1299,10 +1157,6 @@ namespace VRDR
             }
             set
             {
-                // Populate the date absent parts if any of the date parts are unknown
-                // Doing all three parts at once in the last date part field
-                // because the other fields hadn't populated the Date Part field yet
-                // and only one would ever get added to the record
                 if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99") || String.IsNullOrWhiteSpace(value))
                 {
                     List<Tuple<string, string>> dateParts = record.DateOfBirthDatePartAbsent.ToList();
@@ -1341,7 +1195,8 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } else
+                } 
+                else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
                 }
@@ -1360,7 +1215,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("STATEC", "PlaceOfBirth", "addressCountry", value);
+                    Dictionary_Set("BPLACE_CNT", "PlaceOfBirth", "addressCountry", value);
                 }
             }
         }
@@ -1388,11 +1243,15 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("CITYC", "Residence", "address", "city", true);
+                return Dictionary_Geo_Get("CITYC", "Residence", "address", "cityC", true);
             }
             set
             {
                 // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CITYC", "Residence", "address", "cityC", true, value);
+                }
             }
         }
 
@@ -1402,13 +1261,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYC", "Residence", "address", "county", true);
+                return Dictionary_Geo_Get("COUNTYC", "Residence", "address", "countyC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYC", "Residence", "address", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYC", "Residence", "address", "countyC", true, value);
                 }
             }
         }
@@ -1419,7 +1278,7 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATEC", "Residence", "address", "state", true);
+                return Dictionary_Geo_Get("STATEC", "Residence", "address", "State", true);
             }
             set
             {
@@ -1453,33 +1312,11 @@ namespace VRDR
         {
             get
             {
-                switch (record.ResidenceWithinCityLimitsBoolean)
-                {
-                    case true: // Yes
-                        return "Y";
-                    case false: // No
-                        return "N";
-                    default: // Unknown
-                        return "U";
-                }
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "ResidenceWithinCityLimits", "LIMITS");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            record.ResidenceWithinCityLimitsBoolean = true;
-                            break;
-                        case "N":
-                            record.ResidenceWithinCityLimitsBoolean = false;
-                            break;
-                        default:
-                            record.ResidenceWithinCityLimitsBoolean = null;
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "LIMITS", "ResidenceWithinCityLimits", value);
             }
         }
 
@@ -1489,63 +1326,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get("MARITAL", "MaritalStatus", "code");
-                switch (code)
-                {
-                    case "M":
-                    case "A":
-                    case "W":
-                    case "D":
-                    case "S":
-                        return code;
-                    case "I":
-                    case "L":
-                    case "P":
-                    case "T":
-                    case "U":
-                    case "UNK":
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MaritalStatus.FHIRToIJE, "MaritalStatus", "MARITAL");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "M":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Married");
-                            break;
-                        case "A":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Annulled");
-                            break;
-                        case "W":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Widowed");
-                            break;
-                        case "D":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Divorced");
-                            break;
-                        case "S":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", value);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Never Married");
-                            break;
-                        case "U":
-                            Dictionary_Set("MARITAL", "MaritalStatus", "code", "value");
-                            Dictionary_Set("MARITAL", "MaritalStatus", "system", CodeSystems.PH_MaritalStatus_HL7_2x);
-                            Dictionary_Set("MARITAL", "MaritalStatus", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MaritalStatus.IJEToFHIR, "MARITAL", "MaritalStatus", value);
             }
         }
 
@@ -1555,11 +1340,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass0124.FHIRToIJE, "MaritalBypass", "MARITAL_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalBypass", value);
             }
         }
 
@@ -1736,6 +1521,7 @@ namespace VRDR
         [IJEField(34, 237, 2, "Date of Death--Month", "DOD_MO", 1)]
         public string DOD_MO
         {
+            // REFER TO UPDATES IN DOB_XX FOR IGv1.3
             get
             {
 
@@ -1763,6 +1549,7 @@ namespace VRDR
         /// <summary>Date of Death--Day</summary>
         [IJEField(35, 239, 2, "Date of Death--Day", "DOD_DY", 1)]
         public string DOD_DY
+        // REFER TO UPDATES IN DOB_XX FOR IGv1.3
         {
             get
             {
@@ -1878,40 +1665,23 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity1", "DETHNIC1");
+                if (code == "Y")
                 {
-                    return "N";
+                    code = "H";
                 }
-                if (Array.Exists(ethnicities, element => element == "Mexican" || element == "2148-5"))
+                if (String.IsNullOrWhiteSpace(code))
                 {
-                    return "H";
+                    code = "U";
                 }
-                return "N";
+                return code;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Mexican", "2148-5"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
+                if (value == "H"){
+                    value = "Y";
                 }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC1", "Ethnicity1", value);
             }
         }
 
@@ -1921,41 +1691,23 @@ namespace VRDR
         {
             get
             {
-
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity2", "DETHNIC2");
+                if (code == "Y")
                 {
-                    return "N";
+                    code = "H";
                 }
-                if (Array.Exists(ethnicities, element => element == "Puerto Rican" || element == "2180-8"))
+                if (String.IsNullOrWhiteSpace(code))
                 {
-                    return "H";
+                    code = "U";
                 }
-                return "N";
+                return code;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Puerto Rican", "2180-8"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
+                if (value == "H"){
+                    value = "Y";
                 }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC2", "Ethnicity2", value);
             }
         }
 
@@ -1965,41 +1717,23 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-
-                string[] ethnicities = HispanicOrigin();
-                if (ethnicities.Length == 0)
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity3", "DETHNIC3");
+                if (code == "Y")
                 {
-                    return "N";
+                    code = "H";
                 }
-                if (Array.Exists(ethnicities, element => element == "Cuban" || element == "2182-4"))
+                if (String.IsNullOrWhiteSpace(code))
                 {
-                    return "H";
+                    code = "U";
                 }
-                return "N";
+                return code;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Cuban", "2182-4"));
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
+                if (value == "H"){
+                    value = "Y";
                 }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC3", "Ethnicity3", value);
             }
         }
 
@@ -2009,52 +1743,23 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string>[] ethnicityStatus = record.Ethnicity;
-                // if there is no ethnicity data, then the ethnicity is unknown
-                if (ethnicityStatus.Length == 0){
-                    return "U";
-                }
-
-                string[] hispanicOrigin = HispanicOrigin();
-                Tuple<string, string>[] hispanicOriginOther = HispanicOriginOther();
-                string[] validHispanicOrigins = { "Cuban", "2182-4", "Puerto Rican", "2180-8", "Mexican", "2148-5" };
-
-                // This logic will handle cases where hispanic origin is other with or without write-in
-                // It also maintains that hispanic origin and other are not mutually exclusive
-                var ethnicityText = record.EthnicityText;
-                if (!String.IsNullOrWhiteSpace(ethnicityText) && hispanicOrigin.Length > 0) // there was a write in and they are Hispanic or Latino
+                string code = Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "Ethnicity4", "DETHNIC4");
+                if (code == "Y")
                 {
-                    return "H";
+                    code = "H";
                 }
-                else if (hispanicOriginOther.Length > 0) // there was a code for an "other" hispanic or latino ethnicity
+                if (String.IsNullOrWhiteSpace(code))
                 {
-                    return "H";
+                    code = "U";
                 }
-                else if (hispanicOrigin.Length > 0 && !hispanicOrigin.Any(element => validHispanicOrigins.Contains(element))) // they are hispanic or latino and DETHNIC 1,2,3 ="N" so DETHIC4 must be "H"
-                {
-                    return "H";
-                }
-                else {
-                    return "N"; // not hispanic or latino
-                }
+                return code;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> ethnicities = record.Ethnicity.ToList();
-                    if (value == "H")
-                    {
-                        ethnicities.Add(Tuple.Create("Hispanic or Latino", "2135-2"));
-                        ethnicities.RemoveAll(x => x.Item1 == "Non Hispanic or Latino" || x.Item2 == "2186-5");
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
-                    else if (ethnicities.Count == 0 && value == "N")
-                    {
-                        ethnicities.Add(Tuple.Create("Non Hispanic or Latino", "2186-5"));
-                        record.Ethnicity = ethnicities.Distinct().ToList().ToArray();
-                    }
+                if (value == "H"){
+                    value = "Y";
                 }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "DETHNIC4", "Ethnicity4", value);
             }
         }
 
@@ -2064,15 +1769,10 @@ namespace VRDR
         {
             get
             {
-                var ethnicityText = record.EthnicityText;
-                if (!String.IsNullOrWhiteSpace(ethnicityText))
+                var ethnicityLiteral = record.EthnicityLiteral;
+                if (!String.IsNullOrWhiteSpace(ethnicityLiteral))
                 {
-                    return Truncate(ethnicityText, 20).Trim();
-                }
-                Tuple<string, string> other = HispanicOriginOther().FirstOrDefault();
-                if (other != null)
-                {
-                    return other.Item1;
+                    return Truncate(ethnicityLiteral, 20).Trim();
                 }
                 else
                 {
@@ -2083,7 +1783,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    record.EthnicityText = value;
+                    record.EthnicityLiteral = value;
                 }
             }
         }
@@ -2093,17 +1793,14 @@ namespace VRDR
         public string RACE1
         {
             get
-            {
-                return Get_Race("2106-3", "White") ? "Y" : "N";
+            {   
+                return Get_Race(NvssRace.White);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2106-3", "White");
-                    }
+                    Set_Race(NvssRace.White, value);
                 }
             }
         }
@@ -2114,16 +1811,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2054-5", "Black or African American") ? "Y" : "N";
+                return Get_Race(NvssRace.BlackOrAfricanAmerican);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2054-5", "Black or African American");
-                    }
+                    Set_Race(NvssRace.BlackOrAfricanAmerican, value);
                 }
             }
         }
@@ -2134,16 +1828,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("1002-5", "American Indian or Alaska Native") ? "Y" : "N";
+                return Get_Race(NvssRace.AmericanIndianOrAlaskaNative);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("1002-5", "American Indian or Alaska Native");
-                    }
+                    Set_Race(NvssRace.AmericanIndianOrAlaskaNative, value);
                 }
             }
         }
@@ -2154,16 +1845,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2029-7", "Asian Indian") ? "Y" : "N";
+                return Get_Race(NvssRace.AsianIndian);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2029-7", "Asian Indian");
-                    }
+                    Set_Race(NvssRace.AsianIndian, value);
                 }
             }
         }
@@ -2174,16 +1862,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2034-7", "Chinese") ? "Y" : "N";
+                return Get_Race(NvssRace.Chinese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2034-7", "Chinese");
-                    }
+                    Set_Race(NvssRace.Chinese, value);
                 }
             }
         }
@@ -2194,16 +1879,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2036-2", "Filipino") ? "Y" : "N";
+                return Get_Race(NvssRace.Filipino);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2036-2", "Filipino");
-                    }
+                    Set_Race(NvssRace.Filipino, value);
                 }
             }
         }
@@ -2214,16 +1896,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2039-6", "Japanese") ? "Y" : "N";
+                return Get_Race(NvssRace.Japanese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2039-6", "Japanese");
-                    }
+                    Set_Race(NvssRace.Japanese, value);
                 }
             }
         }
@@ -2234,16 +1913,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2040-4", "Korean") ? "Y" : "N";
+                return Get_Race(NvssRace.Korean);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2040-4", "Korean");
-                    }
+                    Set_Race(NvssRace.Korean, value);
                 }
             }
         }
@@ -2254,16 +1930,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2047-9", "Vietnamese") ? "Y" : "N";
+                return Get_Race(NvssRace.Vietnamese);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2047-9", "Vietnamese");
-                    }
+                    Set_Race(NvssRace.Vietnamese, value);
                 }
             }
         }
@@ -2274,11 +1947,15 @@ namespace VRDR
         {
             get
             {
-                return Get_Race_A_Literals().Length > 0 ? "Y" : "N";
+                return Get_Race(NvssRace.OtherAsian);
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_Race(NvssRace.OtherAsian, value);
+                }
+                
             }
         }
 
@@ -2288,16 +1965,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2079-2", "Native Hawaiian") ? "Y" : "N";
+                return Get_Race(NvssRace.NativeHawaiian);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2079-2", "Native Hawaiian");
-                    }
+                    Set_Race(NvssRace.NativeHawaiian, value);
                 }
             }
         }
@@ -2308,16 +1982,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2086-7", "Guamanian or Chamorro") ? "Y" : "N";
+                return Get_Race(NvssRace.GuamanianOrChamorro);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2086-7", "Guamanian or Chamorro");
-                    }
+                    Set_Race(NvssRace.GuamanianOrChamorro, value);
                 }
             }
         }
@@ -2328,16 +1999,13 @@ namespace VRDR
         {
             get
             {
-                return Get_Race("2080-0", "Samoan") ? "Y" : "N";
+                return Get_Race(NvssRace.Samoan);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    if (value == "Y")
-                    {
-                        Set_Race("2080-0", "Samoan");
-                    }
+                    Set_Race(NvssRace.Samoan, value);
                 }
             }
         }
@@ -2348,11 +2016,14 @@ namespace VRDR
         {
             get
             {
-                return Get_Race_NHOPI_Literals().Length > 0 ? "Y" : "N";
+                return Get_Race(NvssRace.OtherPacificIslander);
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_Race(NvssRace.OtherPacificIslander, value);
+                }
             }
         }
 
@@ -2362,11 +2033,14 @@ namespace VRDR
         {
             get
             {
-                return Get_Race_OTHER_Literals().Length > 0 ? "Y" : "N";
+                return Get_Race(NvssRace.OtherRace);
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Set_Race(NvssRace.OtherRace, value);
+                }
             }
         }
 
@@ -2376,23 +2050,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_AIAN_Literals();
-                if (literals.Length > 0)
-                {
-                    return literals[0];
-                }
-                return "";
+                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.AIANRaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral1, value);
                 }
             }
         }
@@ -2403,23 +2067,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_AIAN_Literals();
-                if (literals.Length > 1)
-                {
-                    return literals[1];
-                }
-                return "";
+                return Get_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.AIANRaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.AmericanIndianOrAlaskanNativeLiteral2, value);
                 }
             }
         }
@@ -2430,23 +2084,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_A_Literals();
-                if (literals.Length > 0)
-                {
-                    return literals[0];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherAsianLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.ARaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherAsianLiteral1, value);
                 }
             }
         }
@@ -2457,23 +2101,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_A_Literals();
-                if (literals.Length > 1)
-                {
-                    return literals[1];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherAsianLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.ARaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherAsianLiteral2, value);
                 }
             }
         }
@@ -2484,23 +2118,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_NHOPI_Literals();
-                if (literals.Length > 0)
-                {
-                    return literals[0];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherPacificIslandLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.NHOPIRaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherPacificIslandLiteral1, value);
                 }
             }
         }
@@ -2511,23 +2135,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_NHOPI_Literals();
-                if (literals.Length > 1)
-                {
-                    return literals[1];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherPacificIslandLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.NHOPIRaceNameToRaceCode(name);
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherPacificIslandLiteral2, value);
                 }
             }
         }
@@ -2538,27 +2152,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_OTHER_Literals();
-                if (literals.Length > 0)
-                {
-                    return literals[0];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherRaceLiteral1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.WRaceNameToRaceCode(name);
-                    if (String.IsNullOrWhiteSpace(code))
-                    {
-                        code = dataLookup.BAARaceNameToRaceCode(name);
-                    }
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherRaceLiteral1, value);
                 }
             }
         }
@@ -2569,27 +2169,13 @@ namespace VRDR
         {
             get
             {
-                string[] literals = Get_Race_OTHER_Literals();
-                if (literals.Length > 1)
-                {
-                    return literals[1];
-                }
-                return "";
+                return Get_Race(NvssRace.OtherRaceLiteral2);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    string name = value.Trim();
-                    string code = dataLookup.WRaceNameToRaceCode(name);
-                    if (String.IsNullOrWhiteSpace(code))
-                    {
-                        code = dataLookup.BAARaceNameToRaceCode(name);
-                    }
-                    if (!String.IsNullOrWhiteSpace(code) && !String.IsNullOrWhiteSpace(name))
-                    {
-                        Set_Race(code, name);
-                    }
+                    Set_Race(NvssRace.OtherRaceLiteral2, value);
                 }
             }
         }
@@ -2840,11 +2426,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.RaceMissingValueReason.FHIRToIJE, "RaceMissingValueReason", "RACE_MVR");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.RaceMissingValueReason.IJEToFHIR, "RACE_MVR", "RaceMissingValueReason", value);
             }
         }
 
@@ -3940,12 +3526,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Decedent
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "SpouseAlive", "SPOUSELV");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Decedent
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
             }
         }
 
@@ -4034,7 +3619,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_R", "Residence", "address", "county", false, value);
+                }
             }
         }
 
@@ -4044,11 +3632,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATETEXT_R", "Residence", "address", "state", false);
+                // expand STATEC 2 letter code to full name
+                var stateCode = Dictionary_Geo_Get("STATEC", "Residence", "address", "state", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
-                // NOOP
+                // NOOP, this field does not exist in FHIR
             }
         }
 
@@ -4058,11 +3649,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTRYTEXT_R", "Residence", "address", "country", false); // This is Now just the two letter code.  Need to map it to country name
+                // This is Now just the two letter code.  Need to map it to country name
+                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); 
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.CountryCodeToCountryName(countryCode);
             }
             set
             {
-                // NOOP
+                // NOOP, field does not exist in FHIR
             }
         }
 
@@ -4113,6 +3707,115 @@ namespace VRDR
             }
         }
 
+
+        /// <summary>Place of death. City FIPS code</summary>
+        [IJEField(145, 1485, 10, "Place of death. Decedent's Residence - Street number", "STNUM_R", 1)]
+        public string STNUM_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("STNUM_R", "Residence", "address", "stnum", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STNUM_R", "Residence", "address", "stnum", false, value);
+                }
+            }
+        }
+
+        /// <summary>Pre directional </summary>
+        [IJEField(146, 1495, 10, "Place of death. Decedent's Residence - Pre Directional", "PREDIR_R", 2)]
+        public string PREDIR_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("PREDIR_R", "Residence", "address", "predir", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("PREDIR_R", "Residence", "address", "predir", false, value);
+                }
+            }
+        }
+
+        /// <summary>Street name</summary>
+        [IJEField(147, 1505, 28, "Place of death. Decedent's Residence - Street Name", "STNAME_R", 3)]
+        public string STNAME_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("STNAME_R", "Residence", "address", "stname", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STNAME_R", "Residence", "address", "stname", false, value);
+                }
+            }
+        }
+
+        /// <summary>Street designator</summary>
+        [IJEField(148, 1533, 10, "Place of death. Decedent's Residence - Street Designator", "STDESIG_R", 4)]
+        public string STDESIG_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("STDESIG_R", "Residence", "address", "stdesig", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STDESIG_R", "Residence", "address", "stdesig", false, value);
+                }
+            }
+        }
+
+        /// <summary>Post Directional</summary>
+        [IJEField(149, 1543, 10, "Place of death. Decedent's Residence - Post directional", "POSTDIR_R", 5)]
+        public string POSTDIR_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("POSTDIR_R", "Residence", "address", "postdir", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("POSTDIR_R", "Residence", "address", "postdir", false, value);
+                }
+            }
+        }
+
+        /// <summary>Unit number</summary>
+        [IJEField(150, 1553, 7, "Place of death. Decedent's Residence - Unit number", "UNITNUM_R", 6)]
+        public string UNITNUM_R
+        {
+            get
+            {
+                return Dictionary_Geo_Get("UNITNUM_R", "Residence", "address", "unitnum", true);
+            }
+            set
+            {
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("UNITNUM_R", "Residence", "address", "unitnum", false, value);
+                }
+            }
+        }
+
         /// <summary>Hispanic</summary>
         [IJEField(160, 1736, 3, "Hispanic", "DETHNICE", 1)]
         public string DETHNICE
@@ -4154,6 +3857,7 @@ namespace VRDR
             }
             set
             {
+
                 // NOTE: This is a placeholder, the IJE field HISPOLDC is not currently implemented in FHIR
             }
         }
@@ -4161,6 +3865,7 @@ namespace VRDR
         /// <summary>Race - old NCHS single race codes</summary>
         [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
         public string RACEOLDC
+        
         {
             get
             {
@@ -4764,6 +4469,24 @@ namespace VRDR
             }
         }
 
+
+        /// <summary>Decedent's Birth Place City - Code</summary>
+        [IJEField(194, 3392, 5, "Decedent's Birth Place City - Code", "DBPLACECITYCODE", 3)]
+        public string DBPLACECITYCODE
+        {
+            get
+            {
+                return Dictionary_Geo_Get("DBPLACECITYCODE", "PlaceOfBirth", "address", "cityC", false);
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("DBPLACECITYCODE", "PlaceOfBirth", "address", "cityC", false, value);
+                }
+            }
+        }
+
         /// <summary>Decedent's Birth Place City - Literal</summary>
         [IJEField(196, 3397, 28, "Decedent's Birth Place City - Literal", "DBPLACECITY", 3)]
         public string DBPLACECITY
@@ -4777,13 +4500,23 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "city", false, value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("BSTATE", "PlaceOfBirth", "address", "state", true);
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Geo_Set("DBPLACECITY", "PlaceOfBirth", "address", "county", false, county);
-                    }
+                }
+            }
+        }
+
+        /// <summary>Informant's Relationship</summary>
+        [IJEField(200, 3505, 30, "Informant's Relationship", "INFORMRELATE", 3)]
+        public string INFORMRELATE
+        {
+            get
+            {
+                return Dictionary_Get("INFORMRELATE", "ContactRelationship", "text");
+            }
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Set("INFORMRELATE", "ContactRelationship", "text", value);
                 }
             }
         }
@@ -5478,11 +5211,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATEBTH", "PlaceOfBirth", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("BPLACE_ST", "PlaceOfBirth", "address", "state", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
+
             }
             set
             {
-                // NOOP
+                // NOOP, field does not exist in FHIR
             }
         }
 
@@ -5773,7 +5509,21 @@ namespace VRDR
             }
             set
             {
-                // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
+                
+            }
+        }
+        // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR
+        /// <summary>Marital Descriptor</summary>
+        [IJEField(246, 4377, 50, "Martial Descriptor", "MARITAL_DESCRIP", 1)]
+        public string MARITAL_DESCRIP
+        {
+            get
+            {
+                return LeftJustified_Get("MARITAL_DESCRIP", "MaritalStatusLiteral");
+            }
+            set
+            {
+                LeftJustified_Set("MARITAL_DESCRIP", "MaritalStatusLiteral", value);
             }
         }
     }

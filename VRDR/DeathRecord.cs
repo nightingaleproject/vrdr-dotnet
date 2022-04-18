@@ -3238,13 +3238,16 @@ namespace VRDR
             {
                 if (Decedent != null && Decedent.Address != null && Decedent.Address.Count() > 0)
                 {
-                    return AddressToDict(Decedent.Address.First());
+                    Dictionary<string, string> address = AddressToDict(Decedent.Address.First());
+                    return address;
                 }
                 return EmptyAddrDict();
             }
             set
             {
-
+                if (Decedent.Address == null){
+                    Decedent.Address = new List<Address>();
+                }
                 Decedent.Address.Clear();
                 Decedent.Address.Add(DictToAddress(value));
                 
@@ -3253,7 +3256,7 @@ namespace VRDR
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
                 //        Address.City as 5 digit code as per FIPS 55-3, which are included as the preferred alternate code in https://phinvads.cdc.gov/vads/ViewValueSet.action?id=D06EE94C-4D4C-440A-AD2A-1C3CB35E6D08#
-               Address a = Decedent.Address.FirstOrDefault();
+                //Address a = Decedent.Address.FirstOrDefault();
             }
         }
 
@@ -4077,7 +4080,17 @@ namespace VRDR
             }
             set
             {
-                Decedent.MaritalStatus = DictToCodeableConcept(value);
+                if (Decedent.MaritalStatus == null)
+                {
+                    Decedent.MaritalStatus = DictToCodeableConcept(value);
+                }
+                else 
+                {
+                    Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
+                    Decedent.MaritalStatus = DictToCodeableConcept(value);
+                    Decedent.MaritalStatus.Extension.Add(bypass);
+                }
+                
             }
         }
 
@@ -4106,9 +4119,9 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.MaritalStatus != null)
+                if (Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
                 {
-                    Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)addressExt.Value);
@@ -4121,6 +4134,9 @@ namespace VRDR
                 Extension ext = new Extension();
                 ext.Url = ExtensionURL.BypassEditFlag;
                 ext.Value = DictToCodeableConcept(value);
+                if (Decedent.MaritalStatus == null){
+                    Decedent.MaritalStatus = new CodeableConcept();
+                }
                 Decedent.MaritalStatus.Extension.Add(ext);
             }
 
@@ -4650,7 +4666,7 @@ namespace VRDR
                 Extension ext = new Extension();
                 ext.Url = ExtensionURL.SpouseAlive;
                 ext.Value = DictToCodeableConcept(value);
-                Decedent.MaritalStatus.Extension.Add(ext);
+                Decedent.Extension.Add(ext);
             }
         }
 
@@ -8606,29 +8622,44 @@ namespace VRDR
                 {
                     address.Line = lines.ToArray();
                 }
-                if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
-                {
-                    address.City = dict["addressCity"];
-                }
                 if (dict.ContainsKey("addressCityC") && !String.IsNullOrEmpty(dict["addressCityC"]))
                 {
                     Extension cityCode = new Extension();
-                    cityCode.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode";
+                    cityCode.Url = ExtensionURL.CityCode;
                     cityCode.Value = new FhirString(dict["addressCityC"]);
                     address.CityElement = new FhirString();
                     address.CityElement.Extension.Add(cityCode);
                 }
-                if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
+                if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
                 {
-                    address.District = dict["addressCounty"];
+                    if (address.CityElement != null)
+                    {
+                        address.CityElement.Value = dict["addressCity"];
+                    }
+                    else
+                    {
+                        address.City = dict["addressCity"];
+                    }
+                    
                 }
                 if (dict.ContainsKey("addressCountyC") && !String.IsNullOrEmpty(dict["addressCountyC"]))
                 {
                     Extension countyCode = new Extension();
-                    countyCode.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode";
+                    countyCode.Url = ExtensionURL.DistrictCode;
                     countyCode.Value = new FhirString(dict["addressCountyC"]);
                     address.DistrictElement = new FhirString();
                     address.DistrictElement.Extension.Add(countyCode);
+                }
+                if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
+                {
+                    if (address.DistrictElement != null)
+                    {
+                        address.DistrictElement.Value = dict["addressCounty"];
+                    }
+                    else
+                    {
+                        address.District = dict["addressCounty"];
+                    }
                 }
                 if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
                 {
@@ -8784,7 +8815,7 @@ namespace VRDR
 
                 if(addr.CityElement != null)
                 {
-                    Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode").FirstOrDefault();
+                    Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == ExtensionURL.CityCode).FirstOrDefault();
                     if (cityCode != null)
                     {
                         dictionary["addressCityC"] = cityCode.Value.ToString();
@@ -8793,7 +8824,7 @@ namespace VRDR
 
                 if(addr.DistrictElement != null)
                 {
-                    Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode").FirstOrDefault();
+                    Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
                     if (districtCode != null){
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
                     } 

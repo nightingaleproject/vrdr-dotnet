@@ -486,30 +486,6 @@ namespace VRDR
                         current = dataLookup.StateNameAndCountyNameAndPlaceNameToPlaceCode(state, county, current);
                     }
                 }
-                else if (geoType == "county")
-                {
-                    // // check for unknown or other values
-                    // string county = null;
-                    // dictionary.TryGetValue(keyPrefix + "County", out county);
-                    // if (county == "UNK")
-                    // {
-                    //     current = "999";
-                    // }
-                    // else if (county == "OTH")
-                    // {
-                    //     current = "000";
-                    // }
-                    // else
-                    // {
-                    //     string state = null;
-                    //     dictionary.TryGetValue(keyPrefix + "State", out state);
-
-                    //     if (state != null)
-                    //     {
-                    //         current = dataLookup.StateNameAndCountyNameToCountyCode(state, current);
-                    //     }
-                    // }
-                }
                 else if (geoType == "state")
                 {
                     //current = dataLookup.StateNameToStateCode(current);
@@ -534,6 +510,7 @@ namespace VRDR
                     }
                 }
             }
+
             if (current != null)
             {
                 return Truncate(current.Replace("-", string.Empty), info.Length).PadRight(info.Length, ' '); // Remove "-" for zip
@@ -570,32 +547,6 @@ namespace VRDR
                             }
                         }
                     }
-                    // v1.3 remove this lookup for county and state
-                    // else if (geoType == "county") // This is a tricky case, we need to know about state!
-                    // {
-                    //     // Handle unknown
-                    //     if (value == "999")
-                    //     {
-                    //         dictionary[key] = "UNK";
-                    //     }
-                    //     else if (value == "000")
-                    //     {
-                    //         dictionary[key] = "OTH";
-                    //     }
-                    //     else
-                    //     {
-                    //         string state = null;
-                    //         dictionary.TryGetValue(keyPrefix + "State", out state);
-                    //         if (!String.IsNullOrWhiteSpace(state))
-                    //         {
-                    //             string county = dataLookup.StateNameAndCountyCodeToCountyName(state, value);
-                    //             if (!String.IsNullOrWhiteSpace(county))
-                    //             {
-                    //                 dictionary[key] = county;
-                    //             }
-                    //         }
-                    //     }
-                    // }
                     else if (geoType == "state" || geoType == "country")
                     {
                         dictionary[key] = value;

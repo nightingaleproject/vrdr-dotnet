@@ -267,6 +267,177 @@
       </Patient>
     </resource>
   </entry>
+    <entry>
+    <fullUrl value="urn:uuid:20bc94bb-cdad-4daf-8e04-8304ea217e96" />
+    <resource>
+      <Observation xmlns="http://hl7.org/fhir">
+        <id value="InputRaceAndEthnicity-Example1"/>
+        <meta>
+          <profile
+                  value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity"/>
+        </meta>
+        <status value="final"/>
+        <code>
+          <coding>
+            <code value="inputraceandethnicity"/>
+            <display value="Input Race and Ethnicity"/>
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated"/>
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <code value="White"/>
+              <display value="White"/>
+            </coding>
+          </code>
+          <valueBoolean value="true"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="BlackOrAfricanAmerican"/>
+              <display value="BlackOrAfricanAmerican"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="AmericanIndianOrAlaskaNative"/>
+              <display value="AmericanIndianOrAlaskaNative"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="AsianIndian"/>
+              <display value="AsianIndian"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Chinese"/>
+              <display value="Chinese"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Filipino"/>
+              <display value="Filipino"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Japanese"/>
+              <display value="Japanese"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Korean"/>
+              <display value="Korean"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Vietnamese"/>
+              <display value="Vietnamese"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="OtherAsian"/>
+              <display value="OtherAsian"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="NativeHawaiian"/>
+              <display value="NativeHawaiian"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="GuamanianOrChamorro"/>
+              <display value="GuamanianOrChamorro"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="Samoan"/>
+              <display value="Samoan"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="OtherPacificIslander"/>
+              <display value="OtherPacificIslander"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="OtherRace"/>
+              <display value="OtherRace"/>
+            </coding>
+          </code>
+          <valueBoolean value="false"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="HispanicMexican"/>
+              <display value="HispanicMexican"/>
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136"/>
+              <code value="Y"/>
+            </coding>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
   <entry>
     <fullUrl value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
     <resource>

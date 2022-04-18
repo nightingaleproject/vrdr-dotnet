@@ -171,6 +171,7 @@
             <coding>
               <system value="http://terminology.hl7.org/CodeSystem/v2-0136"/>
               <code value="Y"/>
+              <display value="Yes"/>
             </coding>
           </valueCodeableConcept>
         </extension>
@@ -247,6 +248,7 @@
                 <system
                         value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"/>
                 <code value="0"/>
+                <display value="Edit Passed"/>
               </coding>
             </valueCodeableConcept>
           </extension>

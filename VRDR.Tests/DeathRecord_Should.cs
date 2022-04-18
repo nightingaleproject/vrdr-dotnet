@@ -1099,7 +1099,17 @@ namespace VRDR.Tests
             raddress.Add("addressState", "MA");
             raddress.Add("addressZip", "01730");
             raddress.Add("addressCountry", "US");
+            raddress.Add("addressCityC", "1234");
+            raddress.Add("addressCountyC", "123");
+            raddress.Add("addressStnum", "101");
+            raddress.Add("addressPredir", "N");
+            raddress.Add("addressStname", "Example");
+            raddress.Add("addressStdesig", "St");
+            raddress.Add("addressPostdir", "W");
+            raddress.Add("addressUnitnum", "A");
+
             SetterDeathRecord.Residence = raddress;
+            
             Assert.Equal("101 Example Street", SetterDeathRecord.Residence["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.Residence["addressLine2"]);
             Assert.Equal("Bedford", SetterDeathRecord.Residence["addressCity"]);
@@ -1107,6 +1117,15 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.Residence["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.Residence["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.Residence["addressCountry"]);
+
+            Assert.Equal("1234", SetterDeathRecord.Residence["addressCityC"]);
+            Assert.Equal("123", SetterDeathRecord.Residence["addressCountyC"]);
+            Assert.Equal("101", SetterDeathRecord.Residence["addressStnum"]);
+            Assert.Equal("N", SetterDeathRecord.Residence["addressPredir"]);
+            Assert.Equal("Example", SetterDeathRecord.Residence["addressStname"]);
+            Assert.Equal("St", SetterDeathRecord.Residence["addressStdesig"]);
+            Assert.Equal("W", SetterDeathRecord.Residence["addressPostdir"]);
+            Assert.Equal("A", SetterDeathRecord.Residence["addressUnitnum"]);
         }
 
         [Fact]
@@ -1326,6 +1345,45 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_MaritalBypass()
+        {
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.MaritalBypass["display"]);
+        }
+
+        [Fact]
+        public void Get_MaritalBypass()
+        {
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)JSONRecords[0]).MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).MaritalBypass["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)XMLRecords[0]).MaritalBypass["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).MaritalBypass["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).MaritalBypass["display"]);
+        }
+
+        [Fact]
+        public void Get_MaritalBypassHelper()
+        {
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+        }
+
+        [Fact]
+        public void Get_MaritalStatusAndBypass()
+        {
+            SetterDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.Never_Married;
+            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+
+            Assert.Equal(ValueSets.MaritalStatus.Never_Married, SetterDeathRecord.MaritalStatus["code"]);
+            Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, SetterDeathRecord.MaritalStatus["system"]);
+            Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+        }
+
+        [Fact]
         public void Set_FatherGivenNames()
         {
             string[] fnames = { "Father", "Middle" };
@@ -1415,6 +1473,26 @@ namespace VRDR.Tests
         {
             Assert.Equal("Dr.", ((DeathRecord)JSONRecords[0]).MotherSuffix);
             Assert.Equal("Dr.", ((DeathRecord)XMLRecords[0]).MotherSuffix);
+        }
+
+        [Fact]
+        public void Set_SpouseLiving()
+        {
+            SetterDeathRecord.SpouseAliveHelper = ValueSets.YesNoUnknownNotApplicable.Yes;
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, SetterDeathRecord.SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.SpouseAlive["system"]);
+            Assert.Equal("Yes", SetterDeathRecord.SpouseAlive["display"]);
+        }
+
+        [Fact]
+        public void Get_SpouseLiving()
+        {
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)JSONRecords[0]).SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).SpouseAlive["system"]);
+            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).SpouseAlive["display"]);
+            Assert.Equal(ValueSets.YesNoUnknownNotApplicable.Yes, ((DeathRecord)XMLRecords[0]).SpouseAlive["code"]);
+            Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).SpouseAlive["system"]);
+            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).SpouseAlive["display"]);
         }
 
         [Fact]

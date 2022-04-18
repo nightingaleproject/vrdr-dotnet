@@ -371,6 +371,20 @@ namespace VRDR.Tests
             Assert.Equal("000", dr1.Residence["addressCountyC"]);
         }
 
+        [Fact]
+        public void HandleCountyText()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("Middlesex", ije1.COUNTYTEXT_R.Trim());
+        }
+
+        [Fact]
+        public void HandleCityText()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("Tyngsborough", ije1.CITYTEXT_R.Trim());
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

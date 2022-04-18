@@ -530,7 +530,8 @@
               "coding" : [
                 {
                   "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
-                  "code" : "Y"
+                  "code" : "Y",
+                  "display" :"Yes"
                 }
               ]
             }

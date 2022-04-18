@@ -4017,41 +4017,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("TRANSPRT", "TransportationRole", "code");
-                switch (code)
-                {
-                    case "236320001": // Vehicle driver
-                        return "DR";
-                    case "257500003": // Passenger
-                        return "PA";
-                    case "257518000": // Pedestrian
-                        return "PE";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "TransportationRole", "TRANSPRT");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value.Trim())
-                    {
-                        case "DR":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "236320001");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Vehicle driver");
-                            break;
-                        case "PA":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257500003");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Passenger");
-                            break;
-                        case "PE":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257518000");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Pedestrian");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "TRANSPRT", "TransportationRole", value);
             }
         }
 

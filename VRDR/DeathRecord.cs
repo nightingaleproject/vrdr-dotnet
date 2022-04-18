@@ -4261,7 +4261,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent != null && Decedent.MaritalStatus != null )
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus.Text != null)
                 {
                     return Decedent.MaritalStatus.Text;
                 }

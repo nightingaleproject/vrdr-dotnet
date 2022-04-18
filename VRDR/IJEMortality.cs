@@ -5519,11 +5519,11 @@ namespace VRDR
         {
             get
             {
-                return record.MaritalStatusLiteral;
+                return LeftJustified_Get("MARITAL_DESCRIP", "MaritalStatusLiteral");
             }
             set
             {
-                record.MaritalStatusLiteral = value;
+                LeftJustified_Set("MARITAL_DESCRIP", "MaritalStatusLiteral", value);
             }
         }
     }

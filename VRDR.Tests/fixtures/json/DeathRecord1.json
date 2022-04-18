@@ -315,7 +315,8 @@
               "code" : "S",
               "display" : "Never Married"
             }
-          ]
+          ],
+          "text":"Single"
         },
         "contact" : [
           {

@@ -256,7 +256,8 @@
             <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"/>
             <code value="S"/>
             <display value="Never Married"/>
-          </coding>
+          </coding> 
+          <text value="Single"/>
         </maritalStatus>
         <contact>
           <relationship>

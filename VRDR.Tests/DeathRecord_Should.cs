@@ -1384,6 +1384,20 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_MaritalDescriptor()
+        {
+            SetterDeathRecord.MaritalStatusLiteral = "Single";
+            Assert.Equal("Single", SetterDeathRecord.MaritalStatusLiteral);
+        }
+
+        [Fact]
+        public void Get_MaritalDescriptor()
+        {
+            Assert.Equal("Single", ((DeathRecord)JSONRecords[0]).MaritalStatusLiteral);
+            Assert.Equal("Single", ((DeathRecord)XMLRecords[0]).MaritalStatusLiteral);
+        }
+
+        [Fact]
         public void Set_FatherGivenNames()
         {
             string[] fnames = { "Father", "Middle" };
@@ -1473,6 +1487,22 @@ namespace VRDR.Tests
         {
             Assert.Equal("Dr.", ((DeathRecord)JSONRecords[0]).MotherSuffix);
             Assert.Equal("Dr.", ((DeathRecord)XMLRecords[0]).MotherSuffix);
+        }
+
+        [Fact]
+        public void Set_ContactRelationship()
+        {
+            Dictionary<string, string> relationship = new Dictionary<string, string>();
+            relationship.Add("text", "sibling");
+            SetterDeathRecord.ContactRelationship = relationship;
+            Assert.Equal("sibling", SetterDeathRecord.ContactRelationship["text"]);
+        }
+
+        [Fact]
+        public void Get_ContactRelationship()
+        {
+            Assert.Equal("Friend of family", ((DeathRecord)JSONRecords[0]).ContactRelationship["text"]);
+            Assert.Equal("Friend of family", ((DeathRecord)XMLRecords[0]).ContactRelationship["text"]);
         }
 
         [Fact]

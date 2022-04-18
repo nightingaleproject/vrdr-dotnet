@@ -4128,9 +4128,11 @@ namespace VRDR
                 }
                 else 
                 {
+                    string text = Decedent.MaritalStatus.Text;
                     Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
                     Decedent.MaritalStatus = DictToCodeableConcept(value);
                     Decedent.MaritalStatus.Extension.Add(bypass);
+                    Decedent.MaritalStatus.Text = text;
                 }
                 
             }
@@ -4239,6 +4241,39 @@ namespace VRDR
             set
             {
                 SetCodeValue("MaritalBypass", value, VRDR.ValueSets.EditBypass0124.Codes);
+            }
+        }
+
+        /// <summary>The literal text string of the marital status of the decedent at the time of death.</summary>
+        /// <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"text" - the code describing this finding</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaritalStatusLiteral = "Single";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusLiteral}");</para>
+        /// </example>
+        [Property("Marital Status Literal", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, ProfileURL.Decedent, true, 24)]
+        [PropertyParam("text", "The literal string")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public string MaritalStatusLiteral
+        {
+            get
+            {
+                if (Decedent != null && Decedent.MaritalStatus != null )
+                {
+                    return Decedent.MaritalStatus.Text;
+                }
+                return "";
+            }
+            set
+            {
+                if (Decedent.MaritalStatus == null)
+                {
+                    Decedent.MaritalStatus = new CodeableConcept();
+                }
+                Decedent.MaritalStatus.Text = value;  
             }
         }
 

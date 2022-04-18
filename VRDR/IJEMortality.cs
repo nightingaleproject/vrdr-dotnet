@@ -5519,11 +5519,11 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("MARITAL_DESCRIP", "MaritalStatus", "text");
+                return record.MaritalStatusLiteral;
             }
             set
             {
-                Dictionary_Set("MARITAL_DESCRIP", "MaritalStatus", "text", value);
+                record.MaritalStatusLiteral = value;
             }
         }
     }

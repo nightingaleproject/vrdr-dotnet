@@ -376,11 +376,21 @@ namespace VRDR.Tests
             Dictionary<string, string> CertificationRole = new Dictionary<string, string>();
             CertificationRole.Add("code", "434641000124105");
             CertificationRole.Add("system", CodeSystems.SCT);
-            CertificationRole.Add("display", "Physician");
+            CertificationRole.Add("display", "Physician certified and pronounced death certificate");
             SetterDeathRecord.CertificationRole = CertificationRole;
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
-            Assert.Equal("Physician", SetterDeathRecord.CertificationRole["display"]);
+            Assert.Equal("Physician certified and pronounced death certificate", SetterDeathRecord.CertificationRole["display"]);
+            SetterDeathRecord.CertificationRoleHelper = VRDR.ValueSets.CertificationRole.Physician_Certified_And_Pronounced_Death_Certificate;
+            Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
+            Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
+            Assert.Equal("Physician certified and pronounced death certificate", SetterDeathRecord.CertificationRole["display"]);
+            SetterDeathRecord.CertificationRoleHelper = "Barber";
+            Assert.Equal("OTH", SetterDeathRecord.CertificationRole["code"]);
+            Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.CertificationRole["system"]);
+            Assert.Equal("Other", SetterDeathRecord.CertificationRole["display"]);
+            Assert.Equal("Barber", SetterDeathRecord.CertificationRole["text"]);
+
         }
 
         [Fact]
@@ -394,101 +404,101 @@ namespace VRDR.Tests
             Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)XMLRecords[0]).CertificationRole["display"]);
         }
 
-        [Fact]
-        public void Set_InterestedPartyIdentifier()
-        {
-            var id = new Dictionary<string, string>();
-            id["system"] = "foo";
-            id["value"] = "0000000000";
-            SetterDeathRecord.InterestedPartyIdentifier = id;
-            Assert.Equal("foo", SetterDeathRecord.InterestedPartyIdentifier["system"]);
-            Assert.Equal("0000000000", SetterDeathRecord.InterestedPartyIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Set_InterestedPartyIdentifier()
+        // {
+        //     var id = new Dictionary<string, string>();
+        //     id["system"] = "foo";
+        //     id["value"] = "0000000000";
+        //     SetterDeathRecord.InterestedPartyIdentifier = id;
+        //     Assert.Equal("foo", SetterDeathRecord.InterestedPartyIdentifier["system"]);
+        //     Assert.Equal("0000000000", SetterDeathRecord.InterestedPartyIdentifier["value"]);
+        // }
 
-        [Fact]
-        public void Get_InterestedPartyIdentifier()
-        {
-            Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier["value"]);
-            Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Get_InterestedPartyIdentifier()
+        // {
+        //     Assert.Equal("1010101", ((DeathRecord)JSONRecords[0]).InterestedPartyIdentifier["value"]);
+        //     Assert.Equal("1010101", ((DeathRecord)XMLRecords[0]).InterestedPartyIdentifier["value"]);
+        // }
 
-        [Fact]
-        public void Set_InterestedPartyName()
-        {
-            SetterDeathRecord.InterestedPartyName = "123abc123xyz";
-            Assert.Equal("123abc123xyz", SetterDeathRecord.InterestedPartyName);
-        }
+        // [Fact]
+        // public void Set_InterestedPartyName()
+        // {
+        //     SetterDeathRecord.InterestedPartyName = "123abc123xyz";
+        //     Assert.Equal("123abc123xyz", SetterDeathRecord.InterestedPartyName);
+        // }
 
-        [Fact]
-        public void Get_InterestedPartyName()
-        {
-            Assert.Equal("Example Hospital", ((DeathRecord)JSONRecords[0]).InterestedPartyName);
-            Assert.Equal("Example Hospital", ((DeathRecord)XMLRecords[0]).InterestedPartyName);
-        }
+        // [Fact]
+        // public void Get_InterestedPartyName()
+        // {
+        //     Assert.Equal("Example Hospital", ((DeathRecord)JSONRecords[0]).InterestedPartyName);
+        //     Assert.Equal("Example Hospital", ((DeathRecord)XMLRecords[0]).InterestedPartyName);
+        // }
 
-        [Fact]
-        public void Set_InterestedPartyAddress()
-        {
-            Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("addressLine1", "12 Example Street");
-            address.Add("addressLine2", "Line 2");
-            address.Add("addressCity", "Bedford");
-            address.Add("addressCounty", "Middlesex");
-            address.Add("addressState", "MA");
-            address.Add("addressZip", "01730");
-            address.Add("addressCountry", "US");
-            SetterDeathRecord.InterestedPartyAddress = address;
-            Assert.Equal("12 Example Street", SetterDeathRecord.InterestedPartyAddress["addressLine1"]);
-            Assert.Equal("Line 2", SetterDeathRecord.InterestedPartyAddress["addressLine2"]);
-            Assert.Equal("Bedford", SetterDeathRecord.InterestedPartyAddress["addressCity"]);
-            Assert.Equal("Middlesex", SetterDeathRecord.InterestedPartyAddress["addressCounty"]);
-            Assert.Equal("MA", SetterDeathRecord.InterestedPartyAddress["addressState"]);
-            Assert.Equal("01730", SetterDeathRecord.InterestedPartyAddress["addressZip"]);
-            Assert.Equal("US", SetterDeathRecord.InterestedPartyAddress["addressCountry"]);
-        }
+        // [Fact]
+        // public void Set_InterestedPartyAddress()
+        // {
+        //     Dictionary<string, string> address = new Dictionary<string, string>();
+        //     address.Add("addressLine1", "12 Example Street");
+        //     address.Add("addressLine2", "Line 2");
+        //     address.Add("addressCity", "Bedford");
+        //     address.Add("addressCounty", "Middlesex");
+        //     address.Add("addressState", "MA");
+        //     address.Add("addressZip", "01730");
+        //     address.Add("addressCountry", "US");
+        //     SetterDeathRecord.InterestedPartyAddress = address;
+        //     Assert.Equal("12 Example Street", SetterDeathRecord.InterestedPartyAddress["addressLine1"]);
+        //     Assert.Equal("Line 2", SetterDeathRecord.InterestedPartyAddress["addressLine2"]);
+        //     Assert.Equal("Bedford", SetterDeathRecord.InterestedPartyAddress["addressCity"]);
+        //     Assert.Equal("Middlesex", SetterDeathRecord.InterestedPartyAddress["addressCounty"]);
+        //     Assert.Equal("MA", SetterDeathRecord.InterestedPartyAddress["addressState"]);
+        //     Assert.Equal("01730", SetterDeathRecord.InterestedPartyAddress["addressZip"]);
+        //     Assert.Equal("US", SetterDeathRecord.InterestedPartyAddress["addressCountry"]);
+        // }
 
-        [Fact]
-        public void Get_InterestedPartyAddress()
-        {
-            Assert.Equal("10 Example Street", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
-            Assert.Equal("10 Example Street", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine1"]);
-            Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine2"]);
-            Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCity"]);
-            Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
-            Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
-            Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
-        }
+        // [Fact]
+        // public void Get_InterestedPartyAddress()
+        // {
+        //     Assert.Equal("10 Example Street", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine1"]);
+        //     Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressLine2"]);
+        //     Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCity"]);
+        //     Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCounty"]);
+        //     Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressState"]);
+        //     Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressZip"]);
+        //     Assert.Equal("US", ((DeathRecord)JSONRecords[0]).InterestedPartyAddress["addressCountry"]);
+        //     Assert.Equal("10 Example Street", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine1"]);
+        //     Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressLine2"]);
+        //     Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCity"]);
+        //     Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCounty"]);
+        //     Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressState"]);
+        //     Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressZip"]);
+        //     Assert.Equal("US", ((DeathRecord)XMLRecords[0]).InterestedPartyAddress["addressCountry"]);
+        // }
 
-        [Fact]
-        public void Set_InterestedPartyType()
-        {
-            Dictionary<string, string> type = new Dictionary<string, string>();
-            type.Add("code", "prov");
-            type.Add("system", CodeSystems.HL7_organization_type);
-            type.Add("display", "Healthcare Provider");
-            SetterDeathRecord.InterestedPartyType = type;
-            Assert.Equal("prov", SetterDeathRecord.InterestedPartyType["code"]);
-            Assert.Equal(CodeSystems.HL7_organization_type, SetterDeathRecord.InterestedPartyType["system"]);
-            Assert.Equal("Healthcare Provider", SetterDeathRecord.InterestedPartyType["display"]);
-        }
+        // [Fact]
+        // public void Set_InterestedPartyType()
+        // {
+        //     Dictionary<string, string> type = new Dictionary<string, string>();
+        //     type.Add("code", "prov");
+        //     type.Add("system", CodeSystems.HL7_organization_type);
+        //     type.Add("display", "Healthcare Provider");
+        //     SetterDeathRecord.InterestedPartyType = type;
+        //     Assert.Equal("prov", SetterDeathRecord.InterestedPartyType["code"]);
+        //     Assert.Equal(CodeSystems.HL7_organization_type, SetterDeathRecord.InterestedPartyType["system"]);
+        //     Assert.Equal("Healthcare Provider", SetterDeathRecord.InterestedPartyType["display"]);
+        // }
 
-        [Fact]
-        public void Get_InterestedPartyType()
-        {
-            Assert.Equal("prov", ((DeathRecord)JSONRecords[0]).InterestedPartyType["code"]);
-            Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
-            Assert.Equal("Healthcare Provider", ((DeathRecord)JSONRecords[0]).InterestedPartyType["display"]);
-            Assert.Equal("prov", ((DeathRecord)XMLRecords[0]).InterestedPartyType["code"]);
-            Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
-            Assert.Equal("Healthcare Provider", ((DeathRecord)XMLRecords[0]).InterestedPartyType["display"]);
-        }
+        // [Fact]
+        // public void Get_InterestedPartyType()
+        // {
+        //     Assert.Equal("prov", ((DeathRecord)JSONRecords[0]).InterestedPartyType["code"]);
+        //     Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)XMLRecords[0]).InterestedPartyType["system"]);
+        //     Assert.Equal("Healthcare Provider", ((DeathRecord)JSONRecords[0]).InterestedPartyType["display"]);
+        //     Assert.Equal("prov", ((DeathRecord)XMLRecords[0]).InterestedPartyType["code"]);
+        //     Assert.Equal(CodeSystems.HL7_organization_type, ((DeathRecord)JSONRecords[0]).InterestedPartyType["system"]);
+        //     Assert.Equal("Healthcare Provider", ((DeathRecord)XMLRecords[0]).InterestedPartyType["display"]);
+        // }
 
         [Fact]
         public void Set_MannerOfDeathType()

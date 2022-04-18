@@ -1489,8 +1489,7 @@
               "system": "http://snomed.info/sct",
               "code": "257500003",
               "display": "Passenger"
-          }]}
-          },
+          }]}},
           {
             "code": {
               "coding": [
@@ -1503,41 +1502,6 @@
             },
             "valueCodeableConcept": {
               "text": "At home, in the kitchen"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69451-3",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "text": "At home, in the kitchen"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69451-3",
-                  "display": "Transportation role of decedent"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "257500003",
-                  "display": "Passenger"
-                }
-              ],
-              "text": "Passenger"
             }
           }
         ]

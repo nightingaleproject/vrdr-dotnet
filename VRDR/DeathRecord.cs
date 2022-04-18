@@ -3185,7 +3185,7 @@ namespace VRDR
             }
         }
 
-        
+
         /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
         /// <value>the decedent's date of birth date part absent reason</value>
         /// <example>
@@ -3292,8 +3292,8 @@ namespace VRDR
                 }
                 Decedent.Address.Clear();
                 Decedent.Address.Add(DictToAddress(value));
-                
-            
+
+
                 // Now encode -
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
@@ -3517,7 +3517,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 1 Helper</summary>
         /// <value>Decedent's Ethnicity 1.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.EthnicityLevel = VRDR.ValueSets.YesNoUnknown.Yes;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
@@ -3596,7 +3596,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 2 Helper</summary>
         /// <value>Decedent's Ethnicity 2.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity2Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
@@ -3675,7 +3675,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 3 Helper</summary>
         /// <value>Decedent's Ethnicity 3.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity3Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity3Helper}");</para>
@@ -3754,7 +3754,7 @@ namespace VRDR
         /// <summary>Decedent's Ethnicity 4 Helper</summary>
         /// <value>Decedent's Ethnicity 4.</value>
         /// <example>
-        /// <para>// Setter:</para> 
+        /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.Ethnicity4Helper = "Y";</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity4Helper}");</para>
@@ -3862,7 +3862,7 @@ namespace VRDR
                             string raceBool = ((FhirBoolean)component.Value).ToString();
 
                             if (Convert.ToBoolean(raceBool))
-                            {   
+                            {
                                 var race = Tuple.Create(raceCode, "Y");
                                 races.Add(race);
                             }
@@ -3870,7 +3870,7 @@ namespace VRDR
                             {
                                 var race = Tuple.Create(raceCode, "N");
                                 races.Add(race);
-                            } 
+                            }
                         }
                         else
                         {
@@ -3994,7 +3994,7 @@ namespace VRDR
                 SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
             }
         }
-       
+
         /// <summary>Decedent's Place Of Birth.</summary>
         /// <value>decedent's Place Of Birth. A Dictionary representing residence address, containing the following key/value pairs:
         /// <para>"addressLine1" - address, line one</para>
@@ -4126,7 +4126,7 @@ namespace VRDR
                 {
                     Decedent.MaritalStatus = DictToCodeableConcept(value);
                 }
-                else 
+                else
                 {
                     string text = Decedent.MaritalStatus.Text;
                     Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
@@ -4134,7 +4134,7 @@ namespace VRDR
                     Decedent.MaritalStatus.Extension.Add(bypass);
                     Decedent.MaritalStatus.Text = text;
                 }
-                
+
             }
         }
 
@@ -4273,7 +4273,7 @@ namespace VRDR
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
                 }
-                Decedent.MaritalStatus.Text = value;  
+                Decedent.MaritalStatus.Text = value;
             }
         }
 
@@ -6682,6 +6682,7 @@ namespace VRDR
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
+        [PropertyParam("addressCounty", "address, countyCode")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
@@ -7272,6 +7273,7 @@ namespace VRDR
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
+        [PropertyParam("addressCounty", "address, countyCode")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
@@ -8630,7 +8632,7 @@ namespace VRDR
                     {
                         address.City = dict["addressCity"];
                     }
-                    
+
                 }
                 if (dict.ContainsKey("addressCountyC") && !String.IsNullOrEmpty(dict["addressCountyC"]))
                 {
@@ -8817,9 +8819,9 @@ namespace VRDR
                     Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
                     if (districtCode != null){
                         dictionary["addressCountyC"] = districtCode.Value.ToString();
-                    } 
+                    }
                 }
-                
+
                 Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
                 if (stnum != null)
                 {
@@ -8837,34 +8839,34 @@ namespace VRDR
                 {
                     dictionary["addressStname"] = stname.Value.ToString();
                 }
-                
+
                 Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
                 if (stdesig != null)
                 {
                     dictionary["addressStdesig"] = stdesig.Value.ToString();
                 }
-                
+
                 Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
                 if (postdir != null)
                 {
                     dictionary["addressPostdir"] = postdir.Value.ToString();
                 }
-                
+
                 Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
                 if (unitnum != null)
                 {
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
-                
+
                 //Check for possible state extension
                 dictionary["addressState"] = addr.State;
-                if (addr.StateElement != null) 
+                if (addr.StateElement != null)
                 {
                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
                     if (stateExt != null)
                     {
                         dictionary["addressState"] = stateExt.Value.ToString();
-                    } 
+                    }
                 }
                 if (addr.City != null)
                 {
@@ -8912,7 +8914,7 @@ namespace VRDR
             dictionary.Add("display", "");
             return dictionary;
         }
-        
+
         /// <summary>Returns an empty "code" Dictionary for race and ethnicity.</summary>
         /// <returns>an empty "code" Dictionary.</returns>
         private Dictionary<string, string> EmptyRaceEthnicityCodeDict()

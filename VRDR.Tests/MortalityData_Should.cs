@@ -353,9 +353,9 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCUnknown.ije")), true);
             Assert.Equal("999", ije1.COD);
             Assert.Equal("999", ije1.COUNTYC);
-    
+
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("999", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("Middlesex", dr1.DeathLocationAddress["addressCounty"]);
             Assert.Equal("999", dr1.Residence["addressCountyC"]);
         }
 
@@ -363,9 +363,10 @@ namespace VRDR.Tests
         public void HandleOtherCODandCOUNTYC()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCOther.ije")), true);
-            Assert.Equal("000", ije1.COD);
             Assert.Equal("000", ije1.COUNTYC);
-    
+            Assert.Equal("000", ije1.COD);
+
+
             DeathRecord dr1 = ije1.ToDeathRecord();
             Assert.Equal("000", dr1.DeathLocationAddress["addressCounty"]);
             Assert.Equal("000", dr1.Residence["addressCountyC"]);

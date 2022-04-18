@@ -1261,13 +1261,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYC", "Residence", "address", "countyC", true);
+                return Dictionary_Geo_Get("COUNTYC", "Residence", "address", "countyCode", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYC", "Residence", "address", "countyC", true, value);
+                    Dictionary_Geo_Set("COUNTYC", "Residence", "address", "countyCode", true, value);
                 }
             }
         }
@@ -1433,13 +1433,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "countyCode", true);
+                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "countyCode", false);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "countyCode", true, value);
+                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "countyCode", false, value);
                 }
             }
         }

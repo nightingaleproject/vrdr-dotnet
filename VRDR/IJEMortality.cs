@@ -4881,6 +4881,10 @@ namespace VRDR
             }
             set
             {
+<<<<<<< HEAD
+=======
+                // NOOP
+>>>>>>> 8544b11 (added support for Certifier Address.  Need to merge SUpport for address fields from Decedent PR for this to work)
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("CERTSTNUM", "CertifierAddress", "address", "stnum", false, value);

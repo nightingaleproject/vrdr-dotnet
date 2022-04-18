@@ -646,32 +646,32 @@ namespace VRDR
             record.Race = raceStatus.Distinct().ToArray();
         }
 
-        /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
-        private string Get_YNU(string fhirFieldName)
-        {
-            object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (status == null)
-            {
-                return "U";
-            }
-            else
-            {
-                return ((bool)status) ? "Y" : "N";
-            }
-        }
+        // /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
+        // private string Get_YNU(string fhirFieldName)
+        // {
+        //     object status = typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+        //     if (status == null)
+        //     {
+        //         return "U";
+        //     }
+        //     else
+        //     {
+        //         return ((bool)status) ? "Y" : "N";
+        //     }
+        // }
 
-        /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
-        private void Set_YNU(string fhirFieldName, string value)
-        {
-            if (value != "U" && value == "Y")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
-            }
-            else if (value != "U" && value == "N")
-            {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
-            }
-        }
+        // /// <summary>Sets a "Yes", "No", or "Unkown" value.</summary>
+        // private void Set_YNU(string fhirFieldName, string value)
+        // {
+        //     if (value != "U" && value == "Y")
+        //     {
+        //         typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, true);
+        //     }
+        //     else if (value != "U" && value == "N")
+        //     {
+        //         typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, false);
+        //     }
+        // }
 
         /// <summary>Given a Dictionary mapping FHIR codes to IJE strings and the relevant FHIR and IJE fields pull the value
         /// from the FHIR record object and provide the appropriate IJE string</summary>
@@ -2995,41 +2995,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOP", "AutopsyPerformedIndicator", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "AutopsyPerformedIndicator", "AUTOP");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "Y");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "N");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "code", "UNK");
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("AUTOP", "AutopsyPerformedIndicator", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "AUTOP", "AutopsyPerformedIndicator", value);
             }
         }
 
@@ -3039,101 +3009,25 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("AUTOPF", "AutopsyResultsAvailable", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "AutopsyResultsAvailable", "AUTOPF");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "Y");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "N");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "code", "UNK");
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("AUTOPF", "AutopsyResultsAvailable", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "AUTOPF", "AutopsyResultsAvailable", value);
             }
         }
 
         /// <summary>Did Tobacco Use Contribute to Death?</summary>
-        /// Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
         [IJEField(111, 978, 1, "Did Tobacco Use Contribute to Death?", "TOBAC", 1)]
         public string TOBAC
         {
-            // Value set contains 5 values (SCT/No, SCT/Yes, SCT/Probably, NullFlavor/UNK,  NullFlavor/NASK - C)
             get
             {
-                string code = Dictionary_Get_Full("TOBAC", "TobaccoUse", "code");
-                switch (code)
-                {
-                    case "373066001": // Yes
-                        return "Y";
-                    case "373067005": // No
-                        return "N";
-                    case "2931005": // Probably
-                        return "P";
-                    case "UNK": // Unknown
-                        return "U";
-                    case "NASK": // Not asked
-                        return "C"; // maps to not on certificate
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.ContributoryTobaccoUse.FHIRToIJE, "TobaccoUse", "TOBAC");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373066001");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "373067005");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "No");
-                            break;
-                        case "P":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "2931005");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.SCT);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Probably");
-                            break;
-                        case "U":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "UNK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Unknown");
-                            break;
-                        case "C":
-                            Dictionary_Set("TOBAC", "TobaccoUse", "code", "NASK");
-                            Dictionary_Set("TOBAC", "TobaccoUse", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("TOBAC", "TobaccoUse", "display", "Not asked");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.ContributoryTobaccoUse.IJEToFHIR, "TOBAC", "TobaccoUse", value);
             }
         }
 
@@ -3143,62 +3037,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("PREG", "PregnancyStatus", "code");
-                switch (code)
-                {
-                    case "PHC1260": // Not pregnant within past year
-                        return "1";
-                    case "PHC1261": // Pregnant at time of death
-                        return "2";
-                    case "PHC1262": // Not pregnant, but pregnant within 42 days of death
-                        return "3";
-                    case "PHC1263": // Not pregnant, but pregnant 43 days to 1 year before death
-                        return "4";
-                    case "PHC1264": // Unknown if pregnant within the past year
-                        return "9";
-                    case "NA": // Not applicable
-                        return "8";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PregnancyStatus.FHIRToIJE, "PregnancyStatus", "PREG");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1260");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant within past year");
-                            break;
-                        case "2":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1261");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Pregnant at time of death");
-                            break;
-                        case "3":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1262");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant within 42 days of death");
-                            break;
-                        case "4":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1263");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not pregnant, but pregnant 43 days to 1 year before death");
-                            break;
-                        case "9":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "PHC1264");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_PHINVS_CDC);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Unknown if pregnant within the past year");
-                            break;
-                        case "8":
-                            Dictionary_Set("PREG", "PregnancyStatus", "code", "NA");
-                            Dictionary_Set("PREG", "PregnancyStatus", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("PREG", "PregnancyStatus", "display", "Not applicable");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.PregnancyStatus.IJEToFHIR, "PREG", "PregnancyStatus", value);
             }
         }
 
@@ -3208,11 +3051,11 @@ namespace VRDR
         {
             get
             {
-                return ""; // Blank
+                return Get_MappingFHIRToIJE(Mappings.EditBypass012.FHIRToIJE, "PregnancyStatusEditFlag", "PREG_BYPASS");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.EditBypass012.IJEToFHIR, "PREG_BYPASS", "PregnancyStatusEditFlag", value);
             }
         }
 
@@ -3290,41 +3133,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("WORKINJ", "InjuryAtWork", "code");
-                switch (code)
-                {
-                    case "Y": // Yes
-                        return "Y";
-                    case "N": // No
-                        return "N";
-                    case "UNK": // Unknown
-                        return "U";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "InjuryAtWork", "WORKINJ");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "Y":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "Y");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Yes");
-                            break;
-                        case "N":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "N");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_YesNo_HL7_2x);
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "No");
-                            break;
-                        case "U":
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "code", "UNK");
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("WORKINJ", "InjuryAtWork", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "WORKINJ", "InjuryAtWork", value);
             }
         }
 
@@ -4284,20 +4097,17 @@ namespace VRDR
             }
         }
 
-        /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
+             /// <summary>Was case Referred to Medical Examiner/Coroner?</summary>
         [IJEField(172, 2108, 1, "Was case Referred to Medical Examiner/Coroner?", "REFERRED", 1)]
         public string REFERRED
         {
             get
             {
-                return Get_YNU("ExaminerContactedBoolean");
+                return Get_MappingFHIRToIJE(Mappings.YesNoUnknown.FHIRToIJE, "ExaminerContacted", "REFERRED");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    Set_YNU("ExaminerContactedBoolean", value);
-                }
+                Set_MappingIJEToFHIR(Mappings.YesNoUnknown.IJEToFHIR, "REFERRED", "ExaminerContacted", value);
             }
         }
 
@@ -4307,94 +4117,13 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("POILITRL", "InjuryPlace", "code");
-                switch (code)
-                {
-                    case "0":
-                        return "Home";
-                    case "1":
-                        return "Residential Institution";
-                    case "2":
-                        return "School, Other Institutions, Public Administrative Area";
-                    case "3":
-                        return "Sports and Atheletics Area";
-                    case "4":
-                        return "Street/Highway";
-                    case "5":
-                        return "Trade and Service Area";
-                    case "6":
-                        return "Industrial and Construction Area";
-                    case "7":
-                        return "Farm";
-                    case "8":
-                        return "Other Specified Place";
-                    case "9":
-                        return "Unspecified Place";
-                    case "NI":
-                        return "NoInformation";
-                }
-                return "";
+                return LeftJustified_Get("POILITRL", "InjuryPlaceDescription");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value.Trim())
-                    {
-                        case "Home":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "0");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Residential Institution":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "1");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "School, Other Institutions, Public Administrative Area":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "2");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Sports and Atheletics Area":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "3");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Street/Highway":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "4");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Trade and Service Area":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "5");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Industrial and Construction Area":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "6");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Farm":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "7");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Other Specified Place":
-                        default:    // if the value is non-null, but not one of the expected string, it is 'other specified place'
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "8");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                        case "Unspecified Place":
-                            Dictionary_Set("POILITRL", "InjuryPlace", "code", "9");
-                            Dictionary_Set("POILITRL", "InjuryPlace", "system", CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-                            Dictionary_Set("POILITRL", "InjuryPlace", "display", value.Trim());
-                            break;
-                    }
-                }
+                LeftJustified_Set("POILITRL", "InjuryPlaceDescription", value);
             }
+
         }
 
         /// <summary>Describe How Injury Occurred</summary>

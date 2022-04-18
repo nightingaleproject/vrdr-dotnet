@@ -351,7 +351,7 @@ namespace VRDR.CLI
                 deathRecord.TransportationRole = tr;
 
                 // ExaminerContacted
-                deathRecord.ExaminerContactedBoolean = false;
+                deathRecord.ExaminerContactedHelper = "N";
 
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();
@@ -398,11 +398,7 @@ namespace VRDR.CLI
                 deathRecord.TransportationEvent = codeTI;
 
                 // InjuryPlace
-                Dictionary<string, string> ip = new Dictionary<string, string>();
-                ip["code"] = "0";
-                ip["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
-                ip["display"] = "Home";
-                deathRecord.InjuryPlace = ip;
+                deathRecord.InjuryPlaceDescription = "Home";
 
                 // DeathLocationAddress
                 Dictionary<string, string> dtladdress = new Dictionary<string, string>();

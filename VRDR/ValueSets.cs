@@ -385,6 +385,7 @@ namespace VRDR
                 { "2", "Pregnant at time of death", VRDR.CodeSystems.PregnancyStatus },
                 { "3", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PregnancyStatus },
                 { "4", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PregnancyStatus },
+                { "8", "Not Applicable: Computer generated", VRDR.CodeSystems.PregnancyStatus },
                 { "9", "Unknown if pregnant within the past year", VRDR.CodeSystems.PregnancyStatus },
                 { "NA", "Not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
             };
@@ -396,6 +397,8 @@ namespace VRDR
             public static string  Not_Pregnant_But_Pregnant_Within_Days_Of_Death = "3";
             /// <summary> Not_Pregnant_But_Pregnant_Days_To_Year_Before_Death </summary>
             public static string  Not_Pregnant_But_Pregnant_Days_To_Year_Before_Death = "4";
+            /// <summary> Not_Applicable_Computer_Generated </summary>
+            public static string  Not_Applicable_Computer_Generated = "8";
             /// <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
             public static string  Unknown_If_Pregnant_Within_The_Past_Year = "9";
             /// <summary> Not_Applicable </summary>

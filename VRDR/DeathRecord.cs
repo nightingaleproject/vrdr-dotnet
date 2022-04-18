@@ -219,6 +219,17 @@ namespace VRDR
         /// <summary>The Funeral Home.</summary>
         private Organization FuneralHome;
 
+
+        // <summary> Create Funeral Home. </summary>
+        private void CreateFuneralHome(){
+            FuneralHome = new Organization();
+            FuneralHome.Id = Guid.NewGuid().ToString();
+            FuneralHome.Meta = new Meta();
+            string[] funeralhome_profile = { ProfileURL.FuneralHome };
+            FuneralHome.Meta.Profile = funeralhome_profile;
+            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
+            FuneralHome.Active = true;
+        }
         /// <summary>The Funeral Home Director.</summary>
         private PractitionerRole FuneralHomeDirector;
 
@@ -443,13 +454,7 @@ namespace VRDR
             InterestedParty.Active = true;
 
             // Start with an empty funeral home.
-            FuneralHome = new Organization();
-            FuneralHome.Id = Guid.NewGuid().ToString();
-            FuneralHome.Meta = new Meta();
-            string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-            FuneralHome.Meta.Profile = funeralhome_profile;
-            FuneralHome.Active = true;
-            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
+            CreateFuneralHome();
 
             // FuneralHomeLicensee Points to Mortician and FuneralHome
             FuneralHomeDirector = new PractitionerRole();
@@ -4999,6 +5004,12 @@ namespace VRDR
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressStnum", "address, stnum")]
+        [PropertyParam("addressStdesig", "address, stdesig")]
+        [PropertyParam("addressPredir", "address, predir")]
+        [PropertyParam("addressPostDir", "address, postdir")]
+        [PropertyParam("addressStname", "address, stname")]
+        [PropertyParam("addressUnitnum", "address, unitnum")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "address")]
@@ -5022,7 +5033,7 @@ namespace VRDR
                     FuneralHome = new Organization();
                     FuneralHome.Id = Guid.NewGuid().ToString();
                     FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
+                    string[] funeralhome_profile = { ProfileURL.FuneralHome };
                     FuneralHome.Meta.Profile = funeralhome_profile;
                     FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
                     FuneralHome.Active = true;

@@ -4583,12 +4583,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNFACSTNUM", "CertifierAddress", "address", "stnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNFACSTNUM", "CertifierAddress", "address", "stnum", false, value);
+                }
             }
         }
 
@@ -4879,7 +4881,6 @@ namespace VRDR
             }
             set
             {
-                // NOOP
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("CERTSTNUM", "CertifierAddress", "address", "stnum", false, value);

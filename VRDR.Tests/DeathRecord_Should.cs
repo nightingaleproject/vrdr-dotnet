@@ -1795,6 +1795,12 @@ namespace VRDR.Tests
             fdaddress.Add("addressState", "MA");
             fdaddress.Add("addressZip", "01730");
             fdaddress.Add("addressCountry", "US");
+            fdaddress.Add("addressPredir", "W");
+            fdaddress.Add("addressPostdir", "E");
+            fdaddress.Add("addressStname", "Example");
+            fdaddress.Add("addressStnum", "11");
+            fdaddress.Add("addressStdesig", "Street");
+            fdaddress.Add("addressUnitnum", "3");
             SetterDeathRecord.FuneralHomeAddress = fdaddress;
             Assert.Equal("1011010 Example Street", SetterDeathRecord.FuneralHomeAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.FuneralHomeAddress["addressLine2"]);
@@ -1803,6 +1809,12 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.FuneralHomeAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.FuneralHomeAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.FuneralHomeAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.FuneralHomeAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.FuneralHomeAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.FuneralHomeAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.FuneralHomeAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.FuneralHomeAddress["addressUnitnum"]);
         }
 
         [Fact]

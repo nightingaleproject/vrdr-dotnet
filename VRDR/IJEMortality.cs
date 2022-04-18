@@ -2743,62 +2743,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("MANNER", "MannerOfDeathType", "code");
-                switch (code)
-                {
-                    case "38605008": // Natural
-                        return "N";
-                    case "7878000": // Accident
-                        return "A";
-                    case "44301001": // Suicide
-                        return "S";
-                    case "27935005": // Homicide
-                        return "H";
-                    case "185973002": // Pending Investigation
-                        return "P";
-                    case "65037004": // Could not be determined
-                        return "C";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "MannerOfDeathType", "MANNER");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "N":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "38605008");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural death");
-                            break;
-                        case "A":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "7878000");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accidental death");
-                            break;
-                        case "S":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "44301001");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Suicide");
-                            break;
-                        case "H":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "27935005");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Homicide");
-                            break;
-                        case "P":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "185973002");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Patient awaiting investigation");
-                            break;
-                        case "C":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "65037004");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Death, manner undetermined");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "MANNER", "MannerOfDeathType", value);
             }
         }
 

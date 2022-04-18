@@ -879,7 +879,8 @@
                                         "code": "69450-5",
                                         "display": "Place of injury Facility"
                                     }]},
-                                    "valueCodeableConcept": {"coding": [{
+                                    "valueCodeableConcept": {
+                                        "coding": [{
                                         "system": "urn:oid:2.16.840.1.114222.4.11.7374",
                                         "code": "0",
                                         "display": "Home"

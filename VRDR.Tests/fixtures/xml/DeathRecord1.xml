@@ -1500,15 +1500,15 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
-              <code value="69448-9" />
-              <display value="Injury leading to death associated with transportation event" />
+              <code value="69451-3" />
+              <display value="Transportation role of decedent" />
             </coding>
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
-              <code value="Y" />
-              <display value="Yes" />
+              <system value="http://snomed.info/sct" />
+              <code value="257500003" />
+              <display value="Passenger" />
             </coding>
           </valueCodeableConcept>
         </component>
@@ -1521,11 +1521,6 @@
             </coding>
           </code>
           <valueCodeableConcept>
-            <coding>
-              <system value="urn:oid:2.16.840.1.114222.4.5.320" />
-              <code value="0" />
-              <display value="Home" />
-            </coding>
             <text value="At home, in the kitchen" />
           </valueCodeableConcept>
         </component>

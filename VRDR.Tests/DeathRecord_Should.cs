@@ -958,7 +958,7 @@ namespace VRDR.Tests
             raddress.Add("addressUnitnum", "A");
 
             SetterDeathRecord.Residence = raddress;
-            
+
             Assert.Equal("101 Example Street", SetterDeathRecord.Residence["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.Residence["addressLine2"]);
             Assert.Equal("Bedford", SetterDeathRecord.Residence["addressCity"]);
@@ -2327,42 +2327,42 @@ namespace VRDR.Tests
             Assert.Equal("N",((DeathRecord)XMLRecords[0]).InjuryAtWorkHelper);
         }
 
-        [Fact]
-        public void Set_TransportationEvent()
-        {
-            Dictionary<string, string> ite = new Dictionary<string, string>();
-            ite.Add("code", "Y");
-            ite.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
-            ite.Add("display", "Yes");
-            SetterDeathRecord.TransportationEvent = ite;
-            Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
-            Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
-            Assert.True(SetterDeathRecord.TransportationEventBoolean);
-            SetterDeathRecord.TransportationEventBoolean = false;
-            Assert.Equal("N", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
-            Assert.Equal("No", SetterDeathRecord.TransportationEvent["display"]);
-            Assert.False(SetterDeathRecord.TransportationEventBoolean);
-            SetterDeathRecord.TransportationEventBoolean = null;
-            Assert.Equal("UNK", SetterDeathRecord.TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.TransportationEvent["system"]);
-            Assert.Equal("unknown", SetterDeathRecord.TransportationEvent["display"]);
-            Assert.Null(SetterDeathRecord.TransportationEventBoolean);
-        }
+        // [Fact]
+        // public void Set_TransportationEvent()
+        // {
+        //     Dictionary<string, string> ite = new Dictionary<string, string>();
+        //     ite.Add("code", "Y");
+        //     ite.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
+        //     ite.Add("display", "Yes");
+        //     SetterDeathRecord.TransportationEvent = ite;
+        //     Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
+        //     Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
+        //     Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
+        //     Assert.True(SetterDeathRecord.TransportationEventBoolean);
+        //     SetterDeathRecord.TransportationEventBoolean = false;
+        //     Assert.Equal("N", SetterDeathRecord.TransportationEvent["code"]);
+        //     Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
+        //     Assert.Equal("No", SetterDeathRecord.TransportationEvent["display"]);
+        //     Assert.False(SetterDeathRecord.TransportationEventBoolean);
+        //     SetterDeathRecord.TransportationEventBoolean = null;
+        //     Assert.Equal("UNK", SetterDeathRecord.TransportationEvent["code"]);
+        //     Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.TransportationEvent["system"]);
+        //     Assert.Equal("unknown", SetterDeathRecord.TransportationEvent["display"]);
+        //     Assert.Null(SetterDeathRecord.TransportationEventBoolean);
+        // }
 
-        [Fact]
-        public void Get_TransportationEvent()
-        {
-            Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
-            Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
-            Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
-            Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo_0136HL7_V2, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
-            Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
-            Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
-        }
+        // [Fact]
+        // public void Get_TransportationEvent()
+        // {
+        //     Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
+        //     Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
+        //     Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
+        //     Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
+        //     Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
+        //     Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
+        //     Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
+        //     Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
+        // }
 
         [Fact]
         public void Set_DeathLocationAddress()

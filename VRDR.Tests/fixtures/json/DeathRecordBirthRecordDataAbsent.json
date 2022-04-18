@@ -1529,14 +1529,28 @@
               ]
             },
             "valueCodeableConcept": {
+              "text": "At home, in the kitchen"
+            }
+          },
+          {
+            "code": {
               "coding": [
                 {
-                  "system": "urn:oid:2.16.840.1.114222.4.5.320",
-                  "code": "0",
-                  "display": "Home"
+                  "system": "http://loinc.org",
+                  "code": "69451-3",
+                  "display": "Transportation role of decedent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "257500003",
+                  "display": "Passenger"
                 }
               ],
-              "text": "At home, in the kitchen"
+              "text": "Passenger"
             }
           }
         ]

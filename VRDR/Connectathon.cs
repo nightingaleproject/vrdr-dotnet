@@ -418,7 +418,7 @@ namespace VRDR
             pregnancyStatus.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
             pregnancyStatus.Add("display", "Not pregnant within the past year");
             record.PregnancyStatus = pregnancyStatus;
-            record.TransportationEventBoolean = false;
+            // record.TransportationEventBoolean = false;
             record.TobaccoUse = new Dictionary<string, string>() {
                 { "code", "373067005" },
                 { "system", VRDR.CodeSystems.SCT },
@@ -799,7 +799,7 @@ namespace VRDR
             codeT.Add("system", VRDR.CodeSystems.SCT);
             codeT.Add("display", "Vehicle driver");
             record.TransportationRole = codeT;
-            record.TransportationEventBoolean = true;
+            // record.TransportationEventBoolean = true;
             record.AutopsyPerformedIndicatorHelper = "N";
             record.AutopsyResultsAvailableHelper = "N";
             if (fullRecord)

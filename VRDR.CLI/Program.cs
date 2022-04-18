@@ -40,32 +40,32 @@ namespace VRDR.CLI
                 certificationRole.Add("display", "Physician");
                 deathRecord.CertificationRole = certificationRole;
 
-                // InterestedPartyIdentifier
-                var ipId = new Dictionary<string, string>();
-                ipId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                ipId["value"] = "0000000000";
-                deathRecord.InterestedPartyIdentifier = ipId;
+                // // InterestedPartyIdentifier
+                // var ipId = new Dictionary<string, string>();
+                // ipId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // ipId["value"] = "0000000000";
+                // deathRecord.InterestedPartyIdentifier = ipId;
 
-                // InterestedPartyName
-                deathRecord.InterestedPartyName = "Example Hospital";
+                // // InterestedPartyName
+                // deathRecord.InterestedPartyName = "Example Hospital";
 
-                // InterestedPartyAddress
-                Dictionary<string, string> address = new Dictionary<string, string>();
-                address.Add("addressLine1", "10 Example Street");
-                address.Add("addressLine2", "Line 2");
-                address.Add("addressCity", "Bedford");
-                address.Add("addressCounty", "Middlesex");
-                address.Add("addressState", "MA");
-                address.Add("addressZip", "01730");
-                address.Add("addressCountry", "US");
-                deathRecord.InterestedPartyAddress = address;
+                // // InterestedPartyAddress
+                // Dictionary<string, string> address = new Dictionary<string, string>();
+                // address.Add("addressLine1", "10 Example Street");
+                // address.Add("addressLine2", "Line 2");
+                // address.Add("addressCity", "Bedford");
+                // address.Add("addressCounty", "Middlesex");
+                // address.Add("addressState", "MA");
+                // address.Add("addressZip", "01730");
+                // address.Add("addressCountry", "US");
+                // deathRecord.InterestedPartyAddress = address;
 
-                // InterestedPartyType
-                Dictionary<string, string> type = new Dictionary<string, string>();
-                type.Add("code", "prov");
-                type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
-                type.Add("display", "Healthcare Provider");
-                deathRecord.InterestedPartyType = type;
+                // // InterestedPartyType
+                // Dictionary<string, string> type = new Dictionary<string, string>();
+                // type.Add("code", "prov");
+                // type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
+                // type.Add("display", "Healthcare Provider");
+                // deathRecord.InterestedPartyType = type;
 
                 // State Local Identifier
                 deathRecord.StateLocalIdentifier = "42";
@@ -390,12 +390,12 @@ namespace VRDR.CLI
                 codeIW.Add("display", "No");
                 deathRecord.InjuryAtWork = codeIW;
 
-                // TransportationInjury
-                Dictionary<string, string> codeTI = new Dictionary<string, string>();
-                codeTI.Add("code", "Y");
-                codeTI.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                codeTI.Add("display", "Yes");
-                deathRecord.TransportationEvent = codeTI;
+                // // TransportationInjury
+                // Dictionary<string, string> codeTI = new Dictionary<string, string>();
+                // codeTI.Add("code", "Y");
+                // codeTI.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
+                // codeTI.Add("display", "Yes");
+                // deathRecord.TransportationEvent = codeTI;
 
                 // InjuryPlace
                 deathRecord.InjuryPlaceDescription = "Home";

@@ -584,115 +584,198 @@
   <entry>
     <fullUrl value="urn:uuid:8e4650ca-1d2a-4f73-a551-616fefd3e130" />
     <resource>
-      <Condition>
+      <Observation>
         <id value="8e4650ca-1d2a-4f73-a551-616fefd3e130" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2" />
         </meta>
         <code>
-          <text value="Example Contributing Conditions" />
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69441-4" />
+            <display value="Other significant causes or conditions of death" />
+          </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <asserter>
+        <performer>
           <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </asserter>
-      </Condition>
+        </performer>
+        <valueCodeableConcept>
+          <text value="Example Contributing Conditions" />
+        </valueCodeableConcept>
+      </Observation>
     </resource>
   </entry>
   <entry>
     <fullUrl value="urn:uuid:e3328799-6392-4f6b-9db9-556a9b8a88d3" />
     <resource>
-      <Condition>
+      <Observation>
         <id value="e3328799-6392-4f6b-9db9-556a9b8a88d3" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
         </meta>
         <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
+        </subject>
+        <performer>
+          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
+        </performer>
+        <performer>
+          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
+        </performer>
+        <valueCodeableConcept>
           <coding>
             <system value="http://hl7.org/fhir/sid/icd-10" />
             <code value="I21.0" />
             <display value="Acute transmural myocardial infarction of anterior wall" />
           </coding>
           <text value="Rupture of myocardium" />
-        </code>
-        <subject>
-          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
-        </subject>
-        <onsetString value="minutes" />
-        <asserter>
-          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </asserter>
-      </Condition>
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <text value="minutes" />
+          </valueCodeableConcept>
+        </component>
+      </Observation>
     </resource>
   </entry>
   <entry>
     <fullUrl value="urn:uuid:5c0a0509-8297-4a53-a0ef-725daaaf9736" />
     <resource>
-      <Condition>
+      <Observation>
         <id value="5c0a0509-8297-4a53-a0ef-725daaaf9736" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
         </meta>
-        <code>
+          <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
+        </subject>
+        <performer>
+          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
+        </performer>
+        <valueCodeableConcept>
           <coding>
             <system value="http://hl7.org/fhir/sid/icd-10" />
             <code value="I21.9" />
             <display value="Acute myocardial infarction, unspecified" />
           </coding>
           <text value="Acute myocardial infarction" />
-        </code>
-        <subject>
-          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
-        </subject>
-        <onsetString value="6 days" />
-        <asserter>
-          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </asserter>
-      </Condition>
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <text value="6 days" />
+          </valueCodeableConcept>
+        </component>
+      </Observation>
     </resource>
   </entry>
   <entry>
     <fullUrl value="urn:uuid:826a3c27-c712-4c65-b454-46cc4ca76c99" />
     <resource>
-      <Condition>
+      <Observation>
         <id value="826a3c27-c712-4c65-b454-46cc4ca76c99" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
         </meta>
         <code>
-          <text value="Coronary artery thrombosis" />
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <onsetString value="5 years" />
-        <asserter>
+        <performer>
           <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </asserter>
-      </Condition>
+        </performer>
+        <valueCodeableConcept>
+          <text value="Coronary artery thrombosis" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <text value="5 years" />
+          </valueCodeableConcept>
+        </component>
+
+      </Observation>
     </resource>
   </entry>
   <entry>
     <fullUrl value="urn:uuid:46c9ed22-34f6-4d40-bdfa-9b7d6b3e9da6" />
     <resource>
-      <Condition>
+      <Observation>
         <id value="46c9ed22-34f6-4d40-bdfa-9b7d6b3e9da6" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
         </meta>
         <code>
-          <text value="Atherosclerotic coronary artery disease" />
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <onsetString value="7 years" />
-        <asserter>
+         <performer>
           <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </asserter>
-      </Condition>
+        </performer>
+        <valueCodeableConcept>
+          <text value="Atherosclerotic coronary artery disease" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <text value="7 years" />
+          </valueCodeableConcept>
+        </component>
+      </Observation>
     </resource>
   </entry>
   <entry>

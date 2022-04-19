@@ -942,35 +942,44 @@
     {
       "fullUrl": "urn:uuid:fc27b07f-99c9-48f8-a229-6eb5d8b598f0",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "fc27b07f-99c9-48f8-a229-6eb5d8b598f0",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "text": "Example Contributing Conditions"
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "asserter": {
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
+        }],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69441-4",
+              "display": "Other significant causes or conditions of death]"
+            }
+          ]
         }
       }
     },
     {
       "fullUrl": "urn:uuid:b66d97ea-56b1-4397-8de3-fb989007485b",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "b66d97ea-56b1-4397-8de3-fb989007485b",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -983,23 +992,31 @@
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "onsetString": "minutes",
-        "asserter": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
+            }
+          ]
+        },
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }
+        }]
       }
     },
     {
       "fullUrl": "urn:uuid:8b7a9ca6-1276-402f-a521-35155234af14",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "8b7a9ca6-1276-402f-a521-35155234af14",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -1012,54 +1029,126 @@
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "onsetString": "6 days",
-        "asserter": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
+            }
+          ]
+        },
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }
+        }],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "6 days"
+            }
+          }
+        ]
       }
     },
     {
       "fullUrl": "urn:uuid:bbae6f36-26c2-4b20-b9d3-735d9c9f6c2f",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "bbae6f36-26c2-4b20-b9d3-735d9c9f6c2f",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "text": "Coronary artery thrombosis"
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "onsetString": "5 years",
-        "asserter": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
+            }
+          ]
+        },
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }
+        }],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "5 years"
+            }
+          }
+        ]
       }
     },
     {
       "fullUrl": "urn:uuid:223eaadb-5909-458c-bbe5-604c120c3ce9",
       "resource": {
-        "resourceType": "Condition",
+        "resourceType": "Observation",
         "id": "223eaadb-5909-458c-bbe5-604c120c3ce9",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "code": {
+        "valueCodeableConcept": {
           "text": "Atherosclerotic coronary artery disease"
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "onsetString": "7 years",
-        "asserter": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69453-9",
+              "display": "Cause of death [US Standard Certificate of Death]"
+            }
+          ]
+        },
+        "performer": [{
           "reference": "urn:uuid:0402b9de-2347-4580-a9bf-b984c161ed2d"
-        }
+        }],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "69440-6",
+                  "display": "Disease onset to death interval"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "7 years"
+            }
+          }
+        ]
       }
     },
     {

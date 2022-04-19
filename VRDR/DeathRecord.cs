@@ -1173,53 +1173,6 @@ namespace VRDR
             }
         }
 
-        // /// <summary>Certifier Qualification.</summary>
-        // /// <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
-        // /// <para>"code" - the code</para>
-        // /// <para>"system" - the code system this code belongs to</para>
-        // /// <para>"display" - a human readable meaning of the code</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>qualification.Add("code", "434641000124105");</para>
-        // /// <para>qualification.Add("system", CodeSystems.SCT);</para>
-        // /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
-        // /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
-        // /// </example>
-        // [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 9)]
-        // [PropertyParam("code", "The code used to describe this concept.")]
-        // [PropertyParam("system", "The relevant code system.")]
-        // [PropertyParam("display", "The human readable version of this code.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
-        // public Dictionary<string, string> CertifierQualification
-        // {
-        //     get
-        //     {
-        //         Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-        //         if (qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null)
-        //         {
-        //             return CodeableConceptToDict(qualification.Code);
-        //         }
-        //         return EmptyCodeDict();
-        //     }
-        //     set
-        //     {
-        //         if (Certifier.Qualification.FirstOrDefault() == null)
-        //         {
-        //             Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-        //             qualification.Code = DictToCodeableConcept(value);
-        //             Certifier.Qualification.Add(qualification);
-        //         }
-        //         else
-        //         {
-        //             Certifier.Qualification.First().Code = DictToCodeableConcept(value);
-        //         }
-        //     }
-        // }
-
         /// <summary>Certifier Identifier ** not mapped to IJE **.</summary>
         /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
         /// <para>"system" - the identifier system, e.g. US NPI</para>

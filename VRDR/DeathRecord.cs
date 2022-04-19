@@ -328,26 +328,8 @@ namespace VRDR
         /// <summary>Tobacco Use Contributed To Death.</summary>
         private Observation TobaccoUseObs;
 
-        // <summary>Transportation Role.</summary>
-        // private Observation TransportationRoleObs;
-
-        // /// <summary>Create Transportation Role. </summary>
-        // private void CreateTransportationRoleObs(){
-        //     TransportationRoleObs = new Observation();
-        //     TransportationRoleObs.Id = Guid.NewGuid().ToString();
-        //     TransportationRoleObs.Meta = new Meta();
-        //     string[] t_profile = { VRDR.ProfileURL.DecedentTransportationRole };
-        //     TransportationRoleObs.Meta.Profile = t_profile;
-        //     TransportationRoleObs.Status = ObservationStatus.Final;
-        //     TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-        //     TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-        //     AddReferenceToComposition(TransportationRoleObs.Id);
-        //     Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
-        // }
-
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
-
 
           /// <summary>Create Injury Location.</summary>
           private void CreateInjuryLocationLoc(){
@@ -6789,116 +6771,6 @@ namespace VRDR
             }
         }
 
-        // /// <summary>Transportation Event?</summary>
-        // /// <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:
-        // /// <para>"code" - the code</para>
-        // /// <para>"system" - the code system this code belongs to</para>
-        // /// <para>"display" - a human readable meaning of the code</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>code.Add("code", "N");</para>
-        // /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
-        // /// <para>code.Add("display", "No");</para>
-        // /// <para>ExampleDeathRecord.TransportationEvent = code;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
-        // /// </example>
-        // [Property("Transportation Event?", Property.Types.Dictionary, "Death Investigation", "Was the injury associated with a transportation event?", true, IGURL.InjuryIncident, true, 43)]
-        // [PropertyParam("code", "The code used to describe this concept.")]
-        // [PropertyParam("system", "The relevant code system.")]
-        // [PropertyParam("display", "The human readable version of this code.")]
-        // [PropertyParam("text", "Additional descriptive text.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        // public Dictionary<string, string> TransportationEvent
-        // {
-        //     get  //TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-        //     {
-        //         if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
-        //         {
-        //             // Find correct component
-        //             var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
-        //             ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
-        //             if (transportComp != null && transportComp.Value != null && transportComp.Value as CodeableConcept != null)
-        //             {
-        //                 return CodeableConceptToDict((CodeableConcept)transportComp.Value);
-        //             }
-        //         }
-        //         return EmptyCodeableDict();
-        //     }
-        //     set
-        //     {
-        //         if (InjuryIncidentObs == null)
-        //         {
-        //             CreateInjuryIncidentObs();
-        //         }
-        //         // Find correct component; if doesn't exist add another
-        //         var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
-        //         if (transportComp != null)
-        //         {
-        //             ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
-        //         }
-        //         else
-        //         {
-        //             Observation.ComponentComponent component = new Observation.ComponentComponent();
-        //             component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
-        //             component.Value = DictToCodeableConcept(value);
-        //             InjuryIncidentObs.Component.Add(component);
-        //             }
-        //     }
-        // }
-
-        // /// <summary>Transportation Event Boolean?</summary>
-        // /// <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>ExampleDeathRecord.TransportationEventBoolean = true;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
-        // /// </example>
-        // [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, IGURL.InjuryIncident, true, 44)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        // public bool? TransportationEventBoolean
-        // {
-        //     get
-        //     {
-        //         var code = this.TransportationEvent;
-        //         switch (code["code"])
-        //         {
-        //             case "Y": // Yes
-        //                 return true;
-        //             case "N": // No
-        //                 return false;
-        //             default: // Unknown
-        //                 return null;
-        //         }
-        //     }
-        //     set
-        //     {
-        //         var code = EmptyCodeDict();
-        //         switch(value)
-        //         {
-        //             case true:
-        //                 code["code"] = "Y";
-        //                 code["display"] = "Yes";
-        //                 code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-        //                 break;
-        //             case false:
-        //                 code["code"] = "N";
-        //                 code["display"] = "No";
-        //                 code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-        //                 break;
-        //             default:
-        //                 code["code"] = "UNK";
-        //                 code["display"] = "unknown";
-        //                 code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-        //                 break;
-        //         }
-        //         this.TransportationEvent = code;
-        //     }
-        // }
-
         /// <summary>Transportation Role in death.</summary>
         /// <value>transportation role in death. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -7491,13 +7363,6 @@ namespace VRDR
             {
                 MannerOfDeath = (Observation)mannerOfDeath.Resource;
             }
-
-            // // Grab Transportation Role Observation
-            // var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
-            // if (transportationRole != null)
-            // {
-            //     TransportationRoleObs = (Observation)transportationRole.Resource;
-            // }
 
             // Grab Disposition Method
             var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );

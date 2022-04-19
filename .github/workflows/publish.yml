@@ -35,3 +35,13 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
           PACKAGE_NAME: VRDR.Messaging
           INCLUDE_SYMBOLS: false
+      - name: publish Client on version change
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: VRDR.Client/VRDRClient.csproj # Relative to repository root
+          VERSION_FILE_PATH: Directory.Build.props # Filepath with version info, shared between all projects in this repo
+          VERSION_REGEX: <Version>(.*)<\/Version> # Regex pattern to extract version info in a capturing group
+          TAG_COMMIT: false # We already tag with DeathRecord and the versions should always be the same, no need to do it twice
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
+          PACKAGE_NAME: VRDR.Client
+          INCLUDE_SYMBOLS: false

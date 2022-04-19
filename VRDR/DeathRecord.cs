@@ -72,9 +72,6 @@ namespace VRDR
             DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
         }
 
-        /// <summary>The Interested Party.</summary>
-        private Organization InterestedParty;
-
         /// <summary>The Manner of Death Observation.</summary>
         private Observation MannerOfDeath;
 
@@ -427,14 +424,6 @@ namespace VRDR
             // Start with an empty certification.
             CreateEmptyDeathCertification();
 
-            // Start with an empty interested party.
-            InterestedParty = new Organization();
-            InterestedParty.Id = Guid.NewGuid().ToString();
-            InterestedParty.Meta = new Meta();
-            string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-            InterestedParty.Meta.Profile = interestedparty_profile;
-            InterestedParty.Active = true;
-
             // Start with an empty funeral home.
             CreateFuneralHome();
 
@@ -496,7 +485,6 @@ namespace VRDR
             AddReferenceToComposition(Pronouncer.Id);
             AddReferenceToComposition(Mortician.Id);
             AddReferenceToComposition(DeathCertification.Id);
-            AddReferenceToComposition(InterestedParty.Id);
             AddReferenceToComposition(FuneralHome.Id);
             AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
@@ -507,7 +495,6 @@ namespace VRDR
             Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
             Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-            Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
@@ -755,10 +742,6 @@ namespace VRDR
                     Identifier identifier = new Identifier();
                     identifier.Value = value;
                     StateDocumentReference.Identifier.Add(identifier);
-                    if (InterestedParty != null)
-                    {
-                        StateDocumentReference.Author.Add(new ResourceReference("urn:uuid:" + InterestedParty.Id));
-                    }
                     StateDocumentReference.Date = new DateTimeOffset(DateTime.Now);
                     Attachment attachment = new Attachment();
                     attachment.Url = "urn:uuid:" + Bundle.Id;
@@ -930,193 +913,6 @@ namespace VRDR
                 }
             }
         }
-
-        // /// <summary>Interested Party Identifier.</summary>
-        // /// <value>the interested party identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        // /// <para>"system" - the identifier system, e.g. US NPI</para>
-        // /// <para>"value" - the identifier value, e.g. US NPI number</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        // /// <para>identifier.Add("value", "1234567890");</para>
-        // /// <para>ExampleDeathRecord.InterestedPartyIdentifier = identifier;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.InterestedPartyIdentifier['value']}");</para>
-        // /// </example>
-        // [Property("Interested Party Identifier", Property.Types.Dictionary, "Death Certification", "Interested Party Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        // [PropertyParam("system", "The identifier system.")]
-        // [PropertyParam("value", "The identifier value.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
-        // public Dictionary<string, string> InterestedPartyIdentifier
-        // {
-        //     get
-        //     {
-        //         Identifier identifier = InterestedParty?.Identifier?.FirstOrDefault();
-        //         var result = new Dictionary<string, string>();
-        //         if (identifier != null)
-        //         {
-        //             result["system"] = identifier.System;
-        //             result["value"] = identifier.Value;
-        //         }
-        //         return result;
-        //     }
-        //     set
-        //     {
-        //         if (InterestedParty == null)
-        //         {
-        //             InterestedParty = new Organization();
-        //             InterestedParty.Id = Guid.NewGuid().ToString();
-        //             InterestedParty.Meta = new Meta();
-        //             string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-        //             InterestedParty.Meta.Profile = interestedparty_profile;
-        //             InterestedParty.Active = true;
-        //             AddReferenceToComposition(InterestedParty.Id);
-        //             Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
-        //         }
-        //         if (InterestedParty.Identifier.Count > 0)
-        //         {
-        //             InterestedParty.Identifier.Clear();
-        //         }
-        //         if(value.ContainsKey("system") && value.ContainsKey("value")) {
-        //             Identifier identifier = new Identifier();
-        //             identifier.System = value["system"];
-        //             identifier.Value = value["value"];
-        //             InterestedParty.Identifier.Add(identifier);
-        //         }
-        //     }
-        // }
-
-        // /// <summary>Interested Party Name.</summary>
-        // /// <value>an interested party name string.</value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>ExampleDeathRecord.InterestedPartyName = "Fourty Two";</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
-        // /// </example>
-        // [Property("Interested Party Name", Property.Types.String, "Death Certification", "Interested Party Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "name")]
-        // public string InterestedPartyName
-        // {
-        //     get
-        //     {
-        //         if (InterestedParty != null)
-        //         {
-        //             return InterestedParty.Name;
-        //         }
-        //         return null;
-        //     }
-        //     set
-        //     {
-        //         if (InterestedParty == null)
-        //         {
-        //             InterestedParty = new Organization();
-        //             InterestedParty.Id = Guid.NewGuid().ToString();
-        //             InterestedParty.Meta = new Meta();
-        //             string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-        //             InterestedParty.Meta.Profile = interestedparty_profile;
-        //             InterestedParty.Active = true;
-        //             InterestedParty.Name = value;
-        //             AddReferenceToComposition(InterestedParty.Id);
-        //             Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
-        //         }
-        //         else
-        //         {
-        //             InterestedParty.Name = value;
-        //         }
-        //     }
-        // }
-
-        // /// <summary>Interested Party's address.</summary>
-        // /// <value>Interested Party's address. A Dictionary representing an address, containing the following key/value pairs:
-        // /// <para>"addressLine1" - address, line one</para>
-        // /// <para>"addressLine2" - address, line two</para>
-        // /// <para>"addressCity" - address, city</para>
-        // /// <para>"addressCounty" - address, county</para>
-        // /// <para>"addressState" - address, state</para>
-        // /// <para>"addressZip" - address, zip</para>
-        // /// <para>"addressCountry" - address, country</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>address.Add("addressLine1", "9 Example Street");</para>
-        // /// <para>address.Add("addressLine2", "Line 2");</para>
-        // /// <para>address.Add("addressCity", "Bedford");</para>
-        // /// <para>address.Add("addressCounty", "Middlesex");</para>
-        // /// <para>address.Add("addressState", "MA");</para>
-        // /// <para>address.Add("addressZip", "12345");</para>
-        // /// <para>address.Add("addressCountry", "US");</para>
-        // /// <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
-        // /// </example>
-        // [Property("Interested Party Address", Property.Types.Dictionary, "Death Certification", "Interested Party's address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        // [PropertyParam("addressLine1", "address, line one")]
-        // [PropertyParam("addressLine2", "address, line two")]
-        // [PropertyParam("addressCity", "address, city")]
-        // [PropertyParam("addressCounty", "address, county")]
-        // [PropertyParam("addressState", "address, state")]
-        // [PropertyParam("addressZip", "address, zip")]
-        // [PropertyParam("addressCountry", "address, country")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "address")]
-        // public Dictionary<string, string> InterestedPartyAddress
-        // {
-        //     get
-        //     {
-        //         if (InterestedParty != null && InterestedParty.Address != null && InterestedParty.Address.Count() > 0)
-        //         {
-        //             return AddressToDict(InterestedParty.Address.First());
-        //         }
-        //         return EmptyAddrDict();
-        //     }
-        //     set
-        //     {
-        //         InterestedParty.Address.Clear();
-        //         InterestedParty.Address.Add(DictToAddress(value));
-        //     }
-        // }
-
-        // /// <summary>Interested Party Type.</summary>
-        // /// <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
-        // /// <para>"code" - the code</para>
-        // /// <para>"system" - the code system this code belongs to</para>
-        // /// <para>"display" - a human readable meaning of the code</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>type.Add("code", "prov");</para>
-        // /// <para>type.Add("system",CodeSystems.HL7_organization_type);</para>
-        // /// <para>type.Add("display", "Healthcare Provider");</para>
-        // /// <para>ExampleDeathRecord.InterestedPartyType = type;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Interested Party Type: {ExampleDeathRecord.InterestedPartyType['display']}");</para>
-        // /// </example>
-        // [Property("Interested Party Type", Property.Types.Dictionary, "Death Certification", "Interested Party Type.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        // [PropertyParam("code", "The code used to describe this concept.")]
-        // [PropertyParam("system", "The relevant code system.")]
-        // [PropertyParam("display", "The human readable version of this code.")]
-        // [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "type")]
-        // public Dictionary<string, string> InterestedPartyType
-        // {
-        //     get
-        //     {
-        //         if (InterestedParty != null && InterestedParty.Type != null && InterestedParty.Type.Count() > 0)
-        //         {
-        //             return CodeableConceptToDict(InterestedParty.Type.First());
-        //         }
-        //         return EmptyCodeDict();
-        //     }
-        //     set
-        //     {
-        //         InterestedParty.Type.Clear();
-        //         InterestedParty.Type.Add(DictToCodeableConcept(value));
-        //     }
-        // }
-
         /// <summary>Manner of Death Type.</summary>
         /// <value>the manner of death type. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -7326,15 +7122,8 @@ namespace VRDR
                 StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
             }
 
-            // Grab Interested Party
-            var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
-            if (interestedParty != null)
-            {
-                InterestedParty = (Organization)interestedParty.Resource;
-            }
-
             // Grab Funeral Home
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id) );
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization );
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;

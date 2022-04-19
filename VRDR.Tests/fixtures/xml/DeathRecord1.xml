@@ -255,7 +255,7 @@
             <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"/>
             <code value="S"/>
             <display value="Never Married"/>
-          </coding> 
+          </coding>
           <text value="Single"/>
         </maritalStatus>
         <contact>
@@ -1634,52 +1634,109 @@
   <entry>
     <fullUrl value="urn:uuid:7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
     <resource>
-      <Parameters>
+      <Observation>
         <id value="7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues"/>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues"/>
         </meta>
-        <parameter>
-          <name value="PLACE1_1"/>
+        <status value="final"/>
+        <code>
+          <coding>
+            <code value="emergingissues"/>
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated"/>
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_1"/>
+            </coding>
+          </code>
           <valueString value="A"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_2"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_1"/>
+            </coding>
+          </code>
+          <valueString value="A"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_2"/>
+            </coding>
+          </code>
           <valueString value="B"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_3"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_3"/>
+            </coding>
+          </code>
           <valueString value="C"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_4"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_4"/>
+            </coding>
+          </code>
           <valueString value="D"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_5"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_5"/>
+            </coding>
+          </code>
           <valueString value="E"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_6"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_6"/>
+            </coding>
+          </code>
           <valueString value="F"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_1"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_1"/>
+            </coding>
+          </code>
           <valueString value="AAAAAAAA"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_2"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_2"/>
+            </coding>
+          </code>
           <valueString value="BBBBBBBB"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_3"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_3"/>
+            </coding>
+          </code>
           <valueString value="CCCCCCCC"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE20"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue20"/>
+            </coding>
+          </code>
           <valueString value="AAAAAAAAAAAAAAAAAAAA"/>
-        </parameter>
-      </Parameters>
+        </component>
+      </Observation>
     </resource>
   </entry>
 </Bundle>

@@ -176,7 +176,7 @@ namespace VRDR
         private Observation BirthRecordIdentifier;
 
         /// <summary>Emerging Issues.</summary>
-        protected Parameters EmergingIssues;
+        protected Observation EmergingIssues;
 
 
         private void CreateBirthRecordIdentifier(){
@@ -298,7 +298,7 @@ namespace VRDR
             InputRaceandEthnicity.Status = ObservationStatus.Final;
             Dictionary<string, string> coding = new Dictionary<string, string>();
             coding.Add("code", "inputraceandethnicity");
-            coding.Add("system", "Input Race and Ethnicity");
+            coding.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs");
             InputRaceandEthnicity.Code = DictToCodeableConcept(coding);
             InputRaceandEthnicity.Subject = new ResourceReference("urn:uuid:" + InputRaceandEthnicity.Id);
             AddReferenceToComposition(InputRaceandEthnicity.Id);
@@ -1442,20 +1442,20 @@ namespace VRDR
         //     }
         // }
 
-        // /// <summary>Certifier Identifier.</summary>
-        // /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        // /// <para>"system" - the identifier system, e.g. US NPI</para>
-        // /// <para>"value" - the idetifier value, e.g. US NPI number</para>
-        // /// </value>
-        // /// <example>
-        // /// <para>// Setter:</para>
-        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        // /// <para>identifier.Add("value", "1234567890");</para>
-        // /// <para>ExampleDeathRecord.CertifierIdentifier = identifier;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
-        // /// </example>
+        /// <summary>Certifier Identifier ** not mapped to IJE **.</summary>
+        /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        /// <para>"system" - the identifier system, e.g. US NPI</para>
+        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        /// <para>identifier.Add("value", "1234567890");</para>
+        /// <para>ExampleDeathRecord.CertifierIdentifier = identifier;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
+        /// </example>
         [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 10)]
         [PropertyParam("system", "The identifier system.")]
         [PropertyParam("value", "The identifier value.")]
@@ -1488,7 +1488,7 @@ namespace VRDR
             }
         }
 
-        // /// <summary>Certifier License Number.</summary>
+        // /// <summary>Certifier License Number. ** NOT MAPPED TO IJE ** </summary>
         // /// <value>A string containing the certifier license number.</value>
         // /// <example>
         // /// <para>// Setter:</para>
@@ -7089,26 +7089,45 @@ namespace VRDR
             }
         }
 
-        /// <summary>Set an emerging issue value, creating an empty EmergingIssues Parameters as needed.</summary>
+        /// <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
         private void SetEmergingIssue(string identifier, string value)
         {
                 if (EmergingIssues == null)
                 {
-                    EmergingIssues = new Parameters();
+                    EmergingIssues = new Observation();
                     EmergingIssues.Id = Guid.NewGuid().ToString();
                     EmergingIssues.Meta = new Meta();
-                    string[] profile = { ProfileURL.ParametersForEmergingIssues };
-                    EmergingIssues.Meta.Profile = profile;
+                    string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues" /* ProfileURL.EmergingIssues */ };
+                    EmergingIssues.Meta.Profile = tb_profile;
+                    EmergingIssues.Status = ObservationStatus.Final;
+                    EmergingIssues.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs", "emergingissues", "Emerging Issues", null);
+                    EmergingIssues.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     AddReferenceToComposition(EmergingIssues.Id);
                     Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
                 }
-                EmergingIssues.Remove(identifier);
-                if (value != null)
-                {
-                    EmergingIssues.Add(identifier, new FhirString(value));
-                }
-
+                // Remove existing component (if it exists) and add an appropriate component.
+                EmergingIssues.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == identifier );
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs", identifier, null, null);
+                component.Value = new FhirString(value);
+                EmergingIssues.Component.Add(component);
         }
+
+        /// <summary>Get an emerging issue value.</summary>
+        private string GetEmergingIssue(string identifier)
+        {
+                if (EmergingIssues == null)
+                {
+                    return null;
+                }
+                // Remove existing component (if it exists) and add an appropriate component.
+                Observation.ComponentComponent issue = EmergingIssues.Component.FirstOrDefault(c => c.Code.Coding[0].Code == identifier);
+                if (issue != null){
+                    return issue.Value.ToString() ;
+                }
+                return null;
+        }
+
 
         /// <summary>Emerging Issue Field Length 1 Number 1</summary>
         /// <value>the emerging issue value</value>
@@ -7118,17 +7137,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_1')", "value")]
+        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues", false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
         public string EmergingIssue1_1
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_1")?.Value;
+                return GetEmergingIssue("EmergingIssue1_1");
             }
             set
             {
-                SetEmergingIssue("PLACE1_1", value);
+                SetEmergingIssue("EmergingIssue1_1", value);
             }
         }
 
@@ -7146,11 +7165,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_2")?.Value;
+                return GetEmergingIssue("EmergingIssue1_2");
             }
             set
             {
-                SetEmergingIssue("PLACE1_2", value);
+                SetEmergingIssue("EmergingIssue1_2", value);
             }
         }
 
@@ -7168,11 +7187,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_3")?.Value;
+                return GetEmergingIssue("EmergingIssue1_3");
             }
             set
             {
-                SetEmergingIssue("PLACE1_3", value);
+                SetEmergingIssue("EmergingIssue1_3", value);
             }
         }
 
@@ -7190,11 +7209,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_4")?.Value;
+                return GetEmergingIssue("EmergingIssue1_4");
             }
             set
             {
-                SetEmergingIssue("PLACE1_4", value);
+                SetEmergingIssue("EmergingIssue1_4", value);
             }
         }
 
@@ -7212,11 +7231,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_5")?.Value;
+                return GetEmergingIssue("EmergingIssue1_5");
             }
             set
             {
-                SetEmergingIssue("PLACE1_5", value);
+                SetEmergingIssue("EmergingIssue1_5", value);
             }
         }
 
@@ -7234,11 +7253,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE1_6")?.Value;
+                return GetEmergingIssue("EmergingIssue1_6");
             }
             set
             {
-                SetEmergingIssue("PLACE1_6", value);
+                SetEmergingIssue("EmergingIssue1_6", value);
             }
         }
 
@@ -7256,11 +7275,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_1")?.Value;
+                return GetEmergingIssue("EmergingIssue8_1");
             }
             set
             {
-                SetEmergingIssue("PLACE8_1", value);
+                SetEmergingIssue("EmergingIssue8_1", value);
             }
         }
 
@@ -7278,11 +7297,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_2")?.Value;
+                return GetEmergingIssue("EmergingIssue8_2");
             }
             set
             {
-                SetEmergingIssue("PLACE8_2", value);
+                SetEmergingIssue("EmergingIssue8_2", value);
             }
         }
 
@@ -7300,11 +7319,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE8_3")?.Value;
+                return GetEmergingIssue("EmergingIssue8_3");
             }
             set
             {
-                SetEmergingIssue("PLACE8_3", value);
+                SetEmergingIssue("EmergingIssue8_3", value);
             }
         }
 
@@ -7322,11 +7341,11 @@ namespace VRDR
         {
             get
             {
-                return EmergingIssues?.GetSingleValue<FhirString>("PLACE20")?.Value;
+                return GetEmergingIssue("EmergingIssue20");
             }
             set
             {
-                SetEmergingIssue("PLACE20", value);
+                SetEmergingIssue("EmergingIssue20", value);
             }
         }
 
@@ -7684,10 +7703,10 @@ namespace VRDR
             }
 
             // Grab Emerging Parameters
-            var emergingIssues = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Parameters);
+            var emergingIssues = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "emergingissues" );
             if (emergingIssues != null)
             {
-                EmergingIssues = (Parameters)emergingIssues.Resource;
+                EmergingIssues = (Observation)emergingIssues.Resource;
             }
         }
 

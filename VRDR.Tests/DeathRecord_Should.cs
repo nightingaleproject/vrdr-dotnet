@@ -2581,24 +2581,24 @@ namespace VRDR.Tests
         public void Get_EmergingIssues()
         {
             Assert.Equal("A", ((DeathRecord)JSONRecords[0]).EmergingIssue1_1);
-            Assert.Equal("A", ((DeathRecord)XMLRecords[0]).EmergingIssue1_1);
             Assert.Equal("B", ((DeathRecord)JSONRecords[0]).EmergingIssue1_2);
-            Assert.Equal("B", ((DeathRecord)XMLRecords[0]).EmergingIssue1_2);
             Assert.Equal("C", ((DeathRecord)JSONRecords[0]).EmergingIssue1_3);
-            Assert.Equal("C", ((DeathRecord)XMLRecords[0]).EmergingIssue1_3);
             Assert.Equal("D", ((DeathRecord)JSONRecords[0]).EmergingIssue1_4);
-            Assert.Equal("D", ((DeathRecord)XMLRecords[0]).EmergingIssue1_4);
             Assert.Equal("E", ((DeathRecord)JSONRecords[0]).EmergingIssue1_5);
-            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).EmergingIssue1_5);
             Assert.Equal("F", ((DeathRecord)JSONRecords[0]).EmergingIssue1_6);
-            Assert.Equal("F", ((DeathRecord)XMLRecords[0]).EmergingIssue1_6);
             Assert.Equal("AAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue8_1);
-            Assert.Equal("AAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue8_1);
             Assert.Equal("BBBBBBBB", ((DeathRecord)JSONRecords[0]).EmergingIssue8_2);
-            Assert.Equal("BBBBBBBB", ((DeathRecord)XMLRecords[0]).EmergingIssue8_2);
             Assert.Equal("CCCCCCCC", ((DeathRecord)JSONRecords[0]).EmergingIssue8_3);
-            Assert.Equal("CCCCCCCC", ((DeathRecord)XMLRecords[0]).EmergingIssue8_3);
             Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)JSONRecords[0]).EmergingIssue20);
+            Assert.Equal("A", ((DeathRecord)XMLRecords[0]).EmergingIssue1_1);
+            Assert.Equal("B", ((DeathRecord)XMLRecords[0]).EmergingIssue1_2);
+            Assert.Equal("C", ((DeathRecord)XMLRecords[0]).EmergingIssue1_3);
+            Assert.Equal("D", ((DeathRecord)XMLRecords[0]).EmergingIssue1_4);
+            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).EmergingIssue1_5);
+            Assert.Equal("F", ((DeathRecord)XMLRecords[0]).EmergingIssue1_6);
+            Assert.Equal("AAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue8_1);
+            Assert.Equal("BBBBBBBB", ((DeathRecord)XMLRecords[0]).EmergingIssue8_2);
+            Assert.Equal("CCCCCCCC", ((DeathRecord)XMLRecords[0]).EmergingIssue8_3);
             Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue20);
         }
 

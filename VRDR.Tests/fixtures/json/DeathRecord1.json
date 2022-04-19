@@ -2017,53 +2017,121 @@
     {
       "fullUrl": "urn:uuid:c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
       "resource": {
-        "resourceType": "Parameters",
+        "resourceType": "Observation",
         "id": "c1ae4b09-e83a-4b7f-a5ca-5cf9692ff0c6",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues"
           ]
         },
-        "parameter": [
+        "status" : "final",
+        "code" : {
+          "coding" : [
+            {
+              "code" : "emergingissues"
+            }
+          ]
+        },
+        "component" : [
           {
-            "name": "PLACE1_1",
-            "valueString": "A"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_1"
+                }
+              ]
+            },
+            "valueString" : "A"
           },
           {
-            "name": "PLACE1_2",
-            "valueString": "B"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_2"
+                }
+              ]
+            },
+            "valueString" : "B"
           },
           {
-            "name": "PLACE1_3",
-            "valueString": "C"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_3"
+                }
+              ]
+            },
+            "valueString" : "C"
           },
           {
-            "name": "PLACE1_4",
-            "valueString": "D"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_4"
+                }
+              ]
+            },
+            "valueString" : "D"
           },
           {
-            "name": "PLACE1_5",
-            "valueString": "E"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_5"
+                }
+              ]
+            },
+            "valueString" : "E"
           },
           {
-            "name": "PLACE1_6",
-            "valueString": "F"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue1_6"
+                }
+              ]
+            },
+            "valueString" : "F"
           },
           {
-            "name": "PLACE8_1",
-            "valueString": "AAAAAAAA"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_1"
+                }
+              ]
+            },
+            "valueString" : "AAAAAAAA"
           },
           {
-            "name": "PLACE8_2",
-            "valueString": "BBBBBBBB"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_2"
+                }
+              ]
+            },
+            "valueString" : "BBBBBBBB"
           },
           {
-            "name": "PLACE8_3",
-            "valueString": "CCCCCCCC"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue8_3"
+                }
+              ]
+            },
+            "valueString" : "CCCCCCCC"
           },
           {
-            "name": "PLACE20",
-            "valueString": "AAAAAAAAAAAAAAAAAAAA"
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "EmergingIssue20"
+                }
+              ]
+            },
+            "valueString" : "AAAAAAAAAAAAAAAAAAAA"
           }
         ]
       }

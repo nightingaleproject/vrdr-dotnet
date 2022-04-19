@@ -1,5 +1,4 @@
 using VRDR;
-using RestSharp;
 using Newtonsoft.Json.Linq;
 
 namespace nvssclient.lib;

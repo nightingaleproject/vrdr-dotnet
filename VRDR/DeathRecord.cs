@@ -1557,42 +1557,7 @@ namespace VRDR
                         INTERVAL1D = value[3].Item2;
                         // CODE1D = value[3].Item3;
                     }
-                    // if (value.Length > 4)
-                    // {
-                    //     COD1E = value[4].Item1;
-                    //     INTERVAL1E = value[4].Item2;
-                    //     CODE1E = value[4].Item3;
-                    // }
-                    // if (value.Length > 5)
-                    // {
-                    //     COD1F = value[5].Item1;
-                    //     INTERVAL1F = value[5].Item2;
-                    //     CODE1F = value[5].Item3;
-                    // }
-                    // if (value.Length > 6)
-                    // {
-                    //     COD1G = value[6].Item1;
-                    //     INTERVAL1G = value[6].Item2;
-                    //     CODE1G = value[6].Item3;
-                    // }
-                    // if (value.Length > 7)
-                    // {
-                    //     COD1H = value[7].Item1;
-                    //     INTERVAL1H = value[7].Item2;
-                    //     CODE1H = value[7].Item3;
-                    // }
-                    // if (value.Length > 8)
-                    // {
-                    //     COD1I = value[8].Item1;
-                    //     INTERVAL1I = value[8].Item2;
-                    //     CODE1I = value[8].Item3;
-                    // }
-                    // if (value.Length > 9)
-                    // {
-                    //     COD1J = value[9].Item1;
-                    //     INTERVAL1J = value[9].Item2;
-                    //     CODE1J = value[9].Item3;
-                    // }
+
                 }
             }
         }
@@ -7039,30 +7004,7 @@ public string SpouseMaidenName
                 {
                     CauseOfDeathConditionD = causeConditions[3];
                 }
-                // if (causeConditions.Count() > 4)
-                // {
-                //     CauseOfDeathConditionE = causeConditions[4];
-                // }
-                // if (causeConditions.Count() > 5)
-                // {
-                //     CauseOfDeathConditionF = causeConditions[5];
-                // }
-                // if (causeConditions.Count() > 6)
-                // {
-                //     CauseOfDeathConditionG = causeConditions[6];
-                // }
-                // if (causeConditions.Count() > 7)
-                // {
-                //     CauseOfDeathConditionH = causeConditions[7];
-                // }
-                // if (causeConditions.Count() > 8)
-                // {
-                //     CauseOfDeathConditionI = causeConditions[8];
-                // }
-                // if (causeConditions.Count() > 9)
-                // {
-                //     CauseOfDeathConditionJ = causeConditions[9];
-                // }
+
             }
 
             // Grab Condition Contributing To Death

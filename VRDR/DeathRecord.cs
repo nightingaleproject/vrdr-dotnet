@@ -7496,7 +7496,7 @@ namespace VRDR
             }
 
             // Grab Age At Death
-            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0" );
+            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "39016-1" );
             if (ageAtDeath != null)
             {
                 AgeAtDeathObs = (Observation)ageAtDeath.Resource;

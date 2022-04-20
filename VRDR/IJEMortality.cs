@@ -803,11 +803,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return Get_MappingFHIRToIJE(Mappings.FilingFormat.FHIRToIJE, "FilingFormat", "MFILED");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.FilingFormat.IJEToFHIR, "MFILED", "FilingFormat", value);
             }
         }
 
@@ -3006,12 +3006,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathCertificate
-                return "";
+                return record.StateSpecific;
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathCertificate
+                record.StateSpecific = value;
             }
         }
 

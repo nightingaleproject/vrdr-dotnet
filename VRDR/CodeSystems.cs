@@ -118,6 +118,10 @@ namespace VRDR
         /// <summary> HL7 Yes No </summary>
         public static string YesNo = "http://terminology.hl7.org/CodeSystem/v2-0136";
 
+        /// <summary> Filing Format </summary>
+        public static string FilingFormat = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs";
+
+        public static string DocumentSections = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs";
     }
 
 }

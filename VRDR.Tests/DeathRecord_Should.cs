@@ -1662,69 +1662,69 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.YesNoUnknown.Yes,((DeathRecord)XMLRecords[0]).MilitaryServiceHelper);
          }
 
-        [Fact]
-        public void Set_MorticianGivenNames()
-        {
-            string[] fdnames = { "FD", "Middle" };
-            SetterDeathRecord.MorticianGivenNames = fdnames;
-            Assert.Equal("FD", SetterDeathRecord.MorticianGivenNames[0]);
-            Assert.Equal("Middle", SetterDeathRecord.MorticianGivenNames[1]);
-        }
+        // [Fact]
+        // public void Set_MorticianGivenNames()
+        // {
+        //     string[] fdnames = { "FD", "Middle" };
+        //     SetterDeathRecord.MorticianGivenNames = fdnames;
+        //     Assert.Equal("FD", SetterDeathRecord.MorticianGivenNames[0]);
+        //     Assert.Equal("Middle", SetterDeathRecord.MorticianGivenNames[1]);
+        // }
 
-        [Fact]
-        public void Get_MorticianGivenNames()
-        {
-            Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[1]);
-            Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[1]);
-        }
+        // [Fact]
+        // public void Get_MorticianGivenNames()
+        // {
+        //     Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[0]);
+        //     Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).MorticianGivenNames[1]);
+        //     Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[0]);
+        //     Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).MorticianGivenNames[1]);
+        // }
 
-        [Fact]
-        public void Set_MorticianFamilyName()
-        {
-            SetterDeathRecord.MorticianFamilyName = "Last";
-            Assert.Equal("Last", SetterDeathRecord.MorticianFamilyName);
-        }
+        // [Fact]
+        // public void Set_MorticianFamilyName()
+        // {
+        //     SetterDeathRecord.MorticianFamilyName = "Last";
+        //     Assert.Equal("Last", SetterDeathRecord.MorticianFamilyName);
+        // }
 
-        [Fact]
-        public void Get_MorticianFamilyName()
-        {
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).MorticianFamilyName);
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).MorticianFamilyName);
-        }
+        // [Fact]
+        // public void Get_MorticianFamilyName()
+        // {
+        //     Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).MorticianFamilyName);
+        //     Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).MorticianFamilyName);
+        // }
 
-        [Fact]
-        public void Set_MorticianSuffix()
-        {
-            SetterDeathRecord.MorticianSuffix = "Sr.";
-            Assert.Equal("Sr.", SetterDeathRecord.MorticianSuffix);
-        }
+        // [Fact]
+        // public void Set_MorticianSuffix()
+        // {
+        //     SetterDeathRecord.MorticianSuffix = "Sr.";
+        //     Assert.Equal("Sr.", SetterDeathRecord.MorticianSuffix);
+        // }
 
-        [Fact]
-        public void Get_MorticianSuffix()
-        {
-            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).MorticianSuffix);
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).MorticianSuffix);
-        }
+        // [Fact]
+        // public void Get_MorticianSuffix()
+        // {
+        //     Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).MorticianSuffix);
+        //     Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).MorticianSuffix);
+        // }
 
-        [Fact]
-        public void Set_MorticianIdentifier()
-        {
-            var id = new Dictionary<string, string>();
-            id["system"] = "foo";
-            id["value"] = "9876543210";
-            SetterDeathRecord.MorticianIdentifier = id;
-            Assert.Equal("foo", SetterDeathRecord.MorticianIdentifier["system"]);
-            Assert.Equal("9876543210", SetterDeathRecord.MorticianIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Set_MorticianIdentifier()
+        // {
+        //     var id = new Dictionary<string, string>();
+        //     id["system"] = "foo";
+        //     id["value"] = "9876543210";
+        //     SetterDeathRecord.MorticianIdentifier = id;
+        //     Assert.Equal("foo", SetterDeathRecord.MorticianIdentifier["system"]);
+        //     Assert.Equal("9876543210", SetterDeathRecord.MorticianIdentifier["value"]);
+        // }
 
-        [Fact]
-        public void Get_MorticianIdentifier()
-        {
-            Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier["value"]);
-            Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Get_MorticianIdentifier()
+        // {
+        //     Assert.Equal("9876543210", ((DeathRecord)JSONRecords[0]).MorticianIdentifier["value"]);
+        //     Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier["value"]);
+        // }
 
         [Fact]
         public void Set_PronouncerGivenNames()

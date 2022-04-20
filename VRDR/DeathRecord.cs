@@ -224,7 +224,7 @@ namespace VRDR
             FuneralHome.Meta = new Meta();
             string[] funeralhome_profile = { ProfileURL.FuneralHome };
             FuneralHome.Meta.Profile = funeralhome_profile;
-            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
+            FuneralHome.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs", "funeralhome", "Funeral Home",null));
             FuneralHome.Active = true;
         }
         /// <summary>The Funeral Home Director.</summary>
@@ -437,7 +437,7 @@ namespace VRDR
             Pronouncer.Meta.Profile = pronouncer_profile;
 
             // Start with an empty mortician.
-            InitializeMorticianIfNull();
+           // InitializeMorticianIfNull();
 
             // Start with an empty certification.
             CreateEmptyDeathCertification();
@@ -446,13 +446,13 @@ namespace VRDR
             CreateFuneralHome();
 
             // FuneralHomeLicensee Points to Mortician and FuneralHome
-            FuneralHomeDirector = new PractitionerRole();
-            FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-            FuneralHomeDirector.Meta = new Meta();
-            string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
-            FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-            FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
-            FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
+            // FuneralHomeDirector = new PractitionerRole();
+            // FuneralHomeDirector.Id = Guid.NewGuid().ToString();
+            // FuneralHomeDirector.Meta = new Meta();
+            // string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+            // FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
+            // FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
+            // FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
 
             // Location of Disposition
             CreateDispositionLocation();
@@ -502,20 +502,20 @@ namespace VRDR
             AddReferenceToComposition(InputRaceandEthnicity.Id);
             AddReferenceToComposition(Certifier.Id);
             AddReferenceToComposition(Pronouncer.Id);
-            AddReferenceToComposition(Mortician.Id);
+            //AddReferenceToComposition(Mortician.Id);
             AddReferenceToComposition(DeathCertification.Id);
             AddReferenceToComposition(FuneralHome.Id);
-            AddReferenceToComposition(FuneralHomeDirector.Id);
+            //AddReferenceToComposition(FuneralHomeDirector.Id);
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
             AddReferenceToComposition(DispositionLocation.Id);
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(InputRaceandEthnicity, "urn:uuid:" + InputRaceandEthnicity.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
-            Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
+            //Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
-            Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
+            //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
 
@@ -4554,172 +4554,172 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
         /// </example>
-        [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
-        public string[] MorticianGivenNames
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0)
-                {
-                    return Mortician.Name.First().Given.ToArray();
-                }
-                return new string[0];
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // public string[] MorticianGivenNames
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Given.ToArray();
+        //         }
+        //         return new string[0];
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+        //         if (name != null)
+        //         {
+        //             name.Given = value;
+        //         }
+        //         else
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Given = value;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Family name of mortician.</summary>
-        /// <value>the mortician's family name (i.e. last name)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
-        /// </example>
-        [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
-        public string MorticianFamilyName
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0)
-                {
-                    return Mortician.Name.First().Family;
-                }
-                return null;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    name.Family = value;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Family = value;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // /// <summary>Family name of mortician.</summary>
+        // /// <value>the mortician's family name (i.e. last name)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
+        // /// </example>
+        // [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // public string MorticianFamilyName
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Family;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             name.Family = value;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Family = value;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Mortician's Suffix.</summary>
-        /// <value>the mortician's suffix</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
-        /// </example>
-        [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
-        public string MorticianSuffix
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
-                {
-                    return Mortician.Name.First().Suffix.First();
-                }
-                return null;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // /// <summary>Mortician's Suffix.</summary>
+        // /// <value>the mortician's suffix</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
+        // /// </example>
+        // [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
+        // public string MorticianSuffix
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Suffix.First();
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Mortician Identifier.</summary>
-        /// <value>the mortician identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        /// <para>identifier.Add("value", "1234567890");</para>
-        /// <para>ExampleDeathRecord.MorticianIdentifier = identifier;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tMortician Identifier: {ExampleDeathRecord.MorticianIdentifier['value']}");</para>
-        /// </example>
-        [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
-        [PropertyParam("system", "The identifier system.")]
-        [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
-        public Dictionary<string, string> MorticianIdentifier
-        {
-            get
-            {
-                Identifier identifier = Mortician?.Identifier?.FirstOrDefault();
-                var result = new Dictionary<string, string>();
-                if (identifier != null)
-                {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
-                }
-                return result;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                if (Mortician.Identifier.Count > 0)
-                {
-                    Mortician.Identifier.Clear();
-                }
-                if(value.ContainsKey("system") && value.ContainsKey("value")) {
-                    Identifier identifier = new Identifier();
-                    identifier.System = value["system"];
-                    identifier.Value = value["value"];
-                    Mortician.Identifier.Add(identifier);
-                }
-            }
-        }
+        // /// <summary>Mortician Identifier.</summary>
+        // /// <value>the mortician identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        // /// <para>"system" - the identifier system, e.g. US NPI</para>
+        // /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        // /// <para>identifier.Add("value", "1234567890");</para>
+        // /// <para>ExampleDeathRecord.MorticianIdentifier = identifier;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tMortician Identifier: {ExampleDeathRecord.MorticianIdentifier['value']}");</para>
+        // /// </example>
+        // [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
+        // [PropertyParam("system", "The identifier system.")]
+        // [PropertyParam("value", "The identifier value.")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
+        // public Dictionary<string, string> MorticianIdentifier
+        // {
+        //     get
+        //     {
+        //         Identifier identifier = Mortician?.Identifier?.FirstOrDefault();
+        //         var result = new Dictionary<string, string>();
+        //         if (identifier != null)
+        //         {
+        //             result["system"] = identifier.System;
+        //             result["value"] = identifier.Value;
+        //         }
+        //         return result;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         if (Mortician.Identifier.Count > 0)
+        //         {
+        //             Mortician.Identifier.Clear();
+        //         }
+        //         if(value.ContainsKey("system") && value.ContainsKey("value")) {
+        //             Identifier identifier = new Identifier();
+        //             identifier.System = value["system"];
+        //             identifier.Value = value["value"];
+        //             Mortician.Identifier.Add(identifier);
+        //         }
+        //     }
+        // }
 
-        private void InitializeMorticianIfNull()
-        {
-            if (Mortician == null)
-            {
-                Mortician = new Practitioner();
-                Mortician.Id = Guid.NewGuid().ToString();
-                Mortician.Meta = new Meta();
-                string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
-                Mortician.Meta.Profile = mortician_profile;
-            }
-        }
+        // private void InitializeMorticianIfNull()
+        // {
+        //     if (Mortician == null)
+        //     {
+        //         Mortician = new Practitioner();
+        //         Mortician.Id = Guid.NewGuid().ToString();
+        //         Mortician.Meta = new Meta();
+        //         string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+        //         Mortician.Meta.Profile = mortician_profile;
+        //     }
+        // }
 
         /// <summary>Funeral Home Address.</summary>
         /// <value>the funeral home address. A Dictionary representing an address, containing the following key/value pairs:
@@ -5002,7 +5002,7 @@ namespace VRDR
                     DispositionMethod.Status = ObservationStatus.Final;
                     DispositionMethod.Code = new CodeableConcept(CodeSystems.LOINC, "80905-3", "Body disposition method", null);
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
+//                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
                     LinkObservationToLocation(DispositionMethod, DispositionLocation);
                     AddReferenceToComposition(DispositionMethod.Id);

@@ -188,13 +188,13 @@ namespace VRDR
             record.FuneralHomeName = "Pecan Street Funeral Home and Crematory";
             // record.FuneralDirectorPhone = "000-000-0000";    // unknown property?????
 
-            Dictionary<string, string> morticianId = new Dictionary<string, string>();
-            morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
-            morticianId.Add("value", "111111AB");
-            record.MorticianIdentifier = morticianId;
+            // Dictionary<string, string> morticianId = new Dictionary<string, string>();
+            // morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
+            // morticianId.Add("value", "111111AB");
+            // record.MorticianIdentifier = morticianId;
 
-            record.MorticianGivenNames = new string[] { "Maureen", "P" };
-            record.MorticianFamilyName = "Winston";
+            // record.MorticianGivenNames = new string[] { "Maureen", "P" };
+            // record.MorticianFamilyName = "Winston";
 
             Dictionary<string, string> dladdress = new Dictionary<string, string>();
             dladdress.Add("addressLine1", "15 Pecan Street");
@@ -390,13 +390,13 @@ namespace VRDR
             record.FuneralHomeAddress = fdaddress;
             record.FuneralHomeName = "Rosewood Funeral Home";
 
-            Dictionary<string, string> morticianId = new Dictionary<string, string>();
-            morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
-            morticianId.Add("value", "212222AB");
-            record.MorticianIdentifier = morticianId;
+            // Dictionary<string, string> morticianId = new Dictionary<string, string>();
+            // morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
+            // morticianId.Add("value", "212222AB");
+            // record.MorticianIdentifier = morticianId;
 
-            record.MorticianGivenNames = new string[] { "Ronald", "Q" };
-            record.MorticianFamilyName = "Smith";
+            // record.MorticianGivenNames = new string[] { "Ronald", "Q" };
+            // record.MorticianFamilyName = "Smith";
 
             Dictionary<string, string> dladdress = new Dictionary<string, string>();
             dladdress.Add("addressLine1", "303 Rosewood Ave");
@@ -568,13 +568,13 @@ namespace VRDR
             record.AutopsyPerformedIndicatorHelper = "Y";
             record.AutopsyResultsAvailableHelper = "Y";
 
-            Dictionary<string, string> morticianId = new Dictionary<string, string>();
-            morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
-            morticianId.Add("value", "414444AB");
-            record.MorticianIdentifier = morticianId;
+            // Dictionary<string, string> morticianId = new Dictionary<string, string>();
+            // morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
+            // morticianId.Add("value", "414444AB");
+            // record.MorticianIdentifier = morticianId;
 
-            record.MorticianGivenNames = new string[] { "Joseph", "M" };
-            record.MorticianFamilyName = "Clark";
+            // record.MorticianGivenNames = new string[] { "Joseph", "M" };
+            // record.MorticianFamilyName = "Clark";
 
             Dictionary<string, string> fdaddress = new Dictionary<string, string>();
             fdaddress.Add("addressLine1", "211 High Street");
@@ -813,13 +813,13 @@ namespace VRDR
                 record.FuneralHomeAddress = fdaddress;
                 record.FuneralHomeName = "River Funeral Home";
 
-                Dictionary<string, string> morticianId = new Dictionary<string, string>();
-                morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
-                morticianId.Add("value", "313333AB");
-                record.MorticianIdentifier = morticianId;
+                // Dictionary<string, string> morticianId = new Dictionary<string, string>();
+                // morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
+                // morticianId.Add("value", "313333AB");
+                // record.MorticianIdentifier = morticianId;
 
-                record.MorticianGivenNames = new string[] { "Pedro", "A" };
-                record.MorticianFamilyName = "Jimenez";
+                // record.MorticianGivenNames = new string[] { "Pedro", "A" };
+                // record.MorticianFamilyName = "Jimenez";
 
                 Dictionary<string, string> dladdress = new Dictionary<string, string>();
                 dladdress.Add("addressLine1", "15 Furnace Drive");

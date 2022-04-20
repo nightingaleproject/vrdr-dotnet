@@ -602,68 +602,6 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "84452aa0-fc31-4f4c-848f-b8f1e5bba1c0",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "9876543210"
-          }
-        ],
-        "name": [
-          {
-            "use": "official",
-            "family": "Last",
-            "given": [
-              "FD",
-              "Middle"
-            ],
-            "suffix": [
-              "Jr."
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:a9a45b6c-566c-4ad7-bce7-8c23751b669d",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "a9a45b6c-566c-4ad7-bce7-8c23751b669d",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "0000000000"
-          }
-        ],
-        "name": [
-          {
-            "use": "official",
-            "family": "Last",
-            "given": [
-              "FD",
-              "Middle"
-            ],
-            "suffix": [
-              "Jr."
-            ]
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "urn:uuid:2d71d05b-7f52-4c13-bd19-68a251e3544d",
       "resource": {
         "resourceType": "Procedure",
@@ -764,7 +702,7 @@
         "id": "cffcc6e0-7324-4898-b876-9107d275eafa",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home"
           ]
         },
         "active": true,
@@ -772,9 +710,9 @@
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "bus",
-                "display": "Non-Healthcare Business or Corporation"
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs",
+                "code": "funeralhome",
+                "display": "Funeral Home"
               }
             ]
           }
@@ -874,9 +812,18 @@
         "id": "fe696fc7-7683-4268-92d8-b3a7c88b1587",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "disposition",
+              "display": "disposition location"
+            }
+          ]
+        }],
         "name": "Bedford Cemetery",
         "address": {
           "line": [
@@ -1437,12 +1384,12 @@
         "id": "fc9de024-0fae-4bda-bfbb-04c08c083a43",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-disposition-method"
           ]
         },
         "extension": [
           {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location",
             "valueReference": {
               "reference": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
             }
@@ -1739,9 +1686,18 @@
         "id": "3c1f5202-68de-47e8-813f-43a3f7f29129",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "injury",
+              "display": "injury location"
+            }
+          ]
+        }],
         "name": "Example Injury Location Name",
         "description": "Example Injury Location Description",
         "address": {
@@ -1832,9 +1788,18 @@
         "id": "4678efc2-2529-4a7e-8266-fdc907d89e00",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "death",
+              "display": "death location"
+            }
+          ]
+        }],
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {
@@ -1847,20 +1812,7 @@
           "state": "MA",
           "postalCode": "01730",
           "country": "US"
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [ {
-                "system": "urn:oid:2.16.840.1.113883.6.92",
-                "code": "25",
-                "display": "MA"
-              }
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -1905,6 +1857,26 @@
               ]
             },
             "valueDateTime": "2018-02-20T16:48:06-05:00"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "58332-8",
+                  "display": "Location of death"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://snomed.info/sct",
+                  "code" : "440081000124100",
+                  "display": "Death in home"
+                }
+              ]
+            }
           }
         ]
       }

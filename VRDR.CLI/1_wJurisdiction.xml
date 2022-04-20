@@ -606,14 +606,14 @@
       <Organization>
         <id value="b2b3e7ce-5abc-4f22-a76f-d6e39dc8991c" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home" />
         </meta>
         <active value="true" />
         <type>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
-            <code value="bus" />
-            <display value="Non-Healthcare Business or Corporation" />
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" />
+            <code value="funeralhome" />
+            <display value="Funeral Home" />
           </coding>
         </type>
         <name value="Smith Funeral Home" />
@@ -699,9 +699,16 @@
       <Location>
         <id value="9bebc631-70b1-4052-bb61-7909caa7f5d4" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location" />
         </meta>
         <name value="Bedford Cemetery" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" />
+            <code value="disposition" />
+            <display value="Disposition Location" />
+          </coding>
+        </type>
         <address>
           <line value="603 Example Street" />
           <line value="Line 2" />
@@ -1113,11 +1120,6 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" />
         </meta>
-        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location">
-          <valueReference>
-            <reference value="urn:uuid:9bebc631-70b1-4052-bb61-7909caa7f5d4" />
-          </valueReference>
-        </extension>
         <status value="final" />
         <code>
           <coding>
@@ -1412,19 +1414,17 @@
       <Location>
         <id value="d1113c5e-ccba-437e-9fbd-64ebfdcfb617" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" />
         </meta>
-         <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
-         <valueCodeableConcept>
-            <coding>
-              <system value="urn:oid:2.16.840.1.113883.6.92"/>
-              <code value="25" />
-              <display value="MA"/>
-            </coding>
-            </valueCodeableConcept>
-        </extension>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="death" />
+            <display value="death location" />
+          </coding>
+        </type>
         <address>
           <line value="671 Example Street" />
           <line value="Line 2" />

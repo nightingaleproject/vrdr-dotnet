@@ -234,21 +234,21 @@ namespace VRDR.CLI
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
-                // MorticianGivenNames
-                string[] fdnames = { "FD", "Middle" };
-                deathRecord.MorticianGivenNames = fdnames;
+                // // MorticianGivenNames
+                // string[] fdnames = { "FD", "Middle" };
+                // deathRecord.MorticianGivenNames = fdnames;
 
-                // MorticianFamilyName
-                deathRecord.MorticianFamilyName = "Last";
+                // // MorticianFamilyName
+                // deathRecord.MorticianFamilyName = "Last";
 
-                // MorticianSuffix
-                deathRecord.MorticianSuffix = "Jr.";
+                // // MorticianSuffix
+                // deathRecord.MorticianSuffix = "Jr.";
 
-                // MorticianIdentifier
-                var mortId = new Dictionary<string, string>();
-                mortId["value"] = "9876543210";
-                mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                deathRecord.MorticianIdentifier = mortId;
+                // // MorticianIdentifier
+                // var mortId = new Dictionary<string, string>();
+                // mortId["value"] = "9876543210";
+                // mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // deathRecord.MorticianIdentifier = mortId;
 
                 // FuneralHomeAddress
                 Dictionary<string, string> fdaddress = new Dictionary<string, string>();
@@ -265,7 +265,7 @@ namespace VRDR.CLI
                 deathRecord.FuneralHomeName = "Smith Funeral Home";
 
                 // FuneralDirectorPhone
-                deathRecord.FuneralDirectorPhone = "000-000-0000";
+                //deathRecord.FuneralDirectorPhone = "000-000-0000";
 
                 // DispositionLocationAddress
                 Dictionary<string, string> dladdress = new Dictionary<string, string>();
@@ -571,6 +571,7 @@ namespace VRDR.CLI
                     {
                         continue;
                     }
+                    Console.WriteLine($"Property: Name: {property.Name.ToString()} Type: {property.PropertyType.ToString()}");
                     string one;
                     string two;
                     string three;

@@ -1674,7 +1674,7 @@
           "coding": [
             {
               "system": "http://loinc.org",
-              "code": "30525-0",
+              "code": "39016-1",
               "display": "Age"
             }
           ]

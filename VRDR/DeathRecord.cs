@@ -6115,6 +6115,9 @@ namespace VRDR
                 if(!IsDictEmptyOrDefault(value)) {
                     AgeAtDeathObs.DataAbsentReason = DictToCodeableConcept(value);
                     AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
+                } else
+                {
+                    AgeAtDeathObs.DataAbsentReason = DictToCodeableConcept(EmptyCodeableDict());
                 }
             }
         }

@@ -230,8 +230,23 @@ namespace VRDR
         /// <summary>The Funeral Home Director.</summary>
         private PractitionerRole FuneralHomeDirector;
 
+
         /// <summary>Disposition Location.</summary>
         private Location DispositionLocation;
+
+        /// <summary>Create Disposition Location.</summary>
+        private void CreateDispositionLocation(){
+            DispositionLocation = new Location();
+            DispositionLocation.Id = Guid.NewGuid().ToString();
+            DispositionLocation.Meta = new Meta();
+            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+            DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
+            DispositionLocation.PhysicalType = new CodeableConcept();
+            DispositionLocation.PhysicalType.Coding.Add(pt);
+            DispositionLocation.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "disposition", "disposition location", null));
+            LinkObservationToLocation(DispositionMethod, DispositionLocation);
+        }
 
         /// <summary>Disposition Method.</summary>
         private Observation DispositionMethod;
@@ -335,6 +350,7 @@ namespace VRDR
             InjuryLocationLoc.Meta = new Meta();
             string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
             InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+            InjuryLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "injury", "injury location", null));
         }
 
         /// <summary>Injury Incident.</summary>
@@ -361,11 +377,13 @@ namespace VRDR
             DeathLocationLoc = new Location();
             DeathLocationLoc.Id = Guid.NewGuid().ToString();
             DeathLocationLoc.Meta = new Meta();
-            string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+            string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" };
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
+            DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
             LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
             AddReferenceToComposition(DeathLocationLoc.Id);
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+
         }
 
         /// <summary>Date Of Death.</summary>
@@ -437,14 +455,15 @@ namespace VRDR
             FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
 
             // Location of Disposition
-            DispositionLocation = new Location();
-            DispositionLocation.Id = Guid.NewGuid().ToString();
-            DispositionLocation.Meta = new Meta();
-            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-            DispositionLocation.Meta.Profile = dispositionlocation_profile;
-            Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-            DispositionLocation.PhysicalType = new CodeableConcept();
-            DispositionLocation.PhysicalType.Coding.Add(pt);
+            CreateDispositionLocation();
+            // DispositionLocation = new Location();
+            // DispositionLocation.Id = Guid.NewGuid().ToString();
+            // DispositionLocation.Meta = new Meta();
+            // string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
+            // DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            // Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
+            // DispositionLocation.PhysicalType = new CodeableConcept();
+            // DispositionLocation.PhysicalType.Coding.Add(pt);
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
@@ -4729,7 +4748,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\FuneralHomeAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Home.html", false, 93)]
+        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, IGURL.FuneralHome, false, 93)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -4761,20 +4780,12 @@ namespace VRDR
             {
                 if (FuneralHome == null)
                 {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { ProfileURL.FuneralHome };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Active = true;
-                    FuneralHome.Address.Add(DictToAddress(value));
+                    CreateFuneralHome();
                 }
-                else
-                {
-                    FuneralHome.Address.Clear();
-                    FuneralHome.Address.Add(DictToAddress(value));
-                }
+
+                FuneralHome.Address.Clear();
+                FuneralHome.Address.Add(DictToAddress(value));
+
             }
         }
 
@@ -4802,73 +4813,63 @@ namespace VRDR
             {
                 if (FuneralHome == null)
                 {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Active = true;
-                    FuneralHome.Name = value;
+                    CreateFuneralHome();
                 }
-                else
-                {
-                    FuneralHome.Name = value;
-                }
+                FuneralHome.Name = value;
             }
         }
 
-        /// <summary>Funeral Director Phone.</summary>
-        /// <value>the funeral director phone number.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
-        /// </example>
-        [Property("Funeral Director Phone", Property.Types.String, "Decedent Disposition", "Funeral Director Phone.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Service-Licensee.html", false, 95)]
-        [FHIRPath("Bundle.entry.resource.where($this is PractitionerRole)", "telecom")]
-        public string FuneralDirectorPhone
-        {
-            get
-            {
-                string value = null;
-                if (FuneralHomeDirector != null)
-                {
-                    ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
-                    if (cp != null)
-                    {
-                        value = cp.Value;
-                    }
-                }
-                return value;
-            }
-            set
-            {
-                if (FuneralHomeDirector == null)
-                {
-                    FuneralHomeDirector = new PractitionerRole();
-                    FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-                    FuneralHomeDirector.Meta = new Meta();
-                    string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
-                    FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-                    AddReferenceToComposition(FuneralHomeDirector.Id);
-                    Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
-                }
-                ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
-                if (cp != null)
-                {
-                    cp.Value = value;
-                }
-                else
-                {
-                    cp = new ContactPoint();
-                    cp.System = ContactPoint.ContactPointSystem.Phone;
-                    cp.Value = value;
-                    FuneralHomeDirector.Telecom.Add(cp);
-                }
-            }
-        }
+        // /// <summary>Funeral Director Phone.</summary>
+        // /// <value>the funeral director phone number.</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
+        // /// </example>
+        // [Property("Funeral Director Phone", Property.Types.String, "Decedent Disposition", "Funeral Director Phone.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Service-Licensee.html", false, 95)]
+        // [FHIRPath("Bundle.entry.resource.where($this is PractitionerRole)", "telecom")]
+        // public string FuneralDirectorPhone
+        // {
+        //     get
+        //     {
+        //         string value = null;
+        //         if (FuneralHomeDirector != null)
+        //         {
+        //             ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+        //             if (cp != null)
+        //             {
+        //                 value = cp.Value;
+        //             }
+        //         }
+        //         return value;
+        //     }
+        //     set
+        //     {
+        //         if (FuneralHomeDirector == null)
+        //         {
+        //             FuneralHomeDirector = new PractitionerRole();
+        //             FuneralHomeDirector.Id = Guid.NewGuid().ToString();
+        //             FuneralHomeDirector.Meta = new Meta();
+        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+        //             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
+        //             AddReferenceToComposition(FuneralHomeDirector.Id);
+        //             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
+        //         }
+        //         ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+        //         if (cp != null)
+        //         {
+        //             cp.Value = value;
+        //         }
+        //         else
+        //         {
+        //             cp = new ContactPoint();
+        //             cp.System = ContactPoint.ContactPointSystem.Phone;
+        //             cp.Value = value;
+        //             FuneralHomeDirector.Telecom.Add(cp);
+        //         }
+        //     }
+        // }
 
         /// <summary>Disposition Location Address.</summary>
         /// <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
@@ -4897,7 +4898,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DispositionLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 91)]
+        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, IGURL.DispositionLocation, true, 91)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -4905,7 +4906,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
             get
@@ -4920,21 +4921,10 @@ namespace VRDR
             {
                 if (DispositionLocation == null)
                 {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    DispositionLocation.Address = DictToAddress(value);
-                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-                    DispositionLocation.PhysicalType = new CodeableConcept();
-                    DispositionLocation.PhysicalType.Coding.Add(pt);
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    CreateDispositionLocation();
                 }
-                else
-                {
-                    DispositionLocation.Address = DictToAddress(value);
-                }
+
+                DispositionLocation.Address = DictToAddress(value);
             }
         }
 
@@ -4946,7 +4936,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
-        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", false, 92)]
+        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, IGURL.DispositionLocation, false, 92)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
         public string DispositionLocationName
         {
@@ -4962,21 +4952,10 @@ namespace VRDR
             {
                 if (DispositionLocation == null)
                 {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-                    DispositionLocation.PhysicalType = new CodeableConcept();
-                    DispositionLocation.PhysicalType.Coding.Add(pt);
-                    DispositionLocation.Name = value;
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    CreateDispositionLocation();
                 }
-                else
-                {
-                    DispositionLocation.Name = value;
-                }
+
+                DispositionLocation.Name = value;
             }
         }
 
@@ -4996,7 +4975,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
         /// </example>
-        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5042,10 +5021,10 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+        /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</para>
         /// </example>
         /// </value>
-        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
         public string DecedentDispositionMethodHelper
@@ -5725,6 +5704,7 @@ namespace VRDR
                     string[] deathlocation_profile = { locationJurisdictionExtPath };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
+                    DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
@@ -5778,6 +5758,7 @@ namespace VRDR
                     string[] deathlocation_profile = { locationJurisdictionExtPath };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                    DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id);
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
@@ -7075,19 +7056,20 @@ namespace VRDR
                 StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
             }
 
-            // Grab Funeral Home
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization );
+            // Grab Funeral Home  **** SHould be able to find this without resort to meta.profile.  May need a reference from somewhere.  Or perhaps Locations and Organizations should require a profile.
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization
+               && ((Organization)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("vrdr-funeral-home", ((Organization)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
             }
 
-            // Grab Funeral Home Director
-            var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
-            if (funeralHomeDirector != null)
-            {
-                FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
-            }
+            // // Grab Funeral Home Director
+            // var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
+            // if (funeralHomeDirector != null)
+            // {
+            //     FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
+            // }
 
             // Scan through all Observations to make sure they all have codes!
             foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
@@ -7237,8 +7219,8 @@ namespace VRDR
             }
 
             // Grab Disposition Location
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
+               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "disposition"));
             if (dispositionLocation != null)
             {
                 DispositionLocation = (Location)dispositionLocation.Resource;
@@ -7246,15 +7228,17 @@ namespace VRDR
 
             // Grab Injury Location
             // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Injury-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
+               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "injury"));
+             // Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("vrdr-injury-location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
             if (injuryLocation != null)
             {
                 InjuryLocationLoc = (Location)injuryLocation.Resource;
             }
 
             // Grab Death Location
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var deathLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
+               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "death"));
             if (deathLocation != null)
             {
                 DeathLocationLoc = (Location)deathLocation.Resource;

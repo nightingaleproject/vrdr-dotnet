@@ -719,56 +719,13 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:17e6d6c8-deea-464b-a009-d077ceb30af1",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "17e6d6c8-deea-464b-a009-d077ceb30af1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party"
-          ]
-        },
-        "identifier": [
-          {
-            "value": "1010101"
-          }
-        ],
-        "active": true,
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "prov",
-                "display": "Healthcare Provider"
-              }
-            ]
-          }
-        ],
-        "name": "Example Hospital",
-        "address": [
-          {
-            "line": [
-              "10 Example Street",
-              "Line 2"
-            ],
-            "city": "Bedford",
-            "district": "Middlesex",
-            "state": "MA",
-            "postalCode": "01730",
-            "country": "US"
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "urn:uuid:cffcc6e0-7324-4898-b876-9107d275eafa",
       "resource": {
         "resourceType": "Organization",
         "id": "cffcc6e0-7324-4898-b876-9107d275eafa",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home"
           ]
         },
         "active": true,
@@ -878,9 +835,18 @@
         "id": "fe696fc7-7683-4268-92d8-b3a7c88b1587",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "disposition",
+              "display": "disposition location"
+            }
+          ]
+        }],
         "name": "Bedford Cemetery",
         "address": {
           "line": [
@@ -1776,9 +1742,18 @@
         "id": "3c1f5202-68de-47e8-813f-43a3f7f29129",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "injury",
+              "display": "injury location"
+            }
+          ]
+        }],
         "name": "Example Injury Location Name",
         "description": "Example Injury Location Description",
         "address": {
@@ -1884,9 +1859,18 @@
         "id": "4678efc2-2529-4a7e-8266-fdc907d89e00",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "death",
+              "display": "death location"
+            }
+          ]
+        }],
         "extension": [
           {
             "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
@@ -1901,6 +1885,7 @@
             }
           }
         ],
+
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {

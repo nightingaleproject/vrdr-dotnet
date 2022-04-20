@@ -1450,70 +1450,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("DISP", "DecedentDispositionMethod", "code");
-                switch (code)
-                {
-                    case "449951000124101": // Donation
-                        return "D";
-                    case "449971000124106": // Burial
-                        return "B";
-                    case "449961000124104": // Cremation
-                        return "C";
-                    case "449931000124108": // Entombment
-                        return "E";
-                    case "449941000124103": // Removal from state
-                        return "R";
-                    case "UNK": // Unknown
-                        return "U";
-                    case "455401000124109": // Hospital Disposition
-                    case "OTH": // Other
-                        return "O";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MethodOfDisposition.FHIRToIJE, "DecedentDispositionMethod", "DISP");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "D":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and body donated");
-                            break;
-                        case "B":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and buried");
-                            break;
-                        case "C":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and cremated");
-                            break;
-                        case "E":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and entombed");
-                            break;
-                        case "R":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and removed from state");
-                            break;
-                        case "U":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3 );
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
-                            break;
-                        case "O":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MethodOfDisposition.IJEToFHIR, "DISP", "DecedentDispositionMethod", value);
             }
         }
 
@@ -4528,12 +4469,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DispositionLocation
-                return "";
+                return Dictionary_Geo_Get("DISPCITYCODE", "DispositionLocationAddress", "address", "cityC", false);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DispositionLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("DISPCITYCODE", "DispositionLocationAddress", "address", "cityC", false, value);
+                }
             }
         }
 

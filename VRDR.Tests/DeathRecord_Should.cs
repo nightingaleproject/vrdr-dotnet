@@ -1820,6 +1820,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_FuneralHomeAddress()
         {
+            Assert.Equal("1011010 Example Street", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine1"]);
             Assert.Equal("1011010 Example Street", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCity"]);
@@ -1827,7 +1828,7 @@ namespace VRDR.Tests
             Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressZip"]);
             Assert.Equal("US", ((DeathRecord)JSONRecords[0]).FuneralHomeAddress["addressCountry"]);
-            Assert.Equal("1011010 Example Street", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine1"]);
+
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).FuneralHomeAddress["addressCounty"]);
@@ -1848,20 +1849,6 @@ namespace VRDR.Tests
         {
             Assert.Equal("Smith Funeral Home", ((DeathRecord)JSONRecords[0]).FuneralHomeName);
             Assert.Equal("Smith Funeral Home", ((DeathRecord)XMLRecords[0]).FuneralHomeName);
-        }
-
-        [Fact]
-        public void Set_FuneralDirectorPhone()
-        {
-            SetterDeathRecord.FuneralDirectorPhone = "000-000-0000";
-            Assert.Equal("000-000-0000", SetterDeathRecord.FuneralDirectorPhone);
-        }
-
-        [Fact]
-        public void Get_FuneralDirectorPhone()
-        {
-            Assert.Equal("000-000-0000", ((DeathRecord)JSONRecords[0]).FuneralDirectorPhone);
-            Assert.Equal("000-000-0000", ((DeathRecord)XMLRecords[0]).FuneralDirectorPhone);
         }
 
         [Fact]

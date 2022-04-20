@@ -399,38 +399,6 @@
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:6828566f-bfa8-40a9-8870-62f3c888de86" />
-    <resource>
-      <Organization>
-        <id value="6828566f-bfa8-40a9-8870-62f3c888de86" />
-        <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" />
-        </meta>
-        <identifier>
-          <value value="1010101" />
-        </identifier>
-        <active value="true" />
-        <type>
-          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
-            <code value="prov" />
-            <display value="Healthcare Provider" />
-          </coding>
-        </type>
-        <name value="Example Hospital" />
-        <address>
-          <line value="10 Example Street" />
-          <line value="Line 2" />
-          <city value="Bedford" />
-          <district value="Middlesex" />
-          <state value="MA" />
-          <postalCode value="01730" />
-          <country value="US" />
-        </address>
-      </Organization>
-    </resource>
-  </entry>
-  <entry>
     <fullUrl value="urn:uuid:20bc94bb-cdad-4daf-8e04-8304ea217e96" />
     <resource>
       <Observation xmlns="http://hl7.org/fhir">
@@ -700,9 +668,16 @@
       <Location>
         <id value="9bebc631-70b1-4052-bb61-7909caa7f5d4" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location" />
         </meta>
         <name value="Bedford Cemetery" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="disposition" />
+            <display value="disposition location" />
+          </coding>
+        </type>
         <address>
           <line value="603 Example Street" />
           <line value="Line 2" />
@@ -1448,6 +1423,13 @@
         </meta>
         <name value="Example Injury Location Name" />
         <description value="Example Injury Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="injury" />
+            <display value="injury location" />
+          </coding>
+        </type>
         <address>
           <line value="781 Example Street" />
           <line value="Line 2" />
@@ -1457,6 +1439,7 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
+
       </Location>
     </resource>
   </entry>
@@ -1546,6 +1529,13 @@
         </extension>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="death" />
+            <display value="death location" />
+          </coding>
+        </type>
         <address>
           <line value="671 Example Street" />
           <line value="Line 2" />

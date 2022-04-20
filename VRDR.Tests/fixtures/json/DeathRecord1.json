@@ -953,18 +953,7 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2"
           ]
         },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16100001",
-                "display": "Death diagnosis"
-              }
-            ]
-          }
-        ],
-        "code": {
+        "valueCodeableConcept": {
           "text": "Example Contributing Conditions"
         },
         "subject": {
@@ -994,18 +983,7 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16100001",
-                "display": "Death diagnosis"
-              }
-            ]
-          }
-        ],
-        "code": {
+        "valueCodeableConcept": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -1059,18 +1037,7 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16100001",
-                "display": "Death diagnosis"
-              }
-            ]
-          }
-        ],
-        "code": {
+        "valueCodeableConcept": {
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10",
@@ -1123,18 +1090,7 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16100001",
-                "display": "Death diagnosis"
-              }
-            ]
-          }
-        ],
-        "code": {
+        "valueCodeableConcept": {
           "text": "Coronary artery thrombosis"
         },
         "subject": {
@@ -1180,18 +1136,7 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
           ]
         },
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16100001",
-                "display": "Death diagnosis"
-              }
-            ]
-          }
-        ],
-        "code": {
+        "valueCodeableConcept": {
           "text": "Atherosclerotic coronary artery disease"
         },
         "subject": {

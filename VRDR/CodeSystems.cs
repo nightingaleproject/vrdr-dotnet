@@ -12,6 +12,9 @@ namespace VRDR
         /// <summary>Social Security Numbers.</summary>
         public static string US_SSN = "http://hl7.org/fhir/sid/us-ssn";
 
+        /// <summary>Observation Category. </summary>
+        public static string ObservationCategory = "http://terminology.hl7.org/CodeSystem/observation-category";
+
         /// <summary>PHINVADS Race and Ethnicity.</summary>
         // TODO: FLAGGED FOR DELETION
         public static string PH_RaceAndEthnicity_CDC = "urn:oid:2.16.840.1.113883.6.238";
@@ -25,6 +28,9 @@ namespace VRDR
 
         /// <summary>HL7 Data Absent reason.</summary>
         public static string Data_Absent_Reason_HL7_V3 = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
+
+        /// <summary>HL7 Yes No.</summary>
+        public static string YesNo_0136HL7_V2 = "http://terminology.hl7.org/CodeSystem/v2-0136";
 
         /// <summary>PHINVADS Local Coding System.</summary>
         // TODO: FLAGGED FOR DELETION

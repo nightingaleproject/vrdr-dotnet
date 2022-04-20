@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Serialization;
 using Xunit;
+
+using System.Linq;
 
 namespace VRDR.Tests
 {
@@ -865,6 +869,40 @@ namespace VRDR.Tests
         //     Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
         // }
 
+        [Fact]
+        public void GetCompositionReferences()
+        {
+            // Grab Composition
+            ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = true,
+                                                                 AllowUnrecognizedEnums = true,
+                                                                 PermissiveParsing = true };
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"));
+            FhirJsonParser parser = new FhirJsonParser(parserSettings);
+            Bundle b = parser.Parse<Bundle>(bundle);
+            var compositionEntry = b.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
+            var covered = false;
+            if (compositionEntry != null)
+            {
+                Composition comp = (Composition)compositionEntry.Resource;
+                Assert.Equal(4, comp.Section.Count);
+                
+                Composition.SectionComponent demographics = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDemographics").First();
+                Assert.Equal(11, demographics.Entry.Count);
+
+                Composition.SectionComponent investigation = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathInvestigation").First();
+                Assert.Equal(8, investigation.Entry.Count);
+
+                Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
+                Assert.Equal(9, certification.Entry.Count);
+
+                Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
+                Assert.Equal(4, disposition.Entry.Count);
+
+                covered = true;
+            }
+            Assert.True(covered);
+
+        }
 
         [Fact]
         public void Set_GivenNames()

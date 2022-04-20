@@ -296,6 +296,7 @@ namespace VRDR.Tests
         public void HandleDeathLocationIJE()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
             IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
@@ -353,7 +354,7 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCUnknown.ije")), true);
             Assert.Equal("999", ije1.COD);
             Assert.Equal("999", ije1.COUNTYC);
-    
+
             DeathRecord dr1 = ije1.ToDeathRecord();
             Assert.Equal("999", dr1.DeathLocationAddress["addressCounty"]);
             Assert.Equal("999", dr1.Residence["addressCountyC"]);
@@ -365,7 +366,7 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCOther.ije")), true);
             Assert.Equal("000", ije1.COD);
             Assert.Equal("000", ije1.COUNTYC);
-    
+
             DeathRecord dr1 = ije1.ToDeathRecord();
             Assert.Equal("000", dr1.DeathLocationAddress["addressCounty"]);
             Assert.Equal("000", dr1.Residence["addressCountyC"]);

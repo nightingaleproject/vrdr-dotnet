@@ -729,17 +729,15 @@
           ]
         },
         "active": true,
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "bus",
-                "display": "Non-Healthcare Business or Corporation"
-              }
-            ]
-          }
-        ],
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs",
+              "code": "funeralhome",
+              "display": "Funeral Home"
+            }
+          ]
+        }],
         "name": "Smith Funeral Home",
         "address": [
           {
@@ -1871,20 +1869,6 @@
             }
           ]
         }],
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "2.16.840.1.113883.6.92",
-                  "code": "25",
-                  "display": "MA"
-                }
-              ]
-            }
-          }
-        ],
 
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
@@ -1895,7 +1879,15 @@
           ],
           "city": "Bedford",
           "district": "Middlesex",
-          "state": "MA",
+          "state": "NY",
+          "_state": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+              "valueString": "YC"
+              }
+            ]
+          },
           "postalCode": "01730",
           "country": "US"
         }
@@ -1942,7 +1934,27 @@
                 }
               ]
             },
-            "valueDateTime": "2019-02-20T16:48:06-05:00"
+            "valueDateTime": "2018-02-20T16:48:06-05:00"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "58332-8",
+                  "display": "Location of death"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://snomed.info/sct",
+                  "code" : "440081000124100",
+                  "display": "Death in home"
+                }
+              ]
+            }
           }
         ]
       }

@@ -3121,8 +3121,8 @@ namespace VRDR
                 { "D", "449951000124101" },
                 { "E", "449931000124108" },
                 { "R", "449941000124103" },
-                { "O", "Other" },
-                { "U", "Unkown" },
+                { "O", "OTH" },
+                { "U", "UNK" },
             };
             /// <summary>FHIR -> IJE Mapping for MethodOfDisposition</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>

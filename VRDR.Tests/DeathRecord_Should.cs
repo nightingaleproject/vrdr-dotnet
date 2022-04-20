@@ -168,8 +168,8 @@ namespace VRDR.Tests
             DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
             DeathRecord fromijefromxml = ijefromjson.ToDeathRecord();
 
-            Assert.Equal("MA", fromijefromjson.DeathLocationJurisdiction);
-            Assert.Equal("MA", fromijefromxml.DeathLocationJurisdiction);
+            Assert.Equal("YC", fromijefromjson.DeathLocationJurisdiction);
+            Assert.Equal("YC", fromijefromxml.DeathLocationJurisdiction);
         }
 
       [Fact]
@@ -188,8 +188,8 @@ namespace VRDR.Tests
             DeathRecord fromijefromjson = ijefromjson.ToDeathRecord();
 
             Assert.NotEqual(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice);
-            Assert.Equal(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital);
-            Assert.Equal("Death in hospital", fromijefromjson.DeathLocationType["display"]);
+            Assert.Equal(fromijefromjson.DeathLocationTypeHelper, VRDR.ValueSets.PlaceOfDeath.Death_In_Home);
+            Assert.Equal("Death in home", fromijefromjson.DeathLocationType["display"]);
         }
 
         [Fact]
@@ -285,7 +285,7 @@ namespace VRDR.Tests
             Assert.Equal("2diff1xyz", sample2.CertifierFamilyName);
         }
 
-[Fact]
+        [Fact]
         public void Set_DeathLocationTypeHelper()
         {
             SetterDeathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility;
@@ -294,6 +294,12 @@ namespace VRDR.Tests
             Exception ex = Assert.Throws<System.ArgumentException>(() => SetterDeathRecord.DeathLocationTypeHelper = "NotAValidValue");
         }
 
+       [Fact]
+        public void Get_DeathLocationType()
+        {
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)JSONRecords[0]).DeathLocationTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)XMLRecords[0]).DeathLocationTypeHelper);
+        }
         [Fact]
         public void Set_Identifier()
         {
@@ -2404,14 +2410,15 @@ namespace VRDR.Tests
             Assert.Equal("Line 2", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressState"]);
+            Assert.Equal("NY", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressJurisdiction"]);
             Assert.Equal("01730", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressZip"]);
             Assert.Equal("US", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountry"]);
             Assert.Equal("671 Example Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCounty"]);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
+            Assert.Equal("NY", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressZip"]);
             Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
         }
@@ -2428,6 +2435,8 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.DeathLocationJurisdiction = "MA";
             Assert.Equal("MA", SetterDeathRecord.DeathLocationJurisdiction);
+            SetterDeathRecord.DeathLocationJurisdiction = "YC";
+            Assert.Equal("YC", SetterDeathRecord.DeathLocationJurisdiction);
         }
 
         [Fact]
@@ -2440,8 +2449,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DeathLocationJurisdiction()
         {
-            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).DeathLocationJurisdiction);
-            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).DeathLocationJurisdiction);
+            Assert.Equal("YC", ((DeathRecord)JSONRecords[0]).DeathLocationJurisdiction);
+            Assert.Equal("YC", ((DeathRecord)XMLRecords[0]).DeathLocationJurisdiction);
         }
 
         [Fact]

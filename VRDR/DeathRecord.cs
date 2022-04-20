@@ -5414,38 +5414,43 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
-            get
+         get
             {
-                if (DeathDateObs != null)
+                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
                 {
-                    Observation.ComponentComponent component = DeathDateObs.Component.FirstOrDefault();
-                    if (component != null)
+                    var pronComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6" );
+                    if (pronComp != null && pronComp.Value != null)
                     {
-                        return Convert.ToString(component.Value);
+                        return Convert.ToString(pronComp.Value);
                     }
                 }
                 return null;
             }
             set
             {
+
                 if (DeathDateObs == null)
                 {
-                    CreateDeathDateObs();
-                    DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                    component.Value = new FhirDateTime(value);
-                    DeathDateObs.Component.Add(component);
+                    CreateDeathDateObs(); // Create it
+                }
+
+                // Find correct component; if doesn't exist add another
+                var pronComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6" );
+                if (pronComp != null)
+                {
+                    ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
                 }
                 else
                 {
-                    DeathDateObs.Component.Clear();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                 }
-            }
+              }
+
         }
 
         /// <summary>Autopsy Results Available.</summary>
@@ -5533,51 +5538,50 @@ namespace VRDR
         {
             get
             {
-                if (DeathLocationLoc != null)
+                if (DeathLocationLoc != null && DeathLocationLoc.Address != null )
                 {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
-                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
+                    string stateName = "";
+                    if(DeathLocationLoc.Address.State != null){
+                        stateName = DeathLocationLoc.Address.State;
+                    }
+                    if (DeathLocationLoc.Address.StateElement != null)
                     {
-                        CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        if (cc.Coding.Count > 0)
-                        {
-                            return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
+                        Extension jurisdiction = DeathLocationLoc.Address.StateElement.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
+                        if(jurisdiction != null && jurisdiction.Value != null){
+                            stateName = jurisdiction.Value.ToString();
                         }
+                    }
+                    if(!String.IsNullOrWhiteSpace(stateName)){
+                        return stateName;
                     }
                 }
                 return null;
-
             }
             set
             {
                 if (DeathLocationLoc == null)
                 {
                     CreateDeathLocation();
+                    DeathLocationLoc.Address = DictToAddress(EmptyAddrDict());
+                    DeathLocationLoc.Address.StateElement = new FhirString();
                 }
                 else
                 {
-                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
+                    DeathLocationLoc.Address.StateElement.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
                 }
                 if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
                 {
-                    CodeableConcept cc = new CodeableConcept();
-                    string code = MortalityData.JurisdictionNameToJurisdictionCode(value);
-                    string  system;
-                    string  display = value;
-
-                    if (value == "YC")
-                    {
-                        system = CodeSystems.PH_USGS_GNIS ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                    if (value == "YC"){
+                        DeathLocationLoc.Address.State = "NY";
+                        Extension extension = new Extension();
+                        extension.Url = locationJurisdictionExtPath;
+                        extension.Value = new FhirString(value);
+                        DeathLocationLoc.Address.StateElement.Extension.Add(extension);
                     }
                     else
                     {
-                        system = CodeSystems.PH_State_FIPS_5_2 ; // All other codes are from FIPS_5-2
+                        DeathLocationLoc.Address.State = value;
                     }
-                    cc = new CodeableConcept(system, code, display, display);
-                    Extension extension = new Extension();
-                    extension.Url = locationJurisdictionExtPath;
-                    extension.Value = cc;
-                    DeathLocationLoc.Extension.Add(extension);
                     UpdateBundleIdentifier();
                 }
             }
@@ -5610,7 +5614,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", true, 15)]
+        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, IGURL.DeathLocation, true, 15)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -5618,7 +5622,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
             get
@@ -5740,35 +5744,43 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
         public Dictionary<string, string> DeathLocationType
         {
-            get
+         get
             {
-                if (DeathLocationLoc != null && DeathLocationLoc.Type != null && DeathLocationLoc.Type.Count > 0)
+                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
                 {
-                    return CodeableConceptToDict(DeathLocationLoc.Type.First());
+                    var placeComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "58332-8" );
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    {
+                        return(CodeableConceptToDict((CodeableConcept)placeComp.Value));
+                    }
                 }
-                return EmptyCodeableDict();
+                return null;
             }
             set
             {
-                if (DeathLocationLoc == null)
+
+                if (DeathDateObs == null)
                 {
-                    DeathLocationLoc = new Location();
-                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
-                    DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { locationJurisdictionExtPath };
-                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
-                    DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
-                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                    CreateDeathDateObs(); // Create it
+                }
+
+                // Find correct component; if doesn't exist add another
+                var placeComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "58332-8" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
                 }
                 else
                 {
-                    DeathLocationLoc.Type.Clear();
-                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Place of death", null);
+                    component.Value = DictToCodeableConcept(value);
+                    DeathDateObs.Component.Add(component);
                 }
-            }
+              }
+
         }
 
         /// <summary>Type of Death Location Helper</summary>
@@ -5781,12 +5793,12 @@ namespace VRDR
         /// </example>
         [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "type")]
         public string DeathLocationTypeHelper
         {
             get
             {
-                if (DeathLocationType.ContainsKey("code"))
+                if (DeathLocationType != null && DeathLocationType.ContainsKey("code"))
                 {
                     return DeathLocationType["code"];
                 }
@@ -5812,7 +5824,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
+        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-age.html", true, 2)]
         [PropertyParam("value", "The quantity value.")]
         [PropertyParam("unit", "The quantity unit.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
@@ -7023,7 +7035,7 @@ namespace VRDR
             }
 
             // Grab Pronouncer
-            // IMPROVEMENT: Move away from using meta profile to find this Practitioner.
+            // IMPROVEMENT: Move away from using meta profile to find this Practitioner.  Use performer reference from DeathDate
             var pronouncerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Pronouncement-Performer", entry.Resource.Meta.Profile.FirstOrDefault()));
             if (pronouncerEntry != null)
             {
@@ -7057,8 +7069,9 @@ namespace VRDR
             }
 
             // Grab Funeral Home  **** SHould be able to find this without resort to meta.profile.  May need a reference from somewhere.  Or perhaps Locations and Organizations should require a profile.
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization
-               && ((Organization)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("vrdr-funeral-home", ((Organization)entry.Resource).Meta.Profile.FirstOrDefault()));
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization &&
+                    ((Organization)entry.Resource).Meta.Profile.FirstOrDefault() != null &&
+                    ((Organization)entry.Resource).Type.FirstOrDefault() != null  && (CodeableConceptToDict(((Organization)entry.Resource).Type.First())["code"] == "funeralhome"));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
@@ -7692,16 +7705,20 @@ namespace VRDR
                     dictionary["addressUnitnum"] = unitnum.Value.ToString();
                 }
 
-                //Check for possible state extension
-                dictionary["addressState"] = addr.State;
-                if (addr.StateElement != null)
+
+                if (addr.State != null)
                 {
-                    Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
-                    if (stateExt != null)
-                    {
-                        dictionary["addressState"] = stateExt.Value.ToString();
-                    }
+                    dictionary["addressState"] = addr.State;
                 }
+                if (addr.StateElement != null)
+                 {
+                     dictionary["addressJurisdiction"] = addr.State; // by default.  If extension present, override
+                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
+                     if (stateExt != null)
+                     {
+                         dictionary["addressJurisdiction"] = stateExt.Value.ToString();
+                     }
+                 }
                 if (addr.City != null)
                 {
                     dictionary["addressCity"] = addr.City;

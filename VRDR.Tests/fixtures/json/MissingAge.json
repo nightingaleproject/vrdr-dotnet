@@ -567,6 +567,15 @@
                     "state": "MA",
                     "country": "US"
                 },
+                "type": [{
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                        "code": "disposition",
+                        "display": "disposition location"
+                      }
+                    ]
+                  }],
                 "physicalType": {
                     "coding": [
                         {
@@ -642,6 +651,15 @@
                         "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
                     ]
                 },
+                "type": [{
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                        "code": "death",
+                        "display": "death location"
+                      }
+                    ]
+                  }],
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
@@ -1260,6 +1278,15 @@
                         "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
                     ]
                 },
+                "type": [{
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                        "code": "injury",
+                        "display": "injury location"
+                      }
+                    ]
+                  }],
                 "address": {
                     "city": "Bedford",
                     "district": "Middlesex",

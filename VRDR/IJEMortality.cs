@@ -735,7 +735,7 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                    // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value); // WHY????... used to be STATEC
                 }
             }
         }
@@ -1354,76 +1354,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("DPLACE", "DeathLocationType", "code");
-                switch (code)
-                {
-                    case "16983000":
-                        return "1";
-                    case "450391000124102":
-                        return "2";
-                    case "63238001":
-                        return "3";
-                    case "440081000124100":
-                        return "4";
-                    case "440071000124103":
-                        return "5";
-                    case "450381000124100":
-                        return "6";
-                    case "OTH":
-                        return "7";
-                    case "UNK":
-                        return "9";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PlaceOfDeath.FHIRToIJE, "DeathLocationType", "DPLACE");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "16983000");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Inpatient");
-                            break;
-                        case "2":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450391000124102");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in emergency Room/Outpatient");
-                            break;
-                        case "3":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "63238001");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Dead on Arrival");
-                            break;
-                        case "4":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440081000124100");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Decendent's Home");
-                            break;
-                        case "5":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440071000124103");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospice");
-                            break;
-                        case "6":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450381000124100");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in nursing home/Long term care facility");
-                            break;
-                        case "7":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "OTH");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Other(Specify)");
-                            break;
-                        case "9":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "Unknown");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.PlaceOfDeath.IJEToFHIR, "DPLACE", "DeathLocationType", value);
             }
         }
 

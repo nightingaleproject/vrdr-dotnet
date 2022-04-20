@@ -886,23 +886,18 @@
         "id": "2a0fd386-c1e5-45af-96d9-62a3368fe9cc",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                "system": "2.16.840.1.113883.6.92",
-                "code": "25",
-                "display": "MA"
-                }
-              ]
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "death",
+              "display": "death location"
             }
-          }
-        ],
+          ]
+        }],
         "name": "Pecan Grove Nursing Home",
         "address": {
           "state": "MA",

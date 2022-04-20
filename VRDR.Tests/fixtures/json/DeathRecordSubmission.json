@@ -434,7 +434,16 @@
                                 "state": "MA",
                                 "postalCode": "01730",
                                 "country": "US"
-                            }
+                            },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "disposition",
+                                    "display": "disposition location"
+                                  }
+                                ]
+                              }]
                         }
                     },
                     {
@@ -941,6 +950,15 @@
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"]},
                             "name": "Example Injury Location Name",
                             "description": "Example Injury Location Description",
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "injury",
+                                    "display": "injury location"
+                                  }
+                                ]
+                              }],
                             "address": {
                                 "line": [
                                     "781 Example Street",
@@ -973,6 +991,15 @@
                                 "postalCode": "01730",
                                 "country": "US"
                             },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "death",
+                                    "display": "death location"
+                                  }
+                                ]
+                              }],
                             "extension": [
                                 {
                                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",

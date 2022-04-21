@@ -578,9 +578,10 @@ namespace VRDR.CLI
                     if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
                     {
                         Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
-                        one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
-                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
-                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        // Ignore empty entries in the dictionary so they don't throw off comparisons.
+                        one = String.Join(", ", oneDict.Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");
+                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
+                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
                     }
                     else if (property.PropertyType.ToString() == "System.String[]")
                     {

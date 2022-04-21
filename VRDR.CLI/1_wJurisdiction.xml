@@ -1471,6 +1471,22 @@
           </code>
           <valueDateTime value="2018-02-20T16:48:06-05:00" />
         </component>
+             <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="58332-8" />
+              <display value="Location of death" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://snomed.info/sct"/>
+              <code value="440081000124100"/>
+              <display value="Death in home"/>
+            </coding>
+          </valueCodeableConcept>
+        </component>
       </Observation>
     </resource>
   </entry>

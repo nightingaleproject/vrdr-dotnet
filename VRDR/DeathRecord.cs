@@ -348,8 +348,9 @@ namespace VRDR
             InjuryLocationLoc = new Location();
             InjuryLocationLoc.Id = Guid.NewGuid().ToString();
             InjuryLocationLoc.Meta = new Meta();
-            string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+            string[] injurylocation_profile = {ProfileURL.InjuryLocation };
             InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+            InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
             InjuryLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "injury", "injury location", null));
         }
 
@@ -6214,15 +6215,17 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\InjuryLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 34)]
+        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, IGURL.InjuryLocation, true, 34)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
+        [PropertyParam("addressCityC", "address, city code")]
         [PropertyParam("addressCounty", "address, county")]
+        [PropertyParam("addressCountyC", "address, county code")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get

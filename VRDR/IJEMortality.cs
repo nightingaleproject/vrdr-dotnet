@@ -3911,7 +3911,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_I", "InjuryLocationAddress", "address", "county", false, value);
+                }
             }
         }
 
@@ -3921,13 +3924,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true);
+                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyC", true, value);
                 }
             }
         }
@@ -3955,11 +3958,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_I", "InjuryLocationAddress", "address", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_I", "InjuryLocationAddress", "address", "cityC", true);
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CITYCODE_I", "InjuryLocationAddress", "address", "CityC", true, value);
+                }
             }
         }
 
@@ -3969,13 +3975,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", true);
+                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "state", true, value);
+                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true, value);
                 }
             }
         }

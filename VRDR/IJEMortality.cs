@@ -4396,7 +4396,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("DISPSTATE", "DispositionLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -4602,13 +4604,14 @@ namespace VRDR
         {
             get
             {
-                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("FUNSTATECD", "FuneralHomeAddress", "addressState"));
+
+                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "addressState", value);
+                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "stateC", value);
                 }
             }
         }
@@ -4619,7 +4622,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState");
+                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {

@@ -326,6 +326,21 @@ namespace VRDR
             /// <summary> Not_Obtainable </summary>
             public static string  Not_Obtainable = "C";
         };
+        /// <summary> ReplaceStatus </summary>
+        public static class ReplaceStatus {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "original", "original record", VRDR.CodeSystems.ReplaceStatus },
+                { "updated", "updated record", VRDR.CodeSystems.ReplaceStatus },
+                { "updated_notforNCHS", "updated record not for nchs", VRDR.CodeSystems.ReplaceStatus }
+            };
+            /// <summary> Original_Record </summary>
+            public static string  Original_Record = "original";
+            /// <summary> Updated_Record </summary>
+            public static string  Updated_Record = "updated";
+            /// <summary> Updated_Record_Not_For_Nchs </summary>
+            public static string  Updated_Record_Not_For_Nchs = "updated_notforNCHS";
+        };
         /// <summary> TransportationIncidentRole </summary>
         public static class TransportationIncidentRole {
             /// <summary> Codes </summary>

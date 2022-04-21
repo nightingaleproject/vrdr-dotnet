@@ -4036,12 +4036,11 @@ namespace VRDR
         {
             get
             {
-                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.ReplaceStatus.FHIRToIJE, "ReplaceStatus", "REPLACE");
             }
             set
             {
-                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
+                Set_MappingIJEToFHIR(Mappings.ReplaceStatus.IJEToFHIR, "REPLACE", "ReplaceStatus", value);
             }
         }
 

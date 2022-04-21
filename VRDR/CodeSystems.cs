@@ -121,7 +121,11 @@ namespace VRDR
         /// <summary> Filing Format </summary>
         public static string FilingFormat = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs";
 
+        /// <summary> Composition document sections </summary>
         public static string DocumentSections = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs";
+
+        /// <summary> Replace Status </summary>
+        public static string ReplaceStatus = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs";
     }
 
 }

@@ -38,6 +38,24 @@ namespace VRDR
                 { "UNK", "9" },
             };
         }
+        /// <summary>Mappings for ReplaceStatus</summary>
+        public static class ReplaceStatus
+        {
+            /// <summary>IJE -> FHIR Mapping for ReplaceStatus</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "original" },
+                { "1", "updated" },
+                { "2", "updated_notforNCHS" },
+            };
+            /// <summary>FHIR -> IJE Mapping for ReplaceStatus</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "original", "0" },
+                { "updated", "1" },
+                { "updated_notforNCHS", "2" },
+            };
+        }
         /// <summary>Mappings for TransaxConversion</summary>
         public static class TransaxConversion
         {
@@ -202,7 +220,6 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
-                { "8", "8" },
                 { "9", "9" },
             };
             /// <summary>FHIR -> IJE Mapping for PregnancyStatus</summary>
@@ -212,7 +229,6 @@ namespace VRDR
                 { "2", "2" },
                 { "3", "3" },
                 { "4", "4" },
-                { "8", "8" },
                 { "9", "9" },
             };
         }
@@ -3132,8 +3148,8 @@ namespace VRDR
                 { "449951000124101", "D" },
                 { "449931000124108", "E" },
                 { "449941000124103", "R" },
-                { "Other", "O" },
-                { "Unkown", "U" },
+                { "OTH", "O" },
+                { "UNK", "U" },
             };
         }
     }

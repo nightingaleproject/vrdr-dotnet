@@ -343,20 +343,6 @@ namespace VRDR
         /// <summary>Transportation Role.</summary>
         private Observation TransportationRoleObs;
 
-        /// <summary>Create Transportation Role. </summary>
-        private void CreateTransportationRoleObs(){
-            TransportationRoleObs = new Observation();
-            TransportationRoleObs.Id = Guid.NewGuid().ToString();
-            TransportationRoleObs.Meta = new Meta();
-            string[] t_profile = { VRDR.ProfileURL.DecedentTransportationRole };
-            TransportationRoleObs.Meta.Profile = t_profile;
-            TransportationRoleObs.Status = ObservationStatus.Final;
-            TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-            TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(TransportationRoleObs.Id, "OBE");
-            Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
-        }
-
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
 
@@ -846,8 +832,9 @@ namespace VRDR
         {
             get
             {
-                Extension filingFormat = Composition.Extension.Where(ext => ext.Url == ExtensionURL.FilingFormat).FirstOrDefault();
-                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
+                Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
+                
+                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)    
                 {
                     return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
                 }
@@ -857,7 +844,7 @@ namespace VRDR
             {
                 Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.FilingFormat);
                 Extension filingFormat = new Extension();
-                filingFormat.Url = ExtensionURL.StateSpecificField;
+                filingFormat.Url = ExtensionURL.FilingFormat;
                 filingFormat.Value = DictToCodeableConcept(value);
                 Composition.Extension.Add(filingFormat);
             }
@@ -873,9 +860,9 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.FilingFormatHelper}");</para>
         /// </example>
-        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, ProfileURL.DeathCertificate, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performer")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
         public string FilingFormatHelper
         {
             get
@@ -922,7 +909,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State Specific Data: {ExampleDeathRecord.StateSpecific}");</para>
         /// </example>
-        [Property("State Specific Data", Property.Types.String, "Death Certification", "Date/Time of record registration.", true, ProfileURL.DeathCertificate, true, 13)]
+        [Property("State Specific Data", Property.Types.String, "Death Certification", "State Specific Content.", true, ProfileURL.DeathCertificate, true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField')", "date")]
         public string StateSpecific
         {
@@ -944,6 +931,68 @@ namespace VRDR
                 Composition.Extension.Add(stateSpecificData);
             }
         }
+
+        /// <summary>Replace Status.</summary>
+        /// <value>Replacement Record – suggested codes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatus = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</para>
+        /// </example>
+        [Property("Replace Status", Property.Types.Dictionary, "Death Certification", "Replace status.", true, ProfileURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public Dictionary<string, string> ReplaceStatus
+        {
+            get
+            {
+                Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                
+                if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)    
+                {
+                    return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                Extension replaceStatus = new Extension();
+                replaceStatus.Url = ExtensionURL.ReplaceStatus;
+                replaceStatus.Value = DictToCodeableConcept(value);
+                Composition.Extension.Add(replaceStatus);
+            }
+        }
+
+        /// <summary>Replace Status Helper.</summary>
+        /// <value>replace status.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"ReplaceStatus: {ExampleDeathRecord.ReplaceStatusHelper}");</para>
+        /// </example>
+        [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", true, ProfileURL.DeathCertificate, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public string ReplaceStatusHelper
+        {
+            get
+            {
+                if (ReplaceStatus.ContainsKey("code"))
+                {
+                    return ReplaceStatus["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+            }
+        }
+
 
         /// <summary>Certification Role.</summary>
         /// <value>the role/qualification of the person who certified the death. A Dictionary representing a code, containing the following key/value pairs:
@@ -6882,7 +6931,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_2')", "value")]
         public string EmergingIssue1_2
         {
@@ -6904,7 +6953,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_3')", "value")]
         public string EmergingIssue1_3
         {
@@ -6926,7 +6975,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_4')", "value")]
         public string EmergingIssue1_4
         {
@@ -6948,7 +6997,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_5')", "value")]
         public string EmergingIssue1_5
         {
@@ -6970,7 +7019,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_6')", "value")]
         public string EmergingIssue1_6
         {
@@ -6992,7 +7041,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_1')", "value")]
         public string EmergingIssue8_1
         {
@@ -7014,7 +7063,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_2')", "value")]
         public string EmergingIssue8_2
         {
@@ -7036,7 +7085,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_3')", "value")]
         public string EmergingIssue8_3
         {
@@ -7058,7 +7107,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE20')", "value")]
         public string EmergingIssue20
         {

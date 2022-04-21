@@ -4990,7 +4990,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STINJURY", "InjuryLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {

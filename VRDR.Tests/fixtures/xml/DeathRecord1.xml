@@ -749,6 +749,12 @@
             <display value="Site" />
           </coding>
         </physicalType>
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
+        }
       </Location>
     </resource>
   </entry>
@@ -1494,7 +1500,11 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
-
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
       </Location>
     </resource>
   </entry>

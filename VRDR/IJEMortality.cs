@@ -3291,13 +3291,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return LeftJustified_Get("LONG_D", "DeathLocationLongitude");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
-            }
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("LONG_D", "DeathLocationLonitude", value);
+                }
+             }
         }
 
         /// <summary>Place of Death. Latitude</summary>
@@ -3306,13 +3308,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return LeftJustified_Get("LAT_D", "DeathLocationLatitude");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
-            }
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("LAT_D", "DeathLocationLatitude", value);
+                }
+             }
         }
 
         /// <summary>Decedent's spouse living at decedent's DOD?</summary>
@@ -3974,13 +3978,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true);
+                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true, value);
+                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "state", true, value);
                 }
             }
         }
@@ -3989,30 +3993,34 @@ namespace VRDR
         [IJEField(181, 2505, 17, "Place of injury. Longitude", "LONG_I", 1)]
         public string LONG_I
         {
-            get
+get
             {
-                // TODO: Implement mapping from FHIR record location: InjuryLocation
-                return "";
+                return LeftJustified_Get("LONG_I", "InjuryLocationLongitude");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: InjuryLocation
-            }
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("LONG_I", "InjuryLocationLonitude", value);
+                }
+             }
         }
 
         /// <summary>Place of injury. Latitude</summary>
         [IJEField(182, 2522, 17, "Place of injury. Latitude", "LAT_I", 1)]
         public string LAT_I
         {
-            get
+get
             {
-                // TODO: Implement mapping from FHIR record location: InjuryLocation
-                return "";
+                return LeftJustified_Get("LAT_I", "InjuryLocationLongitude");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: InjuryLocation
-            }
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("LAT_I", "InjuryLocationLonitude", value);
+                }
+             }
         }
 
         /// <summary>Old NCHS education code if collected - receiving state will recode as they prefer</summary>
@@ -4394,7 +4402,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.StateCodeToStateName(stateCode);
             }
@@ -4603,13 +4611,13 @@ namespace VRDR
             get
             {
 
-                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", true);
+                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "stateC", value);
+                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "state", value);
                 }
             }
         }
@@ -4620,7 +4628,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.StateCodeToStateName(stateCode);
             }
@@ -4993,7 +5001,7 @@ namespace VRDR
         {
             get
             {
-                var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", false);
+                var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.StateCodeToStateName(stateCode);
             }

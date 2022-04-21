@@ -5775,9 +5775,9 @@ namespace VRDR
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
-        [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressState", "address, state literal")]
         [PropertyParam("addressZip", "address, zip")]
-        [PropertyParam("addressCountry", "address, country")]
+        [PropertyParam("addressCountry", "address, country literal")]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
@@ -5810,8 +5810,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
-        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
+        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "name")]
         public string DeathLocationName
         {
             get
@@ -5833,6 +5833,77 @@ namespace VRDR
 
             }
         }
+
+        /// <summary>Lattitude of Death Location.</summary>
+        /// <value>tLattitude of Death Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationLattitude = "37.88888" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Lattitude: {ExampleDeathRecord.DeathLocationLattitude}");</para>
+        /// </example>
+        [Property("Death Location Latitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.latitude")]
+        public string DeathLocationLatitude
+        {
+            get
+            {
+                if (DeathLocationLoc != null && DeathLocationLoc.Position != null)
+                {
+                    return (DeathLocationLoc.Position.Latitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+                if (DeathLocationLoc.Position == null)
+                {
+                    DeathLocationLoc.Position = new Location.PositionComponent();
+                }
+                DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+
+            }
+        }
+
+        /// <summary>Longitude of Death Location.</summary>
+        /// <value>Longitude of Death Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationLongitude = "-50.000" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Longitude: {ExampleDeathRecord.DeathLocationLongitude}");</para>
+        /// </example>
+        [Property("Death Location Longitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.longitude")]
+        public string DeathLocationLongitude
+        {
+            get
+            {
+                if (DeathLocationLoc != null && DeathLocationLoc.Position != null)
+                {
+                    return (DeathLocationLoc.Position.Longitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+                if (DeathLocationLoc.Position == null)
+                {
+                    DeathLocationLoc.Position = new Location.PositionComponent();
+                }
+                DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+
+            }
+        }
+
 
         /// <summary>Description of Death Location.</summary>
         /// <value>the death location description.</value>
@@ -6404,6 +6475,77 @@ namespace VRDR
                 InjuryLocationLoc.Address = DictToAddress(value);
             }
         }
+
+        /// <summary>Lattitude of Injury Location.</summary>
+        /// <value>tLattitude of Injury Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationLattitude = "37.88888" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Lattitude: {ExampleDeathRecord.InjuryLocationLattitude}");</para>
+        /// </example>
+        [Property("Injury Location Latitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.InjuryLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.latitude")]
+        public string InjuryLocationLatitude
+        {
+            get
+            {
+                if (InjuryLocationLoc != null && InjuryLocationLoc.Position != null)
+                {
+                    return (InjuryLocationLoc.Position.Latitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    CreateInjuryLocationLoc();
+                }
+                if (InjuryLocationLoc.Position == null)
+                {
+                    InjuryLocationLoc.Position = new Location.PositionComponent();
+                }
+                InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+
+            }
+        }
+
+        /// <summary>Longitude of Injury Location.</summary>
+        /// <value>Longitude of Injury Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationLongitude = "-50.000" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Longitude: {ExampleDeathRecord.InjuryLocationLongitude}");</para>
+        /// </example>
+        [Property("Injury Location Longitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.longitude")]
+        public string InjuryLocationLongitude
+        {
+            get
+            {
+                if (InjuryLocationLoc != null && InjuryLocationLoc.Position != null)
+                {
+                    return (InjuryLocationLoc.Position.Longitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    CreateInjuryLocationLoc();
+                }
+                if (InjuryLocationLoc.Position == null)
+                {
+                    InjuryLocationLoc.Position = new Location.PositionComponent();
+                }
+                InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+
+            }
+        }
+
 
         /// <summary>Name of Injury Location.</summary>
         /// <value>the injury location name.</value>

@@ -936,6 +936,10 @@
               "display": "Site"
             }
           ]
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1566,14 +1570,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
-            "valueReference": {
-              "reference": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
-            }
-          }
-        ],
         "status": "final",
         "code": {
           "coding": [
@@ -1835,6 +1831,10 @@
           "state": "MA",
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1961,6 +1961,10 @@
           },
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },

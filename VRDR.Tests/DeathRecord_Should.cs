@@ -2403,6 +2403,21 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_InjuryLocationLatLong(){
+            SetterDeathRecord.InjuryLocationLatitude = "38.889248";
+            SetterDeathRecord.InjuryLocationLongitude = "-77.050636";
+            Assert.Equal("-77.050636",SetterDeathRecord.InjuryLocationLongitude );
+            Assert.Equal("38.889248",SetterDeathRecord.InjuryLocationLatitude );
+        }
+        [Fact]
+        public void Get_InjuryLocationLatLong(){
+            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).InjuryLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).InjuryLocationLatitude);
+            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).InjuryLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).InjuryLocationLatitude);
+        }
+
+        [Fact]
         public void Get_InjuryLocationName()
         {
             Assert.Equal("Example Injury Location Name", ((DeathRecord)JSONRecords[0]).InjuryLocationName);
@@ -2512,9 +2527,28 @@ namespace VRDR.Tests
         // }
 
         [Fact]
+        public void Set_DeathLocationLatLong(){
+            SetterDeathRecord.DeathLocationLatitude = "38.889248";
+            SetterDeathRecord.DeathLocationLongitude = "-77.050636";
+            Assert.Equal("-77.050636",SetterDeathRecord.DeathLocationLongitude );
+            Assert.Equal("38.889248",SetterDeathRecord.DeathLocationLatitude );
+        }
+        [Fact]
+        public void Get_DeathLocationLatLong(){
+            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).DeathLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).DeathLocationLatitude);
+            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).DeathLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).DeathLocationLatitude);
+        }
+
+
+
+
+        [Fact]
         public void Set_DeathLocationAddress()
         {
             Dictionary<string, string> dtladdress = new Dictionary<string, string>();
+
             dtladdress.Add("addressLine1", "671 Example Street");
             dtladdress.Add("addressLine2", "Line 2");
             dtladdress.Add("addressCity", "Bedford");
@@ -2522,7 +2556,6 @@ namespace VRDR.Tests
             dtladdress.Add("addressState", "MA");
             dtladdress.Add("addressZip", "01730");
             dtladdress.Add("addressCountry", "US");
-            SetterDeathRecord.DeathLocationJurisdiction = "MA";
             SetterDeathRecord.DeathLocationAddress = dtladdress;
             Assert.Equal("671 Example Street", SetterDeathRecord.DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DeathLocationAddress["addressLine2"]);

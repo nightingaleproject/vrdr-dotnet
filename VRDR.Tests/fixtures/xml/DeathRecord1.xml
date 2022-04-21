@@ -1581,7 +1581,7 @@
       <Location>
         <id value="d1113c5e-ccba-437e-9fbd-64ebfdcfb617" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" />
         </meta>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
@@ -1605,6 +1605,11 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
       </Location>
     </resource>
   </entry>

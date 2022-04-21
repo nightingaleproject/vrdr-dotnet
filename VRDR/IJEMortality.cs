@@ -1247,7 +1247,6 @@ namespace VRDR
             }
             set
             {
-                // NOOP
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("CITYC", "Residence", "address", "cityC", true, value);
@@ -1368,13 +1367,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "county", true);
+                return Dictionary_Geo_Get("COD", "DeathLocationAddress", "address", "countyC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "county", true, value);
+                    Dictionary_Geo_Set("COD", "DeathLocationAddress", "address", "countyC", true, value);
                 }
             }
         }
@@ -3140,12 +3139,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return Dictionary_Geo_Get("STNUM_D", "DeathLocationAddress", "address", "stnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STNUM_D", "DeathLocationAddress", "address", "stnum", false, value);
+                }
             }
         }
 
@@ -3155,12 +3156,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return Dictionary_Geo_Get("PREDIR_D", "DeathLocationAddress", "address", "predir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("PREDIR_D", "DeathLocationAddress", "address", "predir", false, value);
+                }
             }
         }
 
@@ -3170,12 +3173,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return Dictionary_Geo_Get("STNAME_D", "DeathLocationAddress", "address", "stname", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STNAME_D", "DeathLocationAddress", "address", "stname", false, value);
+                }
             }
         }
 
@@ -3185,12 +3190,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return Dictionary_Geo_Get("STDESIG_D", "DeathLocationAddress", "address", "stdesig", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("STDESIG_D", "DeathLocationAddress", "address", "stdesig", false, value);
+                }
             }
         }
 
@@ -3200,12 +3207,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathLocation
-                return "";
+                return Dictionary_Geo_Get("POSTDIR_D", "DeathLocationAddress", "address", "postdir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("POSTDIR_D", "DeathLocationAddress", "address", "postdir", false, value);
+                }
             }
         }
 
@@ -3232,7 +3241,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATETEXT_D", "DeathLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("DSTATE", "DeathLocationAddress", "address", "state", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -3267,7 +3278,7 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "county", false, value);
             }
         }
 
@@ -3281,7 +3292,7 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "city", false, value);
             }
         }
 
@@ -3517,7 +3528,6 @@ namespace VRDR
             }
             set
             {
-                // NOOP
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("STNUM_R", "Residence", "address", "stnum", false, value);
@@ -4442,15 +4452,15 @@ get
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "city", false, value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", true);
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "county", false, county);
-                        // If we found a county, we know the country.
-                        Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "US");
-                    }
+                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    // string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", true);
+                    // string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
+                    // if (!String.IsNullOrWhiteSpace(county))
+                    // {
+                    //     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "county", false, county);
+                    //     // If we found a county, we know the country.
+                    //     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "US");
+                    // }
                 }
             }
         }
@@ -4475,13 +4485,13 @@ get
         {
             get
             {
-                return Dictionary_Geo_Get("FUNFACSTNUM", "CertifierAddress", "address", "stnum", true);
+                return Dictionary_Geo_Get("FUNFACSTNUM", "FuneralHomeAddress", "address", "stnum", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("FUNFACSTNUM", "CertifierAddress", "address", "stnum", false, value);
+                    Dictionary_Geo_Set("FUNFACSTNUM", "FuneralHomeAddress", "address", "stnum", false, value);
                 }
             }
         }
@@ -4492,12 +4502,14 @@ get
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNFACPREDIR", "FuneralHomeAddress", "address", "predir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNFACPREDIR", "FuneralHomeAddress", "address", "predir", false, value);
+                }
             }
         }
 
@@ -4507,12 +4519,14 @@ get
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNFACSTNUM", "FuneralHomeAddress", "address", "stname", false, value);
+                }
             }
         }
 
@@ -4522,12 +4536,14 @@ get
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNFACSTRDESIG", "FuneralHomeAddress", "address", "stdesig", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNFACSTRDESIG", "FuneralHomeAddress", "address", "stdesig", false, value);
+                }
             }
         }
 
@@ -4535,14 +4551,16 @@ get
         [IJEField(211, 3756, 10, "Funeral Facility - Post Directional", "FUNPOSTDIR", 1)]
         public string FUNPOSTDIR
         {
-            get
+           get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNPOSTDIR", "FuneralHomeAddress", "address", "postdir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNPOSTDIR", "FuneralHomeAddress", "address", "postdir", false, value);
+                }
             }
         }
 
@@ -4550,14 +4568,16 @@ get
         [IJEField(212, 3766, 7, "Funeral Facility - Unit or apt number", "FUNUNITNUM", 1)]
         public string FUNUNITNUM
         {
-            get
+          get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNUNITNUM", "FuneralHomeAddress", "address", "unitnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNUNITNUM", "FuneralHomeAddress", "address", "unitnum", false, value);
+                }
             }
         }
 
@@ -4591,15 +4611,15 @@ get
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCity", value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState"));
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCounty", county);
-                        // If we found a county, we know the country.
-                        Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "US");
-                    }
+                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    // string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState"));
+                    // string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
+                    // if (!String.IsNullOrWhiteSpace(county))
+                    // {
+                    //     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCounty", county);
+                    //     // If we found a county, we know the country.
+                    //     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "US");
+                    // }
                 }
             }
         }
@@ -5051,7 +5071,9 @@ get
         {
             get
             {
-                return Dictionary_Geo_Get("DTHCOUNTRY", "DeathLocationAddress", "address", "country", false);
+                var countryCode = Dictionary_Geo_Get("DTHCOUNTRYCD", "Residence", "address", "country", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.CountryCodeToCountryName(countryCode);
             }
             set
             {

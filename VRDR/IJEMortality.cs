@@ -3006,11 +3006,11 @@ namespace VRDR
         {
             get
             {
-                return record.StateSpecific;
+                return LeftJustified_Get("STATESP", "StateSpecific");
             }
             set
             {
-                record.StateSpecific = value;
+                LeftJustified_Set("STATESP","StateSpecific", value);
             }
         }
 

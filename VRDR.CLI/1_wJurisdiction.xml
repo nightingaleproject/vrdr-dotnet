@@ -15,6 +15,27 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" />
         </meta>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs"/>
+              <code value="electronic"/>
+              <display value="Electronic"/>
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs"/>
+              <code value="original"/>
+              <display value="original record"/>
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField">
+          <valueString value="State Specific Content"/>
+        </extension>
         <identifier>
           <value value="99999" />
         </identifier>

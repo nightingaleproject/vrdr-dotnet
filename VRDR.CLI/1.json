@@ -24,6 +24,32 @@
         "identifier": {
           "value": "99999"
         },
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "code" : "electronic"
+                }
+              ]
+            }
+          },
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "code" : "original"
+                }
+              ]
+            }
+          },
+          {
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField",
+            "valueString" : "State Specific Content"
+          }
+        ],
         "status": "final",
         "type": {
           "coding": [

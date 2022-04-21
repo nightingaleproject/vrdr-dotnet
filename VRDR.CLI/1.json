@@ -30,7 +30,9 @@
             "valueCodeableConcept" : {
               "coding" : [
                 {
-                  "code" : "electronic"
+                  "code" : "electronic",
+                  "display" : "Electronic",
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs",
                 }
               ]
             }
@@ -40,7 +42,9 @@
             "valueCodeableConcept" : {
               "coding" : [
                 {
-                  "code" : "original"
+                  "code" : "original",
+                  "display" : "original record",
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs"
                 }
               ]
             }

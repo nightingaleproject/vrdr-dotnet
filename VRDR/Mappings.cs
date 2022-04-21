@@ -221,6 +221,7 @@ namespace VRDR
                 { "3", "3" },
                 { "4", "4" },
                 { "9", "9" },
+                { "8", "NA" },
             };
             /// <summary>FHIR -> IJE Mapping for PregnancyStatus</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
@@ -230,6 +231,7 @@ namespace VRDR
                 { "3", "3" },
                 { "4", "4" },
                 { "9", "9" },
+                { "NA", "8" },
             };
         }
         /// <summary>Mappings for SystemReject</summary>

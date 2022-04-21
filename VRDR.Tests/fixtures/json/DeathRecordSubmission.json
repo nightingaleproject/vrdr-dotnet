@@ -434,7 +434,16 @@
                                 "state": "MA",
                                 "postalCode": "01730",
                                 "country": "US"
-                            }
+                            },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "disposition",
+                                    "display": "disposition location"
+                                  }
+                                ]
+                              }]
                         }
                     },
                     {
@@ -879,7 +888,8 @@
                                         "code": "69450-5",
                                         "display": "Place of injury Facility"
                                     }]},
-                                    "valueCodeableConcept": {"coding": [{
+                                    "valueCodeableConcept": {
+                                        "coding": [{
                                         "system": "urn:oid:2.16.840.1.114222.4.11.7374",
                                         "code": "0",
                                         "display": "Home"
@@ -940,6 +950,15 @@
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"]},
                             "name": "Example Injury Location Name",
                             "description": "Example Injury Location Description",
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "injury",
+                                    "display": "injury location"
+                                  }
+                                ]
+                              }],
                             "address": {
                                 "line": [
                                     "781 Example Street",
@@ -972,6 +991,15 @@
                                 "postalCode": "01730",
                                 "country": "US"
                             },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "death",
+                                    "display": "death location"
+                                  }
+                                ]
+                              }],
                             "extension": [
                                 {
                                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",

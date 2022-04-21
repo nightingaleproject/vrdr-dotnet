@@ -556,7 +556,7 @@
         "id": "cffcc6e0-7324-4898-b876-9107d275eafa",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home"
           ]
         },
         "active": true,
@@ -564,9 +564,9 @@
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code": "bus",
-                "display": "Non-Healthcare Business or Corporation"
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs",
+                "code": "funeralhome",
+                "display": "Funeral Home"
               }
             ]
           }
@@ -1496,23 +1496,18 @@
         "id": "4678efc2-2529-4a7e-8266-fdc907d89e00",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                "system": "2.16.840.1.113883.6.92",
-                "code": "25",
-                "display": "MA"
-                }
-              ]
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "death",
+              "display": "death location"
             }
-          }
-        ],
+          ]
+        }],
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {

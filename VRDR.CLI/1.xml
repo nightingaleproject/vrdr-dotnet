@@ -439,9 +439,9 @@
         <active value="true" />
         <type>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
-            <code value="bus" />
-            <display value="Non-Healthcare Business or Corporation" />
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" />
+            <code value="funeralhome" />
+            <display value="Funeral Home" />
           </coding>
         </type>
         <name value="Smith Funeral Home" />
@@ -530,6 +530,13 @@
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
         </meta>
         <name value="Bedford Cemetery" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" />
+            <code value="disposition" />
+            <display value="Disposition Location" />
+          </coding>
+        </type>
         <address>
           <line value="603 Example Street" />
           <line value="Line 2" />
@@ -1304,19 +1311,17 @@
       <Location>
         <id value="d1113c5e-ccba-437e-9fbd-64ebfdcfb617" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
-        </meta>
-        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
-          <valueCodeableConcept>
-            <coding>
-              <system value="2.16.840.1.113883.6.92"/>
-              <code value="25"/>
-              <display value="MA"/>
-            </coding>
-          </valueCodeableConcept>
-        </extension>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" />
+        </meta>>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="death" />
+            <display value="death location" />
+          </coding>
+        </type>
         <address>
           <line value="671 Example Street" />
           <line value="Line 2" />

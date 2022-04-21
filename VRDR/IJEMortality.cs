@@ -583,7 +583,7 @@ namespace VRDR
 
             Tuple<string, string> raceTuple = Array.Find(raceStatus, element => element.Item1 == name);
             if (raceTuple != null)
-            {   
+            {
                 return raceTuple.Item2;
             }
             return "";
@@ -735,7 +735,7 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                    Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
+                    // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value); // WHY????... used to be STATEC
                 }
             }
         }
@@ -1195,7 +1195,7 @@ namespace VRDR
                     record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
-                } 
+                }
                 else
                 {
                     DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
@@ -1354,76 +1354,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("DPLACE", "DeathLocationType", "code");
-                switch (code)
-                {
-                    case "16983000":
-                        return "1";
-                    case "450391000124102":
-                        return "2";
-                    case "63238001":
-                        return "3";
-                    case "440081000124100":
-                        return "4";
-                    case "440071000124103":
-                        return "5";
-                    case "450381000124100":
-                        return "6";
-                    case "OTH":
-                        return "7";
-                    case "UNK":
-                        return "9";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PlaceOfDeath.FHIRToIJE, "DeathLocationType", "DPLACE");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "1":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "16983000");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Inpatient");
-                            break;
-                        case "2":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450391000124102");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in emergency Room/Outpatient");
-                            break;
-                        case "3":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "63238001");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospital Dead on Arrival");
-                            break;
-                        case "4":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440081000124100");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Decendent's Home");
-                            break;
-                        case "5":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "440071000124103");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Hospice");
-                            break;
-                        case "6":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "450381000124100");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Death in nursing home/Long term care facility");
-                            break;
-                        case "7":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "OTH");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Other(Specify)");
-                            break;
-                        case "9":
-                            Dictionary_Set("DPLACE", "DeathLocationType", "code", "Unknown");
-                            Dictionary_Set("DPLACE", "DeathLocationType", "system", CodeSystems.PH_SNOMED_CT);
-                            Dictionary_Set("DPLACE", "DeathLocationType", "display", "Unknown");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.PlaceOfDeath.IJEToFHIR, "DPLACE", "DeathLocationType", value);
             }
         }
 
@@ -1450,70 +1385,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("DISP", "DecedentDispositionMethod", "code");
-                switch (code)
-                {
-                    case "449951000124101": // Donation
-                        return "D";
-                    case "449971000124106": // Burial
-                        return "B";
-                    case "449961000124104": // Cremation
-                        return "C";
-                    case "449931000124108": // Entombment
-                        return "E";
-                    case "449941000124103": // Removal from state
-                        return "R";
-                    case "UNK": // Unknown
-                        return "U";
-                    case "455401000124109": // Hospital Disposition
-                    case "OTH": // Other
-                        return "O";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MethodOfDisposition.FHIRToIJE, "DecedentDispositionMethod", "DISP");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "D":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449951000124101");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and body donated");
-                            break;
-                        case "B":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449971000124106");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and buried");
-                            break;
-                        case "C":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449961000124104");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and cremated");
-                            break;
-                        case "E":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449931000124108");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and entombed");
-                            break;
-                        case "R":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "449941000124103");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.SCT);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Patient status determination, deceased and removed from state");
-                            break;
-                        case "U":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "UNK");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3 );
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Unknown");
-                            break;
-                        case "O":
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "code", "OTH");
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "system", CodeSystems.PH_NullFlavor_HL7_V3);
-                            Dictionary_Set("DISP", "DecedentDispositionMethod", "display", "Other");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MethodOfDisposition.IJEToFHIR, "DISP", "DecedentDispositionMethod", value);
             }
         }
 
@@ -1793,7 +1669,7 @@ namespace VRDR
         public string RACE1
         {
             get
-            {   
+            {
                 return Get_Race(NvssRace.White);
             }
             set
@@ -1955,7 +1831,7 @@ namespace VRDR
                 {
                     Set_Race(NvssRace.OtherAsian, value);
                 }
-                
+
             }
         }
 
@@ -2743,62 +2619,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("MANNER", "MannerOfDeathType", "code");
-                switch (code)
-                {
-                    case "38605008": // Natural
-                        return "N";
-                    case "7878000": // Accident
-                        return "A";
-                    case "44301001": // Suicide
-                        return "S";
-                    case "27935005": // Homicide
-                        return "H";
-                    case "185973002": // Pending Investigation
-                        return "P";
-                    case "65037004": // Could not be determined
-                        return "C";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "MannerOfDeathType", "MANNER");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value)
-                    {
-                        case "N":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "38605008");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Natural death");
-                            break;
-                        case "A":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "7878000");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Accidental death");
-                            break;
-                        case "S":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "44301001");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Suicide");
-                            break;
-                        case "H":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "27935005");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Homicide");
-                            break;
-                        case "P":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "185973002");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Patient awaiting investigation");
-                            break;
-                        case "C":
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "code", "65037004");
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "system", CodeSystems.SCT);
-                            Dictionary_Set("MANNER", "MannerOfDeathType", "display", "Death, manner undetermined");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "MANNER", "MannerOfDeathType", value);
             }
         }
 
@@ -3621,7 +3446,7 @@ namespace VRDR
             get
             {
                 // This is Now just the two letter code.  Need to map it to country name
-                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false); 
+                var countryCode = Dictionary_Geo_Get("COUNTRYC", "Residence", "address", "country", false);
                 var mortalityData = MortalityData.Instance;
                 return mortalityData.CountryCodeToCountryName(countryCode);
             }
@@ -3836,7 +3661,7 @@ namespace VRDR
         /// <summary>Race - old NCHS single race codes</summary>
         [IJEField(163, 1742, 1, "Race - old NCHS single race codes", "RACEOLDC", 1)]
         public string RACEOLDC
-        
+
         {
             get
             {
@@ -4068,41 +3893,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("TRANSPRT", "TransportationRole", "code");
-                switch (code)
-                {
-                    case "236320001": // Vehicle driver
-                        return "DR";
-                    case "257500003": // Passenger
-                        return "PA";
-                    case "257518000": // Pedestrian
-                        return "PE";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "TransportationRole", "TRANSPRT");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value.Trim())
-                    {
-                        case "DR":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "236320001");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Vehicle driver");
-                            break;
-                        case "PA":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257500003");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Passenger");
-                            break;
-                        case "PE":
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "code", "257518000");
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("TRANSPRT", "TransportationRole", "display", "Pedestrian");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "TRANSPRT", "TransportationRole", value);
             }
         }
 
@@ -4116,7 +3911,10 @@ namespace VRDR
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("COUNTYTEXT_I", "InjuryLocationAddress", "address", "county", false, value);
+                }
             }
         }
 
@@ -4126,13 +3924,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true);
+                return Dictionary_Geo_Get("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "county", true, value);
+                    Dictionary_Geo_Set("COUNTYCODE_I", "InjuryLocationAddress", "address", "countyC", true, value);
                 }
             }
         }
@@ -4160,11 +3958,14 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_I", "InjuryLocationAddress", "address", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_I", "InjuryLocationAddress", "address", "cityC", true);
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CITYCODE_I", "InjuryLocationAddress", "address", "CityC", true, value);
+                }
             }
         }
 
@@ -4174,13 +3975,13 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "state", true);
+                return Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "state", true, value);
+                    Dictionary_Geo_Set("STATECODE_I", "InjuryLocationAddress", "address", "stateC", true, value);
                 }
             }
         }
@@ -4595,7 +4396,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("DISPSTATE", "DispositionLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("DISPSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -4609,12 +4412,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DispositionLocation
-                return "";
+                return Dictionary_Geo_Get("DISPCITYCODE", "DispositionLocationAddress", "address", "cityC", false);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DispositionLocation
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("DISPCITYCODE", "DispositionLocationAddress", "address", "cityC", false, value);
+                }
             }
         }
 
@@ -4664,12 +4469,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: FuneralHome
-                return "";
+                return Dictionary_Geo_Get("FUNFACSTNUM", "CertifierAddress", "address", "stnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: FuneralHome
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("FUNFACSTNUM", "CertifierAddress", "address", "stnum", false, value);
+                }
             }
         }
 
@@ -4797,13 +4604,14 @@ namespace VRDR
         {
             get
             {
-                return dataLookup.StateNameToStateCode(Dictionary_Get_Full("FUNSTATECD", "FuneralHomeAddress", "addressState"));
+
+                return Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", true);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "addressState", value);
+                    Dictionary_Set("FUNSTATECD", "FuneralHomeAddress", "stateC", value);
                 }
             }
         }
@@ -4814,7 +4622,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState");
+                var stateCode = Dictionary_Geo_Get("FUNSTATECD", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -4956,12 +4766,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTNUM", "CertifierAddress", "address", "stnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTNUM", "CertifierAddress", "address", "stnum", false, value);
+                }
             }
         }
 
@@ -4971,12 +4783,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTPREDIR", "CertifierAddress", "address", "predir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTPREDIR", "CertifierAddress", "address", "predir", false, value);
+                }
             }
         }
 
@@ -4986,12 +4801,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTRNAME", "CertifierAddress", "address", "stname", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTRNAME", "CertifierAddress", "address", "stname", false, value);
+                }
             }
         }
 
@@ -5001,12 +4819,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTSTRDESIG", "CertifierAddress", "address", "stdesig", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTSTRDESIG", "CertifierAddress", "address", "stdesig", false, value);
+                }
             }
         }
 
@@ -5014,29 +4835,35 @@ namespace VRDR
         [IJEField(228, 4120, 10, "Certifier - Post Directional", "CERTPOSTDIR", 1)]
         public string CERTPOSTDIR
         {
-            get
+           get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTPOSTDIR", "CertifierAddress", "address", "postdir", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTPOSTDIR", "CertifierAddress", "address", "postdir", false, value);
+                }
             }
+
         }
 
         /// <summary>Certifier - Unit or apt number</summary>
         [IJEField(229, 4130, 7, "Certifier - Unit or apt number", "CERTUNITNUM", 1)]
         public string CERTUNITNUM
         {
-            get
+           get
             {
-                // TODO: Implement mapping from FHIR record location: Certifier
-                return "";
+                return Dictionary_Geo_Get("CERTUNITNUM", "CertifierAddress", "address", "unitnum", true);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: Certifier
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Dictionary_Geo_Set("CERTUNITNUM", "CertifierAddress", "address", "unitnum", false, value);
+                }
             }
         }
 
@@ -5070,14 +4897,14 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("CERTCITYTEXT", "CertifierAddress", "addressCity", value);
-                    // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
-                        // If we found a county, we know the country.
-                        Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "US");
-                    }
+                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
+                    // string county = dataLookup.StateCodeAndCityNameToCountyName(CERTSTATECD, value);
+                    // if (!String.IsNullOrWhiteSpace(county))
+                    // {
+                    //     Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "county", false, county);
+                    //     // If we found a county, we know the country.
+                    //     Dictionary_Geo_Set("CERTCITYTEXT", "CertifierAddress", "address", "country", false, "US");
+                    // }
                 }
             }
         }
@@ -5168,7 +4995,9 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("STINJURY", "InjuryLocationAddress", "address", "state", false);
+                var stateCode = Dictionary_Geo_Get("STATECODE_I", "InjuryLocationAddress", "address", "stateC", false);
+                var mortalityData = MortalityData.Instance;
+                return mortalityData.StateCodeToStateName(stateCode);
             }
             set
             {
@@ -5480,7 +5309,7 @@ namespace VRDR
             }
             set
             {
-                
+
             }
         }
         // NOTE: This is a placeholder, the IJE field BLANK3 is not currently implemented in FHIR

@@ -255,7 +255,7 @@
             <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"/>
             <code value="S"/>
             <display value="Never Married"/>
-          </coding> 
+          </coding>
           <text value="Single"/>
         </maritalStatus>
         <contact>
@@ -396,38 +396,6 @@
           </actor>
         </performer>
       </Procedure>
-    </resource>
-  </entry>
-  <entry>
-    <fullUrl value="urn:uuid:6828566f-bfa8-40a9-8870-62f3c888de86" />
-    <resource>
-      <Organization>
-        <id value="6828566f-bfa8-40a9-8870-62f3c888de86" />
-        <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" />
-        </meta>
-        <identifier>
-          <value value="1010101" />
-        </identifier>
-        <active value="true" />
-        <type>
-          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
-            <code value="prov" />
-            <display value="Healthcare Provider" />
-          </coding>
-        </type>
-        <name value="Example Hospital" />
-        <address>
-          <line value="10 Example Street" />
-          <line value="Line 2" />
-          <city value="Bedford" />
-          <district value="Middlesex" />
-          <state value="MA" />
-          <postalCode value="01730" />
-          <country value="US" />
-        </address>
-      </Organization>
     </resource>
   </entry>
   <entry>
@@ -607,14 +575,14 @@
       <Organization>
         <id value="b2b3e7ce-5abc-4f22-a76f-d6e39dc8991c" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home" />
         </meta>
         <active value="true" />
         <type>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/organization-type" />
-            <code value="bus" />
-            <display value="Non-Healthcare Business or Corporation" />
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" />
+            <code value="funeralhome" />
+            <display value="Funeral Home" />
           </coding>
         </type>
         <name value="Smith Funeral Home" />
@@ -700,9 +668,16 @@
       <Location>
         <id value="9bebc631-70b1-4052-bb61-7909caa7f5d4" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location" />
         </meta>
         <name value="Bedford Cemetery" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="disposition" />
+            <display value="disposition location" />
+          </coding>
+        </type>
         <address>
           <line value="603 Example Street" />
           <line value="Line 2" />
@@ -1448,6 +1423,13 @@
         </meta>
         <name value="Example Injury Location Name" />
         <description value="Example Injury Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="injury" />
+            <display value="injury location" />
+          </coding>
+        </type>
         <address>
           <line value="781 Example Street" />
           <line value="Line 2" />
@@ -1457,6 +1439,7 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
+
       </Location>
     </resource>
   </entry>
@@ -1500,15 +1483,15 @@
           <code>
             <coding>
               <system value="http://loinc.org" />
-              <code value="69448-9" />
-              <display value="Injury leading to death associated with transportation event" />
+              <code value="69451-3" />
+              <display value="Transportation role of decedent" />
             </coding>
           </code>
           <valueCodeableConcept>
             <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
-              <code value="Y" />
-              <display value="Yes" />
+              <system value="http://snomed.info/sct" />
+              <code value="257500003" />
+              <display value="Passenger" />
             </coding>
           </valueCodeableConcept>
         </component>
@@ -1521,11 +1504,6 @@
             </coding>
           </code>
           <valueCodeableConcept>
-            <coding>
-              <system value="urn:oid:2.16.840.1.114222.4.5.320" />
-              <code value="0" />
-              <display value="Home" />
-            </coding>
             <text value="At home, in the kitchen" />
           </valueCodeableConcept>
         </component>
@@ -1540,23 +1518,25 @@
         <meta>
           <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
         </meta>
-        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
-          <valueCodeableConcept>
-            <coding>
-              <system value="2.16.840.1.113883.6.92"/>
-              <code value="25"/>
-              <display value="MA"/>
-            </coding>
-          </valueCodeableConcept>
-        </extension>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="death" />
+            <display value="death location" />
+          </coding>
+        </type>
         <address>
           <line value="671 Example Street" />
           <line value="Line 2" />
           <city value="Bedford" />
           <district value="Middlesex" />
-          <state value="MA" />
+          <state value="NY">
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
+          <valueString value="YC"/>
+          </extension>
+         </state>
           <postalCode value="01730" />
           <country value="US" />
         </address>
@@ -1596,6 +1576,22 @@
             </coding>
           </code>
           <valueDateTime value="2019-02-20T16:48:06-05:00" />
+        </component>
+       <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="58332-8" />
+              <display value="Location of death" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://snomed.info/sct"/>
+              <code value="440081000124100"/>
+              <display value="Death in home"/>
+            </coding>
+          </valueCodeableConcept>
         </component>
       </Observation>
     </resource>
@@ -1639,52 +1635,109 @@
   <entry>
     <fullUrl value="urn:uuid:7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
     <resource>
-      <Parameters>
+      <Observation>
         <id value="7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues"/>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues"/>
         </meta>
-        <parameter>
-          <name value="PLACE1_1"/>
+        <status value="final"/>
+        <code>
+          <coding>
+            <code value="emergingissues"/>
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated"/>
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_1"/>
+            </coding>
+          </code>
           <valueString value="A"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_2"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_1"/>
+            </coding>
+          </code>
+          <valueString value="A"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_2"/>
+            </coding>
+          </code>
           <valueString value="B"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_3"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_3"/>
+            </coding>
+          </code>
           <valueString value="C"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_4"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_4"/>
+            </coding>
+          </code>
           <valueString value="D"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_5"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_5"/>
+            </coding>
+          </code>
           <valueString value="E"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE1_6"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue1_6"/>
+            </coding>
+          </code>
           <valueString value="F"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_1"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_1"/>
+            </coding>
+          </code>
           <valueString value="AAAAAAAA"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_2"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_2"/>
+            </coding>
+          </code>
           <valueString value="BBBBBBBB"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE8_3"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue8_3"/>
+            </coding>
+          </code>
           <valueString value="CCCCCCCC"/>
-        </parameter>
-        <parameter>
-          <name value="PLACE20"/>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <code value="EmergingIssue20"/>
+            </coding>
+          </code>
           <valueString value="AAAAAAAAAAAAAAAAAAAA"/>
-        </parameter>
-      </Parameters>
+        </component>
+      </Observation>
     </resource>
   </entry>
 </Bundle>

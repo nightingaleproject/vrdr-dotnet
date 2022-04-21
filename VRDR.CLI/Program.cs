@@ -40,33 +40,6 @@ namespace VRDR.CLI
                 certificationRole.Add("display", "Physician");
                 deathRecord.CertificationRole = certificationRole;
 
-                // InterestedPartyIdentifier
-                var ipId = new Dictionary<string, string>();
-                ipId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                ipId["value"] = "0000000000";
-                deathRecord.InterestedPartyIdentifier = ipId;
-
-                // InterestedPartyName
-                deathRecord.InterestedPartyName = "Example Hospital";
-
-                // InterestedPartyAddress
-                Dictionary<string, string> address = new Dictionary<string, string>();
-                address.Add("addressLine1", "10 Example Street");
-                address.Add("addressLine2", "Line 2");
-                address.Add("addressCity", "Bedford");
-                address.Add("addressCounty", "Middlesex");
-                address.Add("addressState", "MA");
-                address.Add("addressZip", "01730");
-                address.Add("addressCountry", "US");
-                deathRecord.InterestedPartyAddress = address;
-
-                // InterestedPartyType
-                Dictionary<string, string> type = new Dictionary<string, string>();
-                type.Add("code", "prov");
-                type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
-                type.Add("display", "Healthcare Provider");
-                deathRecord.InterestedPartyType = type;
-
                 // State Local Identifier
                 deathRecord.StateLocalIdentifier = "42";
 
@@ -103,15 +76,8 @@ namespace VRDR.CLI
                 certifierIdentifier.Add("value", "1234567890");
                 deathRecord.CertifierIdentifier = certifierIdentifier;
 
-                // CertifierLicenseNumber
-                deathRecord.CertifierLicenseNumber = "789123456";
-
-                // CertifierQualification
-                Dictionary<string, string> qualification = new Dictionary<string, string>();
-                qualification.Add("code", "434641000124105");
-                qualification.Add("system", "http://snomed.info/sct");
-                qualification.Add("display", "Physician certified and pronounced death certificate");
-                deathRecord.CertifierQualification = qualification;
+                // // CertifierLicenseNumber
+                // deathRecord.CertifierLicenseNumber = "789123456";
 
                 // ContributingConditions
                 deathRecord.ContributingConditions = "Example Contributing Conditions";
@@ -268,21 +234,21 @@ namespace VRDR.CLI
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
-                // MorticianGivenNames
-                string[] fdnames = { "FD", "Middle" };
-                deathRecord.MorticianGivenNames = fdnames;
+                // // MorticianGivenNames
+                // string[] fdnames = { "FD", "Middle" };
+                // deathRecord.MorticianGivenNames = fdnames;
 
-                // MorticianFamilyName
-                deathRecord.MorticianFamilyName = "Last";
+                // // MorticianFamilyName
+                // deathRecord.MorticianFamilyName = "Last";
 
-                // MorticianSuffix
-                deathRecord.MorticianSuffix = "Jr.";
+                // // MorticianSuffix
+                // deathRecord.MorticianSuffix = "Jr.";
 
-                // MorticianIdentifier
-                var mortId = new Dictionary<string, string>();
-                mortId["value"] = "9876543210";
-                mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                deathRecord.MorticianIdentifier = mortId;
+                // // MorticianIdentifier
+                // var mortId = new Dictionary<string, string>();
+                // mortId["value"] = "9876543210";
+                // mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // deathRecord.MorticianIdentifier = mortId;
 
                 // FuneralHomeAddress
                 Dictionary<string, string> fdaddress = new Dictionary<string, string>();
@@ -299,7 +265,7 @@ namespace VRDR.CLI
                 deathRecord.FuneralHomeName = "Smith Funeral Home";
 
                 // FuneralDirectorPhone
-                deathRecord.FuneralDirectorPhone = "000-000-0000";
+                //deathRecord.FuneralDirectorPhone = "000-000-0000";
 
                 // DispositionLocationAddress
                 Dictionary<string, string> dladdress = new Dictionary<string, string>();
@@ -389,13 +355,6 @@ namespace VRDR.CLI
                 codeIW.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
                 codeIW.Add("display", "No");
                 deathRecord.InjuryAtWork = codeIW;
-
-                // TransportationInjury
-                Dictionary<string, string> codeTI = new Dictionary<string, string>();
-                codeTI.Add("code", "Y");
-                codeTI.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                codeTI.Add("display", "Yes");
-                deathRecord.TransportationEvent = codeTI;
 
                 // InjuryPlace
                 deathRecord.InjuryPlaceDescription = "Home";
@@ -612,15 +571,17 @@ namespace VRDR.CLI
                     {
                         continue;
                     }
+                    Console.WriteLine($"Property: Name: {property.Name.ToString()} Type: {property.PropertyType.ToString()}");
                     string one;
                     string two;
                     string three;
                     if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
                     {
                         Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
-                        one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
-                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
-                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        // Ignore empty entries in the dictionary so they don't throw off comparisons.
+                        one = String.Join(", ", oneDict.Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");
+                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
+                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
                     }
                     else if (property.PropertyType.ToString() == "System.String[]")
                     {

@@ -1311,40 +1311,6 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ca9e1d68-4ee5-474d-97f4-d878005c5510",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "urn:uuid:ca9e1d68-4ee5-474d-97f4-d878005c5510",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role"
-          ]
-        },
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "69451-3",
-              "display": "Transportation role of decedent"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "urn:uuid:9521f45f-d8ca-4c62-9878-0686f1028bf5"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/stu3/valueset-TransportationRelationships",
-              "code": "example-code",
-              "display": "Example Code"
-            }
-          ]
-        }
-      }
-    },
-    {
       "fullUrl": "urn:uuid:90122482-37b9-4c40-89ed-c957f454bea9",
       "resource": {
         "resourceType": "Observation",

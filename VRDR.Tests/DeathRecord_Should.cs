@@ -2185,6 +2185,16 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_AgeAtDeath_EditBypassFlag()
+        {
+            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Passed, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
+
+            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
+        }
+
+        [Fact]
         public void AgeAtDeath_RoundTrip()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));

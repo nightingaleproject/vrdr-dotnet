@@ -6071,6 +6071,24 @@ namespace VRDR
             }
         }
 
+        /// <summary>
+        /// Age at Death Edit Bypass Flag Helper
+        /// </summary>
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Death Investigation", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
+        public String AgeAtDeathEditBypassFlagHelper
+        {
+            get
+            {
+                return AgeAtDeathEditBypassFlag.ContainsKey("code") ? AgeAtDeathEditBypassFlag["code"] : null;
+            }
+            set
+            {
+                SetCodeValue("AgeAtDeathEditBypassFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+            }
+        }
+
         /// <summary>Decedent's Age At Death Data Absent Reason (code).</summary>
         /// <value>Decedent's Age At Death Data Absent Reason. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>

@@ -527,7 +527,14 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
+            
+            // initialize the dictionary if it does not exist
+            if (dictionary == null)
+            {
+                dictionary = new Dictionary<string, string>();
+            }
+
+            if (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key]))
             {
                 if (isCoded)
                 {
@@ -569,8 +576,7 @@ namespace VRDR
                 }
             }
             else
-            {
-                dictionary = new Dictionary<string, string>();
+            {  
                 dictionary[key] = value.Trim();
             }
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);

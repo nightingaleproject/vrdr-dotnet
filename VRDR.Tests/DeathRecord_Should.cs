@@ -334,22 +334,24 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BundleIdentifier()
         {
-            Assert.Equal("2019MA000001", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("2019MA000001", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("000182", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
+            Assert.Equal("000182", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
         }
 
         [Fact]
         public void Set_StateLocalIdentifier()
         {
-            SetterDeathRecord.StateLocalIdentifier = "42";
-            Assert.Equal("42", SetterDeathRecord.StateLocalIdentifier);
+            List<Tuple<string, string>> ids = new List<Tuple<string, string>>();
+            ids.Add(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"));
+            SetterDeathRecord.StateLocalIdentifier = ids.ToArray();
+            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier[0].Item2);
         }
 
         [Fact]
         public void Get_StateLocalIdentifier()
         {
-            Assert.Equal("42", ((DeathRecord)JSONRecords[0]).StateLocalIdentifier);
-            Assert.Equal("42", ((DeathRecord)XMLRecords[0]).StateLocalIdentifier);
+            Assert.Equal(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"), ((DeathRecord)JSONRecords[0]).StateLocalIdentifier[0]);
+            Assert.Equal(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"), ((DeathRecord)XMLRecords[0]).StateLocalIdentifier[0]);
         }
 
         [Fact]

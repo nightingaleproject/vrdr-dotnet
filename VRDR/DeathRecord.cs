@@ -656,8 +656,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
-        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
+        [Property("Identifier", Property.Types.String, "Death Certificate Document", "Death Certificate Number.", true, ProfileURL.DeathCertificateDocument, true, 3)]
+        [FHIRPath("Bundle.entry.resource.where($this is Identifier)", "identifier")]
         public string Identifier
         {
             get
@@ -732,56 +732,53 @@ namespace VRDR
         }
 
         /// <summary>State Local Identifier.</summary>
-        /// <value>a state local identification string.</value>
+        /// <value> a tuple array of state local identifiers
+        /// <para>"item1" - the extension url for the local identifier</para>
+        /// <para>"item2" - the string representation of the local identifier</para>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.StateLocalIdentifier = "4242123";</para>
+        /// <para>Tuple<string, string>[] ids = new Tuple<string,string>[]{Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier2, "100000000001")};</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier = ids;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier}");</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier[0].Item2}");</para>
         /// </example>
-        [Property("State Local Identifier", Property.Types.String, "Decedent Demographics", "State Local Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Reference.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is DocumentReference).where(type.coding.code='64297-5')", "")]
-        public string StateLocalIdentifier
+        [Property("State Local Identifier", Property.Types.TupleArr, "Death Certificate Document", "State Local Identifier.", true, ProfileURL.DeathCertificateDocument, true, 5)]
+        [FHIRPath("Bundle", "identifier")]
+        public Tuple<string, string>[] StateLocalIdentifier
         {
             get
             {
                 // return first non-null/empty identifier value or null if none found
-                Identifier identifier = StateDocumentReference?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
-                return identifier==null ? null : identifier.Value;
+                List<Tuple<string, string>> identifiers = new List<Tuple<string, string>>();
+                if (Bundle.Identifier != null)
+                {
+                    List<Extension> extensions = Bundle.Identifier.Extension.AsEnumerable().ToList();
+                    foreach(Extension ext in extensions)
+                    {
+                        Tuple<string, string> id = Tuple.Create(ext.Url, ext.Value.ToString());
+                        identifiers.Add(id);
+                    }
+                }     
+                return identifiers.ToArray();
             }
             set
             {
-                if (StateDocumentReference == null)
+                Bundle?.Identifier?.Extension.Clear();
+                foreach(Tuple<string, string> element in value)
                 {
-                    StateDocumentReference = new DocumentReference();
-                    StateDocumentReference.Id = Guid.NewGuid().ToString();
-                    StateDocumentReference.Meta = new Meta();
-                    string[] profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference" };
-                    StateDocumentReference.Meta.Profile = profile;
-                    StateDocumentReference.Status = DocumentReferenceStatus.Current;
-                    StateDocumentReference.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    StateDocumentReference.Identifier.Add(identifier);
-                    StateDocumentReference.Date = new DateTimeOffset(DateTime.Now);
-                    Attachment attachment = new Attachment();
-                    attachment.Url = "urn:uuid:" + Bundle.Id;
-                    DocumentReference.ContentComponent content = new DocumentReference.ContentComponent();
-                    content.Attachment = attachment;
-                    StateDocumentReference.Content.Add(content);
-                    AddReferenceToComposition(StateDocumentReference.Id, "OBE");
-                    Bundle.AddResourceEntry(StateDocumentReference, "urn:uuid:" + StateDocumentReference.Id);
+                    Extension ext = new Extension();
+                    ext.Url = element.Item1;
+                    ext.Value = new FhirString(element.Item2);
+                    if (Bundle.Identifier == null)
+                    {
+                        Identifier identifier = new Identifier();
+                        Bundle.Identifier = identifier;
+                    }
+                    Bundle.Identifier.Extension.Add(ext);
                 }
-                else
-                {
-                    StateDocumentReference.Identifier.Clear();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    StateDocumentReference.Identifier.Add(identifier);
-                }
+
             }
         }
-
 
         /// <summary>Certified time.</summary>
         /// <value>time when the record was certified.</value>

@@ -597,6 +597,29 @@ namespace VRDR
             record.Race = raceStatus.Distinct().ToArray();
         }
 
+        /// <summary>Checks if the state local identifier is in the record.</summary>
+        private string Get_StateLocalIdentifier(string ijeFieldName, string extensionUrl)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+
+            Tuple<string, string>[] stateIds = record.StateLocalIdentifier;
+            Tuple<string, string> id = Array.Find(stateIds, element => element.Item1 == extensionUrl);
+            if (id != null)
+            {
+                return Truncate(id.Item2, info.Length).PadLeft(info.Length, '0');
+            }
+            return new String('0', info.Length);
+        }
+
+        /// <summary>Adds the given state local identifier to the record.</summary>
+        private void Set_StateLocalIdentifier(string ijeFieldName, string extensionUrl, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            List<Tuple<string, string>> stateIds = record.StateLocalIdentifier.ToList();
+            stateIds.Add(Tuple.Create(extensionUrl, value.TrimStart('0')));
+            record.StateLocalIdentifier = stateIds.Distinct().ToArray();
+        }
+
         // /// <summary>Gets a "Yes", "No", or "Unknown" value.</summary>
         // private string Get_YNU(string fhirFieldName)
         // {
@@ -786,13 +809,14 @@ namespace VRDR
         {
             get
             {
-                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier");
+                return Get_StateLocalIdentifier("AUXNO", ExtensionURL.AuxiliaryStateIdentifier1);
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier", value);
+
+                    Set_StateLocalIdentifier("AUXNO", ExtensionURL.AuxiliaryStateIdentifier1, value);
                 }
             }
         }
@@ -2991,12 +3015,15 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathCertificateDocument
-                return "";
+                return Get_StateLocalIdentifier("AUXNO2", ExtensionURL.AuxiliaryStateIdentifier2);
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathCertificateDocument
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+
+                    Set_StateLocalIdentifier("AUXNO2", ExtensionURL.AuxiliaryStateIdentifier2, value);
+                }
             }
         }
 

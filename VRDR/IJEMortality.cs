@@ -803,11 +803,11 @@ namespace VRDR
         {
             get
             {
-                return "0";
+                return Get_MappingFHIRToIJE(Mappings.FilingFormat.FHIRToIJE, "FilingFormat", "MFILED");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.FilingFormat.IJEToFHIR, "MFILED", "FilingFormat", value);
             }
         }
 
@@ -3006,12 +3006,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathCertificate
-                return "";
+                return LeftJustified_Get("STATESP", "StateSpecific");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathCertificate
+                LeftJustified_Set("STATESP","StateSpecific", value);
             }
         }
 
@@ -4037,12 +4036,11 @@ namespace VRDR
         {
             get
             {
-                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.ReplaceStatus.FHIRToIJE, "ReplaceStatus", "REPLACE");
             }
             set
             {
-                // NOTE: This is a placeholder, the IJE field REPLACE is not currently implemented in FHIR
+                Set_MappingIJEToFHIR(Mappings.ReplaceStatus.IJEToFHIR, "REPLACE", "ReplaceStatus", value);
             }
         }
 

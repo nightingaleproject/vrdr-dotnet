@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Serialization;
 using Xunit;
+
+using System.Linq;
 
 namespace VRDR.Tests
 {
@@ -375,6 +379,16 @@ namespace VRDR.Tests
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).RegisteredTime);
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).RegisteredTime);
         }
+        
+        [Fact]
+        public void Get_RegisteredTime_ConvertIJE()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("2019", ije1.DOR_YR);
+            Assert.Equal("02", ije1.DOR_MO);
+            Assert.Equal("01", ije1.DOR_DY);
+        }
 
         [Fact]
         public void Set_CertificationRole()
@@ -387,10 +401,10 @@ namespace VRDR.Tests
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
             Assert.Equal("Physician certified and pronounced death certificate", SetterDeathRecord.CertificationRole["display"]);
-            SetterDeathRecord.CertificationRoleHelper = VRDR.ValueSets.CertificationRole.Physician_Certified_And_Pronounced_Death_Certificate;
+            SetterDeathRecord.CertificationRoleHelper = VRDR.ValueSets.CertifierTypes.Pronouncing_Certifying_Physician;
             Assert.Equal("434641000124105", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.CertificationRole["system"]);
-            Assert.Equal("Physician certified and pronounced death certificate", SetterDeathRecord.CertificationRole["display"]);
+            Assert.Equal("Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", SetterDeathRecord.CertificationRole["display"]);
             SetterDeathRecord.CertificationRoleHelper = "Barber";
             Assert.Equal("OTH", SetterDeathRecord.CertificationRole["code"]);
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.CertificationRole["system"]);
@@ -865,7 +879,123 @@ namespace VRDR.Tests
         //     Assert.Equal("display 4", SetterDeathRecord.CODE1D["display"]);
         // }
 
+        [Fact]
+        public void GetCompositionReferencesJson()
+        {
+            // Grab Composition
+            ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = true,
+                                                                 AllowUnrecognizedEnums = true,
+                                                                 PermissiveParsing = true };
+            string bundle = File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"));
+            FhirJsonParser parser = new FhirJsonParser(parserSettings);
+            Bundle b = parser.Parse<Bundle>(bundle);
+            var compositionEntry = b.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
+            var covered = false;
+            if (compositionEntry != null)
+            {
+                Composition comp = (Composition)compositionEntry.Resource;
+                Assert.Equal(4, comp.Section.Count);
+                
+                Composition.SectionComponent demographics = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDemographics").First();
+                Assert.Equal(11, demographics.Entry.Count);
 
+                Composition.SectionComponent investigation = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathInvestigation").First();
+                Assert.Equal(8, investigation.Entry.Count);
+
+                Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
+                Assert.Equal(9, certification.Entry.Count);
+
+                Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
+                Assert.Equal(4, disposition.Entry.Count);
+
+                covered = true;
+            }
+            Assert.True(covered);
+
+        }
+
+                [Fact]
+        public void GetCompositionReferencesXml()
+        {
+            // Grab Composition
+            ParserSettings parserSettings = new ParserSettings { AcceptUnknownMembers = true,
+                                                                 AllowUnrecognizedEnums = true,
+                                                                 PermissiveParsing = true };
+            string bundle = File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"));
+            FhirXmlParser parser = new FhirXmlParser(parserSettings);
+            Bundle b = parser.Parse<Bundle>(bundle);
+            var compositionEntry = b.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
+            var covered = false;
+            if (compositionEntry != null)
+            {
+                Composition comp = (Composition)compositionEntry.Resource;
+                Assert.Equal(4, comp.Section.Count);
+                
+                Composition.SectionComponent demographics = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDemographics").First();
+                Assert.Equal(13, demographics.Entry.Count);
+
+                Composition.SectionComponent investigation = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathInvestigation").First();
+                Assert.Equal(8, investigation.Entry.Count);
+
+                Composition.SectionComponent certification = comp.Section.Where(s => s.Code.Coding.First().Code == "DeathCertification").First();
+                Assert.Equal(8, certification.Entry.Count);
+
+                Composition.SectionComponent disposition = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDisposition").First();
+                Assert.Equal(4, disposition.Entry.Count);
+
+                covered = true;
+            }
+            Assert.True(covered);
+
+        }
+
+        [Fact]
+        public void Set_StateSpecific()
+        {
+            SetterDeathRecord.StateSpecific = "State Specific Info Test";
+            Assert.Equal("State Specific Info Test", SetterDeathRecord.StateSpecific);
+        }
+
+        [Fact]
+        public void Get_StateSpecific()
+        {
+            Assert.Equal("State Specific Content", ((DeathRecord)JSONRecords[0]).StateSpecific);
+            Assert.Equal("State Specific Content", ((DeathRecord)XMLRecords[0]).StateSpecific);
+        }
+
+        [Fact]
+        public void Set_FilingFormat()
+        {
+            SetterDeathRecord.FilingFormatHelper = ValueSets.FilingFormat.Electronic;
+            Assert.Equal("electronic", SetterDeathRecord.FilingFormat["code"]);
+            Assert.Equal("Electronic", SetterDeathRecord.FilingFormat["display"]);
+            Assert.Equal(VRDR.CodeSystems.FilingFormat, SetterDeathRecord.FilingFormat["system"]);
+
+        }
+
+        [Fact]
+        public void Get_FilingFormat()
+        {
+            Assert.Equal("electronic", ((DeathRecord)JSONRecords[0]).FilingFormatHelper);
+            Assert.Equal("electronic", ((DeathRecord)XMLRecords[0]).FilingFormatHelper);
+        }
+
+        [Fact]
+        public void Set_ReplaceStatus()
+        {
+            SetterDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;
+            Assert.Equal("original", SetterDeathRecord.ReplaceStatus["code"]);
+            Assert.Equal("original record", SetterDeathRecord.ReplaceStatus["display"]);
+            Assert.Equal(VRDR.CodeSystems.ReplaceStatus, SetterDeathRecord.ReplaceStatus["system"]);
+
+        }
+
+        [Fact]
+        public void Get_ReplaceStatus()
+        {
+            Assert.Equal("original", ((DeathRecord)JSONRecords[0]).ReplaceStatusHelper);
+            Assert.Equal("original", ((DeathRecord)XMLRecords[0]).ReplaceStatusHelper);
+        }
         [Fact]
         public void Set_GivenNames()
         {
@@ -1915,8 +2045,8 @@ namespace VRDR.Tests
         public void Set_DecedentDispositionMethod()
         {
             Dictionary<string, string> ddm = new Dictionary<string, string>();
-            SetterDeathRecord.DecedentDispositionMethodHelper = VRDR.ValueSets.MethodsOfDisposition.Burial;
-            Assert.Equal(VRDR.ValueSets.MethodsOfDisposition.Burial, SetterDeathRecord.DecedentDispositionMethodHelper);
+            SetterDeathRecord.DecedentDispositionMethodHelper = VRDR.ValueSets.MethodOfDisposition.Burial;
+            Assert.Equal(VRDR.ValueSets.MethodOfDisposition.Burial, SetterDeathRecord.DecedentDispositionMethodHelper);
             Assert.Equal(VRDR.CodeSystems.SCT, SetterDeathRecord.DecedentDispositionMethod["system"]);
             Assert.Equal("Burial", SetterDeathRecord.DecedentDispositionMethod["display"]);
         }
@@ -2139,8 +2269,8 @@ namespace VRDR.Tests
         [Fact]
         public void Set_TransportationRole()
         {
-            SetterDeathRecord.TransportationRoleHelper = ValueSets.TransportationRoles.Passenger;
-            Assert.Equal(ValueSets.TransportationRoles.Passenger, SetterDeathRecord.TransportationRole["code"]);
+            SetterDeathRecord.TransportationRoleHelper = ValueSets.TransportationIncidentRole.Passenger;
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, SetterDeathRecord.TransportationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
             SetterDeathRecord.TransportationRoleHelper = "Hover Board Rider";
@@ -2156,10 +2286,10 @@ namespace VRDR.Tests
         [Fact]
         public void Get_TransportationRole()
         {
-            Assert.Equal(ValueSets.TransportationRoles.Passenger, ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, ((DeathRecord)JSONRecords[0]).TransportationRole["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)JSONRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)JSONRecords[0]).TransportationRole["display"]);
-            Assert.Equal(ValueSets.TransportationRoles.Passenger, ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
+            Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, ((DeathRecord)XMLRecords[0]).TransportationRole["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).TransportationRole["system"]);
             Assert.Equal("Passenger", ((DeathRecord)XMLRecords[0]).TransportationRole["display"]);
         }

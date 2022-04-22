@@ -24,6 +24,8 @@ Directions:
   3) use the resulting fsh-generated directory as the first argument for this script
   4) decide where you want the output generated, and use that as the second argument for this script
 
+Example run: ruby tools/generate_value_set_lookups_from_VRDR_IG.rb ../vrdr/fsh-generated/ VRDR/
+
 Example of generated output:
 
 namespace VRDR
@@ -57,8 +59,10 @@ codesystems = {
     "http://hl7.org/fhir/administrative-gender" => "VRDR.CodeSystems.AdministrativeGender",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" => "VRDR.CodeSystems.BypassEditFlag",
     "http://terminology.hl7.org/CodeSystem/v3-EducationLevel" => "VRDR.CodeSystems.EducationLevel",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs" => "VRDR.CodeSystems.FilingFormat",
     "http://terminology.hl7.org/CodeSystem/v2-0360" => "VRDR.CodeSystems.DegreeLicenceAndCertificate",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs" => "VRDR.CodeSystems.PregnancyStatus",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs" => "VRDR.CodeSystems.ReplaceStatus",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs" => "VRDR.CodeSystems.MissingValueReason",
     "http://unitsofmeasure.org" => "VRDR.CodeSystems.UnitsOfMeasure",
     "http://terminology.hl7.org/CodeSystem/v2-0136" => "VRDR.CodeSystems.YesNo"
@@ -72,6 +76,7 @@ valuesets = {
     "ValueSet-vrdr-edit-bypass-01234-vs.json" => "EditBypass01234",
     "ValueSet-vrdr-edit-bypass-0124-vs.json" => "EditBypass0124",
     "ValueSet-vrdr-education-level-vs.json" => "EducationLevel",
+    "ValueSet-vrdr-filing-format-vs.json" => "FilingFormat",
     "ValueSet-vrdr-manner-of-death-vs.json" => "MannerOfDeath",
     "ValueSet-vrdr-marital-status-vs.json" => "MaritalStatus",
     "ValueSet-vrdr-method-of-disposition-vs.json" => "MethodOfDisposition",
@@ -79,6 +84,7 @@ valuesets = {
     "ValueSet-vrdr-place-of-death-vs.json" => "PlaceOfDeath",
     "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
     "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
+    "ValueSet-vrdr-replace-status-vs.json" => "ReplaceStatus",
     "ValueSet-vrdr-transportation-incident-role-vs.json" => "TransportationIncidentRole",
     "ValueSet-vrdr-units-of-age-vs.json" => "UnitsOfAge",
     "ValueSet-vrdr-yes-no-not-applicable-vs.json" => "YesNoNotApplicable",

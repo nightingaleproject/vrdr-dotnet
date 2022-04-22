@@ -5,9 +5,6 @@ namespace VRDR
     /// <summary>Profile URLs</summary>
     public static class ProfileURL
     {
-        /// <summary>URL for ParametersForEmergingIssues</summary>
-        public const string ParametersForEmergingIssues = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-params-for-emerging-issues";
-
         /// <summary>URL for DeathDate</summary>
         public const string DeathDate = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date";
 
@@ -26,9 +23,6 @@ namespace VRDR
         /// <summary>URL for DecedentAge</summary>
         public const string DecedentAge = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age";
 
-        /// <summary>URL for CodedContentBundle</summary>
-        public const string CodedContentBundle = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coded-content-bundle";
-
         /// <summary>URL for MannerOfDeath</summary>
         public const string MannerOfDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manner-of-death";
 
@@ -46,6 +40,9 @@ namespace VRDR
 
         /// <summary>URL for SurgeryDate</summary>
         public const string SurgeryDate = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date";
+
+        /// <summary>URL for EmergingIssues</summary>
+        public const string EmergingIssues = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues";
 
         /// <summary>URL for ExaminerContacted</summary>
         public const string ExaminerContacted = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-examiner-contacted";
@@ -70,9 +67,6 @@ namespace VRDR
 
         /// <summary>URL for ManualUnderlyingCauseOfDeath</summary>
         public const string ManualUnderlyingCauseOfDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manual-underlying-cause-of-death";
-
-        /// <summary>URL for DecedentTransportationRole</summary>
-        public const string DecedentTransportationRole = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-transportation-role";
 
         /// <summary>URL for FuneralHome</summary>
         public const string FuneralHome = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home";
@@ -107,6 +101,9 @@ namespace VRDR
         /// <summary>URL for CodedRaceAndEthnicity</summary>
         public const string CodedRaceAndEthnicity = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coded-race-and-ethnicity";
 
+        /// <summary>URL for CauseOfDeathCodedContentBundle</summary>
+        public const string CauseOfDeathCodedContentBundle = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-coded-content-bundle";
+
         /// <summary>URL for AutomatedUnderlyingCauseOfDeath</summary>
         public const string AutomatedUnderlyingCauseOfDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-automated-underlying-cause-of-death";
 
@@ -118,6 +115,9 @@ namespace VRDR
 
         /// <summary>URL for DispositionLocation</summary>
         public const string DispositionLocation = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location";
+
+        /// <summary>URL for DemographicCodedContentBundle</summary>
+        public const string DemographicCodedContentBundle = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-content-bundle";
 
         /// <summary>URL for Certifier</summary>
         public const string Certifier = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier";
@@ -156,9 +156,6 @@ namespace VRDR
 
         /// <summary>URL for AuxiliaryStateIdentifier1</summary>
         public const string AuxiliaryStateIdentifier1 = "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1";
-
-        /// <summary>URL for DispositionLocationReference</summary>
-        public const string DispositionLocationReference = "http://hl7.org/fhir/us/vrdr/StructureDefinition/DispositionLocationReference";
 
         /// <summary>URL for WithinCityLimitsIndicator</summary>
         public const string WithinCityLimitsIndicator = "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator";
@@ -199,26 +196,20 @@ namespace VRDR
         /// <summary>URL for LocationJurisdictionId</summary>
         public const string LocationJurisdictionId = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
 
+        /// <summary>URL for ReplaceStatus</summary>
+        public const string ReplaceStatus = "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus";
+
         /// <summary>URL for StreetNumber</summary>
         public const string StreetNumber = "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber";
 
-        /// <summary>URL for InjuryLocationReference</summary>
-        public const string InjuryLocationReference = "http://hl7.org/fhir/us/vrdr/StructureDefinition/InjuryLocationReference";
-
         /// <summary>URL for DateMonth</summary>
         public const string DateMonth = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month";
-
-        /// <summary>URL for DeathLocationReference</summary>
-        public const string DeathLocationReference = "http://hl7.org/fhir/us/vrdr/StructureDefinition/DeathLocationReference";
 
     }
 
     /// <summary>IG URLs</summary>
     public static class IGURL
     {
-        /// <summary>URL for ParametersForEmergingIssues</summary>
-        public const string ParametersForEmergingIssues = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-params-for-emerging-issues.html";
-
         /// <summary>URL for DeathDate</summary>
         public const string DeathDate = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-death-date.html";
 
@@ -252,9 +243,6 @@ namespace VRDR
         /// <summary>URL for NVSSSexAtDeath</summary>
         public const string NVSSSexAtDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-NVSS-SexAtDeath.html";
 
-        /// <summary>URL for CodedContentBundle</summary>
-        public const string CodedContentBundle = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-coded-content-bundle.html";
-
         /// <summary>URL for MannerOfDeath</summary>
         public const string MannerOfDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-manner-of-death.html";
 
@@ -279,11 +267,11 @@ namespace VRDR
         /// <summary>URL for AuxiliaryStateIdentifier1</summary>
         public const string AuxiliaryStateIdentifier1 = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-AuxiliaryStateIdentifier1.html";
 
-        /// <summary>URL for DispositionLocationReference</summary>
-        public const string DispositionLocationReference = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-DispositionLocationReference.html";
-
         /// <summary>URL for SurgeryDate</summary>
         public const string SurgeryDate = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-surgery-date.html";
+
+        /// <summary>URL for EmergingIssues</summary>
+        public const string EmergingIssues = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-emerging-issues.html";
 
         /// <summary>URL for ExaminerContacted</summary>
         public const string ExaminerContacted = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-examiner-contacted.html";
@@ -320,9 +308,6 @@ namespace VRDR
 
         /// <summary>URL for ManualUnderlyingCauseOfDeath</summary>
         public const string ManualUnderlyingCauseOfDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-manual-underlying-cause-of-death.html";
-
-        /// <summary>URL for DecedentTransportationRole</summary>
-        public const string DecedentTransportationRole = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-transportation-role.html";
 
         /// <summary>URL for FuneralHome</summary>
         public const string FuneralHome = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-funeral-home.html";
@@ -384,6 +369,12 @@ namespace VRDR
         /// <summary>URL for CodedRaceAndEthnicity</summary>
         public const string CodedRaceAndEthnicity = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-coded-race-and-ethnicity.html";
 
+        /// <summary>URL for ReplaceStatus</summary>
+        public const string ReplaceStatus = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-ReplaceStatus.html";
+
+        /// <summary>URL for CauseOfDeathCodedContentBundle</summary>
+        public const string CauseOfDeathCodedContentBundle = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-cause-of-death-coded-content-bundle.html";
+
         /// <summary>URL for AutomatedUnderlyingCauseOfDeath</summary>
         public const string AutomatedUnderlyingCauseOfDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-automated-underlying-cause-of-death.html";
 
@@ -392,9 +383,6 @@ namespace VRDR
 
         /// <summary>URL for DecedentPregnancyStatus</summary>
         public const string DecedentPregnancyStatus = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-pregnancy-status.html";
-
-        /// <summary>URL for InjuryLocationReference</summary>
-        public const string InjuryLocationReference = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-InjuryLocationReference.html";
 
         /// <summary>URL for DecedentUsualWork</summary>
         public const string DecedentUsualWork = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-decedent-usual-work.html";
@@ -405,11 +393,11 @@ namespace VRDR
         /// <summary>URL for DateMonth</summary>
         public const string DateMonth = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-Date-Month.html";
 
+        /// <summary>URL for DemographicCodedContentBundle</summary>
+        public const string DemographicCodedContentBundle = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-demographic-coded-content-bundle.html";
+
         /// <summary>URL for Certifier</summary>
         public const string Certifier = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-certifier.html";
-
-        /// <summary>URL for DeathLocationReference</summary>
-        public const string DeathLocationReference = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-DeathLocationReference.html";
 
         /// <summary>URL for ActivityAtTimeOfDeath</summary>
         public const string ActivityAtTimeOfDeath = "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-vrdr-activity-at-time-of-death.html";

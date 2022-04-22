@@ -55,7 +55,7 @@ namespace VRDR
         /// <summary>Create Death Certification.</summary>
         private void CreateDeathCertification(){
             CreateEmptyDeathCertification();
-            AddReferenceToComposition(DeathCertification.Id);
+            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
         }
 
@@ -89,7 +89,7 @@ namespace VRDR
                     CodCondition.Code = new CodeableConcept(CodeSystems.LOINC, "69453-9", "Cause of death [US Standard Certificate of Death]", null);
                     CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CodCondition.Performer.Add (new ResourceReference("urn:uuid:" + Certifier.Id));
-                    AddReferenceToComposition(CodCondition.Id);
+                    AddReferenceToComposition(CodCondition.Id, "DeathCertification");
                     Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
@@ -129,7 +129,7 @@ namespace VRDR
             Father.Meta.Profile = father_profile;
             Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
             Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-            AddReferenceToComposition(Father.Id);
+            AddReferenceToComposition(Father.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
         }
 
@@ -145,7 +145,7 @@ namespace VRDR
             Mother.Meta.Profile = mother_profile;
             Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
             Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-            AddReferenceToComposition(Mother.Id);
+            AddReferenceToComposition(Mother.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
         }
 
@@ -161,7 +161,7 @@ namespace VRDR
             Spouse.Meta.Profile = spouse_profile;
             Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
             Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-            AddReferenceToComposition(Spouse.Id);
+            AddReferenceToComposition(Spouse.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
         }
 
@@ -188,7 +188,7 @@ namespace VRDR
             BirthRecordIdentifier.Value = (FhirString) null;
             BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
 
-            AddReferenceToComposition(BirthRecordIdentifier.Id);
+            AddReferenceToComposition(BirthRecordIdentifier.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
         /// <summary>Usual Work.</summary>
@@ -206,7 +206,7 @@ namespace VRDR
             UsualWork.Category.Add(new CodeableConcept(CodeSystems.ObservationCategory,"social-history",null, null));
             UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             UsualWork.Effective = new Period();
-            AddReferenceToComposition(UsualWork.Id);
+            AddReferenceToComposition(UsualWork.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
         }
 
@@ -264,7 +264,7 @@ namespace VRDR
             AutopsyPerformed.Status = ObservationStatus.Final;
             AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
             AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(AutopsyPerformed.Id);
+            AddReferenceToComposition(AutopsyPerformed.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
         }
 
@@ -284,7 +284,7 @@ namespace VRDR
             AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
             AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
-            AddReferenceToComposition(AgeAtDeathObs.Id);
+            AddReferenceToComposition(AgeAtDeathObs.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
         }
 
@@ -297,7 +297,7 @@ namespace VRDR
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
             DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(DeathDateObs.Id);
+            AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
 
@@ -313,7 +313,7 @@ namespace VRDR
             coding.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs");
             InputRaceandEthnicity.Code = DictToCodeableConcept(coding);
             InputRaceandEthnicity.Subject = new ResourceReference("urn:uuid:" + InputRaceandEthnicity.Id);
-            AddReferenceToComposition(InputRaceandEthnicity.Id);
+            AddReferenceToComposition(InputRaceandEthnicity.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(InputRaceandEthnicity, "urn:uuid:" + InputRaceandEthnicity.Id);
         }
 
@@ -330,7 +330,7 @@ namespace VRDR
             PregnancyObs.Status = ObservationStatus.Final;
             PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
             PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(PregnancyObs.Id);
+            AddReferenceToComposition(PregnancyObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
         }
 
@@ -339,6 +339,9 @@ namespace VRDR
 
         /// <summary>Tobacco Use Contributed To Death.</summary>
         private Observation TobaccoUseObs;
+
+        /// <summary>Transportation Role.</summary>
+        private Observation TransportationRoleObs;
 
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
@@ -368,7 +371,7 @@ namespace VRDR
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    AddReferenceToComposition(InjuryIncidentObs.Id, "OBE");
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
         /// <summary>Death Location.</summary>
@@ -382,7 +385,7 @@ namespace VRDR
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
             DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
             LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-            AddReferenceToComposition(DeathLocationLoc.Id);
+            AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
 
         }
@@ -407,7 +410,7 @@ namespace VRDR
             Decedent = new Patient();
             Decedent.Id = Guid.NewGuid().ToString();
             Decedent.Meta = new Meta();
-            string[] decedent_profile = { IGURL.Decedent  };
+            string[] decedent_profile = { ProfileURL.Decedent };
             Decedent.Meta.Profile = decedent_profile;
 
             // Start with an empty race and ethinicity observation
@@ -471,7 +474,7 @@ namespace VRDR
             Composition.Id = Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
-            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
+            string[] composition_profile = { ProfileURL.DeathCertificate };
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
             Composition.Section.Add(new Composition.SectionComponent());
@@ -499,16 +502,14 @@ namespace VRDR
             CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
             // Add references back to the Decedent, Certifier, Certification, etc.
-            AddReferenceToComposition(Decedent.Id);
-            AddReferenceToComposition(InputRaceandEthnicity.Id);
-            AddReferenceToComposition(Certifier.Id);
-            AddReferenceToComposition(Pronouncer.Id);
-            //AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(DeathCertification.Id);
-            AddReferenceToComposition(FuneralHome.Id);
-            //AddReferenceToComposition(FuneralHomeDirector.Id);
-            AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
-            AddReferenceToComposition(DispositionLocation.Id);
+            AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
+            AddReferenceToComposition(InputRaceandEthnicity.Id, "DecedentDemographics");
+            AddReferenceToComposition(Certifier.Id, "DeathCertification");
+            AddReferenceToComposition(Pronouncer.Id, "OBE");
+            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
+            AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
+            AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
+            AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             Bundle.AddResourceEntry(InputRaceandEthnicity, "urn:uuid:" + InputRaceandEthnicity.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
@@ -768,7 +769,7 @@ namespace VRDR
                     DocumentReference.ContentComponent content = new DocumentReference.ContentComponent();
                     content.Attachment = attachment;
                     StateDocumentReference.Content.Add(content);
-                    AddReferenceToComposition(StateDocumentReference.Id);
+                    AddReferenceToComposition(StateDocumentReference.Id, "OBE");
                     Bundle.AddResourceEntry(StateDocumentReference, "urn:uuid:" + StateDocumentReference.Id);
                 }
                 else
@@ -817,6 +818,67 @@ namespace VRDR
             }
         }
 
+        /// <summary>Filing Format.</summary>
+        /// <value>Source flag: paper/electronic.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FilingFormat = ValueSets.FilingFormat.electronic;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.FilingFormat}");</para>
+        /// </example>
+        [Property("Filing Format", Property.Types.Dictionary, "Death Certification", "Filing format.", true, ProfileURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
+        public Dictionary<string, string> FilingFormat
+        {
+            get
+            {
+                Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
+                
+                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)    
+                {
+                    return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.FilingFormat);
+                Extension filingFormat = new Extension();
+                filingFormat.Url = ExtensionURL.FilingFormat;
+                filingFormat.Value = DictToCodeableConcept(value);
+                Composition.Extension.Add(filingFormat);
+            }
+        }
+
+        /// <summary>Filing Format Helper.</summary>
+        /// <value>filing format.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FilingFormatHelper = ValueSets.FilingFormat.Electronic;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.FilingFormatHelper}");</para>
+        /// </example>
+        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, ProfileURL.DeathCertificate, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
+        public string FilingFormatHelper
+        {
+            get
+            {
+                if (FilingFormat.ContainsKey("code"))
+                {
+                    return FilingFormat["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
+            }
+        }
+
         /// <summary>Registered time.</summary>
         /// <value>time when the record was registered.</value>
         /// <example>
@@ -825,7 +887,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");</para>
         /// </example>
-        [Property("Registered Date/Time", Property.Types.StringDateTime, "Death Certification", "Date/Time of record registration.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate.html", true, 13)]
+        [Property("Registered Date/Time", Property.Types.StringDateTime, "Death Certification", "Date/Time of record registration.", true, ProfileURL.DeathCertificate, true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "date")]
         public string RegisteredTime
         {
@@ -838,6 +900,99 @@ namespace VRDR
                 Composition.Date = value;
             }
         }
+
+        /// <summary>State Specific Data.</summary>
+        /// <value>Possible use for future filler unless two neighboring states wish to use for some specific information that they both collect. This would be a non-standard field</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.StateSpecific = "Data";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State Specific Data: {ExampleDeathRecord.StateSpecific}");</para>
+        /// </example>
+        [Property("State Specific Data", Property.Types.String, "Death Certification", "State Specific Content.", true, ProfileURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField')", "date")]
+        public string StateSpecific
+        {
+            get
+            {
+                Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
+                if (stateSpecificData != null)
+                {
+                    return stateSpecificData.Value.ToString();
+                }
+                return "";
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
+                Extension stateSpecificData = new Extension();
+                stateSpecificData.Url = ExtensionURL.StateSpecificField;
+                stateSpecificData.Value = new FhirString(value);
+                Composition.Extension.Add(stateSpecificData);
+            }
+        }
+
+        /// <summary>Replace Status.</summary>
+        /// <value>Replacement Record – suggested codes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatus = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</para>
+        /// </example>
+        [Property("Replace Status", Property.Types.Dictionary, "Death Certification", "Replace status.", true, ProfileURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public Dictionary<string, string> ReplaceStatus
+        {
+            get
+            {
+                Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                
+                if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)    
+                {
+                    return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                Extension replaceStatus = new Extension();
+                replaceStatus.Url = ExtensionURL.ReplaceStatus;
+                replaceStatus.Value = DictToCodeableConcept(value);
+                Composition.Extension.Add(replaceStatus);
+            }
+        }
+
+        /// <summary>Replace Status Helper.</summary>
+        /// <value>replace status.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"ReplaceStatus: {ExampleDeathRecord.ReplaceStatusHelper}");</para>
+        /// </example>
+        [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", true, ProfileURL.DeathCertificate, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public string ReplaceStatusHelper
+        {
+            get
+            {
+                if (ReplaceStatus.ContainsKey("code"))
+                {
+                    return ReplaceStatus["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+            }
+        }
+
 
         /// <summary>Certification Role.</summary>
         /// <value>the role/qualification of the person who certified the death. A Dictionary representing a code, containing the following key/value pairs:
@@ -929,7 +1084,7 @@ namespace VRDR
                 }
                 else
                 { // normal path
-                    SetCodeValue("CertificationRole", value, VRDR.ValueSets.CertificationRole.Codes);
+                    SetCodeValue("CertificationRole", value, VRDR.ValueSets.CertifierTypes.Codes);
                 }
             }
         }
@@ -978,7 +1133,7 @@ namespace VRDR
                     MannerOfDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MannerOfDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     MannerOfDeath.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(MannerOfDeath.Id);
+                    AddReferenceToComposition(MannerOfDeath.Id, "DeathCertification");
                     Bundle.AddResourceEntry(MannerOfDeath, "urn:uuid:" + MannerOfDeath.Id);
                 }
                 else
@@ -1323,7 +1478,7 @@ namespace VRDR
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
                     ConditionContributingToDeath.Value= new CodeableConcept(null, null, null, value);
-                    AddReferenceToComposition(ConditionContributingToDeath.Id);
+                    AddReferenceToComposition(ConditionContributingToDeath.Id, "OBE");
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
                 }
             }
@@ -3831,7 +3986,7 @@ namespace VRDR
             DecedentEducationLevel.Status = ObservationStatus.Final;
             DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
             DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(DecedentEducationLevel.Id);
+            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographic");
             Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
         }
 
@@ -4504,7 +4659,7 @@ namespace VRDR
                     MilitaryServiceObs.Code = new CodeableConcept(CodeSystems.LOINC, "55280-2", "Military service Narrative", null);
                     MilitaryServiceObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MilitaryServiceObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(MilitaryServiceObs.Id);
+                    AddReferenceToComposition(MilitaryServiceObs.Id, "DecedentDemographics");
                     Bundle.AddResourceEntry(MilitaryServiceObs, "urn:uuid:" + MilitaryServiceObs.Id);
                 }
                 else
@@ -5006,7 +5161,7 @@ namespace VRDR
 //                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
                     LinkObservationToLocation(DispositionMethod, DispositionLocation);
-                    AddReferenceToComposition(DispositionMethod.Id);
+                    AddReferenceToComposition(DispositionMethod.Id, "DecedentDisposition");
                     Bundle.AddResourceEntry(DispositionMethod, "urn:uuid:" + DispositionMethod.Id);
                 }
                 else
@@ -5040,7 +5195,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodsOfDisposition.Codes);
+                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
             }
         }
 
@@ -5711,7 +5866,7 @@ namespace VRDR
                     DeathLocationLoc.Description = value;
                     DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
                     LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
                 else
@@ -6152,7 +6307,7 @@ namespace VRDR
                     ExaminerContactedObs.Code = new CodeableConcept(CodeSystems.LOINC, "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     ExaminerContactedObs.Value = contactedCoding;
-                    AddReferenceToComposition(ExaminerContactedObs.Id);
+                    AddReferenceToComposition(ExaminerContactedObs.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(ExaminerContactedObs, "urn:uuid:" + ExaminerContactedObs.Id);
                 }
                 else
@@ -6242,7 +6397,7 @@ namespace VRDR
                 {
                     CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
 
@@ -6276,7 +6431,7 @@ namespace VRDR
                 {
                     CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
                 InjuryLocationLoc.Name = value;
@@ -6309,7 +6464,7 @@ namespace VRDR
                 {
                     CreateInjuryLocationLoc();
                     LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
 
@@ -6621,7 +6776,7 @@ namespace VRDR
                 }
                 else
                 { // normal path
-                    SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                    SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationIncidentRole.Codes);
                 }
             }
         }
@@ -6670,7 +6825,7 @@ namespace VRDR
                     TobaccoUseObs.Code = new CodeableConcept(CodeSystems.LOINC, "69443-0", "Did tobacco use contribute to death", null);
                     TobaccoUseObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     TobaccoUseObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(TobaccoUseObs.Id);
+                    AddReferenceToComposition(TobaccoUseObs.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(TobaccoUseObs, "urn:uuid:" + TobaccoUseObs.Id);
                 }
                 else
@@ -6719,7 +6874,7 @@ namespace VRDR
                     EmergingIssues.Status = ObservationStatus.Final;
                     EmergingIssues.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs", "emergingissues", "Emerging Issues", null);
                     EmergingIssues.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AddReferenceToComposition(EmergingIssues.Id);
+                    AddReferenceToComposition(EmergingIssues.Id, "DecedentDemographics");
                     Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
                 }
                 // Remove existing component (if it exists) and add an appropriate component.
@@ -6776,7 +6931,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_2')", "value")]
         public string EmergingIssue1_2
         {
@@ -6798,7 +6953,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_3')", "value")]
         public string EmergingIssue1_3
         {
@@ -6820,7 +6975,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_4')", "value")]
         public string EmergingIssue1_4
         {
@@ -6842,7 +6997,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_5')", "value")]
         public string EmergingIssue1_5
         {
@@ -6864,7 +7019,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_6')", "value")]
         public string EmergingIssue1_6
         {
@@ -6886,7 +7041,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_1')", "value")]
         public string EmergingIssue8_1
         {
@@ -6908,7 +7063,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_2')", "value")]
         public string EmergingIssue8_2
         {
@@ -6930,7 +7085,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_3')", "value")]
         public string EmergingIssue8_3
         {
@@ -6952,7 +7107,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, ProfileURL.ParametersForEmergingIssues, false, 50)]
+        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, ProfileURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE20')", "value")]
         public string EmergingIssue20
         {
@@ -6974,16 +7129,38 @@ namespace VRDR
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
-        private void AddReferenceToComposition(string reference)
+        /// <param name="code">the code for the section to add to.</param>
+        private void AddReferenceToComposition(string reference, string code)
         {
-            Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
+            //Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
+            Composition.SectionComponent section = new Composition.SectionComponent();
+            // Find the right section
+            foreach (var s in Composition.Section)
+            {
+                if (s.Code != null && s.Code.Coding.Count > 0 && s.Code.Coding.First().Code == code)
+                {
+                    section = s;
+                }
+            }
+            if (section.Code == null)
+            {
+                Dictionary<string, string> coding = new Dictionary<string, string>();
+                coding["system"] = VRDR.CodeSystems.DocumentSections;
+                coding["code"] = code;
+                section.Code = DictToCodeableConcept(coding);
+                Composition.Section.Add(section);
+            }
+            section.Entry.Add(new ResourceReference("urn:uuid:" + reference));
+
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
-        private bool RemoveReferenceFromComposition(string reference)
+        /// <param name="code">a code for the section to modify.</param>
+        private bool RemoveReferenceFromComposition(string reference, string code)
         {
-            return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
+            Composition.SectionComponent section = Composition.Section.Where(s => s.Code.Coding.First().Code == code).First();
+            return section.Entry.RemoveAll(entry => entry.Reference == reference) > 0;
         }
 
         /// <summary>Restores class references from a newly parsed record.</summary>

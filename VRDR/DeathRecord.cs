@@ -5864,7 +5864,10 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                if (value != null)
+                {
+                    DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                }
 
             }
         }
@@ -5899,7 +5902,10 @@ namespace VRDR
                 {
                     DeathLocationLoc.Position = new Location.PositionComponent();
                 }
-                DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                if (value != null)
+                {
+                    DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                }
 
             }
         }
@@ -6506,7 +6512,10 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                if (value != null)
+                {
+                    InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                }
 
             }
         }
@@ -6541,7 +6550,11 @@ namespace VRDR
                 {
                     InjuryLocationLoc.Position = new Location.PositionComponent();
                 }
-                InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                if (value != null)
+                {
+                    InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                }
+
 
             }
         }

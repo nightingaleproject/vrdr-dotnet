@@ -1,12 +1,23 @@
 <Bundle xmlns="http://hl7.org/fhir">
-  <id value="cf96ffd9-fb38-479f-ba3c-5f3f36752fdb" />
+  <id value="DeathCertificateDocument-Example1"/>
   <meta>
-    <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" />
+    <profile
+             value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"/>
   </meta>
   <identifier>
-    <value value="2019MA000001" />
+    <extension
+               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1">
+      <valueString value="000000000042"/>
+    </extension>
+    <extension
+               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2">
+      <valueString value="100000000001"/>
+    </extension>
+    <system value="http://nchs.cdc.gov/vrdr_id"/>
+    <value value="000182"/>
   </identifier>
-  <type value="document" />
+  <type value="document"/>
+  <timestamp value="2020-10-20T14:48:35.401641-04:00"/>
   <entry>
     <fullUrl value="urn:uuid:50e7e648-976e-41f0-b8e8-3e8deaa79260" />
     <resource>

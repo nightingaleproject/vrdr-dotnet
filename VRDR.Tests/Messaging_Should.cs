@@ -48,7 +48,7 @@ namespace VRDR.Tests
             Assert.Equal(10,10);
             Assert.Equal((uint)1, submission.CertificateNumber);
             Assert.Equal((uint)2019, submission.DeathYear);
-            Assert.Equal("42", submission.StateAuxiliaryIdentifier);
+            Assert.Equal("000000000042", submission.StateAuxiliaryIdentifier);
             Assert.Equal("2019YC000001", submission.NCHSIdentifier);
 
             record = (DeathRecord)JSONRecords[0];
@@ -58,7 +58,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal((uint)1, submission.CertificateNumber);
             Assert.Equal((uint)2019, submission.DeathYear);
-            Assert.Equal("42", submission.StateAuxiliaryIdentifier);
+            Assert.Equal("000000000042", submission.StateAuxiliaryIdentifier);
             Assert.Equal("2019YC000001", submission.NCHSIdentifier);
 
             record = null;
@@ -154,7 +154,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal((uint)1, update.CertificateNumber);
             Assert.Equal((uint)2019, update.DeathYear);
-            Assert.Equal("42", update.StateAuxiliaryIdentifier);
+            Assert.Equal("000000000042", update.StateAuxiliaryIdentifier);
             Assert.Equal("2019YC000001", update.NCHSIdentifier);
 
             update = new DeathRecordUpdate((DeathRecord)JSONRecords[1]); // no ids in this death record (except jurisdiction id which is required)
@@ -895,7 +895,7 @@ namespace VRDR.Tests
             VoidMessage message = new VoidMessage((DeathRecord)XMLRecords[0]);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal((uint)1, message.CertificateNumber);
-            Assert.Equal("42", message.StateAuxiliaryIdentifier);
+            Assert.Equal("000000000042", message.StateAuxiliaryIdentifier);
             Assert.Equal("2019YC000001", message.NCHSIdentifier);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Null(message.MessageSource);

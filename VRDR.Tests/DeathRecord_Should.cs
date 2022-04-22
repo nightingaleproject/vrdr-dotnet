@@ -2366,6 +2366,12 @@ namespace VRDR.Tests
             iladdress.Add("addressState", "MA");
             iladdress.Add("addressZip", "01730");
             iladdress.Add("addressCountry", "US");
+            iladdress.Add("addressPredir", "W");
+            iladdress.Add("addressPostdir", "E");
+            iladdress.Add("addressStname", "Example");
+            iladdress.Add("addressStnum", "11");
+            iladdress.Add("addressStdesig", "Street");
+            iladdress.Add("addressUnitnum", "3");
             SetterDeathRecord.InjuryLocationAddress = iladdress;
             Assert.Equal("99912 Example Street", SetterDeathRecord.InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.InjuryLocationAddress["addressLine2"]);
@@ -2374,6 +2380,13 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.InjuryLocationAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.InjuryLocationAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.InjuryLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.InjuryLocationAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.InjuryLocationAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.InjuryLocationAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.InjuryLocationAddress["addressUnitnum"]);
+
         }
 
         [Fact]
@@ -2556,6 +2569,12 @@ namespace VRDR.Tests
             dtladdress.Add("addressState", "MA");
             dtladdress.Add("addressZip", "01730");
             dtladdress.Add("addressCountry", "US");
+            dtladdress.Add("addressPredir", "W");
+            dtladdress.Add("addressPostdir", "E");
+            dtladdress.Add("addressStname", "Example");
+            dtladdress.Add("addressStnum", "11");
+            dtladdress.Add("addressStdesig", "Street");
+            dtladdress.Add("addressUnitnum", "3");
             SetterDeathRecord.DeathLocationAddress = dtladdress;
             Assert.Equal("671 Example Street", SetterDeathRecord.DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DeathLocationAddress["addressLine2"]);
@@ -2564,6 +2583,12 @@ namespace VRDR.Tests
             Assert.Equal("MA", SetterDeathRecord.DeathLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.DeathLocationAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.DeathLocationAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.DeathLocationAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.DeathLocationAddress["addressUnitnum"]);
         }
 
         [Fact]

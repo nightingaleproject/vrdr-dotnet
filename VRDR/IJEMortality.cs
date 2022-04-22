@@ -444,21 +444,15 @@ namespace VRDR
         {
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
-            if (dictionary != null && (!dictionary.ContainsKey(key) || String.IsNullOrWhiteSpace(dictionary[key])))
-            {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    dictionary[key] = value.Trim();
-                }
-            }
-            else
+            if (dictionary == null)
             {
                 dictionary = new Dictionary<string, string>();
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    dictionary[key] = value.Trim();
-                }
             }
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                dictionary[key] = value.Trim();
+            }
+
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
         }
 
@@ -3294,11 +3288,11 @@ namespace VRDR
         {
             get
             {
-                return Dictionary_Geo_Get("CITYCODE_D", "DeathLocationAddress", "address", "city", true);
+                return Dictionary_Geo_Get("CITYCODE_D", "DeathLocationAddress", "address", "cityC", true);
             }
             set
             {
-                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "city", false, value);
+                Dictionary_Geo_Set("COUNTYTEXT_D", "DeathLocationAddress", "address", "cityC", false, value);
             }
         }
 
@@ -3983,7 +3977,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Dictionary_Geo_Set("CITYCODE_I", "InjuryLocationAddress", "address", "CityC", true, value);
+                    Dictionary_Geo_Set("CITYCODE_I", "InjuryLocationAddress", "address", "cityC", true, value);
                 }
             }
         }
@@ -4017,7 +4011,7 @@ get
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("LONG_I", "InjuryLocationLonitude", value);
+                    LeftJustified_Set("LONG_I", "InjuryLocationLongitude", value);
                 }
              }
         }
@@ -4026,15 +4020,15 @@ get
         [IJEField(182, 2522, 17, "Place of injury. Latitude", "LAT_I", 1)]
         public string LAT_I
         {
-get
+            get
             {
-                return LeftJustified_Get("LAT_I", "InjuryLocationLongitude");
+                return LeftJustified_Get("LAT_I", "InjuryLocationLatitude");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("LAT_I", "InjuryLocationLonitude", value);
+                    LeftJustified_Set("LAT_I", "InjuryLocationLatitude", value);
                 }
              }
         }
@@ -4458,15 +4452,6 @@ get
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "city", false, value);
-                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    // string state = Dictionary_Geo_Get("DISPSTATECD", "DispositionLocationAddress", "address", "state", true);
-                    // string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    // if (!String.IsNullOrWhiteSpace(county))
-                    // {
-                    //     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "county", false, county);
-                    //     // If we found a county, we know the country.
-                    //     Dictionary_Geo_Set("DISPCITY", "DispositionLocationAddress", "address", "country", false, "US");
-                    // }
                 }
             }
         }
@@ -4617,15 +4602,6 @@ get
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCity", value);
-                    // // We've got city, and we probably also have state now - so attempt to find county while we're at it (IJE does NOT include this).
-                    // string state = dataLookup.StateNameToStateCode(Dictionary_Get("FUNSTATE", "FuneralHomeAddress", "addressState"));
-                    // string county = dataLookup.StateCodeAndCityNameToCountyName(state, value);
-                    // if (!String.IsNullOrWhiteSpace(county))
-                    // {
-                    //     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCounty", county);
-                    //     // If we found a county, we know the country.
-                    //     Dictionary_Set("FUNCITYTEXT", "FuneralHomeAddress", "addressCountry", "US");
-                    // }
                 }
             }
         }

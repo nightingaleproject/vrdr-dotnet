@@ -2140,21 +2140,21 @@ namespace VRDR.Tests
         public void Set_AgeAtDeath()
         {
             Dictionary<string, string> aad = new Dictionary<string, string>();
-            aad.Add("unit", "a");
-            aad.Add("value", "79");
+            aad.Add("type", "a");
+            aad.Add("units", "79");
             SetterDeathRecord.AgeAtDeath = aad;
-            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Equal("a", SetterDeathRecord.AgeAtDeath["type"]);
+            Assert.Equal("79", SetterDeathRecord.AgeAtDeath["units"]);
         }
 
         [Fact]
         public void Get_AgeAtDeath()
         {
-            Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["unit"]);
-            Assert.Equal("79", ((DeathRecord)JSONRecords[0]).AgeAtDeath["value"]);
+            Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["type"]);
+            Assert.Equal("79", ((DeathRecord)JSONRecords[0]).AgeAtDeath["units"]);
             Assert.False(((DeathRecord)JSONRecords[0]).AgeAtDeathDataAbsentBoolean);
-            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["unit"]);
-            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["value"]);
+            Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["type"]);
+            Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["units"]);
             Assert.False(((DeathRecord)XMLRecords[0]).AgeAtDeathDataAbsentBoolean);
         }
 
@@ -2162,17 +2162,17 @@ namespace VRDR.Tests
         public void Set_AgeAtDeath_Data_Absent()
         {
             Dictionary<string, string> aad1 = new Dictionary<string, string>();
-            aad1.Add("unit", "");
-            aad1.Add("value", "");
+            aad1.Add("type", "");
+            aad1.Add("units", "");
             SetterDeathRecord.AgeAtDeath = aad1;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
 
             Dictionary<string, string> aad2 = new Dictionary<string, string>();
             SetterDeathRecord.AgeAtDeathDataAbsentBoolean = true;
             SetterDeathRecord.AgeAtDeath = aad2;
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["unit"]);
-            Assert.Equal("", SetterDeathRecord.AgeAtDeath["value"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["type"]);
+            Assert.Equal("", SetterDeathRecord.AgeAtDeath["units"]);
             Assert.True(SetterDeathRecord.AgeAtDeathDataAbsentBoolean);
         }
 
@@ -2180,8 +2180,18 @@ namespace VRDR.Tests
         public void Get_AgeAtDeath_Data_Absent()
         {
             DeathRecord json = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
-            Assert.Equal("", json.AgeAtDeath["unit"]);
-            Assert.Equal("", json.AgeAtDeath["value"]);
+            Assert.Equal("", json.AgeAtDeath["type"]);
+            Assert.Equal("", json.AgeAtDeath["units"]);
+        }
+
+        [Fact]
+        public void Set_AgeAtDeath_EditBypassFlag()
+        {
+            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Passed, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
+
+            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
         }
 
         [Fact]
@@ -2192,9 +2202,51 @@ namespace VRDR.Tests
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal("", dr2.AgeAtDeath["unit"]);
-            Assert.Equal("", dr2.AgeAtDeath["value"]);
+            Assert.Equal("", dr2.AgeAtDeath["type"]);
+            Assert.Equal("", dr2.AgeAtDeath["units"]);
             Assert.True(dr2.AgeAtDeathDataAbsentBoolean);
+        }
+
+        [Fact]
+        public void AgeAtDeath_EditFlag()
+        {
+            Dictionary<string, string> flag = new Dictionary<string, string>();
+            flag.Add("system", CodeSystems.BypassEditFlag);
+            flag.Add("code", "0");
+            flag.Add("display", "Edit Passed");
+            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
+            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("0", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+
+            flag = new Dictionary<string, string>();
+            flag.Add("system", CodeSystems.BypassEditFlag);
+            flag.Add("code", "1");
+            flag.Add("display", "Edit Failed, Data Queried, and Verified");
+            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
+            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("1", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Failed, Data Queried, and Verified", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+        }
+
+        [Fact]
+        public void AgeAtDeath_EditFlag_RoundTrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/MissingAge.json")));
+            Dictionary<string, string> flag = new Dictionary<string, string>();
+            flag.Add("system", CodeSystems.BypassEditFlag);
+            flag.Add("code", "0");
+            flag.Add("display", "Edit Passed");
+            dr.AgeAtDeathEditBypassFlag = flag;
+
+            IJEMortality ije = new IJEMortality(dr);
+            Assert.Equal("999", ije.AGE);
+            Assert.Equal("9", ije.AGETYPE);
+            Assert.Equal("0", ije.AGE_BYPASS);
+            DeathRecord dr2 = ije.ToDeathRecord();
+            Assert.Equal(CodeSystems.BypassEditFlag, dr2.AgeAtDeathEditBypassFlag["system"]);
+            Assert.Equal("0", dr2.AgeAtDeathEditBypassFlag["code"]);
+            Assert.Equal("Edit Passed", dr2.AgeAtDeathEditBypassFlag["display"]);
         }
 
         [Fact]

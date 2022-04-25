@@ -1329,7 +1329,7 @@
         <code>
           <coding>
             <system value="http://loinc.org" />
-            <code value="30525-0" />
+            <code value="39016-1" />
             <display value="Age" />
           </coding>
         </code>

@@ -210,11 +210,7 @@ namespace VRDR.CLI
                 deathRecord.BirthRecordId = "4242123";
 
                 // BirthRecordState
-                Dictionary<string, string> brs = new Dictionary<string, string>();
-                brs.Add("code", "US-MA");
-                brs.Add("system", "urn:iso:std:iso:3166:-2");
-                brs.Add("display", "Massachusetts");
-                deathRecord.BirthRecordState = brs;
+                deathRecord.BirthRecordState = "MA";
 
                 // BirthRecordYear
                 deathRecord.BirthRecordYear = "1940";

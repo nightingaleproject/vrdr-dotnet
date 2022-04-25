@@ -1029,49 +1029,43 @@
         "id": "327874e2-3e59-4c0d-9fb2-a5a9f9cc7f6c",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier"
           ]
         },
         "status": "final",
-        "code": {
-          "coding": [
+        "code" : {
+          "coding" : [
             {
-              "code": "BR"
+              "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+              "code" : "BR",
+              "display" : "Birth registry number"
             }
           ]
         },
         "subject": {
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
-        "valueString": "4242123",
-        "component": [
+        "valueString": "242123",
+        "component" : [
           {
-            "code": {
-              "coding": [
+            "code" : {
+              "coding" : [
                 {
-                  "system": "http://loinc.org",
-                  "code": "21842-0",
-                  "display": "Birthplace"
+                  "system" : "http://loinc.org",
+                  "code" : "21842-0",
+                  "display" : "Birthplace"
                 }
               ]
             },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "urn:iso:std:iso:3166:-2",
-                  "code": "US-MA",
-                  "display": "Massachusetts"
-                }
-              ]
-            }
+            "valueString" : "MA"
           },
           {
-            "code": {
-              "coding": [
+            "code" : {
+              "coding" : [
                 {
-                  "system": "http://loinc.org",
-                  "code": "80904-6",
-                  "display": "Birth year"
+                  "system" : "http://loinc.org",
+                  "code" : "80904-6",
+                  "display" : "Birth year"
                 }
               ]
             }

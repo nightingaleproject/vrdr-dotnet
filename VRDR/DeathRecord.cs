@@ -183,7 +183,7 @@ namespace VRDR
             string[] br_profile = { ProfileURL.BirthRecordIdentifier };
             BirthRecordIdentifier.Meta.Profile = br_profile;
             BirthRecordIdentifier.Status = ObservationStatus.Final;
-            BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+            BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             BirthRecordIdentifier.Value = (FhirString) null;
             BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
@@ -4148,7 +4148,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
         /// </example>
-        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, IGURL.BirthRecordIdentifier, true, 16)]
+        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, ProfileURL.BirthRecordIdentifier, true, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordId
         {
@@ -4192,7 +4192,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, ProfileURL.BirthRecordIdentifier, false, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4232,7 +4232,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, ProfileURL.BirthRecordIdentifier, false, 17)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
         public bool BirthRecordIdentifierDataAbsentBoolean
         {
@@ -4285,12 +4285,12 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
         /// </example>
-        [Property("Birth Record State", Property.Types.Dictionary, "Decedent Demographics", "Birth Record State.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 17)]
+        [Property("Birth Record State", Property.Types.String, "Decedent Demographics", "Birth Record State.", true, ProfileURL.BirthRecordIdentifier, true, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
-        public Dictionary<string, string> BirthRecordState
+        public string BirthRecordState
         {
             get
             {
@@ -4298,22 +4298,22 @@ namespace VRDR
                 {
                     // Find correct component
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
-                    if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
+                    if (stateComp != null && stateComp.Value != null)
                     {
-                        return(CodeableConceptToDict((CodeableConcept)stateComp.Value));
+                        return(Convert.ToString(stateComp.Value));
                     }
                 }
-                return EmptyCodeDict();
+                return "";
             }
             set
             {
-               CodeableConcept state = DictToCodeableConcept(value);
+            //    CodeableConcept state = DictToCodeableConcept(value);
                if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                    component.Value = state;
+                    component.Value = new FhirString(value);
                     BirthRecordIdentifier.Component.Add(component);
                 }
                 else
@@ -4322,13 +4322,13 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null)
                     {
-                        ((Observation.ComponentComponent)stateComp).Value = state;
+                        ((Observation.ComponentComponent)stateComp).Value = new FhirString(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                        component.Value = state;
+                        component.Value = new FhirString(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
                 }
@@ -4343,7 +4343,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
         /// </example>
-        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 18)]
+        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, ProfileURL.BirthRecordIdentifier, true, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordYear
         {

@@ -32,7 +32,7 @@
                 {
                   "code" : "electronic",
                   "display" : "Electronic",
-                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs",
+                  "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-filing-format-cs"
                 }
               ]
             }
@@ -1417,10 +1417,12 @@
           ]
         },
         "status": "final",
-        "code": {
-          "coding": [
+        "code" : {
+          "coding" : [
             {
-              "code": "BR"
+              "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+              "code" : "BR",
+              "display" : "Birth registry number"
             }
           ]
         },
@@ -1428,38 +1430,30 @@
           "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
         },
         "valueString": "242123",
-        "component": [
+        "component" : [
           {
-            "code": {
-              "coding": [
+            "code" : {
+              "coding" : [
                 {
-                  "system": "http://loinc.org",
-                  "code": "21842-0",
-                  "display": "Birthplace"
+                  "system" : "http://loinc.org",
+                  "code" : "21842-0",
+                  "display" : "Birthplace"
                 }
               ]
             },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "urn:iso:std:iso:3166:-2",
-                  "code": "US-MA",
-                  "display": "Massachusetts"
-                }
-              ]
-            }
+            "valueString" : "MA"
           },
           {
-            "code": {
-              "coding": [
+            "code" : {
+              "coding" : [
                 {
-                  "system": "http://loinc.org",
-                  "code": "80904-6",
-                  "display": "Birth year"
+                  "system" : "http://loinc.org",
+                  "code" : "80904-6",
+                  "display" : "Birth year"
                 }
               ]
             },
-            "valueDateTime": "1940"
+            "valueDateTime" : "1940"
           }
         ]
       }

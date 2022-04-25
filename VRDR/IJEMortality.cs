@@ -2330,23 +2330,18 @@ namespace VRDR
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(record.BirthRecordId))
+                string bcno = record.BirthRecordId;
+                if (bcno != null)
                 {
-                    return "";
+                    return bcno;
                 }
-                string id_str = record.BirthRecordId;
-                if (id_str.Length > 6)
-                {
-                    id_str = id_str.Substring(id_str.Length - 6);
-                }
-                return id_str.PadLeft(6, '0');
+                return "";
             }
             set
             {
                 // if value is null, the library will add the data absent reason
 
-                RightJustifiedZeroed_Set("BCNO", "BirthRecordId", value);
-
+                record.BirthRecordId = value;
             }
         }
 
@@ -2356,23 +2351,14 @@ namespace VRDR
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(BCNO))
-                {
-                    string dob = DateTime_Get("IDOB_YR", "yyyy", "DateOfBirth");
-                    if (String.IsNullOrWhiteSpace(dob))
-                    {
-                        return "9999"; // Unknown
-                    }
-                    else
-                    {
-                        return dob;
-                    }
-                }
-                return ""; // Blank
+                return LeftJustified_Get("IDOB_YR", "BirthRecordYear");
             }
             set
             {
-                // NOOP
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    LeftJustified_Set("IDOB_YR", "BirthRecordYear", value);
+                }
             }
         }
 
@@ -2382,48 +2368,13 @@ namespace VRDR
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(BCNO))
-                {
-                    String state = Dictionary_Get_Full("BSTATE", "BirthRecordState", "code");
-                    String retState;
-                    // If the country is US or CA, strip the prefix
-                    if (state.StartsWith("US-") || state.StartsWith("CA-"))
-                    {
-                        retState = state.Substring(3);
-                    }
-                    else
-                    {
-                        retState = state;
-                    }
-                    return retState;
-                }
-                return ""; // Blank
+                return LeftJustified_Get("BSTATE", "BirthRecordState"); 
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    String birthCountry = BPLACE_CNT;
-                    String ISO31662code;
-                    switch (value)
-                    {
-                        case "ZZ": // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
-                            return;  // do nothing
-                        case "XX": // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA
-                             ISO31662code = birthCountry;
-                            break;
-                        default:  // a 2 character state
-                            if (birthCountry.Equals("US") || birthCountry.Equals("CA"))
-                            {
-                                ISO31662code = birthCountry + "-" + value;
-                            }
-                            else
-                            {
-                                ISO31662code = value;
-                            }
-                            break;
-                    }
-                    Dictionary_Set("BSTATE", "BirthRecordState", "code", ISO31662code);
+                    LeftJustified_Set("BSTATE", "BirthRecordState", value);
                 }
             }
         }

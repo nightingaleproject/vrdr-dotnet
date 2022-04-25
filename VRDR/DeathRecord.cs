@@ -5530,34 +5530,35 @@ namespace VRDR
         // These are (incomplete and untested) getter and setter helpers for anything that uses a PartialDateTime, allowing a caller to get or
         // set a particular field on the extension; they currently assume that the extension and the sub-parts are always present; see notes above
         // DeathYear method just below for some details on thought process
-        // Issue: right now implemented to take an int, but the Time extension is a valueTime
-        private Element GetPartialDateTime(Extension partialDateTime, string partURL)
+        // TODO: Also need methods to get and set the time bits
+        private uint? GetPartialDate(Extension partialDateTime, string partURL)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
             if (part != null)
             {
-                Extension dataAbsent = part.Value.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
-                if (dataAbsent != null)
+                Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                if (dataAbsent != null || part.Value == null)
                 {
+                    // There's either a specific claim that there's no data or actually no data, so return null
                     return null;
                 }
-                return part.Value;
+                return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
             }
             return null;
         }
 
-        private void SetPartialDateTime(Extension partialDateTime, string partURL, int? value)
+        private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
             part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
             if (value != null)
             {
-                part.Value = new UnsignedInt(value);
+                part.Value = new UnsignedInt((int)value);
             }
             else
             {
+                part.Value = null;
                 part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
-                partialDateTime.Extension.Add(part);
             }
         }
 
@@ -5567,20 +5568,20 @@ namespace VRDR
         // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
         // TODO: Add a summary and Property and FHIRPath
         // TODO: Add DeathMonth, DeathDay, etc.
-        public int? DeathYear
+        public uint? DeathYear
         {
             get
             {
                 // TODO: This needs to first look in the valueDateTime and only if that's not there look in the extension
                 if (DeathDateObs != null && DeathDateObs.Value != null)
                 {
-                    Element element = GetPartialDateTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear);
+                    return GetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear);
                 }
                 return null;
             }
             set
             {
-                SetPartialDateTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
             }
         }
 

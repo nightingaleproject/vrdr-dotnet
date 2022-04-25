@@ -535,12 +535,8 @@ namespace VRDR.CLI
 
                     if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
                     {
-                        // TEMP disable countytext feilds
-                        if (info.Name != "COUNTYTEXT_D" && info.Name != "COUNTYTEXT_I")
-                        {
-                            issues++;
-                            Console.WriteLine($"[***** MISMATCH *****]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
-                        }
+                        issues++;
+                        Console.WriteLine($"[***** MISMATCH *****]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
                     }
                     total++;
                 }

@@ -459,7 +459,26 @@ namespace VRDR
             Bundle.AddResourceEntry(AutoUnderlyingCODObs, "urn:uuid:" + AutoUnderlyingCODObs.Id);
         }
         /// <summary> Manual Underlying Cause of Death </summary>
-        private Observation ManualUnderlyingCauseOfDeathObs;
+        private Observation ManualUnderlyingCODObs;
+
+        /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        private void CreateManualUnderlyingCODObs()
+        {
+            ManualUnderlyingCODObs = new Observation();
+            ManualUnderlyingCODObs.Id = Guid.NewGuid().ToString();
+            ManualUnderlyingCODObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            ManualUnderlyingCODObs.Meta.Profile = profile;
+            ManualUnderlyingCODObs.Status = ObservationStatus.Final;
+            ManualUnderlyingCODObs.Code = new CodeableConcept(CodeSystems.LOINC, "80359-3", "Cause of death.underlying [Manual]", null);
+            ManualUnderlyingCODObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(ManualUnderlyingCODObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(ManualUnderlyingCODObs, "urn:uuid:" + ManualUnderlyingCODObs.Id);
+        }
+
+
+
+
         /// <summary> Place Of Injury </summary>
         private Observation PlaceOfInjuryObs;
 
@@ -7789,33 +7808,46 @@ namespace VRDR
             {
                 if (AutoUnderlyingCODObs != null)
                 {
-                    return AutoUnderlyingCODObs.Value.ToString().Replace(".","") ;
+                    return ActualICD10toNCHSICD10(AutoUnderlyingCODObs.Value.ToString()) ;
                 }
                 return null;
             }
             set
             {
-                // regexp for ICD10 code ^[A-Z]\d{2}(\.\d){0,1}$
-                Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
-                Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
-                string code;
-                value = value.Trim();
-                if(ICD10rgx.IsMatch(value)){
-                    code = value;
-                }else{
-                    code = "";
-                    //if(value.Length == 4 && value[value.Length-1] != '.'){
-                    if (NCHSICD10rgx.IsMatch(value)){
-                        code = value;
-                        if(value.Length == 4){
-                            code = value.Substring(0,3) + "." + value.Substring(3,1);
-                        }
-                    }
-                }
                 if (AutoUnderlyingCODObs == null){
                     CreateAutoUnderlyingCODObs();
                 }
-                AutoUnderlyingCODObs.Value = new FhirString(code);
+                AutoUnderlyingCODObs.Value = new FhirString(NCHSICD10toActualICD10(value));
+            }
+        }
+
+       /// <summary>Decedent's Manual Underlying Cause of Death</summary>
+        /// <value>Decedent's Manual Underlying Cause of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ManUnderlyingCOD = "I13.1";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Manual Underlying Cause of Death: {ExampleDeathRecord.ManUnderlyingCOD}");</para>
+        /// </example>
+        [Property("Manual Underlying Cause of Death", Property.Types.Dictionary, "Coded Content", "Manual Underlying Cause of Death.", true, IGURL.ManualUnderlyingCauseOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-580359-3')", "")]
+        public string ManUnderlyingCOD
+        {
+            get
+            {
+                if (ManualUnderlyingCODObs != null)
+                {
+                    return ActualICD10toNCHSICD10(ManualUnderlyingCODObs.Value.ToString()) ;
+                }
+                return null;
+            }
+            set
+            {
+                if (ManualUnderlyingCODObs == null){
+                    CreateManualUnderlyingCODObs();
+                }
+                ManualUnderlyingCODObs.Value = new FhirString(NCHSICD10toActualICD10(value));
             }
         }
 
@@ -7824,6 +7856,40 @@ namespace VRDR
         // Class helper methods useful for building, searching through records.
         //
         /////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>NCHS ICD10 to actual ICD10 </summary>
+        private string NCHSICD10toActualICD10(string nchsicd10code)
+        {
+            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
+            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
+            string code;
+            nchsicd10code = nchsicd10code.Trim();
+            if(ICD10rgx.IsMatch(nchsicd10code)){
+                code = nchsicd10code;
+            }else{
+                code = "";
+                //if(value.Length == 4 && value[value.Length-1] != '.'){
+                if (NCHSICD10rgx.IsMatch(nchsicd10code)){
+                    code = nchsicd10code;
+                    if(nchsicd10code.Length == 4){
+                        code = nchsicd10code.Substring(0,3) + "." + nchsicd10code.Substring(3,1);
+                    }
+                }
+            }
+            return(code);
+        }
+        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
+        private string ActualICD10toNCHSICD10(string icd10code)
+        {
+            if(!String.IsNullOrEmpty(icd10code)){
+                return(icd10code.Replace(".",""));
+            }
+            else
+            {
+                return "";
+            }
+        }
+
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>

@@ -1654,7 +1654,18 @@ namespace VRDR.Tests
             SetterDeathRecord.AutoUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
         }
-
+        [Fact]
+         public void Set_ManUnderlyingCOD()
+        {
+            SetterDeathRecord.ManUnderlyingCOD = "I131";
+            Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13.1";
+            Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13.";
+            Assert.Equal("", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13";
+            Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
+        }
 
 
 

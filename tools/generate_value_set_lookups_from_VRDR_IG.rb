@@ -69,9 +69,9 @@ codesystems = {
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs" => "VRDR.CodeSystems.ActivityAtTimeOfDeath",
     "http://loinc.org" => "VRDR.CodeSystems.LOINC",
 }
+
 valuesets = {
     "ValueSet-vrdr-activity-at-time-of-death-vs.json" => "ActivityAtTimeOfDeath",
-    "ValueSet-vrdr-place-of-injury-vs.json" => "PlaceOfInjury",
     "ValueSet-vrdr-administrative-gender-vs.json" => "AdministrativeGender",
     "ValueSet-vrdr-certifier-types-vs.json" => "CertifierTypes",
     "ValueSet-vrdr-contributory-tobacco-use-vs.json" => "ContributoryTobaccoUse",
@@ -86,6 +86,7 @@ valuesets = {
     "ValueSet-vrdr-method-of-disposition-vs.json" => "MethodOfDisposition",
     "ValueSet-vrdr-not-applicable-vs.json" => "NotApplicable",
     "ValueSet-vrdr-place-of-death-vs.json" => "PlaceOfDeath",
+    "ValueSet-vrdr-place-of-injury-vs.json" => "PlaceOfInjury",
     "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
     "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
     "ValueSet-vrdr-replace-status-vs.json" => "ReplaceStatus",

@@ -35,6 +35,7 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
+<<<<<<< HEAD
         /// <summary> PlaceOfInjury </summary>
         public static class PlaceOfInjury {
             /// <summary> Codes </summary>
@@ -71,6 +72,8 @@ namespace VRDR
             /// <summary> Other </summary>
             public static string  Other = "OTH";
         };
+=======
+>>>>>>> 692af2d (added valuesets, mappings, and codesystems)
         /// <summary> AdministrativeGender </summary>
         public static class AdministrativeGender {
             /// <summary> Codes </summary>

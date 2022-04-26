@@ -379,7 +379,7 @@ namespace VRDR.Tests
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).RegisteredTime);
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).RegisteredTime);
         }
-        
+
         [Fact]
         public void Get_RegisteredTime_ConvertIJE()
         {
@@ -895,7 +895,7 @@ namespace VRDR.Tests
             {
                 Composition comp = (Composition)compositionEntry.Resource;
                 Assert.Equal(4, comp.Section.Count);
-                
+
                 Composition.SectionComponent demographics = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDemographics").First();
                 Assert.Equal(11, demographics.Entry.Count);
 
@@ -930,7 +930,7 @@ namespace VRDR.Tests
             {
                 Composition comp = (Composition)compositionEntry.Resource;
                 Assert.Equal(4, comp.Section.Count);
-                
+
                 Composition.SectionComponent demographics = comp.Section.Where(s => s.Code.Coding.First().Code == "DecedentDemographics").First();
                 Assert.Equal(13, demographics.Entry.Count);
 
@@ -1856,69 +1856,69 @@ namespace VRDR.Tests
         //     Assert.Equal("9876543210", ((DeathRecord)XMLRecords[0]).MorticianIdentifier["value"]);
         // }
 
-        [Fact]
-        public void Set_PronouncerGivenNames()
-        {
-            string[] fdnames = { "FD", "Middle" };
-            SetterDeathRecord.PronouncerGivenNames = fdnames;
-            Assert.Equal("FD", SetterDeathRecord.PronouncerGivenNames[0]);
-            Assert.Equal("Middle", SetterDeathRecord.PronouncerGivenNames[1]);
-        }
+        // [Fact]
+        // public void Set_PronouncerGivenNames()
+        // {
+        //     string[] fdnames = { "FD", "Middle" };
+        //     SetterDeathRecord.PronouncerGivenNames = fdnames;
+        //     Assert.Equal("FD", SetterDeathRecord.PronouncerGivenNames[0]);
+        //     Assert.Equal("Middle", SetterDeathRecord.PronouncerGivenNames[1]);
+        // }
 
-        [Fact]
-        public void Get_PronouncerGivenNames()
-        {
-            Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[1]);
-            Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[0]);
-            Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[1]);
-        }
+        // [Fact]
+        // public void Get_PronouncerGivenNames()
+        // {
+        //     Assert.Equal("FD", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[0]);
+        //     Assert.Equal("Middle", ((DeathRecord)JSONRecords[0]).PronouncerGivenNames[1]);
+        //     Assert.Equal("FD", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[0]);
+        //     Assert.Equal("Middle", ((DeathRecord)XMLRecords[0]).PronouncerGivenNames[1]);
+        // }
 
-        [Fact]
-        public void Set_PronouncerFamilyName()
-        {
-            SetterDeathRecord.PronouncerFamilyName = "Last";
-            Assert.Equal("Last", SetterDeathRecord.PronouncerFamilyName);
-        }
+        // [Fact]
+        // public void Set_PronouncerFamilyName()
+        // {
+        //     SetterDeathRecord.PronouncerFamilyName = "Last";
+        //     Assert.Equal("Last", SetterDeathRecord.PronouncerFamilyName);
+        // }
 
-        [Fact]
-        public void Get_PronouncerFamilyName()
-        {
-            Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).PronouncerFamilyName);
-            Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).PronouncerFamilyName);
-        }
+        // [Fact]
+        // public void Get_PronouncerFamilyName()
+        // {
+        //     Assert.Equal("Last", ((DeathRecord)JSONRecords[0]).PronouncerFamilyName);
+        //     Assert.Equal("Last", ((DeathRecord)XMLRecords[0]).PronouncerFamilyName);
+        // }
 
-        [Fact]
-        public void Set_PronouncerSuffix()
-        {
-            SetterDeathRecord.PronouncerSuffix = "Sr.";
-            Assert.Equal("Sr.", SetterDeathRecord.PronouncerSuffix);
-        }
+        // [Fact]
+        // public void Set_PronouncerSuffix()
+        // {
+        //     SetterDeathRecord.PronouncerSuffix = "Sr.";
+        //     Assert.Equal("Sr.", SetterDeathRecord.PronouncerSuffix);
+        // }
 
-        [Fact]
-        public void Get_PronouncerSuffix()
-        {
-            Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).PronouncerSuffix);
-            Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).PronouncerSuffix);
-        }
+        // [Fact]
+        // public void Get_PronouncerSuffix()
+        // {
+        //     Assert.Equal("Jr.", ((DeathRecord)JSONRecords[0]).PronouncerSuffix);
+        //     Assert.Equal("Jr.", ((DeathRecord)XMLRecords[0]).PronouncerSuffix);
+        // }
 
-        [Fact]
-        public void Set_PronouncerIdentifier()
-        {
-            var id = new Dictionary<string, string>();
-            id["system"] = "foo";
-            id["value"] = "0000000000";
-            SetterDeathRecord.PronouncerIdentifier = id;
-            Assert.Equal("foo", SetterDeathRecord.PronouncerIdentifier["system"]);
-            Assert.Equal("0000000000", SetterDeathRecord.PronouncerIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Set_PronouncerIdentifier()
+        // {
+        //     var id = new Dictionary<string, string>();
+        //     id["system"] = "foo";
+        //     id["value"] = "0000000000";
+        //     SetterDeathRecord.PronouncerIdentifier = id;
+        //     Assert.Equal("foo", SetterDeathRecord.PronouncerIdentifier["system"]);
+        //     Assert.Equal("0000000000", SetterDeathRecord.PronouncerIdentifier["value"]);
+        // }
 
-        [Fact]
-        public void Get_PronouncerIdentifier()
-        {
-            Assert.Equal("0000000000", ((DeathRecord)JSONRecords[0]).PronouncerIdentifier["value"]);
-            Assert.Equal("0000000000", ((DeathRecord)XMLRecords[0]).PronouncerIdentifier["value"]);
-        }
+        // [Fact]
+        // public void Get_PronouncerIdentifier()
+        // {
+        //     Assert.Equal("0000000000", ((DeathRecord)JSONRecords[0]).PronouncerIdentifier["value"]);
+        //     Assert.Equal("0000000000", ((DeathRecord)XMLRecords[0]).PronouncerIdentifier["value"]);
+        // }
 
         [Fact]
         public void Set_FuneralHomeAddress()
@@ -2415,17 +2415,34 @@ namespace VRDR.Tests
             iladdress.Add("addressLine2", "Line 2");
             iladdress.Add("addressCity", "Bedford");
             iladdress.Add("addressCounty", "Middlesex");
+            iladdress.Add("addressCityC", "12345");
+            iladdress.Add("addressCountyC", "123");
             iladdress.Add("addressState", "MA");
             iladdress.Add("addressZip", "01730");
             iladdress.Add("addressCountry", "US");
+            iladdress.Add("addressPredir", "W");
+            iladdress.Add("addressPostdir", "E");
+            iladdress.Add("addressStname", "Example");
+            iladdress.Add("addressStnum", "11");
+            iladdress.Add("addressStdesig", "Street");
+            iladdress.Add("addressUnitnum", "3");
             SetterDeathRecord.InjuryLocationAddress = iladdress;
             Assert.Equal("99912 Example Street", SetterDeathRecord.InjuryLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.InjuryLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", SetterDeathRecord.InjuryLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", SetterDeathRecord.InjuryLocationAddress["addressCounty"]);
+            Assert.Equal("12345", SetterDeathRecord.InjuryLocationAddress["addressCityC"]);
+            Assert.Equal("123", SetterDeathRecord.InjuryLocationAddress["addressCountyC"]);
             Assert.Equal("MA", SetterDeathRecord.InjuryLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.InjuryLocationAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.InjuryLocationAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.InjuryLocationAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.InjuryLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.InjuryLocationAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.InjuryLocationAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.InjuryLocationAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.InjuryLocationAddress["addressUnitnum"]);
+
         }
 
         [Fact]
@@ -2452,6 +2469,21 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.InjuryLocationName = "Example Injury Location Name";
             Assert.Equal("Example Injury Location Name", SetterDeathRecord.InjuryLocationName);
+        }
+
+        [Fact]
+        public void Set_InjuryLocationLatLong(){
+            SetterDeathRecord.InjuryLocationLatitude = "38.889248";
+            SetterDeathRecord.InjuryLocationLongitude = "-77.050636";
+            Assert.Equal("-77.050636",SetterDeathRecord.InjuryLocationLongitude );
+            Assert.Equal("38.889248",SetterDeathRecord.InjuryLocationLatitude );
+        }
+        [Fact]
+        public void Get_InjuryLocationLatLong(){
+            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).InjuryLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).InjuryLocationLatitude);
+            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).InjuryLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).InjuryLocationLatitude);
         }
 
         [Fact]
@@ -2564,25 +2596,59 @@ namespace VRDR.Tests
         // }
 
         [Fact]
+        public void Set_DeathLocationLatLong(){
+            SetterDeathRecord.DeathLocationLatitude = "38.889248";
+            SetterDeathRecord.DeathLocationLongitude = "-77.050636";
+            Assert.Equal("-77.050636",SetterDeathRecord.DeathLocationLongitude );
+            Assert.Equal("38.889248",SetterDeathRecord.DeathLocationLatitude );
+        }
+        [Fact]
+        public void Get_DeathLocationLatLong(){
+            Assert.Equal("-77.050636", ((DeathRecord)JSONRecords[0]).DeathLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)JSONRecords[0]).DeathLocationLatitude);
+            Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).DeathLocationLongitude);
+            Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).DeathLocationLatitude);
+        }
+
+
+
+
+        [Fact]
         public void Set_DeathLocationAddress()
         {
             Dictionary<string, string> dtladdress = new Dictionary<string, string>();
+
             dtladdress.Add("addressLine1", "671 Example Street");
             dtladdress.Add("addressLine2", "Line 2");
             dtladdress.Add("addressCity", "Bedford");
             dtladdress.Add("addressCounty", "Middlesex");
+            dtladdress.Add("addressCountyC", "123");
+            dtladdress.Add("addressCityC", "12345");
             dtladdress.Add("addressState", "MA");
             dtladdress.Add("addressZip", "01730");
             dtladdress.Add("addressCountry", "US");
-            SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            dtladdress.Add("addressPredir", "W");
+            dtladdress.Add("addressPostdir", "E");
+            dtladdress.Add("addressStname", "Example");
+            dtladdress.Add("addressStnum", "11");
+            dtladdress.Add("addressStdesig", "Street");
+            dtladdress.Add("addressUnitnum", "3");
             SetterDeathRecord.DeathLocationAddress = dtladdress;
             Assert.Equal("671 Example Street", SetterDeathRecord.DeathLocationAddress["addressLine1"]);
             Assert.Equal("Line 2", SetterDeathRecord.DeathLocationAddress["addressLine2"]);
             Assert.Equal("Bedford", SetterDeathRecord.DeathLocationAddress["addressCity"]);
             Assert.Equal("Middlesex", SetterDeathRecord.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("12345", SetterDeathRecord.DeathLocationAddress["addressCityC"]);
+            Assert.Equal("123", SetterDeathRecord.DeathLocationAddress["addressCountyC"]);
             Assert.Equal("MA", SetterDeathRecord.DeathLocationAddress["addressState"]);
             Assert.Equal("01730", SetterDeathRecord.DeathLocationAddress["addressZip"]);
             Assert.Equal("US", SetterDeathRecord.DeathLocationAddress["addressCountry"]);
+            Assert.Equal("W", SetterDeathRecord.DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", SetterDeathRecord.DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", SetterDeathRecord.DeathLocationAddress["addressStname"]);
+            Assert.Equal("11", SetterDeathRecord.DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", SetterDeathRecord.DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", SetterDeathRecord.DeathLocationAddress["addressUnitnum"]);
         }
 
         [Fact]
@@ -2603,6 +2669,22 @@ namespace VRDR.Tests
             Assert.Equal("NY", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressState"]);
             Assert.Equal("01730", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressZip"]);
             Assert.Equal("US", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCountry"]);
+            Assert.Equal("12345", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCityC"]);
+            Assert.Equal("123", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("12345", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressCityC"]);
+            Assert.Equal("123", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("W", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStname"]);
+            Assert.Equal("671", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", ((DeathRecord)JSONRecords[0]).DeathLocationAddress["addressUnitnum"]);
+            Assert.Equal("W", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressPredir"]);
+            Assert.Equal("E", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressPostdir"]);
+            Assert.Equal("Example", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStname"]);
+            Assert.Equal("671", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStnum"]);
+            Assert.Equal("Street", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressStdesig"]);
+            Assert.Equal("3", ((DeathRecord)XMLRecords[0]).DeathLocationAddress["addressUnitnum"]);
         }
 
         [Fact]

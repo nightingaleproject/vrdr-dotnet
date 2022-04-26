@@ -399,20 +399,20 @@ namespace VRDR.CLI
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
                 // PronouncerGivenNames
-                string[] pronouncer_gnames = { "FD", "Middle" };
-                deathRecord.PronouncerGivenNames = pronouncer_gnames;
+                // string[] pronouncer_gnames = { "FD", "Middle" };
+                // deathRecord.PronouncerGivenNames = pronouncer_gnames;
 
-                // PronouncerFamilyName
-                deathRecord.PronouncerFamilyName = "Last";
+                // // PronouncerFamilyName
+                // deathRecord.PronouncerFamilyName = "Last";
 
-                // PronouncerSuffix
-                deathRecord.PronouncerSuffix = "Jr.";
+                // // PronouncerSuffix
+                // deathRecord.PronouncerSuffix = "Jr.";
 
-                // PronouncerIdentifier
-                var pronouncerId = new Dictionary<string, string>();
-                pronouncerId["value"] = "0000000000";
-                pronouncerId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                deathRecord.PronouncerIdentifier = pronouncerId;
+                // // PronouncerIdentifier
+                // var pronouncerId = new Dictionary<string, string>();
+                // pronouncerId["value"] = "0000000000";
+                // pronouncerId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // deathRecord.PronouncerIdentifier = pronouncerId;
 
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
@@ -535,12 +535,8 @@ namespace VRDR.CLI
 
                     if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
                     {
-                        // TEMP disable countytext feilds
-                        if (info.Name != "COUNTYTEXT_D" && info.Name != "COUNTYTEXT_I")
-                        {
-                            issues++;
-                            Console.WriteLine($"[***** MISMATCH *****]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
-                        }
+                        issues++;
+                        Console.WriteLine($"[***** MISMATCH *****]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
                     }
                     total++;
                 }

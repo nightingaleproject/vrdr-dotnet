@@ -749,6 +749,12 @@
             <display value="Site" />
           </coding>
         </physicalType>
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
+        }
       </Location>
     </resource>
   </entry>
@@ -1494,7 +1500,11 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
-
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
       </Location>
     </resource>
   </entry>
@@ -1571,7 +1581,7 @@
       <Location>
         <id value="d1113c5e-ccba-437e-9fbd-64ebfdcfb617" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" />
         </meta>
         <name value="Example Death Location Name" />
         <description value="Example Death Location Description" />
@@ -1583,10 +1593,37 @@
           </coding>
         </type>
         <address>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PreDirectional">
+              <valueString value="W"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PostDirectional">
+              <valueString value="E"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber">
+              <valueString value="671"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName">
+              <valueString value="Example"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetDesignator">
+              <valueString value="Street"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/UnitOrAptNumber">
+              <valueString value="3"/>
+        </extension>
           <line value="671 Example Street" />
           <line value="Line 2" />
-          <city value="Bedford" />
-          <district value="Middlesex" />
+          <city value="Bedford">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode">
+              <valuePositiveInt value="12345"/>
+            </extension>
+          </city>
+          <district value="Middlesex">
+            <extension
+              url="http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode">
+              <valuePositiveInt value="123"/>
+            </extension>
+          </district>
           <state value="NY">
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
           <valueString value="YC"/>
@@ -1595,6 +1632,11 @@
           <postalCode value="01730" />
           <country value="US" />
         </address>
+        <position>
+          <longitude value ="-77.050636"/>
+          <latitude value="38.889248"/>
+          <altitude value="0"/>
+        </position>
       </Location>
     </resource>
   </entry>

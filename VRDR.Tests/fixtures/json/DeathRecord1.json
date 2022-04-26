@@ -212,10 +212,10 @@
               },
               {
                 "reference" : "urn:uuid:bbae6f36-26c2-4b20-b9d3-735d9c9f6c2f"
-              },  
+              },
               {
                 "reference" : "urn:uuid:223eaadb-5909-458c-bbe5-604c120c3ce9"
-              },    
+              },
               {
                 "reference" : "urn:uuid:fc27b07f-99c9-48f8-a229-6eb5d8b598f0"
               },
@@ -936,6 +936,10 @@
               "display": "Site"
             }
           ]
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1566,14 +1570,6 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location",
-            "valueReference": {
-              "reference": "urn:uuid:fe696fc7-7683-4268-92d8-b3a7c88b1587"
-            }
-          }
-        ],
         "status": "final",
         "code": {
           "coding": [
@@ -1835,6 +1831,10 @@
           "state": "MA",
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },
@@ -1944,12 +1944,54 @@
         "name": "Example Death Location Name",
         "description": "Example Death Location Description",
         "address": {
+        "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PreDirectional",
+              "valueString": "W"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PostDirectional",
+              "valueString": "E"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber",
+              "valueString": "671"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName",
+              "valueString": "Example"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetDesignator",
+              "valueString": "Street"
+              },
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/UnitOrAptNumber",
+              "valueString": "3"
+              }
+            ],
           "line": [
             "671 Example Street",
             "Line 2"
           ],
           "city": "Bedford",
+          "_city": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode",
+              "valueString": "12345"
+              }
+            ]
+          },
           "district": "Middlesex",
+          "_district": {
+            "extension": [
+              {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode",
+              "valueString": "123"
+              }
+            ]
+          },
           "state": "NY",
           "_state": {
             "extension": [
@@ -1961,6 +2003,10 @@
           },
           "postalCode": "01730",
           "country": "US"
+        },
+        "position": {
+          "latitude": 38.889248,
+          "longitude": -77.050636
         }
       }
     },

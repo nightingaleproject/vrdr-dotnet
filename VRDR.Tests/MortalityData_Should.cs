@@ -296,11 +296,27 @@ namespace VRDR.Tests
         public void HandleDeathLocationIJE()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("MA", ije1.DSTATE);
             Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
             IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
         }
+
+        [Fact]
+        public void HandleAddressUpdateIJE()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("582 Dustin Centers", ije1.ADDRESS_D.Trim());
+            Assert.Equal("902101111", ije1.ZIP9_D);
+
+            // Update dictionary fields
+            ije1.ADDRESS_D = "580 Dustin Center";
+            Assert.Equal("580 Dustin Center", ije1.ADDRESS_D.Trim());
+            Assert.Equal("902101111", ije1.ZIP9_D);
+
+        }
+
         [Fact]
         public void HandleUnknownBirthRecordId()
         {
@@ -356,7 +372,7 @@ namespace VRDR.Tests
             Assert.Equal("999", ije1.COUNTYC);
 
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("999", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("999", dr1.DeathLocationAddress["addressCountyC"]);
             Assert.Equal("999", dr1.Residence["addressCountyC"]);
         }
 
@@ -368,7 +384,7 @@ namespace VRDR.Tests
             Assert.Equal("000", ije1.COUNTYC);
 
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("000", dr1.DeathLocationAddress["addressCounty"]);
+            Assert.Equal("000", dr1.DeathLocationAddress["addressCountyC"]);
             Assert.Equal("000", dr1.Residence["addressCountyC"]);
         }
 

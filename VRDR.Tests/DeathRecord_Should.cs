@@ -341,17 +341,17 @@ namespace VRDR.Tests
         [Fact]
         public void Set_StateLocalIdentifier()
         {
-            List<Tuple<string, string>> ids = new List<Tuple<string, string>>();
-            ids.Add(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"));
-            SetterDeathRecord.StateLocalIdentifier = ids.ToArray();
-            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier[0].Item2);
+            SetterDeathRecord.StateLocalIdentifier1 = "000000000042";
+            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier1);
+            SetterDeathRecord.StateLocalIdentifier2 = "100000000042";
+            Assert.Equal("100000000042", SetterDeathRecord.StateLocalIdentifier2);
         }
 
         [Fact]
         public void Get_StateLocalIdentifier()
         {
-            Assert.Equal(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"), ((DeathRecord)JSONRecords[0]).StateLocalIdentifier[0]);
-            Assert.Equal(Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042"), ((DeathRecord)XMLRecords[0]).StateLocalIdentifier[0]);
+            Assert.Equal("000000000042", ((DeathRecord)JSONRecords[0]).StateLocalIdentifier1);
+            Assert.Equal("000000000042", ((DeathRecord)XMLRecords[0]).StateLocalIdentifier1);
         }
 
         [Fact]

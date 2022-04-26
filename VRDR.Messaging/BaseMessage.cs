@@ -103,9 +103,9 @@ namespace VRDR
                 this.CertificateNumber = certificateNumber;
             }
             // take the first state local identifier if it exists
-            if (from?.StateLocalIdentifier != null && from.StateLocalIdentifier.Length > 0)
+            if (from?.StateLocalIdentifier1 != null)
             {
-                this.StateAuxiliaryIdentifier = from.StateLocalIdentifier[0].Item2;
+                this.StateAuxiliaryIdentifier = from.StateLocalIdentifier1;
             }
             else
             {

@@ -41,8 +41,7 @@ namespace VRDR.CLI
                 deathRecord.CertificationRole = certificationRole;
 
                 // State Local Identifier
-                Tuple<string, string>[] ids = new Tuple<string, string>[]{Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier1, "000000000042")};
-                deathRecord.StateLocalIdentifier = ids;
+                deathRecord.StateLocalIdentifier1 = "000000000042";
 
                 // MannerOfDeathType
                 Dictionary<string, string> mannerOfDeathType = new Dictionary<string, string>();

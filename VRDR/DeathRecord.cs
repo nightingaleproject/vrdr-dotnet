@@ -731,44 +731,91 @@ namespace VRDR
             }
         }
 
-        /// <summary>State Local Identifier.</summary>
-        /// <value> a tuple array of state local identifiers
-        /// <para>"item1" - the extension url for the local identifier</para>
-        /// <para>"item2" - the string representation of the local identifier</para>
+        /// <summary>State Local Identifier1.</summary>
+        /// <para>"value" the string representation of the local identifier</para>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple<string, string>[] ids = new Tuple<string,string>[]{Tuple.Create(ExtensionURL.AuxiliaryStateIdentifier2, "100000000001")};</para>
-        /// <para>ExampleDeathRecord.StateLocalIdentifier = ids;</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier1 = "MA";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier[0].Item2}");</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
-        [Property("State Local Identifier", Property.Types.TupleArr, "Death Certificate Document", "State Local Identifier.", true, ProfileURL.DeathCertificateDocument, true, 5)]
+        [Property("State Local Identifier1", Property.Types.String, "Death Certificate Document", "State Local Identifier.", true, ProfileURL.DeathCertificateDocument, true, 5)]
         [FHIRPath("Bundle", "identifier")]
-        public Tuple<string, string>[] StateLocalIdentifier
+        public string StateLocalIdentifier1
         {
             get
             {
-                // return first non-null/empty identifier value or null if none found
-                List<Tuple<string, string>> identifiers = new List<Tuple<string, string>>();
-                if (Bundle.Identifier != null)
+                if (Bundle?.Identifier?.Extension != null)
                 {
-                    List<Extension> extensions = Bundle.Identifier.Extension.AsEnumerable().ToList();
-                    foreach(Extension ext in extensions)
+                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                    if (ext?.Value != null)
                     {
-                        Tuple<string, string> id = Tuple.Create(ext.Url, ext.Value.ToString());
-                        identifiers.Add(id);
+                        return Convert.ToString(ext.Value);
                     }
-                }     
-                return identifiers.ToArray();
+                }
+
+                return null;
             }
             set
             {
-                Bundle?.Identifier?.Extension.Clear();
-                foreach(Tuple<string, string> element in value)
+                if (Bundle?.Identifier?.Extension != null)
+                {
+                    Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                }
+                
+                if (!String.IsNullOrWhiteSpace(value))
                 {
                     Extension ext = new Extension();
-                    ext.Url = element.Item1;
-                    ext.Value = new FhirString(element.Item2);
+                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier1;
+                    ext.Value = new FhirString(value);
+                    if (Bundle.Identifier == null)
+                    {
+                        Identifier identifier = new Identifier();
+                        Bundle.Identifier = identifier;
+                    }
+                    Bundle.Identifier.Extension.Add(ext);
+                }
+
+            }
+        }
+
+        /// <summary>State Local Identifier2.</summary>
+        /// <para>"value" the string representation of the local identifier</para>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier2 = "YC";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
+        /// </example>
+        [Property("State Local Identifier2", Property.Types.String, "Death Certificate Document", "State Local Identifier.", true, ProfileURL.DeathCertificateDocument, true, 5)]
+        [FHIRPath("Bundle", "identifier")]
+        public string StateLocalIdentifier2
+        {
+            get
+            {
+                if (Bundle?.Identifier?.Extension != null)
+                {
+                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
+                    if (ext?.Value != null)
+                    {
+                        return Convert.ToString(ext.Value);
+                    }
+                }
+
+                return null;
+            }
+            set
+            {
+                if (Bundle?.Identifier?.Extension != null)
+                {
+                    Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
+                }
+                
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Extension ext = new Extension();
+                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier2;
+                    ext.Value = new FhirString(value);
                     if (Bundle.Identifier == null)
                     {
                         Identifier identifier = new Identifier();

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -7771,7 +7772,51 @@ namespace VRDR
             }
         }
 
-
+       /// <summary>Decedent's Automated Underlying Cause of Death</summary>
+        /// <value>Decedent's Automated Underlying Cause of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutoUnderlyingCOD = "I13.1";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutoUnderlyingCOD}");</para>
+        /// </example>
+        [Property("Automated Underlying Cause of Death", Property.Types.Dictionary, "Coded Content", "Automated Underlying Cause of Death.", true, IGURL.AutomatedUnderlyingCauseOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-5')", "")]
+        public string AutoUnderlyingCOD
+        {
+            get
+            {
+                if (AutoUnderlyingCODObs != null)
+                {
+                    return AutoUnderlyingCODObs.Value.ToString().Replace(".","") ;
+                }
+                return null;
+            }
+            set
+            {
+                // regexp for ICD10 code ^[A-Z]\d{2}(\.\d){0,1}$
+                Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
+                Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
+                string code;
+                if(ICD10rgx.IsMatch(value)){
+                    code = value;
+                }else{
+                    code = "";
+                    //if(value.Length == 4 && value[value.Length-1] != '.'){
+                    if (NCHSICD10rgx.IsMatch(value)){
+                        code = value;
+                        if(value.Length == 4){
+                            code = value.Substring(0,3) + "." + value.Substring(3,1);
+                        }
+                    }
+                    if (AutoUnderlyingCODObs == null){
+                        CreateAutoUnderlyingCODObs();
+                    }
+                    AutoUnderlyingCODObs.Value = new FhirString(code);
+                }
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////////////////
         //

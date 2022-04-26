@@ -786,13 +786,13 @@ namespace VRDR
         {
             get
             {
-                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier");
+                return RightJustifiedZeroed_Get("AUXNO", "StateLocalIdentifier1");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier", value);
+                    RightJustifiedZeroed_Set("AUXNO", "StateLocalIdentifier1", value);
                 }
             }
         }
@@ -2946,12 +2946,14 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: DeathCertificateDocument
-                return "";
+                return RightJustifiedZeroed_Get("AUXNO2", "StateLocalIdentifier2");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: DeathCertificateDocument
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    RightJustifiedZeroed_Set("AUXNO2", "StateLocalIdentifier2", value);
+                }
             }
         }
 

@@ -41,7 +41,7 @@ namespace VRDR.CLI
                 deathRecord.CertificationRole = certificationRole;
 
                 // State Local Identifier
-                deathRecord.StateLocalIdentifier = "42";
+                deathRecord.StateLocalIdentifier1 = "000000000042";
 
                 // MannerOfDeathType
                 Dictionary<string, string> mannerOfDeathType = new Dictionary<string, string>();

@@ -102,7 +102,16 @@ namespace VRDR
             {
                 this.CertificateNumber = certificateNumber;
             }
-            this.StateAuxiliaryIdentifier = from?.StateLocalIdentifier;
+            // take the first state local identifier if it exists
+            if (from?.StateLocalIdentifier1 != null)
+            {
+                this.StateAuxiliaryIdentifier = from.StateLocalIdentifier1;
+            }
+            else
+            {
+                this.StateAuxiliaryIdentifier = null;
+            }
+            
             if (from?.DateOfDeath != null)
             {
                 uint deathYear;

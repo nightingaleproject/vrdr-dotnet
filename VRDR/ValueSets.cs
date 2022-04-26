@@ -5,6 +5,36 @@ namespace VRDR
     /// <summary> ValueSet Helpers </summary>
     public static class ValueSets
     {
+        /// <summary> ActivityAtTimeOfDeath </summary>
+        public static class ActivityAtTimeOfDeath {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "0", "While engaged in sports activity", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "1", "While engaged in leisure activities.", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "2", "While working for income", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "3", "While engaged in other types of work", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "4", "While resting, sleeping, eating, or engaging in other vital activities", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "8", "While engaged in other specified activities.", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "9", "During unspecified activity", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> While_Engaged_In_Sports_Activity </summary>
+            public static string  While_Engaged_In_Sports_Activity = "0";
+            /// <summary> While_Engaged_In_Leisure_Activities </summary>
+            public static string  While_Engaged_In_Leisure_Activities = "1";
+            /// <summary> While_Working_For_Income </summary>
+            public static string  While_Working_For_Income = "2";
+            /// <summary> While_Engaged_In_Other_Types_Of_Work </summary>
+            public static string  While_Engaged_In_Other_Types_Of_Work = "3";
+            /// <summary> While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities </summary>
+            public static string  While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities = "4";
+            /// <summary> While_Engaged_In_Other_Specified_Activities </summary>
+            public static string  While_Engaged_In_Other_Specified_Activities = "8";
+            /// <summary> During_Unspecified_Activity </summary>
+            public static string  During_Unspecified_Activity = "9";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+        };
         /// <summary> AdministrativeGender </summary>
         public static class AdministrativeGender {
             /// <summary> Codes </summary>

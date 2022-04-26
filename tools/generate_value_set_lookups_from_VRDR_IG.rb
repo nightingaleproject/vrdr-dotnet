@@ -65,9 +65,11 @@ codesystems = {
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs" => "VRDR.CodeSystems.ReplaceStatus",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-missing-value-reason-cs" => "VRDR.CodeSystems.MissingValueReason",
     "http://unitsofmeasure.org" => "VRDR.CodeSystems.UnitsOfMeasure",
-    "http://terminology.hl7.org/CodeSystem/v2-0136" => "VRDR.CodeSystems.YesNo"
+    "http://terminology.hl7.org/CodeSystem/v2-0136" => "VRDR.CodeSystems.YesNo",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs" => "VRDR.CodeSystems.ActivityAtTimeOfDeath",
 }
 valuesets = {
+    "ValueSet-vrdr-activity-at-time-of-death-vs.json" => "ActivityAtTimeOfDeath",
     "ValueSet-vrdr-administrative-gender-vs.json" => "AdministrativeGender",
     "ValueSet-vrdr-certifier-types-vs.json" => "CertifierTypes",
     "ValueSet-vrdr-contributory-tobacco-use-vs.json" => "ContributoryTobaccoUse",

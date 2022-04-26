@@ -132,6 +132,8 @@ namespace VRDR
 
         /// <summary> Organization Type </summary>
         public static string OrganizationType = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs";
+        /// <summary> Activity at Time of Death </summary>
+        public static string ActivityAtTimeOfDeath = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs";
     }
 
 }

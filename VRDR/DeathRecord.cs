@@ -421,6 +421,32 @@ namespace VRDR
         private Observation DeathDateObs;
         private const string  locationJurisdictionExtPath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
 
+
+        // Coded Observations
+        /// <summary> Activity at Time of Death </summary>
+        private Observation ActivityAtTimeOfDeathObs;
+
+        /// <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
+        private void CreateActivityAtTimeOfDeathObs()
+        {
+            ActivityAtTimeOfDeathObs = new Observation();
+            ActivityAtTimeOfDeathObs.Id = Guid.NewGuid().ToString();
+            ActivityAtTimeOfDeathObs.Meta = new Meta();
+            string[] profile = { ProfileURL.ActivityAtTimeOfDeath };
+            ActivityAtTimeOfDeathObs.Meta.Profile = profile;
+            ActivityAtTimeOfDeathObs.Status = ObservationStatus.Final;
+            ActivityAtTimeOfDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "80626-5", "Activity at time of death [CDC]", null);
+            ActivityAtTimeOfDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(ActivityAtTimeOfDeathObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(ActivityAtTimeOfDeathObs, "urn:uuid:" + ActivityAtTimeOfDeathObs.Id);
+        }
+        /// <summary> Automated Underlying Cause of Death </summary>
+        private Observation AutomatedUnderlyingCauseOfDeathObs;
+        /// <summary> Manual Underlying Cause of Death </summary>
+        private Observation ManualUnderlyingCauseOfDeathObs;
+        /// <summary> Place Of Injury </summary>
+        private Observation PlaceOfInjuryObs;
+
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
@@ -7638,6 +7664,8 @@ namespace VRDR
             }
         }
 
+
+
         /// <summary>Emerging Issue Field Length 20</summary>
         /// <value>the emerging issue value</value>
         /// <example>
@@ -7659,6 +7687,76 @@ namespace VRDR
                 SetEmergingIssue("EmergingIssue20", value);
             }
         }
+
+        /// <summary>Activity at Time of Death.</summary>
+        /// <value>the decedent's activity at time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; activity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.ActivityAtTimeOfDeath);</para>
+        /// <para>elevel.Add("display", "While engaged in sports activity");</para>
+        /// <para>ExampleDeathRecord.ActivityAtDeath = activity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+        /// </example>
+        [Property("Activity at Time of Death", Property.Types.Dictionary, "Coded Content", "Decedent's Activity at Time of Death.", true, IGURL.ActivityAtTimeOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80626-5')", "")]
+        public Dictionary<string, string> ActivityAtDeath
+        {
+            get
+            {
+                if (ActivityAtTimeOfDeathObs != null && ActivityAtTimeOfDeathObs.Value != null && ActivityAtTimeOfDeathObs.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ActivityAtTimeOfDeathObs.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (ActivityAtTimeOfDeathObs == null)
+                {
+                    CreateActivityAtTimeOfDeathObs();
+                }
+                ActivityAtTimeOfDeathObs.Value = DictToCodeableConcept(value);
+            }
+        }
+
+        /// <summary>Decedent's Activity At Time of Death Helper</summary>
+        /// <value>Decedent's Activity at Time of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ActivityAtDeath = 0;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Activity at Time of Death: {ExampleDeathRecord.ActivityAtDeath}");</para>
+        /// </example>
+        [Property("Activity at Time of Death", Property.Types.Dictionary, "Coded Content", "Decedent's Activity at Time of Death.", true, IGURL.ActivityAtTimeOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80626-5')", "")]
+        public string ActivityAtDeathHelper
+        {
+            get
+            {
+                if (ActivityAtDeath.ContainsKey("code"))
+                {
+                    return ActivityAtDeath["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+            }
+        }
+
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //

@@ -2436,30 +2436,11 @@ namespace VRDR
         {
             get
             {
-                // IJE options below, default to Blank.
-                // A Home
-                // B Farm
-                // C Residential Institution
-                // D Military Residence
-                // E Hospital
-                // F School, Other Institutions, Administrative Area
-                // G Industrial and Construction
-                // H Garage/Warehouse
-                // I Trade and Service Area
-                // J Mine/Quarry
-                // K Street/Highway
-                // L Public Recreation Area
-                // M Institutional Recreation Area
-                // N Sports and Recreation Area
-                // O Other building
-                // P Other specified Place
-                // Q Unspecified Place
-                // Blank
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PlaceOfInjury.FHIRToIJE, "PlaceOfInjury", "INJPL");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.PlaceOfInjury.IJEToFHIR, "INJPL", "PlaceOfInjury", value);
             }
         }
 
@@ -2469,12 +2450,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ManualUnderlyingCauseOfDeath
-                return "";
+               return( LeftJustified_Get("MAN_UC","ManUnderlyingCOD"));
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ManualUnderlyingCauseOfDeath
+                LeftJustified_Set("Man_UC","ManUnderlyingCOD", value);
             }
         }
 
@@ -2484,12 +2464,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: AutomatedUnderlyingCauseOfDeath
-                return "";
+               return( LeftJustified_Get("ACME_UC","AutoUnderlyingCOD"));
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: AutomatedUnderlyingCauseOfDeath
+                LeftJustified_Set("ACME_UC","AutoUnderlyingCOD", value);
             }
         }
 

@@ -7799,6 +7799,7 @@ namespace VRDR
                 Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
                 Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
                 string code;
+                value = value.Trim();
                 if(ICD10rgx.IsMatch(value)){
                     code = value;
                 }else{
@@ -7810,11 +7811,11 @@ namespace VRDR
                             code = value.Substring(0,3) + "." + value.Substring(3,1);
                         }
                     }
-                    if (AutoUnderlyingCODObs == null){
-                        CreateAutoUnderlyingCODObs();
-                    }
-                    AutoUnderlyingCODObs.Value = new FhirString(code);
                 }
+                if (AutoUnderlyingCODObs == null){
+                    CreateAutoUnderlyingCODObs();
+                }
+                AutoUnderlyingCODObs.Value = new FhirString(code);
             }
         }
 

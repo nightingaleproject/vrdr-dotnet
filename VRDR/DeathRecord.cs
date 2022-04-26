@@ -441,7 +441,22 @@ namespace VRDR
             Bundle.AddResourceEntry(ActivityAtTimeOfDeathObs, "urn:uuid:" + ActivityAtTimeOfDeathObs.Id);
         }
         /// <summary> Automated Underlying Cause of Death </summary>
-        private Observation AutomatedUnderlyingCauseOfDeathObs;
+        private Observation AutoUnderlyingCODObs;
+
+        /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        private void CreateAutoUnderlyingCODObs()
+        {
+            AutoUnderlyingCODObs = new Observation();
+            AutoUnderlyingCODObs.Id = Guid.NewGuid().ToString();
+            AutoUnderlyingCODObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            AutoUnderlyingCODObs.Meta.Profile = profile;
+            AutoUnderlyingCODObs.Status = ObservationStatus.Final;
+            AutoUnderlyingCODObs.Code = new CodeableConcept(CodeSystems.LOINC, "80358-5", "Cause of death.underlying [Automated]", null);
+            AutoUnderlyingCODObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(AutoUnderlyingCODObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(AutoUnderlyingCODObs, "urn:uuid:" + AutoUnderlyingCODObs.Id);
+        }
         /// <summary> Manual Underlying Cause of Death </summary>
         private Observation ManualUnderlyingCauseOfDeathObs;
         /// <summary> Place Of Injury </summary>

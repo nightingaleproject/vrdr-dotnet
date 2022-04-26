@@ -552,7 +552,7 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            
+
             // initialize the dictionary if it does not exist
             if (dictionary == null)
             {
@@ -601,7 +601,7 @@ namespace VRDR
                 }
             }
             else
-            {  
+            {
                 dictionary[key] = value.Trim();
             }
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
@@ -2234,7 +2234,7 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("BSTATE", "BirthRecordState"); 
+                return LeftJustified_Get("BSTATE", "BirthRecordState");
             }
             set
             {
@@ -2702,6 +2702,7 @@ namespace VRDR
             {
                 Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
             }
+
         }
 
         /// <summary>Activity at time of death (computer generated)</summary>
@@ -2710,19 +2711,11 @@ namespace VRDR
         {
             get
             {
-                // IJE options below, default to "9"
-                // 0 While engaged in sports activity
-                // 1 While engaged in leisure activities
-                // 2 While working for income
-                // 3 While engaged in other types of work
-                // 4 While resting, sleeping, eating, or engaging in other vital activities
-                // 8 While engaged in other specified activities
-                // 9 During unspecified activity
-                return "9";
+                return Get_MappingFHIRToIJE(Mappings.ActivityAtTimeOfDeath.FHIRToIJE, "ActivityAtDeath", "INACT");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.ActivityAtTimeOfDeath.IJEToFHIR, "INACT", "ActivityAtDeath", value);
             }
         }
 

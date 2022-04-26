@@ -5616,7 +5616,8 @@ namespace VRDR
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(new TimeSpan());
+                // TODO: This converts to UTC which is bad... we actually want to keep the originally specified time zone!
+                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
                 TimeSpan timeSpan = new TimeSpan(0, dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second);
                 return timeSpan.ToString(@"hh\:mm");
             }
@@ -5739,14 +5740,14 @@ namespace VRDR
                     DateTimeOffset parsedTime;
                     if (DateTimeOffset.TryParse(time, out parsedTime))
                     {
-                        DateTime result = new DateTime((int)year, (int)month, (int)day, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
-                        return result.ToString();
+                        DateTimeOffset result = new DateTimeOffset((int)year, (int)month, (int)day, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
                     }
                 }
                 else if (year != null && month != null && day != null)
                 {
                     DateTime result = new DateTime((int)year, (int)month, (int)day);
-                    return result.ToString();
+                    return result.ToString("s");
                 }
                 return null;
             }

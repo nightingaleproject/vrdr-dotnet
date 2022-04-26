@@ -111,14 +111,9 @@ namespace VRDR
             {
                 this.StateAuxiliaryIdentifier = null;
             }
-            
-            if (from?.DateOfDeath != null)
+            if (from?.DeathYear != null)
             {
-                uint deathYear;
-                if (from?.DateOfDeath?.Length >= 4 && UInt32.TryParse(from?.DateOfDeath?.Substring(0,4), out deathYear))
-                {
-                    this.DeathYear = deathYear;
-                }
+                this.DeathYear = from.DeathYear;
             }
             this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
         }

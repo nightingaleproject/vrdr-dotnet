@@ -2726,15 +2726,15 @@ namespace VRDR.Tests
         [Fact]
         public void Set_DateOfDeath()
         {
-            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:06.498822-05:00";
-            Assert.Equal("2018-02-19T16:48:06.498822-05:00", SetterDeathRecord.DateOfDeath);
+            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:00";
+            Assert.Equal("2018-02-19T16:48:00", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
-            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]
@@ -2746,7 +2746,7 @@ namespace VRDR.Tests
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2019-02-19T16:48:06-05:00", dr2.DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", dr2.DateOfDeath);
         }
 
         [Fact]

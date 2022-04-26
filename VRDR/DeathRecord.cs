@@ -653,8 +653,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
-        [Property("Identifier", Property.Types.String, "Death Certificate Document", "Death Certificate Number.", true, ProfileURL.DeathCertificateDocument, true, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Identifier)", "identifier")]
+        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, IGURL.DeathCertification, true, 3)]
+        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
         public string Identifier
         {
             get
@@ -759,7 +759,7 @@ namespace VRDR
                 {
                     Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
                 }
-                
+
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Extension ext = new Extension();
@@ -807,7 +807,7 @@ namespace VRDR
                 {
                     Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
                 }
-                
+
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     Extension ext = new Extension();
@@ -832,7 +832,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
         /// </example>
-        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", false, 12)]
+        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, IGURL.DeathCertification, false, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "")]
         public string CertifiedTime
         {
@@ -1051,7 +1051,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", true, IGURL.DeathCertification, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1095,7 +1095,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, IGURL.DeathCertification, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performer")]
         public string CertificationRoleHelper

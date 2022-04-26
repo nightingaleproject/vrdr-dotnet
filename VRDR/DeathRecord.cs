@@ -706,12 +706,9 @@ namespace VRDR
             uint certificateNumber = 0;
             UInt32.TryParse(this.Identifier, out certificateNumber);
             uint deathYear = 0;
-            if (this.DateOfDeath != null)
+            if (this.DeathYear != null)
             {
-                if (this.DateOfDeath.Length >= 4)
-                {
-                    UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
-                }
+                deathYear = (uint)this.DeathYear;
             }
 
             String jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
@@ -5598,7 +5595,7 @@ namespace VRDR
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(new TimeSpan());
+                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
                 switch(partURL)
                 {
                     case ExtensionURL.DateYear:
@@ -5632,6 +5629,7 @@ namespace VRDR
         // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
         // TODO: Add a summary and Property and FHIRPath
         // TODO: Add DeathMonth, DeathDay, etc.
+        /// <summary>TODO: ADD A SUMMARY</summary>
         public uint? DeathYear
         {
             get
@@ -5649,10 +5647,11 @@ namespace VRDR
                     CreateDeathDateObs();
                 }
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateBundleIdentifier();
             }
         }
 
-
+        /// <summary>TODO: ADD A SUMMARY</summary>
         public uint? DeathMonth
         {
             get
@@ -5673,6 +5672,7 @@ namespace VRDR
             }
         }
 
+        /// <summary>TODO: ADD A SUMMARY</summary>
         public uint? DeathDay
         {
             get
@@ -5693,6 +5693,7 @@ namespace VRDR
             }
         }
 
+        /// <summary>TODO: ADD A SUMMARY</summary>
         public string DeathTime
         {
             get
@@ -5728,30 +5729,40 @@ namespace VRDR
         {
             get
             {
-                if (DeathDateObs != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                uint? year = DeathYear;
+                uint? month = DeathMonth;
+                uint? day = DeathDay;
+                string time = DeathTime;
+                if (year != null && month != null && day != null && time != null)
                 {
-                    return Convert.ToString(DeathDateObs.Value);
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(time, out parsedTime))
+                    {
+                        DateTime result = new DateTime((int)year, (int)month, (int)day, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                        return result.ToString();
+                    }
+                }
+                else if (year != null && month != null && day != null)
+                {
+                    DateTime result = new DateTime((int)year, (int)month, (int)day);
+                    return result.ToString();
                 }
                 return null;
             }
             set
             {
-                if (DeathDateObs == null)
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateDeathDateObs();
-                    // if (Pronouncer != null)
-                    // {
-                    //     DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Pronouncer.Id));
-                    // }
+                    DeathYear = (uint?)parsedTime.Year;
+                    DeathMonth = (uint?)parsedTime.Month;
+                    DeathDay = (uint?)parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    DeathTime = timeSpan.ToString(@"hh\:mm");
                 }
-
-                //DeathDateObs.Value = new FhirDateTime(value);
-                //DeathDateObs.Effective = new FhirDateTime(value);
-
-                UpdateBundleIdentifier();
             }
         }
-
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
         /// <value>the decedent's date and time of death pronouncement</value>

@@ -4148,7 +4148,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
         /// </example>
-        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, ProfileURL.BirthRecordIdentifier, true, 16)]
+        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, IGURL.BirthRecordIdentifier, true, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordId
         {
@@ -4192,7 +4192,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, ProfileURL.BirthRecordIdentifier, false, 17)]
+        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4232,7 +4232,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, ProfileURL.BirthRecordIdentifier, false, 17)]
+        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
         public bool BirthRecordIdentifierDataAbsentBoolean
         {
@@ -4285,7 +4285,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
         /// </example>
-        [Property("Birth Record State", Property.Types.String, "Decedent Demographics", "Birth Record State.", true, ProfileURL.BirthRecordIdentifier, true, 17)]
+        [Property("Birth Record State", Property.Types.String, "Decedent Demographics", "Birth Record State.", true, IGURL.BirthRecordIdentifier, true, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4343,7 +4343,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
         /// </example>
-        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, ProfileURL.BirthRecordIdentifier, true, 18)]
+        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, IGURL.BirthRecordIdentifier, true, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordYear
         {

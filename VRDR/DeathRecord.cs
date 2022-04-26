@@ -5562,6 +5562,70 @@ namespace VRDR
             }
         }
 
+        private string GetPartialTime(Extension partialDateTime)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
+            if (part != null)
+            {
+                Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                if (dataAbsent != null || part.Value == null)
+                {
+                    // There's either a specific claim that there's no data or actually no data, so return null
+                    return null;
+                }
+                return part.Value.ToString();
+            }
+            return null;
+        }
+
+        private void SetPartialTime(Extension partialDateTime, String value)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
+            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            if (value != null)
+            {
+                part.Value = new Time(value);
+            }
+            else
+            {
+                part.Value = null;
+                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            }
+        }
+
+        private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
+        {
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            {
+                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(new TimeSpan());
+                switch(partURL)
+                {
+                    case ExtensionURL.DateYear:
+                        return (uint?)dateTimeOffset.Year;
+                    case ExtensionURL.DateMonth:
+                        return (uint?)dateTimeOffset.Month;
+                    case ExtensionURL.DateDay:
+                        return (uint?)dateTimeOffset.Day;
+                    default:
+                        throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
+                }
+            }
+            return GetPartialDate(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), partURL);
+        }
+
+        private string GetTimeFragmentOrPartialTime(Element value)
+        {
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            {
+                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(new TimeSpan());
+                TimeSpan timeSpan = new TimeSpan(0, dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second);
+                return timeSpan.ToString(@"hh\:mm");
+            }
+            return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
+        }
+
         // TODO: The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
         // These getters and setters 1) use the DeathDateObs Observation 2) get and set values on the PartialDateTime extension using helpers that
         // can be reused across year, month, etc. 3) interpret null as data being absent, and so set the data absent reason if value is null 4) when
@@ -5572,16 +5636,64 @@ namespace VRDR
         {
             get
             {
-                // TODO: This needs to first look in the valueDateTime and only if that's not there look in the extension
                 if (DeathDateObs != null && DeathDateObs.Value != null)
                 {
-                    return GetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear);
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateYear);
                 }
                 return null;
             }
             set
             {
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+
+        public uint? DeathMonth
+        {
+            get
+            {
+                if (DeathDateObs != null && DeathDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        public uint? DeathDay
+        {
+            get
+            {
+                if (DeathDateObs != null && DeathDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        public string DeathTime
+        {
+            get
+            {
+                if (DeathDateObs != null && DeathDateObs.Value != null)
+                {
+                    return GetTimeFragmentOrPartialTime(DeathDateObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
         }
 

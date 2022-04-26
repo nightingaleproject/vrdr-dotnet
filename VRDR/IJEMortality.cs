@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Globalization;
 using System.Collections.Generic;
 
 namespace VRDR
@@ -358,6 +359,42 @@ namespace VRDR
             else
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToUInt32(value));
+            }
+        }
+
+        /// <summary>Get a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        private string TimeAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            string timeString = (string)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (timeString != null)
+            {
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(timeString, out parsedTime))
+                {
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    return timeSpan.ToString(@"hhmm");
+                }
+            }
+            return new String('9', info.Length);
+        }
+
+        /// <summary>Set a value on the DeathRecord that is a time with the option of being set to all 9s on the IJE side and null on the FHIR side to represent null</summary>
+        private void TimeAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
+        {
+            IJEField info = FieldInfo(ijeFieldName);
+            if (value == new string('9', info.Length))
+            {
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
+            }
+            else
+            {
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParseExact(value, "hhmm", null, DateTimeStyles.None, out parsedTime))
+                {
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, 0);
+                    typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm"));
+                }
             }
         }
 
@@ -1383,14 +1420,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("TOD", "HHmm", "DateOfDeath");
+                return TimeAllowingUnknown_Get("TOD", "DeathTime");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("TOD", "HHmm", "DateOfDeath", value, false, true);
-                }
+                TimeAllowingUnknown_Set("TOD", "DeathTime", value);
             }
         }
 

@@ -77,10 +77,7 @@ namespace VRDR
             record.PlaceOfBirth = addressB;
 
             record.BirthRecordId = "515151";
-            record.BirthRecordState = new Dictionary<string, string>() {
-                { "code", "US-GA" },
-                { "system", CodeSystems.ISO_3166_2 },
-                { "display", "US-GA" } };
+            record.BirthRecordState = "GA";
 
             record.MotherGivenNames = new String[] { "Linda" };
             record.MotherMaidenName = "Shay";
@@ -269,10 +266,7 @@ namespace VRDR
             record.PlaceOfBirth = addressB;
 
             record.BirthRecordId = "616161";
-            record.BirthRecordState = new Dictionary<string, string>() {
-                { "code", "US-VA" },
-                { "system", CodeSystems.ISO_3166_2 },
-                { "display", "US-VA" } };
+            record.BirthRecordState = "VA";
             record.MotherGivenNames = new String[] { "Jennifer" };
             record.MotherMaidenName = "May";
 
@@ -467,10 +461,7 @@ namespace VRDR
             record.PlaceOfBirth = addressB;
 
             record.BirthRecordId = "717171";
-            record.BirthRecordState = new Dictionary<string, string>() {
-                { "code", "US-IL" },
-                { "system", CodeSystems.ISO_3166_2 },
-                { "display", "US-IL" } };
+            record.BirthRecordState = "IL";
             record.MotherGivenNames = new String[] { "Martha" };
             record.MotherMaidenName = "White";
 
@@ -657,10 +648,7 @@ namespace VRDR
                 record.PlaceOfBirth = addressB;
 
                 record.BirthRecordId = "818181";
-                record.BirthRecordState = new Dictionary<string, string>() {
-                { "code", "US-TX" },
-                { "system", CodeSystems.ISO_3166_2 },
-                { "display", "US-TX" } };
+                record.BirthRecordState = "TX";
             }
             else
             {

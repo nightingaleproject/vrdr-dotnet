@@ -1705,29 +1705,19 @@ namespace VRDR.Tests
             Assert.True(dr.BirthRecordIdentifierDataAbsentBoolean);
         }
         [Theory]
-        [InlineData("US-MA", "urn:iso:std:iso:3166:-2", "Massachusetts")]
-        [InlineData("MA", "urn:iso:std:iso:3166:-2", "Massachusetts")]
-        public void Set_BirthRecordState(string code, string system, string display)
+        [InlineData("MA")]
+        [InlineData("YC")]
+        public void Set_BirthRecordState(string state)
         {
-            SetterDeathRecord.BirthRecordState = new Dictionary<string, string>() {
-                { "code", code },
-                { "system", system },
-                { "display", display }
-            };
-            Assert.Equal(code, SetterDeathRecord.BirthRecordState["code"]);
-            Assert.Equal(system, SetterDeathRecord.BirthRecordState["system"]);
-            Assert.Equal(display, SetterDeathRecord.BirthRecordState["display"]);
+            SetterDeathRecord.BirthRecordState = state;
+            Assert.Equal(state, SetterDeathRecord.BirthRecordState);
         }
 
         [Fact]
         public void Get_BirthRecordState()
         {
-            Assert.Equal("US-MA", ((DeathRecord)JSONRecords[0]).BirthRecordState["code"]);
-            Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)JSONRecords[0]).BirthRecordState["system"]);
-            Assert.Equal("Massachusetts", ((DeathRecord)JSONRecords[0]).BirthRecordState["display"]);
-            Assert.Equal("US-MA", ((DeathRecord)XMLRecords[0]).BirthRecordState["code"]);
-            Assert.Equal("urn:iso:std:iso:3166:-2", ((DeathRecord)XMLRecords[0]).BirthRecordState["system"]);
-            Assert.Equal("Massachusetts", ((DeathRecord)XMLRecords[0]).BirthRecordState["display"]);
+            Assert.Equal("MA", ((DeathRecord)JSONRecords[0]).BirthRecordState);
+            Assert.Equal("MA", ((DeathRecord)XMLRecords[0]).BirthRecordState);
         }
 
         [Fact]

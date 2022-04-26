@@ -1024,43 +1024,39 @@
       <Observation>
         <id value="3f406aff-fc70-41e4-bc80-65d4bbdae8b5" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Birth-Record-Identifier" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier" />
         </meta>
         <status value="final" />
         <code>
           <coding>
-            <code value="BR" />
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+            <code value="BR"/>
+            <display value="Birth registry number"/>
           </coding>
         </code>
         <subject>
           <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
         </subject>
-        <valueString value="4242123" />
+        <valueString value="242123" />
         <component>
           <code>
             <coding>
-              <system value="http://loinc.org" />
-              <code value="21842-0" />
-              <display value="Birthplace" />
+              <system value="http://loinc.org"/>
+              <code value="21842-0"/>
+              <display value="Birthplace"/>
             </coding>
           </code>
-          <valueCodeableConcept>
-            <coding>
-              <system value="urn:iso:std:iso:3166:-2" />
-              <code value="US-MA" />
-              <display value="US-MA" />
-            </coding>
-          </valueCodeableConcept>
+          <valueString value="MA"/>
         </component>
         <component>
           <code>
             <coding>
-              <system value="http://loinc.org" />
-              <code value="80904-6" />
-              <display value="Birth year" />
+              <system value="http://loinc.org"/>
+              <code value="80904-6"/>
+              <display value="Birth year"/>
             </coding>
           </code>
-          <valueDateTime value="1940" />
+          <valueDateTime value="1940"/>
         </component>
       </Observation>
     </resource>

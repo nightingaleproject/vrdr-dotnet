@@ -2878,43 +2878,11 @@ namespace VRDR
         {
             get
             {
-                string code = Dictionary_Get_Full("CERTL", "CertificationRole", "code");
-                switch (code)
-                {
-                    case "434641000124105": // Physician (Certifier)
-                        return "D";
-                    case "434651000124107": // Physician (Pronouncer and Certifier)
-                        return "P";
-                    case "310193003": // Coroner
-                        return "M";
-                    case "440051000124108": // Medical Examiner
-                        return "M";
-                }
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    switch (value.Trim())
-                    {
-                        case "D":
-                            Dictionary_Set("CERTL", "CertificationRole", "code", "434641000124105");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Death certification and verification by physician");
-                            break;
-                        case "P":
-                            Dictionary_Set("CERTL", "CertificationRole", "code", "434651000124107");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Physician certified and pronounced death certificate");
-                            break;
-                        case "M":
-                            Dictionary_Set("CERTL", "CertificationRole", "code", "440051000124108");
-                            Dictionary_Set("CERTL", "CertificationRole", "system", CodeSystems.SCT);
-                            Dictionary_Set("CERTL", "CertificationRole", "display", "Medical Examiner");
-                            break;
-                    }
-                }
+                Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
             }
         }
 

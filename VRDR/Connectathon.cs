@@ -159,8 +159,8 @@ namespace VRDR
             record.CertifiedTime = "2021-02-08";
 
             record.DateOfDeathPronouncement = "2021-02-08T05:30:00";
-            record.PronouncerGivenNames = new string[] { "Sam" };
-            record.PronouncerFamilyName = "Jones";
+            // record.PronouncerGivenNames = new string[] { "Sam" };
+            // record.PronouncerFamilyName = "Jones";
 
             record.COD1A = "Congestive heart failure";
             record.INTERVAL1A = "1 hour";
@@ -347,8 +347,8 @@ namespace VRDR
             record.CertifiedTime = "2021-06-05";
 
             record.DateOfDeathPronouncement = "2021-06-05T15:30:00";
-            record.PronouncerGivenNames = new string[] { "Adam" };
-            record.PronouncerFamilyName = "Revel";
+            // record.PronouncerGivenNames = new string[] { "Adam" };
+            // record.PronouncerFamilyName = "Revel";
 
             record.COD1A = "Cocaine toxicity";
             record.INTERVAL1A = "1 hour";
@@ -548,8 +548,8 @@ namespace VRDR
             record.CertifiedTime = "2021-01-13";
 
             record.DateOfDeathPronouncement = "2021-01-13T21:00:00";
-            record.PronouncerGivenNames = new string[] { "Jim" };
-            record.PronouncerFamilyName = "Black";
+            // record.PronouncerGivenNames = new string[] { "Jim" };
+            // record.PronouncerFamilyName = "Black";
 
             record.COD1A = "Cardiopulmonary arrest";
             record.INTERVAL1A = "4 hours";
@@ -755,11 +755,11 @@ namespace VRDR
 
             record.DateOfDeathPronouncement = "2021-03-14T11:35:00";
 
-            if (fullRecord)
-            {
-                record.PronouncerGivenNames = new string[] { "Hope" };
-                record.PronouncerFamilyName = "Lost";
-            }
+            // if (fullRecord)
+            // {
+            //     record.PronouncerGivenNames = new string[] { "Hope" };
+            //     record.PronouncerFamilyName = "Lost";
+            // }
 
             record.COD1A = "Blunt head trauma";
             record.COD1B = "Automobile accident";

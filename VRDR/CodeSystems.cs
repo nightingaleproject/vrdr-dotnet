@@ -126,6 +126,12 @@ namespace VRDR
 
         /// <summary> Replace Status </summary>
         public static string ReplaceStatus = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-replace-status-cs";
+
+        /// <summary> Location Type </summary>
+        public static string LocationType = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs";
+
+        /// <summary> Organization Type </summary>
+        public static string OrganizationType = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs";
     }
 
 }

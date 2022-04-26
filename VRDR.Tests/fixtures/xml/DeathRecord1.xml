@@ -1593,10 +1593,37 @@
           </coding>
         </type>
         <address>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PreDirectional">
+              <valueString value="W"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PostDirectional">
+              <valueString value="E"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetNumber">
+              <valueString value="671"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName">
+              <valueString value="Example"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetDesignator">
+              <valueString value="Street"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/UnitOrAptNumber">
+              <valueString value="3"/>
+        </extension>
           <line value="671 Example Street" />
           <line value="Line 2" />
-          <city value="Bedford" />
-          <district value="Middlesex" />
+          <city value="Bedford">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode">
+              <valuePositiveInt value="12345"/>
+            </extension>
+          </city>
+          <district value="Middlesex">
+            <extension
+              url="http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode">
+              <valuePositiveInt value="123"/>
+            </extension>
+          </district>
           <state value="NY">
           <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id">
           <valueString value="YC"/>

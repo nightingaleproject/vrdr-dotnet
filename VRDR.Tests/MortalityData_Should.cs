@@ -309,7 +309,7 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
             Assert.Equal("582 Dustin Centers", ije1.ADDRESS_D.Trim());
             Assert.Equal("902101111", ije1.ZIP9_D);
-            
+
             // Update dictionary fields
             ije1.ADDRESS_D = "580 Dustin Center";
             Assert.Equal("580 Dustin Center", ije1.ADDRESS_D.Trim());

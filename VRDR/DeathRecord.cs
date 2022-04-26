@@ -5644,6 +5644,10 @@ namespace VRDR
             }
             set
             {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
             }
         }
@@ -5661,6 +5665,10 @@ namespace VRDR
             }
             set
             {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
             }
         }
@@ -5677,6 +5685,10 @@ namespace VRDR
             }
             set
             {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
             }
         }
@@ -5693,6 +5705,10 @@ namespace VRDR
             }
             set
             {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
                 SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
         }

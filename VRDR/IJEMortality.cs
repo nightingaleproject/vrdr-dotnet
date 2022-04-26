@@ -331,14 +331,15 @@ namespace VRDR
         private string NumericAllowingUnknown_Get(string ijeFieldName, string fhirFieldName)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            string current = Convert.ToString(typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record));
-            if (current != null)
+            uint? value = (uint?)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
+            if (value != null)
             {
-                if (current.Length != info.Length)
+                string valueString = Convert.ToString(value);
+                if (valueString.Length > info.Length)
                 {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} containst string '{current}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{valueString}' that's not the expected length for IJE field {ijeFieldName} of length {info.Length}");
                 }
-                return Truncate(current, info.Length).PadLeft(info.Length, ' ');
+                return Truncate(valueString, info.Length).PadLeft(info.Length, '0');
             }
             else
             {
@@ -356,7 +357,7 @@ namespace VRDR
             }
             else
             {
-                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, value);
+                typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, Convert.ToUInt32(value));
             }
         }
 
@@ -391,7 +392,7 @@ namespace VRDR
             {
                 if (current.Length > info.Length)
                 {
-                    validationErrors.Add($"Error: FHIR field {fhirFieldName} containst string '{current}' too long for IJE field {ijeFieldName} of length {info.Length}");
+                    validationErrors.Add($"Error: FHIR field {fhirFieldName} contains string '{current}' too long for IJE field {ijeFieldName} of length {info.Length}");
                 }
                 return Truncate(current, info.Length).PadRight(info.Length, ' ');
             }
@@ -706,7 +707,6 @@ namespace VRDR
         [IJEField(1, 1, 4, "Date of Death--Year", "DOD_YR", 1)]
         public string DOD_YR
         {
-            // REFER TO UPDATES IN DOB_XX FOR IGv1.3
             get
             {
                 return NumericAllowingUnknown_Get("DOD_YR", "DeathYear");
@@ -1148,7 +1148,8 @@ namespace VRDR
                             dateParts.RemoveAll(x => x.Item1 == "year-absent-reason");
                             break;
                     }
-                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
+                    // TODO: DOB fields will all be reworked
+                    // record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
                     // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
                     // record.DateOfBirth = "";
                 }
@@ -1352,95 +1353,27 @@ namespace VRDR
         [IJEField(34, 237, 2, "Date of Death--Month", "DOD_MO", 1)]
         public string DOD_MO
         {
-            // REFER TO UPDATES IN DOB_XX FOR IGv1.3
             get
             {
-                
-                //String monthPart = DeathDate_Part_Absent_Get("DOD_MO", "date-month", "month-absent-reason");
-                //if (!String.IsNullOrWhiteSpace(monthPart)){
-                //    return monthPart;
-                //}
-                //return DateTime_Get("DOD_MO", "MM", "DateOfDeath");
-                // TODO: Implement this
-                return "";                
+                return NumericAllowingUnknown_Get("DOD_MO", "DeathMonth");
             }
             set
             {
-                // if unknown, create a date part absent
-                //if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "99"))
-                //{
-                //    List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
-                //    dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
-                //    dateParts.RemoveAll(x => x.Item1 == "date-month");
-                //    record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
-                //}
-                //DateTime_Set("DOD_MO", "MM", "DateOfDeath", value, false, true);
-                // TODO: Implement this
+                NumericAllowingUnknown_Set("DOD_MO", "DeathMonth", value);
             }
         }
 
         /// <summary>Date of Death--Day</summary>
         [IJEField(35, 239, 2, "Date of Death--Day", "DOD_DY", 1)]
         public string DOD_DY
-        // REFER TO UPDATES IN DOB_XX FOR IGv1.3
         {
             get
             {
-                //String dayPart = DeathDate_Part_Absent_Get("DOD_DY", "date-day", "day-absent-reason");
-                //if (!String.IsNullOrWhiteSpace(dayPart)){
-                //    return dayPart;
-                //}
-                //return DateTime_Get("DOD_DY", "dd", "DateOfDeath");
-                // TODO: Implement this
-                return "";
+                return NumericAllowingUnknown_Get("DOD_DY", "DeathDay");
             }
             set
             {
-                // Populate the date absent parts if any of the date parts are unknown
-                // Doing all three parts at once in the last date part field
-                // because the other fields hadn't populated the Date Part field yet
-                // and only one would ever get added to the record
-                //if (String.Equals(DOD_YR, "9999") || String.Equals(DOD_MO, "99") || String.Equals(value, "99") || String.IsNullOrWhiteSpace(value))
-                //{
-                //    List<Tuple<string, string>> dateParts = record.DateOfDeathDatePartAbsent.ToList();
-                //    switch (value)
-                //    {
-                //        case "99":
-                //            dateParts.Add(Tuple.Create("day-absent-reason", "unknown"));
-                //            dateParts.RemoveAll(x => x.Item1 == "date-day");
-                //            break;
-                //        default:
-                //            dateParts.Add(Tuple.Create("date-day", value));
-                //            dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
-                //            break;
-                //    }
-                //    switch (DOD_MO)
-                //    {
-                //        case "99":
-                //            dateParts.RemoveAll(x => x.Item1 == "date-month");
-                //            break;
-                //        default:
-                //            dateParts.Add(Tuple.Create("date-month", DOB_MO));
-                //            dateParts.RemoveAll(x => x.Item1 == "month-absent-reason");
-                //            break;
-                //    }
-                //    switch (DOD_YR)
-                //    {
-                //        case "9999":
-                //            dateParts.RemoveAll(x => x.Item1 == "date-year");
-                //            break;
-                //        default:
-                //            dateParts.Add(Tuple.Create("date-year", DOB_YR));
-                //            dateParts.RemoveAll(x => x.Item1 == "year-absent-reason");
-                //            break;
-                //    }
-                //    record.DateOfDeathDatePartAbsent = dateParts.ToList().ToArray();
-                //}
-                //else
-                //{
-                //    DateTime_Set("DOD_DY", "dd", "DateOfDeath", value, false, true);
-                //}
-                // TODO: Implement this
+                NumericAllowingUnknown_Set("DOD_DY", "DeathDay", value);
             }
         }
 

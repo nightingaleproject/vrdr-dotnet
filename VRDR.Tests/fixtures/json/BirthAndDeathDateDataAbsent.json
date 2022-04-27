@@ -311,21 +311,31 @@
         "_birthDate": {
           "extension": [
             {
-              "url":"http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason",
-              "extension" : [
+              "extension": [
                 {
-                  "url" : "year-absent-reason",
-                  "valueCode" : "asked-unknown"
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"
                 },
                 {
-                  "url" : "month-absent-reason",
-                  "valueCode" : "asked-unknown"
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"
                 },
                 {
-                  "url" : "date-day",
-                  "valueInteger" : 24
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
+                  "valueUnsignedInt": 24
                 }
-              ]
+              ],
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
             }
           ]
         },
@@ -1582,21 +1592,35 @@
         "_valueDateTime": {
           "extension": [
             {
-              "url":"http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason",
-              "extension" : [
+              "extension": [
                 {
-                  "url" : "date-year",
-                  "valueInteger" : 2021
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                  "valueUnsignedInt": 2021
                 },
                 {
-                  "url" : "date-month",
-                  "valueInteger" : 2
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "valueUnsignedInt": 2
                 },
                 {
-                  "url" : "day-absent-reason",
-                  "valueCode" : "asked-unknown"
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
                 }
-              ]
+              ],
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
             }
           ]
         },

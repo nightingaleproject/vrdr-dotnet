@@ -5551,16 +5551,19 @@ namespace VRDR
         // TODO: Documentation
         private uint? GetPartialDate(Extension partialDateTime, string partURL)
         {
-            Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
-            if (part != null)
+            if (partialDateTime != null)
             {
-                Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
-                if (dataAbsent != null || part.Value == null)
+                Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
+                if (part != null)
                 {
-                    // There's either a specific claim that there's no data or actually no data, so return null
-                    return null;
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    if (dataAbsent != null || part.Value == null)
+                    {
+                        // There's either a specific claim that there's no data or actually no data, so return null
+                        return null;
+                    }
+                    return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
                 }
-                return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
             }
             return null;
         }
@@ -5582,16 +5585,19 @@ namespace VRDR
 
         private string GetPartialTime(Extension partialDateTime)
         {
-            Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
-            if (part != null)
+            if (partialDateTime != null)
             {
-                Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
-                if (dataAbsent != null || part.Value == null)
+                Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
+                if (part != null)
                 {
-                    // There's either a specific claim that there's no data or actually no data, so return null
-                    return null;
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    if (dataAbsent != null || part.Value == null)
+                    {
+                        // There's either a specific claim that there's no data or actually no data, so return null
+                        return null;
+                    }
+                    return part.Value.ToString();
                 }
-                return part.Value.ToString();
             }
             return null;
         }

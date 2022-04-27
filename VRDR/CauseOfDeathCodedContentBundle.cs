@@ -50,6 +50,15 @@ namespace VRDR
         // TODO: Implement relevant properties
 
         /// <summary>
+        /// Gets the FHIR IG type of the content.
+        /// </summary>
+        /// <returns>A string representation of the profile URL.</returns>
+        public string GetContentType()
+        {
+            return ProfileURL.CauseOfDeathCodedContentBundle;
+        }
+
+        /// <summary>
         /// Gets the underlying <see cref="Hl7.Fhir.Model.Bundle">Bundle</see> containing the data.
         /// </summary>
         /// <returns>The FHIR Bundle.</returns>

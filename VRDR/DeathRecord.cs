@@ -2430,7 +2430,16 @@ namespace VRDR
             Decedent.BirthDateElement.Extension.Add(NewBlankPartialDateTimeExtension(false));
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Year of Birth.</summary>
+        /// <value>the decedent's year of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthYear = 1928;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
+        /// </example>
+        [Property("BirthYear", Property.Types.Number, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthYear
         {
             get
@@ -2451,7 +2460,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Month of Birth.</summary>
+        /// <value>the decedent's month of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthMonth = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
+        /// </example>
+        [Property("BirthMonth", Property.Types.Number, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthMonth
         {
             get
@@ -2472,7 +2490,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Day of Birth.</summary>
+        /// <value>the decedent's dau of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthDay = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
+        /// </example>
+        [Property("BirthDay", Property.Types.Number, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthDay
         {
             get
@@ -5545,10 +5572,7 @@ namespace VRDR
         //     }
         // }
 
-        // These are (incomplete and untested) getter and setter helpers for anything that uses a PartialDateTime, allowing a caller to get or
-        // set a particular field on the extension; they currently assume that the extension and the sub-parts are always present; see notes above
-        // DeathYear method just below for some details on thought process
-        // TODO: Documentation
+        /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
         private uint? GetPartialDate(Extension partialDateTime, string partURL)
         {
             if (partialDateTime != null)
@@ -5568,6 +5592,7 @@ namespace VRDR
             return null;
         }
 
+        /// <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
         private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
@@ -5583,6 +5608,7 @@ namespace VRDR
             }
         }
 
+        /// <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
         private string GetPartialTime(Extension partialDateTime)
         {
             if (partialDateTime != null)
@@ -5602,6 +5628,7 @@ namespace VRDR
             return null;
         }
 
+        /// <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
         private void SetPartialTime(Extension partialDateTime, String value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
@@ -5617,6 +5644,8 @@ namespace VRDR
             }
         }
 
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
+        /// field (year, month, or day) to be read from either the value or the extension</summary>
         private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
@@ -5646,6 +5675,8 @@ namespace VRDR
             return GetPartialDate(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), partURL);
         }
 
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
+        /// from either the value or the extension</summary>
         private string GetTimeFragmentOrPartialTime(Element value)
         {
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
@@ -5663,13 +5694,21 @@ namespace VRDR
             return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
         }
 
-        // TODO: The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
+        // The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
         // These getters and setters 1) use the DeathDateObs Observation 2) get and set values on the PartialDateTime extension using helpers that
         // can be reused across year, month, etc. 3) interpret null as data being absent, and so set the data absent reason if value is null 4) when
         // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
-        // TODO: Add a summary and Property and FHIRPath
-        // TODO: Add DeathMonth, DeathDay, etc.
-        /// <summary>TODO: ADD A SUMMARY</summary>
+
+        /// <summary>Decedent's Year of Death.</summary>
+        /// <value>the decedent's year of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Death: {ExampleDeathRecord.DeathYear}");</para>
+        /// </example>
+        [Property("DeathYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathYear
         {
             get
@@ -5691,7 +5730,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Month of Death.</summary>
+        /// <value>the decedent's month of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathMonth = 6;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Death: {ExampleDeathRecord.DeathMonth}");</para>
+        /// </example>
+        [Property("DeathMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathMonth
         {
             get
@@ -5712,7 +5760,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Day of Death.</summary>
+        /// <value>the decedent's day of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathDay = 16;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Death: {ExampleDeathRecord.DeathDay}");</para>
+        /// </example>
+        [Property("DeathDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathDay
         {
             get
@@ -5733,7 +5790,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>TODO: ADD A SUMMARY</summary>
+        /// <summary>Decedent's Time of Death.</summary>
+        /// <value>the decedent's time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
+        /// </example>
+        [Property("DeathTime", Property.Types.String, "Death Investigation", "Decedent's Time of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DeathTime
         {
             get
@@ -5762,7 +5828,6 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        // TODO: We'll want to keep and rewrite this as a helper that uses the other methods for setting and getting the date
         [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
@@ -6590,7 +6655,6 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
         /// </example>
-        // TODO: This URL should be the html one, and those should be generated as well
         [Property("Decedent's Pregnancy Status at Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
@@ -6917,7 +6981,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
         [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        [ FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile=ProfileURL.InjuryLocation)", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile=ProfileURL.InjuryLocation)", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -7339,7 +7403,7 @@ namespace VRDR
                     EmergingIssues = new Observation();
                     EmergingIssues.Id = Guid.NewGuid().ToString();
                     EmergingIssues.Meta = new Meta();
-                    string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues" /* ProfileURL.EmergingIssues */ };
+                    string[] tb_profile = { ProfileURL.EmergingIssues };
                     EmergingIssues.Meta.Profile = tb_profile;
                     EmergingIssues.Status = ObservationStatus.Final;
                     EmergingIssues.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs", "emergingissues", "Emerging Issues", null);
@@ -8787,7 +8851,9 @@ namespace VRDR
             /// <summary>Parameter is an array of Tuples.</summary>
             TupleArr,
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
-            TupleCOD
+            TupleCOD,
+            /// <summary>Parameter is a number.</summary>
+            Number
         };
 
         /// <summary>Name of this property.</summary>

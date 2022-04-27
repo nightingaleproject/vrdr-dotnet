@@ -11,6 +11,8 @@ namespace VRDR
     /// This class was designed to help consume and produce coding responses that follow the
     /// HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
     /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr. 
+    /// 
+    /// Placeholder class; to be implemented to support VRDR Messaging IG.
     /// </summary>
     public class CauseOfDeathCodedContentBundle
     {
@@ -44,6 +46,8 @@ namespace VRDR
             // TODO: Parser implementation
             throw new NotImplementedException("Parsing this from text is not yet implemented.");
         }
+
+        // TODO: Implement relevant properties
 
         /// <summary>
         /// Gets the underlying <see cref="Hl7.Fhir.Model.Bundle">Bundle</see> containing the data.

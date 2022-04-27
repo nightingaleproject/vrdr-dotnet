@@ -290,25 +290,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Get the date part value from DateOfBirthDatePartAbsent if it's populated</summary>
-        private string BirthDate_Part_Absent_Get(string ijeFieldName, string dateType, string dateAbsentType)
-        {
-            IJEField info = FieldInfo(ijeFieldName);
-            Tuple<string, string>[] dpa = this.record?.DateOfBirthDatePartAbsent;
-            if (dpa != null) {
-                List<Tuple<string, string>> dateParts = dpa.ToList();
-                Tuple<string, string> datePart = dateParts.Find(x => x.Item1 == dateType);
-                if (datePart != null){
-                    return datePart.Item2.PadLeft(info.Length, '0');
-                }
-                Tuple<string, string> datePartAbsent = dateParts.Find(x => x.Item1 == dateAbsentType);
-                if (datePartAbsent != null){
-                    return string.Concat(Enumerable.Repeat("9", info.Length));
-                }
-            }
-            return "";
-        }
-
         /// <summary>Set a value on the DeathRecord whose type is some part of a DateTime.</summary>
         private void DateTime_Set(string ijeFieldName, string dateTimeType, string fhirFieldName, string value, bool dateOnly = false, bool withTimezoneOffset = false)
         {

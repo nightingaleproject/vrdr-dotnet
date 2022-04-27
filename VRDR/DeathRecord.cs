@@ -2507,73 +2507,25 @@ namespace VRDR
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).birthDate");
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value))
+                // We support this legacy API entrypoint via the new partial date entrypoints
+                if (BirthYear != null && BirthMonth != null && BirthDay != null)
                 {
-                    return;
-                }
-                if (Decedent.BirthDateElement == null){
-                    Decedent.BirthDateElement = new Date();
-                }
-                Decedent.BirthDateElement.Value = value.Trim();
-            }
-        }
-
-
-        /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
-        /// <value>the decedent's date of birth date part absent reason</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DateOfBirthDatePartReason = "1940-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
-        /// </example>
-        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, IGURL.Decedent, true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
-        public Tuple<string,string>[] DateOfBirthDatePartAbsent
-        {
-            get
-            {
-                if (Decedent.BirthDateElement != null){
-                    Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    return DatePartsToArray(datePartAbsent);
+                    Date result = new Date((int)BirthYear, (int)BirthMonth, (int)BirthDay);
+                    return result.ToString();
                 }
                 return null;
             }
             set
             {
-                if (value != null && value.Length > 0)
+                // We support this legacy API entrypoint via the new partial date entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
                 {
-                    if (Decedent.BirthDateElement != null){
-                        // Clear the previous date part absent and rebuild with the new data
-                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
-                    }
-
-                    Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
-                    foreach (Tuple<string, string> element in value)
-                    {
-                        if (element != null)
-                        {
-                            Extension datePartDetails = new Extension();
-                            datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = DatePartToIntegerOrCode(element);
-                            datePart.Extension.Add(datePartDetails);
-                        }
-
-                    }
-                    if (Decedent.BirthDateElement == null){
-                        Decedent.BirthDateElement = new Date();
-                    }
-                    Decedent.BirthDateElement.Extension.Add(datePart);
-
+                    BirthYear = (uint?)parsedDate.Year;
+                    BirthMonth = (uint?)parsedDate.Month;
+                    BirthDay = (uint?)parsedDate.Day;
                 }
-
             }
-
         }
 
         /// <summary>Decedent's Residence.</summary>
@@ -5812,28 +5764,25 @@ namespace VRDR
             get
             {
                 // We support this legacy API entrypoint via the new partial date and time entrypoints
-                uint? year = DeathYear;
-                uint? month = DeathMonth;
-                uint? day = DeathDay;
-                string time = DeathTime;
-                if (year != null && month != null && day != null && time != null)
+                if (DeathYear != null && DeathMonth != null && DeathDay != null && DeathTime != null)
                 {
                     DateTimeOffset parsedTime;
-                    if (DateTimeOffset.TryParse(time, out parsedTime))
+                    if (DateTimeOffset.TryParse(DeathTime, out parsedTime))
                     {
-                        DateTimeOffset result = new DateTimeOffset((int)year, (int)month, (int)day, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        DateTimeOffset result = new DateTimeOffset((int)DeathYear, (int)DeathMonth, (int)DeathDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
                         return result.ToString("s");
                     }
                 }
-                else if (year != null && month != null && day != null)
+                else if (DeathYear != null && DeathMonth != null && DeathDay != null)
                 {
-                    DateTime result = new DateTime((int)year, (int)month, (int)day);
+                    DateTime result = new DateTime((int)DeathYear, (int)DeathMonth, (int)DeathDay);
                     return result.ToString("s");
                 }
                 return null;
             }
             set
             {
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
                 DateTimeOffset parsedTime;
                 if (DateTimeOffset.TryParse(value, out parsedTime))
                 {

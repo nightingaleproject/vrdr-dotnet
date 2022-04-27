@@ -1667,7 +1667,12 @@ namespace VRDR.Tests
             Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
         }
 
-
+        [Fact]
+         public void Set_PlaceOfInjury()
+        {
+            SetterDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, SetterDeathRecord.PlaceOfInjuryHelper);
+        }
 
         [Fact]
         public void Set_BirthRecordId()

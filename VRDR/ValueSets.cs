@@ -35,6 +35,42 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
+        /// <summary> PlaceOfInjury </summary>
+        public static class PlaceOfInjury {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "LA14084-0", "Home", VRDR.CodeSystems.LOINC },
+                { "LA14085-7", "Residential institution	", VRDR.CodeSystems.LOINC },
+                { "LA14086-5", "School", VRDR.CodeSystems.LOINC },
+                { "LA14088-1", "Sports or recreational area", VRDR.CodeSystems.LOINC },
+                { "LA14089-9", "Street or highway", VRDR.CodeSystems.LOINC },
+                { "LA14090-7", "Trade or service area", VRDR.CodeSystems.LOINC },
+                { "LA14091-5", "Industrial or construction area", VRDR.CodeSystems.LOINC },
+                { "LA14092-3", "Farm", VRDR.CodeSystems.LOINC },
+                { "LA14093-1", "Unspecified", VRDR.CodeSystems.LOINC },
+                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Home </summary>
+            public static string  Home = "LA14084-0";
+            /// <summary> Residential_Institution </summary>
+            public static string  Residential_Institution = "LA14085-7";
+            /// <summary> School </summary>
+            public static string  School = "LA14086-5";
+            /// <summary> Sports_Or_Recreational_Area </summary>
+            public static string  Sports_Or_Recreational_Area = "LA14088-1";
+            /// <summary> Street_Or_Highway </summary>
+            public static string  Street_Or_Highway = "LA14089-9";
+            /// <summary> Trade_Or_Service_Area </summary>
+            public static string  Trade_Or_Service_Area = "LA14090-7";
+            /// <summary> Industrial_Or_Construction_Area </summary>
+            public static string  Industrial_Or_Construction_Area = "LA14091-5";
+            /// <summary> Farm </summary>
+            public static string  Farm = "LA14092-3";
+            /// <summary> Unspecified </summary>
+            public static string  Unspecified = "LA14093-1";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+        };
         /// <summary> AdministrativeGender </summary>
         public static class AdministrativeGender {
             /// <summary> Codes </summary>

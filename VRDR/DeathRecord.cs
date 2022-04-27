@@ -482,6 +482,21 @@ namespace VRDR
         /// <summary> Place Of Injury </summary>
         private Observation PlaceOfInjuryObs;
 
+        /// <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
+        private void CreatePlaceOfInjuryObs()
+        {
+            PlaceOfInjuryObs = new Observation();
+            PlaceOfInjuryObs.Id = Guid.NewGuid().ToString();
+            PlaceOfInjuryObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            PlaceOfInjuryObs.Meta.Profile = profile;
+            PlaceOfInjuryObs.Status = ObservationStatus.Final;
+            PlaceOfInjuryObs.Code = new CodeableConcept(CodeSystems.LOINC, "11376-1", "Injury location", null);
+            PlaceOfInjuryObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PlaceOfInjuryObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(PlaceOfInjuryObs, "urn:uuid:" + PlaceOfInjuryObs.Id);
+        }
+
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
@@ -7850,6 +7865,75 @@ namespace VRDR
                 ManualUnderlyingCODObs.Value = new FhirString(NCHSICD10toActualICD10(value));
             }
         }
+
+        /// <summary>Place of Injury.</summary>
+        /// <value>Place of Injury. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "LA14084-0");</para>
+        /// <para>elevel.Add("system", CodeSystems.LOINC);</para>
+        /// <para>elevel.Add("display", "Home");</para>
+        /// <para>ExampleDeathRecord.PlaceOfInjury = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"PlaceOfInjury: {ExampleDeathRecord.PlaceOfInjury['display']}");</para>
+        /// </example>
+        [Property("Place of Injury", Property.Types.Dictionary, "Coded Content", "Place of Injury.", true, IGURL.PlaceOfInjury, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11376-1')", "")]
+        public Dictionary<string, string> PlaceOfInjury
+        {
+            get
+            {
+                if (PlaceOfInjuryObs != null && PlaceOfInjuryObs.Value != null && PlaceOfInjuryObs.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)PlaceOfInjuryObs.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (PlaceOfInjuryObs == null)
+                {
+                    CreatePlaceOfInjuryObs();
+                }
+                PlaceOfInjuryObs.Value = DictToCodeableConcept(value);
+            }
+        }
+
+        /// <summary>Decedent's Place of Injury Helper</summary>
+        /// <value>Place of Injury.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.PlaceOfInjuryHelper}");</para>
+        /// </example>
+        [Property("Place of Injury", Property.Types.String, "Coded Content", "Place of Injury.", true, IGURL.PlaceOfInjury, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11376-1')", "")]
+        public string PlaceOfInjuryHelper
+        {
+            get
+            {
+                if (PlaceOfInjury.ContainsKey("code"))
+                {
+                    return PlaceOfInjury["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+            }
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //

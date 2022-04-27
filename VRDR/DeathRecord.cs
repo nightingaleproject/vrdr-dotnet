@@ -5662,25 +5662,25 @@ namespace VRDR
         private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
-            DateTimeOffset dateTimeOffset;
+            DateTimeOffset? dateTimeOffset = null;
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
                 dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
             }
             else if (value is Date && ((Date)value).Value != null)
             {
-                dateTimeOffset = (DateTimeOffset)((Date)value).ToDateTimeOffset();
+                dateTimeOffset = ((Date)value).ToDateTimeOffset();
             }
             if (dateTimeOffset != null)
             {
                 switch(partURL)
                 {
                     case ExtensionURL.DateYear:
-                        return (uint?)dateTimeOffset.Year;
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Year;
                     case ExtensionURL.DateMonth:
-                        return (uint?)dateTimeOffset.Month;
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Month;
                     case ExtensionURL.DateDay:
-                        return (uint?)dateTimeOffset.Day;
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Day;
                     default:
                         throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
                 }

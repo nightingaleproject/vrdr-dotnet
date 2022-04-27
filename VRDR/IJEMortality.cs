@@ -2457,17 +2457,53 @@ namespace VRDR
         }
 
         /// <summary>Entity-axis codes</summary>
+        // 20 codes, each taking up 8 characters:
+        // 1 char:   part/line number (1-6)
+        // 1 char: sequence within the line. (1-8)
+        // 4 char “ICD code” in NCHS format, without the ‘.’
+        // 1 char reserved”.  (not represented in the FHIR specification)
+        // 1 char ‘e code indicator’
         [IJEField(106, 715, 160, "Entity-axis codes", "EAC", 1)]
         public string EAC
         {
             get
             {
                 // TODO: Implement mapping from FHIR record location: EntityAxisCauseOfDeath
-                return "";
+                Tuple<string, string, string, string>[] eac = record.EntityAxisCauseOfDeath;
+                string eacStr = "";
+                foreach(Tuple<string, string, string, string> entry in eac)
+                {
+                    string lineNumber = entry.Item1;
+                    string position = entry.Item2;
+                    string icdCode = entry.Item3;
+                    string ws = " ";
+                    string eCode = entry.Item4;
+                    eacStr += lineNumber + position  + icdCode + ws + eCode;
+                }
+                string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
+                return fmtEac;
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: EntityAxisCauseOfDeath
+                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
+                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 8).Select(i => value.Substring(i * 8, 8));
+                foreach(string code in codes)
+                {
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        string lineNumber = code.Substring(0);
+                        string position = code.Substring(1);
+                        string icdCode = code.Substring(2,6);
+                        string eCode = code.Substring(7);
+                        Tuple<string, string, string, string> entry = Tuple.Create(lineNumber, position, icdCode, eCode);
+                        eac.Add(entry);
+                    }
+
+                }
+                if (eac.Count > 0)
+                {
+                    record.EntityAxisCauseOfDeath = eac.ToArray();
+                }
             }
         }
 
@@ -2493,11 +2529,39 @@ namespace VRDR
             get
             {
                 // TODO: Implement mapping from FHIR record location: RecordAxisCauseOfDeath
-                return "";
+                Tuple<string, string, string>[] rac = record.RecordAxisCauseOfDeath;
+                string racStr = "";
+                foreach(Tuple<string, string, string> entry in rac)
+                {
+                    string position = entry.Item1;
+                    string icdCode = entry.Item2;
+                    string ws = " ";
+                    string preg = entry.Item3;
+                    racStr += icdCode + ws;
+                }
+                string fmtRac = Truncate(racStr, 100).PadRight(100, ' ');
+                return fmtRac;
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: RecordAxisCauseOfDeath
+                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
+                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 5).Select(i => value.Substring(i * 5, 5));
+                int position = 1;
+                foreach(string code in codes)
+                {
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        string icdCode = code.Substring(0,4);
+                        string preg = "";
+                        Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
+                        rac.Add(entry);
+                    }
+                    position++;
+                }
+                if (rac.Count > 0)
+                {
+                    record.RecordAxisCauseOfDeath = rac.ToArray();
+                }
             }
         }
 

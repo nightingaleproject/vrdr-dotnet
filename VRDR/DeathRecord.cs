@@ -515,6 +515,11 @@ namespace VRDR
             AddReferenceToComposition(CodedRaceandEthnicityObs.Id, "CodedContent");
             Bundle.AddResourceEntry(CodedRaceandEthnicityObs, "urn:uuid:" + CodedRaceandEthnicityObs.Id);
         }
+        /// <summary>Entity Axis Cause of Death</summary>
+        private List<Observation> EntityAxisCauseOfDeathObs;
+
+        /// <summary>Record Axis Cause of Death</summary>
+        private List<Observation> RecordAxisCauseOfDeathObs;
 
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
@@ -9450,6 +9455,214 @@ namespace VRDR
 
 
 
+        /// <summary>Entity Axis Cause Of Death</summary>
+        /// <value>Entity-axis codes</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>{Tuple.Create("value", "position", "line", "code")}</para>
+        /// <para>ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EntityAxisCauseOfDeath}");</para>
+        /// </example>
+        [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Entity Axis Cause of Death", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80356-9)", "")]
+        public Tuple<string, string, string, string>[] EntityAxisCauseOfDeath
+        {
+            get
+            {
+                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
+                if (EntityAxisCauseOfDeathObs != null)
+                {
+                    foreach(Observation ob in EntityAxisCauseOfDeathObs)
+                    {
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        string value = valueCC.Coding[0].Code;
+                        Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
+                        string position = positionComp.Value.ToString();
+                        Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
+                        string lineNumber = lineNumComp.Value.ToString();
+                        Observation.ComponentComponent codeComp = ob.Component.Where(c => c.Code.Coding[0].Code=="eCodeIndicator").FirstOrDefault();
+                        string code = codeComp.Value.ToString();
+                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, value, code);
+                        eac.Add(eacod);
+                    }
+                }
+                return eac.ToArray();
+            }
+            set
+            {
+                // clear all existing eac
+                Bundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9"));
+                if (EntityAxisCauseOfDeathObs != null)
+                {
+                    EntityAxisCauseOfDeathObs.Clear();
+                }
+                else
+                {
+                    EntityAxisCauseOfDeathObs = new List<Observation>();
+                }
+                // Rebuild the list of observations
+                foreach(Tuple<string, string, string, string> eac in value)
+                {
+                    string lineNumber = eac.Item1;
+                    string position = eac.Item2;
+                    string val = eac.Item3;
+                    string ecode = eac.Item4;
+
+                    Observation ob = new Observation();
+                    ob.Id = Guid.NewGuid().ToString();
+                    ob.Meta = new Meta();
+                    string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
+                    ob.Meta.Profile = entityAxis_profile;
+                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
+                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    AddReferenceToComposition(ob.Id, "CodedContent");
+
+                    ob.Effective = new FhirDateTime();
+
+                    CodeableConcept icd10cc = new CodeableConcept();
+                    Coding icd10Code = new Coding();
+                    icd10Code.System = "http://hl7.org/fhir/sid/icd-10";
+                    icd10Code.Code = val; // TODO format with period
+                    icd10cc.Coding.Add(icd10Code);
+                    ob.Value = icd10cc;
+
+                    Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                    CodeableConcept lineNumbercc = new CodeableConcept();
+                    Coding lineNumCoding = new Coding();
+                    lineNumCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+                    lineNumCoding.Code = "lineNumber";
+                    lineNumCoding.Display = "lineNumber";
+                    lineNumbercc.Coding.Add(lineNumCoding);
+                    lineNumComp.Value = new FhirString(lineNumber);
+                    lineNumComp.Code = lineNumbercc;
+                    ob.Component.Add(lineNumComp);
+
+                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                    CodeableConcept positioncc = new CodeableConcept();
+                    Coding positionCoding = new Coding();
+                    positionCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+                    positionCoding.Code = "position";
+                    positionCoding.Display = "Position";
+                    positioncc.Coding.Add(positionCoding);
+                    positionComp.Value = new FhirString(position);
+                    positionComp.Code = positioncc;
+                    ob.Component.Add(positionComp);
+
+                    Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
+                    CodeableConcept eCodecc = new CodeableConcept();
+                    Coding eCodeCoding = new Coding();
+                    eCodeCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+                    eCodeCoding.Code = "eCodeIndicator";
+                    eCodeCoding.Display = "eCodeIndicator";
+                    eCodecc.Coding.Add(eCodeCoding);
+                    eCodeComp.Value = new FhirString(ecode);
+                    eCodeComp.Code = eCodecc;
+                    ob.Component.Add(eCodeComp);
+
+                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                    EntityAxisCauseOfDeathObs.Add(ob);
+                }
+            }
+        }
+
+        /// <summary>Record Axis Cause Of Death</summary>
+        /// <value>record-axis codes</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple<string, string, string>[] eac = new Tuple<string, string, string>{Tuple.Create("value", "position", "pregnancy")}</para>
+        /// <para>ExampleDeathRecord.RecordAxisCauseOfDeath = eac;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.RecordAxisCauseOfDeath}");</para>
+        /// </example>
+        [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "RecordAxisCauseOfDeath", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80357-7)", "")]
+        public Tuple<string, string, string>[] RecordAxisCauseOfDeath
+        {
+            get
+            {
+                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
+                if (RecordAxisCauseOfDeathObs != null)
+                {
+                    foreach(Observation ob in RecordAxisCauseOfDeathObs)
+                    {
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        string value = valueCC.Coding[0].Code;
+                        Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
+                        string position = positionComp.Value.ToString();
+                        Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="pregnancy").FirstOrDefault();
+                        string preg = pregComp.Value.ToString();
+                        Tuple<string, string, string> racod = Tuple.Create(position, value, preg);
+                        rac.Add(racod);
+                    }
+                }
+                return rac.ToArray();
+            }
+            set
+            {
+                // clear all existing eac
+                Bundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7"));
+                if (RecordAxisCauseOfDeathObs != null)
+                {
+                    RecordAxisCauseOfDeathObs.Clear();
+                }
+                else
+                {
+                    RecordAxisCauseOfDeathObs = new List<Observation>();
+                }
+                // Rebuild the list of observations
+                foreach(Tuple<string, string, string> rac in value)
+                {
+                    string position = rac.Item1;
+                    string val = rac.Item2;
+                    string preg = rac.Item3;
+
+                    Observation ob = new Observation();
+                    ob.Id = Guid.NewGuid().ToString();
+                    ob.Meta = new Meta();
+                    string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
+                    ob.Meta.Profile = recordAxis_profile;
+                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
+                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    AddReferenceToComposition(ob.Id, "CodedContent");
+
+                    ob.Effective = new FhirDateTime();
+
+                    CodeableConcept icd10cc = new CodeableConcept();
+                    Coding icd10Code = new Coding();
+                    icd10Code.System = "http://hl7.org/fhir/sid/icd-10";
+                    icd10Code.Code = val; // TODO format with period
+                    icd10cc.Coding.Add(icd10Code);
+                    ob.Value = icd10cc;
+
+                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                    CodeableConcept positioncc = new CodeableConcept();
+                    Coding positionCoding = new Coding();
+                    positionCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+                    positionCoding.Code = "position";
+                    positionCoding.Display = "Position";
+                    positioncc.Coding.Add(positionCoding);
+                    positionComp.Value = new FhirString(position);
+                    positionComp.Code = positioncc;
+                    ob.Component.Add(positionComp);
+
+                    Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
+                    CodeableConcept pregcc = new CodeableConcept();
+                    Coding pregCoding = new Coding();
+                    pregCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+                    pregCoding.Code = "pregnancy";
+                    pregCoding.Display = "pregnancy";
+                    pregcc.Coding.Add(pregCoding);
+                    pregComp.Value = new FhirString(preg);
+                    pregComp.Code = pregcc;
+                    ob.Component.Add(pregComp);
+
+                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                    RecordAxisCauseOfDeathObs.Add(ob);
+                }
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
         //
         // Class helper methods useful for building, searching through records.
@@ -9857,6 +10070,27 @@ namespace VRDR
             {
                 EmergingIssues = (Observation)emergingIssues.Resource;
             }
+
+            // Grab Entity Axis Cause of death
+            EntityAxisCauseOfDeathObs = new List<Observation>();
+            foreach (var cod in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9")))
+            {
+                if (cod != null)
+                {
+                    EntityAxisCauseOfDeathObs.Add((Observation)cod.Resource);
+                }
+            }
+
+            // Grab Record Axis Cause of death
+            RecordAxisCauseOfDeathObs = new List<Observation>();
+            foreach (var cod in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7")))
+            {
+                if (cod != null)
+                {
+                    RecordAxisCauseOfDeathObs.Add((Observation)cod.Resource);
+                }
+            }
+            
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
@@ -10502,7 +10736,7 @@ namespace VRDR
                 var matches = Navigator.Select(path.Path);
                 if (matches.Count() > 0)
                 {
-                    if (info.Type == Property.Types.TupleCOD)
+                    if (info.Type == Property.Types.TupleCOD || info.Type == Property.Types.Tuple4Arr)
                     {
                         // Make sure to grab all of the Conditions for COD
                         string xml = "";
@@ -10682,7 +10916,9 @@ namespace VRDR
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
             TupleCOD,
             /// <summary>Parameter is a number.</summary>
-            Number
+            Number,
+            /// <summary>Parameter is an array of 4-Tuples, specifically for entity axis codes.</summary>
+            Tuple4Arr
         };
 
         /// <summary>Name of this property.</summary>

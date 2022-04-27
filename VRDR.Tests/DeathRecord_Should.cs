@@ -1675,6 +1675,25 @@ namespace VRDR.Tests
         }
 
         [Fact]
+         public void Set_FirstEditedRaceCode()
+        {
+            SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
+            Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
+        }
+        [Fact]
+         public void Set_EighthEditedRaceCode()
+        {
+            SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
+            Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
+        }
+        [Fact]
+         public void Set_SecondOtherRaceCode()
+        {
+            SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Tlingit;
+            Assert.Equal(ValueSets.RaceCode.Tlingit, SetterDeathRecord.SecondOtherRaceCodeHelper);
+        }
+
+        [Fact]
         public void Set_BirthRecordId()
         {
             SetterDeathRecord.BirthRecordId = "242123";

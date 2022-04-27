@@ -1884,12 +1884,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstEditedRaceCode", "RACE1E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE1E", "FirstEditedRaceCode", value);
             }
         }
 
@@ -1899,12 +1898,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondEditedRaceCode", "RACE2E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE2E", "SecondEditedRaceCode", value);
             }
         }
 
@@ -1914,12 +1912,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "ThirdEditedRaceCode", "RACE3E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE3E", "ThirdEditedRaceCode", value);
             }
         }
 
@@ -1929,12 +1926,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FourthEditedRaceCode", "RACE4E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE4E", "FourthEditedRaceCode", value);
             }
         }
 
@@ -1944,12 +1940,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FifthEditedRaceCode", "RACE5E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE5E", "FifthEditedRaceCode", value);
             }
         }
 
@@ -1959,12 +1954,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SixthEditedRaceCode", "RACE6E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE6E", "SixthEditedRaceCode", value);
             }
         }
 
@@ -1974,12 +1968,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SeventhEditedRaceCode", "RACE7E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE7E", "SeventhEditedRaceCode", value);
             }
         }
 
@@ -1989,12 +1982,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "EighthEditedRaceCode", "RACE8E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE8E", "EighthEditedRaceCode", value);
             }
         }
 
@@ -2004,12 +1996,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstAmericanIndianRaceCode", "RACE16C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE16C", "FirstAmericanIndianRaceCode", value);
             }
         }
 
@@ -2019,12 +2010,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondAmericanIndianRaceCode", "RACE17C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE17C", "SecondAmericanIndianRaceCode", value);
             }
         }
 
@@ -2034,12 +2024,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherAsianRaceCode", "RACE18C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE18C", "FirstOtherAsianRaceCode", value);
             }
         }
 
@@ -2049,12 +2038,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherAsianRaceCode", "RACE19C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE19C", "SecondOtherAsianRaceCode", value);
             }
         }
 
@@ -2064,12 +2052,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherPacificIslanderRaceCode", "RACE20C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE20C", "FirstOtherPacificIslanderRaceCode", value);
             }
         }
 
@@ -2079,12 +2066,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherPacificIslanderRaceCode", "RACE21C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE21C", "SecondOtherPacificIslanderRaceCode", value);
             }
         }
 
@@ -2094,12 +2080,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherRaceCode", "RACE22C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE22C", "FirstOtherRaceCode", value);
             }
         }
 
@@ -2109,12 +2094,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherRaceCode", "RACE23C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE23C", "SecondOtherRaceCode", value);
             }
         }
 
@@ -3347,12 +3331,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.HispanicOrigin.FHIRToIJE, "HispanicCode", "DETHNICE");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNICE", "HispanicCode", value);
             }
         }
 
@@ -4860,12 +4843,11 @@ get
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.HispanicOrigin.FHIRToIJE, "HispanicCodeForLiteral", "DETHNIC5C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNIC5C", "HispanicCodeForLiteral", value);
             }
         }
 

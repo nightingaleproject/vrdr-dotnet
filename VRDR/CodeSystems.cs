@@ -134,6 +134,22 @@ namespace VRDR
         public static string OrganizationType = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs";
         /// <summary> Activity at Time of Death </summary>
         public static string ActivityAtTimeOfDeath = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs";
+
+        /// <summary> Race Code </summary>
+        public static string RaceCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs";
+
+        /// <summary> Race Recode40 </summary>
+        public static string RaceRecode40 = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode40-cs";
+
+        /// <summary> Hispanic Origin </summary>
+        public static string HispanicOrigin = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs";
+
+        /// <summary> Observation Codes </summary>
+        public static string ObservationCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs";
+
+        /// <summary> Component Codes </summary>
+        public static string ComponentCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+        //
     }
 
 }

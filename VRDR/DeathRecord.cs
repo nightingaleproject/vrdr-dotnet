@@ -40,7 +40,7 @@ namespace VRDR
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
 
-        /// <summary>The Decedent's Demographics.</summary>
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
         private Observation InputRaceandEthnicity;
 
         /// <summary>The Pronouncer of death.</summary>
@@ -497,6 +497,25 @@ namespace VRDR
             Bundle.AddResourceEntry(PlaceOfInjuryObs, "urn:uuid:" + PlaceOfInjuryObs.Id);
         }
 
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        private Observation CodedRaceandEthnicityObs;
+
+
+        /// <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
+        private void CreateCodedRaceandEthnicityObs()
+        {
+            CodedRaceandEthnicityObs = new Observation();
+            CodedRaceandEthnicityObs.Id = Guid.NewGuid().ToString();
+            CodedRaceandEthnicityObs.Meta = new Meta();
+            string[] profile = { ProfileURL.CodedRaceAndEthnicity };
+            CodedRaceandEthnicityObs.Meta.Profile = profile;
+            CodedRaceandEthnicityObs.Status = ObservationStatus.Final;
+            CodedRaceandEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "codedraceandethnicity", "Coded Race and Ethnicity", null);
+            CodedRaceandEthnicityObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(CodedRaceandEthnicityObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(CodedRaceandEthnicityObs, "urn:uuid:" + CodedRaceandEthnicityObs.Id);
+        }
+
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
         {
@@ -523,10 +542,7 @@ namespace VRDR
             string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
             InputRaceandEthnicity.Meta.Profile = raceethnicity_profile;
             InputRaceandEthnicity.Status = ObservationStatus.Final;
-            Dictionary<string, string> coding = new Dictionary<string, string>();
-            coding.Add("code", "inputraceandethnicity");
-            coding.Add("system", "Input Race and Ethnicity");
-            InputRaceandEthnicity.Code = DictToCodeableConcept(coding);
+            InputRaceandEthnicity.Code = new CodeableConcept(CodeSystems.ObservationCode, "inputraceandethnicity", "Input Race and Ethnicity", null);
             InputRaceandEthnicity.Subject = new ResourceReference("urn:uuid:" + InputRaceandEthnicity.Id);
 
             // Start with an empty certifier.
@@ -2876,7 +2892,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public Dictionary<string, string> Ethnicity1
         {
             get
@@ -2918,7 +2934,7 @@ namespace VRDR
         /// </example>
         [Property("Ethnicity 1 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 1.", true, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity1Helper
         {
             get
@@ -2955,7 +2971,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public Dictionary<string, string> Ethnicity2
         {
             get
@@ -2997,7 +3013,7 @@ namespace VRDR
         /// </example>
         [Property("Ethnicity 2 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 2.", true, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity2Helper
         {
             get
@@ -3034,7 +3050,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public Dictionary<string, string> Ethnicity3
         {
             get
@@ -3076,7 +3092,7 @@ namespace VRDR
         /// </example>
         [Property("Ethnicity 3 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 3.", true, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity3Helper
         {
             get
@@ -3113,7 +3129,7 @@ namespace VRDR
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public Dictionary<string, string> Ethnicity4
         {
             get
@@ -3155,7 +3171,7 @@ namespace VRDR
         /// </example>
         [Property("Ethnicity 4 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 4.", true, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string Ethnicity4Helper
         {
             get
@@ -3186,7 +3202,7 @@ namespace VRDR
         /// </example>
         [Property("EthnicityLiteral", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, IGURL.InputRaceAndEthnicity, false, 34)]
         [PropertyParam("ethnicity", "The literal string to describe ethnicity.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public string EthnicityLiteral
         {
             get
@@ -5490,15 +5506,15 @@ namespace VRDR
             }
         }
         // ** Pronouncer not curently supported **/
-        /// <summary>Given name(s) of Pronouncer.</summary>
-        /// <value>the Pronouncer's name (first, middle, etc.)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        // /// <para>string[] names = { "FD", "Middle" };</para>
-        // /// <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
-        // /// <para>// Getter:</para>
-        // /// <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
-        // /// </example>
+        // <summary>Given name(s) of Pronouncer.</summary>
+        // <value>the Pronouncer's name (first, middle, etc.)</value>
+        // <example>
+        // <para>// Setter:</para>
+        // <para>string[] names = { "FD", "Middle" };</para>
+        // <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+        // <para>// Getter:</para>
+        // <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+        // </example>
         // [Property("Pronouncer Given Names", Property.Types.StringArr, "Death Investigation", "Given name(s) of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 21)]
         // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
         // public string[] PronouncerGivenNames
@@ -7933,6 +7949,1505 @@ namespace VRDR
                 SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
             }
         }
+/*
+        /// <summary>First Edited Race Code.</summary>
+        /// <value>First Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstEditedRaceCode", Property.Types.Dictionary, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceandEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceandEthnicityObs == null)
+                {
+                    CreateCodedRaceandEthnicityObs();
+                }
+                CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstEditedCode", "First Edited Code", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceandEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First Edited Race Code  Helper</summary>
+        /// <value>First Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First Edited Race Code Helper", Property.Types.String, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstEditedRaceCodeHelper
+        {
+            get
+            {
+                if (FirstEditedRaceCode.ContainsKey("code"))
+                {
+                    return FirstEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        } */
+
+  /// <summary>First Edited Race Code.</summary>
+  /// <value>First Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FirstEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("FirstEditedRaceCode", Property.Types.Dictionary, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FirstEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstEditedRace", "First Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>First Edited Race Code  Helper</summary>
+  /// <value>First Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FirstEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode}");</para>
+  /// </example>
+  [Property("First Edited Race Code Helper", Property.Types.String, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FirstEditedRaceCodeHelper
+  {
+      get
+      {
+          if (FirstEditedRaceCode.ContainsKey("code"))
+          {
+              return FirstEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Second Edited Race Code.</summary>
+  /// <value>Second Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SecondEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("SecondEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Second Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SecondEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondEditedRace", "Second Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Second Edited Race Code  Helper</summary>
+  /// <value>Second Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SecondEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCode}");</para>
+  /// </example>
+  [Property("Second Edited Race Code Helper", Property.Types.String, "Coded Content", "Second Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SecondEditedRaceCodeHelper
+  {
+      get
+      {
+          if (SecondEditedRaceCode.ContainsKey("code"))
+          {
+              return SecondEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Third Edited Race Code.</summary>
+  /// <value>Third Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.ThirdEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("ThirdEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Third Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> ThirdEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "ThirdEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "ThirdEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "ThirdEditedRace", "Third Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Third Edited Race Code  Helper</summary>
+  /// <value>Third Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.ThirdEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCode}");</para>
+  /// </example>
+  [Property("Third Edited Race Code Helper", Property.Types.String, "Coded Content", "Third Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string ThirdEditedRaceCodeHelper
+  {
+      get
+      {
+          if (ThirdEditedRaceCode.ContainsKey("code"))
+          {
+              return ThirdEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Fourth Edited Race Code.</summary>
+  /// <value>Fourth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FourthEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("FourthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Fourth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FourthEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FourthEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FourthEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FourthEditedRace", "Fourth Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Fourth Edited Race Code  Helper</summary>
+  /// <value>Fourth Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FourthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCode}");</para>
+  /// </example>
+  [Property("Fourth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fourth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FourthEditedRaceCodeHelper
+  {
+      get
+      {
+          if (FourthEditedRaceCode.ContainsKey("code"))
+          {
+              return FourthEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Fifth Edited Race Code.</summary>
+  /// <value>Fifth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FifthEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("FifthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Fifth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FifthEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FifthEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FifthEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FifthEditedRace", "Fifth Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Fifth Edited Race Code  Helper</summary>
+  /// <value>Fifth Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FifthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCode}");</para>
+  /// </example>
+  [Property("Fifth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fifth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FifthEditedRaceCodeHelper
+  {
+      get
+      {
+          if (FifthEditedRaceCode.ContainsKey("code"))
+          {
+              return FifthEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Sixth Edited Race Code.</summary>
+  /// <value>Sixth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SixthEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("SixthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Sixth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SixthEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SixthEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SixthEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SixthEditedRace", "Sixth Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Sixth Edited Race Code  Helper</summary>
+  /// <value>Sixth Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SixthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCode}");</para>
+  /// </example>
+  [Property("Sixth Edited Race Code Helper", Property.Types.String, "Coded Content", "Sixth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SixthEditedRaceCodeHelper
+  {
+      get
+      {
+          if (SixthEditedRaceCode.ContainsKey("code"))
+          {
+              return SixthEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Seventh Edited Race Code.</summary>
+  /// <value>Seventh Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SeventhEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("SeventhEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Seventh Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SeventhEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SeventhEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SeventhEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SeventhEditedRace", "Seventh Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Seventh Edited Race Code  Helper</summary>
+  /// <value>Seventh Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SeventhEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCode}");</para>
+  /// </example>
+  [Property("Seventh Edited Race Code Helper", Property.Types.String, "Coded Content", "Seventh Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SeventhEditedRaceCodeHelper
+  {
+      get
+      {
+          if (SeventhEditedRaceCode.ContainsKey("code"))
+          {
+              return SeventhEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Eighth Edited Race Code.</summary>
+  /// <value>Eighth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.EighthEditedRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCode['display']}");</para>
+  /// </example>
+  [Property("EighthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Eighth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> EighthEditedRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "EighthEditedRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "EighthEditedRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "EighthEditedRace", "Eighth Edited Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Eighth Edited Race Code  Helper</summary>
+  /// <value>Eighth Edited Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.EighthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCode}");</para>
+  /// </example>
+  [Property("Eighth Edited Race Code Helper", Property.Types.String, "Coded Content", "Eighth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string EighthEditedRaceCodeHelper
+  {
+      get
+      {
+          if (EighthEditedRaceCode.ContainsKey("code"))
+          {
+              return EighthEditedRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>First American Indian Race Code.</summary>
+  /// <value>First American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FirstAmericanIndianRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCode['display']}");</para>
+  /// </example>
+  [Property("FirstAmericanIndianRaceCode", Property.Types.Dictionary, "Coded Content", "First American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FirstAmericanIndianRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstAmericanIndianRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstAmericanIndianRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstAmericanIndianRace", "First American Indian Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>First American Indian Race Code  Helper</summary>
+  /// <value>First American Indian Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCode}");</para>
+  /// </example>
+  [Property("First American Indian Race Code Helper", Property.Types.String, "Coded Content", "First American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FirstAmericanIndianRaceCodeHelper
+  {
+      get
+      {
+          if (FirstAmericanIndianRaceCode.ContainsKey("code"))
+          {
+              return FirstAmericanIndianRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Second American Indian Race Code.</summary>
+  /// <value>Second American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SecondAmericanIndianRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCode['display']}");</para>
+  /// </example>
+  [Property("SecondAmericanIndianRaceCode", Property.Types.Dictionary, "Coded Content", "Second American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SecondAmericanIndianRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondAmericanIndianRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondAmericanIndianRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondAmericanIndianRace", "Second American Indian Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Second American Indian Race Code  Helper</summary>
+  /// <value>Second American Indian Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCode}");</para>
+  /// </example>
+  [Property("Second American Indian Race Code Helper", Property.Types.String, "Coded Content", "Second American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SecondAmericanIndianRaceCodeHelper
+  {
+      get
+      {
+          if (SecondAmericanIndianRaceCode.ContainsKey("code"))
+          {
+              return SecondAmericanIndianRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>First Other Asian Race Code.</summary>
+  /// <value>First Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FirstOtherAsianRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCode['display']}");</para>
+  /// </example>
+  [Property("FirstOtherAsianRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FirstOtherAsianRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherAsianRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherAsianRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherAsianRace", "First Other Asian Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>First Other Asian Race Code  Helper</summary>
+  /// <value>First Other Asian Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FirstOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCode}");</para>
+  /// </example>
+  [Property("First Other Asian Race Code Helper", Property.Types.String, "Coded Content", "First Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FirstOtherAsianRaceCodeHelper
+  {
+      get
+      {
+          if (FirstOtherAsianRaceCode.ContainsKey("code"))
+          {
+              return FirstOtherAsianRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Second Other Asian Race Code.</summary>
+  /// <value>Second Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SecondOtherAsianRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCode['display']}");</para>
+  /// </example>
+  [Property("SecondOtherAsianRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SecondOtherAsianRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherAsianRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherAsianRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherAsianRace", "Second Other Asian Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Second Other Asian Race Code  Helper</summary>
+  /// <value>Second Other Asian Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SecondOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCode}");</para>
+  /// </example>
+  [Property("Second Other Asian Race Code Helper", Property.Types.String, "Coded Content", "Second Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SecondOtherAsianRaceCodeHelper
+  {
+      get
+      {
+          if (SecondOtherAsianRaceCode.ContainsKey("code"))
+          {
+              return SecondOtherAsianRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>First Other Pacific Islander Race Code.</summary>
+  /// <value>First Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCode['display']}");</para>
+  /// </example>
+  [Property("FirstOtherPacificIslanderRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FirstOtherPacificIslanderRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherPacificIslanderRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherPacificIslanderRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherPacificIslanderRace", "First Other Pacific Islander Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>First Other Pacific Islander Race Code  Helper</summary>
+  /// <value>First Other Pacific Islander Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCode}");</para>
+  /// </example>
+  [Property("First Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "First Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FirstOtherPacificIslanderRaceCodeHelper
+  {
+      get
+      {
+          if (FirstOtherPacificIslanderRaceCode.ContainsKey("code"))
+          {
+              return FirstOtherPacificIslanderRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Second Other Pacific Islander Race Code.</summary>
+  /// <value>Second Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCode['display']}");</para>
+  /// </example>
+  [Property("SecondOtherPacificIslanderRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SecondOtherPacificIslanderRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherPacificIslanderRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherPacificIslanderRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherPacificIslanderRace", "Second Other Pacific Islander Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Second Other Pacific Islander Race Code  Helper</summary>
+  /// <value>Second Other Pacific Islander Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCode}");</para>
+  /// </example>
+  [Property("Second Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "Second Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SecondOtherPacificIslanderRaceCodeHelper
+  {
+      get
+      {
+          if (SecondOtherPacificIslanderRaceCode.ContainsKey("code"))
+          {
+              return SecondOtherPacificIslanderRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>First Other Race Code.</summary>
+  /// <value>First Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.FirstOtherRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCode['display']}");</para>
+  /// </example>
+  [Property("FirstOtherRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> FirstOtherRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherRace", "First Other Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>First Other Race Code  Helper</summary>
+  /// <value>First Other Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.FirstOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCode}");</para>
+  /// </example>
+  [Property("First Other Race Code Helper", Property.Types.String, "Coded Content", "First Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string FirstOtherRaceCodeHelper
+  {
+      get
+      {
+          if (FirstOtherRaceCode.ContainsKey("code"))
+          {
+              return FirstOtherRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Second Other Race Code.</summary>
+  /// <value>Second Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.SecondOtherRaceCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCode['display']}");</para>
+  /// </example>
+  [Property("SecondOtherRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> SecondOtherRaceCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherRace");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherRace");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherRace", "Second Other Race", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Second Other Race Code  Helper</summary>
+  /// <value>Second Other Race Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.SecondOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCode}");</para>
+  /// </example>
+  [Property("Second Other Race Code Helper", Property.Types.String, "Coded Content", "Second Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string SecondOtherRaceCodeHelper
+  {
+      get
+      {
+          if (SecondOtherRaceCode.ContainsKey("code"))
+          {
+              return SecondOtherRaceCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Hispanic Code.</summary>
+  /// <value>Hispanic Code. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.HispanicCode = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCode['display']}");</para>
+  /// </example>
+  [Property("HispanicCode", Property.Types.Dictionary, "Coded Content", "Hispanic Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> HispanicCode
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "HispanicCode");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCode");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "HispanicCode", "Hispanic Code", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Hispanic Code  Helper</summary>
+  /// <value>Hispanic Code Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.HispanicCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCode}");</para>
+  /// </example>
+  [Property("Hispanic Code Helper", Property.Types.String, "Coded Content", "Hispanic Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string HispanicCodeHelper
+  {
+      get
+      {
+          if (HispanicCode.ContainsKey("code"))
+          {
+              return HispanicCode["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("HispanicCode", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
+  /// <summary>Hispanic Code For Literal.</summary>
+  /// <value>Hispanic Code For Literal. A Dictionary representing a code, containing the following key/value pairs:
+  /// <para>"code" - the code</para>
+  /// <para>"system" - the code system this code belongs to</para>
+  /// <para>"display" - a human readable meaning of the code</para>
+  /// </value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+  /// <para>racecode.Add("code", "300");</para>
+  /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+  /// <para>racecode.Add("display", "African");</para>
+  /// <para>ExampleDeathRecord.HispanicCodeForLiteral = racecode;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteral['display']}");</para>
+  /// </example>
+  [Property("HispanicCodeForLiteral", Property.Types.Dictionary, "Coded Content", "Hispanic Code For Literal.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [PropertyParam("system", "The relevant code system.")]
+  [PropertyParam("display", "The human readable version of this code.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public Dictionary<string, string> HispanicCodeForLiteral
+  {
+      get
+      {
+          if (CodedRaceandEthnicityObs != null)
+          {
+              Observation.ComponentComponent racecode = CodedRaceandEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "HispanicCodeForLiteral");
+              if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+              {
+                  return CodeableConceptToDict((CodeableConcept)racecode.Value);
+              }
+          }
+          return EmptyCodeableDict();
+      }
+      set
+      {
+          if (CodedRaceandEthnicityObs == null)
+          {
+              CreateCodedRaceandEthnicityObs();
+          }
+          CodedRaceandEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCodeForLiteral");
+          Observation.ComponentComponent component = new Observation.ComponentComponent();
+          component.Code = new CodeableConcept(CodeSystems.ComponentCode, "HispanicCodeForLiteral", "Hispanic Code For Literal", null);
+          component.Value = DictToCodeableConcept(value);
+          CodedRaceandEthnicityObs.Component.Add(component);
+      }
+  }
+
+  /// <summary>Hispanic Code For Literal  Helper</summary>
+  /// <value>Hispanic Code For Literal Helper.</value>
+  /// <example>
+  /// <para>// Setter:</para>
+  /// <para>ExampleDeathRecord.HispanicCodeForLiteralHelper = VRDR.ValueSets.RaceCode.African ;</para>
+  /// <para>// Getter:</para>
+  /// <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteral}");</para>
+  /// </example>
+  [Property("Hispanic Code For Literal Helper", Property.Types.String, "Coded Content", "Hispanic Code For Literal.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+  [PropertyParam("code", "The code used to describe this concept.")]
+  [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+  public string HispanicCodeForLiteralHelper
+  {
+      get
+      {
+          if (HispanicCodeForLiteral.ContainsKey("code"))
+          {
+              return HispanicCodeForLiteral["code"];
+          }
+          return null;
+      }
+      set
+      {
+          SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.RaceCode.Codes);
+      }
+  }
+
+
+
+
 
 
         /////////////////////////////////////////////////////////////////////////////////

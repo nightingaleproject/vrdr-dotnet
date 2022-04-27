@@ -68,6 +68,9 @@ codesystems = {
     "http://terminology.hl7.org/CodeSystem/v2-0136" => "VRDR.CodeSystems.YesNo",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs" => "VRDR.CodeSystems.ActivityAtTimeOfDeath",
     "http://loinc.org" => "VRDR.CodeSystems.LOINC",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs" => "VRDR.CodeSystems.RaceCode",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs" => "VRDR.CodeSystems.RaceRecode40",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs" => "VRDR.CodeSystems.HispanicOrigin"
 }
 
 valuesets = {
@@ -94,7 +97,10 @@ valuesets = {
     "ValueSet-vrdr-units-of-age-vs.json" => "UnitsOfAge",
     "ValueSet-vrdr-yes-no-not-applicable-vs.json" => "YesNoNotApplicable",
     "ValueSet-vrdr-yes-no-unknown-not-applicable-vs.json" => "YesNoUnknownNotApplicable",
-    "ValueSet-vrdr-yes-no-unknown-vs.json" => "YesNoUnknown"
+    "ValueSet-vrdr-yes-no-unknown-vs.json" => "YesNoUnknown",
+    "ValueSet-vrdr-race-code-vs.json" => "RaceCode",
+    "ValueSet-vrdr-race-recode-40-vs.json" => "RaceRecode40",
+    "ValueSet-vrdr-hispanic-origin-vs.json" => "HispanicOrigin",
 }
 
 outfilename = ARGV[1] + "/ValueSets.cs"

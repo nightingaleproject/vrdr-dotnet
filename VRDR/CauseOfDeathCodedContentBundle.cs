@@ -14,7 +14,7 @@ namespace VRDR
     /// 
     /// Placeholder class; to be implemented to support VRDR Messaging IG.
     /// </summary>
-    public class CauseOfDeathCodedContentBundle
+    public class CauseOfDeathCodedContentBundle : VRDRBundle
     {
         private readonly Bundle Bundle;
 

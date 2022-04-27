@@ -14,7 +14,7 @@ namespace VRDR
     /// 
     /// Placeholder class; to be implemented to support VRDR Messaging IG.
     /// </summary>
-    public class DemographicCodedContentBundle
+    public class DemographicCodedContentBundle : VRDRBundle
     {
         private readonly Bundle Bundle;
 

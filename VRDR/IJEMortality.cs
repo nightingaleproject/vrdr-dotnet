@@ -1076,31 +1076,11 @@ namespace VRDR
         {
             get
             {
-                String yearPart = BirthDate_Part_Absent_Get("DOB_YR", "date-year", "year-absent-reason");
-                if (!String.IsNullOrWhiteSpace(yearPart))
-                {
-                    return yearPart;
-                }
-                return DateTime_Get("DOB_YR", "yyyy", "DateOfBirth");
+                return NumericAllowingUnknown_Get("DOB_YR", "BirthYear");
             }
             set
             {
-                // if unknown, set the date part absent
-                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "9999"))
-                {
-                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-                    if (record.DateOfBirthDatePartAbsent != null){
-                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
-                    }
-                    dateParts.Add(Tuple.Create("year-absent-reason", "unknown"));
-                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
-                } else
-                {
-                    // we will still set this for now so we can reference the value to
-                    // populate the Date Part Absent field
-                    // In FHIR we will just ignore this
-                    DateTime_Set("DOB_YR", "yyyy", "DateOfBirth", value, true);
-                }
+                NumericAllowingUnknown_Set("DOB_YR", "BirthYear", value);
             }
         }
 
@@ -1110,28 +1090,11 @@ namespace VRDR
         {
             get
             {
-                String monthPart = BirthDate_Part_Absent_Get("DOB_MO", "date-month", "month-absent-reason");
-                if (!String.IsNullOrWhiteSpace(monthPart))
-                {
-                    return monthPart;
-                }
-                return DateTime_Get("DOB_MO", "MM", "DateOfBirth");
+                return NumericAllowingUnknown_Get("DOB_MO", "BirthMonth");
             }
             set
             {
-                // if unknown, set the date part absent
-                if (String.IsNullOrWhiteSpace(value) || String.Equals(value, "99"))
-                {
-                    List<Tuple<string, string>> dateParts = new List<Tuple<string, string>>();
-                    if (record.DateOfBirthDatePartAbsent != null){
-                        dateParts = record.DateOfBirthDatePartAbsent.ToList();
-                    }
-                    dateParts.Add(Tuple.Create("month-absent-reason", "unknown"));
-                    record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
-                } else
-                {
-                    DateTime_Set("DOB_MO", "MM", "DateOfBirth", value, true);
-                }
+                NumericAllowingUnknown_Set("DOB_MO", "BirthMonth", value);
             }
         }
 
@@ -1141,59 +1104,11 @@ namespace VRDR
         {
             get
             {
-                String dayPart = BirthDate_Part_Absent_Get("DOB_DY", "date-day", "day-absent-reason");
-                if (!String.IsNullOrWhiteSpace(dayPart)){
-                    return dayPart;
-                }
-                return DateTime_Get("DOB_DY", "dd", "DateOfBirth");
-
+                return NumericAllowingUnknown_Get("DOB_DY", "BirthDay");
             }
             set
             {
-                if (String.Equals(DOB_YR, "9999") || String.Equals(DOB_MO, "99") || String.Equals(value, "99") || String.IsNullOrWhiteSpace(value))
-                {
-                    List<Tuple<string, string>> dateParts = record.DateOfBirthDatePartAbsent.ToList();
-                    switch (value)
-                    {
-                        case "99":
-                            dateParts.Add(Tuple.Create("day-absent-reason", "unknown"));
-                            dateParts.RemoveAll(x => x.Item1 == "date-day");
-                            break;
-                        default:
-                            DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
-                            dateParts.Add(Tuple.Create("date-day", value));
-                            dateParts.RemoveAll(x => x.Item1 == "day-absent-reason");
-                            break;
-                    }
-                    switch (DOB_MO)
-                    {
-                        case "99":
-                            dateParts.RemoveAll(x => x.Item1 == "date-month");
-                            break;
-                        default:
-                            dateParts.Add(Tuple.Create("date-month", DOB_MO));
-                            dateParts.RemoveAll(x => x.Item1 == "month-absent-reason");
-                            break;
-                    }
-                    switch (DOB_YR)
-                    {
-                        case "9999":
-                            dateParts.RemoveAll(x => x.Item1 == "date-year");
-                            break;
-                        default:
-                            dateParts.Add(Tuple.Create("date-year", DOB_YR));
-                            dateParts.RemoveAll(x => x.Item1 == "year-absent-reason");
-                            break;
-                    }
-                    // TODO: DOB fields will all be reworked
-                    // record.DateOfBirthDatePartAbsent = dateParts.ToList().ToArray();
-                    // TODO should we set DateOfBirth to null because it will have default values for the unknown date parts?
-                    // record.DateOfBirth = "";
-                }
-                else
-                {
-                    DateTime_Set("DOB_DY", "dd", "DateOfBirth", value, true);
-                }
+                NumericAllowingUnknown_Set("DOB_DY", "BirthDay", value);
             }
         }
 

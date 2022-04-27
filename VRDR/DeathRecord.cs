@@ -2424,6 +2424,75 @@ namespace VRDR
             }
         }
 
+        private void AddBirthDateToDecedent()
+        {
+            Decedent.BirthDateElement = new Date();
+            Decedent.BirthDateElement.Extension.Add(NewBlankPartialDateTimeExtension(false));
+        }
+
+        /// <summary>TODO: ADD A SUMMARY</summary>
+        public uint? BirthYear
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+        /// <summary>TODO: ADD A SUMMARY</summary>
+        public uint? BirthMonth
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>TODO: ADD A SUMMARY</summary>
+        public uint? BirthDay
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
         /// <summary>Decedent's Date of Birth.</summary>
         /// <value>the decedent's date of birth</value>
         /// <example>
@@ -5527,7 +5596,7 @@ namespace VRDR
         // These are (incomplete and untested) getter and setter helpers for anything that uses a PartialDateTime, allowing a caller to get or
         // set a particular field on the extension; they currently assume that the extension and the sub-parts are always present; see notes above
         // DeathYear method just below for some details on thought process
-        // TODO: Also need methods to get and set the time bits
+        // TODO: Documentation
         private uint? GetPartialDate(Extension partialDateTime, string partURL)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
@@ -5593,9 +5662,17 @@ namespace VRDR
         private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            DateTimeOffset dateTimeOffset;
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
+                dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
+            }
+            else if (value is Date && ((Date)value).Value != null)
+            {
+                dateTimeOffset = (DateTimeOffset)((Date)value).ToDateTimeOffset();
+            }
+            if (dateTimeOffset != null)
+            {
                 switch(partURL)
                 {
                     case ExtensionURL.DateYear:

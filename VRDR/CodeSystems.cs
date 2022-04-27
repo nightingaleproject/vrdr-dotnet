@@ -150,6 +150,11 @@ namespace VRDR
         /// <summary> Component Codes </summary>
         public static string ComponentCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
         //
+
+        /// <summary> Component </summary>
+        public static string Component = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
+        /// <summary> ICD10 </summary>
+        public static string ICD10 = "http://hl7.org/fhir/sid/icd-10";
     }
 
 }

@@ -2535,9 +2535,8 @@ namespace VRDR
                 {
                     string position = entry.Item1;
                     string icdCode = entry.Item2;
-                    string ws = " ";
                     string preg = entry.Item3;
-                    racStr += icdCode + ws;
+                    racStr += icdCode + preg;
                 }
                 string fmtRac = Truncate(racStr, 100).PadRight(100, ' ');
                 return fmtRac;
@@ -2552,7 +2551,7 @@ namespace VRDR
                     if (!String.IsNullOrWhiteSpace(code))
                     {
                         string icdCode = code.Substring(0,4);
-                        string preg = "";
+                        string preg = code.Substring(4);
                         Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
                         rac.Add(entry);
                     }

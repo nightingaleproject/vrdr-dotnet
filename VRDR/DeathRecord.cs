@@ -9519,45 +9519,21 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-
-                    CodeableConcept icd10cc = new CodeableConcept();
-                    Coding icd10Code = new Coding();
-                    icd10Code.System = "http://hl7.org/fhir/sid/icd-10";
-                    icd10Code.Code = val; // TODO format with period
-                    icd10cc.Coding.Add(icd10Code);
-                    ob.Value = icd10cc;
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, val, null, null);
 
                     Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                    CodeableConcept lineNumbercc = new CodeableConcept();
-                    Coding lineNumCoding = new Coding();
-                    lineNumCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
-                    lineNumCoding.Code = "lineNumber";
-                    lineNumCoding.Display = "lineNumber";
-                    lineNumbercc.Coding.Add(lineNumCoding);
                     lineNumComp.Value = new FhirString(lineNumber);
-                    lineNumComp.Code = lineNumbercc;
+                    lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
                     ob.Component.Add(lineNumComp);
 
                     Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    CodeableConcept positioncc = new CodeableConcept();
-                    Coding positionCoding = new Coding();
-                    positionCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
-                    positionCoding.Code = "position";
-                    positionCoding.Display = "Position";
-                    positioncc.Coding.Add(positionCoding);
                     positionComp.Value = new FhirString(position);
-                    positionComp.Code = positioncc;
+                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
                     ob.Component.Add(positionComp);
 
                     Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
-                    CodeableConcept eCodecc = new CodeableConcept();
-                    Coding eCodeCoding = new Coding();
-                    eCodeCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
-                    eCodeCoding.Code = "eCodeIndicator";
-                    eCodeCoding.Display = "eCodeIndicator";
-                    eCodecc.Coding.Add(eCodeCoding);
                     eCodeComp.Value = new FhirString(ecode);
-                    eCodeComp.Code = eCodecc;
+                    eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
                     ob.Component.Add(eCodeComp);
 
                     Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
@@ -9590,9 +9566,16 @@ namespace VRDR
                         string value = valueCC.Coding[0].Code;
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
                         string position = positionComp.Value.ToString();
-                        Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="pregnancy").FirstOrDefault();
-                        string preg = pregComp.Value.ToString();
-                        Tuple<string, string, string> racod = Tuple.Create(position, value, preg);
+                        Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
+                        string pregnancy = " ";
+                        if (pregComp != null && pregComp.Value != null)
+                        {
+                            string preg = pregComp.Value.ToString();
+                            pregnancy = preg == "true" ? "1" : " ";
+                            
+                        }
+                        Tuple<string, string, string> racod = Tuple.Create(position, value, pregnancy);
+
                         rac.Add(racod);
                     }
                 }
@@ -9627,35 +9610,20 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-
-                    CodeableConcept icd10cc = new CodeableConcept();
-                    Coding icd10Code = new Coding();
-                    icd10Code.System = "http://hl7.org/fhir/sid/icd-10";
-                    icd10Code.Code = val; // TODO format with period
-                    icd10cc.Coding.Add(icd10Code);
-                    ob.Value = icd10cc;
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, val, null, null);
 
                     Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    CodeableConcept positioncc = new CodeableConcept();
-                    Coding positionCoding = new Coding();
-                    positionCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
-                    positionCoding.Code = "position";
-                    positionCoding.Display = "Position";
-                    positioncc.Coding.Add(positionCoding);
                     positionComp.Value = new FhirString(position);
-                    positionComp.Code = positioncc;
+                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
                     ob.Component.Add(positionComp);
 
-                    Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
-                    CodeableConcept pregcc = new CodeableConcept();
-                    Coding pregCoding = new Coding();
-                    pregCoding.System = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs";
-                    pregCoding.Code = "pregnancy";
-                    pregCoding.Display = "pregnancy";
-                    pregcc.Coding.Add(pregCoding);
-                    pregComp.Value = new FhirString(preg);
-                    pregComp.Code = pregcc;
-                    ob.Component.Add(pregComp);
+                    if (preg == "1" && position == "2")
+                    {
+                        Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
+                        pregComp.Value = new FhirBoolean(true);
+                        pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
+                        ob.Component.Add(pregComp);
+                    }
 
                     Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
                     RecordAxisCauseOfDeathObs.Add(ob);

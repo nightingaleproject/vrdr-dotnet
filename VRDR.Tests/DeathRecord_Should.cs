@@ -2941,17 +2941,20 @@ namespace VRDR.Tests
         [Fact]
         public void Set_RecordAxisCodes()
         {
-            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T273", "Y")};
+            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T273", "1"), Tuple.Create("2", "T273", "1")};
             SetterDeathRecord.RecordAxisCauseOfDeath = rac;
 
             Tuple<string, string, string>[] racGet = SetterDeathRecord.RecordAxisCauseOfDeath;
-            Assert.Equal(1, racGet.Length);
+            Assert.Equal(2, racGet.Length);
             Assert.Equal("1", racGet[0].Item1);
             Assert.Equal("T273", racGet[0].Item2);
-            Assert.Equal("Y", racGet[0].Item3);
+            Assert.Equal(" ", racGet[0].Item3);
+            Assert.Equal("2", racGet[1].Item1);
+            Assert.Equal("T273", racGet[1].Item2);
+            Assert.Equal("1", racGet[1].Item3);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtRac = "T273 ".PadRight(100, ' ');
+            string fmtRac = "T273 T2731".PadRight(100, ' ');
             Assert.Equal(fmtRac, ije.RAC);
         }
 

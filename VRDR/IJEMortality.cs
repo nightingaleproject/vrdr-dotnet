@@ -390,7 +390,7 @@ namespace VRDR
             else
             {
                 DateTimeOffset parsedTime;
-                if (DateTimeOffset.TryParseExact(value, "hhmm", null, DateTimeStyles.None, out parsedTime))
+                if (DateTimeOffset.TryParseExact(value, "HHmm", null, DateTimeStyles.None, out parsedTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, 0);
                     typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, timeSpan.ToString(@"hh\:mm"));
@@ -1341,7 +1341,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Marital Status--Edit Flag</summary>
+        /// <summary>Place of Death</summary>
         [IJEField(31, 232, 1, "Place of Death", "DPLACE", 1)]
         public string DPLACE
         {

@@ -5616,10 +5616,14 @@ namespace VRDR
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                // TODO: This converts to UTC which is bad... we actually want to keep the originally specified time zone!
-                DateTimeOffset dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
-                TimeSpan timeSpan = new TimeSpan(0, dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second);
-                return timeSpan.ToString(@"hh\:mm");
+                // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation
+                DateTime dateTime;
+                if (DateTime.TryParse(((FhirDateTime)value).ToString(), out dateTime))
+                {
+                    TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                    return timeSpan.ToString(@"hh\:mm");
+                }
+                return null;
             }
             return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
         }

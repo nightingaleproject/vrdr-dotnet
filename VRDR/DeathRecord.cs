@@ -6097,7 +6097,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death", Property.Types.Dictionary, "Decedent Demographics", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("type", "The unit type, from UnitsOfAge ValueSet.")]
         [PropertyParam("units", "The quantity value.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
@@ -6156,7 +6156,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditBypassFlag['display']}");</para>
         /// </example>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6191,7 +6191,7 @@ namespace VRDR
         /// <summary>
         /// Age at Death Edit Bypass Flag Helper
         /// </summary>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Death Investigation", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
         public String AgeAtDeathEditBypassFlagHelper
@@ -6222,7 +6222,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, false, 2)]
+        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, false, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6265,7 +6265,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, true, 2)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public bool AgeAtDeathDataAbsentBoolean
         {

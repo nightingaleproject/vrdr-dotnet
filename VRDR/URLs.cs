@@ -127,7 +127,6 @@ namespace VRDR
 
         /// <summary>URL for RecordAxisCauseOfDeath</summary>
         public const string RecordAxisCauseOfDeath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death";
-
     }
 
     /// <summary>Extension URLs</summary>

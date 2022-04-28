@@ -17,7 +17,7 @@ namespace VRDR
     /// HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
     /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
     /// </summary>
-    public class DeathRecord
+    public class DeathRecord : VRDRBundle
     {
         /// <summary>Mortality data for code translations.</summary>
         private MortalityData MortalityData = MortalityData.Instance;
@@ -8556,6 +8556,11 @@ namespace VRDR
                 }
             }
             return record;
+        }
+
+        public string GetContentType()
+        {
+            return ProfileURL.DeathCertificateDocument;
         }
     }
 

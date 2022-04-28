@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
@@ -5682,9 +5684,12 @@ namespace VRDR
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
             {
-                // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation
+                // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation, first using the appropriate segment of
+                // the Regex defined at http://hl7.org/fhir/R4/datatypes.html#dateTime to pull out everything except the time zone
+                string dateRegex = "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)?)?)?)?";
+                Match dateStringMatch = Regex.Match(((FhirDateTime)value).ToString(), dateRegex);
                 DateTime dateTime;
-                if (DateTime.TryParse(((FhirDateTime)value).ToString(), out dateTime))
+                if (dateStringMatch != null && DateTime.TryParse(dateStringMatch.ToString(), out dateTime))
                 {
                     TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
                     return timeSpan.ToString(@"hh\:mm");

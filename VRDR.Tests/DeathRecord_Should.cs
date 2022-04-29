@@ -1200,21 +1200,21 @@ namespace VRDR.Tests
         [Fact]
         public void Set_BirthDate_Partial_Date()
         {
-            Tuple<string, string>[] datePart = { Tuple.Create("date-year", "1950"), Tuple.Create("month-absent-reason", "asked-unknown"), Tuple.Create("day-absent-reason", "asked-unknown")};
-            SetterDeathRecord.DateOfBirthDatePartAbsent = datePart;
-            Assert.Equal(datePart[0], SetterDeathRecord.DateOfBirthDatePartAbsent[0]);
-            Assert.Equal(datePart[1], SetterDeathRecord.DateOfBirthDatePartAbsent[1]);
-            Assert.Equal(datePart[2], SetterDeathRecord.DateOfBirthDatePartAbsent[2]);
+            SetterDeathRecord.BirthYear = 1950;
+            SetterDeathRecord.BirthMonth = null;
+            SetterDeathRecord.BirthDay = null;
+            Assert.Equal(1950, (int)SetterDeathRecord.BirthYear);
+            Assert.Null(SetterDeathRecord.BirthMonth);
+            Assert.Null(SetterDeathRecord.BirthDay);
         }
 
         [Fact]
         public void Get_BirthDate_Partial_Date()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            Assert.Equal(Tuple.Create("year-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[0]));
-            Assert.Equal(Tuple.Create("month-absent-reason", "asked-unknown"), (dr.DateOfBirthDatePartAbsent[1]));
-            Assert.Equal(Tuple.Create("date-day", "24"), (dr.DateOfBirthDatePartAbsent[2]));
-
+            Assert.Null(dr.BirthYear);
+            Assert.Null(dr.BirthMonth);
+            Assert.Equal(24, (int)dr.BirthDay);
         }
 
 
@@ -1227,14 +1227,10 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("24", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-
-            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "asked-unknown"), Tuple.Create("month-absent-reason", "asked-unknown"), Tuple.Create("date-day", "24")};
-            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
-            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
-            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
-            //The DateOfBirth value is not set when there are date part absents, is this acceptable?
-            //Assert.Equal("0001-01-24", dr1.DateOfBirth);
-
+            Assert.Null(dr1.BirthYear);
+            Assert.Null(dr1.BirthMonth);
+            Assert.Equal(24, (int)dr1.BirthDay);
+            Assert.Null(dr1.DateOfBirth);
         }
 
         [Fact]
@@ -2726,15 +2722,15 @@ namespace VRDR.Tests
         [Fact]
         public void Set_DateOfDeath()
         {
-            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:06.498822-05:00";
-            Assert.Equal("2018-02-19T16:48:06.498822-05:00", SetterDeathRecord.DateOfDeath);
+            SetterDeathRecord.DateOfDeath = "2018-02-19T16:48:00";
+            Assert.Equal("2018-02-19T16:48:00", SetterDeathRecord.DateOfDeath);
         }
 
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
-            Assert.Equal("2019-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
         }
 
         [Fact]
@@ -2746,27 +2742,28 @@ namespace VRDR.Tests
             Assert.Equal("02", ije1.DOD_MO);
             Assert.Equal("19", ije1.DOD_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
-            Assert.Equal("2019-02-19T16:48:06-05:00", dr2.DateOfDeath);
+            Assert.Equal("2019-02-19T16:48:00", dr2.DateOfDeath);
         }
 
         [Fact]
         public void Set_DateOfDeath_Partial_Date()
         {
-            Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
-            SetterDeathRecord.DateOfDeathDatePartAbsent = datePart;
-            Assert.Equal(datePart[0], SetterDeathRecord.DateOfDeathDatePartAbsent[0]);
-            Assert.Equal(datePart[1], SetterDeathRecord.DateOfDeathDatePartAbsent[1]);
-            Assert.Equal(datePart[2], SetterDeathRecord.DateOfDeathDatePartAbsent[2]);
+            //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "2021"), Tuple.Create("date-month", "5"), Tuple.Create("day-absent-reason", "asked-unknown")};
+            SetterDeathRecord.DeathYear = 2021;
+            SetterDeathRecord.DeathMonth = 5;
+            SetterDeathRecord.DeathDay = null;
+            Assert.Equal(2021, (int)SetterDeathRecord.DeathYear);
+            Assert.Equal(5, (int)SetterDeathRecord.DeathMonth);
+            Assert.Null(SetterDeathRecord.DeathDay);
         }
 
         [Fact]
         public void Get_DateOfDeath_Partial_Date()
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
-            Assert.Equal(Tuple.Create("date-year", "2021"), (dr.DateOfDeathDatePartAbsent[0]));
-            Assert.Equal(Tuple.Create("date-month", "2"), (dr.DateOfDeathDatePartAbsent[1]));
-            Assert.Equal(Tuple.Create("day-absent-reason", "asked-unknown"), (dr.DateOfDeathDatePartAbsent[2]));
-
+            Assert.Equal(2021, (int)dr.DeathYear);
+            Assert.Equal(2, (int)dr.DeathMonth);
+            Assert.Null(dr.DeathDay);
         }
 
         [Fact]

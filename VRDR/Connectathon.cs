@@ -652,8 +652,8 @@ namespace VRDR
             }
             else
             {
-                Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "asked-unknown"), Tuple.Create("date-month", "02"), Tuple.Create("date-day", "24")};
-                record.DateOfBirthDatePartAbsent = datePart;
+                record.BirthMonth = 2;
+                record.BirthDay = 24;
                 Dictionary<string, string> addressB = new Dictionary<string, string>();
                 addressB.Add("addressCountry", "AS");  // This is an abomination
                 addressB.Add("addressState", "");

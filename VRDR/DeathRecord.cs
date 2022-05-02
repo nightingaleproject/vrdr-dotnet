@@ -9458,8 +9458,8 @@ namespace VRDR
         /// <value>Entity-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>{Tuple.Create("value", "position", "line", "code")}</para>
-        /// <para>ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
+        /// <para> Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>{Tuple.Create("value", "position", "line", "code")}</para>
+        /// <para> ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EntityAxisCauseOfDeath}");</para>
         /// </example>
@@ -9474,15 +9474,31 @@ namespace VRDR
                 {
                     foreach(Observation ob in EntityAxisCauseOfDeathObs)
                     {
+                        string icd10code = "";
+                        string lineNumber = "";
+                        string position = "";
+                        string code = "";
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = valueCC.Coding[0].Code;
+                        if (valueCC != null)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
+                        }
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
-                        string position = positionComp.Value.ToString();
+                        if (positionComp != null && positionComp.Value != null)
+                        {
+                            position = positionComp.Value.ToString();
+                        }
                         Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
-                        string lineNumber = lineNumComp.Value.ToString();
+                        if (lineNumComp != null && lineNumComp.Value != null)
+                        {
+                            lineNumber = lineNumComp.Value.ToString();
+                        }
                         Observation.ComponentComponent codeComp = ob.Component.Where(c => c.Code.Coding[0].Code=="eCodeIndicator").FirstOrDefault();
-                        string code = codeComp.Value.ToString();
-                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, value, code);
+                        if (codeComp != null && codeComp.Value != null)
+                        {
+                            code = codeComp.Value.ToString();
+                        }
+                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, icd10code, code);
                         eac.Add(eacod);
                     }
                 }
@@ -9505,7 +9521,7 @@ namespace VRDR
                 {
                     string lineNumber = eac.Item1;
                     string position = eac.Item2;
-                    string val = eac.Item3;
+                    string icd10code = eac.Item3;
                     string ecode = eac.Item4;
 
                     Observation ob = new Observation();
@@ -9518,17 +9534,22 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, val, null, null);
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
 
-                    Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                    lineNumComp.Value = new FhirString(lineNumber);
-                    lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
-                    ob.Component.Add(lineNumComp);
-
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new FhirString(position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
+                    if (Int32.TryParse(lineNumber, out int i))
+                    {
+                        Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                        lineNumComp.Value = new Integer(i);
+                        lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
+                        ob.Component.Add(lineNumComp);
+                    }
+                    if (Int32.TryParse(position, out int j))
+                    {
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(j);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
+                    }
 
                     Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
                     eCodeComp.Value = new FhirString(ecode);
@@ -9561,19 +9582,27 @@ namespace VRDR
                 {
                     foreach(Observation ob in RecordAxisCauseOfDeathObs)
                     {
+                        string icd10code = "";
+                        string position = "";
+                        string pregnancy = "";
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = valueCC.Coding[0].Code;
+                        if (valueCC != null)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
+                        }
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
-                        string position = positionComp.Value.ToString();
+                        if (positionComp != null && positionComp.Value != null)
+                        {
+                            position = positionComp.Value.ToString();
+                        }
                         Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
-                        string pregnancy = " ";
                         if (pregComp != null && pregComp.Value != null)
                         {
                             string preg = pregComp.Value.ToString();
                             pregnancy = preg == "true" ? "1" : " ";
                             
                         }
-                        Tuple<string, string, string> racod = Tuple.Create(position, value, pregnancy);
+                        Tuple<string, string, string> racod = Tuple.Create(position, icd10code, pregnancy);
 
                         rac.Add(racod);
                     }
@@ -9596,7 +9625,7 @@ namespace VRDR
                 foreach(Tuple<string, string, string> rac in value)
                 {
                     string position = rac.Item1;
-                    string val = rac.Item2;
+                    string icd10code = rac.Item2;
                     string preg = rac.Item3;
 
                     Observation ob = new Observation();
@@ -9609,13 +9638,15 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, val, null, null);
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
 
-                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                    positionComp.Value = new FhirString(position);
-                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                    ob.Component.Add(positionComp);
-
+                    if (Int32.TryParse(position, out int j))
+                    {
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(j);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
+                    }
                     if (preg == "1" && position == "2")
                     {
                         Observation.ComponentComponent pregComp = new Observation.ComponentComponent();

@@ -2917,14 +2917,14 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T273", "Y")};
+            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T27.3", "Y")};
             SetterDeathRecord.EntityAxisCauseOfDeath = eac;
 
             Tuple<string, string, string, string>[] eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
             Assert.Equal(1, eacGet.Length);
             Assert.Equal("2", eacGet[0].Item1);
             Assert.Equal("1", eacGet[0].Item2);
-            Assert.Equal("T273", eacGet[0].Item3);
+            Assert.Equal("T27.3", eacGet[0].Item3);
             Assert.Equal("Y", eacGet[0].Item4);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
@@ -2948,7 +2948,7 @@ namespace VRDR.Tests
             Assert.Equal(2, racGet.Length);
             Assert.Equal("1", racGet[0].Item1);
             Assert.Equal("T27.3", racGet[0].Item2);
-            Assert.Equal(" ", racGet[0].Item3);
+            Assert.Equal("", racGet[0].Item3);
             Assert.Equal("2", racGet[1].Item1);
             Assert.Equal("T27.3", racGet[1].Item2);
             Assert.Equal("1", racGet[1].Item3);

@@ -719,15 +719,20 @@ namespace VRDR
             Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
             string code;
             nchsicd10code = nchsicd10code.Trim();
-            if(ICD10rgx.IsMatch(nchsicd10code)){
+            if(ICD10rgx.IsMatch(nchsicd10code))
+            {
                 code = nchsicd10code;
-            }else{
+            }
+            else
+            {
                 code = "";
                 //if(value.Length == 4 && value[value.Length-1] != '.'){
-                if (NCHSICD10rgx.IsMatch(nchsicd10code)){
+                if (NCHSICD10rgx.IsMatch(nchsicd10code))
+                {
                     code = nchsicd10code;
-                    if(nchsicd10code.Length == 4){
-                        code = nchsicd10code.Substring(0,3) + "." + nchsicd10code.Substring(3,1);
+                    if(nchsicd10code.Length == 4)
+                    {
+                        code = nchsicd10code.Insert(3, ".");
                     }
                 }
             }
@@ -736,7 +741,8 @@ namespace VRDR
         /// <summary>Actual ICD10 to NCHS ICD10 </summary>
         private string ActualICD10toNCHSICD10(string icd10code)
         {
-            if(!String.IsNullOrEmpty(icd10code)){
+            if(!String.IsNullOrEmpty(icd10code))
+            {
                 return(icd10code.Replace(".",""));
             }
             else
@@ -2507,12 +2513,12 @@ namespace VRDR
                 string eacStr = "";
                 foreach(Tuple<string, string, string, string> entry in eac)
                 {
-                    string lineNumber = entry.Item1;
-                    string position = entry.Item2;
-                    string icdCode = ActualICD10toNCHSICD10(entry.Item3);
-                    string ws = " ";
-                    string eCode = entry.Item4;
-                    eacStr += lineNumber + position  + icdCode + ws + eCode;
+                    string lineNumber = Truncate(entry.Item1, 1).PadRight(1, ' ');
+                    string position = Truncate(entry.Item2, 1).PadRight(1, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item3), 4).PadRight(4, ' ');;
+                    string reserved = " ";
+                    string eCode = Truncate(entry.Item4, 1).PadRight(1, ' ');
+                    eacStr += lineNumber + position  + icdCode + reserved + eCode;
                 }
                 string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
                 return fmtEac;
@@ -2557,6 +2563,9 @@ namespace VRDR
         }
 
         /// <summary>Record-axis codes</summary>
+        // 20 codes, each taking up 5 characters:
+        // 4 char “ICD code” in NCHS format, without the ‘.’
+        // 1 char WouldBeUnderlyingCauseOfDeathWithoutPregnancy, only significant if position=2”
         [IJEField(108, 876, 100, "Record-axis codes", "RAC", 1)]
         public string RAC
         {
@@ -2567,9 +2576,9 @@ namespace VRDR
                 string racStr = "";
                 foreach(Tuple<string, string, string> entry in rac)
                 {
-                    string position = entry.Item1;
-                    string icdCode = ActualICD10toNCHSICD10(entry.Item2);
-                    string preg = entry.Item3;
+                    string position = Truncate(entry.Item1, 1).PadRight(1, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item2), 4).PadRight(4, ' ');
+                    string preg = Truncate(entry.Item3, 1).PadRight(1, ' ');
                     racStr += icdCode + preg;
                 }
                 string fmtRac = Truncate(racStr, 100).PadRight(100, ' ');

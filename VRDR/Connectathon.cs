@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 namespace VRDR
 {
@@ -130,7 +132,7 @@ namespace VRDR
  /// <summary>Generate the Fidelia Alsup example record</summary>
 public static DeathRecord FideliaAlsup()
     {
-    	IJEMortality ije = new IJEMortality(""); // blank IJE
+    	IJEMortality ije = new IJEMortality(new DeathRecord(), false);
 		ije.DOD_YR = "2022";
 		ije.DSTATE = "CT";
 		ije.FILENO = "000002";
@@ -184,9 +186,9 @@ public static DeathRecord FideliaAlsup()
 		ije.RACE15 = "N";
 		ije.OCCUP = "Carpenter";
 		ije.INDUST = "Construction";
-		ije.DOR_YR = "03";
-		ije.DOR_MO = "18";
-		ije.DOR_DY = "2022";
+		ije.DOR_YR = "2022";
+		ije.DOR_MO = "03";
+		ije.DOR_DY = "18";
 		ije.MANNER = "A";
 		ije.AUTOP = "N";
 		ije.AUTOPF = "X";
@@ -308,242 +310,6 @@ public static DeathRecord DavisLineberry()
     	return record;
     }
 
-        /// <summary>Generate the Javier Luis Perez example record; this can be used to generate either a partial or full record</summary>
-        public static DeathRecord JavierLuisPerez(bool partialRecord = false)
-        {
-            bool fullRecord = !partialRecord;
-            DeathRecord record = new DeathRecord();
-
-            record.Identifier = "000004";
-
-            record.RegisteredTime = "2021-03-15";
-
-            record.GivenNames = new string[] { "Javier", "Luis" };
-
-            record.FamilyName = "Perez";
-            record.Suffix = "Jr.";
-
-            record.Race = new Tuple<string, string>[] { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.BlackOrAfricanAmerican, "Y") };
-
-            record.Ethnicity3Helper = "Y";
-
-            record.BirthSex = "M";
-
-            record.SSN = "456123789";
-
-            Dictionary<string, string> age = new Dictionary<string, string>();
-
-
-            if (fullRecord)
-            {
-                age.Add("value", "57");
-                age.Add("unit", "a");
-                record.AgeAtDeath = age;
-                record.DateOfBirth = "1964-02-24";
-
-                Dictionary<string, string> addressB = new Dictionary<string, string>();
-                addressB.Add("addressCountry", "US");
-                addressB.Add("addressState", "TX");
-                record.PlaceOfBirth = addressB;
-
-                record.BirthRecordId = "818181";
-                record.BirthRecordState = "TX";
-            }
-            else
-            {
-                record.BirthMonth = 2;
-                record.BirthDay = 24;
-                Dictionary<string, string> addressB = new Dictionary<string, string>();
-                addressB.Add("addressCountry", "AS");  // This is an abomination
-                addressB.Add("addressState", "");
-                record.PlaceOfBirth = addressB;
-                record.BirthRecordIdentifierDataAbsentBoolean = true;
-                record.AgeAtDeathDataAbsentBoolean = true;
-            }
-
-            if (fullRecord)
-            {
-                record.MotherGivenNames = new String[] { "Liliana" };
-                record.MotherMaidenName = "Jones";
-            }
-
-            record.FatherFamilyName = "Perez";
-
-            Dictionary<string, string> code = new Dictionary<string, string>();
-            code.Add("code", "M");
-            code.Add("system", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x);
-            code.Add("display", "Married");
-            record.MaritalStatus = code;
-
-            Dictionary<string, string> addressR = new Dictionary<string, string>();
-            if (fullRecord)
-            {
-                addressR.Add("addressLine1", "143 Taylor Street");
-                addressR.Add("addressCountry", "US");
-            }else{
-                addressR.Add("addressCountry", "ZZ");
-            }
-            addressR.Add("addressCity", "Annapolis");
-            addressR.Add("addressCounty", "Anne Arundel");
-            addressR.Add("addressState", "MD");
-
-            record.Residence = addressR;
-            record.ResidenceWithinCityLimitsBoolean = false;
-
-            Dictionary<string, string> elevel = new Dictionary<string, string>();
-            elevel.Add("code", "PHC1454");
-            elevel.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
-            elevel.Add("display", "Master's Degree");
-            record.EducationLevel = elevel;
-
-            Dictionary<string, string> uocc = new Dictionary<string, string>();
-            uocc.Add("code", "6230");
-            uocc.Add("system", VRDR.CodeSystems.PH_Occupation_CDC_Census2010);
-            uocc.Add("display", "carpenters");
-            uocc.Add("text", "carpenter");
-            record.UsualOccupationCode = uocc;
-
-            Dictionary<string, string> uind = new Dictionary<string, string>();
-            uind.Add("code", "0770");
-            uind.Add("system", VRDR.CodeSystems.PH_Industry_CDC_Census2010);
-            uind.Add("display", "Construction");    // actual text is "Construction (the cleaning of buildings and dwellings is incidental during construction and immediately after construction)"
-            uind.Add("text", "construction");
-            record.UsualIndustryCode = uind;
-
-            record.DateOfDeath = "2021-03-14T11:25:00";
-
-            record.DeathLocationName = "County Hospital";
-            Dictionary<string, string> locType = new Dictionary<string, string>();
-            locType.Add("code", "63238001");
-            locType.Add("system", VRDR.CodeSystems.SCT);
-            locType.Add("display", "Hospital Dead on Arrival");
-            record.DeathLocationType = locType;
-
-            record.DeathLocationDescription = "Dead On Arrival";
-            record.DeathLocationJurisdiction = "DE";
-
-            Dictionary<string, string> role = new Dictionary<string, string>();
-            role.Add("code", "434641000124105");
-            role.Add("system", VRDR.CodeSystems.SCT);
-            role.Add("display", "Death certification and verification by physician");
-            record.CertificationRole = role;
-
-            record.CertifierGivenNames = new string[] { "Hope" };
-            record.CertifierFamilyName = "Lost";
-
-            Dictionary<string, string> address = new Dictionary<string, string>();
-            address.Add("addressLine1", "RR1");
-            address.Add("addressCity", "Dover");
-            address.Add("addressState", "DE");
-            address.Add("addressCountry", "US");
-            record.CertifierAddress = address;
-
-            record.CertifiedTime = "2021-03-14";
-
-            record.DateOfDeathPronouncement = "2021-03-14T11:35:00";
-
-            // if (fullRecord)
-            // {
-            //     record.PronouncerGivenNames = new string[] { "Hope" };
-            //     record.PronouncerFamilyName = "Lost";
-            // }
-
-            record.COD1A = "Blunt head trauma";
-            record.COD1B = "Automobile accident";
-            record.ExaminerContactedHelper = "UNK"; // use null to set to unknown
-            if (fullRecord)
-            {
-                record.INTERVAL1A = "30 min";
-                record.INTERVAL1B = "30 min";
-                record.COD1C = "Epilepsy";
-                record.INTERVAL1C = "20 years";
-                record.ExaminerContactedHelper = "Y";
-                record.InjuryLocationDescription = "15 Industrial Drive 19901 US";
-            }
-
-
-            Dictionary<string, string> manner = new Dictionary<string, string>();
-            manner.Add("code", "7878000");
-            manner.Add("system", VRDR.CodeSystems.SCT);
-            manner.Add("display", "Accidental death");
-            record.MannerOfDeathType = manner;
-
-            record.InjuryDate = "2021-03-14T11:15:00";
-            record.InjuryAtWorkHelper = "Y";
-
-            // Dictionary<string, string> injuryPlace = new Dictionary<string, string>();
-            // injuryPlace.Add("code", "4");
-            // injuryPlace.Add("system", VRDR.CodeSystems.PH_PlaceOfOccurrence_ICD_10_WHO);
-            // injuryPlace.Add("display", "street");
-            // record.InjuryPlace = injuryPlace;
-
-            record.InjuryDescription = "unrestrained ejected driver in rollover motor vehicle accident";
-
-
-
-            Dictionary<string, string> codeT = new Dictionary<string, string>();
-            codeT.Add("code", "236320001");
-            codeT.Add("system", VRDR.CodeSystems.SCT);
-            codeT.Add("display", "Vehicle driver");
-            record.TransportationRole = codeT;
-            // record.TransportationEventBoolean = true;
-            record.AutopsyPerformedIndicatorHelper = "N";
-            record.AutopsyResultsAvailableHelper = "N";
-            if (fullRecord)
-            {
-                Dictionary<string, string> fdaddress = new Dictionary<string, string>();
-                fdaddress.Add("addressLine1", "15 Furnace Drive");
-                fdaddress.Add("addressCity", "San Antonio");
-                fdaddress.Add("addressState", "TX");
-                fdaddress.Add("addressZip", " 78201");
-                fdaddress.Add("addressCountry", "US");
-                record.FuneralHomeAddress = fdaddress;
-                record.FuneralHomeName = "River Funeral Home";
-
-                // Dictionary<string, string> morticianId = new Dictionary<string, string>();
-                // morticianId.Add("system", VRDR.CodeSystems.US_NPI_HL7);
-                // morticianId.Add("value", "313333AB");
-                // record.MorticianIdentifier = morticianId;
-
-                // record.MorticianGivenNames = new string[] { "Pedro", "A" };
-                // record.MorticianFamilyName = "Jimenez";
-
-                Dictionary<string, string> dladdress = new Dictionary<string, string>();
-                dladdress.Add("addressLine1", "15 Furnace Drive");
-                dladdress.Add("addressCity", "San Antonio");
-                dladdress.Add("addressState", "TX");
-                dladdress.Add("addressZip", " 78201");
-                dladdress.Add("addressCountry", "US");
-                record.DispositionLocationAddress = dladdress;
-                record.DispositionLocationName = "River Cemetary";
-            }
-
-            Dictionary<string, string> dmethod = new Dictionary<string, string>();
-            dmethod.Add("code", "449941000124103");
-            dmethod.Add("system", VRDR.CodeSystems.SCT);
-            dmethod.Add("display", "Patient status determination, deceased and removed from state");
-            record.DecedentDispositionMethod = dmethod;
-
-            Dictionary<string, string> pregnancyStatus = new Dictionary<string, string>();
-            pregnancyStatus.Add("code", "NA");
-            pregnancyStatus.Add("system", CodeSystems.PH_NullFlavor_HL7_V3);
-            pregnancyStatus.Add("display", "not applicable");
-            record.PregnancyStatus = pregnancyStatus;
-
-            if (fullRecord)
-            {
-                record.TobaccoUse = new Dictionary<string, string>() {
-                    { "code", "373067005" },
-                    { "system", VRDR.CodeSystems.SCT },
-                    { "display", "No" } };
-            }
-            record.MilitaryService = new Dictionary<string, string>() {
-                { "code", "N" },
-                { "system", CodeSystems.PH_YesNo_HL7_2x },
-                { "display", "No" } };
-
-            return record;
-        }
 
         // Writes record to a file named filename in a subdirectory of the current working directory
         // Note that you do this with docker, you will have to set a bind mount on the container

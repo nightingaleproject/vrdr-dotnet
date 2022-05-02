@@ -9362,7 +9362,7 @@ namespace VRDR
       }
       set
       {
-          SetCodeValue("HispanicCode", value, VRDR.ValueSets.RaceCode.Codes);
+          SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
       }
   }
 
@@ -9441,7 +9441,7 @@ namespace VRDR
       }
       set
       {
-          SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.RaceCode.Codes);
+          SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
       }
   }
 

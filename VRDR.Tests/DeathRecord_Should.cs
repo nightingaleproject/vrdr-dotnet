@@ -3054,7 +3054,7 @@ namespace VRDR.Tests
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
             Assert.Equal(ije.AGE,"062");
             Assert.Equal(ije.SSN, "478151044");
-            Assert.Equal(ije.HOWINJ , "Unrestrained ejected driver in rollover motor vehicle accident");
+            Assert.Equal(ije.HOWINJ.Trim() , "Unrestrained ejected driver in rollover motor vehicle accident");
             Assert.Equal(ije.DETHNIC2, "H");
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -9476,7 +9477,7 @@ namespace VRDR
                     foreach(Observation ob in EntityAxisCauseOfDeathObs)
                     {
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = valueCC.Coding[0].Code;
+                        string value = ActualICD10toNCHSICD10(valueCC.Coding[0].Code);
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
                         string position = positionComp.Value.ToString();
                         Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
@@ -9506,7 +9507,7 @@ namespace VRDR
                 {
                     string lineNumber = eac.Item1;
                     string position = eac.Item2;
-                    string val = eac.Item3;
+                    string val = NCHSICD10toActualICD10(eac.Item3);
                     string ecode = eac.Item4;
 
                     Observation ob = new Observation();
@@ -9563,7 +9564,7 @@ namespace VRDR
                     foreach(Observation ob in RecordAxisCauseOfDeathObs)
                     {
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = valueCC.Coding[0].Code;
+                        string value = ActualICD10toNCHSICD10(valueCC.Coding[0].Code);
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
                         string position = positionComp.Value.ToString();
                         Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
@@ -9597,7 +9598,7 @@ namespace VRDR
                 foreach(Tuple<string, string, string> rac in value)
                 {
                     string position = rac.Item1;
-                    string val = rac.Item2;
+                    string val = NCHSICD10toActualICD10(rac.Item2);
                     string preg = rac.Item3;
 
                     Observation ob = new Observation();
@@ -9669,7 +9670,6 @@ namespace VRDR
                 return "";
             }
         }
-
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>

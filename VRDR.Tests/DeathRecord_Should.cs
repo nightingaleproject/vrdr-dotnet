@@ -2564,15 +2564,42 @@ namespace VRDR.Tests
         [Fact]
         public void Set_InjuryDate()
         {
-            SetterDeathRecord.InjuryDate = "2018-02-19T16:48:06.498822-05:00";
-            Assert.Equal("2018-02-19T16:48:06.498822-05:00", SetterDeathRecord.InjuryDate);
+            SetterDeathRecord.InjuryDate = "2018-02-19T16:48:00";
+            Assert.Equal("2018-02-19T16:48:00", SetterDeathRecord.InjuryDate);
+            Assert.Equal(2018, (int)SetterDeathRecord.InjuryYear);
+            Assert.Equal(2, (int)SetterDeathRecord.InjuryMonth);
+            Assert.Equal(19, (int)SetterDeathRecord.InjuryDay);
+            Assert.Equal("16:48", SetterDeathRecord.InjuryTime);
         }
 
         [Fact]
         public void Get_InjuryDate()
         {
-            Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
-            Assert.Equal("2018-02-19T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).InjuryDate);
+            Assert.Equal("2018-02-19T16:48:00", ((DeathRecord)JSONRecords[0]).InjuryDate);
+            Assert.Equal(2018, (int)((DeathRecord)JSONRecords[0]).InjuryYear);
+            Assert.Equal(2, (int)((DeathRecord)JSONRecords[0]).InjuryMonth);
+            Assert.Equal(19, (int)((DeathRecord)JSONRecords[0]).InjuryDay);
+            Assert.Equal("16:48", ((DeathRecord)JSONRecords[0]).InjuryTime);
+            Assert.Equal("2018-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).InjuryDate);
+            Assert.Equal(2018, (int)((DeathRecord)XMLRecords[0]).InjuryYear);
+            Assert.Equal(2, (int)((DeathRecord)XMLRecords[0]).InjuryMonth);
+            Assert.Equal(19, (int)((DeathRecord)XMLRecords[0]).InjuryDay);
+            Assert.Equal("16:48", ((DeathRecord)XMLRecords[0]).InjuryTime);
+        }
+
+       [Fact]
+        public void Get_InjuryDate_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("2018", ije1.DOI_YR);
+            Assert.Equal("02", ije1.DOI_MO);
+            Assert.Equal("19", ije1.DOI_DY);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2018-02-19T16:48:00", dr2.InjuryDate);
+            Assert.Equal(2018, (int)dr2.InjuryYear);
+            Assert.Equal(02, (int)dr2.InjuryMonth);
+            Assert.Equal(19, (int)dr2.InjuryDay);
         }
 
         [Fact]
@@ -2809,6 +2836,9 @@ namespace VRDR.Tests
             Assert.Equal("19", ije1.DOD_DY);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal("2019-02-19T16:48:00", dr2.DateOfDeath);
+            Assert.Equal(2019, (int)dr2.DeathYear);
+            Assert.Equal(02, (int)dr2.DeathMonth);
+            Assert.Equal(19, (int)dr2.DeathDay);
         }
 
         [Fact]

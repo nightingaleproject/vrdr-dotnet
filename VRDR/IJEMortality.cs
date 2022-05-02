@@ -334,7 +334,7 @@ namespace VRDR
         private void NumericAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (value == new string('9', info.Length))
+            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
             }
@@ -365,7 +365,7 @@ namespace VRDR
         private void TimeAllowingUnknown_Set(string ijeFieldName, string fhirFieldName, string value)
         {
             IJEField info = FieldInfo(ijeFieldName);
-            if (value == new string('9', info.Length))
+            if (value == new string('9', info.Length) || value == new string(' ', info.Length))
             {
                 typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, null);
             }
@@ -2683,14 +2683,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOI_MO", "MM", "InjuryDate");
+                return NumericAllowingUnknown_Get("DOI_MO", "InjuryMonth");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("DOI_MO", "MM", "InjuryDate", value.Trim(), false, true);
-                }
+                NumericAllowingUnknown_Set("DOI_MO", "InjuryMonth", value);
             }
         }
 
@@ -2700,14 +2697,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOI_DY", "dd", "InjuryDate");
+                return NumericAllowingUnknown_Get("DOI_DY", "InjuryDay");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("DOI_DY", "dd", "InjuryDate", value.Trim(), false, true);
-                }
+                NumericAllowingUnknown_Set("DOI_DY", "InjuryDay", value);
             }
         }
 
@@ -2717,14 +2711,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("DOI_YR", "yyyy", "InjuryDate");
+                return NumericAllowingUnknown_Get("DOI_YR", "InjuryYear");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("DOI_YR", "yyyy", "InjuryDate", value.Trim(), false);
-                }
+                NumericAllowingUnknown_Set("DOI_YR", "InjuryYear", value);
             }
         }
 
@@ -2734,14 +2725,11 @@ namespace VRDR
         {
             get
             {
-                return DateTime_Get("TOI_HR", "HHmm", "InjuryDate");
+                return TimeAllowingUnknown_Get("TOI_HR", "InjuryTime");
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value))
-                {
-                    DateTime_Set("TOI_HR", "HHmm", "InjuryDate", value.Trim(), false, true);
-                }
+                TimeAllowingUnknown_Set("TOI_HR", "InjuryTime", value);
             }
         }
 

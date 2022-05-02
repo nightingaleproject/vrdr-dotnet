@@ -399,6 +399,8 @@ namespace VRDR
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    InjuryIncidentObs.Effective = new FhirDateTime();
+                    InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
                     AddReferenceToComposition(InjuryIncidentObs.Id, "OBE");
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
@@ -7107,6 +7109,129 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Year of Injury.</summary>
+        /// <value>the decedent's year of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
+        /// </example>
+        [Property("InjuryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryYear
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Month of Injury.</summary>
+        /// <value>the decedent's month of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryMonth = 7;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
+        /// </example>
+        [Property("InjuryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryMonth
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Day of Injury.</summary>
+        /// <value>the decedent's day of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryDay = 22;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
+        /// </example>
+        [Property("InjuryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryDay
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Time of Injury.</summary>
+        /// <value>the decedent's time of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Time of Injury: {ExampleDeathRecord.InjuryTime}");</para>
+        /// </example>
+        [Property("InjuryTime", Property.Types.String, "Death Investigation", "Decedent's Time of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryTime
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetTimeFragmentOrPartialTime(InjuryIncidentObs.Effective);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialTime(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
+            }
+        }
+
         /// <summary>Date/Time of Injury.</summary>
         /// <value>the date and time of injury</value>
         /// <example>
@@ -7121,19 +7246,35 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs?.Effective != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                if (InjuryYear != null && InjuryMonth != null && InjuryDay != null && InjuryTime != null)
                 {
-                    return Convert.ToString(InjuryIncidentObs.Effective);
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(InjuryTime, out parsedTime))
+                    {
+                        DateTimeOffset result = new DateTimeOffset((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
+                    }
+                }
+                else if (InjuryYear != null && InjuryMonth != null && InjuryDay != null)
+                {
+                    DateTime result = new DateTime((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay);
+                    return result.ToString("s");
                 }
                 return null;
             }
             set
             {
-                if (InjuryIncidentObs == null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateInjuryIncidentObs();
+                    InjuryYear = (uint?)parsedTime.Year;
+                    InjuryMonth = (uint?)parsedTime.Month;
+                    InjuryDay = (uint?)parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    InjuryTime = timeSpan.ToString(@"hh\:mm");
                 }
-                InjuryIncidentObs.Effective = new FhirDateTime(value);
             }
         }
 

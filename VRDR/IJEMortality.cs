@@ -2813,12 +2813,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: SurgeryDate
-                return "";
+                return NumericAllowingUnknown_Get("SUR_MO", "SurgeryMonth");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: SurgeryDate
+                NumericAllowingUnknown_Set("SUR_MO", "SurgeryMonth", value);
             }
         }
 
@@ -2828,12 +2827,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: SurgeryDate
-                return "";
+                return NumericAllowingUnknown_Get("SUR_DY", "SurgeryDay");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: SurgeryDate
+                NumericAllowingUnknown_Set("SUR_DY", "SurgeryDay", value);
             }
         }
 
@@ -2843,12 +2841,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: SurgeryDate
-                return "";
+                return NumericAllowingUnknown_Get("SUR_YR", "SurgeryYear");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: SurgeryDate
+                NumericAllowingUnknown_Set("SUR_YR", "SurgeryYear", value);
             }
         }
 

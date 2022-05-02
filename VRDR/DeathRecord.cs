@@ -2,12 +2,10 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.Text.RegularExpressions;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -7845,7 +7843,7 @@ namespace VRDR
             {
                 if (AutoUnderlyingCODObs != null)
                 {
-                    return ActualICD10toNCHSICD10(AutoUnderlyingCODObs.Value.ToString()) ;
+                    return AutoUnderlyingCODObs.Value.ToString();
                 }
                 return null;
             }
@@ -7854,7 +7852,7 @@ namespace VRDR
                 if (AutoUnderlyingCODObs == null){
                     CreateAutoUnderlyingCODObs();
                 }
-                AutoUnderlyingCODObs.Value = new FhirString(NCHSICD10toActualICD10(value));
+                AutoUnderlyingCODObs.Value = new FhirString(value);
             }
         }
 
@@ -7875,7 +7873,7 @@ namespace VRDR
             {
                 if (ManualUnderlyingCODObs != null)
                 {
-                    return ActualICD10toNCHSICD10(ManualUnderlyingCODObs.Value.ToString()) ;
+                    return ManualUnderlyingCODObs.Value.ToString();
                 }
                 return null;
             }
@@ -7884,7 +7882,7 @@ namespace VRDR
                 if (ManualUnderlyingCODObs == null){
                     CreateManualUnderlyingCODObs();
                 }
-                ManualUnderlyingCODObs.Value = new FhirString(NCHSICD10toActualICD10(value));
+                ManualUnderlyingCODObs.Value = new FhirString(value);
             }
         }
 
@@ -9477,7 +9475,7 @@ namespace VRDR
                     foreach(Observation ob in EntityAxisCauseOfDeathObs)
                     {
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = ActualICD10toNCHSICD10(valueCC.Coding[0].Code);
+                        string value = valueCC.Coding[0].Code;
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
                         string position = positionComp.Value.ToString();
                         Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
@@ -9507,7 +9505,7 @@ namespace VRDR
                 {
                     string lineNumber = eac.Item1;
                     string position = eac.Item2;
-                    string val = NCHSICD10toActualICD10(eac.Item3);
+                    string val = eac.Item3;
                     string ecode = eac.Item4;
 
                     Observation ob = new Observation();
@@ -9564,7 +9562,7 @@ namespace VRDR
                     foreach(Observation ob in RecordAxisCauseOfDeathObs)
                     {
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        string value = ActualICD10toNCHSICD10(valueCC.Coding[0].Code);
+                        string value = valueCC.Coding[0].Code;
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
                         string position = positionComp.Value.ToString();
                         Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
@@ -9598,7 +9596,7 @@ namespace VRDR
                 foreach(Tuple<string, string, string> rac in value)
                 {
                     string position = rac.Item1;
-                    string val = NCHSICD10toActualICD10(rac.Item2);
+                    string val = rac.Item2;
                     string preg = rac.Item3;
 
                     Observation ob = new Observation();
@@ -9637,39 +9635,6 @@ namespace VRDR
         // Class helper methods useful for building, searching through records.
         //
         /////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>NCHS ICD10 to actual ICD10 </summary>
-        private string NCHSICD10toActualICD10(string nchsicd10code)
-        {
-            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
-            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
-            string code;
-            nchsicd10code = nchsicd10code.Trim();
-            if(ICD10rgx.IsMatch(nchsicd10code)){
-                code = nchsicd10code;
-            }else{
-                code = "";
-                //if(value.Length == 4 && value[value.Length-1] != '.'){
-                if (NCHSICD10rgx.IsMatch(nchsicd10code)){
-                    code = nchsicd10code;
-                    if(nchsicd10code.Length == 4){
-                        code = nchsicd10code.Substring(0,3) + "." + nchsicd10code.Substring(3,1);
-                    }
-                }
-            }
-            return(code);
-        }
-        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
-        private string ActualICD10toNCHSICD10(string icd10code)
-        {
-            if(!String.IsNullOrEmpty(icd10code)){
-                return(icd10code.Replace(".",""));
-            }
-            else
-            {
-                return "";
-            }
-        }
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>

@@ -1648,9 +1648,9 @@ namespace VRDR.Tests
             SetterDeathRecord.AutoUnderlyingCOD = "I131";
             Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
             SetterDeathRecord.AutoUnderlyingCOD = "I13.1";
-            Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
+            Assert.Equal("I13.1", SetterDeathRecord.AutoUnderlyingCOD);
             SetterDeathRecord.AutoUnderlyingCOD = "I13.";
-            Assert.Equal("", SetterDeathRecord.AutoUnderlyingCOD);
+            Assert.Equal("I13.", SetterDeathRecord.AutoUnderlyingCOD);
             SetterDeathRecord.AutoUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
         }
@@ -1660,9 +1660,9 @@ namespace VRDR.Tests
             SetterDeathRecord.ManUnderlyingCOD = "I131";
             Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
             SetterDeathRecord.ManUnderlyingCOD = "I13.1";
-            Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
+            Assert.Equal("I13.1", SetterDeathRecord.ManUnderlyingCOD);
             SetterDeathRecord.ManUnderlyingCOD = "I13.";
-            Assert.Equal("", SetterDeathRecord.ManUnderlyingCOD);
+            Assert.Equal("I13.", SetterDeathRecord.ManUnderlyingCOD);
             SetterDeathRecord.ManUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
         }
@@ -2941,16 +2941,16 @@ namespace VRDR.Tests
         [Fact]
         public void Set_RecordAxisCodes()
         {
-            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T273", "1"), Tuple.Create("2", "T273", "1")};
+            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T27.3", "1"), Tuple.Create("2", "T27.3", "1")};
             SetterDeathRecord.RecordAxisCauseOfDeath = rac;
 
             Tuple<string, string, string>[] racGet = SetterDeathRecord.RecordAxisCauseOfDeath;
             Assert.Equal(2, racGet.Length);
             Assert.Equal("1", racGet[0].Item1);
-            Assert.Equal("T273", racGet[0].Item2);
+            Assert.Equal("T27.3", racGet[0].Item2);
             Assert.Equal(" ", racGet[0].Item3);
             Assert.Equal("2", racGet[1].Item1);
-            Assert.Equal("T273", racGet[1].Item2);
+            Assert.Equal("T27.3", racGet[1].Item2);
             Assert.Equal("1", racGet[1].Item3);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields

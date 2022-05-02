@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace VRDR
 {
@@ -708,6 +709,39 @@ namespace VRDR
                 {
                     validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
                 }
+            }
+        }
+
+        /// <summary>NCHS ICD10 to actual ICD10 </summary>
+        private string NCHSICD10toActualICD10(string nchsicd10code)
+        {
+            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
+            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
+            string code;
+            nchsicd10code = nchsicd10code.Trim();
+            if(ICD10rgx.IsMatch(nchsicd10code)){
+                code = nchsicd10code;
+            }else{
+                code = "";
+                //if(value.Length == 4 && value[value.Length-1] != '.'){
+                if (NCHSICD10rgx.IsMatch(nchsicd10code)){
+                    code = nchsicd10code;
+                    if(nchsicd10code.Length == 4){
+                        code = nchsicd10code.Substring(0,3) + "." + nchsicd10code.Substring(3,1);
+                    }
+                }
+            }
+            return(code);
+        }
+        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
+        private string ActualICD10toNCHSICD10(string icd10code)
+        {
+            if(!String.IsNullOrEmpty(icd10code)){
+                return(icd10code.Replace(".",""));
+            }
+            else
+            {
+                return "";
             }
         }
 
@@ -2434,11 +2468,11 @@ namespace VRDR
         {
             get
             {
-               return( LeftJustified_Get("MAN_UC","ManUnderlyingCOD"));
+               return( ActualICD10toNCHSICD10(LeftJustified_Get("MAN_UC","ManUnderlyingCOD")));
             }
             set
             {
-                LeftJustified_Set("Man_UC","ManUnderlyingCOD", value);
+                LeftJustified_Set("Man_UC","ManUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
@@ -2448,11 +2482,11 @@ namespace VRDR
         {
             get
             {
-               return( LeftJustified_Get("ACME_UC","AutoUnderlyingCOD"));
+               return( ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC","AutoUnderlyingCOD")));
             }
             set
             {
-                LeftJustified_Set("ACME_UC","AutoUnderlyingCOD", value);
+                LeftJustified_Set("ACME_UC","AutoUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
@@ -2475,7 +2509,7 @@ namespace VRDR
                 {
                     string lineNumber = entry.Item1;
                     string position = entry.Item2;
-                    string icdCode = entry.Item3;
+                    string icdCode = ActualICD10toNCHSICD10(entry.Item3);
                     string ws = " ";
                     string eCode = entry.Item4;
                     eacStr += lineNumber + position  + icdCode + ws + eCode;
@@ -2493,7 +2527,7 @@ namespace VRDR
                     {
                         string lineNumber = code.Substring(0);
                         string position = code.Substring(1);
-                        string icdCode = code.Substring(2,6);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(2,6));
                         string eCode = code.Substring(7);
                         Tuple<string, string, string, string> entry = Tuple.Create(lineNumber, position, icdCode, eCode);
                         eac.Add(entry);
@@ -2534,7 +2568,7 @@ namespace VRDR
                 foreach(Tuple<string, string, string> entry in rac)
                 {
                     string position = entry.Item1;
-                    string icdCode = entry.Item2;
+                    string icdCode = ActualICD10toNCHSICD10(entry.Item2);
                     string preg = entry.Item3;
                     racStr += icdCode + preg;
                 }
@@ -2550,7 +2584,7 @@ namespace VRDR
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        string icdCode = code.Substring(0,4);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(0,4));
                         string preg = code.Substring(4);
                         Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
                         rac.Add(entry);

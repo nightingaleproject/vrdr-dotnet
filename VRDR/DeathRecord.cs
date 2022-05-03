@@ -295,18 +295,18 @@ namespace VRDR
         {
             Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
             Extension year = new Extension(ExtensionURL.DateYear, null);
-            year.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(year);
             Extension month = new Extension(ExtensionURL.DateMonth, null);
-            month.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(month);
             Extension day = new Extension(ExtensionURL.DateDay, null);
-            day.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(day);
             if (includeTime)
             {
                 Extension time = new Extension(ExtensionURL.DateTime, null);
-                time.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
                 partialDateTime.Extension.Add(time);
             }
             return partialDateTime;
@@ -328,6 +328,22 @@ namespace VRDR
             DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
+        }
+
+        private void CreateSurgeryDateObs() {
+            SurgeryDateObs = new Observation();
+            SurgeryDateObs.Id = Guid.NewGuid().ToString();
+            SurgeryDateObs.Meta = new Meta();
+            string[] profile = { ProfileURL.SurgeryDate };
+            SurgeryDateObs.Meta.Profile = profile;
+            SurgeryDateObs.Status = ObservationStatus.Final;
+            SurgeryDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "80992-1", "Date and time of surgery", null);
+            SurgeryDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            // A SurgeryDate can be represented either using the PartialDateTime or the valueDateTime as with DeathDate above
+            SurgeryDateObs.Value = new FhirDateTime();
+            SurgeryDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(false));
+            AddReferenceToComposition(SurgeryDateObs.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(SurgeryDateObs, "urn:uuid:" + SurgeryDateObs.Id);
         }
 
         private void CreateRaceEthnicityObs() {
@@ -399,6 +415,8 @@ namespace VRDR
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    InjuryIncidentObs.Effective = new FhirDateTime();
+                    InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
                     AddReferenceToComposition(InjuryIncidentObs.Id, "OBE");
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
@@ -419,6 +437,10 @@ namespace VRDR
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
+
+        /// <summary>Date Of Surgery.</summary>
+        private Observation SurgeryDateObs;
+
         private const string  locationJurisdictionExtPath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
 
 
@@ -560,7 +582,7 @@ namespace VRDR
             // Pronouncer = new Practitioner();
             // Pronouncer.Id = Guid.NewGuid().ToString();
             // Pronouncer.Meta = new Meta();
-            // string[] pronouncer_profile = { OtherURL.USCorePractitioner };
+            // string[] pronouncer_profile = { OtherProfileURL.USCorePractitioner };
             // Pronouncer.Meta.Profile = pronouncer_profile;
 
             // Start with an empty mortician.
@@ -3441,12 +3463,12 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/patient-birthPlace')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='" + OtherExtensionURL.PatientBirthPlace + "')", "")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == OtherExtensionURL.PatientBirthPlace );
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -3460,9 +3482,9 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace");
+                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.PatientBirthPlace);
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
+                placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
             }
@@ -5678,7 +5700,7 @@ namespace VRDR
                 Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
                 if (part != null)
                 {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
                     if (dataAbsent != null || part.Value == null)
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
@@ -5694,7 +5716,7 @@ namespace VRDR
         private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
-            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
             if (value != null)
             {
                 part.Value = new UnsignedInt((int)value);
@@ -5702,7 +5724,7 @@ namespace VRDR
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             }
         }
 
@@ -5714,7 +5736,7 @@ namespace VRDR
                 Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
                 if (part != null)
                 {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
                     if (dataAbsent != null || part.Value == null)
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
@@ -5730,7 +5752,7 @@ namespace VRDR
         private void SetPartialTime(Extension partialDateTime, String value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
-            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
             if (value != null)
             {
                 part.Value = new Time(value);
@@ -5738,7 +5760,7 @@ namespace VRDR
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             }
         }
 
@@ -5929,7 +5951,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 25)]
+        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
         {
@@ -6016,6 +6038,132 @@ namespace VRDR
                 }
               }
 
+        }
+
+        /// <summary>Decedent's Year of Surgery.</summary>
+        /// <value>the decedent's year of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Surgery: {ExampleDeathRecord.SurgeryYear}");</para>
+        /// </example>
+        [Property("SurgeryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryYear
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Month of Surgery.</summary>
+        /// <value>the decedent's month of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryMonth = 6;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Surgery: {ExampleDeathRecord.SurgeryMonth}");</para>
+        /// </example>
+        [Property("SurgeryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryMonth
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>Decedent's Day of Surgery.</summary>
+        /// <value>the decedent's day of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryDay = 16;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Surgery: {ExampleDeathRecord.SurgeryDay}");</para>
+        /// </example>
+        [Property("SurgeryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryDay
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        /// <summary>Decedent's Surgery Date.</summary>
+        /// <value>the decedent's date of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryDate = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Surgery Date: {ExampleDeathRecord.SurgeryDate}");</para>
+        /// </example>
+        [Property("Surgery Date", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public string SurgeryDate
+        {
+            get
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                if (SurgeryYear != null && SurgeryMonth != null && SurgeryDay != null)
+                {
+                    Date result = new Date((int)SurgeryYear, (int)SurgeryMonth, (int)SurgeryDay);
+                    return result.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
+                {
+                    SurgeryYear = (uint?)parsedDate.Year;
+                    SurgeryMonth = (uint?)parsedDate.Month;
+                    SurgeryDay = (uint?)parsedDate.Day;
+                }
+            }
         }
 
         /// <summary>Autopsy Results Available.</summary>
@@ -6937,7 +7085,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -7049,7 +7197,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "name")]
         public string InjuryLocationName
         {
             get
@@ -7082,7 +7230,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
         [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile=ProfileURL.InjuryLocation)", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -7107,6 +7255,129 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Year of Injury.</summary>
+        /// <value>the decedent's year of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
+        /// </example>
+        [Property("InjuryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryYear
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Month of Injury.</summary>
+        /// <value>the decedent's month of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryMonth = 7;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
+        /// </example>
+        [Property("InjuryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryMonth
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Day of Injury.</summary>
+        /// <value>the decedent's day of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryDay = 22;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
+        /// </example>
+        [Property("InjuryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryDay
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                UpdateBundleIdentifier();
+            }
+        }
+
+        /// <summary>Decedent's Time of Injury.</summary>
+        /// <value>the decedent's time of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Time of Injury: {ExampleDeathRecord.InjuryTime}");</para>
+        /// </example>
+        [Property("InjuryTime", Property.Types.String, "Death Investigation", "Decedent's Time of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryTime
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetTimeFragmentOrPartialTime(InjuryIncidentObs.Effective);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialTime(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
+            }
+        }
+
         /// <summary>Date/Time of Injury.</summary>
         /// <value>the date and time of injury</value>
         /// <example>
@@ -7121,19 +7392,35 @@ namespace VRDR
         {
             get
             {
-                if (InjuryIncidentObs?.Effective != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                if (InjuryYear != null && InjuryMonth != null && InjuryDay != null && InjuryTime != null)
                 {
-                    return Convert.ToString(InjuryIncidentObs.Effective);
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(InjuryTime, out parsedTime))
+                    {
+                        DateTimeOffset result = new DateTimeOffset((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
+                    }
+                }
+                else if (InjuryYear != null && InjuryMonth != null && InjuryDay != null)
+                {
+                    DateTime result = new DateTime((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay);
+                    return result.ToString("s");
                 }
                 return null;
             }
             set
             {
-                if (InjuryIncidentObs == null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateInjuryIncidentObs();
+                    InjuryYear = (uint?)parsedTime.Year;
+                    InjuryMonth = (uint?)parsedTime.Month;
+                    InjuryDay = (uint?)parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    InjuryTime = timeSpan.ToString(@"hh\:mm");
                 }
-                InjuryIncidentObs.Effective = new FhirDateTime(value);
             }
         }
 
@@ -9894,6 +10181,13 @@ namespace VRDR
             if (dateOfDeath != null)
             {
                 DeathDateObs = (Observation)dateOfDeath.Resource;
+            }
+
+            // Grab Surgery Date
+            var surgeryDate = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80992-1" );
+            if (surgeryDate != null)
+            {
+                SurgeryDateObs = (Observation)surgeryDate.Resource;
             }
 
             // Grab Emerging Parameters

@@ -193,7 +193,7 @@
                 "reference": "urn:uuid:3c1f5202-68de-47e8-813f-43a3f7f29129"
               },
               {
-                "reference" : "Observation/SurgeryDate-Example1"
+                "reference": "urn:uuid:f384e3f6-2438-4e07-9df2-44e27e3aa72d"
               }
             ]
           },
@@ -2129,6 +2129,52 @@
           "related": [
             {
               "reference": "urn:uuid:cf96ffd9-fb38-479f-ba3c-5f3f36752fdb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f384e3f6-2438-4e07-9df2-44e27e3aa72d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f384e3f6-2438-4e07-9df2-44e27e3aa72d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "80992-1",
+              "display": "Date and time of surgery"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:0544364b-aa81-42a2-952e-51402a59221b"
+        },
+        "_valueDateTime": {
+          "extension": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                  "valueUnsignedInt": 2017
+                },
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "valueUnsignedInt": 3
+                },
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
+                  "valueUnsignedInt": 18
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
             }
           ]
         }

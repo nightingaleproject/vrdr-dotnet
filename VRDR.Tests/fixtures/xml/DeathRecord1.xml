@@ -1737,6 +1737,41 @@
     </resource>
   </entry>
   <entry>
+    <fullUrl value="urn:uuid:541d10b9-ee69-4059-9737-df326ba05397"/>
+    <resource>
+      <Observation>
+        <id value="541d10b9-ee69-4059-9737-df326ba05397"/>
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date"/>
+        </meta>
+        <status value="final"/>
+        <code>
+          <coding>
+            <system value="http://loinc.org"/>
+            <code value="80992-1"/>
+            <display value="Date and time of surgery"/>
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:c1c4861b-8749-4442-be31-2d984ea8c93b"/>
+        </subject>
+        <valueDateTime>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year">
+              <valueUnsignedInt value="2017"/>
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month">
+              <valueUnsignedInt value="3"/>
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day">
+              <valueUnsignedInt value="18"/>
+            </extension>
+          </extension>
+        </valueDateTime>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
     <fullUrl value="urn:uuid:7895ab5b-d0f6-4425-b5d9-5335529e4010"/>
     <resource>
       <Observation>

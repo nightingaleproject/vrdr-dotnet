@@ -10,7 +10,7 @@ namespace VRDR
     /// Intertface for a FHIR Vital Records Death Reporting (VRDR) DemographicCodedContentBundle.
     /// This interface was designed to help consume and produce coding responses that follow the
     /// HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
-    /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr. 
+    /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
     /// </summary>
     interface IDemographicCodedContent
     {

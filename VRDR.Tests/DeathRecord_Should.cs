@@ -3058,6 +3058,22 @@ namespace VRDR.Tests
             Assert.Equal("H", ije.DETHNIC2);
         }
 
+        [Fact]
+        public void Test_GetCauseOfDeathCodedContentBundle()
+        {
+            Bundle bundle = ((DeathRecord)JSONRecords[0]).GetCauseOfDeathCodedContentBundle();
+            Assert.NotNull(bundle);
+            // TODO: Fill out tests
+        }
+
+        [Fact]
+        public void Test_GetDemographicCodedContentBundle()
+        {
+            Bundle bundle = ((DeathRecord)JSONRecords[0]).GetDemographicCodedContentBundle();
+            Assert.NotNull(bundle);
+            // TODO: Fill out tests
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

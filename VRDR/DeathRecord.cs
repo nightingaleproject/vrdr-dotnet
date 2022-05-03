@@ -19,7 +19,7 @@ namespace VRDR
     /// HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
     /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
     /// </summary>
-    public class DeathRecord : VRDRBundle
+    public class DeathRecord : ICauseOfDeathCodedContent, IDemographicCodedContent
     {
         /// <summary>Mortality data for code translations.</summary>
         private MortalityData MortalityData = MortalityData.Instance;
@@ -42,13 +42,13 @@ namespace VRDR
         /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
         private Observation InputRaceandEthnicity;
 
-        /// <summary>The Pronouncer of death.</summary>
+        // ///<summary>The Pronouncer of death.</summary>
         //private Practitioner Pronouncer;
 
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;
 
-        /// <summary>The Mortician.</summary>
+        // ///<summary>The Mortician.</summary>
         //private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
@@ -219,7 +219,7 @@ namespace VRDR
         private Organization FuneralHome;
 
 
-        // <summary> Create Funeral Home. </summary>
+        /// <summary>Create Funeral Home.</summary>
         private void CreateFuneralHome(){
             FuneralHome = new Organization();
             FuneralHome.Id = Guid.NewGuid().ToString();
@@ -229,8 +229,8 @@ namespace VRDR
             FuneralHome.Type.Add(new CodeableConcept(CodeSystems.OrganizationType, "funeralhome", "Funeral Home",null));
             FuneralHome.Active = true;
         }
-        /// <summary>The Funeral Home Director.</summary>
-        private PractitionerRole FuneralHomeDirector;
+        // /// <summary>The Funeral Home Director.</summary>
+        // private PractitionerRole FuneralHomeDirector;
 
 
         /// <summary>Disposition Location.</summary>
@@ -384,8 +384,8 @@ namespace VRDR
         /// <summary>Tobacco Use Contributed To Death.</summary>
         private Observation TobaccoUseObs;
 
-        /// <summary>Transportation Role.</summary>
-        private Observation TransportationRoleObs;
+        // /// <summary>Transportation Role.</summary>
+        // private Observation TransportationRoleObs;
 
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
@@ -783,6 +783,22 @@ namespace VRDR
         /// <returns>a FHIR Bundle</returns>
         public Bundle GetBundle()
         {
+            return Bundle;
+        }
+
+        /// <summary>Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</summary>
+        /// <returns>a FHIR Bundle</returns>
+        public Bundle GetCauseOfDeathCodedContentBundle()
+        {
+            // TODO: Implement subset
+            return Bundle;
+        }
+
+        /// <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
+        /// <returns>a FHIR Bundle</returns>
+        public Bundle GetDemographicCodedContentBundle()
+        {
+            // TODO: Implement subset
             return Bundle;
         }
 
@@ -2212,22 +2228,22 @@ namespace VRDR
             }
         }
 
-        /// <summary>Cause of Death Part I Code, Line d.</summary>
-        /// <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1D = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
-        /// </example>
+        // /// <summary>Cause of Death Part I Code, Line d.</summary>
+        // /// <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1D = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
+        // /// </example>
         // [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         // [PropertyParam("code", "The code used to describe this concept.")]
         // [PropertyParam("system", "The relevant code system.")]
@@ -4934,15 +4950,15 @@ namespace VRDR
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Given name(s) of mortician.</summary>
-        /// <value>the mortician's name (first, middle, etc.)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>string[] names = { "FD", "Middle" };</para>
-        /// <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
-        /// </example>
+        // /// <summary>Given name(s) of mortician.</summary>
+        // /// <value>the mortician's name (first, middle, etc.)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>string[] names = { "FD", "Middle" };</para>
+        // /// <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
+        // /// </example>
         // [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
         // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
         // public string[] MorticianGivenNames
@@ -5531,15 +5547,15 @@ namespace VRDR
             }
         }
         // ** Pronouncer not curently supported **/
-        // <summary>Given name(s) of Pronouncer.</summary>
-        // <value>the Pronouncer's name (first, middle, etc.)</value>
-        // <example>
-        // <para>// Setter:</para>
-        // <para>string[] names = { "FD", "Middle" };</para>
-        // <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
-        // <para>// Getter:</para>
-        // <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
-        // </example>
+        // /// <summary>Given name(s) of Pronouncer.</summary>
+        // /// <value>the Pronouncer's name (first, middle, etc.)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>string[] names = { "FD", "Middle" };</para>
+        // /// <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+        // /// </example>
         // [Property("Pronouncer Given Names", Property.Types.StringArr, "Death Investigation", "Given name(s) of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 21)]
         // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
         // public string[] PronouncerGivenNames
@@ -11011,11 +11027,6 @@ namespace VRDR
                 }
             }
             return record;
-        }
-
-        public string GetContentType()
-        {
-            return ProfileURL.DeathCertificateDocument;
         }
     }
 

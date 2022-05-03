@@ -3099,7 +3099,7 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("LONG_D", "DeathLocationLonitude", value);
+                    LeftJustified_Set("LONG_D", "DeathLocationLongitude", value);
                 }
              }
         }

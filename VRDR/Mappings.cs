@@ -8,6 +8,166 @@ namespace VRDR
     /// <summary>Mappings between IJE and FHIR value sets</summary>
     public static class Mappings
     {
+        /// <summary>Mappings for ActivityAtTimeOfDeath</summary>
+        public static class ActivityAtTimeOfDeath
+        {
+            /// <summary>IJE -> FHIR Mapping for ActivityAtTimeOfDeath</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "8", "8" },
+                { "9", "9" },
+            };
+            /// <summary>FHIR -> IJE Mapping for ActivityAtTimeOfDeath</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "8", "8" },
+                { "9", "9" },
+            };
+        }
+        /// <summary>Mappings for AdministrativeGender</summary>
+        public static class AdministrativeGender
+        {
+            /// <summary>IJE -> FHIR Mapping for AdministrativeGender</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "M", "male" },
+                { "F", "female" },
+                { "U", "unknown" },
+            };
+            /// <summary>FHIR -> IJE Mapping for AdministrativeGender</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "male", "M" },
+                { "female", "F" },
+                { "unknown", "U" },
+            };
+        }
+        /// <summary>Mappings for CertifierTypes</summary>
+        public static class CertifierTypes
+        {
+            /// <summary>IJE -> FHIR Mapping for CertifierTypes</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "D", "434651000124107" },
+                { "P", "434641000124105" },
+                { "M", "455381000124109" },
+            };
+            /// <summary>FHIR -> IJE Mapping for CertifierTypes</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "434651000124107", "D" },
+                { "434641000124105", "P" },
+                { "455381000124109", "M" },
+            };
+        }
+        /// <summary>Mappings for ContributoryTobaccoUse</summary>
+        public static class ContributoryTobaccoUse
+        {
+            /// <summary>IJE -> FHIR Mapping for ContributoryTobaccoUse</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "Y", "373066001" },
+                { "N", "373067005" },
+                { "P", "2931005" },
+                { "U", "UNK" },
+                { "C", "NI" },
+            };
+            /// <summary>FHIR -> IJE Mapping for ContributoryTobaccoUse</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "373066001", "Y" },
+                { "373067005", "N" },
+                { "2931005", "P" },
+                { "UNK", "U" },
+                { "NI", "C" },
+            };
+        }
+        /// <summary>Mappings for EditBypass01234</summary>
+        public static class EditBypass01234
+        {
+            /// <summary>IJE -> FHIR Mapping for EditBypass01234</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+            };
+            /// <summary>FHIR -> IJE Mapping for EditBypass01234</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+            };
+        }
+        /// <summary>Mappings for EditBypass0124</summary>
+        public static class EditBypass0124
+        {
+            /// <summary>IJE -> FHIR Mapping for EditBypass0124</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "4", "4" },
+            };
+            /// <summary>FHIR -> IJE Mapping for EditBypass0124</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "4", "4" },
+            };
+        }
+        /// <summary>Mappings for EditBypass012</summary>
+        public static class EditBypass012
+        {
+            /// <summary>IJE -> FHIR Mapping for EditBypass012</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+            };
+            /// <summary>FHIR -> IJE Mapping for EditBypass012</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+            };
+        }
+        /// <summary>Mappings for EditBypass01</summary>
+        public static class EditBypass01
+        {
+            /// <summary>IJE -> FHIR Mapping for EditBypass01</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+            };
+            /// <summary>FHIR -> IJE Mapping for EditBypass01</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+            };
+        }
         /// <summary>Mappings for EducationLevel</summary>
         public static class EducationLevel
         {
@@ -38,416 +198,6 @@ namespace VRDR
                 { "UNK", "9" },
             };
         }
-        /// <summary>Mappings for ReplaceStatus</summary>
-        public static class ReplaceStatus
-        {
-            /// <summary>IJE -> FHIR Mapping for ReplaceStatus</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "original" },
-                { "1", "updated" },
-                { "2", "updated_notforNCHS" },
-            };
-            /// <summary>FHIR -> IJE Mapping for ReplaceStatus</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "original", "0" },
-                { "updated", "1" },
-                { "updated_notforNCHS", "2" },
-            };
-        }
-        /// <summary>Mappings for TransaxConversion</summary>
-        public static class TransaxConversion
-        {
-            /// <summary>IJE -> FHIR Mapping for TransaxConversion</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "3", "3" },
-                { "4", "4" },
-                { "5", "5" },
-                { "6", "6" },
-            };
-            /// <summary>FHIR -> IJE Mapping for TransaxConversion</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "3", "3" },
-                { "4", "4" },
-                { "5", "5" },
-                { "6", "6" },
-            };
-        }
-        /// <summary>Mappings for IntentionalReject</summary>
-        public static class IntentionalReject
-        {
-            /// <summary>IJE -> FHIR Mapping for IntentionalReject</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "5", "5" },
-                { "9", "9" },
-            };
-            /// <summary>FHIR -> IJE Mapping for IntentionalReject</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "5", "5" },
-                { "9", "9" },
-            };
-        }
-        /// <summary>Mappings for EditBypass01</summary>
-        public static class EditBypass01
-        {
-            /// <summary>IJE -> FHIR Mapping for EditBypass01</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-            };
-            /// <summary>FHIR -> IJE Mapping for EditBypass01</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-            };
-        }
-        /// <summary>Mappings for EditBypass0124</summary>
-        public static class EditBypass0124
-        {
-            /// <summary>IJE -> FHIR Mapping for EditBypass0124</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "4", "4" },
-            };
-            /// <summary>FHIR -> IJE Mapping for EditBypass0124</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "4", "4" },
-            };
-        }
-        /// <summary>Mappings for NotApplicable</summary>
-        public static class NotApplicable
-        {
-            /// <summary>IJE -> FHIR Mapping for NotApplicable</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "X", "NA" },
-            };
-            /// <summary>FHIR -> IJE Mapping for NotApplicable</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "NA", "X" },
-            };
-        }
-        /// <summary>Mappings for PlaceOfInjury</summary>
-        public static class PlaceOfInjury
-        {
-            /// <summary>IJE -> FHIR Mapping for PlaceOfInjury</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "LA14084-0" },
-                { "1", "LA14085-7" },
-                { "2", "LA14086-5" },
-                { "3", "LA14088-1" },
-                { "4", "LA14089-9" },
-                { "5", "LA14090-7" },
-                { "6", "LA14091-5" },
-                { "7", "LA14092-3" },
-                { "9", "LA14093-1" },
-                { "8", "OTH" },
-            };
-            /// <summary>FHIR -> IJE Mapping for PlaceOfInjury</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "LA14084-0", "0" },
-                { "LA14085-7", "1" },
-                { "LA14086-5", "2" },
-                { "LA14088-1", "3" },
-                { "LA14089-9", "4" },
-                { "LA14090-7", "5" },
-                { "LA14091-5", "6" },
-                { "LA14092-3", "7" },
-                { "LA14093-1", "9" },
-                { "OTH", "8" },
-            };
-        }
-        /// <summary>Mappings for PlaceOfDeath</summary>
-        public static class PlaceOfDeath
-        {
-            /// <summary>IJE -> FHIR Mapping for PlaceOfDeath</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "1", "16983000" },
-                { "2", "450391000124102" },
-                { "3", "63238001" },
-                { "4", "440081000124100" },
-                { "5", "440071000124103" },
-                { "6", "450381000124100" },
-                { "7", "OTH" },
-                { "9", "UNK" },
-            };
-            /// <summary>FHIR -> IJE Mapping for PlaceOfDeath</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "16983000", "1" },
-                { "450391000124102", "2" },
-                { "63238001", "3" },
-                { "440081000124100", "4" },
-                { "440071000124103", "5" },
-                { "450381000124100", "6" },
-                { "OTH", "7" },
-                { "UNK", "9" },
-            };
-        }
-        /// <summary>Mappings for PregnancyStatus</summary>
-        public static class PregnancyStatus
-        {
-            /// <summary>IJE -> FHIR Mapping for PregnancyStatus</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "9", "9" },
-                { "8", "NA" },
-            };
-            /// <summary>FHIR -> IJE Mapping for PregnancyStatus</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "9", "9" },
-                { "NA", "8" },
-            };
-        }
-        /// <summary>Mappings for SystemReject</summary>
-        public static class SystemReject
-        {
-            /// <summary>IJE -> FHIR Mapping for SystemReject</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-            };
-            /// <summary>FHIR -> IJE Mapping for SystemReject</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-            };
-        }
-        /// <summary>Mappings for RaceRecode40</summary>
-        public static class RaceRecode40
-        {
-            /// <summary>IJE -> FHIR Mapping for RaceRecode40</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "01", "01" },
-                { "02", "02" },
-                { "03", "03" },
-                { "04", "04" },
-                { "05", "05" },
-                { "06", "06" },
-                { "07", "07" },
-                { "08", "08" },
-                { "09", "09" },
-                { "10", "10" },
-                { "11", "11" },
-                { "12", "12" },
-                { "13", "13" },
-                { "14", "14" },
-                { "15", "15" },
-                { "16", "16" },
-                { "17", "17" },
-                { "18", "18" },
-                { "19", "19" },
-                { "20", "20" },
-                { "21", "21" },
-                { "22", "22" },
-                { "23", "23" },
-                { "24", "24" },
-                { "25", "25" },
-                { "26", "26" },
-                { "27", "27" },
-                { "28", "28" },
-                { "29", "29" },
-                { "30", "30" },
-                { "31", "31" },
-                { "32", "32" },
-                { "33", "33" },
-                { "34", "34" },
-                { "35", "35" },
-                { "36", "36" },
-                { "37", "37" },
-                { "38", "38" },
-                { "39", "39" },
-                { "40", "40" },
-                { "99", "99" },
-            };
-            /// <summary>FHIR -> IJE Mapping for RaceRecode40</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "01", "01" },
-                { "02", "02" },
-                { "03", "03" },
-                { "04", "04" },
-                { "05", "05" },
-                { "06", "06" },
-                { "07", "07" },
-                { "08", "08" },
-                { "09", "09" },
-                { "10", "10" },
-                { "11", "11" },
-                { "12", "12" },
-                { "13", "13" },
-                { "14", "14" },
-                { "15", "15" },
-                { "16", "16" },
-                { "17", "17" },
-                { "18", "18" },
-                { "19", "19" },
-                { "20", "20" },
-                { "21", "21" },
-                { "22", "22" },
-                { "23", "23" },
-                { "24", "24" },
-                { "25", "25" },
-                { "26", "26" },
-                { "27", "27" },
-                { "28", "28" },
-                { "29", "29" },
-                { "30", "30" },
-                { "31", "31" },
-                { "32", "32" },
-                { "33", "33" },
-                { "34", "34" },
-                { "35", "35" },
-                { "36", "36" },
-                { "37", "37" },
-                { "38", "38" },
-                { "39", "39" },
-                { "40", "40" },
-                { "99", "99" },
-            };
-        }
-        /// <summary>Mappings for YesNoUnknownNotApplicable</summary>
-        public static class YesNoUnknownNotApplicable
-        {
-            /// <summary>IJE -> FHIR Mapping for YesNoUnknownNotApplicable</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "X", "NA" },
-                { "U", "UNK" },
-            };
-            /// <summary>FHIR -> IJE Mapping for YesNoUnknownNotApplicable</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "NA", "X" },
-                { "UNK", "U" },
-            };
-        }
-        /// <summary>Mappings for MannerOfDeath</summary>
-        public static class MannerOfDeath
-        {
-            /// <summary>IJE -> FHIR Mapping for MannerOfDeath</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "N", "38605008" },
-                { "A", "7878000" },
-                { "S", "44301001" },
-                { "H", "27935005" },
-                { "P", "185973002" },
-                { "C", "65037004" },
-            };
-            /// <summary>FHIR -> IJE Mapping for MannerOfDeath</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "38605008", "N" },
-                { "7878000", "A" },
-                { "44301001", "S" },
-                { "27935005", "H" },
-                { "185973002", "P" },
-                { "65037004", "C" },
-            };
-        }
-        /// <summary>Mappings for TransportationIncidentRole</summary>
-        public static class TransportationIncidentRole
-        {
-            /// <summary>IJE -> FHIR Mapping for TransportationIncidentRole</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "DR", "236320001" },
-                { "PA", "257500003" },
-                { "PE", "257518000" },
-            };
-            /// <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "236320001", "DR" },
-                { "257500003", "PA" },
-                { "257518000", "PE" },
-            };
-        }
-        /// <summary>Mappings for AdministrativeGender</summary>
-        public static class AdministrativeGender
-        {
-            /// <summary>IJE -> FHIR Mapping for AdministrativeGender</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "M", "male" },
-                { "F", "female" },
-                { "U", "unknown" },
-            };
-            /// <summary>FHIR -> IJE Mapping for AdministrativeGender</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "male", "M" },
-                { "female", "F" },
-                { "unknown", "U" },
-            };
-        }
-        /// <summary>Mappings for YesNoNotApplicable</summary>
-        public static class YesNoNotApplicable
-        {
-            /// <summary>IJE -> FHIR Mapping for YesNoNotApplicable</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "X", "NA" },
-            };
-            /// <summary>FHIR -> IJE Mapping for YesNoNotApplicable</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "NA", "X" },
-            };
-        }
         /// <summary>Mappings for FilingFormat</summary>
         public static class FilingFormat
         {
@@ -464,132 +214,6 @@ namespace VRDR
                 { "electronic", "0" },
                 { "paper", "1" },
                 { "mixed", "2" },
-            };
-        }
-        /// <summary>Mappings for ActivityAtTimeOfDeath</summary>
-        public static class ActivityAtTimeOfDeath
-        {
-            /// <summary>IJE -> FHIR Mapping for ActivityAtTimeOfDeath</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "8", "8" },
-                { "9", "9" },
-            };
-            /// <summary>FHIR -> IJE Mapping for ActivityAtTimeOfDeath</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-                { "8", "8" },
-                { "9", "9" },
-            };
-        }
-        /// <summary>Mappings for CertifierTypes</summary>
-        public static class CertifierTypes
-        {
-            /// <summary>IJE -> FHIR Mapping for CertifierTypes</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "D", "434651000124107" },
-                { "P", "434641000124105" },
-                { "M", "455381000124109" },
-            };
-            /// <summary>FHIR -> IJE Mapping for CertifierTypes</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "434651000124107", "D" },
-                { "434641000124105", "P" },
-                { "455381000124109", "M" },
-            };
-        }
-        /// <summary>Mappings for UnitsOfAge</summary>
-        public static class UnitsOfAge
-        {
-            /// <summary>IJE -> FHIR Mapping for UnitsOfAge</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "1", "a" },
-                { "2", "mo" },
-                { "4", "d" },
-                { "5", "h" },
-                { "6", "min" },
-                { "9", "UNK" },
-            };
-            /// <summary>FHIR -> IJE Mapping for UnitsOfAge</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "a", "1" },
-                { "mo", "2" },
-                { "d", "4" },
-                { "h", "5" },
-                { "min", "6" },
-                { "UNK", "9" },
-            };
-        }
-        /// <summary>Mappings for EditBypass01234</summary>
-        public static class EditBypass01234
-        {
-            /// <summary>IJE -> FHIR Mapping for EditBypass01234</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-            };
-            /// <summary>FHIR -> IJE Mapping for EditBypass01234</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-                { "3", "3" },
-                { "4", "4" },
-            };
-        }
-        /// <summary>Mappings for EditBypass012</summary>
-        public static class EditBypass012
-        {
-            /// <summary>IJE -> FHIR Mapping for EditBypass012</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-            };
-            /// <summary>FHIR -> IJE Mapping for EditBypass012</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "0", "0" },
-                { "1", "1" },
-                { "2", "2" },
-            };
-        }
-        /// <summary>Mappings for YesNoUnknown</summary>
-        public static class YesNoUnknown
-        {
-            /// <summary>IJE -> FHIR Mapping for YesNoUnknown</summary>
-            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "U", "UNK" },
-            };
-            /// <summary>FHIR -> IJE Mapping for YesNoUnknown</summary>
-            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
-            {
-                { "N", "N" },
-                { "Y", "Y" },
-                { "UNK", "U" },
             };
         }
         /// <summary>Mappings for HispanicOrigin</summary>
@@ -736,26 +360,52 @@ namespace VRDR
                 { "999", "999" },
             };
         }
-        /// <summary>Mappings for ContributoryTobaccoUse</summary>
-        public static class ContributoryTobaccoUse
+        /// <summary>Mappings for IntentionalReject</summary>
+        public static class IntentionalReject
         {
-            /// <summary>IJE -> FHIR Mapping for ContributoryTobaccoUse</summary>
+            /// <summary>IJE -> FHIR Mapping for IntentionalReject</summary>
             public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
             {
-                { "Y", "373066001" },
-                { "N", "373067005" },
-                { "P", "2931005" },
-                { "U", "UNK" },
-                { "C", "NI" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "5", "5" },
+                { "9", "9" },
             };
-            /// <summary>FHIR -> IJE Mapping for ContributoryTobaccoUse</summary>
+            /// <summary>FHIR -> IJE Mapping for IntentionalReject</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
             {
-                { "373066001", "Y" },
-                { "373067005", "N" },
-                { "2931005", "P" },
-                { "UNK", "U" },
-                { "NI", "C" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "5", "5" },
+                { "9", "9" },
+            };
+        }
+        /// <summary>Mappings for MannerOfDeath</summary>
+        public static class MannerOfDeath
+        {
+            /// <summary>IJE -> FHIR Mapping for MannerOfDeath</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "N", "38605008" },
+                { "A", "7878000" },
+                { "S", "44301001" },
+                { "H", "27935005" },
+                { "P", "185973002" },
+                { "C", "65037004" },
+            };
+            /// <summary>FHIR -> IJE Mapping for MannerOfDeath</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "38605008", "N" },
+                { "7878000", "A" },
+                { "44301001", "S" },
+                { "27935005", "H" },
+                { "185973002", "P" },
+                { "65037004", "C" },
             };
         }
         /// <summary>Mappings for MaritalStatus</summary>
@@ -782,22 +432,128 @@ namespace VRDR
                 { "UNK", "U" },
             };
         }
-        /// <summary>Mappings for RaceMissingValueReason</summary>
-        public static class RaceMissingValueReason
+        /// <summary>Mappings for MethodOfDisposition</summary>
+        public static class MethodOfDisposition
         {
-            /// <summary>IJE -> FHIR Mapping for RaceMissingValueReason</summary>
+            /// <summary>IJE -> FHIR Mapping for MethodOfDisposition</summary>
             public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
             {
-                { "R", "R" },
-                { "S", "S" },
-                { "C", "C" },
+                { "B", "449971000124106" },
+                { "C", "449961000124104" },
+                { "D", "449951000124101" },
+                { "E", "449931000124108" },
+                { "R", "449941000124103" },
+                { "O", "OTH" },
+                { "U", "UNK" },
             };
-            /// <summary>FHIR -> IJE Mapping for RaceMissingValueReason</summary>
+            /// <summary>FHIR -> IJE Mapping for MethodOfDisposition</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
             {
-                { "R", "R" },
-                { "S", "S" },
-                { "C", "C" },
+                { "449971000124106", "B" },
+                { "449961000124104", "C" },
+                { "449951000124101", "D" },
+                { "449931000124108", "E" },
+                { "449941000124103", "R" },
+                { "OTH", "O" },
+                { "UNK", "U" },
+            };
+        }
+        /// <summary>Mappings for NotApplicable</summary>
+        public static class NotApplicable
+        {
+            /// <summary>IJE -> FHIR Mapping for NotApplicable</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "X", "NA" },
+            };
+            /// <summary>FHIR -> IJE Mapping for NotApplicable</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "NA", "X" },
+            };
+        }
+        /// <summary>Mappings for PlaceOfDeath</summary>
+        public static class PlaceOfDeath
+        {
+            /// <summary>IJE -> FHIR Mapping for PlaceOfDeath</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "1", "16983000" },
+                { "2", "450391000124102" },
+                { "3", "63238001" },
+                { "4", "440081000124100" },
+                { "5", "440071000124103" },
+                { "6", "450381000124100" },
+                { "7", "OTH" },
+                { "9", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for PlaceOfDeath</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "16983000", "1" },
+                { "450391000124102", "2" },
+                { "63238001", "3" },
+                { "440081000124100", "4" },
+                { "440071000124103", "5" },
+                { "450381000124100", "6" },
+                { "OTH", "7" },
+                { "UNK", "9" },
+            };
+        }
+        /// <summary>Mappings for PlaceOfInjury</summary>
+        public static class PlaceOfInjury
+        {
+            /// <summary>IJE -> FHIR Mapping for PlaceOfInjury</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "LA14084-0" },
+                { "1", "LA14085-7" },
+                { "2", "LA14086-5" },
+                { "3", "LA14088-1" },
+                { "4", "LA14089-9" },
+                { "5", "LA14090-7" },
+                { "6", "LA14091-5" },
+                { "7", "LA14092-3" },
+                { "9", "LA14093-1" },
+                { "8", "OTH" },
+            };
+            /// <summary>FHIR -> IJE Mapping for PlaceOfInjury</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "LA14084-0", "0" },
+                { "LA14085-7", "1" },
+                { "LA14086-5", "2" },
+                { "LA14088-1", "3" },
+                { "LA14089-9", "4" },
+                { "LA14090-7", "5" },
+                { "LA14091-5", "6" },
+                { "LA14092-3", "7" },
+                { "LA14093-1", "9" },
+                { "OTH", "8" },
+            };
+        }
+        /// <summary>Mappings for PregnancyStatus</summary>
+        public static class PregnancyStatus
+        {
+            /// <summary>IJE -> FHIR Mapping for PregnancyStatus</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "9", "9" },
+                { "8", "NA" },
+            };
+            /// <summary>FHIR -> IJE Mapping for PregnancyStatus</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+                { "9", "9" },
+                { "NA", "8" },
             };
         }
         /// <summary>Mappings for RaceCode</summary>
@@ -3128,29 +2884,273 @@ namespace VRDR
                 { "R96", "R96" },
             };
         }
-        /// <summary>Mappings for MethodOfDisposition</summary>
-        public static class MethodOfDisposition
+        /// <summary>Mappings for RaceMissingValueReason</summary>
+        public static class RaceMissingValueReason
         {
-            /// <summary>IJE -> FHIR Mapping for MethodOfDisposition</summary>
+            /// <summary>IJE -> FHIR Mapping for RaceMissingValueReason</summary>
             public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
             {
-                { "B", "449971000124106" },
-                { "C", "449961000124104" },
-                { "D", "449951000124101" },
-                { "E", "449931000124108" },
-                { "R", "449941000124103" },
-                { "O", "OTH" },
-                { "U", "UNK" },
+                { "R", "R" },
+                { "S", "S" },
+                { "C", "C" },
             };
-            /// <summary>FHIR -> IJE Mapping for MethodOfDisposition</summary>
+            /// <summary>FHIR -> IJE Mapping for RaceMissingValueReason</summary>
             public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
             {
-                { "449971000124106", "B" },
-                { "449961000124104", "C" },
-                { "449951000124101", "D" },
-                { "449931000124108", "E" },
-                { "449941000124103", "R" },
-                { "OTH", "O" },
+                { "R", "R" },
+                { "S", "S" },
+                { "C", "C" },
+            };
+        }
+        /// <summary>Mappings for RaceRecode40</summary>
+        public static class RaceRecode40
+        {
+            /// <summary>IJE -> FHIR Mapping for RaceRecode40</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "01", "01" },
+                { "02", "02" },
+                { "03", "03" },
+                { "04", "04" },
+                { "05", "05" },
+                { "06", "06" },
+                { "07", "07" },
+                { "08", "08" },
+                { "09", "09" },
+                { "10", "10" },
+                { "11", "11" },
+                { "12", "12" },
+                { "13", "13" },
+                { "14", "14" },
+                { "15", "15" },
+                { "16", "16" },
+                { "17", "17" },
+                { "18", "18" },
+                { "19", "19" },
+                { "20", "20" },
+                { "21", "21" },
+                { "22", "22" },
+                { "23", "23" },
+                { "24", "24" },
+                { "25", "25" },
+                { "26", "26" },
+                { "27", "27" },
+                { "28", "28" },
+                { "29", "29" },
+                { "30", "30" },
+                { "31", "31" },
+                { "32", "32" },
+                { "33", "33" },
+                { "34", "34" },
+                { "35", "35" },
+                { "36", "36" },
+                { "37", "37" },
+                { "38", "38" },
+                { "39", "39" },
+                { "40", "40" },
+                { "99", "99" },
+            };
+            /// <summary>FHIR -> IJE Mapping for RaceRecode40</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "01", "01" },
+                { "02", "02" },
+                { "03", "03" },
+                { "04", "04" },
+                { "05", "05" },
+                { "06", "06" },
+                { "07", "07" },
+                { "08", "08" },
+                { "09", "09" },
+                { "10", "10" },
+                { "11", "11" },
+                { "12", "12" },
+                { "13", "13" },
+                { "14", "14" },
+                { "15", "15" },
+                { "16", "16" },
+                { "17", "17" },
+                { "18", "18" },
+                { "19", "19" },
+                { "20", "20" },
+                { "21", "21" },
+                { "22", "22" },
+                { "23", "23" },
+                { "24", "24" },
+                { "25", "25" },
+                { "26", "26" },
+                { "27", "27" },
+                { "28", "28" },
+                { "29", "29" },
+                { "30", "30" },
+                { "31", "31" },
+                { "32", "32" },
+                { "33", "33" },
+                { "34", "34" },
+                { "35", "35" },
+                { "36", "36" },
+                { "37", "37" },
+                { "38", "38" },
+                { "39", "39" },
+                { "40", "40" },
+                { "99", "99" },
+            };
+        }
+        /// <summary>Mappings for ReplaceStatus</summary>
+        public static class ReplaceStatus
+        {
+            /// <summary>IJE -> FHIR Mapping for ReplaceStatus</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "original" },
+                { "1", "updated" },
+                { "2", "updated_notforNCHS" },
+            };
+            /// <summary>FHIR -> IJE Mapping for ReplaceStatus</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "original", "0" },
+                { "updated", "1" },
+                { "updated_notforNCHS", "2" },
+            };
+        }
+        /// <summary>Mappings for SystemReject</summary>
+        public static class SystemReject
+        {
+            /// <summary>IJE -> FHIR Mapping for SystemReject</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+            };
+            /// <summary>FHIR -> IJE Mapping for SystemReject</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "0", "0" },
+                { "1", "1" },
+                { "2", "2" },
+                { "3", "3" },
+                { "4", "4" },
+            };
+        }
+        /// <summary>Mappings for TransaxConversion</summary>
+        public static class TransaxConversion
+        {
+            /// <summary>IJE -> FHIR Mapping for TransaxConversion</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "3", "3" },
+                { "4", "4" },
+                { "5", "5" },
+                { "6", "6" },
+            };
+            /// <summary>FHIR -> IJE Mapping for TransaxConversion</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "3", "3" },
+                { "4", "4" },
+                { "5", "5" },
+                { "6", "6" },
+            };
+        }
+        /// <summary>Mappings for TransportationIncidentRole</summary>
+        public static class TransportationIncidentRole
+        {
+            /// <summary>IJE -> FHIR Mapping for TransportationIncidentRole</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "DR", "236320001" },
+                { "PA", "257500003" },
+                { "PE", "257518000" },
+            };
+            /// <summary>FHIR -> IJE Mapping for TransportationIncidentRole</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "236320001", "DR" },
+                { "257500003", "PA" },
+                { "257518000", "PE" },
+            };
+        }
+        /// <summary>Mappings for UnitsOfAge</summary>
+        public static class UnitsOfAge
+        {
+            /// <summary>IJE -> FHIR Mapping for UnitsOfAge</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "1", "a" },
+                { "2", "mo" },
+                { "4", "d" },
+                { "5", "h" },
+                { "6", "min" },
+                { "9", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for UnitsOfAge</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "a", "1" },
+                { "mo", "2" },
+                { "d", "4" },
+                { "h", "5" },
+                { "min", "6" },
+                { "UNK", "9" },
+            };
+        }
+        /// <summary>Mappings for YesNoNotApplicable</summary>
+        public static class YesNoNotApplicable
+        {
+            /// <summary>IJE -> FHIR Mapping for YesNoNotApplicable</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "X", "NA" },
+            };
+            /// <summary>FHIR -> IJE Mapping for YesNoNotApplicable</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "NA", "X" },
+            };
+        }
+        /// <summary>Mappings for YesNoUnknown</summary>
+        public static class YesNoUnknown
+        {
+            /// <summary>IJE -> FHIR Mapping for YesNoUnknown</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "U", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for YesNoUnknown</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "UNK", "U" },
+            };
+        }
+        /// <summary>Mappings for YesNoUnknownNotApplicable</summary>
+        public static class YesNoUnknownNotApplicable
+        {
+            /// <summary>IJE -> FHIR Mapping for YesNoUnknownNotApplicable</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "X", "NA" },
+                { "U", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for YesNoUnknownNotApplicable</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "N", "N" },
+                { "Y", "Y" },
+                { "NA", "X" },
                 { "UNK", "U" },
             };
         }

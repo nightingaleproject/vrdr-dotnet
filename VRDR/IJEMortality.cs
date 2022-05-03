@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace VRDR
 {
@@ -552,7 +553,7 @@ namespace VRDR
             IJEField info = FieldInfo(ijeFieldName);
             Dictionary<string, string> dictionary = (Dictionary<string, string>)typeof(DeathRecord).GetProperty(fhirFieldName).GetValue(this.record);
             string key = keyPrefix + char.ToUpper(geoType[0]) + geoType.Substring(1);
-            
+
             // initialize the dictionary if it does not exist
             if (dictionary == null)
             {
@@ -601,7 +602,7 @@ namespace VRDR
                 }
             }
             else
-            {  
+            {
                 dictionary[key] = value.Trim();
             }
             typeof(DeathRecord).GetProperty(fhirFieldName).SetValue(this.record, dictionary);
@@ -708,6 +709,45 @@ namespace VRDR
                 {
                     validationErrors.Add($"Error: Unable to find FHIR {fhirField} mapping for IJE {ijeField} field value '{value}'");
                 }
+            }
+        }
+
+        /// <summary>NCHS ICD10 to actual ICD10 </summary>
+        private string NCHSICD10toActualICD10(string nchsicd10code)
+        {
+            Regex ICD10rgx = new Regex(@"^[A-Z]\d{2}(\.\d){0,1}$");
+            Regex NCHSICD10rgx = new Regex(@"^[A-Z]\d{2,3}$");
+            string code;
+            nchsicd10code = nchsicd10code.Trim();
+            if(ICD10rgx.IsMatch(nchsicd10code))
+            {
+                code = nchsicd10code;
+            }
+            else
+            {
+                code = "";
+                //if(value.Length == 4 && value[value.Length-1] != '.'){
+                if (NCHSICD10rgx.IsMatch(nchsicd10code))
+                {
+                    code = nchsicd10code;
+                    if(nchsicd10code.Length == 4)
+                    {
+                        code = nchsicd10code.Insert(3, ".");
+                    }
+                }
+            }
+            return(code);
+        }
+        /// <summary>Actual ICD10 to NCHS ICD10 </summary>
+        private string ActualICD10toNCHSICD10(string icd10code)
+        {
+            if(!String.IsNullOrEmpty(icd10code))
+            {
+                return(icd10code.Replace(".",""));
+            }
+            else
+            {
+                return "";
             }
         }
 
@@ -1884,12 +1924,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstEditedRaceCode", "RACE1E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE1E", "FirstEditedRaceCode", value);
             }
         }
 
@@ -1899,12 +1938,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondEditedRaceCode", "RACE2E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE2E", "SecondEditedRaceCode", value);
             }
         }
 
@@ -1914,12 +1952,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "ThirdEditedRaceCode", "RACE3E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE3E", "ThirdEditedRaceCode", value);
             }
         }
 
@@ -1929,12 +1966,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FourthEditedRaceCode", "RACE4E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE4E", "FourthEditedRaceCode", value);
             }
         }
 
@@ -1944,12 +1980,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FifthEditedRaceCode", "RACE5E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE5E", "FifthEditedRaceCode", value);
             }
         }
 
@@ -1959,12 +1994,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SixthEditedRaceCode", "RACE6E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE6E", "SixthEditedRaceCode", value);
             }
         }
 
@@ -1974,12 +2008,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SeventhEditedRaceCode", "RACE7E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE7E", "SeventhEditedRaceCode", value);
             }
         }
 
@@ -1989,12 +2022,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "EighthEditedRaceCode", "RACE8E");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE8E", "EighthEditedRaceCode", value);
             }
         }
 
@@ -2004,12 +2036,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstAmericanIndianRaceCode", "RACE16C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE16C", "FirstAmericanIndianRaceCode", value);
             }
         }
 
@@ -2019,12 +2050,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondAmericanIndianRaceCode", "RACE17C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE17C", "SecondAmericanIndianRaceCode", value);
             }
         }
 
@@ -2034,12 +2064,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherAsianRaceCode", "RACE18C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE18C", "FirstOtherAsianRaceCode", value);
             }
         }
 
@@ -2049,12 +2078,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherAsianRaceCode", "RACE19C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE19C", "SecondOtherAsianRaceCode", value);
             }
         }
 
@@ -2064,12 +2092,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherPacificIslanderRaceCode", "RACE20C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE20C", "FirstOtherPacificIslanderRaceCode", value);
             }
         }
 
@@ -2079,12 +2106,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherPacificIslanderRaceCode", "RACE21C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE21C", "SecondOtherPacificIslanderRaceCode", value);
             }
         }
 
@@ -2094,12 +2120,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "FirstOtherRaceCode", "RACE22C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE22C", "FirstOtherRaceCode", value);
             }
         }
 
@@ -2109,12 +2134,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.RaceCode.FHIRToIJE, "SecondOtherRaceCode", "RACE23C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.RaceCode.IJEToFHIR, "RACE23C", "SecondOtherRaceCode", value);
             }
         }
 
@@ -2234,7 +2258,7 @@ namespace VRDR
         {
             get
             {
-                return LeftJustified_Get("BSTATE", "BirthRecordState"); 
+                return LeftJustified_Get("BSTATE", "BirthRecordState");
             }
             set
             {
@@ -2436,30 +2460,11 @@ namespace VRDR
         {
             get
             {
-                // IJE options below, default to Blank.
-                // A Home
-                // B Farm
-                // C Residential Institution
-                // D Military Residence
-                // E Hospital
-                // F School, Other Institutions, Administrative Area
-                // G Industrial and Construction
-                // H Garage/Warehouse
-                // I Trade and Service Area
-                // J Mine/Quarry
-                // K Street/Highway
-                // L Public Recreation Area
-                // M Institutional Recreation Area
-                // N Sports and Recreation Area
-                // O Other building
-                // P Other specified Place
-                // Q Unspecified Place
-                // Blank
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.PlaceOfInjury.FHIRToIJE, "PlaceOfInjury", "INJPL");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.PlaceOfInjury.IJEToFHIR, "INJPL", "PlaceOfInjury", value);
             }
         }
 
@@ -2469,12 +2474,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: ManualUnderlyingCauseOfDeath
-                return "";
+               return( ActualICD10toNCHSICD10(LeftJustified_Get("MAN_UC","ManUnderlyingCOD")));
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: ManualUnderlyingCauseOfDeath
+                LeftJustified_Set("Man_UC","ManUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
@@ -2484,27 +2488,62 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: AutomatedUnderlyingCauseOfDeath
-                return "";
+               return( ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC","AutoUnderlyingCOD")));
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: AutomatedUnderlyingCauseOfDeath
+                LeftJustified_Set("ACME_UC","AutoUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 
         /// <summary>Entity-axis codes</summary>
+        // 20 codes, each taking up 8 characters:
+        // 1 char:   part/line number (1-6)
+        // 1 char: sequence within the line. (1-8)
+        // 4 char “ICD code” in NCHS format, without the ‘.’
+        // 1 char reserved”.  (not represented in the FHIR specification)
+        // 1 char ‘e code indicator’
         [IJEField(106, 715, 160, "Entity-axis codes", "EAC", 1)]
         public string EAC
         {
             get
             {
                 // TODO: Implement mapping from FHIR record location: EntityAxisCauseOfDeath
-                return "";
+                Tuple<string, string, string, string>[] eac = record.EntityAxisCauseOfDeath;
+                string eacStr = "";
+                foreach(Tuple<string, string, string, string> entry in eac)
+                {
+                    string lineNumber = Truncate(entry.Item1, 1).PadRight(1, ' ');
+                    string position = Truncate(entry.Item2, 1).PadRight(1, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item3), 4).PadRight(4, ' ');;
+                    string reserved = " ";
+                    string eCode = Truncate(entry.Item4, 1).PadRight(1, ' ');
+                    eacStr += lineNumber + position  + icdCode + reserved + eCode;
+                }
+                string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
+                return fmtEac;
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: EntityAxisCauseOfDeath
+                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
+                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 8).Select(i => value.Substring(i * 8, 8));
+                foreach(string code in codes)
+                {
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        string lineNumber = code.Substring(0);
+                        string position = code.Substring(1);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(2,6));
+                        string eCode = code.Substring(7);
+                        Tuple<string, string, string, string> entry = Tuple.Create(lineNumber, position, icdCode, eCode);
+                        eac.Add(entry);
+                    }
+
+                }
+                if (eac.Count > 0)
+                {
+                    record.EntityAxisCauseOfDeath = eac.ToArray();
+                }
             }
         }
 
@@ -2524,17 +2563,47 @@ namespace VRDR
         }
 
         /// <summary>Record-axis codes</summary>
+        // 20 codes, each taking up 5 characters:
+        // 4 char “ICD code” in NCHS format, without the ‘.’
+        // 1 char WouldBeUnderlyingCauseOfDeathWithoutPregnancy, only significant if position=2”
         [IJEField(108, 876, 100, "Record-axis codes", "RAC", 1)]
         public string RAC
         {
             get
             {
                 // TODO: Implement mapping from FHIR record location: RecordAxisCauseOfDeath
-                return "";
+                Tuple<string, string, string>[] rac = record.RecordAxisCauseOfDeath;
+                string racStr = "";
+                foreach(Tuple<string, string, string> entry in rac)
+                {
+                    string position = Truncate(entry.Item1, 1).PadRight(1, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item2), 4).PadRight(4, ' ');
+                    string preg = Truncate(entry.Item3, 1).PadRight(1, ' ');
+                    racStr += icdCode + preg;
+                }
+                string fmtRac = Truncate(racStr, 100).PadRight(100, ' ');
+                return fmtRac;
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: RecordAxisCauseOfDeath
+                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
+                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 5).Select(i => value.Substring(i * 5, 5));
+                int position = 1;
+                foreach(string code in codes)
+                {
+                    if (!String.IsNullOrWhiteSpace(code))
+                    {
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(0,4));
+                        string preg = code.Substring(4);
+                        Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
+                        rac.Add(entry);
+                    }
+                    position++;
+                }
+                if (rac.Count > 0)
+                {
+                    record.RecordAxisCauseOfDeath = rac.ToArray();
+                }
             }
         }
 
@@ -2702,6 +2771,7 @@ namespace VRDR
             {
                 Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
             }
+
         }
 
         /// <summary>Activity at time of death (computer generated)</summary>
@@ -2710,19 +2780,11 @@ namespace VRDR
         {
             get
             {
-                // IJE options below, default to "9"
-                // 0 While engaged in sports activity
-                // 1 While engaged in leisure activities
-                // 2 While working for income
-                // 3 While engaged in other types of work
-                // 4 While resting, sleeping, eating, or engaging in other vital activities
-                // 8 While engaged in other specified activities
-                // 9 During unspecified activity
-                return "9";
+                return Get_MappingFHIRToIJE(Mappings.ActivityAtTimeOfDeath.FHIRToIJE, "ActivityAtDeath", "INACT");
             }
             set
             {
-                // NOOP
+                Set_MappingIJEToFHIR(Mappings.ActivityAtTimeOfDeath.IJEToFHIR, "INACT", "ActivityAtDeath", value);
             }
         }
 
@@ -3375,12 +3437,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.HispanicOrigin.FHIRToIJE, "HispanicCode", "DETHNICE");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNICE", "HispanicCode", value);
             }
         }
 
@@ -4888,12 +4949,11 @@ get
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodedRaceAndEthnicity
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.HispanicOrigin.FHIRToIJE, "HispanicCodeForLiteral", "DETHNIC5C");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodedRaceAndEthnicity
+                Set_MappingIJEToFHIR(Mappings.HispanicOrigin.IJEToFHIR, "DETHNIC5C", "HispanicCodeForLiteral", value);
             }
         }
 

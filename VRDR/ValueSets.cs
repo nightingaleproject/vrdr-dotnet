@@ -5,6 +5,73 @@ namespace VRDR
     /// <summary> ValueSet Helpers </summary>
     public static class ValueSets
     {
+        /// <summary> ActivityAtTimeOfDeath </summary>
+        public static class ActivityAtTimeOfDeath {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "0", "While engaged in sports activity", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "1", "While engaged in leisure activities.", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "2", "While working for income", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "3", "While engaged in other types of work", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "4", "While resting, sleeping, eating, or engaging in other vital activities", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "8", "While engaged in other specified activities.", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "9", "During unspecified activity", VRDR.CodeSystems.ActivityAtTimeOfDeath },
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> While_Engaged_In_Sports_Activity </summary>
+            public static string  While_Engaged_In_Sports_Activity = "0";
+            /// <summary> While_Engaged_In_Leisure_Activities </summary>
+            public static string  While_Engaged_In_Leisure_Activities = "1";
+            /// <summary> While_Working_For_Income </summary>
+            public static string  While_Working_For_Income = "2";
+            /// <summary> While_Engaged_In_Other_Types_Of_Work </summary>
+            public static string  While_Engaged_In_Other_Types_Of_Work = "3";
+            /// <summary> While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities </summary>
+            public static string  While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities = "4";
+            /// <summary> While_Engaged_In_Other_Specified_Activities </summary>
+            public static string  While_Engaged_In_Other_Specified_Activities = "8";
+            /// <summary> During_Unspecified_Activity </summary>
+            public static string  During_Unspecified_Activity = "9";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+        };
+        /// <summary> PlaceOfInjury </summary>
+        public static class PlaceOfInjury {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "LA14084-0", "Home", VRDR.CodeSystems.LOINC },
+                { "LA14085-7", "Residential institution	", VRDR.CodeSystems.LOINC },
+                { "LA14086-5", "School", VRDR.CodeSystems.LOINC },
+                { "LA14088-1", "Sports or recreational area", VRDR.CodeSystems.LOINC },
+                { "LA14089-9", "Street or highway", VRDR.CodeSystems.LOINC },
+                { "LA14090-7", "Trade or service area", VRDR.CodeSystems.LOINC },
+                { "LA14091-5", "Industrial or construction area", VRDR.CodeSystems.LOINC },
+                { "LA14092-3", "Farm", VRDR.CodeSystems.LOINC },
+                { "LA14093-1", "Unspecified", VRDR.CodeSystems.LOINC },
+                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Home </summary>
+            public static string  Home = "LA14084-0";
+            /// <summary> Residential_Institution </summary>
+            public static string  Residential_Institution = "LA14085-7";
+            /// <summary> School </summary>
+            public static string  School = "LA14086-5";
+            /// <summary> Sports_Or_Recreational_Area </summary>
+            public static string  Sports_Or_Recreational_Area = "LA14088-1";
+            /// <summary> Street_Or_Highway </summary>
+            public static string  Street_Or_Highway = "LA14089-9";
+            /// <summary> Trade_Or_Service_Area </summary>
+            public static string  Trade_Or_Service_Area = "LA14090-7";
+            /// <summary> Industrial_Or_Construction_Area </summary>
+            public static string  Industrial_Or_Construction_Area = "LA14091-5";
+            /// <summary> Farm </summary>
+            public static string  Farm = "LA14092-3";
+            /// <summary> Unspecified </summary>
+            public static string  Unspecified = "LA14093-1";
+            /// <summary> Other </summary>
+            public static string  Other = "OTH";
+        };
+
         /// <summary> AdministrativeGender </summary>
         public static class AdministrativeGender {
             /// <summary> Codes </summary>
@@ -436,6 +503,3825 @@ namespace VRDR
             public static string  Yes = "Y";
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
+        };
+        /// <summary> RaceCode </summary>
+        public static class RaceCode {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                { "100", "White Checkbox", VRDR.CodeSystems.RaceCode },
+                { "101", "White", VRDR.CodeSystems.RaceCode },
+                { "102", "Arab", VRDR.CodeSystems.RaceCode },
+                { "103", "English", VRDR.CodeSystems.RaceCode },
+                { "104", "French", VRDR.CodeSystems.RaceCode },
+                { "105", "German", VRDR.CodeSystems.RaceCode },
+                { "106", "Irish", VRDR.CodeSystems.RaceCode },
+                { "107", "Italian", VRDR.CodeSystems.RaceCode },
+                { "108", "Near Easterner", VRDR.CodeSystems.RaceCode },
+                { "109", "Polish", VRDR.CodeSystems.RaceCode },
+                { "110", "Scottish", VRDR.CodeSystems.RaceCode },
+                { "111", "Armenian", VRDR.CodeSystems.RaceCode },
+                { "112", "Assyrian", VRDR.CodeSystems.RaceCode },
+                { "113", "Egyptian", VRDR.CodeSystems.RaceCode },
+                { "114", "Iranian", VRDR.CodeSystems.RaceCode },
+                { "115", "Iraqi", VRDR.CodeSystems.RaceCode },
+                { "116", "Lebanese", VRDR.CodeSystems.RaceCode },
+                { "117", "Middle East", VRDR.CodeSystems.RaceCode },
+                { "118", "Palestinian", VRDR.CodeSystems.RaceCode },
+                { "119", "Syrian", VRDR.CodeSystems.RaceCode },
+                { "120", "Other Arab", VRDR.CodeSystems.RaceCode },
+                { "121", "Afghanistani", VRDR.CodeSystems.RaceCode },
+                { "122", "Israeli", VRDR.CodeSystems.RaceCode },
+                { "123", "Californio", VRDR.CodeSystems.RaceCode },
+                { "124", "Cajun", VRDR.CodeSystems.RaceCode },
+                { "125", "EUROPEAN", VRDR.CodeSystems.RaceCode },
+                { "126", "PORTUGUESE", VRDR.CodeSystems.RaceCode },
+                { "127", "ALBANIAN", VRDR.CodeSystems.RaceCode },
+                { "128", "CROATIAN", VRDR.CodeSystems.RaceCode },
+                { "129", "CZECH", VRDR.CodeSystems.RaceCode },
+                { "130", "RUSSIAN", VRDR.CodeSystems.RaceCode },
+                { "131", "UKRANIAN", VRDR.CodeSystems.RaceCode },
+                { "132", "CZECHOSLOVAKIAN", VRDR.CodeSystems.RaceCode },
+                { "133", "BOSNIAN", VRDR.CodeSystems.RaceCode },
+                { "134", "KOSOVIAN", VRDR.CodeSystems.RaceCode },
+                { "199", "Multiple WHITE responses", VRDR.CodeSystems.RaceCode },
+                { "200", "Black or African American", VRDR.CodeSystems.RaceCode },
+                { "201", "Black", VRDR.CodeSystems.RaceCode },
+                { "202", "African", VRDR.CodeSystems.RaceCode },
+                { "203", "African American", VRDR.CodeSystems.RaceCode },
+                { "204", "AfroAmerican", VRDR.CodeSystems.RaceCode },
+                { "205", "Nigritian", VRDR.CodeSystems.RaceCode },
+                { "206", "Negro", VRDR.CodeSystems.RaceCode },
+                { "207", "Bahamian", VRDR.CodeSystems.RaceCode },
+                { "208", "Barbadian", VRDR.CodeSystems.RaceCode },
+                { "209", "Botswana", VRDR.CodeSystems.RaceCode },
+                { "213", "Ethiopian", VRDR.CodeSystems.RaceCode },
+                { "214", "Haitian", VRDR.CodeSystems.RaceCode },
+                { "215", "Jamaican", VRDR.CodeSystems.RaceCode },
+                { "216", "Liberian", VRDR.CodeSystems.RaceCode },
+                { "218", "Namibian", VRDR.CodeSystems.RaceCode },
+                { "219", "Nigerian", VRDR.CodeSystems.RaceCode },
+                { "220", "Other African", VRDR.CodeSystems.RaceCode },
+                { "222", "Tobago", VRDR.CodeSystems.RaceCode },
+                { "223", "Trinidad", VRDR.CodeSystems.RaceCode },
+                { "224", "West Indies", VRDR.CodeSystems.RaceCode },
+                { "225", "Zaire", VRDR.CodeSystems.RaceCode },
+                { "226", "ERITREAN", VRDR.CodeSystems.RaceCode },
+                { "227", "TOGOLESE", VRDR.CodeSystems.RaceCode },
+                { "228", "SOMALIAN", VRDR.CodeSystems.RaceCode },
+                { "299", "Multiple BLACK or AFRICAN AMERICAN responses", VRDR.CodeSystems.RaceCode },
+                { "300", "American Indian Checkbox", VRDR.CodeSystems.RaceCode },
+                { "400", "Asian", VRDR.CodeSystems.RaceCode },
+                { "401", "Asian Indian", VRDR.CodeSystems.RaceCode },
+                { "402", "Bangladeshi", VRDR.CodeSystems.RaceCode },
+                { "403", "Bhutanese", VRDR.CodeSystems.RaceCode },
+                { "404", "Burmese", VRDR.CodeSystems.RaceCode },
+                { "405", "Cambodian", VRDR.CodeSystems.RaceCode },
+                { "411", "Chinese", VRDR.CodeSystems.RaceCode },
+                { "412", "Taiwanese", VRDR.CodeSystems.RaceCode },
+                { "421", "Filipino", VRDR.CodeSystems.RaceCode },
+                { "422", "Hmong", VRDR.CodeSystems.RaceCode },
+                { "423", "Indonesian", VRDR.CodeSystems.RaceCode },
+                { "431", "Japanese", VRDR.CodeSystems.RaceCode },
+                { "441", "Korean", VRDR.CodeSystems.RaceCode },
+                { "442", "Laotian", VRDR.CodeSystems.RaceCode },
+                { "443", "Malaysian", VRDR.CodeSystems.RaceCode },
+                { "444", "Okinawan", VRDR.CodeSystems.RaceCode },
+                { "445", "Pakistani", VRDR.CodeSystems.RaceCode },
+                { "446", "Sri Lankan", VRDR.CodeSystems.RaceCode },
+                { "447", "Thai", VRDR.CodeSystems.RaceCode },
+                { "451", "Vietnamese", VRDR.CodeSystems.RaceCode },
+                { "461", "Amerasian", VRDR.CodeSystems.RaceCode },
+                { "462", "Asian", VRDR.CodeSystems.RaceCode },
+                { "463", "Asiatic", VRDR.CodeSystems.RaceCode },
+                { "464", "Eurasian", VRDR.CodeSystems.RaceCode },
+                { "465", "Mongolian", VRDR.CodeSystems.RaceCode },
+                { "466", "Oriental", VRDR.CodeSystems.RaceCode },
+                { "467", "Whello", VRDR.CodeSystems.RaceCode },
+                { "468", "Yello", VRDR.CodeSystems.RaceCode },
+                { "469", "Indo Chinese", VRDR.CodeSystems.RaceCode },
+                { "470", "Iwo Jiman", VRDR.CodeSystems.RaceCode },
+                { "471", "Maldivian", VRDR.CodeSystems.RaceCode },
+                { "472", "Nepalese", VRDR.CodeSystems.RaceCode },
+                { "473", "Singaporean", VRDR.CodeSystems.RaceCode },
+                { "474", "MADAGASCAR", VRDR.CodeSystems.RaceCode },
+                { "475", "MIEN", VRDR.CodeSystems.RaceCode },
+                { "476", "TIBETAN", VRDR.CodeSystems.RaceCode },
+                { "499", "Multiple ASIAN responses", VRDR.CodeSystems.RaceCode },
+                { "500", "Native Hawaiian Checkbox", VRDR.CodeSystems.RaceCode },
+                { "501", "Native Hawaiian", VRDR.CodeSystems.RaceCode },
+                { "502", "Hawaiian", VRDR.CodeSystems.RaceCode },
+                { "503", "Part Hawaiian", VRDR.CodeSystems.RaceCode },
+                { "511", "Samoan", VRDR.CodeSystems.RaceCode },
+                { "512", "Tahitian", VRDR.CodeSystems.RaceCode },
+                { "513", "Tongan", VRDR.CodeSystems.RaceCode },
+                { "514", "Polynesian", VRDR.CodeSystems.RaceCode },
+                { "515", "Tokelauan", VRDR.CodeSystems.RaceCode },
+                { "521", "Guamanian", VRDR.CodeSystems.RaceCode },
+                { "522", "Chamorro", VRDR.CodeSystems.RaceCode },
+                { "531", "Mariana Islander", VRDR.CodeSystems.RaceCode },
+                { "532", "Marshallese", VRDR.CodeSystems.RaceCode },
+                { "533", "Palauan", VRDR.CodeSystems.RaceCode },
+                { "534", "Carolinian", VRDR.CodeSystems.RaceCode },
+                { "535", "Kosraean", VRDR.CodeSystems.RaceCode },
+                { "536", "Micronesian", VRDR.CodeSystems.RaceCode },
+                { "537", "Pohnpeian", VRDR.CodeSystems.RaceCode },
+                { "538", "Saipanese", VRDR.CodeSystems.RaceCode },
+                { "539", "Kirabati", VRDR.CodeSystems.RaceCode },
+                { "540", "Chuukese", VRDR.CodeSystems.RaceCode },
+                { "541", "Yapese", VRDR.CodeSystems.RaceCode },
+                { "542", "Fijian", VRDR.CodeSystems.RaceCode },
+                { "543", "Melanesian", VRDR.CodeSystems.RaceCode },
+                { "544", "Papua New Guinean", VRDR.CodeSystems.RaceCode },
+                { "545", "Solomon Islander", VRDR.CodeSystems.RaceCode },
+                { "546", "New Hebrides", VRDR.CodeSystems.RaceCode },
+                { "547", "Pacific Islander", VRDR.CodeSystems.RaceCode },
+                { "599", "Multiple NATIVE HAWAIIAN and OTHER PACIFIC ISLANDER responses", VRDR.CodeSystems.RaceCode },
+                { "601", "Argentinean", VRDR.CodeSystems.RaceCode },
+                { "602", "Bolivian", VRDR.CodeSystems.RaceCode },
+                { "604", "Central American", VRDR.CodeSystems.RaceCode },
+                { "605", "Chicano", VRDR.CodeSystems.RaceCode },
+                { "606", "Chilean", VRDR.CodeSystems.RaceCode },
+                { "607", "Colombian", VRDR.CodeSystems.RaceCode },
+                { "608", "Costa Rican", VRDR.CodeSystems.RaceCode },
+                { "609", "Cuban", VRDR.CodeSystems.RaceCode },
+                { "610", "Ecuadorian", VRDR.CodeSystems.RaceCode },
+                { "611", "Salvadoran", VRDR.CodeSystems.RaceCode },
+                { "612", "Guatemalan", VRDR.CodeSystems.RaceCode },
+                { "613", "Hispanic", VRDR.CodeSystems.RaceCode },
+                { "614", "Honduran", VRDR.CodeSystems.RaceCode },
+                { "615", "Latin American", VRDR.CodeSystems.RaceCode },
+                { "616", "Mestizo", VRDR.CodeSystems.RaceCode },
+                { "617", "Mexican", VRDR.CodeSystems.RaceCode },
+                { "618", "Nicaraguan", VRDR.CodeSystems.RaceCode },
+                { "619", "Panamanian", VRDR.CodeSystems.RaceCode },
+                { "620", "Paraguayan", VRDR.CodeSystems.RaceCode },
+                { "621", "Peruvian", VRDR.CodeSystems.RaceCode },
+                { "622", "Puerto Rican", VRDR.CodeSystems.RaceCode },
+                { "623", "Morena", VRDR.CodeSystems.RaceCode },
+                { "624", "South American", VRDR.CodeSystems.RaceCode },
+                { "625", "Spanish", VRDR.CodeSystems.RaceCode },
+                { "626", "Spanish American", VRDR.CodeSystems.RaceCode },
+                { "627", "Sudamericano", VRDR.CodeSystems.RaceCode },
+                { "628", "Uruguayan", VRDR.CodeSystems.RaceCode },
+                { "629", "Venezuelan", VRDR.CodeSystems.RaceCode },
+                { "630", "Spaniard", VRDR.CodeSystems.RaceCode },
+                { "631", "Tejano", VRDR.CodeSystems.RaceCode },
+                { "632", "Cayman Islander", VRDR.CodeSystems.RaceCode },
+                { "633", "Moroccan", VRDR.CodeSystems.RaceCode },
+                { "634", "North African", VRDR.CodeSystems.RaceCode },
+                { "635", "United Arab Emirates", VRDR.CodeSystems.RaceCode },
+                { "636", "South African", VRDR.CodeSystems.RaceCode },
+                { "637", "Azerbaijani", VRDR.CodeSystems.RaceCode },
+                { "638", "Aryan", VRDR.CodeSystems.RaceCode },
+                { "640", "Dominican Republic", VRDR.CodeSystems.RaceCode },
+                { "641", "Dominica Islander", VRDR.CodeSystems.RaceCode },
+                { "642", "Belizean", VRDR.CodeSystems.RaceCode },
+                { "643", "Bermudan", VRDR.CodeSystems.RaceCode },
+                { "644", "Aruba Islander", VRDR.CodeSystems.RaceCode },
+                { "645", "Cayenne", VRDR.CodeSystems.RaceCode },
+                { "646", "Guyanese", VRDR.CodeSystems.RaceCode },
+                { "647", "Surinam", VRDR.CodeSystems.RaceCode },
+                { "648", "Sudanese", VRDR.CodeSystems.RaceCode },
+                { "651", "Brazilian", VRDR.CodeSystems.RaceCode },
+                { "652", "Brown", VRDR.CodeSystems.RaceCode },
+                { "653", "Bushwacker", VRDR.CodeSystems.RaceCode },
+                { "655", "Cape Verdean", VRDR.CodeSystems.RaceCode },
+                { "656", "Chocolate", VRDR.CodeSystems.RaceCode },
+                { "657", "Coe Clan", VRDR.CodeSystems.RaceCode },
+                { "658", "Coffee", VRDR.CodeSystems.RaceCode },
+                { "659", "Cosmopolitan", VRDR.CodeSystems.RaceCode },
+                { "660", "Issues", VRDR.CodeSystems.RaceCode },
+                { "661", "Jackson White", VRDR.CodeSystems.RaceCode },
+                { "662", "Melungeon", VRDR.CodeSystems.RaceCode },
+                { "663", "Mixed", VRDR.CodeSystems.RaceCode },
+                { "664", "Ramp", VRDR.CodeSystems.RaceCode },
+                { "665", "Wesort", VRDR.CodeSystems.RaceCode },
+                { "666", "Mulatto", VRDR.CodeSystems.RaceCode },
+                { "667", "Moor", VRDR.CodeSystems.RaceCode },
+                { "668", "Biracial", VRDR.CodeSystems.RaceCode },
+                { "669", "Creole", VRDR.CodeSystems.RaceCode },
+                { "670", "Indian", VRDR.CodeSystems.RaceCode },
+                { "671", "Turk", VRDR.CodeSystems.RaceCode },
+                { "672", "Half Breed", VRDR.CodeSystems.RaceCode },
+                { "673", "Rainbow", VRDR.CodeSystems.RaceCode },
+                { "674", "Octoroon", VRDR.CodeSystems.RaceCode },
+                { "675", "Quadroon", VRDR.CodeSystems.RaceCode },
+                { "676", "Multiracial", VRDR.CodeSystems.RaceCode },
+                { "677", "Interracial", VRDR.CodeSystems.RaceCode },
+                { "678", "Multiethnic", VRDR.CodeSystems.RaceCode },
+                { "679", "Multinational", VRDR.CodeSystems.RaceCode },
+                { "680", "JEWISH", VRDR.CodeSystems.RaceCode },
+                { "681", "CANADIAN", VRDR.CodeSystems.RaceCode },
+                { "682", "FRENCH CANADIAN", VRDR.CodeSystems.RaceCode },
+                { "683", "IBERIAN", VRDR.CodeSystems.RaceCode },
+                { "684", "TRIGUENO", VRDR.CodeSystems.RaceCode },
+                { "685", "MALADA", VRDR.CodeSystems.RaceCode },
+                { "686", "OTHER SPANISH", VRDR.CodeSystems.RaceCode },
+                { "699", "OTHER RACE, N.E.C.", VRDR.CodeSystems.RaceCode },
+                { "990", "Multiple SOME OTHER RACE responses 995 American", VRDR.CodeSystems.RaceCode },
+                { "996", "Uncodable", VRDR.CodeSystems.RaceCode },
+                { "997", "Deferred", VRDR.CodeSystems.RaceCode },
+                { "998", "UNKNOWN", VRDR.CodeSystems.RaceCode },
+                { "999", "First Pass Reject", VRDR.CodeSystems.RaceCode },
+                { "A01", "Abenaki Nation of Missiquoi", VRDR.CodeSystems.RaceCode },
+                { "A05", "Algonquian", VRDR.CodeSystems.RaceCode },
+                { "A09", "Apache", VRDR.CodeSystems.RaceCode },
+                { "A10", "Chiricahua", VRDR.CodeSystems.RaceCode },
+                { "A11", "Fort Sill Apache", VRDR.CodeSystems.RaceCode },
+                { "A12", "Jicarilla Apache", VRDR.CodeSystems.RaceCode },
+                { "A13", "Lipan Apache", VRDR.CodeSystems.RaceCode },
+                { "A14", "Mescalero Apache", VRDR.CodeSystems.RaceCode },
+                { "A15", "Oklahoma Apache", VRDR.CodeSystems.RaceCode },
+                { "A16", "Payson Tonto Apache", VRDR.CodeSystems.RaceCode },
+                { "A17", "San Carlos Apache", VRDR.CodeSystems.RaceCode },
+                { "A18", "White Mountain Apache", VRDR.CodeSystems.RaceCode },
+                { "A24", "Arapahoe", VRDR.CodeSystems.RaceCode },
+                { "A25", "Northern Arapahoe", VRDR.CodeSystems.RaceCode },
+                { "A26", "Southern Arapahoe", VRDR.CodeSystems.RaceCode },
+                { "A27", "Wind River Arapahoe", VRDR.CodeSystems.RaceCode },
+                { "A31", "Arikara", VRDR.CodeSystems.RaceCode },
+                { "A34", "Assiniboine", VRDR.CodeSystems.RaceCode },
+                { "A35", "Fort Peck Assiniboine", VRDR.CodeSystems.RaceCode },
+                { "A36", "Fort Belknap Assiniboine", VRDR.CodeSystems.RaceCode },
+                { "A38", "Assiniboine Sioux", VRDR.CodeSystems.RaceCode },
+                { "A39", "Fort Peck Assiniboine and Sioux", VRDR.CodeSystems.RaceCode },
+                { "A42", "Bannock", VRDR.CodeSystems.RaceCode },
+                { "A45", "Blackfeet", VRDR.CodeSystems.RaceCode },
+                { "A51", "Brotherton", VRDR.CodeSystems.RaceCode },
+                { "A54", "Burt Lake Band", VRDR.CodeSystems.RaceCode },
+                { "A56", "Caddo", VRDR.CodeSystems.RaceCode },
+                { "A57", "Caddo Indian Tribe of Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "A58", "Caddo Adais Indians", VRDR.CodeSystems.RaceCode },
+                { "A61", "Agua Caliente Band of Cahuilla Indians", VRDR.CodeSystems.RaceCode },
+                { "A62", "Augustine", VRDR.CodeSystems.RaceCode },
+                { "A63", "Cabazon Band of Cahuilla Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "A64", "Cahuilla", VRDR.CodeSystems.RaceCode },
+                { "A65", "Los Coyotes Band of Cahuilla Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "A66", "Morongo Band of Cahuilla Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "A67", "Santa Rosa Cahuilla", VRDR.CodeSystems.RaceCode },
+                { "A68", "Torres Martinez Band of Cahuilla Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "A69", "Ramona Band or Village of Cahuilla Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "A74", "CALIFORNIA TRIBES N.E.C.", VRDR.CodeSystems.RaceCode },
+                { "A75", "Cahto Indian Tribe of the Laytonville Rancheria", VRDR.CodeSystems.RaceCode },
+                { "A76", "Chimariko", VRDR.CodeSystems.RaceCode },
+                { "A77", "Coast Miwok", VRDR.CodeSystems.RaceCode },
+                { "A78", "MISSION BAND", VRDR.CodeSystems.RaceCode },
+                { "A79", "Kawaiisu", VRDR.CodeSystems.RaceCode },
+                { "A80", "Kem River Paiute Council", VRDR.CodeSystems.RaceCode },
+                { "A81", "Mattole", VRDR.CodeSystems.RaceCode },
+                { "A82", "Red Wood", VRDR.CodeSystems.RaceCode },
+                { "A83", "Santa Rosa Indian Community", VRDR.CodeSystems.RaceCode },
+                { "A84", "Takelma", VRDR.CodeSystems.RaceCode },
+                { "A85", "Wappo", VRDR.CodeSystems.RaceCode },
+                { "A86", "Yana", VRDR.CodeSystems.RaceCode },
+                { "A87", "Yuki", VRDR.CodeSystems.RaceCode },
+                { "A88", "Bear River Band of Rohnerville Rancheria", VRDR.CodeSystems.RaceCode },
+                { "A89", "DIGGER", VRDR.CodeSystems.RaceCode },
+                { "A90", "WIKCHAMNI", VRDR.CodeSystems.RaceCode },
+                { "A91", "Smith River Rancheria", VRDR.CodeSystems.RaceCode },
+                { "A94", "Canadian Indian", VRDR.CodeSystems.RaceCode },
+                { "A95", "Central American Indian", VRDR.CodeSystems.RaceCode },
+                { "A96", "French American Indian", VRDR.CodeSystems.RaceCode },
+                { "A97", "Mexican American Indian", VRDR.CodeSystems.RaceCode },
+                { "A98", "South American Indian", VRDR.CodeSystems.RaceCode },
+                { "A99", "Spanish American Indian", VRDR.CodeSystems.RaceCode },
+                { "B04", "Catawba Indian Nation", VRDR.CodeSystems.RaceCode },
+                { "B07", "Cayuse", VRDR.CodeSystems.RaceCode },
+                { "B11", "Chehalis", VRDR.CodeSystems.RaceCode },
+                { "B14", "Chemakuan", VRDR.CodeSystems.RaceCode },
+                { "B15", "Hoh Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "B16", "Quileute", VRDR.CodeSystems.RaceCode },
+                { "B19", "Chemehuevi", VRDR.CodeSystems.RaceCode },
+                { "B21", "Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B22", "Cherokee Alabama", VRDR.CodeSystems.RaceCode },
+                { "B23", "Cherokees of Northeast Alabama", VRDR.CodeSystems.RaceCode },
+                { "B24", "Cherokees of Southeast Alabama", VRDR.CodeSystems.RaceCode },
+                { "B25", "Georgia Eastern Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B26", "Echota Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B27", "Etowah Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B28", "Northern Cherokee Nation of Missouri and Arkansas", VRDR.CodeSystems.RaceCode },
+                { "B29", "Tuscola", VRDR.CodeSystems.RaceCode },
+                { "B30", "United Keetoowah Band of Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B31", "Western Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B32", "Southeastern Cherokee Council", VRDR.CodeSystems.RaceCode },
+                { "B33", "Sac River Band of the Chickamauga Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B34", "White River Band of the Chickamauga Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B35", "Four Winds Cherokee", VRDR.CodeSystems.RaceCode },
+                { "B36", "Cherokee of Georgia", VRDR.CodeSystems.RaceCode },
+                { "B37", "Cherokee Shawnee", VRDR.CodeSystems.RaceCode },
+                { "B40", "Cheyenne", VRDR.CodeSystems.RaceCode },
+                { "B41", "Northern Cheyenne", VRDR.CodeSystems.RaceCode },
+                { "B42", "Southern Cheyenne", VRDR.CodeSystems.RaceCode },
+                { "B46", "Cheyenne Arapaho", VRDR.CodeSystems.RaceCode },
+                { "B49", "Chickahominy Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "B50", "Chickahominy Eastern Band", VRDR.CodeSystems.RaceCode },
+                { "B51", "WESTERN CHICKAHOMINY", VRDR.CodeSystems.RaceCode },
+                { "B53", "Chickasaw", VRDR.CodeSystems.RaceCode },
+                { "B57", "Chinook", VRDR.CodeSystems.RaceCode },
+                { "B58", "Clatsop", VRDR.CodeSystems.RaceCode },
+                { "B59", "Columbia River Chinook", VRDR.CodeSystems.RaceCode },
+                { "B60", "Kathlamet", VRDR.CodeSystems.RaceCode },
+                { "B61", "Upper Chinook", VRDR.CodeSystems.RaceCode },
+                { "B62", "Wakiakum Chinook", VRDR.CodeSystems.RaceCode },
+                { "B63", "Willapa Chinook", VRDR.CodeSystems.RaceCode },
+                { "B64", "Wishram", VRDR.CodeSystems.RaceCode },
+                { "B67", "Bad River Band of the Lake Superior Tribe", VRDR.CodeSystems.RaceCode },
+                { "B68", "Bay Mills Indian Community of the Sault Ste. Marie Band", VRDR.CodeSystems.RaceCode },
+                { "B69", "Bois Forte Nett Lake Band of Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B70", "Burt Lake Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B71", "Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B72", "Fond du Lac", VRDR.CodeSystems.RaceCode },
+                { "B73", "Grand Portage", VRDR.CodeSystems.RaceCode },
+                { "B74", "Grand Traverse Band of Ottawa and Chippewa Indians", VRDR.CodeSystems.RaceCode },
+                { "B75", "Keweenaw Bay Indian Community of the L'Anse and Ontonagon Bands", VRDR.CodeSystems.RaceCode },
+                { "B76", "Lac Court Oreilles Band of Lake Superior Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B77", "Lac du Flambeau", VRDR.CodeSystems.RaceCode },
+                { "B78", "Lac Vieux Desert Band of Lake Superior Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B79", "Lake Superior", VRDR.CodeSystems.RaceCode },
+                { "B80", "Leech Lake", VRDR.CodeSystems.RaceCode },
+                { "B81", "Little Shell Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B82", "Mille Lacs", VRDR.CodeSystems.RaceCode },
+                { "B83", "Minnesota Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B84", "Ontonagon", VRDR.CodeSystems.RaceCode },
+                { "B85", "Red Cliff Band of Lake Superior Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B86", "Red Lake Band of Chippewa Indians", VRDR.CodeSystems.RaceCode },
+                { "B87", "Saginaw Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B88", "St. Croix Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B89", "Sault Ste. Marie Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B90", "Sokoagon Chippewa", VRDR.CodeSystems.RaceCode },
+                { "B91", "Turtle Mountain Band", VRDR.CodeSystems.RaceCode },
+                { "B92", "White Earth", VRDR.CodeSystems.RaceCode },
+                { "B93", "Swan Creek Black River Confederate Tribe", VRDR.CodeSystems.RaceCode },
+                { "C02", "Rocky Boy's Chippewa Cree", VRDR.CodeSystems.RaceCode },
+                { "C05", "Chitimacha Tribe of Louisiana", VRDR.CodeSystems.RaceCode },
+                { "C08", "Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C09", "Clifton Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C10", "Jena Band of Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C11", "Mississippi Band of Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C12", "Mowa Band of Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C13", "Oklahoma Choctaw", VRDR.CodeSystems.RaceCode },
+                { "C17", "Choctaw Apache Community of Ebarb", VRDR.CodeSystems.RaceCode },
+                { "C20", "Chumash", VRDR.CodeSystems.RaceCode },
+                { "C21", "Santa Ynez", VRDR.CodeSystems.RaceCode },
+                { "C22", "San Luis Rey Mission Indian", VRDR.CodeSystems.RaceCode },
+                { "C25", "Clear Lake", VRDR.CodeSystems.RaceCode },
+                { "C26", "Coeur D'Alene", VRDR.CodeSystems.RaceCode },
+                { "C29", "Coharie", VRDR.CodeSystems.RaceCode },
+                { "C32", "Colorado River", VRDR.CodeSystems.RaceCode },
+                { "C35", "Colville", VRDR.CodeSystems.RaceCode },
+                { "C39", "Comanche", VRDR.CodeSystems.RaceCode },
+                { "C40", "Oklahoma Comanche", VRDR.CodeSystems.RaceCode },
+                { "C44", "Coos Lower Umpqua and Siuslaw", VRDR.CodeSystems.RaceCode },
+                { "C46", "Coos", VRDR.CodeSystems.RaceCode },
+                { "C47", "Coquille", VRDR.CodeSystems.RaceCode },
+                { "C48", "Costanoan", VRDR.CodeSystems.RaceCode },
+                { "C52", "Alabama Coushatta Tribes of Texas", VRDR.CodeSystems.RaceCode },
+                { "C53", "Coushatta", VRDR.CodeSystems.RaceCode },
+                { "C56", "Cowlitz", VRDR.CodeSystems.RaceCode },
+                { "C59", "Cree", VRDR.CodeSystems.RaceCode },
+                { "C64", "Alabama Creek", VRDR.CodeSystems.RaceCode },
+                { "C65", "Alabama Quassarte Tribal Town", VRDR.CodeSystems.RaceCode },
+                { "C66", "Muscogee Creek Nation", VRDR.CodeSystems.RaceCode },
+                { "C67", "Eastern Creek", VRDR.CodeSystems.RaceCode },
+                { "C68", "Eastern Muscogee", VRDR.CodeSystems.RaceCode },
+                { "C69", "Kialegee Tribal Town", VRDR.CodeSystems.RaceCode },
+                { "C70", "Lower Muscogee Creek Tama Tribal Town", VRDR.CodeSystems.RaceCode },
+                { "C71", "Machis Lower Creek Indian", VRDR.CodeSystems.RaceCode },
+                { "C72", "Poarch Band", VRDR.CodeSystems.RaceCode },
+                { "C73", "Principal Creek Indian Nation", VRDR.CodeSystems.RaceCode },
+                { "C74", "Star Clan of Muskogee Creeks", VRDR.CodeSystems.RaceCode },
+                { "C75", "Thiopthlocco Tribal Town", VRDR.CodeSystems.RaceCode },
+                { "C76", "Tuckabachee", VRDR.CodeSystems.RaceCode },
+                { "C81", "Croatan", VRDR.CodeSystems.RaceCode },
+                { "C82", "Crow", VRDR.CodeSystems.RaceCode },
+                { "C87", "Cumberland County Association for Indian People", VRDR.CodeSystems.RaceCode },
+                { "C89", "Agua Caliente", VRDR.CodeSystems.RaceCode },
+                { "C90", "Cupeno", VRDR.CodeSystems.RaceCode },
+                { "C93", "Delaware", VRDR.CodeSystems.RaceCode },
+                { "C94", "Delaware Tribe of Indians, Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "C95", "Lenni Lanape", VRDR.CodeSystems.RaceCode },
+                { "C96", "Munsee", VRDR.CodeSystems.RaceCode },
+                { "C97", "Delaware Tribe of Western Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "C98", "Ramapough Mountain", VRDR.CodeSystems.RaceCode },
+                { "C99", "Sand Hill Band of Delaware Indians", VRDR.CodeSystems.RaceCode },
+                { "D05", "Barona Group of Capitan Grande Band", VRDR.CodeSystems.RaceCode },
+                { "D06", "Campo Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D07", "Capitan Grande Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D08", "Cuyapaipe", VRDR.CodeSystems.RaceCode },
+                { "D09", "Diegueno", VRDR.CodeSystems.RaceCode },
+                { "D10", "La Posta Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D11", "Manzanita", VRDR.CodeSystems.RaceCode },
+                { "D12", "Mesa Grande Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D13", "San Pasqual Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D14", "Santa Ysabel Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D15", "Sycuan Band of Diegueno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "D16", "Viejas Group of Capitan Grande Band", VRDR.CodeSystems.RaceCode },
+                { "D17", "Inaja Band of Diegueno Mission Indians of the Inaja and Cosmit Reservation", VRDR.CodeSystems.RaceCode },
+                { "D18", "Jarnul Indian Village", VRDR.CodeSystems.RaceCode },
+                { "D20", "Attacapa", VRDR.CodeSystems.RaceCode },
+                { "D21", "Biloxi", VRDR.CodeSystems.RaceCode },
+                { "D22", "Georgetown", VRDR.CodeSystems.RaceCode },
+                { "D24", "Nansemond Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "D25", "Natchez", VRDR.CodeSystems.RaceCode },
+                { "D26", "Nausu Waiwash", VRDR.CodeSystems.RaceCode },
+                { "D27", "Nipmuc", VRDR.CodeSystems.RaceCode },
+                { "D28", "Golden Hill Paugussett", VRDR.CodeSystems.RaceCode },
+                { "D29", "Pocomoke Acohonock", VRDR.CodeSystems.RaceCode },
+                { "D30", "Southeastern Indians", VRDR.CodeSystems.RaceCode },
+                { "D31", "Susquehanock", VRDR.CodeSystems.RaceCode },
+                { "D33", "Tunica Biloxi", VRDR.CodeSystems.RaceCode },
+                { "D34", "Waccamaw Siouan", VRDR.CodeSystems.RaceCode },
+                { "D36", "Wicomico", VRDR.CodeSystems.RaceCode },
+                { "D37", "Mehemn Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "D42", "Esselen", VRDR.CodeSystems.RaceCode },
+                { "D44", "Fort Belknap", VRDR.CodeSystems.RaceCode },
+                { "D45", "FORT BERTHOLD", VRDR.CodeSystems.RaceCode },
+                { "D46", "Three Affiliated Tribes of North Dakota", VRDR.CodeSystems.RaceCode },
+                { "D49", "Fort McDowell MohaveApache Community", VRDR.CodeSystems.RaceCode },
+                { "D51", "ShoshoneBannock Tribes of the Fort Hall Reservation", VRDR.CodeSystems.RaceCode },
+                { "D55", "Gabrieleno", VRDR.CodeSystems.RaceCode },
+                { "D57", "Grand Ronde", VRDR.CodeSystems.RaceCode },
+                { "D58", "Guilford Native American Association", VRDR.CodeSystems.RaceCode },
+                { "D60", "Atsina", VRDR.CodeSystems.RaceCode },
+                { "D61", "Gros Ventres", VRDR.CodeSystems.RaceCode },
+                { "D62", "Fort Belknap Gros Ventres", VRDR.CodeSystems.RaceCode },
+                { "D64", "HaliwaSaponi", VRDR.CodeSystems.RaceCode },
+                { "D67", "Hidatsa", VRDR.CodeSystems.RaceCode },
+                { "D70", "Hoopa Valley Tribe", VRDR.CodeSystems.RaceCode },
+                { "D71", "Trinity", VRDR.CodeSystems.RaceCode },
+                { "D72", "Whilkut", VRDR.CodeSystems.RaceCode },
+                { "D76", "Hoopa Extension", VRDR.CodeSystems.RaceCode },
+                { "D78", "United Houma Nation", VRDR.CodeSystems.RaceCode },
+                { "D87", "Iowa", VRDR.CodeSystems.RaceCode },
+                { "D88", "Iowa of Kansas and Nebraska", VRDR.CodeSystems.RaceCode },
+                { "D89", "Iowa of Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "D91", "Indians of Person County", VRDR.CodeSystems.RaceCode },
+                { "D93", "Cayuga Nation", VRDR.CodeSystems.RaceCode },
+                { "D94", "Iroquois", VRDR.CodeSystems.RaceCode },
+                { "D95", "Mohawk", VRDR.CodeSystems.RaceCode },
+                { "D96", "Oneida Nation of New York", VRDR.CodeSystems.RaceCode },
+                { "D97", "Onondaga", VRDR.CodeSystems.RaceCode },
+                { "D98", "Seneca", VRDR.CodeSystems.RaceCode },
+                { "D99", "Seneca Nation", VRDR.CodeSystems.RaceCode },
+                { "E01", "SenecaCayuga", VRDR.CodeSystems.RaceCode },
+                { "E02", "Tonawanda Band of Seneca", VRDR.CodeSystems.RaceCode },
+                { "E03", "Tuscarora", VRDR.CodeSystems.RaceCode },
+                { "E04", "Wyandotte", VRDR.CodeSystems.RaceCode },
+                { "E10", "Juaneno", VRDR.CodeSystems.RaceCode },
+                { "E13", "Kalispel Indian Community", VRDR.CodeSystems.RaceCode },
+                { "E17", "Karuk Tribe of California", VRDR.CodeSystems.RaceCode },
+                { "E21", "Kaw", VRDR.CodeSystems.RaceCode },
+                { "E24", "Kickapoo", VRDR.CodeSystems.RaceCode },
+                { "E25", "Oklahoma Kickapoo", VRDR.CodeSystems.RaceCode },
+                { "E26", "Texas Kickapoo", VRDR.CodeSystems.RaceCode },
+                { "E30", "Kiowa", VRDR.CodeSystems.RaceCode },
+                { "E31", "Oklahoma Kiowa", VRDR.CodeSystems.RaceCode },
+                { "E37", "Jamestown S'Klallam", VRDR.CodeSystems.RaceCode },
+                { "E38", "Klallam", VRDR.CodeSystems.RaceCode },
+                { "E39", "Lower Elwha Tribal Community", VRDR.CodeSystems.RaceCode },
+                { "E40", "Port Gamble Klallam", VRDR.CodeSystems.RaceCode },
+                { "E44", "Klamath", VRDR.CodeSystems.RaceCode },
+                { "E48", "Konkow", VRDR.CodeSystems.RaceCode },
+                { "E50", "Kootenai", VRDR.CodeSystems.RaceCode },
+                { "E53", "Lassik", VRDR.CodeSystems.RaceCode },
+                { "E59", "Matinecock", VRDR.CodeSystems.RaceCode },
+                { "E60", "Montauk", VRDR.CodeSystems.RaceCode },
+                { "E61", "Poospatuck", VRDR.CodeSystems.RaceCode },
+                { "E62", "Setauket", VRDR.CodeSystems.RaceCode },
+                { "E63", "LONG ISLAND", VRDR.CodeSystems.RaceCode },
+                { "E66", "La Jolla Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E67", "Luiseno", VRDR.CodeSystems.RaceCode },
+                { "E68", "Pala Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E69", "Pauma Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E70", "Pechanga Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E71", "Soboba", VRDR.CodeSystems.RaceCode },
+                { "E72", "TwentyNine Palms Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E73", "Temecula", VRDR.CodeSystems.RaceCode },
+                { "E74", "Rincon Band of Luiseno Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "E78", "Lumbee", VRDR.CodeSystems.RaceCode },
+                { "E84", "Lummi", VRDR.CodeSystems.RaceCode },
+                { "E87", "Mooretown Rancheria of Maidu Indians", VRDR.CodeSystems.RaceCode },
+                { "E88", "Maidu", VRDR.CodeSystems.RaceCode },
+                { "E89", "Mountain Maidu", VRDR.CodeSystems.RaceCode },
+                { "E90", "Nisenen", VRDR.CodeSystems.RaceCode },
+                { "E91", "Mechoopda Indian Tribe of Chico Rancheria, California", VRDR.CodeSystems.RaceCode },
+                { "E92", "Berry Creek Rancheria of Maidu Indians", VRDR.CodeSystems.RaceCode },
+                { "E93", "Enterprise Rancheria", VRDR.CodeSystems.RaceCode },
+                { "E94", "Greenville Rancheria", VRDR.CodeSystems.RaceCode },
+                { "E95", "Makah", VRDR.CodeSystems.RaceCode },
+                { "F01", "Maliseet", VRDR.CodeSystems.RaceCode },
+                { "F02", "Houlton Band of Maliseet Indians", VRDR.CodeSystems.RaceCode },
+                { "F05", "Mandan", VRDR.CodeSystems.RaceCode },
+                { "F09", "Mattaponi Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "F10", "Upper Mattaponi Tribe", VRDR.CodeSystems.RaceCode },
+                { "F11", "Menominee", VRDR.CodeSystems.RaceCode },
+                { "F15", "Metrolina Nadve American Association", VRDR.CodeSystems.RaceCode },
+                { "F17", "Illinois Miami", VRDR.CodeSystems.RaceCode },
+                { "F18", "Indiana Miami", VRDR.CodeSystems.RaceCode },
+                { "F19", "Miami", VRDR.CodeSystems.RaceCode },
+                { "F20", "Oklahoma Miami", VRDR.CodeSystems.RaceCode },
+                { "F24", "Miccosukee", VRDR.CodeSystems.RaceCode },
+                { "F27", "Aroostook Band", VRDR.CodeSystems.RaceCode },
+                { "F28", "Micmac", VRDR.CodeSystems.RaceCode },
+                { "F31", "Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "F32", "Cahuilla Band of Mission Indians", VRDR.CodeSystems.RaceCode },
+                { "F34", "Ione Band of Miwok Indians", VRDR.CodeSystems.RaceCode },
+                { "F35", "Shingle Springs Band of Miwok Indians", VRDR.CodeSystems.RaceCode },
+                { "F36", "MeWuk", VRDR.CodeSystems.RaceCode },
+                { "F37", "Jackson Rancheria of MeWuk Indians of California", VRDR.CodeSystems.RaceCode },
+                { "F38", "Tuolumne Band of MeWuk Indians of California", VRDR.CodeSystems.RaceCode },
+                { "F39", "Buena Vista Rancheria of MeWuk Indians of California", VRDR.CodeSystems.RaceCode },
+                { "F40", "Chicken Ranch Rancheria of MeWuk Indians", VRDR.CodeSystems.RaceCode },
+                { "F41", "Sheep Ranch Rancheria of MeWuk Indians", VRDR.CodeSystems.RaceCode },
+                { "F42", "Modoc", VRDR.CodeSystems.RaceCode },
+                { "F43", "Oklahoma Modoc", VRDR.CodeSystems.RaceCode },
+                { "F46", "Mohegan", VRDR.CodeSystems.RaceCode },
+                { "F47", "Monacan Indian Nation", VRDR.CodeSystems.RaceCode },
+                { "F49", "Mono", VRDR.CodeSystems.RaceCode },
+                { "F50", "North Fork Rancheria", VRDR.CodeSystems.RaceCode },
+                { "F51", "Cold Springs Rancheria", VRDR.CodeSystems.RaceCode },
+                { "F52", "Big Sandy Rancheria", VRDR.CodeSystems.RaceCode },
+                { "F53", "Nanticoke", VRDR.CodeSystems.RaceCode },
+                { "F56", "Nanticoke LenniLenape", VRDR.CodeSystems.RaceCode },
+                { "F57", "Narragansett", VRDR.CodeSystems.RaceCode },
+                { "F62", "Alamo Navajo", VRDR.CodeSystems.RaceCode },
+                { "F63", "Tohajiileehee Navajo", VRDR.CodeSystems.RaceCode },
+                { "F64", "Navajo", VRDR.CodeSystems.RaceCode },
+                { "F65", "Ramah Navajo", VRDR.CodeSystems.RaceCode },
+                { "F71", "Nez Perce", VRDR.CodeSystems.RaceCode },
+                { "F75", "Hassanamisco Band of the Nipmuc Nation", VRDR.CodeSystems.RaceCode },
+                { "F76", "Chaubunagungameg Nipmuc", VRDR.CodeSystems.RaceCode },
+                { "F77", "Nomlaki", VRDR.CodeSystems.RaceCode },
+                { "F78", "Paskenta Band of Nomlaki Indians", VRDR.CodeSystems.RaceCode },
+                { "F80", "Alsea", VRDR.CodeSystems.RaceCode },
+                { "F81", "Celilo", VRDR.CodeSystems.RaceCode },
+                { "F82", "Columbia", VRDR.CodeSystems.RaceCode },
+                { "F83", "Kalapuya", VRDR.CodeSystems.RaceCode },
+                { "F84", "Molalla", VRDR.CodeSystems.RaceCode },
+                { "F85", "Talakamish", VRDR.CodeSystems.RaceCode },
+                { "F86", "Tenino", VRDR.CodeSystems.RaceCode },
+                { "F87", "Tillamook", VRDR.CodeSystems.RaceCode },
+                { "F88", "Wenatchee", VRDR.CodeSystems.RaceCode },
+                { "F95", "Omaha", VRDR.CodeSystems.RaceCode },
+                { "F99", "Oneida Tribe of Wisconsin", VRDR.CodeSystems.RaceCode },
+                { "G01", "Oregon Athabaskan", VRDR.CodeSystems.RaceCode },
+                { "G04", "Osage", VRDR.CodeSystems.RaceCode },
+                { "G10", "OtoeMissouria", VRDR.CodeSystems.RaceCode },
+                { "G14", "Burt Lake Ottawa", VRDR.CodeSystems.RaceCode },
+                { "G15", "Little River Band of Ottawa Indians of Michigan", VRDR.CodeSystems.RaceCode },
+                { "G16", "Oklahoma Ottawa", VRDR.CodeSystems.RaceCode },
+                { "G17", "Ottawa", VRDR.CodeSystems.RaceCode },
+                { "G18", "Little Traverse Bay Bands of Ottawa Indians of Michigan", VRDR.CodeSystems.RaceCode },
+                { "G19", "Grand River Band of Ottawa Indians", VRDR.CodeSystems.RaceCode },
+                { "G24", "Bridgeport Paiute Indian Colony", VRDR.CodeSystems.RaceCode },
+                { "G25", "Burns Paiute Tribe", VRDR.CodeSystems.RaceCode },
+                { "G26", "Cedarville Rancheria", VRDR.CodeSystems.RaceCode },
+                { "G27", "Fort Bidwell", VRDR.CodeSystems.RaceCode },
+                { "G28", "Fort Independence", VRDR.CodeSystems.RaceCode },
+                { "G29", "Kaibab Band of Paiute Indians", VRDR.CodeSystems.RaceCode },
+                { "G30", "Las Vegas Tribe of the Las Vegas Indian Colony", VRDR.CodeSystems.RaceCode },
+                { "G32", "Lovelock Paiute Tribe of the Lovelock Indian Colony", VRDR.CodeSystems.RaceCode },
+                { "G33", "Malheur Paiute", VRDR.CodeSystems.RaceCode },
+                { "G34", "Moapa Band of Paiute", VRDR.CodeSystems.RaceCode },
+                { "G35", "Northern Paiute", VRDR.CodeSystems.RaceCode },
+                { "G37", "Paiute", VRDR.CodeSystems.RaceCode },
+                { "G38", "Pyramid Lake", VRDR.CodeSystems.RaceCode },
+                { "G39", "San Juan Southern Paiute", VRDR.CodeSystems.RaceCode },
+                { "G40", "Southern Paiute", VRDR.CodeSystems.RaceCode },
+                { "G41", "Summit Lake", VRDR.CodeSystems.RaceCode },
+                { "G42", "Utu Utu Gwaitu Paiute", VRDR.CodeSystems.RaceCode },
+                { "G43", "Walker River", VRDR.CodeSystems.RaceCode },
+                { "G44", "Yerington Paiute", VRDR.CodeSystems.RaceCode },
+                { "G45", "Yahooskin Band of Snake", VRDR.CodeSystems.RaceCode },
+                { "G47", "Susanville", VRDR.CodeSystems.RaceCode },
+                { "G48", "Winnemucca", VRDR.CodeSystems.RaceCode },
+                { "G50", "Pamunkey Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "G53", "Indian Township", VRDR.CodeSystems.RaceCode },
+                { "G54", "Passamaquoddy", VRDR.CodeSystems.RaceCode },
+                { "G55", "Pleasant Point Passamaquoddy", VRDR.CodeSystems.RaceCode },
+                { "G61", "Oklahoma Pawnee", VRDR.CodeSystems.RaceCode },
+                { "G62", "Pawnee", VRDR.CodeSystems.RaceCode },
+                { "G68", "Penobscot", VRDR.CodeSystems.RaceCode },
+                { "G72", "Oklahoma Peoria", VRDR.CodeSystems.RaceCode },
+                { "G73", "Peoria", VRDR.CodeSystems.RaceCode },
+                { "G77", "Mashantucket Pequot", VRDR.CodeSystems.RaceCode },
+                { "G78", "Pequot", VRDR.CodeSystems.RaceCode },
+                { "G79", "Paucatuck Eastern Pequot", VRDR.CodeSystems.RaceCode },
+                { "G84", "Gila River Indian Community", VRDR.CodeSystems.RaceCode },
+                { "G85", "Pima", VRDR.CodeSystems.RaceCode },
+                { "G86", "Salt River PimaMaricopa", VRDR.CodeSystems.RaceCode },
+                { "G92", "Piscataway", VRDR.CodeSystems.RaceCode },
+                { "G96", "Pit River Tribe of California", VRDR.CodeSystems.RaceCode },
+                { "G97", "Alturas Indian Rancheria", VRDR.CodeSystems.RaceCode },
+                { "G98", "Redding Rancheria", VRDR.CodeSystems.RaceCode },
+                { "G99", "Big Valley Rancheria of Pomo and Pit River Indians", VRDR.CodeSystems.RaceCode },
+                { "H01", "Central Pomo", VRDR.CodeSystems.RaceCode },
+                { "H02", "Dry Creek", VRDR.CodeSystems.RaceCode },
+                { "H03", "Eastern Pomo", VRDR.CodeSystems.RaceCode },
+                { "H04", "Kashia Band of Pomo Indians of the Stewarts Point Rancheria", VRDR.CodeSystems.RaceCode },
+                { "H05", "Northern Pomo", VRDR.CodeSystems.RaceCode },
+                { "H06", "Pomo", VRDR.CodeSystems.RaceCode },
+                { "H07", "Scotts Valley Band", VRDR.CodeSystems.RaceCode },
+                { "H08", "Stonyford", VRDR.CodeSystems.RaceCode },
+                { "H09", "Elem Indian Colony of the Sulphur Bank", VRDR.CodeSystems.RaceCode },
+                { "H10", "Sherwood Valley Rancheria of Pomo Indians of California", VRDR.CodeSystems.RaceCode },
+                { "H11", "Guidiville Rancheria of California", VRDR.CodeSystems.RaceCode },
+                { "H12", "Lytton Rancheria of California", VRDR.CodeSystems.RaceCode },
+                { "H13", "Cloverdale Rancheria", VRDR.CodeSystems.RaceCode },
+                { "H14", "Coyote Valley Band", VRDR.CodeSystems.RaceCode },
+                { "H15", "Nebraska Ponca", VRDR.CodeSystems.RaceCode },
+                { "H16", "Oklahoma Ponca", VRDR.CodeSystems.RaceCode },
+                { "H17", "Ponca", VRDR.CodeSystems.RaceCode },
+                { "H21", "Citizen Potawatomi Nation", VRDR.CodeSystems.RaceCode },
+                { "H22", "Forest County", VRDR.CodeSystems.RaceCode },
+                { "H23", "Hannahville Indian Community of Wisconsin Potawatomi", VRDR.CodeSystems.RaceCode },
+                { "H24", "Huron Potawatomi", VRDR.CodeSystems.RaceCode },
+                { "H25", "Pokagon Band of Potawatomi Indians", VRDR.CodeSystems.RaceCode },
+                { "H26", "Potawatomi", VRDR.CodeSystems.RaceCode },
+                { "H27", "Prairie Band of Potawatomi Indians", VRDR.CodeSystems.RaceCode },
+                { "H28", "Wisconsin Potawatomi", VRDR.CodeSystems.RaceCode },
+                { "H34", "Powhatan", VRDR.CodeSystems.RaceCode },
+                { "H38", "Acoma", VRDR.CodeSystems.RaceCode },
+                { "H39", "Arizona Tewa", VRDR.CodeSystems.RaceCode },
+                { "H40", "Cochiti", VRDR.CodeSystems.RaceCode },
+                { "H41", "Hopi", VRDR.CodeSystems.RaceCode },
+                { "H42", "Isleta", VRDR.CodeSystems.RaceCode },
+                { "H43", "Jemez", VRDR.CodeSystems.RaceCode },
+                { "H44", "Keres", VRDR.CodeSystems.RaceCode },
+                { "H45", "Laguna", VRDR.CodeSystems.RaceCode },
+                { "H46", "Nambe", VRDR.CodeSystems.RaceCode },
+                { "H47", "Picuris", VRDR.CodeSystems.RaceCode },
+                { "H48", "Piro", VRDR.CodeSystems.RaceCode },
+                { "H49", "Pojoaque", VRDR.CodeSystems.RaceCode },
+                { "H50", "Pueblo", VRDR.CodeSystems.RaceCode },
+                { "H51", "San Felipe", VRDR.CodeSystems.RaceCode },
+                { "H52", "San Ildefonso", VRDR.CodeSystems.RaceCode },
+                { "H53", "San Juan Pueblo", VRDR.CodeSystems.RaceCode },
+                { "H54", "SAN JUAN DE", VRDR.CodeSystems.RaceCode },
+                { "H55", "San Juan", VRDR.CodeSystems.RaceCode },
+                { "H56", "Sandia", VRDR.CodeSystems.RaceCode },
+                { "H57", "Santa Ana", VRDR.CodeSystems.RaceCode },
+                { "H58", "Santa Clara", VRDR.CodeSystems.RaceCode },
+                { "H59", "Santo Domingo", VRDR.CodeSystems.RaceCode },
+                { "H60", "Taos", VRDR.CodeSystems.RaceCode },
+                { "H61", "Tesuque", VRDR.CodeSystems.RaceCode },
+                { "H62", "Tewa", VRDR.CodeSystems.RaceCode },
+                { "H63", "Ysleta Del Sur Pueblo of Texas", VRDR.CodeSystems.RaceCode },
+                { "H64", "Zia", VRDR.CodeSystems.RaceCode },
+                { "H65", "Zuni", VRDR.CodeSystems.RaceCode },
+                { "H66", "Hopland Band of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H67", "Manchester Band of Pomo Indians of the ManchesterPoint Arena Racheria", VRDR.CodeSystems.RaceCode },
+                { "H68", "Middletown Rancheria of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H69", "Pinoleville Rancheria of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H70", "Marietta Band of Nooksack", VRDR.CodeSystems.RaceCode },
+                { "H71", "Duwamish", VRDR.CodeSystems.RaceCode },
+                { "H72", "Kikiallus", VRDR.CodeSystems.RaceCode },
+                { "H73", "Lower Skagit", VRDR.CodeSystems.RaceCode },
+                { "H74", "Muckleshoot", VRDR.CodeSystems.RaceCode },
+                { "H75", "Nisqually", VRDR.CodeSystems.RaceCode },
+                { "H76", "Nooksack", VRDR.CodeSystems.RaceCode },
+                { "H77", "Port Madison", VRDR.CodeSystems.RaceCode },
+                { "H78", "Puget Sound Salish", VRDR.CodeSystems.RaceCode },
+                { "H79", "Puyaliup", VRDR.CodeSystems.RaceCode },
+                { "H80", "Samish", VRDR.CodeSystems.RaceCode },
+                { "H81", "SaukSuiattle", VRDR.CodeSystems.RaceCode },
+                { "H82", "Skokomish", VRDR.CodeSystems.RaceCode },
+                { "H83", "Skykomish", VRDR.CodeSystems.RaceCode },
+                { "H84", "Snohomish", VRDR.CodeSystems.RaceCode },
+                { "H85", "Snoqualmie", VRDR.CodeSystems.RaceCode },
+                { "H86", "Squaxin Island", VRDR.CodeSystems.RaceCode },
+                { "H87", "Steilacoom", VRDR.CodeSystems.RaceCode },
+                { "H88", "Stillaguamish", VRDR.CodeSystems.RaceCode },
+                { "H89", "Suquamish", VRDR.CodeSystems.RaceCode },
+                { "H90", "Swinomish", VRDR.CodeSystems.RaceCode },
+                { "H91", "Tulalip", VRDR.CodeSystems.RaceCode },
+                { "H92", "Upper Skagit", VRDR.CodeSystems.RaceCode },
+                { "H93", "Potter Valley Rancheria of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H94", "Redwood Valley Rancheria of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H95", "Robinson Rancheria of Pomo Indians", VRDR.CodeSystems.RaceCode },
+                { "H96", "Upper Lake Band of Pomo Indians of Upper Lake Rancheria", VRDR.CodeSystems.RaceCode },
+                { "H97", "Quapaw", VRDR.CodeSystems.RaceCode },
+                { "I01", "TIGUA", VRDR.CodeSystems.RaceCode },
+                { "J01", "Quinault", VRDR.CodeSystems.RaceCode },
+                { "J05", "Rappahannock Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "J07", "RenoSparks", VRDR.CodeSystems.RaceCode },
+                { "J14", "Round Valley", VRDR.CodeSystems.RaceCode },
+                { "J19", "Sac and Fox Tribe of the Mississippi in Iowa", VRDR.CodeSystems.RaceCode },
+                { "J20", "Sac and Fox Nation of Missouri in Kansas and Nebraska", VRDR.CodeSystems.RaceCode },
+                { "J21", "Sac and Fox Nation, Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "J22", "Sac and Fox", VRDR.CodeSystems.RaceCode },
+                { "J28", "Salinan", VRDR.CodeSystems.RaceCode },
+                { "J31", "Salish", VRDR.CodeSystems.RaceCode },
+                { "J35", "Salish and Kootenai", VRDR.CodeSystems.RaceCode },
+                { "J36", "Pondre Band of Salish and Kootenai", VRDR.CodeSystems.RaceCode },
+                { "J39", "Schaghticoke", VRDR.CodeSystems.RaceCode },
+                { "J47", "Big Cypress", VRDR.CodeSystems.RaceCode },
+                { "J48", "Brighton", VRDR.CodeSystems.RaceCode },
+                { "J49", "Florida Seminole", VRDR.CodeSystems.RaceCode },
+                { "J50", "Hollywood Seminole", VRDR.CodeSystems.RaceCode },
+                { "J51", "Oklahoma Seminole", VRDR.CodeSystems.RaceCode },
+                { "J52", "Seminole", VRDR.CodeSystems.RaceCode },
+                { "J53", "Dania Seminole", VRDR.CodeSystems.RaceCode },
+                { "J54", "Tampa Seminole", VRDR.CodeSystems.RaceCode },
+                { "J58", "San Manual Band", VRDR.CodeSystems.RaceCode },
+                { "J59", "Serrano", VRDR.CodeSystems.RaceCode },
+                { "J62", "Shasta", VRDR.CodeSystems.RaceCode },
+                { "J63", "Quartz Valley", VRDR.CodeSystems.RaceCode },
+                { "J66", "Absentee Shawnee Tribe of Indians of Oklahoma", VRDR.CodeSystems.RaceCode },
+                { "J67", "Eastern Shawnee", VRDR.CodeSystems.RaceCode },
+                { "J68", "Shawnee", VRDR.CodeSystems.RaceCode },
+                { "J69", "Piqua Sept of Ohio Shawnee", VRDR.CodeSystems.RaceCode },
+                { "J74", "Shinnecock", VRDR.CodeSystems.RaceCode },
+                { "J78", "Shoalwater Bay", VRDR.CodeSystems.RaceCode },
+                { "J81", "Duckwater", VRDR.CodeSystems.RaceCode },
+                { "J82", "Ely", VRDR.CodeSystems.RaceCode },
+                { "J83", "Goshute", VRDR.CodeSystems.RaceCode },
+                { "J84", "PANAMINT", VRDR.CodeSystems.RaceCode },
+                { "J85", "Shoshone", VRDR.CodeSystems.RaceCode },
+                { "J86", "Skull Valley Band of Goshute Indians", VRDR.CodeSystems.RaceCode },
+                { "J88", "Death Valley TimbiSha Shoshone", VRDR.CodeSystems.RaceCode },
+                { "J89", "Northwestern Band of Shoshoni Nation of Utah", VRDR.CodeSystems.RaceCode },
+                { "J90", "Wind River Shoshone", VRDR.CodeSystems.RaceCode },
+                { "J91", "Yomba", VRDR.CodeSystems.RaceCode },
+                { "J93", "TeMoak Tribes of Western Shoshone Indians", VRDR.CodeSystems.RaceCode },
+                { "J94", "Battle Mountain", VRDR.CodeSystems.RaceCode },
+                { "J95", "Elko", VRDR.CodeSystems.RaceCode },
+                { "J96", "South Fork", VRDR.CodeSystems.RaceCode },
+                { "J97", "Wells Band", VRDR.CodeSystems.RaceCode },
+                { "J98", "Ruby Valley", VRDR.CodeSystems.RaceCode },
+                { "J99", "Odgers Ranch", VRDR.CodeSystems.RaceCode },
+                { "K01", "Duck Valley", VRDR.CodeSystems.RaceCode },
+                { "K02", "Fallen", VRDR.CodeSystems.RaceCode },
+                { "K03", "Fort McDermitt Paiute and Shoshone Tribes", VRDR.CodeSystems.RaceCode },
+                { "K04", "Shoshone Paiute", VRDR.CodeSystems.RaceCode },
+                { "K05", "Bishop", VRDR.CodeSystems.RaceCode },
+                { "K06", "Lone Pine", VRDR.CodeSystems.RaceCode },
+                { "K07", "Big Pine Band of Owens Valley PaiuteShoshone", VRDR.CodeSystems.RaceCode },
+                { "K10", "Confederated Tribes of the Siletz Reservation", VRDR.CodeSystems.RaceCode },
+                { "K16", "Blackfoot Sioux", VRDR.CodeSystems.RaceCode },
+                { "K17", "Brule Sioux", VRDR.CodeSystems.RaceCode },
+                { "K18", "Cheyenne River Sioux", VRDR.CodeSystems.RaceCode },
+                { "K19", "Crow Creek Sioux", VRDR.CodeSystems.RaceCode },
+                { "K20", "Dakota Sioux", VRDR.CodeSystems.RaceCode },
+                { "K21", "Flandreau Santee Sioux", VRDR.CodeSystems.RaceCode },
+                { "K22", "Fort Peck Sioux", VRDR.CodeSystems.RaceCode },
+                { "K23", "Lake Traverse Sioux", VRDR.CodeSystems.RaceCode },
+                { "K24", "Lower Brule Sioux", VRDR.CodeSystems.RaceCode },
+                { "K25", "Lower Sioux Indian Community of Minnesota Mdewakanton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K26", "Mdewakanton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K27", "Miniconjou", VRDR.CodeSystems.RaceCode },
+                { "K28", "Oglala Sioux", VRDR.CodeSystems.RaceCode },
+                { "K29", "Pine Ridge Sioux", VRDR.CodeSystems.RaceCode },
+                { "K30", "Pipestone Sioux", VRDR.CodeSystems.RaceCode },
+                { "K31", "Prairie Island Sioux", VRDR.CodeSystems.RaceCode },
+                { "K32", "Shakopee Mdewakanton Sioux Community", VRDR.CodeSystems.RaceCode },
+                { "K33", "Rosebud Sioux", VRDR.CodeSystems.RaceCode },
+                { "K34", "Sans Arc Sioux", VRDR.CodeSystems.RaceCode },
+                { "K35", "Santee Sioux of Nebraska", VRDR.CodeSystems.RaceCode },
+                { "K36", "Sioux", VRDR.CodeSystems.RaceCode },
+                { "K37", "SissetonWahpeton", VRDR.CodeSystems.RaceCode },
+                { "K38", "Sisseton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K39", "Spirit Lake Sioux", VRDR.CodeSystems.RaceCode },
+                { "K40", "Standing Rock Sioux", VRDR.CodeSystems.RaceCode },
+                { "K41", "Teton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K42", "Two Kettle Sioux", VRDR.CodeSystems.RaceCode },
+                { "K43", "Upper Sioux", VRDR.CodeSystems.RaceCode },
+                { "K44", "Wahpekute Sioux", VRDR.CodeSystems.RaceCode },
+                { "K45", "Wahpeton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K46", "Wazhaza Sioux", VRDR.CodeSystems.RaceCode },
+                { "K47", "Yankton Sioux", VRDR.CodeSystems.RaceCode },
+                { "K48", "Yanktonai Sioux", VRDR.CodeSystems.RaceCode },
+                { "K54", "Siuslaw", VRDR.CodeSystems.RaceCode },
+                { "K59", "Spokane", VRDR.CodeSystems.RaceCode },
+                { "K67", "StockbridgeMunsee Community of Mohican Indians of Wisconsin", VRDR.CodeSystems.RaceCode },
+                { "K77", "AkChin", VRDR.CodeSystems.RaceCode },
+                { "K78", "Gila Bend", VRDR.CodeSystems.RaceCode },
+                { "K79", "San Xavier", VRDR.CodeSystems.RaceCode },
+                { "K80", "Sells", VRDR.CodeSystems.RaceCode },
+                { "K81", "Tohono O'Odham", VRDR.CodeSystems.RaceCode },
+                { "K87", "Tolowa", VRDR.CodeSystems.RaceCode },
+                { "K88", "Big Lagoon Rancheria", VRDR.CodeSystems.RaceCode },
+                { "K89", "Elk Valley Rancheria", VRDR.CodeSystems.RaceCode },
+                { "K90", "Tonkawa", VRDR.CodeSystems.RaceCode },
+                { "K93", "CherAe Indian Community of Trinidad Rancheria", VRDR.CodeSystems.RaceCode },
+                { "K94", "Tygh", VRDR.CodeSystems.RaceCode },
+                { "K97", "Umatilla", VRDR.CodeSystems.RaceCode },
+                { "L01", "Cow Creek Umpqua", VRDR.CodeSystems.RaceCode },
+                { "L02", "Umpqua", VRDR.CodeSystems.RaceCode },
+                { "L06", "Alien Canyon", VRDR.CodeSystems.RaceCode },
+                { "L07", "Uintah Ute", VRDR.CodeSystems.RaceCode },
+                { "L08", "Ute Mountain", VRDR.CodeSystems.RaceCode },
+                { "L09", "Ute", VRDR.CodeSystems.RaceCode },
+                { "L10", "Southern Ute", VRDR.CodeSystems.RaceCode },
+                { "L15", "Wailaki", VRDR.CodeSystems.RaceCode },
+                { "L19", "WallaWalla", VRDR.CodeSystems.RaceCode },
+                { "L22", "Gay Head Wampanoag", VRDR.CodeSystems.RaceCode },
+                { "L23", "Mashpee Wampanoag", VRDR.CodeSystems.RaceCode },
+                { "L24", "Wampanoag", VRDR.CodeSystems.RaceCode },
+                { "L25", "Seaconeke Wampanoag", VRDR.CodeSystems.RaceCode },
+                { "L26", "Pocasset Wampanoag", VRDR.CodeSystems.RaceCode },
+                { "L28", "Warm Springs", VRDR.CodeSystems.RaceCode },
+                { "L34", "Wascopum", VRDR.CodeSystems.RaceCode },
+                { "L38", "Alpine", VRDR.CodeSystems.RaceCode },
+                { "L39", "Carson Colony", VRDR.CodeSystems.RaceCode },
+                { "L40", "Dresslerville Colony", VRDR.CodeSystems.RaceCode },
+                { "L41", "Washoe", VRDR.CodeSystems.RaceCode },
+                { "L42", "Stewart Community", VRDR.CodeSystems.RaceCode },
+                { "L43", "Woodsfords Community", VRDR.CodeSystems.RaceCode },
+                { "L47", "Wichita", VRDR.CodeSystems.RaceCode },
+                { "L48", "Keechi", VRDR.CodeSystems.RaceCode },
+                { "L49", "Waco", VRDR.CodeSystems.RaceCode },
+                { "L50", "Tawakonie", VRDR.CodeSystems.RaceCode },
+                { "L52", "Wind River", VRDR.CodeSystems.RaceCode },
+                { "L55", "HoChunk Nation of Wisconsin", VRDR.CodeSystems.RaceCode },
+                { "L56", "Nebraska Winnebago", VRDR.CodeSystems.RaceCode },
+                { "L57", "Winnebago", VRDR.CodeSystems.RaceCode },
+                { "L66", "Wintun", VRDR.CodeSystems.RaceCode },
+                { "L67", "Cachil Dehe Band of Wintun Indians of the Colusa Rancheria", VRDR.CodeSystems.RaceCode },
+                { "L68", "Cortina Indian Rancheria of Wintun Indians", VRDR.CodeSystems.RaceCode },
+                { "L69", "Rumsey Indian Rancheria of Wintun Indians", VRDR.CodeSystems.RaceCode },
+                { "L71", "Grindstone Indian Rancheria of WintunWailaki Indians", VRDR.CodeSystems.RaceCode },
+                { "L72", "Table Bluff", VRDR.CodeSystems.RaceCode },
+                { "L73", "Wiyot", VRDR.CodeSystems.RaceCode },
+                { "L74", "Blue Lake Rancheria", VRDR.CodeSystems.RaceCode },
+                { "L79", "Yakama", VRDR.CodeSystems.RaceCode },
+                { "L85", "Yakama Cowlitz", VRDR.CodeSystems.RaceCode },
+                { "L91", "Barrio Libre", VRDR.CodeSystems.RaceCode },
+                { "L92", "Pascua Yaqui", VRDR.CodeSystems.RaceCode },
+                { "L93", "Yaqui", VRDR.CodeSystems.RaceCode },
+                { "M01", "Yavapai Apache", VRDR.CodeSystems.RaceCode },
+                { "M07", "Picayune Rancheria of Chukchansi Indians", VRDR.CodeSystems.RaceCode },
+                { "M08", "Tachi", VRDR.CodeSystems.RaceCode },
+                { "M09", "Tule River", VRDR.CodeSystems.RaceCode },
+                { "M10", "Yokuts", VRDR.CodeSystems.RaceCode },
+                { "M11", "Table Mountain Rancheria", VRDR.CodeSystems.RaceCode },
+                { "M16", "Yuchi", VRDR.CodeSystems.RaceCode },
+                { "M17", "Tia", VRDR.CodeSystems.RaceCode },
+                { "M18", "Wilono", VRDR.CodeSystems.RaceCode },
+                { "M19", "Anstohini", VRDR.CodeSystems.RaceCode },
+                { "M22", "Cocopah Tribe of Arizona", VRDR.CodeSystems.RaceCode },
+                { "M23", "Havasupai", VRDR.CodeSystems.RaceCode },
+                { "M24", "Hualapai", VRDR.CodeSystems.RaceCode },
+                { "M25", "Maricopa", VRDR.CodeSystems.RaceCode },
+                { "M26", "Fort Mojave Indian Tribe of Arizona", VRDR.CodeSystems.RaceCode },
+                { "M27", "Quechan", VRDR.CodeSystems.RaceCode },
+                { "M28", "YavapaiPrescott Tribe of the Yavapai Reservation", VRDR.CodeSystems.RaceCode },
+                { "M29", "YUMAN", VRDR.CodeSystems.RaceCode },
+                { "M34", "Resighini Rancheria", VRDR.CodeSystems.RaceCode },
+                { "M35", "Yurok", VRDR.CodeSystems.RaceCode },
+                { "M36", "COAST YUROK", VRDR.CodeSystems.RaceCode },
+                { "M41", "American Indian", VRDR.CodeSystems.RaceCode },
+                { "M42", "Tribal Response, NEC", VRDR.CodeSystems.RaceCode },
+                { "M43", "KUTENAI INDIAN", VRDR.CodeSystems.RaceCode },
+                { "M44", "Alaska Indian", VRDR.CodeSystems.RaceCode },
+                { "M47", "Alaska Native", VRDR.CodeSystems.RaceCode },
+                { "M48", "Other Alaskan, NEC", VRDR.CodeSystems.RaceCode },
+                { "M52", "Ahtna", VRDR.CodeSystems.RaceCode },
+                { "M53", "Alaskan Athabascan", VRDR.CodeSystems.RaceCode },
+                { "M54", "Alatna Village", VRDR.CodeSystems.RaceCode },
+                { "M55", "Alexander", VRDR.CodeSystems.RaceCode },
+                { "M56", "Allakaket Village", VRDR.CodeSystems.RaceCode },
+                { "M57", "Alanvik", VRDR.CodeSystems.RaceCode },
+                { "M58", "Anvik Village", VRDR.CodeSystems.RaceCode },
+                { "M59", "Arctic Village", VRDR.CodeSystems.RaceCode },
+                { "M60", "Beaver Village", VRDR.CodeSystems.RaceCode },
+                { "M61", "Birch Crcek Village", VRDR.CodeSystems.RaceCode },
+                { "M62", "Native Village of Cantwell", VRDR.CodeSystems.RaceCode },
+                { "M63", "Chalkyitsik Village", VRDR.CodeSystems.RaceCode },
+                { "M64", "Chickaloon Native Village", VRDR.CodeSystems.RaceCode },
+                { "M65", "Native Village of Chistochina", VRDR.CodeSystems.RaceCode },
+                { "M66", "Native Village of Chitina", VRDR.CodeSystems.RaceCode },
+                { "M67", "Circle Native Community", VRDR.CodeSystems.RaceCode },
+                { "M68", "COOK INLET", VRDR.CodeSystems.RaceCode },
+                { "M69", "COPPER CENTER", VRDR.CodeSystems.RaceCode },
+                { "M70", "Copper River", VRDR.CodeSystems.RaceCode },
+                { "M71", "Village of Dot Lake", VRDR.CodeSystems.RaceCode },
+                { "M72", "Doyon", VRDR.CodeSystems.RaceCode },
+                { "M73", "Native Village of Eagle", VRDR.CodeSystems.RaceCode },
+                { "M74", "Ekiutna Native Village", VRDR.CodeSystems.RaceCode },
+                { "M75", "Evansville Village", VRDR.CodeSystems.RaceCode },
+                { "M76", "Native Village of Fort Yukon", VRDR.CodeSystems.RaceCode },
+                { "M77", "Native Village of Gakona", VRDR.CodeSystems.RaceCode },
+                { "M78", "Galena Village", VRDR.CodeSystems.RaceCode },
+                { "M79", "Organized Village of Grayling", VRDR.CodeSystems.RaceCode },
+                { "M80", "Gulkana Village", VRDR.CodeSystems.RaceCode },
+                { "M81", "Healy Lake Village", VRDR.CodeSystems.RaceCode },
+                { "M82", "Holy Cross Village", VRDR.CodeSystems.RaceCode },
+                { "M83", "Hughes Village", VRDR.CodeSystems.RaceCode },
+                { "M84", "Huslia Village", VRDR.CodeSystems.RaceCode },
+                { "M85", "Village of Iliamna", VRDR.CodeSystems.RaceCode },
+                { "M86", "Village ofKaltag", VRDR.CodeSystems.RaceCode },
+                { "M87", "Native Village of Kluti Kaah", VRDR.CodeSystems.RaceCode },
+                { "M88", "Knik Tribe", VRDR.CodeSystems.RaceCode },
+                { "M89", "Koyukuk Native Village", VRDR.CodeSystems.RaceCode },
+                { "M90", "Lake Minchumina", VRDR.CodeSystems.RaceCode },
+                { "M91", "Lime Village", VRDR.CodeSystems.RaceCode },
+                { "M92", "McGrath Native Village", VRDR.CodeSystems.RaceCode },
+                { "M93", "Manley Hot Springs Village", VRDR.CodeSystems.RaceCode },
+                { "M94", "Mentasta Traditional Council", VRDR.CodeSystems.RaceCode },
+                { "M95", "Native Village of Minto", VRDR.CodeSystems.RaceCode },
+                { "M96", "Nenana Native Association", VRDR.CodeSystems.RaceCode },
+                { "M97", "Nikolai Village", VRDR.CodeSystems.RaceCode },
+                { "M98", "Ninilchik Village Traditional Council", VRDR.CodeSystems.RaceCode },
+                { "M99", "Nondalton Village", VRDR.CodeSystems.RaceCode },
+                { "N01", "Northway Village", VRDR.CodeSystems.RaceCode },
+                { "N02", "Nulato Village", VRDR.CodeSystems.RaceCode },
+                { "N03", "Pedro Bay Village", VRDR.CodeSystems.RaceCode },
+                { "N04", "Rampart Village", VRDR.CodeSystems.RaceCode },
+                { "N05", "Native Village of Ruby", VRDR.CodeSystems.RaceCode },
+                { "N06", "Village of Salamatoff", VRDR.CodeSystems.RaceCode },
+                { "N07", "Seldovia Village Tribe", VRDR.CodeSystems.RaceCode },
+                { "N08", "Slana", VRDR.CodeSystems.RaceCode },
+                { "N09", "Shageluk Native Village", VRDR.CodeSystems.RaceCode },
+                { "N10", "Native Village of Stevens", VRDR.CodeSystems.RaceCode },
+                { "N11", "Village of Stony River", VRDR.CodeSystems.RaceCode },
+                { "N12", "Takotna Village", VRDR.CodeSystems.RaceCode },
+                { "N13", "Native Village of Tanacross", VRDR.CodeSystems.RaceCode },
+                { "N14", "Tanaina", VRDR.CodeSystems.RaceCode },
+                { "N15", "Native Village of Tanana", VRDR.CodeSystems.RaceCode },
+                { "N16", "Tanana Chiefs", VRDR.CodeSystems.RaceCode },
+                { "N17", "Native Village of Tazlina", VRDR.CodeSystems.RaceCode },
+                { "N18", "Telida Village", VRDR.CodeSystems.RaceCode },
+                { "N19", "Native Village of Tetlin", VRDR.CodeSystems.RaceCode },
+                { "N20", "Tok", VRDR.CodeSystems.RaceCode },
+                { "N21", "Native Village of Tyonek", VRDR.CodeSystems.RaceCode },
+                { "N22", "Village of Venetie", VRDR.CodeSystems.RaceCode },
+                { "N23", "Wiseman", VRDR.CodeSystems.RaceCode },
+                { "N24", "Kenaitze Indian Tribe", VRDR.CodeSystems.RaceCode },
+                { "N27", "TLINGIT-HAIDA", VRDR.CodeSystems.RaceCode },
+                { "N28", "Angoon Community Association", VRDR.CodeSystems.RaceCode },
+                { "N29", "Central Council of the Tlingit and Haida Indian Tribes", VRDR.CodeSystems.RaceCode },
+                { "N30", "Chilkat Indian Village", VRDR.CodeSystems.RaceCode },
+                { "N31", "Chilkoot Indian Association", VRDR.CodeSystems.RaceCode },
+                { "N32", "Craig Community Association", VRDR.CodeSystems.RaceCode },
+                { "N33", "Douglas Indian Association", VRDR.CodeSystems.RaceCode },
+                { "N34", "Haida", VRDR.CodeSystems.RaceCode },
+                { "N35", "Hoonah Indian Association", VRDR.CodeSystems.RaceCode },
+                { "N36", "Hydaburg Cooperative Association", VRDR.CodeSystems.RaceCode },
+                { "N37", "Organized Village of Kake", VRDR.CodeSystems.RaceCode },
+                { "N38", "Organized Village of Kasaan", VRDR.CodeSystems.RaceCode },
+                { "N40", "Ketchikan Indian Corporation", VRDR.CodeSystems.RaceCode },
+                { "N41", "Klawock Cooperative Association", VRDR.CodeSystems.RaceCode },
+                { "N43", "Pelican", VRDR.CodeSystems.RaceCode },
+                { "N44", "Petersburg Indian Association", VRDR.CodeSystems.RaceCode },
+                { "N45", "Organized Village of Saxman", VRDR.CodeSystems.RaceCode },
+                { "N46", "Sitka Tribe of Alaska", VRDR.CodeSystems.RaceCode },
+                { "N47", "Tenakee Springs", VRDR.CodeSystems.RaceCode },
+                { "N48", "Tlingit", VRDR.CodeSystems.RaceCode },
+                { "N49", "Wrangell Cooperative Association", VRDR.CodeSystems.RaceCode },
+                { "N50", "Yakutat Tlingit Tribe", VRDR.CodeSystems.RaceCode },
+                { "N51", "Juneau", VRDR.CodeSystems.RaceCode },
+                { "N56", "Metlakatia Indian Community, Annette Island Reserve", VRDR.CodeSystems.RaceCode },
+                { "N57", "Tsimshian", VRDR.CodeSystems.RaceCode },
+                { "N59", "Sealaska", VRDR.CodeSystems.RaceCode },
+                { "N60", "Sealaska Corporation", VRDR.CodeSystems.RaceCode },
+                { "N64", "Southeast Alaska", VRDR.CodeSystems.RaceCode },
+                { "N65", "Skagway Village", VRDR.CodeSystems.RaceCode },
+                { "N67", "American Eskimo", VRDR.CodeSystems.RaceCode },
+                { "N68", "Eskimo", VRDR.CodeSystems.RaceCode },
+                { "N69", "Greenland Eskimo", VRDR.CodeSystems.RaceCode },
+                { "N75", "Inuit", VRDR.CodeSystems.RaceCode },
+                { "N78", "INUPIAT ESKIMO", VRDR.CodeSystems.RaceCode },
+                { "N79", "Native Village of Ambler", VRDR.CodeSystems.RaceCode },
+                { "N80", "Anaktuvuk", VRDR.CodeSystems.RaceCode },
+                { "N81", "Village of Anaktuvuk Pass", VRDR.CodeSystems.RaceCode },
+                { "N82", "Inupiat Community of the Arctic Slope", VRDR.CodeSystems.RaceCode },
+                { "N83", "Arctic Slope Corporation", VRDR.CodeSystems.RaceCode },
+                { "N84", "Atqasuk Village", VRDR.CodeSystems.RaceCode },
+                { "N85", "Native Village of Barrow hilipiat Traditional Government", VRDR.CodeSystems.RaceCode },
+                { "N86", "Bering Straits Inupiat", VRDR.CodeSystems.RaceCode },
+                { "N87", "Native Village of Brevig Mission", VRDR.CodeSystems.RaceCode },
+                { "N88", "Native Village ofBuckland", VRDR.CodeSystems.RaceCode },
+                { "N89", "Chinik Eskimo Community", VRDR.CodeSystems.RaceCode },
+                { "N90", "Native Village of Council", VRDR.CodeSystems.RaceCode },
+                { "N91", "Native Village of Deering", VRDR.CodeSystems.RaceCode },
+                { "N92", "Native Village of Elim", VRDR.CodeSystems.RaceCode },
+                { "N93", "GOLOVIN", VRDR.CodeSystems.RaceCode },
+                { "N94", "Native Village of Diomede", VRDR.CodeSystems.RaceCode },
+                { "N95", "Inupiaq", VRDR.CodeSystems.RaceCode },
+                { "N96", "Inupiat", VRDR.CodeSystems.RaceCode },
+                { "N97", "Kaktovik Village", VRDR.CodeSystems.RaceCode },
+                { "N98", "Kawerak", VRDR.CodeSystems.RaceCode },
+                { "N99", "Native Village of Kiana", VRDR.CodeSystems.RaceCode },
+                { "P01", "Native Village of Kivalina", VRDR.CodeSystems.RaceCode },
+                { "P02", "Native Village of Kobuk", VRDR.CodeSystems.RaceCode },
+                { "P03", "Native Village of Kotzebue", VRDR.CodeSystems.RaceCode },
+                { "P04", "Native Village of Koyuk", VRDR.CodeSystems.RaceCode },
+                { "P05", "Kwiguk", VRDR.CodeSystems.RaceCode },
+                { "P06", "Mauneluk Inupiat", VRDR.CodeSystems.RaceCode },
+                { "P07", "Nana Inupiat", VRDR.CodeSystems.RaceCode },
+                { "P08", "Native Village of Noatak", VRDR.CodeSystems.RaceCode },
+                { "P09", "Nome Eskimo Community", VRDR.CodeSystems.RaceCode },
+                { "P10", "Noorvik Native Community", VRDR.CodeSystems.RaceCode },
+                { "P11", "Native Village of Nuiqsut", VRDR.CodeSystems.RaceCode },
+                { "P12", "Native Village of Point Hope", VRDR.CodeSystems.RaceCode },
+                { "P13", "Native Village of Point Lay", VRDR.CodeSystems.RaceCode },
+                { "P14", "Native Village of Selawik", VRDR.CodeSystems.RaceCode },
+                { "P15", "Native Village of Shaktoolik", VRDR.CodeSystems.RaceCode },
+                { "P16", "Native Village of Shishmaref", VRDR.CodeSystems.RaceCode },
+                { "P17", "Native Village of Shungnak", VRDR.CodeSystems.RaceCode },
+                { "P18", "Village of Solomon", VRDR.CodeSystems.RaceCode },
+                { "P19", "Native Village of Teller", VRDR.CodeSystems.RaceCode },
+                { "P20", "Native Village of Unalakleet", VRDR.CodeSystems.RaceCode },
+                { "P21", "Village of Wainwright", VRDR.CodeSystems.RaceCode },
+                { "P22", "Village of Wales", VRDR.CodeSystems.RaceCode },
+                { "P23", "Village of White Mountain", VRDR.CodeSystems.RaceCode },
+                { "P24", "White Mountain Inupiat", VRDR.CodeSystems.RaceCode },
+                { "P25", "Native Village of Mary's Igloo", VRDR.CodeSystems.RaceCode },
+                { "P26", "King Island Native Community", VRDR.CodeSystems.RaceCode },
+                { "P29", "SIBERIAN ESKIMO", VRDR.CodeSystems.RaceCode },
+                { "P30", "Native Village of Gambell", VRDR.CodeSystems.RaceCode },
+                { "P31", "Native Village of Savoonga", VRDR.CodeSystems.RaceCode },
+                { "P32", "Siberian Yupik", VRDR.CodeSystems.RaceCode },
+                { "P36", "Chevak Native Village", VRDR.CodeSystems.RaceCode },
+                { "P37", "Native Village of Mekoryuk", VRDR.CodeSystems.RaceCode },
+                { "P38", "Akiachak Native Community", VRDR.CodeSystems.RaceCode },
+                { "P39", "Akiak Native Community", VRDR.CodeSystems.RaceCode },
+                { "P40", "Village of Alakanuk", VRDR.CodeSystems.RaceCode },
+                { "P41", "Native Village of Aleknagik", VRDR.CodeSystems.RaceCode },
+                { "P42", "Yupiit of Andreafski", VRDR.CodeSystems.RaceCode },
+                { "P43", "Village of Aniak", VRDR.CodeSystems.RaceCode },
+                { "P44", "Village of Atmautluak", VRDR.CodeSystems.RaceCode },
+                { "P45", "Orutsararmuit Native Village", VRDR.CodeSystems.RaceCode },
+                { "P46", "Village of Bill Moore's Slough Bay", VRDR.CodeSystems.RaceCode },
+                { "P47", "Bristol Bay", VRDR.CodeSystems.RaceCode },
+                { "P48", "Calista", VRDR.CodeSystems.RaceCode },
+                { "P49", "Village of Chefomak", VRDR.CodeSystems.RaceCode },
+                { "P50", "Native of Hamilton", VRDR.CodeSystems.RaceCode },
+                { "P51", "Native Village of Chuathbaluk", VRDR.CodeSystems.RaceCode },
+                { "P52", "Village of Clark's Point", VRDR.CodeSystems.RaceCode },
+                { "P53", "Village of Crooked Creek", VRDR.CodeSystems.RaceCode },
+                { "P54", "Curyung Tribal Council", VRDR.CodeSystems.RaceCode },
+                { "P55", "Native Village of Eek", VRDR.CodeSystems.RaceCode },
+                { "P56", "Native Village of Ekuk", VRDR.CodeSystems.RaceCode },
+                { "P57", "Ekwok Village", VRDR.CodeSystems.RaceCode },
+                { "P58", "Emmonak Village", VRDR.CodeSystems.RaceCode },
+                { "P59", "Native Village of Goodnews Bay", VRDR.CodeSystems.RaceCode },
+                { "P60", "Native Village of Hooper Bay", VRDR.CodeSystems.RaceCode },
+                { "P61", "Iqurmuit Traditional Council", VRDR.CodeSystems.RaceCode },
+                { "P62", "Village of Kalskag", VRDR.CodeSystems.RaceCode },
+                { "P63", "Native Village of Kasigluk", VRDR.CodeSystems.RaceCode },
+                { "P64", "Native Village of Kipnuk", VRDR.CodeSystems.RaceCode },
+                { "P65", "New Koliganek Village Council", VRDR.CodeSystems.RaceCode },
+                { "P66", "Native Village of Kongiganak", VRDR.CodeSystems.RaceCode },
+                { "P67", "Village of Kotlik", VRDR.CodeSystems.RaceCode },
+                { "P68", "Organized Village of Kwethluk", VRDR.CodeSystems.RaceCode },
+                { "P69", "Native Village of Kwigillingok", VRDR.CodeSystems.RaceCode },
+                { "P70", "Levelock Village", VRDR.CodeSystems.RaceCode },
+                { "P71", "Village of Lower Kalskag", VRDR.CodeSystems.RaceCode },
+                { "P72", "Manokotak Village", VRDR.CodeSystems.RaceCode },
+                { "P73", "Native Village of Marshall", VRDR.CodeSystems.RaceCode },
+                { "P74", "Village of Ohogamiut", VRDR.CodeSystems.RaceCode },
+                { "P75", "Asa'carsarmiut Tribe", VRDR.CodeSystems.RaceCode },
+                { "P76", "Naknek Native Village", VRDR.CodeSystems.RaceCode },
+                { "P77", "Native Village of Napaimute", VRDR.CodeSystems.RaceCode },
+                { "P78", "Native Village of Napakiak", VRDR.CodeSystems.RaceCode },
+                { "P79", "Native Village of Napaskiak", VRDR.CodeSystems.RaceCode },
+                { "P80", "Newhalen Village", VRDR.CodeSystems.RaceCode },
+                { "P81", "New Stuyahok Village", VRDR.CodeSystems.RaceCode },
+                { "P82", "Newtek Village", VRDR.CodeSystems.RaceCode },
+                { "P83", "Native Village of Nightmute", VRDR.CodeSystems.RaceCode },
+                { "P84", "Native Village of Nunapitchuk", VRDR.CodeSystems.RaceCode },
+                { "P85", "Oscarville Traditional Village", VRDR.CodeSystems.RaceCode },
+                { "P86", "Pilot Station Traditional Village", VRDR.CodeSystems.RaceCode },
+                { "P87", "Native Village of Pitkas Point", VRDR.CodeSystems.RaceCode },
+                { "P88", "Platinum Traditional Village", VRDR.CodeSystems.RaceCode },
+                { "P89", "Portage Creek Village", VRDR.CodeSystems.RaceCode },
+                { "P90", "Native Village of Kwinhagak", VRDR.CodeSystems.RaceCode },
+                { "P91", "Village of Red Devil", VRDR.CodeSystems.RaceCode },
+                { "P92", "Native Village of Saint Michael", VRDR.CodeSystems.RaceCode },
+                { "P93", "Native Village of Scammon Bay", VRDR.CodeSystems.RaceCode },
+                { "P94", "Native Village of Sheldon's Point", VRDR.CodeSystems.RaceCode },
+                { "P95", "Village of Sleetmute", VRDR.CodeSystems.RaceCode },
+                { "P96", "Stebbins Community Association", VRDR.CodeSystems.RaceCode },
+                { "P97", "Traditional Village ofTogiak", VRDR.CodeSystems.RaceCode },
+                { "P98", "Native Village of Toksook Bay", VRDR.CodeSystems.RaceCode },
+                { "P99", "Tuluksak Native Community", VRDR.CodeSystems.RaceCode },
+                { "Q01", "MOUNTAIN VILLAGE", VRDR.CodeSystems.RaceCode },
+                { "R01", "Native Village of Tuntutuliak", VRDR.CodeSystems.RaceCode },
+                { "R02", "Native Village of Tununak", VRDR.CodeSystems.RaceCode },
+                { "R03", "Twin Hills Village", VRDR.CodeSystems.RaceCode },
+                { "R04", "Yup'ik", VRDR.CodeSystems.RaceCode },
+                { "R05", "Yup'ik Eskimo", VRDR.CodeSystems.RaceCode },
+                { "R06", "Native Village of Georgetown", VRDR.CodeSystems.RaceCode },
+                { "R07", "Algaaciq Native Village", VRDR.CodeSystems.RaceCode },
+                { "R08", "Umkumiute Native Village", VRDR.CodeSystems.RaceCode },
+                { "R09", "Chuloonawick Native Village", VRDR.CodeSystems.RaceCode },
+                { "R11", "Aleut", VRDR.CodeSystems.RaceCode },
+                { "R15", "ALUTIIQ ALEUT", VRDR.CodeSystems.RaceCode },
+                { "R16", "Alutiiq", VRDR.CodeSystems.RaceCode },
+                { "R17", "Village of Afognak", VRDR.CodeSystems.RaceCode },
+                { "R18", "Native Village of Tatitlek", VRDR.CodeSystems.RaceCode },
+                { "R19", "Ugashik Village", VRDR.CodeSystems.RaceCode },
+                { "R28", "Bristol Bay Aleut", VRDR.CodeSystems.RaceCode },
+                { "R29", "Native Village of Chignik", VRDR.CodeSystems.RaceCode },
+                { "R30", "Chignik Lake Village", VRDR.CodeSystems.RaceCode },
+                { "R31", "Egegik Village", VRDR.CodeSystems.RaceCode },
+                { "R32", "Igiugig Village", VRDR.CodeSystems.RaceCode },
+                { "R33", "Ivanoff Bay Village", VRDR.CodeSystems.RaceCode },
+                { "R34", "King Salmon", VRDR.CodeSystems.RaceCode },
+                { "R35", "Kokhanok Village", VRDR.CodeSystems.RaceCode },
+                { "R36", "Native Village of Perryville", VRDR.CodeSystems.RaceCode },
+                { "R37", "Native Village of Pilot Point", VRDR.CodeSystems.RaceCode },
+                { "R38", "Native Village of Port Heiden", VRDR.CodeSystems.RaceCode },
+                { "R43", "Native Village of Chanega", VRDR.CodeSystems.RaceCode },
+                { "R44", "Chugach Aleut", VRDR.CodeSystems.RaceCode },
+                { "R45", "Chugach Corporation", VRDR.CodeSystems.RaceCode },
+                { "R46", "Native Village of Nanwaiek", VRDR.CodeSystems.RaceCode },
+                { "R47", "Native Village of Port Graham", VRDR.CodeSystems.RaceCode },
+                { "R51", "Eyak", VRDR.CodeSystems.RaceCode },
+                { "R55", "Native Village of Akhiok", VRDR.CodeSystems.RaceCode },
+                { "R56", "Agdaagux Tribe of King Cove", VRDR.CodeSystems.RaceCode },
+                { "R57", "Native Village of Karluk", VRDR.CodeSystems.RaceCode },
+                { "R58", "Native Village of Kanatak", VRDR.CodeSystems.RaceCode },
+                { "R59", "Kodiak", VRDR.CodeSystems.RaceCode },
+                { "R60", "Koniag Aleut", VRDR.CodeSystems.RaceCode },
+                { "R61", "Native Village of Larsen Bay", VRDR.CodeSystems.RaceCode },
+                { "R62", "Village of Old Harbor", VRDR.CodeSystems.RaceCode },
+                { "R63", "Native Village of Ouzinkie", VRDR.CodeSystems.RaceCode },
+                { "R64", "Native Village of Port Lions", VRDR.CodeSystems.RaceCode },
+                { "R65", "Lesnoi Village", VRDR.CodeSystems.RaceCode },
+                { "R67", "Sugpiaq", VRDR.CodeSystems.RaceCode },
+                { "R71", "Suqpigaq", VRDR.CodeSystems.RaceCode },
+                { "R74", "UNANGAN ALEUT", VRDR.CodeSystems.RaceCode },
+                { "R75", "Native Village of Akutan", VRDR.CodeSystems.RaceCode },
+                { "R76", "Aleut Corporation", VRDR.CodeSystems.RaceCode },
+                { "R77", "Aleutian", VRDR.CodeSystems.RaceCode },
+                { "R78", "Aleutian Islander", VRDR.CodeSystems.RaceCode },
+                { "R79", "Native Village of Atka", VRDR.CodeSystems.RaceCode },
+                { "R80", "Native Village of Belkofski", VRDR.CodeSystems.RaceCode },
+                { "R81", "Native Village of Chignikn Lagoon", VRDR.CodeSystems.RaceCode },
+                { "R82", "King Cove", VRDR.CodeSystems.RaceCode },
+                { "R83", "Native Village of False Pass", VRDR.CodeSystems.RaceCode },
+                { "R84", "Native Village of Nelson Lagoon", VRDR.CodeSystems.RaceCode },
+                { "R85", "Native Village of Nikolski", VRDR.CodeSystems.RaceCode },
+                { "R86", "Pauloff Harbor Village", VRDR.CodeSystems.RaceCode },
+                { "R87", "Qagan Toyagungin Tribe of Sand Point Village", VRDR.CodeSystems.RaceCode },
+                { "R88", "Qawalangin Tribe of Unalaska", VRDR.CodeSystems.RaceCode },
+                { "R89", "Saint George", VRDR.CodeSystems.RaceCode },
+                { "R90", "Saint Paul", VRDR.CodeSystems.RaceCode },
+                { "R91", "Sand Point", VRDR.CodeSystems.RaceCode },
+                { "R92", "South Naknek Village", VRDR.CodeSystems.RaceCode },
+                { "R93", "Unangan", VRDR.CodeSystems.RaceCode },
+                { "R94", "Unalaska", VRDR.CodeSystems.RaceCode },
+                { "R95", "Native Village of Unga", VRDR.CodeSystems.RaceCode },
+                { "R96", "Kaguyak Village", VRDR.CodeSystems.RaceCode }
+            };
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+            /// <summary> White_Checkbox </summary>
+            public static string  White_Checkbox = "100";
+            /// <summary> White </summary>
+            public static string  White = "101";
+            /// <summary> Arab </summary>
+            public static string  Arab = "102";
+            /// <summary> English </summary>
+            public static string  English = "103";
+            /// <summary> French </summary>
+            public static string  French = "104";
+            /// <summary> German </summary>
+            public static string  German = "105";
+            /// <summary> Irish </summary>
+            public static string  Irish = "106";
+            /// <summary> Italian </summary>
+            public static string  Italian = "107";
+            /// <summary> Near_Easterner </summary>
+            public static string  Near_Easterner = "108";
+            /// <summary> Polish </summary>
+            public static string  Polish = "109";
+            /// <summary> Scottish </summary>
+            public static string  Scottish = "110";
+            /// <summary> Armenian </summary>
+            public static string  Armenian = "111";
+            /// <summary> Assyrian </summary>
+            public static string  Assyrian = "112";
+            /// <summary> Egyptian </summary>
+            public static string  Egyptian = "113";
+            /// <summary> Iranian </summary>
+            public static string  Iranian = "114";
+            /// <summary> Iraqi </summary>
+            public static string  Iraqi = "115";
+            /// <summary> Lebanese </summary>
+            public static string  Lebanese = "116";
+            /// <summary> Middle_East </summary>
+            public static string  Middle_East = "117";
+            /// <summary> Palestinian </summary>
+            public static string  Palestinian = "118";
+            /// <summary> Syrian </summary>
+            public static string  Syrian = "119";
+            /// <summary> Other_Arab </summary>
+            public static string  Other_Arab = "120";
+            /// <summary> Afghanistani </summary>
+            public static string  Afghanistani = "121";
+            /// <summary> Israeli </summary>
+            public static string  Israeli = "122";
+            /// <summary> Californio </summary>
+            public static string  Californio = "123";
+            /// <summary> Cajun </summary>
+            public static string  Cajun = "124";
+            /// <summary> European </summary>
+            public static string  European = "125";
+            /// <summary> Portuguese </summary>
+            public static string  Portuguese = "126";
+            /// <summary> Albanian </summary>
+            public static string  Albanian = "127";
+            /// <summary> Croatian </summary>
+            public static string  Croatian = "128";
+            /// <summary> Czech </summary>
+            public static string  Czech = "129";
+            /// <summary> Russian </summary>
+            public static string  Russian = "130";
+            /// <summary> Ukranian </summary>
+            public static string  Ukranian = "131";
+            /// <summary> Czechoslovakian </summary>
+            public static string  Czechoslovakian = "132";
+            /// <summary> Bosnian </summary>
+            public static string  Bosnian = "133";
+            /// <summary> Kosovian </summary>
+            public static string  Kosovian = "134";
+            /// <summary> Multiple_White_Responses </summary>
+            public static string  Multiple_White_Responses = "199";
+            /// <summary> Black_Or_African_American </summary>
+            public static string  Black_Or_African_American = "200";
+            /// <summary> Black </summary>
+            public static string  Black = "201";
+            /// <summary> African </summary>
+            public static string  African = "202";
+            /// <summary> African_American </summary>
+            public static string  African_American = "203";
+            /// <summary> Afroamerican </summary>
+            public static string  Afroamerican = "204";
+            /// <summary> Nigritian </summary>
+            public static string  Nigritian = "205";
+            /// <summary> Negro </summary>
+            public static string  Negro = "206";
+            /// <summary> Bahamian </summary>
+            public static string  Bahamian = "207";
+            /// <summary> Barbadian </summary>
+            public static string  Barbadian = "208";
+            /// <summary> Botswana </summary>
+            public static string  Botswana = "209";
+            /// <summary> Ethiopian </summary>
+            public static string  Ethiopian = "213";
+            /// <summary> Haitian </summary>
+            public static string  Haitian = "214";
+            /// <summary> Jamaican </summary>
+            public static string  Jamaican = "215";
+            /// <summary> Liberian </summary>
+            public static string  Liberian = "216";
+            /// <summary> Namibian </summary>
+            public static string  Namibian = "218";
+            /// <summary> Nigerian </summary>
+            public static string  Nigerian = "219";
+            /// <summary> Other_African </summary>
+            public static string  Other_African = "220";
+            /// <summary> Tobago </summary>
+            public static string  Tobago = "222";
+            /// <summary> Trinidad </summary>
+            public static string  Trinidad = "223";
+            /// <summary> West_Indies </summary>
+            public static string  West_Indies = "224";
+            /// <summary> Zaire </summary>
+            public static string  Zaire = "225";
+            /// <summary> Eritrean </summary>
+            public static string  Eritrean = "226";
+            /// <summary> Togolese </summary>
+            public static string  Togolese = "227";
+            /// <summary> Somalian </summary>
+            public static string  Somalian = "228";
+            /// <summary> Multiple_Black_Or_African_American_Responses </summary>
+            public static string  Multiple_Black_Or_African_American_Responses = "299";
+            /// <summary> American_Indian_Checkbox </summary>
+            public static string  American_Indian_Checkbox = "300";
+            /// <summary> Asian </summary>
+            public static string  Asian = "400";
+            /// <summary> Asian_Indian </summary>
+            public static string  Asian_Indian = "401";
+            /// <summary> Bangladeshi </summary>
+            public static string  Bangladeshi = "402";
+            /// <summary> Bhutanese </summary>
+            public static string  Bhutanese = "403";
+            /// <summary> Burmese </summary>
+            public static string  Burmese = "404";
+            /// <summary> Cambodian </summary>
+            public static string  Cambodian = "405";
+            /// <summary> Chinese </summary>
+            public static string  Chinese = "411";
+            /// <summary> Taiwanese </summary>
+            public static string  Taiwanese = "412";
+            /// <summary> Filipino </summary>
+            public static string  Filipino = "421";
+            /// <summary> Hmong </summary>
+            public static string  Hmong = "422";
+            /// <summary> Indonesian </summary>
+            public static string  Indonesian = "423";
+            /// <summary> Japanese </summary>
+            public static string  Japanese = "431";
+            /// <summary> Korean </summary>
+            public static string  Korean = "441";
+            /// <summary> Laotian </summary>
+            public static string  Laotian = "442";
+            /// <summary> Malaysian </summary>
+            public static string  Malaysian = "443";
+            /// <summary> Okinawan </summary>
+            public static string  Okinawan = "444";
+            /// <summary> Pakistani </summary>
+            public static string  Pakistani = "445";
+            /// <summary> Sri_Lankan </summary>
+            public static string  Sri_Lankan = "446";
+            /// <summary> Thai </summary>
+            public static string  Thai = "447";
+            /// <summary> Vietnamese </summary>
+            public static string  Vietnamese = "451";
+            /// <summary> Amerasian </summary>
+            public static string  Amerasian = "461";
+            /// <summary> Asian </summary>
+            public static string  Asian2 = "462";
+            /// <summary> Asiatic </summary>
+            public static string  Asiatic = "463";
+            /// <summary> Eurasian </summary>
+            public static string  Eurasian = "464";
+            /// <summary> Mongolian </summary>
+            public static string  Mongolian = "465";
+            /// <summary> Oriental </summary>
+            public static string  Oriental = "466";
+            /// <summary> Whello </summary>
+            public static string  Whello = "467";
+            /// <summary> Yello </summary>
+            public static string  Yello = "468";
+            /// <summary> Indo_Chinese </summary>
+            public static string  Indo_Chinese = "469";
+            /// <summary> Iwo_Jiman </summary>
+            public static string  Iwo_Jiman = "470";
+            /// <summary> Maldivian </summary>
+            public static string  Maldivian = "471";
+            /// <summary> Nepalese </summary>
+            public static string  Nepalese = "472";
+            /// <summary> Singaporean </summary>
+            public static string  Singaporean = "473";
+            /// <summary> Madagascar </summary>
+            public static string  Madagascar = "474";
+            /// <summary> Mien </summary>
+            public static string  Mien = "475";
+            /// <summary> Tibetan </summary>
+            public static string  Tibetan = "476";
+            /// <summary> Multiple_Asian_Responses </summary>
+            public static string  Multiple_Asian_Responses = "499";
+            /// <summary> Native_Hawaiian_Checkbox </summary>
+            public static string  Native_Hawaiian_Checkbox = "500";
+            /// <summary> Native_Hawaiian </summary>
+            public static string  Native_Hawaiian = "501";
+            /// <summary> Hawaiian </summary>
+            public static string  Hawaiian = "502";
+            /// <summary> Part_Hawaiian </summary>
+            public static string  Part_Hawaiian = "503";
+            /// <summary> Samoan </summary>
+            public static string  Samoan = "511";
+            /// <summary> Tahitian </summary>
+            public static string  Tahitian = "512";
+            /// <summary> Tongan </summary>
+            public static string  Tongan = "513";
+            /// <summary> Polynesian </summary>
+            public static string  Polynesian = "514";
+            /// <summary> Tokelauan </summary>
+            public static string  Tokelauan = "515";
+            /// <summary> Guamanian </summary>
+            public static string  Guamanian = "521";
+            /// <summary> Chamorro </summary>
+            public static string  Chamorro = "522";
+            /// <summary> Mariana_Islander </summary>
+            public static string  Mariana_Islander = "531";
+            /// <summary> Marshallese </summary>
+            public static string  Marshallese = "532";
+            /// <summary> Palauan </summary>
+            public static string  Palauan = "533";
+            /// <summary> Carolinian </summary>
+            public static string  Carolinian = "534";
+            /// <summary> Kosraean </summary>
+            public static string  Kosraean = "535";
+            /// <summary> Micronesian </summary>
+            public static string  Micronesian = "536";
+            /// <summary> Pohnpeian </summary>
+            public static string  Pohnpeian = "537";
+            /// <summary> Saipanese </summary>
+            public static string  Saipanese = "538";
+            /// <summary> Kirabati </summary>
+            public static string  Kirabati = "539";
+            /// <summary> Chuukese </summary>
+            public static string  Chuukese = "540";
+            /// <summary> Yapese </summary>
+            public static string  Yapese = "541";
+            /// <summary> Fijian </summary>
+            public static string  Fijian = "542";
+            /// <summary> Melanesian </summary>
+            public static string  Melanesian = "543";
+            /// <summary> Papua_New_Guinean </summary>
+            public static string  Papua_New_Guinean = "544";
+            /// <summary> Solomon_Islander </summary>
+            public static string  Solomon_Islander = "545";
+            /// <summary> New_Hebrides </summary>
+            public static string  New_Hebrides = "546";
+            /// <summary> Pacific_Islander </summary>
+            public static string  Pacific_Islander = "547";
+            /// <summary> Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses </summary>
+            public static string  Multiple_Native_Hawaiian_And_Other_Pacific_Islander_Responses = "599";
+            /// <summary> Argentinean </summary>
+            public static string  Argentinean = "601";
+            /// <summary> Bolivian </summary>
+            public static string  Bolivian = "602";
+            /// <summary> Central_American </summary>
+            public static string  Central_American = "604";
+            /// <summary> Chicano </summary>
+            public static string  Chicano = "605";
+            /// <summary> Chilean </summary>
+            public static string  Chilean = "606";
+            /// <summary> Colombian </summary>
+            public static string  Colombian = "607";
+            /// <summary> Costa_Rican </summary>
+            public static string  Costa_Rican = "608";
+            /// <summary> Cuban </summary>
+            public static string  Cuban = "609";
+            /// <summary> Ecuadorian </summary>
+            public static string  Ecuadorian = "610";
+            /// <summary> Salvadoran </summary>
+            public static string  Salvadoran = "611";
+            /// <summary> Guatemalan </summary>
+            public static string  Guatemalan = "612";
+            /// <summary> Hispanic </summary>
+            public static string  Hispanic = "613";
+            /// <summary> Honduran </summary>
+            public static string  Honduran = "614";
+            /// <summary> Latin_American </summary>
+            public static string  Latin_American = "615";
+            /// <summary> Mestizo </summary>
+            public static string  Mestizo = "616";
+            /// <summary> Mexican </summary>
+            public static string  Mexican = "617";
+            /// <summary> Nicaraguan </summary>
+            public static string  Nicaraguan = "618";
+            /// <summary> Panamanian </summary>
+            public static string  Panamanian = "619";
+            /// <summary> Paraguayan </summary>
+            public static string  Paraguayan = "620";
+            /// <summary> Peruvian </summary>
+            public static string  Peruvian = "621";
+            /// <summary> Puerto_Rican </summary>
+            public static string  Puerto_Rican = "622";
+            /// <summary> Morena </summary>
+            public static string  Morena = "623";
+            /// <summary> South_American </summary>
+            public static string  South_American = "624";
+            /// <summary> Spanish </summary>
+            public static string  Spanish = "625";
+            /// <summary> Spanish_American </summary>
+            public static string  Spanish_American = "626";
+            /// <summary> Sudamericano </summary>
+            public static string  Sudamericano = "627";
+            /// <summary> Uruguayan </summary>
+            public static string  Uruguayan = "628";
+            /// <summary> Venezuelan </summary>
+            public static string  Venezuelan = "629";
+            /// <summary> Spaniard </summary>
+            public static string  Spaniard = "630";
+            /// <summary> Tejano </summary>
+            public static string  Tejano = "631";
+            /// <summary> Cayman_Islander </summary>
+            public static string  Cayman_Islander = "632";
+            /// <summary> Moroccan </summary>
+            public static string  Moroccan = "633";
+            /// <summary> North_African </summary>
+            public static string  North_African = "634";
+            /// <summary> United_Arab_Emirates </summary>
+            public static string  United_Arab_Emirates = "635";
+            /// <summary> South_African </summary>
+            public static string  South_African = "636";
+            /// <summary> Azerbaijani </summary>
+            public static string  Azerbaijani = "637";
+            /// <summary> Aryan </summary>
+            public static string  Aryan = "638";
+            /// <summary> Dominican_Republic </summary>
+            public static string  Dominican_Republic = "640";
+            /// <summary> Dominica_Islander </summary>
+            public static string  Dominica_Islander = "641";
+            /// <summary> Belizean </summary>
+            public static string  Belizean = "642";
+            /// <summary> Bermudan </summary>
+            public static string  Bermudan = "643";
+            /// <summary> Aruba_Islander </summary>
+            public static string  Aruba_Islander = "644";
+            /// <summary> Cayenne </summary>
+            public static string  Cayenne = "645";
+            /// <summary> Guyanese </summary>
+            public static string  Guyanese = "646";
+            /// <summary> Surinam </summary>
+            public static string  Surinam = "647";
+            /// <summary> Sudanese </summary>
+            public static string  Sudanese = "648";
+            /// <summary> Brazilian </summary>
+            public static string  Brazilian = "651";
+            /// <summary> Brown </summary>
+            public static string  Brown = "652";
+            /// <summary> Bushwacker </summary>
+            public static string  Bushwacker = "653";
+            /// <summary> Cape_Verdean </summary>
+            public static string  Cape_Verdean = "655";
+            /// <summary> Chocolate </summary>
+            public static string  Chocolate = "656";
+            /// <summary> Coe_Clan </summary>
+            public static string  Coe_Clan = "657";
+            /// <summary> Coffee </summary>
+            public static string  Coffee = "658";
+            /// <summary> Cosmopolitan </summary>
+            public static string  Cosmopolitan = "659";
+            /// <summary> Issues </summary>
+            public static string  Issues = "660";
+            /// <summary> Jackson_White </summary>
+            public static string  Jackson_White = "661";
+            /// <summary> Melungeon </summary>
+            public static string  Melungeon = "662";
+            /// <summary> Mixed </summary>
+            public static string  Mixed = "663";
+            /// <summary> Ramp </summary>
+            public static string  Ramp = "664";
+            /// <summary> Wesort </summary>
+            public static string  Wesort = "665";
+            /// <summary> Mulatto </summary>
+            public static string  Mulatto = "666";
+            /// <summary> Moor </summary>
+            public static string  Moor = "667";
+            /// <summary> Biracial </summary>
+            public static string  Biracial = "668";
+            /// <summary> Creole </summary>
+            public static string  Creole = "669";
+            /// <summary> Indian </summary>
+            public static string  Indian = "670";
+            /// <summary> Turk </summary>
+            public static string  Turk = "671";
+            /// <summary> Half_Breed </summary>
+            public static string  Half_Breed = "672";
+            /// <summary> Rainbow </summary>
+            public static string  Rainbow = "673";
+            /// <summary> Octoroon </summary>
+            public static string  Octoroon = "674";
+            /// <summary> Quadroon </summary>
+            public static string  Quadroon = "675";
+            /// <summary> Multiracial </summary>
+            public static string  Multiracial = "676";
+            /// <summary> Interracial </summary>
+            public static string  Interracial = "677";
+            /// <summary> Multiethnic </summary>
+            public static string  Multiethnic = "678";
+            /// <summary> Multinational </summary>
+            public static string  Multinational = "679";
+            /// <summary> Jewish </summary>
+            public static string  Jewish = "680";
+            /// <summary> Canadian </summary>
+            public static string  Canadian = "681";
+            /// <summary> French_Canadian </summary>
+            public static string  French_Canadian = "682";
+            /// <summary> Iberian </summary>
+            public static string  Iberian = "683";
+            /// <summary> Trigueno </summary>
+            public static string  Trigueno = "684";
+            /// <summary> Malada </summary>
+            public static string  Malada = "685";
+            /// <summary> Other_Spanish </summary>
+            public static string  Other_Spanish = "686";
+            /// <summary> Other_Race_N_E_C </summary>
+            public static string  Other_Race_N_E_C = "699";
+            /// <summary> Multiple_Some_Other_Race_Responses_American </summary>
+            public static string  Multiple_Some_Other_Race_Responses_American = "990";
+            /// <summary> Uncodable </summary>
+            public static string  Uncodable = "996";
+            /// <summary> Deferred </summary>
+            public static string  Deferred = "997";
+            /// <summary> Unknown </summary>
+            public static string  Unknown2 = "998";
+            /// <summary> First_Pass_Reject </summary>
+            public static string  First_Pass_Reject = "999";
+            /// <summary> Abenaki_Nation_Of_Missiquoi </summary>
+            public static string  Abenaki_Nation_Of_Missiquoi = "A01";
+            /// <summary> Algonquian </summary>
+            public static string  Algonquian = "A05";
+            /// <summary> Apache </summary>
+            public static string  Apache = "A09";
+            /// <summary> Chiricahua </summary>
+            public static string  Chiricahua = "A10";
+            /// <summary> Fort_Sill_Apache </summary>
+            public static string  Fort_Sill_Apache = "A11";
+            /// <summary> Jicarilla_Apache </summary>
+            public static string  Jicarilla_Apache = "A12";
+            /// <summary> Lipan_Apache </summary>
+            public static string  Lipan_Apache = "A13";
+            /// <summary> Mescalero_Apache </summary>
+            public static string  Mescalero_Apache = "A14";
+            /// <summary> Oklahoma_Apache </summary>
+            public static string  Oklahoma_Apache = "A15";
+            /// <summary> Payson_Tonto_Apache </summary>
+            public static string  Payson_Tonto_Apache = "A16";
+            /// <summary> San_Carlos_Apache </summary>
+            public static string  San_Carlos_Apache = "A17";
+            /// <summary> White_Mountain_Apache </summary>
+            public static string  White_Mountain_Apache = "A18";
+            /// <summary> Arapahoe </summary>
+            public static string  Arapahoe = "A24";
+            /// <summary> Northern_Arapahoe </summary>
+            public static string  Northern_Arapahoe = "A25";
+            /// <summary> Southern_Arapahoe </summary>
+            public static string  Southern_Arapahoe = "A26";
+            /// <summary> Wind_River_Arapahoe </summary>
+            public static string  Wind_River_Arapahoe = "A27";
+            /// <summary> Arikara </summary>
+            public static string  Arikara = "A31";
+            /// <summary> Assiniboine </summary>
+            public static string  Assiniboine = "A34";
+            /// <summary> Fort_Peck_Assiniboine </summary>
+            public static string  Fort_Peck_Assiniboine = "A35";
+            /// <summary> Fort_Belknap_Assiniboine </summary>
+            public static string  Fort_Belknap_Assiniboine = "A36";
+            /// <summary> Assiniboine_Sioux </summary>
+            public static string  Assiniboine_Sioux = "A38";
+            /// <summary> Fort_Peck_Assiniboine_And_Sioux </summary>
+            public static string  Fort_Peck_Assiniboine_And_Sioux = "A39";
+            /// <summary> Bannock </summary>
+            public static string  Bannock = "A42";
+            /// <summary> Blackfeet </summary>
+            public static string  Blackfeet = "A45";
+            /// <summary> Brotherton </summary>
+            public static string  Brotherton = "A51";
+            /// <summary> Burt_Lake_Band </summary>
+            public static string  Burt_Lake_Band = "A54";
+            /// <summary> Caddo </summary>
+            public static string  Caddo = "A56";
+            /// <summary> Caddo_Indian_Tribe_Of_Oklahoma </summary>
+            public static string  Caddo_Indian_Tribe_Of_Oklahoma = "A57";
+            /// <summary> Caddo_Adais_Indians </summary>
+            public static string  Caddo_Adais_Indians = "A58";
+            /// <summary> Agua_Caliente_Band_Of_Cahuilla_Indians </summary>
+            public static string  Agua_Caliente_Band_Of_Cahuilla_Indians = "A61";
+            /// <summary> Augustine </summary>
+            public static string  Augustine = "A62";
+            /// <summary> Cabazon_Band_Of_Cahuilla_Mission_Indians </summary>
+            public static string  Cabazon_Band_Of_Cahuilla_Mission_Indians = "A63";
+            /// <summary> Cahuilla </summary>
+            public static string  Cahuilla = "A64";
+            /// <summary> Los_Coyotes_Band_Of_Cahuilla_Mission_Indians </summary>
+            public static string  Los_Coyotes_Band_Of_Cahuilla_Mission_Indians = "A65";
+            /// <summary> Morongo_Band_Of_Cahuilla_Mission_Indians </summary>
+            public static string  Morongo_Band_Of_Cahuilla_Mission_Indians = "A66";
+            /// <summary> Santa_Rosa_Cahuilla </summary>
+            public static string  Santa_Rosa_Cahuilla = "A67";
+            /// <summary> Torres_Martinez_Band_Of_Cahuilla_Mission_Indians </summary>
+            public static string  Torres_Martinez_Band_Of_Cahuilla_Mission_Indians = "A68";
+            /// <summary> Ramona_Band_Or_Village_Of_Cahuilla_Mission_Indians </summary>
+            public static string  Ramona_Band_Or_Village_Of_Cahuilla_Mission_Indians = "A69";
+            /// <summary> California_Tribes_N_E_C </summary>
+            public static string  California_Tribes_N_E_C = "A74";
+            /// <summary> Cahto_Indian_Tribe_Of_The_Laytonville_Rancheria </summary>
+            public static string  Cahto_Indian_Tribe_Of_The_Laytonville_Rancheria = "A75";
+            /// <summary> Chimariko </summary>
+            public static string  Chimariko = "A76";
+            /// <summary> Coast_Miwok </summary>
+            public static string  Coast_Miwok = "A77";
+            /// <summary> Mission_Band </summary>
+            public static string  Mission_Band = "A78";
+            /// <summary> Kawaiisu </summary>
+            public static string  Kawaiisu = "A79";
+            /// <summary> Kem_River_Paiute_Council </summary>
+            public static string  Kem_River_Paiute_Council = "A80";
+            /// <summary> Mattole </summary>
+            public static string  Mattole = "A81";
+            /// <summary> Red_Wood </summary>
+            public static string  Red_Wood = "A82";
+            /// <summary> Santa_Rosa_Indian_Community </summary>
+            public static string  Santa_Rosa_Indian_Community = "A83";
+            /// <summary> Takelma </summary>
+            public static string  Takelma = "A84";
+            /// <summary> Wappo </summary>
+            public static string  Wappo = "A85";
+            /// <summary> Yana </summary>
+            public static string  Yana = "A86";
+            /// <summary> Yuki </summary>
+            public static string  Yuki = "A87";
+            /// <summary> Bear_River_Band_Of_Rohnerville_Rancheria </summary>
+            public static string  Bear_River_Band_Of_Rohnerville_Rancheria = "A88";
+            /// <summary> Digger </summary>
+            public static string  Digger = "A89";
+            /// <summary> Wikchamni </summary>
+            public static string  Wikchamni = "A90";
+            /// <summary> Smith_River_Rancheria </summary>
+            public static string  Smith_River_Rancheria = "A91";
+            /// <summary> Canadian_Indian </summary>
+            public static string  Canadian_Indian = "A94";
+            /// <summary> Central_American_Indian </summary>
+            public static string  Central_American_Indian = "A95";
+            /// <summary> French_American_Indian </summary>
+            public static string  French_American_Indian = "A96";
+            /// <summary> Mexican_American_Indian </summary>
+            public static string  Mexican_American_Indian = "A97";
+            /// <summary> South_American_Indian </summary>
+            public static string  South_American_Indian = "A98";
+            /// <summary> Spanish_American_Indian </summary>
+            public static string  Spanish_American_Indian = "A99";
+            /// <summary> Catawba_Indian_Nation </summary>
+            public static string  Catawba_Indian_Nation = "B04";
+            /// <summary> Cayuse </summary>
+            public static string  Cayuse = "B07";
+            /// <summary> Chehalis </summary>
+            public static string  Chehalis = "B11";
+            /// <summary> Chemakuan </summary>
+            public static string  Chemakuan = "B14";
+            /// <summary> Hoh_Indian_Tribe </summary>
+            public static string  Hoh_Indian_Tribe = "B15";
+            /// <summary> Quileute </summary>
+            public static string  Quileute = "B16";
+            /// <summary> Chemehuevi </summary>
+            public static string  Chemehuevi = "B19";
+            /// <summary> Cherokee </summary>
+            public static string  Cherokee = "B21";
+            /// <summary> Cherokee_Alabama </summary>
+            public static string  Cherokee_Alabama = "B22";
+            /// <summary> Cherokees_Of_Northeast_Alabama </summary>
+            public static string  Cherokees_Of_Northeast_Alabama = "B23";
+            /// <summary> Cherokees_Of_Southeast_Alabama </summary>
+            public static string  Cherokees_Of_Southeast_Alabama = "B24";
+            /// <summary> Georgia_Eastern_Cherokee </summary>
+            public static string  Georgia_Eastern_Cherokee = "B25";
+            /// <summary> Echota_Cherokee </summary>
+            public static string  Echota_Cherokee = "B26";
+            /// <summary> Etowah_Cherokee </summary>
+            public static string  Etowah_Cherokee = "B27";
+            /// <summary> Northern_Cherokee_Nation_Of_Missouri_And_Arkansas </summary>
+            public static string  Northern_Cherokee_Nation_Of_Missouri_And_Arkansas = "B28";
+            /// <summary> Tuscola </summary>
+            public static string  Tuscola = "B29";
+            /// <summary> United_Keetoowah_Band_Of_Cherokee </summary>
+            public static string  United_Keetoowah_Band_Of_Cherokee = "B30";
+            /// <summary> Western_Cherokee </summary>
+            public static string  Western_Cherokee = "B31";
+            /// <summary> Southeastern_Cherokee_Council </summary>
+            public static string  Southeastern_Cherokee_Council = "B32";
+            /// <summary> Sac_River_Band_Of_The_Chickamauga_Cherokee </summary>
+            public static string  Sac_River_Band_Of_The_Chickamauga_Cherokee = "B33";
+            /// <summary> White_River_Band_Of_The_Chickamauga_Cherokee </summary>
+            public static string  White_River_Band_Of_The_Chickamauga_Cherokee = "B34";
+            /// <summary> Four_Winds_Cherokee </summary>
+            public static string  Four_Winds_Cherokee = "B35";
+            /// <summary> Cherokee_Of_Georgia </summary>
+            public static string  Cherokee_Of_Georgia = "B36";
+            /// <summary> Cherokee_Shawnee </summary>
+            public static string  Cherokee_Shawnee = "B37";
+            /// <summary> Cheyenne </summary>
+            public static string  Cheyenne = "B40";
+            /// <summary> Northern_Cheyenne </summary>
+            public static string  Northern_Cheyenne = "B41";
+            /// <summary> Southern_Cheyenne </summary>
+            public static string  Southern_Cheyenne = "B42";
+            /// <summary> Cheyenne_Arapaho </summary>
+            public static string  Cheyenne_Arapaho = "B46";
+            /// <summary> Chickahominy_Indian_Tribe </summary>
+            public static string  Chickahominy_Indian_Tribe = "B49";
+            /// <summary> Chickahominy_Eastern_Band </summary>
+            public static string  Chickahominy_Eastern_Band = "B50";
+            /// <summary> Western_Chickahominy </summary>
+            public static string  Western_Chickahominy = "B51";
+            /// <summary> Chickasaw </summary>
+            public static string  Chickasaw = "B53";
+            /// <summary> Chinook </summary>
+            public static string  Chinook = "B57";
+            /// <summary> Clatsop </summary>
+            public static string  Clatsop = "B58";
+            /// <summary> Columbia_River_Chinook </summary>
+            public static string  Columbia_River_Chinook = "B59";
+            /// <summary> Kathlamet </summary>
+            public static string  Kathlamet = "B60";
+            /// <summary> Upper_Chinook </summary>
+            public static string  Upper_Chinook = "B61";
+            /// <summary> Wakiakum_Chinook </summary>
+            public static string  Wakiakum_Chinook = "B62";
+            /// <summary> Willapa_Chinook </summary>
+            public static string  Willapa_Chinook = "B63";
+            /// <summary> Wishram </summary>
+            public static string  Wishram = "B64";
+            /// <summary> Bad_River_Band_Of_The_Lake_Superior_Tribe </summary>
+            public static string  Bad_River_Band_Of_The_Lake_Superior_Tribe = "B67";
+            /// <summary> Bay_Mills_Indian_Community_Of_The_Sault_Ste_Marie_Band </summary>
+            public static string  Bay_Mills_Indian_Community_Of_The_Sault_Ste_Marie_Band = "B68";
+            /// <summary> Bois_Forte_Nett_Lake_Band_Of_Chippewa </summary>
+            public static string  Bois_Forte_Nett_Lake_Band_Of_Chippewa = "B69";
+            /// <summary> Burt_Lake_Chippewa </summary>
+            public static string  Burt_Lake_Chippewa = "B70";
+            /// <summary> Chippewa </summary>
+            public static string  Chippewa = "B71";
+            /// <summary> Fond_Du_Lac </summary>
+            public static string  Fond_Du_Lac = "B72";
+            /// <summary> Grand_Portage </summary>
+            public static string  Grand_Portage = "B73";
+            /// <summary> Grand_Traverse_Band_Of_Ottawa_And_Chippewa_Indians </summary>
+            public static string  Grand_Traverse_Band_Of_Ottawa_And_Chippewa_Indians = "B74";
+            /// <summary> Keweenaw_Bay_Indian_Community_Of_The_Lanse_And_Ontonagon_Bands </summary>
+            public static string  Keweenaw_Bay_Indian_Community_Of_The_Lanse_And_Ontonagon_Bands = "B75";
+            /// <summary> Lac_Court_Oreilles_Band_Of_Lake_Superior_Chippewa </summary>
+            public static string  Lac_Court_Oreilles_Band_Of_Lake_Superior_Chippewa = "B76";
+            /// <summary> Lac_Du_Flambeau </summary>
+            public static string  Lac_Du_Flambeau = "B77";
+            /// <summary> Lac_Vieux_Desert_Band_Of_Lake_Superior_Chippewa </summary>
+            public static string  Lac_Vieux_Desert_Band_Of_Lake_Superior_Chippewa = "B78";
+            /// <summary> Lake_Superior </summary>
+            public static string  Lake_Superior = "B79";
+            /// <summary> Leech_Lake </summary>
+            public static string  Leech_Lake = "B80";
+            /// <summary> Little_Shell_Chippewa </summary>
+            public static string  Little_Shell_Chippewa = "B81";
+            /// <summary> Mille_Lacs </summary>
+            public static string  Mille_Lacs = "B82";
+            /// <summary> Minnesota_Chippewa </summary>
+            public static string  Minnesota_Chippewa = "B83";
+            /// <summary> Ontonagon </summary>
+            public static string  Ontonagon = "B84";
+            /// <summary> Red_Cliff_Band_Of_Lake_Superior_Chippewa </summary>
+            public static string  Red_Cliff_Band_Of_Lake_Superior_Chippewa = "B85";
+            /// <summary> Red_Lake_Band_Of_Chippewa_Indians </summary>
+            public static string  Red_Lake_Band_Of_Chippewa_Indians = "B86";
+            /// <summary> Saginaw_Chippewa </summary>
+            public static string  Saginaw_Chippewa = "B87";
+            /// <summary> St_Croix_Chippewa </summary>
+            public static string  St_Croix_Chippewa = "B88";
+            /// <summary> Sault_Ste_Marie_Chippewa </summary>
+            public static string  Sault_Ste_Marie_Chippewa = "B89";
+            /// <summary> Sokoagon_Chippewa </summary>
+            public static string  Sokoagon_Chippewa = "B90";
+            /// <summary> Turtle_Mountain_Band </summary>
+            public static string  Turtle_Mountain_Band = "B91";
+            /// <summary> White_Earth </summary>
+            public static string  White_Earth = "B92";
+            /// <summary> Swan_Creek_Black_River_Confederate_Tribe </summary>
+            public static string  Swan_Creek_Black_River_Confederate_Tribe = "B93";
+            /// <summary> Rocky_Boys_Chippewa_Cree </summary>
+            public static string  Rocky_Boys_Chippewa_Cree = "C02";
+            /// <summary> Chitimacha_Tribe_Of_Louisiana </summary>
+            public static string  Chitimacha_Tribe_Of_Louisiana = "C05";
+            /// <summary> Choctaw </summary>
+            public static string  Choctaw = "C08";
+            /// <summary> Clifton_Choctaw </summary>
+            public static string  Clifton_Choctaw = "C09";
+            /// <summary> Jena_Band_Of_Choctaw </summary>
+            public static string  Jena_Band_Of_Choctaw = "C10";
+            /// <summary> Mississippi_Band_Of_Choctaw </summary>
+            public static string  Mississippi_Band_Of_Choctaw = "C11";
+            /// <summary> Mowa_Band_Of_Choctaw </summary>
+            public static string  Mowa_Band_Of_Choctaw = "C12";
+            /// <summary> Oklahoma_Choctaw </summary>
+            public static string  Oklahoma_Choctaw = "C13";
+            /// <summary> Choctaw_Apache_Community_Of_Ebarb </summary>
+            public static string  Choctaw_Apache_Community_Of_Ebarb = "C17";
+            /// <summary> Chumash </summary>
+            public static string  Chumash = "C20";
+            /// <summary> Santa_Ynez </summary>
+            public static string  Santa_Ynez = "C21";
+            /// <summary> San_Luis_Rey_Mission_Indian </summary>
+            public static string  San_Luis_Rey_Mission_Indian = "C22";
+            /// <summary> Clear_Lake </summary>
+            public static string  Clear_Lake = "C25";
+            /// <summary> Coeur_Dalene </summary>
+            public static string  Coeur_Dalene = "C26";
+            /// <summary> Coharie </summary>
+            public static string  Coharie = "C29";
+            /// <summary> Colorado_River </summary>
+            public static string  Colorado_River = "C32";
+            /// <summary> Colville </summary>
+            public static string  Colville = "C35";
+            /// <summary> Comanche </summary>
+            public static string  Comanche = "C39";
+            /// <summary> Oklahoma_Comanche </summary>
+            public static string  Oklahoma_Comanche = "C40";
+            /// <summary> Coos_Lower_Umpqua_And_Siuslaw </summary>
+            public static string  Coos_Lower_Umpqua_And_Siuslaw = "C44";
+            /// <summary> Coos </summary>
+            public static string  Coos = "C46";
+            /// <summary> Coquille </summary>
+            public static string  Coquille = "C47";
+            /// <summary> Costanoan </summary>
+            public static string  Costanoan = "C48";
+            /// <summary> Alabama_Coushatta_Tribes_Of_Texas </summary>
+            public static string  Alabama_Coushatta_Tribes_Of_Texas = "C52";
+            /// <summary> Coushatta </summary>
+            public static string  Coushatta = "C53";
+            /// <summary> Cowlitz </summary>
+            public static string  Cowlitz = "C56";
+            /// <summary> Cree </summary>
+            public static string  Cree = "C59";
+            /// <summary> Alabama_Creek </summary>
+            public static string  Alabama_Creek = "C64";
+            /// <summary> Alabama_Quassarte_Tribal_Town </summary>
+            public static string  Alabama_Quassarte_Tribal_Town = "C65";
+            /// <summary> Muscogee_Creek_Nation </summary>
+            public static string  Muscogee_Creek_Nation = "C66";
+            /// <summary> Eastern_Creek </summary>
+            public static string  Eastern_Creek = "C67";
+            /// <summary> Eastern_Muscogee </summary>
+            public static string  Eastern_Muscogee = "C68";
+            /// <summary> Kialegee_Tribal_Town </summary>
+            public static string  Kialegee_Tribal_Town = "C69";
+            /// <summary> Lower_Muscogee_Creek_Tama_Tribal_Town </summary>
+            public static string  Lower_Muscogee_Creek_Tama_Tribal_Town = "C70";
+            /// <summary> Machis_Lower_Creek_Indian </summary>
+            public static string  Machis_Lower_Creek_Indian = "C71";
+            /// <summary> Poarch_Band </summary>
+            public static string  Poarch_Band = "C72";
+            /// <summary> Principal_Creek_Indian_Nation </summary>
+            public static string  Principal_Creek_Indian_Nation = "C73";
+            /// <summary> Star_Clan_Of_Muskogee_Creeks </summary>
+            public static string  Star_Clan_Of_Muskogee_Creeks = "C74";
+            /// <summary> Thiopthlocco_Tribal_Town </summary>
+            public static string  Thiopthlocco_Tribal_Town = "C75";
+            /// <summary> Tuckabachee </summary>
+            public static string  Tuckabachee = "C76";
+            /// <summary> Croatan </summary>
+            public static string  Croatan = "C81";
+            /// <summary> Crow </summary>
+            public static string  Crow = "C82";
+            /// <summary> Cumberland_County_Association_For_Indian_People </summary>
+            public static string  Cumberland_County_Association_For_Indian_People = "C87";
+            /// <summary> Agua_Caliente </summary>
+            public static string  Agua_Caliente = "C89";
+            /// <summary> Cupeno </summary>
+            public static string  Cupeno = "C90";
+            /// <summary> Delaware </summary>
+            public static string  Delaware = "C93";
+            /// <summary> Delaware_Tribe_Of_Indians_Oklahoma </summary>
+            public static string  Delaware_Tribe_Of_Indians_Oklahoma = "C94";
+            /// <summary> Lenni_Lanape </summary>
+            public static string  Lenni_Lanape = "C95";
+            /// <summary> Munsee </summary>
+            public static string  Munsee = "C96";
+            /// <summary> Delaware_Tribe_Of_Western_Oklahoma </summary>
+            public static string  Delaware_Tribe_Of_Western_Oklahoma = "C97";
+            /// <summary> Ramapough_Mountain </summary>
+            public static string  Ramapough_Mountain = "C98";
+            /// <summary> Sand_Hill_Band_Of_Delaware_Indians </summary>
+            public static string  Sand_Hill_Band_Of_Delaware_Indians = "C99";
+            /// <summary> Barona_Group_Of_Capitan_Grande_Band </summary>
+            public static string  Barona_Group_Of_Capitan_Grande_Band = "D05";
+            /// <summary> Campo_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  Campo_Band_Of_Diegueno_Mission_Indians = "D06";
+            /// <summary> Capitan_Grande_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  Capitan_Grande_Band_Of_Diegueno_Mission_Indians = "D07";
+            /// <summary> Cuyapaipe </summary>
+            public static string  Cuyapaipe = "D08";
+            /// <summary> Diegueno </summary>
+            public static string  Diegueno = "D09";
+            /// <summary> La_Posta_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  La_Posta_Band_Of_Diegueno_Mission_Indians = "D10";
+            /// <summary> Manzanita </summary>
+            public static string  Manzanita = "D11";
+            /// <summary> Mesa_Grande_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  Mesa_Grande_Band_Of_Diegueno_Mission_Indians = "D12";
+            /// <summary> San_Pasqual_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  San_Pasqual_Band_Of_Diegueno_Mission_Indians = "D13";
+            /// <summary> Santa_Ysabel_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  Santa_Ysabel_Band_Of_Diegueno_Mission_Indians = "D14";
+            /// <summary> Sycuan_Band_Of_Diegueno_Mission_Indians </summary>
+            public static string  Sycuan_Band_Of_Diegueno_Mission_Indians = "D15";
+            /// <summary> Viejas_Group_Of_Capitan_Grande_Band </summary>
+            public static string  Viejas_Group_Of_Capitan_Grande_Band = "D16";
+            /// <summary> Inaja_Band_Of_Diegueno_Mission_Indians_Of_The_Inaja_And_Cosmit_Reservation </summary>
+            public static string  Inaja_Band_Of_Diegueno_Mission_Indians_Of_The_Inaja_And_Cosmit_Reservation = "D17";
+            /// <summary> Jarnul_Indian_Village </summary>
+            public static string  Jarnul_Indian_Village = "D18";
+            /// <summary> Attacapa </summary>
+            public static string  Attacapa = "D20";
+            /// <summary> Biloxi </summary>
+            public static string  Biloxi = "D21";
+            /// <summary> Georgetown </summary>
+            public static string  Georgetown = "D22";
+            /// <summary> Nansemond_Indian_Tribe </summary>
+            public static string  Nansemond_Indian_Tribe = "D24";
+            /// <summary> Natchez </summary>
+            public static string  Natchez = "D25";
+            /// <summary> Nausu_Waiwash </summary>
+            public static string  Nausu_Waiwash = "D26";
+            /// <summary> Nipmuc </summary>
+            public static string  Nipmuc = "D27";
+            /// <summary> Golden_Hill_Paugussett </summary>
+            public static string  Golden_Hill_Paugussett = "D28";
+            /// <summary> Pocomoke_Acohonock </summary>
+            public static string  Pocomoke_Acohonock = "D29";
+            /// <summary> Southeastern_Indians </summary>
+            public static string  Southeastern_Indians = "D30";
+            /// <summary> Susquehanock </summary>
+            public static string  Susquehanock = "D31";
+            /// <summary> Tunica_Biloxi </summary>
+            public static string  Tunica_Biloxi = "D33";
+            /// <summary> Waccamaw_Siouan </summary>
+            public static string  Waccamaw_Siouan = "D34";
+            /// <summary> Wicomico </summary>
+            public static string  Wicomico = "D36";
+            /// <summary> Mehemn_Indian_Tribe </summary>
+            public static string  Mehemn_Indian_Tribe = "D37";
+            /// <summary> Esselen </summary>
+            public static string  Esselen = "D42";
+            /// <summary> Fort_Belknap </summary>
+            public static string  Fort_Belknap = "D44";
+            /// <summary> Fort_Berthold </summary>
+            public static string  Fort_Berthold = "D45";
+            /// <summary> Three_Affiliated_Tribes_Of_North_Dakota </summary>
+            public static string  Three_Affiliated_Tribes_Of_North_Dakota = "D46";
+            /// <summary> Fort_Mcdowell_Mohaveapache_Community </summary>
+            public static string  Fort_Mcdowell_Mohaveapache_Community = "D49";
+            /// <summary> Shoshonebannock_Tribes_Of_The_Fort_Hall_Reservation </summary>
+            public static string  Shoshonebannock_Tribes_Of_The_Fort_Hall_Reservation = "D51";
+            /// <summary> Gabrieleno </summary>
+            public static string  Gabrieleno = "D55";
+            /// <summary> Grand_Ronde </summary>
+            public static string  Grand_Ronde = "D57";
+            /// <summary> Guilford_Native_American_Association </summary>
+            public static string  Guilford_Native_American_Association = "D58";
+            /// <summary> Atsina </summary>
+            public static string  Atsina = "D60";
+            /// <summary> Gros_Ventres </summary>
+            public static string  Gros_Ventres = "D61";
+            /// <summary> Fort_Belknap_Gros_Ventres </summary>
+            public static string  Fort_Belknap_Gros_Ventres = "D62";
+            /// <summary> Haliwasaponi </summary>
+            public static string  Haliwasaponi = "D64";
+            /// <summary> Hidatsa </summary>
+            public static string  Hidatsa = "D67";
+            /// <summary> Hoopa_Valley_Tribe </summary>
+            public static string  Hoopa_Valley_Tribe = "D70";
+            /// <summary> Trinity </summary>
+            public static string  Trinity = "D71";
+            /// <summary> Whilkut </summary>
+            public static string  Whilkut = "D72";
+            /// <summary> Hoopa_Extension </summary>
+            public static string  Hoopa_Extension = "D76";
+            /// <summary> United_Houma_Nation </summary>
+            public static string  United_Houma_Nation = "D78";
+            /// <summary> Iowa </summary>
+            public static string  Iowa = "D87";
+            /// <summary> Iowa_Of_Kansas_And_Nebraska </summary>
+            public static string  Iowa_Of_Kansas_And_Nebraska = "D88";
+            /// <summary> Iowa_Of_Oklahoma </summary>
+            public static string  Iowa_Of_Oklahoma = "D89";
+            /// <summary> Indians_Of_Person_County </summary>
+            public static string  Indians_Of_Person_County = "D91";
+            /// <summary> Cayuga_Nation </summary>
+            public static string  Cayuga_Nation = "D93";
+            /// <summary> Iroquois </summary>
+            public static string  Iroquois = "D94";
+            /// <summary> Mohawk </summary>
+            public static string  Mohawk = "D95";
+            /// <summary> Oneida_Nation_Of_New_York </summary>
+            public static string  Oneida_Nation_Of_New_York = "D96";
+            /// <summary> Onondaga </summary>
+            public static string  Onondaga = "D97";
+            /// <summary> Seneca </summary>
+            public static string  Seneca = "D98";
+            /// <summary> Seneca_Nation </summary>
+            public static string  Seneca_Nation = "D99";
+            /// <summary> Senecacayuga </summary>
+            public static string  Senecacayuga = "E01";
+            /// <summary> Tonawanda_Band_Of_Seneca </summary>
+            public static string  Tonawanda_Band_Of_Seneca = "E02";
+            /// <summary> Tuscarora </summary>
+            public static string  Tuscarora = "E03";
+            /// <summary> Wyandotte </summary>
+            public static string  Wyandotte = "E04";
+            /// <summary> Juaneno </summary>
+            public static string  Juaneno = "E10";
+            /// <summary> Kalispel_Indian_Community </summary>
+            public static string  Kalispel_Indian_Community = "E13";
+            /// <summary> Karuk_Tribe_Of_California </summary>
+            public static string  Karuk_Tribe_Of_California = "E17";
+            /// <summary> Kaw </summary>
+            public static string  Kaw = "E21";
+            /// <summary> Kickapoo </summary>
+            public static string  Kickapoo = "E24";
+            /// <summary> Oklahoma_Kickapoo </summary>
+            public static string  Oklahoma_Kickapoo = "E25";
+            /// <summary> Texas_Kickapoo </summary>
+            public static string  Texas_Kickapoo = "E26";
+            /// <summary> Kiowa </summary>
+            public static string  Kiowa = "E30";
+            /// <summary> Oklahoma_Kiowa </summary>
+            public static string  Oklahoma_Kiowa = "E31";
+            /// <summary> Jamestown_Sklallam </summary>
+            public static string  Jamestown_Sklallam = "E37";
+            /// <summary> Klallam </summary>
+            public static string  Klallam = "E38";
+            /// <summary> Lower_Elwha_Tribal_Community </summary>
+            public static string  Lower_Elwha_Tribal_Community = "E39";
+            /// <summary> Port_Gamble_Klallam </summary>
+            public static string  Port_Gamble_Klallam = "E40";
+            /// <summary> Klamath </summary>
+            public static string  Klamath = "E44";
+            /// <summary> Konkow </summary>
+            public static string  Konkow = "E48";
+            /// <summary> Kootenai </summary>
+            public static string  Kootenai = "E50";
+            /// <summary> Lassik </summary>
+            public static string  Lassik = "E53";
+            /// <summary> Matinecock </summary>
+            public static string  Matinecock = "E59";
+            /// <summary> Montauk </summary>
+            public static string  Montauk = "E60";
+            /// <summary> Poospatuck </summary>
+            public static string  Poospatuck = "E61";
+            /// <summary> Setauket </summary>
+            public static string  Setauket = "E62";
+            /// <summary> Long_Island </summary>
+            public static string  Long_Island = "E63";
+            /// <summary> La_Jolla_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  La_Jolla_Band_Of_Luiseno_Mission_Indians = "E66";
+            /// <summary> Luiseno </summary>
+            public static string  Luiseno = "E67";
+            /// <summary> Pala_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  Pala_Band_Of_Luiseno_Mission_Indians = "E68";
+            /// <summary> Pauma_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  Pauma_Band_Of_Luiseno_Mission_Indians = "E69";
+            /// <summary> Pechanga_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  Pechanga_Band_Of_Luiseno_Mission_Indians = "E70";
+            /// <summary> Soboba </summary>
+            public static string  Soboba = "E71";
+            /// <summary> Twentynine_Palms_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  Twentynine_Palms_Band_Of_Luiseno_Mission_Indians = "E72";
+            /// <summary> Temecula </summary>
+            public static string  Temecula = "E73";
+            /// <summary> Rincon_Band_Of_Luiseno_Mission_Indians </summary>
+            public static string  Rincon_Band_Of_Luiseno_Mission_Indians = "E74";
+            /// <summary> Lumbee </summary>
+            public static string  Lumbee = "E78";
+            /// <summary> Lummi </summary>
+            public static string  Lummi = "E84";
+            /// <summary> Mooretown_Rancheria_Of_Maidu_Indians </summary>
+            public static string  Mooretown_Rancheria_Of_Maidu_Indians = "E87";
+            /// <summary> Maidu </summary>
+            public static string  Maidu = "E88";
+            /// <summary> Mountain_Maidu </summary>
+            public static string  Mountain_Maidu = "E89";
+            /// <summary> Nisenen </summary>
+            public static string  Nisenen = "E90";
+            /// <summary> Mechoopda_Indian_Tribe_Of_Chico_Rancheria_California </summary>
+            public static string  Mechoopda_Indian_Tribe_Of_Chico_Rancheria_California = "E91";
+            /// <summary> Berry_Creek_Rancheria_Of_Maidu_Indians </summary>
+            public static string  Berry_Creek_Rancheria_Of_Maidu_Indians = "E92";
+            /// <summary> Enterprise_Rancheria </summary>
+            public static string  Enterprise_Rancheria = "E93";
+            /// <summary> Greenville_Rancheria </summary>
+            public static string  Greenville_Rancheria = "E94";
+            /// <summary> Makah </summary>
+            public static string  Makah = "E95";
+            /// <summary> Maliseet </summary>
+            public static string  Maliseet = "F01";
+            /// <summary> Houlton_Band_Of_Maliseet_Indians </summary>
+            public static string  Houlton_Band_Of_Maliseet_Indians = "F02";
+            /// <summary> Mandan </summary>
+            public static string  Mandan = "F05";
+            /// <summary> Mattaponi_Indian_Tribe </summary>
+            public static string  Mattaponi_Indian_Tribe = "F09";
+            /// <summary> Upper_Mattaponi_Tribe </summary>
+            public static string  Upper_Mattaponi_Tribe = "F10";
+            /// <summary> Menominee </summary>
+            public static string  Menominee = "F11";
+            /// <summary> Metrolina_Nadve_American_Association </summary>
+            public static string  Metrolina_Nadve_American_Association = "F15";
+            /// <summary> Illinois_Miami </summary>
+            public static string  Illinois_Miami = "F17";
+            /// <summary> Indiana_Miami </summary>
+            public static string  Indiana_Miami = "F18";
+            /// <summary> Miami </summary>
+            public static string  Miami = "F19";
+            /// <summary> Oklahoma_Miami </summary>
+            public static string  Oklahoma_Miami = "F20";
+            /// <summary> Miccosukee </summary>
+            public static string  Miccosukee = "F24";
+            /// <summary> Aroostook_Band </summary>
+            public static string  Aroostook_Band = "F27";
+            /// <summary> Micmac </summary>
+            public static string  Micmac = "F28";
+            /// <summary> Mission_Indians </summary>
+            public static string  Mission_Indians = "F31";
+            /// <summary> Cahuilla_Band_Of_Mission_Indians </summary>
+            public static string  Cahuilla_Band_Of_Mission_Indians = "F32";
+            /// <summary> Ione_Band_Of_Miwok_Indians </summary>
+            public static string  Ione_Band_Of_Miwok_Indians = "F34";
+            /// <summary> Shingle_Springs_Band_Of_Miwok_Indians </summary>
+            public static string  Shingle_Springs_Band_Of_Miwok_Indians = "F35";
+            /// <summary> Mewuk </summary>
+            public static string  Mewuk = "F36";
+            /// <summary> Jackson_Rancheria_Of_Mewuk_Indians_Of_California </summary>
+            public static string  Jackson_Rancheria_Of_Mewuk_Indians_Of_California = "F37";
+            /// <summary> Tuolumne_Band_Of_Mewuk_Indians_Of_California </summary>
+            public static string  Tuolumne_Band_Of_Mewuk_Indians_Of_California = "F38";
+            /// <summary> Buena_Vista_Rancheria_Of_Mewuk_Indians_Of_California </summary>
+            public static string  Buena_Vista_Rancheria_Of_Mewuk_Indians_Of_California = "F39";
+            /// <summary> Chicken_Ranch_Rancheria_Of_Mewuk_Indians </summary>
+            public static string  Chicken_Ranch_Rancheria_Of_Mewuk_Indians = "F40";
+            /// <summary> Sheep_Ranch_Rancheria_Of_Mewuk_Indians </summary>
+            public static string  Sheep_Ranch_Rancheria_Of_Mewuk_Indians = "F41";
+            /// <summary> Modoc </summary>
+            public static string  Modoc = "F42";
+            /// <summary> Oklahoma_Modoc </summary>
+            public static string  Oklahoma_Modoc = "F43";
+            /// <summary> Mohegan </summary>
+            public static string  Mohegan = "F46";
+            /// <summary> Monacan_Indian_Nation </summary>
+            public static string  Monacan_Indian_Nation = "F47";
+            /// <summary> Mono </summary>
+            public static string  Mono = "F49";
+            /// <summary> North_Fork_Rancheria </summary>
+            public static string  North_Fork_Rancheria = "F50";
+            /// <summary> Cold_Springs_Rancheria </summary>
+            public static string  Cold_Springs_Rancheria = "F51";
+            /// <summary> Big_Sandy_Rancheria </summary>
+            public static string  Big_Sandy_Rancheria = "F52";
+            /// <summary> Nanticoke </summary>
+            public static string  Nanticoke = "F53";
+            /// <summary> Nanticoke_Lennilenape </summary>
+            public static string  Nanticoke_Lennilenape = "F56";
+            /// <summary> Narragansett </summary>
+            public static string  Narragansett = "F57";
+            /// <summary> Alamo_Navajo </summary>
+            public static string  Alamo_Navajo = "F62";
+            /// <summary> Tohajiileehee_Navajo </summary>
+            public static string  Tohajiileehee_Navajo = "F63";
+            /// <summary> Navajo </summary>
+            public static string  Navajo = "F64";
+            /// <summary> Ramah_Navajo </summary>
+            public static string  Ramah_Navajo = "F65";
+            /// <summary> Nez_Perce </summary>
+            public static string  Nez_Perce = "F71";
+            /// <summary> Hassanamisco_Band_Of_The_Nipmuc_Nation </summary>
+            public static string  Hassanamisco_Band_Of_The_Nipmuc_Nation = "F75";
+            /// <summary> Chaubunagungameg_Nipmuc </summary>
+            public static string  Chaubunagungameg_Nipmuc = "F76";
+            /// <summary> Nomlaki </summary>
+            public static string  Nomlaki = "F77";
+            /// <summary> Paskenta_Band_Of_Nomlaki_Indians </summary>
+            public static string  Paskenta_Band_Of_Nomlaki_Indians = "F78";
+            /// <summary> Alsea </summary>
+            public static string  Alsea = "F80";
+            /// <summary> Celilo </summary>
+            public static string  Celilo = "F81";
+            /// <summary> Columbia </summary>
+            public static string  Columbia = "F82";
+            /// <summary> Kalapuya </summary>
+            public static string  Kalapuya = "F83";
+            /// <summary> Molalla </summary>
+            public static string  Molalla = "F84";
+            /// <summary> Talakamish </summary>
+            public static string  Talakamish = "F85";
+            /// <summary> Tenino </summary>
+            public static string  Tenino = "F86";
+            /// <summary> Tillamook </summary>
+            public static string  Tillamook = "F87";
+            /// <summary> Wenatchee </summary>
+            public static string  Wenatchee = "F88";
+            /// <summary> Omaha </summary>
+            public static string  Omaha = "F95";
+            /// <summary> Oneida_Tribe_Of_Wisconsin </summary>
+            public static string  Oneida_Tribe_Of_Wisconsin = "F99";
+            /// <summary> Oregon_Athabaskan </summary>
+            public static string  Oregon_Athabaskan = "G01";
+            /// <summary> Osage </summary>
+            public static string  Osage = "G04";
+            /// <summary> Otoemissouria </summary>
+            public static string  Otoemissouria = "G10";
+            /// <summary> Burt_Lake_Ottawa </summary>
+            public static string  Burt_Lake_Ottawa = "G14";
+            /// <summary> Little_River_Band_Of_Ottawa_Indians_Of_Michigan </summary>
+            public static string  Little_River_Band_Of_Ottawa_Indians_Of_Michigan = "G15";
+            /// <summary> Oklahoma_Ottawa </summary>
+            public static string  Oklahoma_Ottawa = "G16";
+            /// <summary> Ottawa </summary>
+            public static string  Ottawa = "G17";
+            /// <summary> Little_Traverse_Bay_Bands_Of_Ottawa_Indians_Of_Michigan </summary>
+            public static string  Little_Traverse_Bay_Bands_Of_Ottawa_Indians_Of_Michigan = "G18";
+            /// <summary> Grand_River_Band_Of_Ottawa_Indians </summary>
+            public static string  Grand_River_Band_Of_Ottawa_Indians = "G19";
+            /// <summary> Bridgeport_Paiute_Indian_Colony </summary>
+            public static string  Bridgeport_Paiute_Indian_Colony = "G24";
+            /// <summary> Burns_Paiute_Tribe </summary>
+            public static string  Burns_Paiute_Tribe = "G25";
+            /// <summary> Cedarville_Rancheria </summary>
+            public static string  Cedarville_Rancheria = "G26";
+            /// <summary> Fort_Bidwell </summary>
+            public static string  Fort_Bidwell = "G27";
+            /// <summary> Fort_Independence </summary>
+            public static string  Fort_Independence = "G28";
+            /// <summary> Kaibab_Band_Of_Paiute_Indians </summary>
+            public static string  Kaibab_Band_Of_Paiute_Indians = "G29";
+            /// <summary> Las_Vegas_Tribe_Of_The_Las_Vegas_Indian_Colony </summary>
+            public static string  Las_Vegas_Tribe_Of_The_Las_Vegas_Indian_Colony = "G30";
+            /// <summary> Lovelock_Paiute_Tribe_Of_The_Lovelock_Indian_Colony </summary>
+            public static string  Lovelock_Paiute_Tribe_Of_The_Lovelock_Indian_Colony = "G32";
+            /// <summary> Malheur_Paiute </summary>
+            public static string  Malheur_Paiute = "G33";
+            /// <summary> Moapa_Band_Of_Paiute </summary>
+            public static string  Moapa_Band_Of_Paiute = "G34";
+            /// <summary> Northern_Paiute </summary>
+            public static string  Northern_Paiute = "G35";
+            /// <summary> Paiute </summary>
+            public static string  Paiute = "G37";
+            /// <summary> Pyramid_Lake </summary>
+            public static string  Pyramid_Lake = "G38";
+            /// <summary> San_Juan_Southern_Paiute </summary>
+            public static string  San_Juan_Southern_Paiute = "G39";
+            /// <summary> Southern_Paiute </summary>
+            public static string  Southern_Paiute = "G40";
+            /// <summary> Summit_Lake </summary>
+            public static string  Summit_Lake = "G41";
+            /// <summary> Utu_Utu_Gwaitu_Paiute </summary>
+            public static string  Utu_Utu_Gwaitu_Paiute = "G42";
+            /// <summary> Walker_River </summary>
+            public static string  Walker_River = "G43";
+            /// <summary> Yerington_Paiute </summary>
+            public static string  Yerington_Paiute = "G44";
+            /// <summary> Yahooskin_Band_Of_Snake </summary>
+            public static string  Yahooskin_Band_Of_Snake = "G45";
+            /// <summary> Susanville </summary>
+            public static string  Susanville = "G47";
+            /// <summary> Winnemucca </summary>
+            public static string  Winnemucca = "G48";
+            /// <summary> Pamunkey_Indian_Tribe </summary>
+            public static string  Pamunkey_Indian_Tribe = "G50";
+            /// <summary> Indian_Township </summary>
+            public static string  Indian_Township = "G53";
+            /// <summary> Passamaquoddy </summary>
+            public static string  Passamaquoddy = "G54";
+            /// <summary> Pleasant_Point_Passamaquoddy </summary>
+            public static string  Pleasant_Point_Passamaquoddy = "G55";
+            /// <summary> Oklahoma_Pawnee </summary>
+            public static string  Oklahoma_Pawnee = "G61";
+            /// <summary> Pawnee </summary>
+            public static string  Pawnee = "G62";
+            /// <summary> Penobscot </summary>
+            public static string  Penobscot = "G68";
+            /// <summary> Oklahoma_Peoria </summary>
+            public static string  Oklahoma_Peoria = "G72";
+            /// <summary> Peoria </summary>
+            public static string  Peoria = "G73";
+            /// <summary> Mashantucket_Pequot </summary>
+            public static string  Mashantucket_Pequot = "G77";
+            /// <summary> Pequot </summary>
+            public static string  Pequot = "G78";
+            /// <summary> Paucatuck_Eastern_Pequot </summary>
+            public static string  Paucatuck_Eastern_Pequot = "G79";
+            /// <summary> Gila_River_Indian_Community </summary>
+            public static string  Gila_River_Indian_Community = "G84";
+            /// <summary> Pima </summary>
+            public static string  Pima = "G85";
+            /// <summary> Salt_River_Pimamaricopa </summary>
+            public static string  Salt_River_Pimamaricopa = "G86";
+            /// <summary> Piscataway </summary>
+            public static string  Piscataway = "G92";
+            /// <summary> Pit_River_Tribe_Of_California </summary>
+            public static string  Pit_River_Tribe_Of_California = "G96";
+            /// <summary> Alturas_Indian_Rancheria </summary>
+            public static string  Alturas_Indian_Rancheria = "G97";
+            /// <summary> Redding_Rancheria </summary>
+            public static string  Redding_Rancheria = "G98";
+            /// <summary> Big_Valley_Rancheria_Of_Pomo_And_Pit_River_Indians </summary>
+            public static string  Big_Valley_Rancheria_Of_Pomo_And_Pit_River_Indians = "G99";
+            /// <summary> Central_Pomo </summary>
+            public static string  Central_Pomo = "H01";
+            /// <summary> Dry_Creek </summary>
+            public static string  Dry_Creek = "H02";
+            /// <summary> Eastern_Pomo </summary>
+            public static string  Eastern_Pomo = "H03";
+            /// <summary> Kashia_Band_Of_Pomo_Indians_Of_The_Stewarts_Point_Rancheria </summary>
+            public static string  Kashia_Band_Of_Pomo_Indians_Of_The_Stewarts_Point_Rancheria = "H04";
+            /// <summary> Northern_Pomo </summary>
+            public static string  Northern_Pomo = "H05";
+            /// <summary> Pomo </summary>
+            public static string  Pomo = "H06";
+            /// <summary> Scotts_Valley_Band </summary>
+            public static string  Scotts_Valley_Band = "H07";
+            /// <summary> Stonyford </summary>
+            public static string  Stonyford = "H08";
+            /// <summary> Elem_Indian_Colony_Of_The_Sulphur_Bank </summary>
+            public static string  Elem_Indian_Colony_Of_The_Sulphur_Bank = "H09";
+            /// <summary> Sherwood_Valley_Rancheria_Of_Pomo_Indians_Of_California </summary>
+            public static string  Sherwood_Valley_Rancheria_Of_Pomo_Indians_Of_California = "H10";
+            /// <summary> Guidiville_Rancheria_Of_California </summary>
+            public static string  Guidiville_Rancheria_Of_California = "H11";
+            /// <summary> Lytton_Rancheria_Of_California </summary>
+            public static string  Lytton_Rancheria_Of_California = "H12";
+            /// <summary> Cloverdale_Rancheria </summary>
+            public static string  Cloverdale_Rancheria = "H13";
+            /// <summary> Coyote_Valley_Band </summary>
+            public static string  Coyote_Valley_Band = "H14";
+            /// <summary> Nebraska_Ponca </summary>
+            public static string  Nebraska_Ponca = "H15";
+            /// <summary> Oklahoma_Ponca </summary>
+            public static string  Oklahoma_Ponca = "H16";
+            /// <summary> Ponca </summary>
+            public static string  Ponca = "H17";
+            /// <summary> Citizen_Potawatomi_Nation </summary>
+            public static string  Citizen_Potawatomi_Nation = "H21";
+            /// <summary> Forest_County </summary>
+            public static string  Forest_County = "H22";
+            /// <summary> Hannahville_Indian_Community_Of_Wisconsin_Potawatomi </summary>
+            public static string  Hannahville_Indian_Community_Of_Wisconsin_Potawatomi = "H23";
+            /// <summary> Huron_Potawatomi </summary>
+            public static string  Huron_Potawatomi = "H24";
+            /// <summary> Pokagon_Band_Of_Potawatomi_Indians </summary>
+            public static string  Pokagon_Band_Of_Potawatomi_Indians = "H25";
+            /// <summary> Potawatomi </summary>
+            public static string  Potawatomi = "H26";
+            /// <summary> Prairie_Band_Of_Potawatomi_Indians </summary>
+            public static string  Prairie_Band_Of_Potawatomi_Indians = "H27";
+            /// <summary> Wisconsin_Potawatomi </summary>
+            public static string  Wisconsin_Potawatomi = "H28";
+            /// <summary> Powhatan </summary>
+            public static string  Powhatan = "H34";
+            /// <summary> Acoma </summary>
+            public static string  Acoma = "H38";
+            /// <summary> Arizona_Tewa </summary>
+            public static string  Arizona_Tewa = "H39";
+            /// <summary> Cochiti </summary>
+            public static string  Cochiti = "H40";
+            /// <summary> Hopi </summary>
+            public static string  Hopi = "H41";
+            /// <summary> Isleta </summary>
+            public static string  Isleta = "H42";
+            /// <summary> Jemez </summary>
+            public static string  Jemez = "H43";
+            /// <summary> Keres </summary>
+            public static string  Keres = "H44";
+            /// <summary> Laguna </summary>
+            public static string  Laguna = "H45";
+            /// <summary> Nambe </summary>
+            public static string  Nambe = "H46";
+            /// <summary> Picuris </summary>
+            public static string  Picuris = "H47";
+            /// <summary> Piro </summary>
+            public static string  Piro = "H48";
+            /// <summary> Pojoaque </summary>
+            public static string  Pojoaque = "H49";
+            /// <summary> Pueblo </summary>
+            public static string  Pueblo = "H50";
+            /// <summary> San_Felipe </summary>
+            public static string  San_Felipe = "H51";
+            /// <summary> San_Ildefonso </summary>
+            public static string  San_Ildefonso = "H52";
+            /// <summary> San_Juan_Pueblo </summary>
+            public static string  San_Juan_Pueblo = "H53";
+            /// <summary> San_Juan_De </summary>
+            public static string  San_Juan_De = "H54";
+            /// <summary> San_Juan </summary>
+            public static string  San_Juan = "H55";
+            /// <summary> Sandia </summary>
+            public static string  Sandia = "H56";
+            /// <summary> Santa_Ana </summary>
+            public static string  Santa_Ana = "H57";
+            /// <summary> Santa_Clara </summary>
+            public static string  Santa_Clara = "H58";
+            /// <summary> Santo_Domingo </summary>
+            public static string  Santo_Domingo = "H59";
+            /// <summary> Taos </summary>
+            public static string  Taos = "H60";
+            /// <summary> Tesuque </summary>
+            public static string  Tesuque = "H61";
+            /// <summary> Tewa </summary>
+            public static string  Tewa = "H62";
+            /// <summary> Ysleta_Del_Sur_Pueblo_Of_Texas </summary>
+            public static string  Ysleta_Del_Sur_Pueblo_Of_Texas = "H63";
+            /// <summary> Zia </summary>
+            public static string  Zia = "H64";
+            /// <summary> Zuni </summary>
+            public static string  Zuni = "H65";
+            /// <summary> Hopland_Band_Of_Pomo_Indians </summary>
+            public static string  Hopland_Band_Of_Pomo_Indians = "H66";
+            /// <summary> Manchester_Band_Of_Pomo_Indians_Of_The_Manchesterpoint_Arena_Racheria </summary>
+            public static string  Manchester_Band_Of_Pomo_Indians_Of_The_Manchesterpoint_Arena_Racheria = "H67";
+            /// <summary> Middletown_Rancheria_Of_Pomo_Indians </summary>
+            public static string  Middletown_Rancheria_Of_Pomo_Indians = "H68";
+            /// <summary> Pinoleville_Rancheria_Of_Pomo_Indians </summary>
+            public static string  Pinoleville_Rancheria_Of_Pomo_Indians = "H69";
+            /// <summary> Marietta_Band_Of_Nooksack </summary>
+            public static string  Marietta_Band_Of_Nooksack = "H70";
+            /// <summary> Duwamish </summary>
+            public static string  Duwamish = "H71";
+            /// <summary> Kikiallus </summary>
+            public static string  Kikiallus = "H72";
+            /// <summary> Lower_Skagit </summary>
+            public static string  Lower_Skagit = "H73";
+            /// <summary> Muckleshoot </summary>
+            public static string  Muckleshoot = "H74";
+            /// <summary> Nisqually </summary>
+            public static string  Nisqually = "H75";
+            /// <summary> Nooksack </summary>
+            public static string  Nooksack = "H76";
+            /// <summary> Port_Madison </summary>
+            public static string  Port_Madison = "H77";
+            /// <summary> Puget_Sound_Salish </summary>
+            public static string  Puget_Sound_Salish = "H78";
+            /// <summary> Puyaliup </summary>
+            public static string  Puyaliup = "H79";
+            /// <summary> Samish </summary>
+            public static string  Samish = "H80";
+            /// <summary> Sauksuiattle </summary>
+            public static string  Sauksuiattle = "H81";
+            /// <summary> Skokomish </summary>
+            public static string  Skokomish = "H82";
+            /// <summary> Skykomish </summary>
+            public static string  Skykomish = "H83";
+            /// <summary> Snohomish </summary>
+            public static string  Snohomish = "H84";
+            /// <summary> Snoqualmie </summary>
+            public static string  Snoqualmie = "H85";
+            /// <summary> Squaxin_Island </summary>
+            public static string  Squaxin_Island = "H86";
+            /// <summary> Steilacoom </summary>
+            public static string  Steilacoom = "H87";
+            /// <summary> Stillaguamish </summary>
+            public static string  Stillaguamish = "H88";
+            /// <summary> Suquamish </summary>
+            public static string  Suquamish = "H89";
+            /// <summary> Swinomish </summary>
+            public static string  Swinomish = "H90";
+            /// <summary> Tulalip </summary>
+            public static string  Tulalip = "H91";
+            /// <summary> Upper_Skagit </summary>
+            public static string  Upper_Skagit = "H92";
+            /// <summary> Potter_Valley_Rancheria_Of_Pomo_Indians </summary>
+            public static string  Potter_Valley_Rancheria_Of_Pomo_Indians = "H93";
+            /// <summary> Redwood_Valley_Rancheria_Of_Pomo_Indians </summary>
+            public static string  Redwood_Valley_Rancheria_Of_Pomo_Indians = "H94";
+            /// <summary> Robinson_Rancheria_Of_Pomo_Indians </summary>
+            public static string  Robinson_Rancheria_Of_Pomo_Indians = "H95";
+            /// <summary> Upper_Lake_Band_Of_Pomo_Indians_Of_Upper_Lake_Rancheria </summary>
+            public static string  Upper_Lake_Band_Of_Pomo_Indians_Of_Upper_Lake_Rancheria = "H96";
+            /// <summary> Quapaw </summary>
+            public static string  Quapaw = "H97";
+            /// <summary> Tigua </summary>
+            public static string  Tigua = "I01";
+            /// <summary> Quinault </summary>
+            public static string  Quinault = "J01";
+            /// <summary> Rappahannock_Indian_Tribe </summary>
+            public static string  Rappahannock_Indian_Tribe = "J05";
+            /// <summary> Renosparks </summary>
+            public static string  Renosparks = "J07";
+            /// <summary> Round_Valley </summary>
+            public static string  Round_Valley = "J14";
+            /// <summary> Sac_And_Fox_Tribe_Of_The_Mississippi_In_Iowa </summary>
+            public static string  Sac_And_Fox_Tribe_Of_The_Mississippi_In_Iowa = "J19";
+            /// <summary> Sac_And_Fox_Nation_Of_Missouri_In_Kansas_And_Nebraska </summary>
+            public static string  Sac_And_Fox_Nation_Of_Missouri_In_Kansas_And_Nebraska = "J20";
+            /// <summary> Sac_And_Fox_Nation_Oklahoma </summary>
+            public static string  Sac_And_Fox_Nation_Oklahoma = "J21";
+            /// <summary> Sac_And_Fox </summary>
+            public static string  Sac_And_Fox = "J22";
+            /// <summary> Salinan </summary>
+            public static string  Salinan = "J28";
+            /// <summary> Salish </summary>
+            public static string  Salish = "J31";
+            /// <summary> Salish_And_Kootenai </summary>
+            public static string  Salish_And_Kootenai = "J35";
+            /// <summary> Pondre_Band_Of_Salish_And_Kootenai </summary>
+            public static string  Pondre_Band_Of_Salish_And_Kootenai = "J36";
+            /// <summary> Schaghticoke </summary>
+            public static string  Schaghticoke = "J39";
+            /// <summary> Big_Cypress </summary>
+            public static string  Big_Cypress = "J47";
+            /// <summary> Brighton </summary>
+            public static string  Brighton = "J48";
+            /// <summary> Florida_Seminole </summary>
+            public static string  Florida_Seminole = "J49";
+            /// <summary> Hollywood_Seminole </summary>
+            public static string  Hollywood_Seminole = "J50";
+            /// <summary> Oklahoma_Seminole </summary>
+            public static string  Oklahoma_Seminole = "J51";
+            /// <summary> Seminole </summary>
+            public static string  Seminole = "J52";
+            /// <summary> Dania_Seminole </summary>
+            public static string  Dania_Seminole = "J53";
+            /// <summary> Tampa_Seminole </summary>
+            public static string  Tampa_Seminole = "J54";
+            /// <summary> San_Manual_Band </summary>
+            public static string  San_Manual_Band = "J58";
+            /// <summary> Serrano </summary>
+            public static string  Serrano = "J59";
+            /// <summary> Shasta </summary>
+            public static string  Shasta = "J62";
+            /// <summary> Quartz_Valley </summary>
+            public static string  Quartz_Valley = "J63";
+            /// <summary> Absentee_Shawnee_Tribe_Of_Indians_Of_Oklahoma </summary>
+            public static string  Absentee_Shawnee_Tribe_Of_Indians_Of_Oklahoma = "J66";
+            /// <summary> Eastern_Shawnee </summary>
+            public static string  Eastern_Shawnee = "J67";
+            /// <summary> Shawnee </summary>
+            public static string  Shawnee = "J68";
+            /// <summary> Piqua_Sept_Of_Ohio_Shawnee </summary>
+            public static string  Piqua_Sept_Of_Ohio_Shawnee = "J69";
+            /// <summary> Shinnecock </summary>
+            public static string  Shinnecock = "J74";
+            /// <summary> Shoalwater_Bay </summary>
+            public static string  Shoalwater_Bay = "J78";
+            /// <summary> Duckwater </summary>
+            public static string  Duckwater = "J81";
+            /// <summary> Ely </summary>
+            public static string  Ely = "J82";
+            /// <summary> Goshute </summary>
+            public static string  Goshute = "J83";
+            /// <summary> Panamint </summary>
+            public static string  Panamint = "J84";
+            /// <summary> Shoshone </summary>
+            public static string  Shoshone = "J85";
+            /// <summary> Skull_Valley_Band_Of_Goshute_Indians </summary>
+            public static string  Skull_Valley_Band_Of_Goshute_Indians = "J86";
+            /// <summary> Death_Valley_Timbisha_Shoshone </summary>
+            public static string  Death_Valley_Timbisha_Shoshone = "J88";
+            /// <summary> Northwestern_Band_Of_Shoshoni_Nation_Of_Utah </summary>
+            public static string  Northwestern_Band_Of_Shoshoni_Nation_Of_Utah = "J89";
+            /// <summary> Wind_River_Shoshone </summary>
+            public static string  Wind_River_Shoshone = "J90";
+            /// <summary> Yomba </summary>
+            public static string  Yomba = "J91";
+            /// <summary> Temoak_Tribes_Of_Western_Shoshone_Indians </summary>
+            public static string  Temoak_Tribes_Of_Western_Shoshone_Indians = "J93";
+            /// <summary> Battle_Mountain </summary>
+            public static string  Battle_Mountain = "J94";
+            /// <summary> Elko </summary>
+            public static string  Elko = "J95";
+            /// <summary> South_Fork </summary>
+            public static string  South_Fork = "J96";
+            /// <summary> Wells_Band </summary>
+            public static string  Wells_Band = "J97";
+            /// <summary> Ruby_Valley </summary>
+            public static string  Ruby_Valley = "J98";
+            /// <summary> Odgers_Ranch </summary>
+            public static string  Odgers_Ranch = "J99";
+            /// <summary> Duck_Valley </summary>
+            public static string  Duck_Valley = "K01";
+            /// <summary> Fallen </summary>
+            public static string  Fallen = "K02";
+            /// <summary> Fort_Mcdermitt_Paiute_And_Shoshone_Tribes </summary>
+            public static string  Fort_Mcdermitt_Paiute_And_Shoshone_Tribes = "K03";
+            /// <summary> Shoshone_Paiute </summary>
+            public static string  Shoshone_Paiute = "K04";
+            /// <summary> Bishop </summary>
+            public static string  Bishop = "K05";
+            /// <summary> Lone_Pine </summary>
+            public static string  Lone_Pine = "K06";
+            /// <summary> Big_Pine_Band_Of_Owens_Valley_Paiuteshoshone </summary>
+            public static string  Big_Pine_Band_Of_Owens_Valley_Paiuteshoshone = "K07";
+            /// <summary> Confederated_Tribes_Of_The_Siletz_Reservation </summary>
+            public static string  Confederated_Tribes_Of_The_Siletz_Reservation = "K10";
+            /// <summary> Blackfoot_Sioux </summary>
+            public static string  Blackfoot_Sioux = "K16";
+            /// <summary> Brule_Sioux </summary>
+            public static string  Brule_Sioux = "K17";
+            /// <summary> Cheyenne_River_Sioux </summary>
+            public static string  Cheyenne_River_Sioux = "K18";
+            /// <summary> Crow_Creek_Sioux </summary>
+            public static string  Crow_Creek_Sioux = "K19";
+            /// <summary> Dakota_Sioux </summary>
+            public static string  Dakota_Sioux = "K20";
+            /// <summary> Flandreau_Santee_Sioux </summary>
+            public static string  Flandreau_Santee_Sioux = "K21";
+            /// <summary> Fort_Peck_Sioux </summary>
+            public static string  Fort_Peck_Sioux = "K22";
+            /// <summary> Lake_Traverse_Sioux </summary>
+            public static string  Lake_Traverse_Sioux = "K23";
+            /// <summary> Lower_Brule_Sioux </summary>
+            public static string  Lower_Brule_Sioux = "K24";
+            /// <summary> Lower_Sioux_Indian_Community_Of_Minnesota_Mdewakanton_Sioux </summary>
+            public static string  Lower_Sioux_Indian_Community_Of_Minnesota_Mdewakanton_Sioux = "K25";
+            /// <summary> Mdewakanton_Sioux </summary>
+            public static string  Mdewakanton_Sioux = "K26";
+            /// <summary> Miniconjou </summary>
+            public static string  Miniconjou = "K27";
+            /// <summary> Oglala_Sioux </summary>
+            public static string  Oglala_Sioux = "K28";
+            /// <summary> Pine_Ridge_Sioux </summary>
+            public static string  Pine_Ridge_Sioux = "K29";
+            /// <summary> Pipestone_Sioux </summary>
+            public static string  Pipestone_Sioux = "K30";
+            /// <summary> Prairie_Island_Sioux </summary>
+            public static string  Prairie_Island_Sioux = "K31";
+            /// <summary> Shakopee_Mdewakanton_Sioux_Community </summary>
+            public static string  Shakopee_Mdewakanton_Sioux_Community = "K32";
+            /// <summary> Rosebud_Sioux </summary>
+            public static string  Rosebud_Sioux = "K33";
+            /// <summary> Sans_Arc_Sioux </summary>
+            public static string  Sans_Arc_Sioux = "K34";
+            /// <summary> Santee_Sioux_Of_Nebraska </summary>
+            public static string  Santee_Sioux_Of_Nebraska = "K35";
+            /// <summary> Sioux </summary>
+            public static string  Sioux = "K36";
+            /// <summary> Sissetonwahpeton </summary>
+            public static string  Sissetonwahpeton = "K37";
+            /// <summary> Sisseton_Sioux </summary>
+            public static string  Sisseton_Sioux = "K38";
+            /// <summary> Spirit_Lake_Sioux </summary>
+            public static string  Spirit_Lake_Sioux = "K39";
+            /// <summary> Standing_Rock_Sioux </summary>
+            public static string  Standing_Rock_Sioux = "K40";
+            /// <summary> Teton_Sioux </summary>
+            public static string  Teton_Sioux = "K41";
+            /// <summary> Two_Kettle_Sioux </summary>
+            public static string  Two_Kettle_Sioux = "K42";
+            /// <summary> Upper_Sioux </summary>
+            public static string  Upper_Sioux = "K43";
+            /// <summary> Wahpekute_Sioux </summary>
+            public static string  Wahpekute_Sioux = "K44";
+            /// <summary> Wahpeton_Sioux </summary>
+            public static string  Wahpeton_Sioux = "K45";
+            /// <summary> Wazhaza_Sioux </summary>
+            public static string  Wazhaza_Sioux = "K46";
+            /// <summary> Yankton_Sioux </summary>
+            public static string  Yankton_Sioux = "K47";
+            /// <summary> Yanktonai_Sioux </summary>
+            public static string  Yanktonai_Sioux = "K48";
+            /// <summary> Siuslaw </summary>
+            public static string  Siuslaw = "K54";
+            /// <summary> Spokane </summary>
+            public static string  Spokane = "K59";
+            /// <summary> Stockbridgemunsee_Community_Of_Mohican_Indians_Of_Wisconsin </summary>
+            public static string  Stockbridgemunsee_Community_Of_Mohican_Indians_Of_Wisconsin = "K67";
+            /// <summary> Akchin </summary>
+            public static string  Akchin = "K77";
+            /// <summary> Gila_Bend </summary>
+            public static string  Gila_Bend = "K78";
+            /// <summary> San_Xavier </summary>
+            public static string  San_Xavier = "K79";
+            /// <summary> Sells </summary>
+            public static string  Sells = "K80";
+            /// <summary> Tohono_Oodham </summary>
+            public static string  Tohono_Oodham = "K81";
+            /// <summary> Tolowa </summary>
+            public static string  Tolowa = "K87";
+            /// <summary> Big_Lagoon_Rancheria </summary>
+            public static string  Big_Lagoon_Rancheria = "K88";
+            /// <summary> Elk_Valley_Rancheria </summary>
+            public static string  Elk_Valley_Rancheria = "K89";
+            /// <summary> Tonkawa </summary>
+            public static string  Tonkawa = "K90";
+            /// <summary> Cherae_Indian_Community_Of_Trinidad_Rancheria </summary>
+            public static string  Cherae_Indian_Community_Of_Trinidad_Rancheria = "K93";
+            /// <summary> Tygh </summary>
+            public static string  Tygh = "K94";
+            /// <summary> Umatilla </summary>
+            public static string  Umatilla = "K97";
+            /// <summary> Cow_Creek_Umpqua </summary>
+            public static string  Cow_Creek_Umpqua = "L01";
+            /// <summary> Umpqua </summary>
+            public static string  Umpqua = "L02";
+            /// <summary> Alien_Canyon </summary>
+            public static string  Alien_Canyon = "L06";
+            /// <summary> Uintah_Ute </summary>
+            public static string  Uintah_Ute = "L07";
+            /// <summary> Ute_Mountain </summary>
+            public static string  Ute_Mountain = "L08";
+            /// <summary> Ute </summary>
+            public static string  Ute = "L09";
+            /// <summary> Southern_Ute </summary>
+            public static string  Southern_Ute = "L10";
+            /// <summary> Wailaki </summary>
+            public static string  Wailaki = "L15";
+            /// <summary> Wallawalla </summary>
+            public static string  Wallawalla = "L19";
+            /// <summary> Gay_Head_Wampanoag </summary>
+            public static string  Gay_Head_Wampanoag = "L22";
+            /// <summary> Mashpee_Wampanoag </summary>
+            public static string  Mashpee_Wampanoag = "L23";
+            /// <summary> Wampanoag </summary>
+            public static string  Wampanoag = "L24";
+            /// <summary> Seaconeke_Wampanoag </summary>
+            public static string  Seaconeke_Wampanoag = "L25";
+            /// <summary> Pocasset_Wampanoag </summary>
+            public static string  Pocasset_Wampanoag = "L26";
+            /// <summary> Warm_Springs </summary>
+            public static string  Warm_Springs = "L28";
+            /// <summary> Wascopum </summary>
+            public static string  Wascopum = "L34";
+            /// <summary> Alpine </summary>
+            public static string  Alpine = "L38";
+            /// <summary> Carson_Colony </summary>
+            public static string  Carson_Colony = "L39";
+            /// <summary> Dresslerville_Colony </summary>
+            public static string  Dresslerville_Colony = "L40";
+            /// <summary> Washoe </summary>
+            public static string  Washoe = "L41";
+            /// <summary> Stewart_Community </summary>
+            public static string  Stewart_Community = "L42";
+            /// <summary> Woodsfords_Community </summary>
+            public static string  Woodsfords_Community = "L43";
+            /// <summary> Wichita </summary>
+            public static string  Wichita = "L47";
+            /// <summary> Keechi </summary>
+            public static string  Keechi = "L48";
+            /// <summary> Waco </summary>
+            public static string  Waco = "L49";
+            /// <summary> Tawakonie </summary>
+            public static string  Tawakonie = "L50";
+            /// <summary> Wind_River </summary>
+            public static string  Wind_River = "L52";
+            /// <summary> Hochunk_Nation_Of_Wisconsin </summary>
+            public static string  Hochunk_Nation_Of_Wisconsin = "L55";
+            /// <summary> Nebraska_Winnebago </summary>
+            public static string  Nebraska_Winnebago = "L56";
+            /// <summary> Winnebago </summary>
+            public static string  Winnebago = "L57";
+            /// <summary> Wintun </summary>
+            public static string  Wintun = "L66";
+            /// <summary> Cachil_Dehe_Band_Of_Wintun_Indians_Of_The_Colusa_Rancheria </summary>
+            public static string  Cachil_Dehe_Band_Of_Wintun_Indians_Of_The_Colusa_Rancheria = "L67";
+            /// <summary> Cortina_Indian_Rancheria_Of_Wintun_Indians </summary>
+            public static string  Cortina_Indian_Rancheria_Of_Wintun_Indians = "L68";
+            /// <summary> Rumsey_Indian_Rancheria_Of_Wintun_Indians </summary>
+            public static string  Rumsey_Indian_Rancheria_Of_Wintun_Indians = "L69";
+            /// <summary> Grindstone_Indian_Rancheria_Of_Wintunwailaki_Indians </summary>
+            public static string  Grindstone_Indian_Rancheria_Of_Wintunwailaki_Indians = "L71";
+            /// <summary> Table_Bluff </summary>
+            public static string  Table_Bluff = "L72";
+            /// <summary> Wiyot </summary>
+            public static string  Wiyot = "L73";
+            /// <summary> Blue_Lake_Rancheria </summary>
+            public static string  Blue_Lake_Rancheria = "L74";
+            /// <summary> Yakama </summary>
+            public static string  Yakama = "L79";
+            /// <summary> Yakama_Cowlitz </summary>
+            public static string  Yakama_Cowlitz = "L85";
+            /// <summary> Barrio_Libre </summary>
+            public static string  Barrio_Libre = "L91";
+            /// <summary> Pascua_Yaqui </summary>
+            public static string  Pascua_Yaqui = "L92";
+            /// <summary> Yaqui </summary>
+            public static string  Yaqui = "L93";
+            /// <summary> Yavapai_Apache </summary>
+            public static string  Yavapai_Apache = "M01";
+            /// <summary> Picayune_Rancheria_Of_Chukchansi_Indians </summary>
+            public static string  Picayune_Rancheria_Of_Chukchansi_Indians = "M07";
+            /// <summary> Tachi </summary>
+            public static string  Tachi = "M08";
+            /// <summary> Tule_River </summary>
+            public static string  Tule_River = "M09";
+            /// <summary> Yokuts </summary>
+            public static string  Yokuts = "M10";
+            /// <summary> Table_Mountain_Rancheria </summary>
+            public static string  Table_Mountain_Rancheria = "M11";
+            /// <summary> Yuchi </summary>
+            public static string  Yuchi = "M16";
+            /// <summary> Tia </summary>
+            public static string  Tia = "M17";
+            /// <summary> Wilono </summary>
+            public static string  Wilono = "M18";
+            /// <summary> Anstohini </summary>
+            public static string  Anstohini = "M19";
+            /// <summary> Cocopah_Tribe_Of_Arizona </summary>
+            public static string  Cocopah_Tribe_Of_Arizona = "M22";
+            /// <summary> Havasupai </summary>
+            public static string  Havasupai = "M23";
+            /// <summary> Hualapai </summary>
+            public static string  Hualapai = "M24";
+            /// <summary> Maricopa </summary>
+            public static string  Maricopa = "M25";
+            /// <summary> Fort_Mojave_Indian_Tribe_Of_Arizona </summary>
+            public static string  Fort_Mojave_Indian_Tribe_Of_Arizona = "M26";
+            /// <summary> Quechan </summary>
+            public static string  Quechan = "M27";
+            /// <summary> Yavapaiprescott_Tribe_Of_The_Yavapai_Reservation </summary>
+            public static string  Yavapaiprescott_Tribe_Of_The_Yavapai_Reservation = "M28";
+            /// <summary> Yuman </summary>
+            public static string  Yuman = "M29";
+            /// <summary> Resighini_Rancheria </summary>
+            public static string  Resighini_Rancheria = "M34";
+            /// <summary> Yurok </summary>
+            public static string  Yurok = "M35";
+            /// <summary> Coast_Yurok </summary>
+            public static string  Coast_Yurok = "M36";
+            /// <summary> American_Indian </summary>
+            public static string  American_Indian = "M41";
+            /// <summary> Tribal_Response_Nec </summary>
+            public static string  Tribal_Response_Nec = "M42";
+            /// <summary> Kutenai_Indian </summary>
+            public static string  Kutenai_Indian = "M43";
+            /// <summary> Alaska_Indian </summary>
+            public static string  Alaska_Indian = "M44";
+            /// <summary> Alaska_Native </summary>
+            public static string  Alaska_Native = "M47";
+            /// <summary> Other_Alaskan_Nec </summary>
+            public static string  Other_Alaskan_Nec = "M48";
+            /// <summary> Ahtna </summary>
+            public static string  Ahtna = "M52";
+            /// <summary> Alaskan_Athabascan </summary>
+            public static string  Alaskan_Athabascan = "M53";
+            /// <summary> Alatna_Village </summary>
+            public static string  Alatna_Village = "M54";
+            /// <summary> Alexander </summary>
+            public static string  Alexander = "M55";
+            /// <summary> Allakaket_Village </summary>
+            public static string  Allakaket_Village = "M56";
+            /// <summary> Alanvik </summary>
+            public static string  Alanvik = "M57";
+            /// <summary> Anvik_Village </summary>
+            public static string  Anvik_Village = "M58";
+            /// <summary> Arctic_Village </summary>
+            public static string  Arctic_Village = "M59";
+            /// <summary> Beaver_Village </summary>
+            public static string  Beaver_Village = "M60";
+            /// <summary> Birch_Crcek_Village </summary>
+            public static string  Birch_Crcek_Village = "M61";
+            /// <summary> Native_Village_Of_Cantwell </summary>
+            public static string  Native_Village_Of_Cantwell = "M62";
+            /// <summary> Chalkyitsik_Village </summary>
+            public static string  Chalkyitsik_Village = "M63";
+            /// <summary> Chickaloon_Native_Village </summary>
+            public static string  Chickaloon_Native_Village = "M64";
+            /// <summary> Native_Village_Of_Chistochina </summary>
+            public static string  Native_Village_Of_Chistochina = "M65";
+            /// <summary> Native_Village_Of_Chitina </summary>
+            public static string  Native_Village_Of_Chitina = "M66";
+            /// <summary> Circle_Native_Community </summary>
+            public static string  Circle_Native_Community = "M67";
+            /// <summary> Cook_Inlet </summary>
+            public static string  Cook_Inlet = "M68";
+            /// <summary> Copper_Center </summary>
+            public static string  Copper_Center = "M69";
+            /// <summary> Copper_River </summary>
+            public static string  Copper_River = "M70";
+            /// <summary> Village_Of_Dot_Lake </summary>
+            public static string  Village_Of_Dot_Lake = "M71";
+            /// <summary> Doyon </summary>
+            public static string  Doyon = "M72";
+            /// <summary> Native_Village_Of_Eagle </summary>
+            public static string  Native_Village_Of_Eagle = "M73";
+            /// <summary> Ekiutna_Native_Village </summary>
+            public static string  Ekiutna_Native_Village = "M74";
+            /// <summary> Evansville_Village </summary>
+            public static string  Evansville_Village = "M75";
+            /// <summary> Native_Village_Of_Fort_Yukon </summary>
+            public static string  Native_Village_Of_Fort_Yukon = "M76";
+            /// <summary> Native_Village_Of_Gakona </summary>
+            public static string  Native_Village_Of_Gakona = "M77";
+            /// <summary> Galena_Village </summary>
+            public static string  Galena_Village = "M78";
+            /// <summary> Organized_Village_Of_Grayling </summary>
+            public static string  Organized_Village_Of_Grayling = "M79";
+            /// <summary> Gulkana_Village </summary>
+            public static string  Gulkana_Village = "M80";
+            /// <summary> Healy_Lake_Village </summary>
+            public static string  Healy_Lake_Village = "M81";
+            /// <summary> Holy_Cross_Village </summary>
+            public static string  Holy_Cross_Village = "M82";
+            /// <summary> Hughes_Village </summary>
+            public static string  Hughes_Village = "M83";
+            /// <summary> Huslia_Village </summary>
+            public static string  Huslia_Village = "M84";
+            /// <summary> Village_Of_Iliamna </summary>
+            public static string  Village_Of_Iliamna = "M85";
+            /// <summary> Village_Ofkaltag </summary>
+            public static string  Village_Ofkaltag = "M86";
+            /// <summary> Native_Village_Of_Kluti_Kaah </summary>
+            public static string  Native_Village_Of_Kluti_Kaah = "M87";
+            /// <summary> Knik_Tribe </summary>
+            public static string  Knik_Tribe = "M88";
+            /// <summary> Koyukuk_Native_Village </summary>
+            public static string  Koyukuk_Native_Village = "M89";
+            /// <summary> Lake_Minchumina </summary>
+            public static string  Lake_Minchumina = "M90";
+            /// <summary> Lime_Village </summary>
+            public static string  Lime_Village = "M91";
+            /// <summary> Mcgrath_Native_Village </summary>
+            public static string  Mcgrath_Native_Village = "M92";
+            /// <summary> Manley_Hot_Springs_Village </summary>
+            public static string  Manley_Hot_Springs_Village = "M93";
+            /// <summary> Mentasta_Traditional_Council </summary>
+            public static string  Mentasta_Traditional_Council = "M94";
+            /// <summary> Native_Village_Of_Minto </summary>
+            public static string  Native_Village_Of_Minto = "M95";
+            /// <summary> Nenana_Native_Association </summary>
+            public static string  Nenana_Native_Association = "M96";
+            /// <summary> Nikolai_Village </summary>
+            public static string  Nikolai_Village = "M97";
+            /// <summary> Ninilchik_Village_Traditional_Council </summary>
+            public static string  Ninilchik_Village_Traditional_Council = "M98";
+            /// <summary> Nondalton_Village </summary>
+            public static string  Nondalton_Village = "M99";
+            /// <summary> Northway_Village </summary>
+            public static string  Northway_Village = "N01";
+            /// <summary> Nulato_Village </summary>
+            public static string  Nulato_Village = "N02";
+            /// <summary> Pedro_Bay_Village </summary>
+            public static string  Pedro_Bay_Village = "N03";
+            /// <summary> Rampart_Village </summary>
+            public static string  Rampart_Village = "N04";
+            /// <summary> Native_Village_Of_Ruby </summary>
+            public static string  Native_Village_Of_Ruby = "N05";
+            /// <summary> Village_Of_Salamatoff </summary>
+            public static string  Village_Of_Salamatoff = "N06";
+            /// <summary> Seldovia_Village_Tribe </summary>
+            public static string  Seldovia_Village_Tribe = "N07";
+            /// <summary> Slana </summary>
+            public static string  Slana = "N08";
+            /// <summary> Shageluk_Native_Village </summary>
+            public static string  Shageluk_Native_Village = "N09";
+            /// <summary> Native_Village_Of_Stevens </summary>
+            public static string  Native_Village_Of_Stevens = "N10";
+            /// <summary> Village_Of_Stony_River </summary>
+            public static string  Village_Of_Stony_River = "N11";
+            /// <summary> Takotna_Village </summary>
+            public static string  Takotna_Village = "N12";
+            /// <summary> Native_Village_Of_Tanacross </summary>
+            public static string  Native_Village_Of_Tanacross = "N13";
+            /// <summary> Tanaina </summary>
+            public static string  Tanaina = "N14";
+            /// <summary> Native_Village_Of_Tanana </summary>
+            public static string  Native_Village_Of_Tanana = "N15";
+            /// <summary> Tanana_Chiefs </summary>
+            public static string  Tanana_Chiefs = "N16";
+            /// <summary> Native_Village_Of_Tazlina </summary>
+            public static string  Native_Village_Of_Tazlina = "N17";
+            /// <summary> Telida_Village </summary>
+            public static string  Telida_Village = "N18";
+            /// <summary> Native_Village_Of_Tetlin </summary>
+            public static string  Native_Village_Of_Tetlin = "N19";
+            /// <summary> Tok </summary>
+            public static string  Tok = "N20";
+            /// <summary> Native_Village_Of_Tyonek </summary>
+            public static string  Native_Village_Of_Tyonek = "N21";
+            /// <summary> Village_Of_Venetie </summary>
+            public static string  Village_Of_Venetie = "N22";
+            /// <summary> Wiseman </summary>
+            public static string  Wiseman = "N23";
+            /// <summary> Kenaitze_Indian_Tribe </summary>
+            public static string  Kenaitze_Indian_Tribe = "N24";
+            /// <summary> Tlingit </summary>
+            public static string  Tlingit = "N27";
+            /// <summary> Angoon_Community_Association </summary>
+            public static string  Angoon_Community_Association = "N28";
+            /// <summary> Central_Council_Of_The_Tlingit_And_Haida_Indian_Tribes </summary>
+            public static string  Central_Council_Of_The_Tlingit_And_Haida_Indian_Tribes = "N29";
+            /// <summary> Chilkat_Indian_Village </summary>
+            public static string  Chilkat_Indian_Village = "N30";
+            /// <summary> Chilkoot_Indian_Association </summary>
+            public static string  Chilkoot_Indian_Association = "N31";
+            /// <summary> Craig_Community_Association </summary>
+            public static string  Craig_Community_Association = "N32";
+            /// <summary> Douglas_Indian_Association </summary>
+            public static string  Douglas_Indian_Association = "N33";
+            /// <summary> Haida </summary>
+            public static string  Haida = "N34";
+            /// <summary> Hoonah_Indian_Association </summary>
+            public static string  Hoonah_Indian_Association = "N35";
+            /// <summary> Hydaburg_Cooperative_Association </summary>
+            public static string  Hydaburg_Cooperative_Association = "N36";
+            /// <summary> Organized_Village_Of_Kake </summary>
+            public static string  Organized_Village_Of_Kake = "N37";
+            /// <summary> Organized_Village_Of_Kasaan </summary>
+            public static string  Organized_Village_Of_Kasaan = "N38";
+            /// <summary> Ketchikan_Indian_Corporation </summary>
+            public static string  Ketchikan_Indian_Corporation = "N40";
+            /// <summary> Klawock_Cooperative_Association </summary>
+            public static string  Klawock_Cooperative_Association = "N41";
+            /// <summary> Pelican </summary>
+            public static string  Pelican = "N43";
+            /// <summary> Petersburg_Indian_Association </summary>
+            public static string  Petersburg_Indian_Association = "N44";
+            /// <summary> Organized_Village_Of_Saxman </summary>
+            public static string  Organized_Village_Of_Saxman = "N45";
+            /// <summary> Sitka_Tribe_Of_Alaska </summary>
+            public static string  Sitka_Tribe_Of_Alaska = "N46";
+            /// <summary> Tenakee_Springs </summary>
+            public static string  Tenakee_Springs = "N47";
+            /// <summary> Tlingit </summary>
+            public static string  Tlingit2 = "N48";
+            /// <summary> Wrangell_Cooperative_Association </summary>
+            public static string  Wrangell_Cooperative_Association = "N49";
+            /// <summary> Yakutat_Tlingit_Tribe </summary>
+            public static string  Yakutat_Tlingit_Tribe = "N50";
+            /// <summary> Juneau </summary>
+            public static string  Juneau = "N51";
+            /// <summary> Metlakatia_Indian_Community_Annette_Island_Reserve </summary>
+            public static string  Metlakatia_Indian_Community_Annette_Island_Reserve = "N56";
+            /// <summary> Tsimshian </summary>
+            public static string  Tsimshian = "N57";
+            /// <summary> Sealaska </summary>
+            public static string  Sealaska = "N59";
+            /// <summary> Sealaska_Corporation </summary>
+            public static string  Sealaska_Corporation = "N60";
+            /// <summary> Southeast_Alaska </summary>
+            public static string  Southeast_Alaska = "N64";
+            /// <summary> Skagway_Village </summary>
+            public static string  Skagway_Village = "N65";
+            /// <summary> American_Eskimo </summary>
+            public static string  American_Eskimo = "N67";
+            /// <summary> Eskimo </summary>
+            public static string  Eskimo = "N68";
+            /// <summary> Greenland_Eskimo </summary>
+            public static string  Greenland_Eskimo = "N69";
+            /// <summary> Inuit </summary>
+            public static string  Inuit = "N75";
+            /// <summary> Inupiat_Eskimo </summary>
+            public static string  Inupiat_Eskimo = "N78";
+            /// <summary> Native_Village_Of_Ambler </summary>
+            public static string  Native_Village_Of_Ambler = "N79";
+            /// <summary> Anaktuvuk </summary>
+            public static string  Anaktuvuk = "N80";
+            /// <summary> Village_Of_Anaktuvuk_Pass </summary>
+            public static string  Village_Of_Anaktuvuk_Pass = "N81";
+            /// <summary> Inupiat_Community_Of_The_Arctic_Slope </summary>
+            public static string  Inupiat_Community_Of_The_Arctic_Slope = "N82";
+            /// <summary> Arctic_Slope_Corporation </summary>
+            public static string  Arctic_Slope_Corporation = "N83";
+            /// <summary> Atqasuk_Village </summary>
+            public static string  Atqasuk_Village = "N84";
+            /// <summary> Native_Village_Of_Barrow_Hilipiat_Traditional_Government </summary>
+            public static string  Native_Village_Of_Barrow_Hilipiat_Traditional_Government = "N85";
+            /// <summary> Bering_Straits_Inupiat </summary>
+            public static string  Bering_Straits_Inupiat = "N86";
+            /// <summary> Native_Village_Of_Brevig_Mission </summary>
+            public static string  Native_Village_Of_Brevig_Mission = "N87";
+            /// <summary> Native_Village_Ofbuckland </summary>
+            public static string  Native_Village_Ofbuckland = "N88";
+            /// <summary> Chinik_Eskimo_Community </summary>
+            public static string  Chinik_Eskimo_Community = "N89";
+            /// <summary> Native_Village_Of_Council </summary>
+            public static string  Native_Village_Of_Council = "N90";
+            /// <summary> Native_Village_Of_Deering </summary>
+            public static string  Native_Village_Of_Deering = "N91";
+            /// <summary> Native_Village_Of_Elim </summary>
+            public static string  Native_Village_Of_Elim = "N92";
+            /// <summary> Golovin </summary>
+            public static string  Golovin = "N93";
+            /// <summary> Native_Village_Of_Diomede </summary>
+            public static string  Native_Village_Of_Diomede = "N94";
+            /// <summary> Inupiaq </summary>
+            public static string  Inupiaq = "N95";
+            /// <summary> Inupiat </summary>
+            public static string  Inupiat = "N96";
+            /// <summary> Kaktovik_Village </summary>
+            public static string  Kaktovik_Village = "N97";
+            /// <summary> Kawerak </summary>
+            public static string  Kawerak = "N98";
+            /// <summary> Native_Village_Of_Kiana </summary>
+            public static string  Native_Village_Of_Kiana = "N99";
+            /// <summary> Native_Village_Of_Kivalina </summary>
+            public static string  Native_Village_Of_Kivalina = "P01";
+            /// <summary> Native_Village_Of_Kobuk </summary>
+            public static string  Native_Village_Of_Kobuk = "P02";
+            /// <summary> Native_Village_Of_Kotzebue </summary>
+            public static string  Native_Village_Of_Kotzebue = "P03";
+            /// <summary> Native_Village_Of_Koyuk </summary>
+            public static string  Native_Village_Of_Koyuk = "P04";
+            /// <summary> Kwiguk </summary>
+            public static string  Kwiguk = "P05";
+            /// <summary> Mauneluk_Inupiat </summary>
+            public static string  Mauneluk_Inupiat = "P06";
+            /// <summary> Nana_Inupiat </summary>
+            public static string  Nana_Inupiat = "P07";
+            /// <summary> Native_Village_Of_Noatak </summary>
+            public static string  Native_Village_Of_Noatak = "P08";
+            /// <summary> Nome_Eskimo_Community </summary>
+            public static string  Nome_Eskimo_Community = "P09";
+            /// <summary> Noorvik_Native_Community </summary>
+            public static string  Noorvik_Native_Community = "P10";
+            /// <summary> Native_Village_Of_Nuiqsut </summary>
+            public static string  Native_Village_Of_Nuiqsut = "P11";
+            /// <summary> Native_Village_Of_Point_Hope </summary>
+            public static string  Native_Village_Of_Point_Hope = "P12";
+            /// <summary> Native_Village_Of_Point_Lay </summary>
+            public static string  Native_Village_Of_Point_Lay = "P13";
+            /// <summary> Native_Village_Of_Selawik </summary>
+            public static string  Native_Village_Of_Selawik = "P14";
+            /// <summary> Native_Village_Of_Shaktoolik </summary>
+            public static string  Native_Village_Of_Shaktoolik = "P15";
+            /// <summary> Native_Village_Of_Shishmaref </summary>
+            public static string  Native_Village_Of_Shishmaref = "P16";
+            /// <summary> Native_Village_Of_Shungnak </summary>
+            public static string  Native_Village_Of_Shungnak = "P17";
+            /// <summary> Village_Of_Solomon </summary>
+            public static string  Village_Of_Solomon = "P18";
+            /// <summary> Native_Village_Of_Teller </summary>
+            public static string  Native_Village_Of_Teller = "P19";
+            /// <summary> Native_Village_Of_Unalakleet </summary>
+            public static string  Native_Village_Of_Unalakleet = "P20";
+            /// <summary> Village_Of_Wainwright </summary>
+            public static string  Village_Of_Wainwright = "P21";
+            /// <summary> Village_Of_Wales </summary>
+            public static string  Village_Of_Wales = "P22";
+            /// <summary> Village_Of_White_Mountain </summary>
+            public static string  Village_Of_White_Mountain = "P23";
+            /// <summary> White_Mountain_Inupiat </summary>
+            public static string  White_Mountain_Inupiat = "P24";
+            /// <summary> Native_Village_Of_Marys_Igloo </summary>
+            public static string  Native_Village_Of_Marys_Igloo = "P25";
+            /// <summary> King_Island_Native_Community </summary>
+            public static string  King_Island_Native_Community = "P26";
+            /// <summary> Siberian_Eskimo </summary>
+            public static string  Siberian_Eskimo = "P29";
+            /// <summary> Native_Village_Of_Gambell </summary>
+            public static string  Native_Village_Of_Gambell = "P30";
+            /// <summary> Native_Village_Of_Savoonga </summary>
+            public static string  Native_Village_Of_Savoonga = "P31";
+            /// <summary> Siberian_Yupik </summary>
+            public static string  Siberian_Yupik = "P32";
+            /// <summary> Chevak_Native_Village </summary>
+            public static string  Chevak_Native_Village = "P36";
+            /// <summary> Native_Village_Of_Mekoryuk </summary>
+            public static string  Native_Village_Of_Mekoryuk = "P37";
+            /// <summary> Akiachak_Native_Community </summary>
+            public static string  Akiachak_Native_Community = "P38";
+            /// <summary> Akiak_Native_Community </summary>
+            public static string  Akiak_Native_Community = "P39";
+            /// <summary> Village_Of_Alakanuk </summary>
+            public static string  Village_Of_Alakanuk = "P40";
+            /// <summary> Native_Village_Of_Aleknagik </summary>
+            public static string  Native_Village_Of_Aleknagik = "P41";
+            /// <summary> Yupiit_Of_Andreafski </summary>
+            public static string  Yupiit_Of_Andreafski = "P42";
+            /// <summary> Village_Of_Aniak </summary>
+            public static string  Village_Of_Aniak = "P43";
+            /// <summary> Village_Of_Atmautluak </summary>
+            public static string  Village_Of_Atmautluak = "P44";
+            /// <summary> Orutsararmuit_Native_Village </summary>
+            public static string  Orutsararmuit_Native_Village = "P45";
+            /// <summary> Village_Of_Bill_Moores_Slough_Bay </summary>
+            public static string  Village_Of_Bill_Moores_Slough_Bay = "P46";
+            /// <summary> Bristol_Bay </summary>
+            public static string  Bristol_Bay = "P47";
+            /// <summary> Calista </summary>
+            public static string  Calista = "P48";
+            /// <summary> Village_Of_Chefomak </summary>
+            public static string  Village_Of_Chefomak = "P49";
+            /// <summary> Native_Of_Hamilton </summary>
+            public static string  Native_Of_Hamilton = "P50";
+            /// <summary> Native_Village_Of_Chuathbaluk </summary>
+            public static string  Native_Village_Of_Chuathbaluk = "P51";
+            /// <summary> Village_Of_Clarks_Point </summary>
+            public static string  Village_Of_Clarks_Point = "P52";
+            /// <summary> Village_Of_Crooked_Creek </summary>
+            public static string  Village_Of_Crooked_Creek = "P53";
+            /// <summary> Curyung_Tribal_Council </summary>
+            public static string  Curyung_Tribal_Council = "P54";
+            /// <summary> Native_Village_Of_Eek </summary>
+            public static string  Native_Village_Of_Eek = "P55";
+            /// <summary> Native_Village_Of_Ekuk </summary>
+            public static string  Native_Village_Of_Ekuk = "P56";
+            /// <summary> Ekwok_Village </summary>
+            public static string  Ekwok_Village = "P57";
+            /// <summary> Emmonak_Village </summary>
+            public static string  Emmonak_Village = "P58";
+            /// <summary> Native_Village_Of_Goodnews_Bay </summary>
+            public static string  Native_Village_Of_Goodnews_Bay = "P59";
+            /// <summary> Native_Village_Of_Hooper_Bay </summary>
+            public static string  Native_Village_Of_Hooper_Bay = "P60";
+            /// <summary> Iqurmuit_Traditional_Council </summary>
+            public static string  Iqurmuit_Traditional_Council = "P61";
+            /// <summary> Village_Of_Kalskag </summary>
+            public static string  Village_Of_Kalskag = "P62";
+            /// <summary> Native_Village_Of_Kasigluk </summary>
+            public static string  Native_Village_Of_Kasigluk = "P63";
+            /// <summary> Native_Village_Of_Kipnuk </summary>
+            public static string  Native_Village_Of_Kipnuk = "P64";
+            /// <summary> New_Koliganek_Village_Council </summary>
+            public static string  New_Koliganek_Village_Council = "P65";
+            /// <summary> Native_Village_Of_Kongiganak </summary>
+            public static string  Native_Village_Of_Kongiganak = "P66";
+            /// <summary> Village_Of_Kotlik </summary>
+            public static string  Village_Of_Kotlik = "P67";
+            /// <summary> Organized_Village_Of_Kwethluk </summary>
+            public static string  Organized_Village_Of_Kwethluk = "P68";
+            /// <summary> Native_Village_Of_Kwigillingok </summary>
+            public static string  Native_Village_Of_Kwigillingok = "P69";
+            /// <summary> Levelock_Village </summary>
+            public static string  Levelock_Village = "P70";
+            /// <summary> Village_Of_Lower_Kalskag </summary>
+            public static string  Village_Of_Lower_Kalskag = "P71";
+            /// <summary> Manokotak_Village </summary>
+            public static string  Manokotak_Village = "P72";
+            /// <summary> Native_Village_Of_Marshall </summary>
+            public static string  Native_Village_Of_Marshall = "P73";
+            /// <summary> Village_Of_Ohogamiut </summary>
+            public static string  Village_Of_Ohogamiut = "P74";
+            /// <summary> Asacarsarmiut_Tribe </summary>
+            public static string  Asacarsarmiut_Tribe = "P75";
+            /// <summary> Naknek_Native_Village </summary>
+            public static string  Naknek_Native_Village = "P76";
+            /// <summary> Native_Village_Of_Napaimute </summary>
+            public static string  Native_Village_Of_Napaimute = "P77";
+            /// <summary> Native_Village_Of_Napakiak </summary>
+            public static string  Native_Village_Of_Napakiak = "P78";
+            /// <summary> Native_Village_Of_Napaskiak </summary>
+            public static string  Native_Village_Of_Napaskiak = "P79";
+            /// <summary> Newhalen_Village </summary>
+            public static string  Newhalen_Village = "P80";
+            /// <summary> New_Stuyahok_Village </summary>
+            public static string  New_Stuyahok_Village = "P81";
+            /// <summary> Newtek_Village </summary>
+            public static string  Newtek_Village = "P82";
+            /// <summary> Native_Village_Of_Nightmute </summary>
+            public static string  Native_Village_Of_Nightmute = "P83";
+            /// <summary> Native_Village_Of_Nunapitchuk </summary>
+            public static string  Native_Village_Of_Nunapitchuk = "P84";
+            /// <summary> Oscarville_Traditional_Village </summary>
+            public static string  Oscarville_Traditional_Village = "P85";
+            /// <summary> Pilot_Station_Traditional_Village </summary>
+            public static string  Pilot_Station_Traditional_Village = "P86";
+            /// <summary> Native_Village_Of_Pitkas_Point </summary>
+            public static string  Native_Village_Of_Pitkas_Point = "P87";
+            /// <summary> Platinum_Traditional_Village </summary>
+            public static string  Platinum_Traditional_Village = "P88";
+            /// <summary> Portage_Creek_Village </summary>
+            public static string  Portage_Creek_Village = "P89";
+            /// <summary> Native_Village_Of_Kwinhagak </summary>
+            public static string  Native_Village_Of_Kwinhagak = "P90";
+            /// <summary> Village_Of_Red_Devil </summary>
+            public static string  Village_Of_Red_Devil = "P91";
+            /// <summary> Native_Village_Of_Saint_Michael </summary>
+            public static string  Native_Village_Of_Saint_Michael = "P92";
+            /// <summary> Native_Village_Of_Scammon_Bay </summary>
+            public static string  Native_Village_Of_Scammon_Bay = "P93";
+            /// <summary> Native_Village_Of_Sheldons_Point </summary>
+            public static string  Native_Village_Of_Sheldons_Point = "P94";
+            /// <summary> Village_Of_Sleetmute </summary>
+            public static string  Village_Of_Sleetmute = "P95";
+            /// <summary> Stebbins_Community_Association </summary>
+            public static string  Stebbins_Community_Association = "P96";
+            /// <summary> Traditional_Village_Oftogiak </summary>
+            public static string  Traditional_Village_Oftogiak = "P97";
+            /// <summary> Native_Village_Of_Toksook_Bay </summary>
+            public static string  Native_Village_Of_Toksook_Bay = "P98";
+            /// <summary> Tuluksak_Native_Community </summary>
+            public static string  Tuluksak_Native_Community = "P99";
+            /// <summary> Mountain_Village </summary>
+            public static string  Mountain_Village = "Q01";
+            /// <summary> Native_Village_Of_Tuntutuliak </summary>
+            public static string  Native_Village_Of_Tuntutuliak = "R01";
+            /// <summary> Native_Village_Of_Tununak </summary>
+            public static string  Native_Village_Of_Tununak = "R02";
+            /// <summary> Twin_Hills_Village </summary>
+            public static string  Twin_Hills_Village = "R03";
+            /// <summary> Yupik </summary>
+            public static string  Yupik = "R04";
+            /// <summary> Yupik_Eskimo </summary>
+            public static string  Yupik_Eskimo = "R05";
+            /// <summary> Native_Village_Of_Georgetown </summary>
+            public static string  Native_Village_Of_Georgetown = "R06";
+            /// <summary> Algaaciq_Native_Village </summary>
+            public static string  Algaaciq_Native_Village = "R07";
+            /// <summary> Umkumiute_Native_Village </summary>
+            public static string  Umkumiute_Native_Village = "R08";
+            /// <summary> Chuloonawick_Native_Village </summary>
+            public static string  Chuloonawick_Native_Village = "R09";
+            /// <summary> Aleut </summary>
+            public static string  Aleut = "R11";
+            /// <summary> Alutiiq_Aleut </summary>
+            public static string  Alutiiq_Aleut = "R15";
+            /// <summary> Alutiiq </summary>
+            public static string  Alutiiq = "R16";
+            /// <summary> Village_Of_Afognak </summary>
+            public static string  Village_Of_Afognak = "R17";
+            /// <summary> Native_Village_Of_Tatitlek </summary>
+            public static string  Native_Village_Of_Tatitlek = "R18";
+            /// <summary> Ugashik_Village </summary>
+            public static string  Ugashik_Village = "R19";
+            /// <summary> Bristol_Bay_Aleut </summary>
+            public static string  Bristol_Bay_Aleut = "R28";
+            /// <summary> Native_Village_Of_Chignik </summary>
+            public static string  Native_Village_Of_Chignik = "R29";
+            /// <summary> Chignik_Lake_Village </summary>
+            public static string  Chignik_Lake_Village = "R30";
+            /// <summary> Egegik_Village </summary>
+            public static string  Egegik_Village = "R31";
+            /// <summary> Igiugig_Village </summary>
+            public static string  Igiugig_Village = "R32";
+            /// <summary> Ivanoff_Bay_Village </summary>
+            public static string  Ivanoff_Bay_Village = "R33";
+            /// <summary> King_Salmon </summary>
+            public static string  King_Salmon = "R34";
+            /// <summary> Kokhanok_Village </summary>
+            public static string  Kokhanok_Village = "R35";
+            /// <summary> Native_Village_Of_Perryville </summary>
+            public static string  Native_Village_Of_Perryville = "R36";
+            /// <summary> Native_Village_Of_Pilot_Point </summary>
+            public static string  Native_Village_Of_Pilot_Point = "R37";
+            /// <summary> Native_Village_Of_Port_Heiden </summary>
+            public static string  Native_Village_Of_Port_Heiden = "R38";
+            /// <summary> Native_Village_Of_Chanega </summary>
+            public static string  Native_Village_Of_Chanega = "R43";
+            /// <summary> Chugach_Aleut </summary>
+            public static string  Chugach_Aleut = "R44";
+            /// <summary> Chugach_Corporation </summary>
+            public static string  Chugach_Corporation = "R45";
+            /// <summary> Native_Village_Of_Nanwaiek </summary>
+            public static string  Native_Village_Of_Nanwaiek = "R46";
+            /// <summary> Native_Village_Of_Port_Graham </summary>
+            public static string  Native_Village_Of_Port_Graham = "R47";
+            /// <summary> Eyak </summary>
+            public static string  Eyak = "R51";
+            /// <summary> Native_Village_Of_Akhiok </summary>
+            public static string  Native_Village_Of_Akhiok = "R55";
+            /// <summary> Agdaagux_Tribe_Of_King_Cove </summary>
+            public static string  Agdaagux_Tribe_Of_King_Cove = "R56";
+            /// <summary> Native_Village_Of_Karluk </summary>
+            public static string  Native_Village_Of_Karluk = "R57";
+            /// <summary> Native_Village_Of_Kanatak </summary>
+            public static string  Native_Village_Of_Kanatak = "R58";
+            /// <summary> Kodiak </summary>
+            public static string  Kodiak = "R59";
+            /// <summary> Koniag_Aleut </summary>
+            public static string  Koniag_Aleut = "R60";
+            /// <summary> Native_Village_Of_Larsen_Bay </summary>
+            public static string  Native_Village_Of_Larsen_Bay = "R61";
+            /// <summary> Village_Of_Old_Harbor </summary>
+            public static string  Village_Of_Old_Harbor = "R62";
+            /// <summary> Native_Village_Of_Ouzinkie </summary>
+            public static string  Native_Village_Of_Ouzinkie = "R63";
+            /// <summary> Native_Village_Of_Port_Lions </summary>
+            public static string  Native_Village_Of_Port_Lions = "R64";
+            /// <summary> Lesnoi_Village </summary>
+            public static string  Lesnoi_Village = "R65";
+            /// <summary> Sugpiaq </summary>
+            public static string  Sugpiaq = "R67";
+            /// <summary> Suqpigaq </summary>
+            public static string  Suqpigaq = "R71";
+            /// <summary> Unangan_Aleut </summary>
+            public static string  Unangan_Aleut = "R74";
+            /// <summary> Native_Village_Of_Akutan </summary>
+            public static string  Native_Village_Of_Akutan = "R75";
+            /// <summary> Aleut_Corporation </summary>
+            public static string  Aleut_Corporation = "R76";
+            /// <summary> Aleutian </summary>
+            public static string  Aleutian = "R77";
+            /// <summary> Aleutian_Islander </summary>
+            public static string  Aleutian_Islander = "R78";
+            /// <summary> Native_Village_Of_Atka </summary>
+            public static string  Native_Village_Of_Atka = "R79";
+            /// <summary> Native_Village_Of_Belkofski </summary>
+            public static string  Native_Village_Of_Belkofski = "R80";
+            /// <summary> Native_Village_Of_Chignikn_Lagoon </summary>
+            public static string  Native_Village_Of_Chignikn_Lagoon = "R81";
+            /// <summary> King_Cove </summary>
+            public static string  King_Cove = "R82";
+            /// <summary> Native_Village_Of_False_Pass </summary>
+            public static string  Native_Village_Of_False_Pass = "R83";
+            /// <summary> Native_Village_Of_Nelson_Lagoon </summary>
+            public static string  Native_Village_Of_Nelson_Lagoon = "R84";
+            /// <summary> Native_Village_Of_Nikolski </summary>
+            public static string  Native_Village_Of_Nikolski = "R85";
+            /// <summary> Pauloff_Harbor_Village </summary>
+            public static string  Pauloff_Harbor_Village = "R86";
+            /// <summary> Qagan_Toyagungin_Tribe_Of_Sand_Point_Village </summary>
+            public static string  Qagan_Toyagungin_Tribe_Of_Sand_Point_Village = "R87";
+            /// <summary> Qawalangin_Tribe_Of_Unalaska </summary>
+            public static string  Qawalangin_Tribe_Of_Unalaska = "R88";
+            /// <summary> Saint_George </summary>
+            public static string  Saint_George = "R89";
+            /// <summary> Saint_Paul </summary>
+            public static string  Saint_Paul = "R90";
+            /// <summary> Sand_Point </summary>
+            public static string  Sand_Point = "R91";
+            /// <summary> South_Naknek_Village </summary>
+            public static string  South_Naknek_Village = "R92";
+            /// <summary> Unangan </summary>
+            public static string  Unangan = "R93";
+            /// <summary> Unalaska </summary>
+            public static string  Unalaska = "R94";
+            /// <summary> Native_Village_Of_Unga </summary>
+            public static string  Native_Village_Of_Unga = "R95";
+            /// <summary> Kaguyak_Village </summary>
+            public static string  Kaguyak_Village = "R96";
+        };
+        /// <summary> RaceRecode40 </summary>
+        public static class RaceRecode40 {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "01", "White", VRDR.CodeSystems.RaceRecode40 },
+                { "02", "Black", VRDR.CodeSystems.RaceRecode40 },
+                { "03", "American Indian or Alaskan Native (AIAN)", VRDR.CodeSystems.RaceRecode40 },
+                { "04", "Asian Indian", VRDR.CodeSystems.RaceRecode40 },
+                { "05", "Chinese", VRDR.CodeSystems.RaceRecode40 },
+                { "06", "Filipino", VRDR.CodeSystems.RaceRecode40 },
+                { "07", "Japanese", VRDR.CodeSystems.RaceRecode40 },
+                { "08", "Korean", VRDR.CodeSystems.RaceRecode40 },
+                { "09", "Vietnamese", VRDR.CodeSystems.RaceRecode40 },
+                { "10", "Other or Multiple Asian", VRDR.CodeSystems.RaceRecode40 },
+                { "11", "Hawaiian", VRDR.CodeSystems.RaceRecode40 },
+                { "12", "Guamanian", VRDR.CodeSystems.RaceRecode40 },
+                { "13", "Samoan", VRDR.CodeSystems.RaceRecode40 },
+                { "14", "Other or Multiple Pacific Islander", VRDR.CodeSystems.RaceRecode40 },
+                { "15", "Black and White", VRDR.CodeSystems.RaceRecode40 },
+                { "16", "Black and AIAN", VRDR.CodeSystems.RaceRecode40 },
+                { "17", "Black and Asian", VRDR.CodeSystems.RaceRecode40 },
+                { "18", "AIAN and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "19", "NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "20", "AIAN and Asian", VRDR.CodeSystems.RaceRecode40 },
+                { "21", "AIAN and NHOPI 2", VRDR.CodeSystems.RaceRecode40 },
+                { "22", "Asian and White", VRDR.CodeSystems.RaceRecode40 },
+                { "23", "Asian and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "24", "NHOPI and White 2", VRDR.CodeSystems.RaceRecode40 },
+                { "25", "Black, AIAN and White", VRDR.CodeSystems.RaceRecode40 },
+                { "26", "Black, AIAN and Asian", VRDR.CodeSystems.RaceRecode40 },
+                { "27", "Black, AIAN and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "28", "Black, Asian and White", VRDR.CodeSystems.RaceRecode40 },
+                { "29", "Black, Asian and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "30", "Black, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "31", "AIAN, Asian and White", VRDR.CodeSystems.RaceRecode40 },
+                { "32", "AIAN, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "33", "AIAN, Asian and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "34", "Asian, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "35", "Black, AIAN, Asian and White", VRDR.CodeSystems.RaceRecode40 },
+                { "36", "Black, AIAN, Asian and NHOPI", VRDR.CodeSystems.RaceRecode40 },
+                { "37", "Black, AIAN, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "38", "Black, Asian, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "39", "AIAN, Asian, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "40", "Black, AIAN, Asian, NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
+                { "99", "Unknown and Other Race", VRDR.CodeSystems.RaceRecode40 }
+            };
+            /// <summary> White </summary>
+            public static string  White = "01";
+            /// <summary> Black </summary>
+            public static string  Black = "02";
+            /// <summary> American_Indian_Or_Alaskan_Native_Aian </summary>
+            public static string  American_Indian_Or_Alaskan_Native_Aian = "03";
+            /// <summary> Asian_Indian </summary>
+            public static string  Asian_Indian = "04";
+            /// <summary> Chinese </summary>
+            public static string  Chinese = "05";
+            /// <summary> Filipino </summary>
+            public static string  Filipino = "06";
+            /// <summary> Japanese </summary>
+            public static string  Japanese = "07";
+            /// <summary> Korean </summary>
+            public static string  Korean = "08";
+            /// <summary> Vietnamese </summary>
+            public static string  Vietnamese = "09";
+            /// <summary> Other_Or_Multiple_Asian </summary>
+            public static string  Other_Or_Multiple_Asian = "10";
+            /// <summary> Hawaiian </summary>
+            public static string  Hawaiian = "11";
+            /// <summary> Guamanian </summary>
+            public static string  Guamanian = "12";
+            /// <summary> Samoan </summary>
+            public static string  Samoan = "13";
+            /// <summary> Other_Or_Multiple_Pacific_Islander </summary>
+            public static string  Other_Or_Multiple_Pacific_Islander = "14";
+            /// <summary> Black_And_White </summary>
+            public static string  Black_And_White = "15";
+            /// <summary> Black_And_Aian </summary>
+            public static string  Black_And_Aian = "16";
+            /// <summary> Black_And_Asian </summary>
+            public static string  Black_And_Asian = "17";
+            /// <summary> Aian_And_Nhopi </summary>
+            public static string  Aian_And_Nhopi = "18";
+            /// <summary> Nhopi_And_White </summary>
+            public static string  Nhopi_And_White = "19";
+            /// <summary> Aian_And_Asian </summary>
+            public static string  Aian_And_Asian = "20";
+            /// <summary> Aian_And_Nhopi </summary>
+            public static string  Aian_And_Nhopi2 = "21";
+            /// <summary> Asian_And_White </summary>
+            public static string  Asian_And_White = "22";
+            /// <summary> Asian_And_Nhopi </summary>
+            public static string  Asian_And_Nhopi = "23";
+            /// <summary> Nhopi_And_White </summary>
+            public static string  Nhopi_And_White2 = "24";
+            /// <summary> Black_Aian_And_White </summary>
+            public static string  Black_Aian_And_White = "25";
+            /// <summary> Black_Aian_And_Asian </summary>
+            public static string  Black_Aian_And_Asian = "26";
+            /// <summary> Black_Aian_And_Nhopi </summary>
+            public static string  Black_Aian_And_Nhopi = "27";
+            /// <summary> Black_Asian_And_White </summary>
+            public static string  Black_Asian_And_White = "28";
+            /// <summary> Black_Asian_And_Nhopi </summary>
+            public static string  Black_Asian_And_Nhopi = "29";
+            /// <summary> Black_Nhopi_And_White </summary>
+            public static string  Black_Nhopi_And_White = "30";
+            /// <summary> Aian_Asian_And_White </summary>
+            public static string  Aian_Asian_And_White = "31";
+            /// <summary> Aian_Nhopi_And_White </summary>
+            public static string  Aian_Nhopi_And_White = "32";
+            /// <summary> Aian_Asian_And_Nhopi </summary>
+            public static string  Aian_Asian_And_Nhopi = "33";
+            /// <summary> Asian_Nhopi_And_White </summary>
+            public static string  Asian_Nhopi_And_White = "34";
+            /// <summary> Black_Aian_Asian_And_White </summary>
+            public static string  Black_Aian_Asian_And_White = "35";
+            /// <summary> Black_Aian_Asian_And_Nhopi </summary>
+            public static string  Black_Aian_Asian_And_Nhopi = "36";
+            /// <summary> Black_Aian_Nhopi_And_White </summary>
+            public static string  Black_Aian_Nhopi_And_White = "37";
+            /// <summary> Black_Asian_Nhopi_And_White </summary>
+            public static string  Black_Asian_Nhopi_And_White = "38";
+            /// <summary> Aian_Asian_Nhopi_And_White </summary>
+            public static string  Aian_Asian_Nhopi_And_White = "39";
+            /// <summary> Black_Aian_Asian_Nhopi_And_White </summary>
+            public static string  Black_Aian_Asian_Nhopi_And_White = "40";
+            /// <summary> Unknown_And_Other_Race </summary>
+            public static string  Unknown_And_Other_Race = "99";
+        };
+        /// <summary> HispanicOrigin </summary>
+        public static class HispanicOrigin {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                { "100", "Not Hispanic", VRDR.CodeSystems.HispanicOrigin },
+                { "200", "Spaniard", VRDR.CodeSystems.HispanicOrigin },
+                { "201", "Andalusian", VRDR.CodeSystems.HispanicOrigin },
+                { "202", "Asturian", VRDR.CodeSystems.HispanicOrigin },
+                { "203", "Castillian", VRDR.CodeSystems.HispanicOrigin },
+                { "204", "Catalonian", VRDR.CodeSystems.HispanicOrigin },
+                { "205", "Balearic Islander", VRDR.CodeSystems.HispanicOrigin },
+                { "206", "Gallego", VRDR.CodeSystems.HispanicOrigin },
+                { "207", "Valencian", VRDR.CodeSystems.HispanicOrigin },
+                { "208", "Canarian", VRDR.CodeSystems.HispanicOrigin },
+                { "209", "Spanish Basque", VRDR.CodeSystems.HispanicOrigin },
+                { "210", "Mexican", VRDR.CodeSystems.HispanicOrigin },
+                { "211", "Mexican 2", VRDR.CodeSystems.HispanicOrigin },
+                { "212", "Mexican American", VRDR.CodeSystems.HispanicOrigin },
+                { "213", "Mexicano", VRDR.CodeSystems.HispanicOrigin },
+                { "214", "Chicano", VRDR.CodeSystems.HispanicOrigin },
+                { "215", "La Raza", VRDR.CodeSystems.HispanicOrigin },
+                { "216", "Mexican American Indian", VRDR.CodeSystems.HispanicOrigin },
+                { "217", "Caribbean", VRDR.CodeSystems.HispanicOrigin },
+                { "218", "Mexico", VRDR.CodeSystems.HispanicOrigin },
+                { "220", "Central and South America", VRDR.CodeSystems.HispanicOrigin },
+                { "221", "Costa Rican", VRDR.CodeSystems.HispanicOrigin },
+                { "222", "Guatemalan", VRDR.CodeSystems.HispanicOrigin },
+                { "223", "Honduran", VRDR.CodeSystems.HispanicOrigin },
+                { "224", "Nicaraguan", VRDR.CodeSystems.HispanicOrigin },
+                { "225", "Panamanian", VRDR.CodeSystems.HispanicOrigin },
+                { "226", "Salvadoran", VRDR.CodeSystems.HispanicOrigin },
+                { "227", "Central American", VRDR.CodeSystems.HispanicOrigin },
+                { "228", "Central American Indian", VRDR.CodeSystems.HispanicOrigin },
+                { "229", "Canal Zone", VRDR.CodeSystems.HispanicOrigin },
+                { "231", "Argentinean", VRDR.CodeSystems.HispanicOrigin },
+                { "232", "Bolivian", VRDR.CodeSystems.HispanicOrigin },
+                { "233", "Chilean", VRDR.CodeSystems.HispanicOrigin },
+                { "234", "Colombian", VRDR.CodeSystems.HispanicOrigin },
+                { "235", "Ecuadorian", VRDR.CodeSystems.HispanicOrigin },
+                { "236", "Paraguayan", VRDR.CodeSystems.HispanicOrigin },
+                { "237", "Peruvian", VRDR.CodeSystems.HispanicOrigin },
+                { "238", "Uruguayan", VRDR.CodeSystems.HispanicOrigin },
+                { "239", "Venezuelan", VRDR.CodeSystems.HispanicOrigin },
+                { "240", "South American Indian", VRDR.CodeSystems.HispanicOrigin },
+                { "241", "Criollo", VRDR.CodeSystems.HispanicOrigin },
+                { "242", "South American", VRDR.CodeSystems.HispanicOrigin },
+                { "250", "Latin American", VRDR.CodeSystems.HispanicOrigin },
+                { "251", "Latin", VRDR.CodeSystems.HispanicOrigin },
+                { "252", "Latino", VRDR.CodeSystems.HispanicOrigin },
+                { "260", "Puerto Rican", VRDR.CodeSystems.HispanicOrigin },
+                { "261", "Puerto Rican 2", VRDR.CodeSystems.HispanicOrigin },
+                { "270", "Cuban", VRDR.CodeSystems.HispanicOrigin },
+                { "271", "Cuban 2", VRDR.CodeSystems.HispanicOrigin },
+                { "275", "Dominican", VRDR.CodeSystems.HispanicOrigin },
+                { "280", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
+                { "281", "Hispanic", VRDR.CodeSystems.HispanicOrigin },
+                { "282", "Spanish", VRDR.CodeSystems.HispanicOrigin },
+                { "283", "Californio", VRDR.CodeSystems.HispanicOrigin },
+                { "284", "Tejano", VRDR.CodeSystems.HispanicOrigin },
+                { "285", "Nuevo Mexicano", VRDR.CodeSystems.HispanicOrigin },
+                { "286", "Spanish American", VRDR.CodeSystems.HispanicOrigin },
+                { "287", "Spanish American Indian", VRDR.CodeSystems.HispanicOrigin },
+                { "288", "Meso American Indian", VRDR.CodeSystems.HispanicOrigin },
+                { "289", "Mestizo", VRDR.CodeSystems.HispanicOrigin },
+                { "291", "Multiple Hispanic Responses", VRDR.CodeSystems.HispanicOrigin },
+                { "299", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
+                { "996", "Uncodable", VRDR.CodeSystems.HispanicOrigin },
+                { "997", "Deferred", VRDR.CodeSystems.HispanicOrigin },
+                { "998", "Unknown", VRDR.CodeSystems.HispanicOrigin },
+                { "999", "First Pass Reject", VRDR.CodeSystems.HispanicOrigin }
+            };
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+            /// <summary> Not_Hispanic </summary>
+            public static string  Not_Hispanic = "100";
+            /// <summary> Spaniard </summary>
+            public static string  Spaniard = "200";
+            /// <summary> Andalusian </summary>
+            public static string  Andalusian = "201";
+            /// <summary> Asturian </summary>
+            public static string  Asturian = "202";
+            /// <summary> Castillian </summary>
+            public static string  Castillian = "203";
+            /// <summary> Catalonian </summary>
+            public static string  Catalonian = "204";
+            /// <summary> Balearic_Islander </summary>
+            public static string  Balearic_Islander = "205";
+            /// <summary> Gallego </summary>
+            public static string  Gallego = "206";
+            /// <summary> Valencian </summary>
+            public static string  Valencian = "207";
+            /// <summary> Canarian </summary>
+            public static string  Canarian = "208";
+            /// <summary> Spanish_Basque </summary>
+            public static string  Spanish_Basque = "209";
+            /// <summary> Mexican </summary>
+            public static string  Mexican = "210";
+            /// <summary> Mexican </summary>
+            public static string  Mexican2 = "211";
+            /// <summary> Mexican_American </summary>
+            public static string  Mexican_American = "212";
+            /// <summary> Mexicano </summary>
+            public static string  Mexicano = "213";
+            /// <summary> Chicano </summary>
+            public static string  Chicano = "214";
+            /// <summary> La_Raza </summary>
+            public static string  La_Raza = "215";
+            /// <summary> Mexican_American_Indian </summary>
+            public static string  Mexican_American_Indian = "216";
+            /// <summary> Caribbean </summary>
+            public static string  Caribbean = "217";
+            /// <summary> Mexico </summary>
+            public static string  Mexico = "218";
+            /// <summary> Central_And_South_America </summary>
+            public static string  Central_And_South_America = "220";
+            /// <summary> Costa_Rican </summary>
+            public static string  Costa_Rican = "221";
+            /// <summary> Guatemalan </summary>
+            public static string  Guatemalan = "222";
+            /// <summary> Honduran </summary>
+            public static string  Honduran = "223";
+            /// <summary> Nicaraguan </summary>
+            public static string  Nicaraguan = "224";
+            /// <summary> Panamanian </summary>
+            public static string  Panamanian = "225";
+            /// <summary> Salvadoran </summary>
+            public static string  Salvadoran = "226";
+            /// <summary> Central_American </summary>
+            public static string  Central_American = "227";
+            /// <summary> Central_American_Indian </summary>
+            public static string  Central_American_Indian = "228";
+            /// <summary> Canal_Zone </summary>
+            public static string  Canal_Zone = "229";
+            /// <summary> Argentinean </summary>
+            public static string  Argentinean = "231";
+            /// <summary> Bolivian </summary>
+            public static string  Bolivian = "232";
+            /// <summary> Chilean </summary>
+            public static string  Chilean = "233";
+            /// <summary> Colombian </summary>
+            public static string  Colombian = "234";
+            /// <summary> Ecuadorian </summary>
+            public static string  Ecuadorian = "235";
+            /// <summary> Paraguayan </summary>
+            public static string  Paraguayan = "236";
+            /// <summary> Peruvian </summary>
+            public static string  Peruvian = "237";
+            /// <summary> Uruguayan </summary>
+            public static string  Uruguayan = "238";
+            /// <summary> Venezuelan </summary>
+            public static string  Venezuelan = "239";
+            /// <summary> South_American_Indian </summary>
+            public static string  South_American_Indian = "240";
+            /// <summary> Criollo </summary>
+            public static string  Criollo = "241";
+            /// <summary> South_American </summary>
+            public static string  South_American = "242";
+            /// <summary> Latin_American </summary>
+            public static string  Latin_American = "250";
+            /// <summary> Latin </summary>
+            public static string  Latin = "251";
+            /// <summary> Latino </summary>
+            public static string  Latino = "252";
+            /// <summary> Puerto_Rican </summary>
+            public static string  Puerto_Rican = "260";
+            /// <summary> Puerto_Rican </summary>
+            public static string  Puerto_Rican2 = "261";
+            /// <summary> Cuban </summary>
+            public static string  Cuban = "270";
+            /// <summary> Cuban </summary>
+            public static string  Cuban2 = "271";
+            /// <summary> Dominican </summary>
+            public static string  Dominican = "275";
+            /// <summary> Other_Spanish </summary>
+            public static string  Other_Spanish = "280";
+            /// <summary> Hispanic </summary>
+            public static string  Hispanic = "281";
+            /// <summary> Spanish </summary>
+            public static string  Spanish = "282";
+            /// <summary> Californio </summary>
+            public static string  Californio = "283";
+            /// <summary> Tejano </summary>
+            public static string  Tejano = "284";
+            /// <summary> Nuevo_Mexicano </summary>
+            public static string  Nuevo_Mexicano = "285";
+            /// <summary> Spanish_American </summary>
+            public static string  Spanish_American = "286";
+            /// <summary> Spanish_American_Indian </summary>
+            public static string  Spanish_American_Indian = "287";
+            /// <summary> Meso_American_Indian </summary>
+            public static string  Meso_American_Indian = "288";
+            /// <summary> Mestizo </summary>
+            public static string  Mestizo = "289";
+            /// <summary> Multiple_Hispanic_Responses </summary>
+            public static string  Multiple_Hispanic_Responses = "291";
+            /// <summary> Other_Spanish </summary>
+            public static string  Other_Spanish2 = "299";
+            /// <summary> Uncodable </summary>
+            public static string  Uncodable = "996";
+            /// <summary> Deferred </summary>
+            public static string  Deferred = "997";
+            /// <summary> Unknown </summary>
+            public static string  Unknown2 = "998";
+            /// <summary> First_Pass_Reject </summary>
+            public static string  First_Pass_Reject = "999";
         };
    }
 }

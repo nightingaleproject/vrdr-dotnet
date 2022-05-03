@@ -1631,6 +1631,72 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_ActivityAtTimeOfDeath()
+        {
+            SetterDeathRecord.ActivityAtDeathHelper = VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities;
+            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities, SetterDeathRecord.ActivityAtDeath["code"]);
+            Assert.Equal(VRDR.CodeSystems.ActivityAtTimeOfDeath, SetterDeathRecord.ActivityAtDeath["system"]);
+            Assert.Equal("While resting, sleeping, eating, or engaging in other vital activities", SetterDeathRecord.ActivityAtDeath["display"]);
+            SetterDeathRecord.ActivityAtDeathHelper = VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities;
+            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities, SetterDeathRecord.ActivityAtDeathHelper);
+
+        }
+
+        [Fact]
+        public void Set_AutoUnderlyingCOD()
+        {
+            SetterDeathRecord.AutoUnderlyingCOD = "I131";
+            Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
+            SetterDeathRecord.AutoUnderlyingCOD = "I13.1";
+            Assert.Equal("I13.1", SetterDeathRecord.AutoUnderlyingCOD);
+            SetterDeathRecord.AutoUnderlyingCOD = "I13.";
+            Assert.Equal("I13.", SetterDeathRecord.AutoUnderlyingCOD);
+            SetterDeathRecord.AutoUnderlyingCOD = "I13";
+            Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
+        }
+
+        [Fact]
+        public void Set_ManUnderlyingCOD()
+        {
+            SetterDeathRecord.ManUnderlyingCOD = "I131";
+            Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13.1";
+            Assert.Equal("I13.1", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13.";
+            Assert.Equal("I13.", SetterDeathRecord.ManUnderlyingCOD);
+            SetterDeathRecord.ManUnderlyingCOD = "I13";
+            Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
+        }
+
+        [Fact]
+        public void Set_PlaceOfInjury()
+        {
+            SetterDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, SetterDeathRecord.PlaceOfInjuryHelper);
+        }
+
+        [Fact]
+        public void Set_FirstEditedRaceCode()
+        {
+            SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
+            Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
+        }
+
+        [Fact]
+        public void Set_EighthEditedRaceCode()
+        {
+            SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
+            Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
+        }
+
+        [Fact]
+        public void Set_SecondOtherRaceCode()
+        {
+            SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Tlingit;
+            Assert.Equal(ValueSets.RaceCode.Tlingit, SetterDeathRecord.SecondOtherRaceCodeHelper);
+        }
+
+        [Fact]
         public void Set_BirthRecordId()
         {
             SetterDeathRecord.BirthRecordId = "242123";
@@ -2849,6 +2915,56 @@ namespace VRDR.Tests
             Assert.Equal("BBBBBBBB", ((DeathRecord)XMLRecords[0]).EmergingIssue8_2);
             Assert.Equal("CCCCCCCC", ((DeathRecord)XMLRecords[0]).EmergingIssue8_3);
             Assert.Equal("AAAAAAAAAAAAAAAAAAAA", ((DeathRecord)XMLRecords[0]).EmergingIssue20);
+        }
+
+        [Fact]
+        public void Set_EntityAxisCodes()
+        {
+            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T27.3", "Y")};
+            SetterDeathRecord.EntityAxisCauseOfDeath = eac;
+
+            Tuple<string, string, string, string>[] eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
+            Assert.Equal(1, eacGet.Length);
+            Assert.Equal("2", eacGet[0].Item1);
+            Assert.Equal("1", eacGet[0].Item2);
+            Assert.Equal("T27.3", eacGet[0].Item3);
+            Assert.Equal("Y", eacGet[0].Item4);
+
+            IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
+            string fmtEac = "21T273 Y".PadRight(160, ' ');
+            Assert.Equal(fmtEac, ije.EAC);
+        }
+
+        [Fact]
+        public void Get_EntityAxisCodes()
+        {
+            // NOOP
+        }
+
+        [Fact]
+        public void Set_RecordAxisCodes()
+        {
+            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T27.3", "1"), Tuple.Create("2", "T27.3", "1")};
+            SetterDeathRecord.RecordAxisCauseOfDeath = rac;
+
+            Tuple<string, string, string>[] racGet = SetterDeathRecord.RecordAxisCauseOfDeath;
+            Assert.Equal(2, racGet.Length);
+            Assert.Equal("1", racGet[0].Item1);
+            Assert.Equal("T27.3", racGet[0].Item2);
+            Assert.Equal("", racGet[0].Item3);
+            Assert.Equal("2", racGet[1].Item1);
+            Assert.Equal("T27.3", racGet[1].Item2);
+            Assert.Equal("1", racGet[1].Item3);
+
+            IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
+            string fmtRac = "T273 T2731".PadRight(100, ' ');
+            Assert.Equal(fmtRac, ije.RAC);
+        }
+
+        [Fact]
+        public void Get_RecordAxisCodes()
+        {
+            // NOOP
         }
 
         private string FixturePath(string filePath)

@@ -295,18 +295,18 @@ namespace VRDR
         {
             Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
             Extension year = new Extension(ExtensionURL.DateYear, null);
-            year.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(year);
             Extension month = new Extension(ExtensionURL.DateMonth, null);
-            month.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(month);
             Extension day = new Extension(ExtensionURL.DateDay, null);
-            day.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(day);
             if (includeTime)
             {
                 Extension time = new Extension(ExtensionURL.DateTime, null);
-                time.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
                 partialDateTime.Extension.Add(time);
             }
             return partialDateTime;
@@ -582,7 +582,7 @@ namespace VRDR
             // Pronouncer = new Practitioner();
             // Pronouncer.Id = Guid.NewGuid().ToString();
             // Pronouncer.Meta = new Meta();
-            // string[] pronouncer_profile = { OtherURL.USCorePractitioner };
+            // string[] pronouncer_profile = { OtherProfileURL.USCorePractitioner };
             // Pronouncer.Meta.Profile = pronouncer_profile;
 
             // Start with an empty mortician.
@@ -3463,12 +3463,12 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/patient-birthPlace')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='" + OtherExtensionURL.PatientBirthPlace + "')", "")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == OtherExtensionURL.PatientBirthPlace );
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -3482,9 +3482,9 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace");
+                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.PatientBirthPlace);
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
+                placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
             }
@@ -5700,7 +5700,7 @@ namespace VRDR
                 Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
                 if (part != null)
                 {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
                     if (dataAbsent != null || part.Value == null)
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
@@ -5716,7 +5716,7 @@ namespace VRDR
         private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
-            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
             if (value != null)
             {
                 part.Value = new UnsignedInt((int)value);
@@ -5724,7 +5724,7 @@ namespace VRDR
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             }
         }
 
@@ -5736,7 +5736,7 @@ namespace VRDR
                 Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
                 if (part != null)
                 {
-                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
                     if (dataAbsent != null || part.Value == null)
                     {
                         // There's either a specific claim that there's no data or actually no data, so return null
@@ -5752,7 +5752,7 @@ namespace VRDR
         private void SetPartialTime(Extension partialDateTime, String value)
         {
             Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
-            part.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/data-absent-reason");
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
             if (value != null)
             {
                 part.Value = new Time(value);
@@ -5760,7 +5760,7 @@ namespace VRDR
             else
             {
                 part.Value = null;
-                part.Extension.Add(new Extension("http://hl7.org/fhir/StructureDefinition/data-absent-reason", new Code("unknown")));
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             }
         }
 
@@ -7085,7 +7085,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -7197,7 +7197,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "name")]
         public string InjuryLocationName
         {
             get
@@ -7230,7 +7230,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
         [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile=ProfileURL.InjuryLocation)", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "description")]
         public string InjuryLocationDescription
         {
             get

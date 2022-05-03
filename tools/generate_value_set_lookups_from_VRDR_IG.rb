@@ -75,6 +75,7 @@ codesystems = {
 
 valuesets = {
     "ValueSet-vrdr-activity-at-time-of-death-vs.json" => "ActivityAtTimeOfDeath",
+    "ValueSet-vrdr-place-of-injury-vs.json" => "PlaceOfInjury",
     "ValueSet-vrdr-administrative-gender-vs.json" => "AdministrativeGender",
     "ValueSet-vrdr-certifier-types-vs.json" => "CertifierTypes",
     "ValueSet-vrdr-contributory-tobacco-use-vs.json" => "ContributoryTobaccoUse",

@@ -465,7 +465,7 @@ namespace VRDR
         private Observation AutomatedUnderlyingCauseOfDeathObs;
 
         /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
-        private void CreateAutoUnderlyingCODObs()
+        private void CreateAutomatedUnderlyingCauseOfDeathObs()
         {
             AutomatedUnderlyingCauseOfDeathObs = new Observation();
             AutomatedUnderlyingCauseOfDeathObs.Id = Guid.NewGuid().ToString();
@@ -482,7 +482,7 @@ namespace VRDR
         private Observation ManualUnderlyingCauseOfDeathObs;
 
         /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
-        private void CreateManualUnderlyingCODObs()
+        private void CreateManualUnderlyingCauseOfDeathObs()
         {
             ManualUnderlyingCauseOfDeathObs = new Observation();
             ManualUnderlyingCauseOfDeathObs.Id = Guid.NewGuid().ToString();
@@ -495,9 +495,6 @@ namespace VRDR
             AddReferenceToComposition(ManualUnderlyingCauseOfDeathObs.Id, "CodedContent");
             Bundle.AddResourceEntry(ManualUnderlyingCauseOfDeathObs, "urn:uuid:" + ManualUnderlyingCauseOfDeathObs.Id);
         }
-
-
-
 
         /// <summary> Place Of Injury </summary>
         private Observation PlaceOfInjuryObs;
@@ -522,7 +519,7 @@ namespace VRDR
 
 
         /// <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
-        private void CreateCodedRaceandEthnicityObs()
+        private void CreateCodedRaceAndEthnicityObs()
         {
             CodedRaceAndEthnicityObs = new Observation();
             CodedRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
@@ -8211,18 +8208,20 @@ namespace VRDR
         {
             get
             {
-                if (AutomatedUnderlyingCauseOfDeathObs != null)
+                if (AutomatedUnderlyingCauseOfDeathObs != null && AutomatedUnderlyingCauseOfDeathObs.Value != null && AutomatedUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-                    return AutomatedUnderlyingCauseOfDeathObs.Value.ToString();
+
+                    return CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
                 }
-                return null;
+                return "";
             }
             set
             {
-                if (AutomatedUnderlyingCauseOfDeathObs == null){
-                    CreateAutoUnderlyingCODObs();
+                if (AutomatedUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateAutomatedUnderlyingCauseOfDeathObs();
                 }
-                AutomatedUnderlyingCauseOfDeathObs.Value = new FhirString(value);
+                AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
             }
         }
 
@@ -8241,18 +8240,20 @@ namespace VRDR
         {
             get
             {
-                if (ManualUnderlyingCauseOfDeathObs != null)
+                if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
                 {
-                    return ManualUnderlyingCauseOfDeathObs.Value.ToString();
+
+                    return CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
                 }
-                return null;
+                return "";
             }
             set
             {
-                if (ManualUnderlyingCauseOfDeathObs == null){
-                    CreateManualUnderlyingCODObs();
+                if (ManualUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateManualUnderlyingCauseOfDeathObs();
                 }
-                ManualUnderlyingCauseOfDeathObs.Value = new FhirString(value);
+                ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
             }
         }
 
@@ -8351,7 +8352,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8363,11 +8364,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstEditedRace", "First Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstEditedCode", "First Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8427,7 +8428,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8439,11 +8440,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondEditedRace", "Second Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondEditedCode", "Second Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8503,7 +8504,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "ThirdEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "ThirdEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8515,11 +8516,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "ThirdEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "ThirdEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "ThirdEditedRace", "Third Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "ThirdEditedCode", "Third Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8579,7 +8580,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FourthEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FourthEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8591,11 +8592,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FourthEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FourthEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FourthEditedRace", "Fourth Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FourthEditedCode", "Fourth Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8655,7 +8656,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FifthEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FifthEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8667,11 +8668,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FifthEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FifthEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FifthEditedRace", "Fifth Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FifthEditedCode", "Fifth Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8731,7 +8732,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SixthEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SixthEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8743,11 +8744,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SixthEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SixthEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SixthEditedRace", "Sixth Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SixthEditedCode", "Sixth Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8807,7 +8808,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SeventhEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SeventhEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8819,11 +8820,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SeventhEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SeventhEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SeventhEditedRace", "Seventh Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SeventhEditedCode", "Seventh Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8883,7 +8884,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs != null)
                 {
-                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "EighthEditedRace");
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "EighthEditedCode");
                     if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)racecode.Value);
@@ -8895,11 +8896,11 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
-                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "EighthEditedRace");
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "EighthEditedCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "EighthEditedRace", "Eighth Edited Race", null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "EighthEditedCode", "Eighth Edited Race", null);
                 component.Value = DictToCodeableConcept(value);
                 CodedRaceAndEthnicityObs.Component.Add(component);
             }
@@ -8971,7 +8972,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstAmericanIndianRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9047,7 +9048,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondAmericanIndianRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9123,7 +9124,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherAsianRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9199,7 +9200,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherAsianRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9275,7 +9276,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherPacificIslanderRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9351,7 +9352,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherPacificIslanderRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9427,7 +9428,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9503,7 +9504,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherRace");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9579,7 +9580,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCode");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9655,7 +9656,7 @@ namespace VRDR
             {
                 if (CodedRaceAndEthnicityObs == null)
                 {
-                    CreateCodedRaceandEthnicityObs();
+                    CreateCodedRaceAndEthnicityObs();
                 }
                 CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCodeForLiteral");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
@@ -9838,7 +9839,7 @@ namespace VRDR
                         {
                             string preg = pregComp.Value.ToString();
                             pregnancy = preg == "true" ? "1" : " ";
-                            
+
                         }
                         Tuple<string, string, string> racod = Tuple.Create(position, icd10code, pregnancy);
 
@@ -9982,15 +9983,16 @@ namespace VRDR
             {
                 throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
             }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
+            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
+            (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
             if (practitionerEntry != null)
             {
                 Certifier = (Practitioner)practitionerEntry.Resource;
             }
-            else
-            {
-                throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
-            }
+            // else
+            // {
+            //     throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
+            // }
             // *** Pronouncer and Mortician are not supported by IJE. ***
             // They can be included in DeathCertificateDocument and linked from DeathCertificate.  THe only sure way to find them is to look for the reference from DeathDate and DispositionMethod, respectively.
             // For now, we comment them out.
@@ -10279,7 +10281,36 @@ namespace VRDR
             {
                 EmergingIssues = (Observation)emergingIssues.Resource;
             }
-
+            // Grab Activity at Time of Death
+            var activityAtTimeOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80626-5" );
+            if (activityAtTimeOfDeath != null)
+            {
+                ActivityAtTimeOfDeathObs = (Observation)activityAtTimeOfDeath.Resource;
+            }
+            // Grab Man Underlying Cause of Death
+            var mancauseOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80359-3" );
+            if (mancauseOfDeath != null)
+            {
+                ManualUnderlyingCODObs = (Observation)mancauseOfDeath.Resource;
+            }
+            // Grab Auto Underlying Cause of Death
+            var autocauseOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80358-5" );
+            if (autocauseOfDeath != null)
+            {
+                AutoUnderlyingCODObs = (Observation)autocauseOfDeath.Resource;
+            }
+            // Grab Injury Place
+            var placeOfInjury = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11376-1" );
+            if (placeOfInjury != null)
+            {
+                PlaceOfInjuryObs = (Observation)placeOfInjury.Resource;
+            }
+            // Grab Coded Race and Ethnicity
+            var codedRaceEthnicity = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "codedraceandethnicity" );
+            if (codedRaceEthnicity != null)
+            {
+                CodedRaceAndEthnicityObs = (Observation)codedRaceEthnicity.Resource;
+            }
             // Grab Entity Axis Cause of death
             EntityAxisCauseOfDeathObsList = new List<Observation>();
             foreach (var cod in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9")))
@@ -10299,7 +10330,7 @@ namespace VRDR
                     RecordAxisCauseOfDeathObsList.Add((Observation)cod.Resource);
                 }
             }
-            
+
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>

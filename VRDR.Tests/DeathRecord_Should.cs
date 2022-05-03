@@ -24,6 +24,7 @@ namespace VRDR.Tests
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
             //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
             SetterDeathRecord = new DeathRecord();
         }
@@ -1641,6 +1642,11 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities, SetterDeathRecord.ActivityAtDeathHelper);
 
         }
+        [Fact]
+        public void Get_ActivityAtTimeOfDeath()
+        {
+            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Engaged_In_Leisure_Activities, ((DeathRecord)JSONRecords[1]).ActivityAtDeathHelper);
+        }
 
         [Fact]
         public void Set_AutoUnderlyingCOD()
@@ -1656,6 +1662,12 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_AutoUnderlyingCOD()
+        {
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutoUnderlyingCOD);
+        }
+
+        [Fact]
         public void Set_ManUnderlyingCOD()
         {
             SetterDeathRecord.ManUnderlyingCOD = "I131";
@@ -1667,6 +1679,11 @@ namespace VRDR.Tests
             SetterDeathRecord.ManUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
         }
+        [Fact]
+        public void Get_ManUnderlyingCOD()
+        {
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).ManUnderlyingCOD);
+        }
 
         [Fact]
         public void Set_PlaceOfInjury()
@@ -1674,19 +1691,32 @@ namespace VRDR.Tests
             SetterDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;
             Assert.Equal(ValueSets.PlaceOfInjury.Home, SetterDeathRecord.PlaceOfInjuryHelper);
         }
-
+        [Fact]
+        public void Get_PlaceOfInjury()
+        {
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, ((DeathRecord)JSONRecords[1]).PlaceOfInjuryHelper);
+        }
         [Fact]
         public void Set_FirstEditedRaceCode()
         {
             SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
         }
-
+        [Fact]
+        public void Get_FirstEditedRaceCode()
+        {
+            Assert.Equal(ValueSets.RaceCode.White, ((DeathRecord)JSONRecords[1]).FirstEditedRaceCodeHelper);
+        }
         [Fact]
         public void Set_EighthEditedRaceCode()
         {
             SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
             Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
+        }
+        [Fact]
+        public void Get_SecondEditedRaceCode()
+        {
+            Assert.Equal(ValueSets.RaceCode.Israeli, ((DeathRecord)JSONRecords[1]).SecondEditedRaceCodeHelper);
         }
 
         [Fact]

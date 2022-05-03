@@ -282,7 +282,6 @@ namespace VRDR
             AgeAtDeathObs.Status = ObservationStatus.Final;
             AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
             AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
             AddReferenceToComposition(AgeAtDeathObs.Id, "DecedentDemographics");

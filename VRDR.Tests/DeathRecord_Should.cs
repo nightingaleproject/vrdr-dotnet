@@ -1642,8 +1642,8 @@ namespace VRDR.Tests
 
         }
 
-         [Fact]
-         public void Set_AutoUnderlyingCOD()
+        [Fact]
+        public void Set_AutoUnderlyingCOD()
         {
             SetterDeathRecord.AutoUnderlyingCOD = "I131";
             Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
@@ -1654,8 +1654,9 @@ namespace VRDR.Tests
             SetterDeathRecord.AutoUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
         }
+
         [Fact]
-         public void Set_ManUnderlyingCOD()
+        public void Set_ManUnderlyingCOD()
         {
             SetterDeathRecord.ManUnderlyingCOD = "I131";
             Assert.Equal("I131", SetterDeathRecord.ManUnderlyingCOD);
@@ -1668,26 +1669,28 @@ namespace VRDR.Tests
         }
 
         [Fact]
-         public void Set_PlaceOfInjury()
+        public void Set_PlaceOfInjury()
         {
             SetterDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;
             Assert.Equal(ValueSets.PlaceOfInjury.Home, SetterDeathRecord.PlaceOfInjuryHelper);
         }
 
         [Fact]
-         public void Set_FirstEditedRaceCode()
+        public void Set_FirstEditedRaceCode()
         {
             SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
         }
+
         [Fact]
-         public void Set_EighthEditedRaceCode()
+        public void Set_EighthEditedRaceCode()
         {
             SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
             Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
         }
+
         [Fact]
-         public void Set_SecondOtherRaceCode()
+        public void Set_SecondOtherRaceCode()
         {
             SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Tlingit;
             Assert.Equal(ValueSets.RaceCode.Tlingit, SetterDeathRecord.SecondOtherRaceCodeHelper);

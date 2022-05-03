@@ -3047,6 +3047,17 @@ namespace VRDR.Tests
             // NOOP
         }
 
+        [Fact]
+        public void CheckConnectathonRecord1()
+        {
+            DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
+            IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
+            Assert.Equal(ije.AGE,"062");
+            Assert.Equal(ije.SSN, "478151044");
+            Assert.Equal(ije.HOWINJ.Trim() , "Unrestrained ejected driver in rollover motor vehicle accident");
+            Assert.Equal(ije.DETHNIC2, "H");
+        }
+
         private string FixturePath(string filePath)
         {
             if (Path.IsPathRooted(filePath))

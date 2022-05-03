@@ -41,7 +41,7 @@ namespace VRDR
     /// <summary>Generate the Twila Hilty example record</summary>
     public static DeathRecord TwilaHilty()
     {
-    	IJEMortality ije = new IJEMortality(""); // blank IJE
+    	IJEMortality ije = new IJEMortality(new DeathRecord(), false); // Can't validate because DSTATE is blank
 		ije.DOD_YR = "2022";
 		ije.DSTATE = "CT";
 		ije.FILENO = "000001";
@@ -132,7 +132,7 @@ namespace VRDR
  /// <summary>Generate the Fidelia Alsup example record</summary>
 public static DeathRecord FideliaAlsup()
     {
-    	IJEMortality ije = new IJEMortality(new DeathRecord(), false);
+    	IJEMortality ije = new IJEMortality(new DeathRecord(), false); // Can't validate because DSTATE is blank
 		ije.DOD_YR = "2022";
 		ije.DSTATE = "CT";
 		ije.FILENO = "000002";
@@ -229,7 +229,7 @@ public static DeathRecord FideliaAlsup()
  /// <summary>Generate the Davis Lineberry example record</summary>
 public static DeathRecord DavisLineberry()
     {
-    	IJEMortality ije = new IJEMortality(""); // blank IJE
+    	IJEMortality ije = new IJEMortality(new DeathRecord(), false); // Can't validate because DSTATE is blank
 		ije.DOD_YR = "2022";
 		ije.DSTATE = "CT";
 		ije.FILENO = "000003";

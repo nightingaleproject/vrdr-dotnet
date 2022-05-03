@@ -341,7 +341,7 @@ namespace VRDR
             SurgeryDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             // A SurgeryDate can be represented either using the PartialDateTime or the valueDateTime as with DeathDate above
             SurgeryDateObs.Value = new FhirDateTime();
-            SurgeryDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
+            SurgeryDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(false));
             AddReferenceToComposition(SurgeryDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(SurgeryDateObs, "urn:uuid:" + SurgeryDateObs.Id);
         }
@@ -6148,7 +6148,7 @@ namespace VRDR
                 // We support this legacy-style API entrypoint via the new partial date and time entrypoints
                 if (SurgeryYear != null && SurgeryMonth != null && SurgeryDay != null)
                 {
-                    Date result = new Date((int)BirthYear, (int)BirthMonth, (int)BirthDay);
+                    Date result = new Date((int)SurgeryYear, (int)SurgeryMonth, (int)SurgeryDay);
                     return result.ToString();
                 }
                 return null;
@@ -10181,6 +10181,13 @@ namespace VRDR
             if (dateOfDeath != null)
             {
                 DeathDateObs = (Observation)dateOfDeath.Resource;
+            }
+
+            // Grab Surgery Date
+            var surgeryDate = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80992-1" );
+            if (surgeryDate != null)
+            {
+                SurgeryDateObs = (Observation)surgeryDate.Resource;
             }
 
             // Grab Emerging Parameters

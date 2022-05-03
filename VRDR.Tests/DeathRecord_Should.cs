@@ -2887,6 +2887,56 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Set_SurgeryDate()
+        {
+            SetterDeathRecord.SurgeryDate = "2017-03-18";
+            Assert.Equal("2017-03-18", SetterDeathRecord.SurgeryDate);
+        }
+
+        [Fact]
+        public void Get_SurgeryDate()
+        {
+            Assert.Equal("2017-03-18", ((DeathRecord)JSONRecords[0]).SurgeryDate);
+            Assert.Equal("2017-03-18", ((DeathRecord)XMLRecords[0]).SurgeryDate);
+        }
+
+        [Fact]
+        public void Get_SurgeryDate_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("2017", ije1.SUR_YR);
+            Assert.Equal("03", ije1.SUR_MO);
+            Assert.Equal("18", ije1.SUR_DY);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2017-03-18", dr2.SurgeryDate);
+            Assert.Equal(2017, (int)dr2.SurgeryYear);
+            Assert.Equal(03, (int)dr2.SurgeryMonth);
+            Assert.Equal(18, (int)dr2.SurgeryDay);
+        }
+
+        [Fact]
+        public void Set_SurgeryDate_Partial_Date()
+        {
+            SetterDeathRecord.SurgeryYear = 2017;
+            SetterDeathRecord.SurgeryMonth = 3;
+            SetterDeathRecord.SurgeryDay = null;
+            Assert.Equal(2017, (int)SetterDeathRecord.SurgeryYear);
+            Assert.Equal(3, (int)SetterDeathRecord.SurgeryMonth);
+            Assert.Null(SetterDeathRecord.SurgeryDay);
+        }
+
+        [Fact]
+        public void Get_SurgeryDate_Partial_Date()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/BirthAndDeathDateDataAbsent.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("2017", ije1.SUR_YR);
+            Assert.Equal("03", ije1.SUR_MO);
+            Assert.Equal("99", ije1.SUR_DY);
+        }
+
+        [Fact]
         public void Set_EmergingIssues()
         {
             SetterDeathRecord.EmergingIssue1_1 = "A";

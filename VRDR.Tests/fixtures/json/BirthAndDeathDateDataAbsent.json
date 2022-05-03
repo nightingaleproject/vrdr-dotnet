@@ -1641,6 +1641,57 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:f384e3f6-2438-4e07-9df2-44e27e3aa72d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f384e3f6-2438-4e07-9df2-44e27e3aa72d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "80992-1",
+              "display": "Date and time of surgery"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:0544364b-aa81-42a2-952e-51402a59221b"
+        },
+        "_valueDateTime": {
+          "extension": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                  "valueUnsignedInt": 2017
+                },
+                {
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "valueUnsignedInt": 3
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "unknown"
+                    }
+                  ],
+                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+            }
+          ]
+        }
+      }
+    },
+    {
       "fullUrl": "urn:uuid:7d5ecb87-4b05-4365-9a8d-7cf75024390c",
       "resource": {
         "resourceType": "DocumentReference",

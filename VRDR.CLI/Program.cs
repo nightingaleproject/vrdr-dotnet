@@ -620,6 +620,20 @@ namespace VRDR.CLI
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
             }
+            else if (args[0] == "ijebuilder")
+            {
+                IJEMortality ije = new IJEMortality();
+                foreach (string arg in args)
+                {
+                    string[] keyAndValue = arg.Split('=');
+                    if (keyAndValue.Length == 2)
+                    {
+                        typeof(IJEMortality).GetProperty(keyAndValue[0]).SetValue(ije, keyAndValue[1]);
+                    }
+                }
+                DeathRecord dr = ije.ToDeathRecord();
+                Console.WriteLine(dr.ToJson());
+            }
             else if (args.Length == 3 && args[0] == "compare")
             {
                 string ijeString1 = File.ReadAllText(args[1]);

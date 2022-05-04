@@ -72,7 +72,7 @@ namespace VRDR
         /// <summary>
         /// The event URI for DeathRecordUpdate.
         /// </summary>
-        public const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_update";
+        public new const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_update";
 
         /// <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
         public DeathRecordUpdate() : base()

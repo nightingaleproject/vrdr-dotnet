@@ -166,7 +166,7 @@ namespace VRDR
         /// <summary>
         /// The event URI for DemographicsCodingUpdateMessage.
         /// </summary>
-        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_demographics_coding_update";
+        public new const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_demographics_coding_update";
 
         /// <summary>Constructor that creates an update for the specified message.</summary>
         /// <param name="sourceMessage">the message to create a response for.</param>

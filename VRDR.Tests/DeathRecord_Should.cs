@@ -3004,7 +3004,7 @@ namespace VRDR.Tests
             SetterDeathRecord.EntityAxisCauseOfDeath = eac;
 
             Tuple<string, string, string, string>[] eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
-            Assert.Equal(1, eacGet.Length);
+            Assert.Single(eacGet);
             Assert.Equal("2", eacGet[0].Item1);
             Assert.Equal("1", eacGet[0].Item2);
             Assert.Equal("T27.3", eacGet[0].Item3);
@@ -3052,10 +3052,26 @@ namespace VRDR.Tests
         {
             DeathRecord dr1 = VRDR.Connectathon.FideliaAlsup();
             IJEMortality ije = new IJEMortality(dr1, false); // Don't validate since we don't care about most fields
-            Assert.Equal(ije.AGE,"062");
-            Assert.Equal(ije.SSN, "478151044");
-            Assert.Equal(ije.HOWINJ.Trim() , "Unrestrained ejected driver in rollover motor vehicle accident");
-            Assert.Equal(ije.DETHNIC2, "H");
+            Assert.Equal("062", ije.AGE);
+            Assert.Equal("478151044", ije.SSN);
+            Assert.Equal("Unrestrained ejected driver in rollover motor vehicle accident", ije.HOWINJ.Trim());
+            Assert.Equal("H", ije.DETHNIC2);
+        }
+
+        [Fact]
+        public void Test_GetCauseOfDeathCodedContentBundle()
+        {
+            Bundle bundle = ((DeathRecord)JSONRecords[0]).GetCauseOfDeathCodedContentBundle();
+            Assert.NotNull(bundle);
+            // TODO: Fill out tests
+        }
+
+        [Fact]
+        public void Test_GetDemographicCodedContentBundle()
+        {
+            Bundle bundle = ((DeathRecord)JSONRecords[0]).GetDemographicCodedContentBundle();
+            Assert.NotNull(bundle);
+            // TODO: Fill out tests
         }
 
         private string FixturePath(string filePath)

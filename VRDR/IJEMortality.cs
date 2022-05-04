@@ -105,6 +105,12 @@ namespace VRDR
             }
         }
 
+        /// <summary>Constructor that creates a completely empty record for constructing records using the IJE properties.</summary>
+        public IJEMortality()
+        {
+            this.record = new DeathRecord();
+        }
+
         /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
         public override string ToString()
         {

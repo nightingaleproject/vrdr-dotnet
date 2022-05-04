@@ -14,6 +14,9 @@ namespace VRDR
     /// </summary>
     interface IDemographicCodedContent
     {
+        /// <summary>
+        /// Return a DemographicCodedContentBundle containing the appropriate FHIR Resources.
+        /// </summary>
         Bundle GetDemographicCodedContentBundle();
     }
 }

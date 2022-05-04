@@ -181,6 +181,11 @@ namespace VRDR
         /// <summary>Emerging Issues.</summary>
         protected Observation EmergingIssues;
 
+        /// <summary>
+        /// Coding Status
+        /// </summary>
+        private Parameters CodingStatus;
+
 
         private void CreateBirthRecordIdentifier(){
             BirthRecordIdentifier = new Observation();
@@ -622,6 +627,9 @@ namespace VRDR
             CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
             CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
+            CodingStatus = new Parameters();
+            CodingStatus.Id = Guid.NewGuid().ToString();
+
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
             AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
@@ -631,6 +639,7 @@ namespace VRDR
             AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
             AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
+            AddReferenceToComposition(CodingStatus.Id, "CodingStatus");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             // TODO: Some of these, particularly the ones that only appear in certain bundles, probably shouldn't be added by default
             Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
@@ -642,6 +651,7 @@ namespace VRDR
             //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
+            Bundle.AddResourceEntry(CodingStatus, "urn:uuid:" + CodingStatus.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -9957,6 +9967,159 @@ namespace VRDR
                     Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
                     RecordAxisCauseOfDeathObsList.Add(ob);
                 }
+            }
+        }
+
+        // TODO: Appropriate FHIRPath attributes on the next several properties (supporting Coding Status)
+
+        /// <summary>
+        /// The year NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptYear", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public uint? ReceiptYear
+        {
+            get
+            {
+                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateYear);
+            }
+            set
+            {
+                // TODO: ReceiptYear
+                throw new NotImplementedException("ReceiptYear");
+            }
+        }
+
+        /// <summary>
+        /// The month NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptMonth", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public uint? ReceiptMonth
+        {
+            get
+            {
+                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateMonth);
+            }
+            set
+            {
+                // TODO: ReceiptMonth
+                throw new NotImplementedException("ReceiptMonth");
+            }
+        }
+
+        /// <summary>
+        /// The day NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptDay", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public uint? ReceiptDay
+        {
+            get
+            {
+                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateDay);
+            }
+            set
+            {
+                // TODO: ReceiptDay
+                throw new NotImplementedException("ReceiptDay");
+            }
+        }
+
+        /// <summary>
+        /// Coder Status; TRX field with no IJE mapping
+        /// </summary>
+        [Property("CoderStatus", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public int CoderStatus
+        {
+            get
+            {
+                // TODO: CoderStatus
+                throw new NotImplementedException("CoderStatus");
+            }
+            set
+            {
+                // TODO: CoderStatus
+                throw new NotImplementedException("CoderStatus");
+            }
+        }
+
+        /// <summary>
+        /// Shipment Number; TRX field with no IJE mapping
+        /// </summary>
+        [Property("ShipmentNumber", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public string ShipmentNumber
+        {
+            get
+            {
+                // TODO: ShipmentNumber
+                throw new NotImplementedException("ShipmentNumber");
+            }
+            set
+            {
+                // TODO: ShipmentNumber
+                throw new NotImplementedException("ShipmentNumber");
+            }
+        }
+        /// <summary>
+        /// Intentional Reject
+        /// </summary>
+        [Property("IntentionalReject", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public string IntentionalReject
+        {
+            get
+            {
+                // TODO: IntentionalReject
+                throw new NotImplementedException("IntentionalReject");
+            }
+            set
+            {
+                // TODO: IntentionalReject
+                throw new NotImplementedException("IntentionalReject");
+            }
+        }
+
+        /// <summary>
+        /// Acme System Reject Codes
+        /// </summary>
+        [Property("AcmeSystemRejectCodes", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public string AcmeSystemRejectCodes
+        {
+            get
+            {
+                // TODO: AcmeSystemRejectCodes
+                throw new NotImplementedException("AcmeSystemRejectCodes");
+            }
+            set
+            {
+                // TODO: AcmeSystemRejectCodes
+                throw new NotImplementedException("AcmeSystemRejectCodes");
+            }
+        }
+
+        /// <summary>
+        /// Transax Conversion Flag
+        /// </summary>
+        [Property("TransaxConversionFlag", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        public string TransaxConversionFlag
+        {
+            get
+            {
+                // TODO: TransaxConversionFlag
+                throw new NotImplementedException("TransaxConversionFlag");
+            }
+            set
+            {
+                // TODO: TransaxConversionFlag
+                throw new NotImplementedException("TransaxConversionFlag");
             }
         }
 

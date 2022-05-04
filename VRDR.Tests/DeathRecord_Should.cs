@@ -1828,8 +1828,6 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.BirthRecordState = state;
             Assert.Equal(state, SetterDeathRecord.BirthRecordState);
-            IJEMortality ije1 = new IJEMortality(SetterDeathRecord);
-            Assert.Equal(ije1.DSTATE, state);
         }
 
         [Fact]

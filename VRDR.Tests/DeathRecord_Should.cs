@@ -24,6 +24,7 @@ namespace VRDR.Tests
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
             //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
             SetterDeathRecord = new DeathRecord();
         }
@@ -72,16 +73,17 @@ namespace VRDR.Tests
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingDecedent.json"));
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).", ex.Message);
+            Assert.Equal("Failed to find a Decedent (Patient).", ex.Message);
         }
 
-        [Fact]
-        public void FailMissingCertifier()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCertifier.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.", ex.Message);
-        }
+        // It is perfectly acceptable for the Certififer to be missing
+        // [Fact]
+        // public void FailMissingCertifier()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCertifier.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.", ex.Message);
+        // }
 
         [Fact]
         public void FailMissingObservationCode()
@@ -99,13 +101,14 @@ namespace VRDR.Tests
             Assert.Equal("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.", ex.Message);
         }
 
-        [Fact]
-        public void FailBadConditions()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
-        }
+        // This is a meaningless test because the CauseOfDeath conditions are now clearly identifiable (by code) Observations
+        // [Fact]
+        // public void FailBadConditions()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
+        // }
 
         [Fact]
         public void InvalidDeathLocationJurisdiction()
@@ -1641,6 +1644,11 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Resting_Sleeping_Eating_Or_Engaging_In_Other_Vital_Activities, SetterDeathRecord.ActivityAtDeathHelper);
 
         }
+        [Fact]
+        public void Get_ActivityAtTimeOfDeath()
+        {
+            Assert.Equal(VRDR.ValueSets.ActivityAtTimeOfDeath.While_Engaged_In_Leisure_Activities, ((DeathRecord)JSONRecords[1]).ActivityAtDeathHelper);
+        }
 
         [Fact]
         public void Set_AutoUnderlyingCOD()
@@ -1656,6 +1664,12 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void Get_AutoUnderlyingCOD()
+        {
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutoUnderlyingCOD);
+        }
+
+        [Fact]
         public void Set_ManUnderlyingCOD()
         {
             SetterDeathRecord.ManUnderlyingCOD = "I131";
@@ -1667,6 +1681,11 @@ namespace VRDR.Tests
             SetterDeathRecord.ManUnderlyingCOD = "I13";
             Assert.Equal("I13", SetterDeathRecord.ManUnderlyingCOD);
         }
+        [Fact]
+        public void Get_ManUnderlyingCOD()
+        {
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).ManUnderlyingCOD);
+        }
 
         [Fact]
         public void Set_PlaceOfInjury()
@@ -1674,19 +1693,32 @@ namespace VRDR.Tests
             SetterDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;
             Assert.Equal(ValueSets.PlaceOfInjury.Home, SetterDeathRecord.PlaceOfInjuryHelper);
         }
-
+        [Fact]
+        public void Get_PlaceOfInjury()
+        {
+            Assert.Equal(ValueSets.PlaceOfInjury.Home, ((DeathRecord)JSONRecords[1]).PlaceOfInjuryHelper);
+        }
         [Fact]
         public void Set_FirstEditedRaceCode()
         {
             SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
         }
-
+        [Fact]
+        public void Get_FirstEditedRaceCode()
+        {
+            Assert.Equal(ValueSets.RaceCode.White, ((DeathRecord)JSONRecords[1]).FirstEditedRaceCodeHelper);
+        }
         [Fact]
         public void Set_EighthEditedRaceCode()
         {
             SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
             Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
+        }
+        [Fact]
+        public void Get_SecondEditedRaceCode()
+        {
+            Assert.Equal(ValueSets.RaceCode.Israeli, ((DeathRecord)JSONRecords[1]).SecondEditedRaceCodeHelper);
         }
 
         [Fact]
@@ -3018,7 +3050,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EntityAxisCodes()
         {
-            // NOOP
+            Tuple<string, string, string, string>[] eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
+            Assert.Single(eacGet);
+            Assert.Equal("1", eacGet[0].Item1);
+            Assert.Equal("1", eacGet[0].Item2);
+            Assert.Equal("J96.0", eacGet[0].Item3);
+            Assert.Equal("", eacGet[0].Item4);
+            // Add more items to IG example
         }
 
         [Fact]
@@ -3044,7 +3082,11 @@ namespace VRDR.Tests
         [Fact]
         public void Get_RecordAxisCodes()
         {
-            // NOOP
+            Tuple<string, string, string>[] racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
+            Assert.Single(racGet);
+            Assert.Equal("1", racGet[0].Item1);
+            Assert.Equal("J96.0", racGet[0].Item2);
+            Assert.Equal("", racGet[0].Item3);
         }
 
         [Fact]

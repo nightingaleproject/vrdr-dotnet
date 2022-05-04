@@ -9666,6 +9666,81 @@ namespace VRDR
             }
         }
 
+        /// <summary>Race Recode 40.</summary>
+        /// <value>Race Recode 40. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "09");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceRecode40CS);</para>
+        /// <para>racecode.Add("display", "Vietnamiese");</para>
+        /// <para>ExampleDeathRecord.RaceRecode40 = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"RaceRecode40: {ExampleDeathRecord.RaceRecode40['display']}");</para>
+        /// </example>
+        [Property("RaceRecode40", Property.Types.Dictionary, "Coded Content", "RaceRecode40.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> RaceRecode40
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "RaceRecode40");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "RaceRecode40");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "RaceRecode40", null, null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Race Recode 40  Helper</summary>
+        /// <value>Race Recode 40 Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceRecode40Helper = VRDR.ValueSets.RaceRecode40.AIAN ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Race Recode 40: {ExampleDeathRecord.RaceRecode40Helper}");</para>
+        /// </example>
+        [Property("Race Recode 40 Helper", Property.Types.String, "Coded Content", "Race Recode 40.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string RaceRecode40Helper
+        {
+            get
+            {
+                if (RaceRecode40.ContainsKey("code"))
+                {
+                    return RaceRecode40["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+            }
+        }
         /// <summary>Entity Axis Cause Of Death</summary>
         /// <value>Entity-axis codes</value>
         /// <example>

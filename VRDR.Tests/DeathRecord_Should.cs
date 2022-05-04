@@ -73,16 +73,17 @@ namespace VRDR.Tests
         {
             string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingDecedent.json"));
             Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).", ex.Message);
+            Assert.Equal("Failed to find a Decedent (Patient).", ex.Message);
         }
 
-        [Fact]
-        public void FailMissingCertifier()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCertifier.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.", ex.Message);
-        }
+        // It is perfectly acceptable for the Certififer to be missing
+        // [Fact]
+        // public void FailMissingCertifier()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCertifier.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.", ex.Message);
+        // }
 
         [Fact]
         public void FailMissingObservationCode()
@@ -100,13 +101,14 @@ namespace VRDR.Tests
             Assert.Equal("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.", ex.Message);
         }
 
-        [Fact]
-        public void FailBadConditions()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
-        }
+        // This is a meaningless test because the CauseOfDeath conditions are now clearly identifiable (by code) Observations
+        // [Fact]
+        // public void FailBadConditions()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
+        // }
 
         [Fact]
         public void InvalidDeathLocationJurisdiction()
@@ -3048,7 +3050,13 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EntityAxisCodes()
         {
-            // NOOP
+            Tuple<string, string, string, string>[] eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
+            Assert.Equal(1, eacGet.Length);
+            Assert.Equal("1", eacGet[0].Item1);
+            Assert.Equal("1", eacGet[0].Item2);
+            Assert.Equal("J96.0", eacGet[0].Item3);
+            Assert.Equal("", eacGet[0].Item4);
+            // Add more items to IG example
         }
 
         [Fact]
@@ -3074,7 +3082,11 @@ namespace VRDR.Tests
         [Fact]
         public void Get_RecordAxisCodes()
         {
-            // NOOP
+            Tuple<string, string, string>[] racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
+            Assert.Equal(1, racGet.Length);
+            Assert.Equal("1", racGet[0].Item1);
+            Assert.Equal("J96.0", racGet[0].Item2);
+            Assert.Equal("", racGet[0].Item3);
         }
 
         [Fact]

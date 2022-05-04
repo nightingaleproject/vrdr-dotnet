@@ -8201,7 +8201,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutoUnderlyingCOD}");</para>
         /// </example>
-        [Property("Automated Underlying Cause of Death", Property.Types.Dictionary, "Coded Content", "Automated Underlying Cause of Death.", true, IGURL.AutomatedUnderlyingCauseOfDeath, false, 34)]
+        [Property("Automated Underlying Cause of Death", Property.Types.String, "Coded Content", "Automated Underlying Cause of Death.", true, IGURL.AutomatedUnderlyingCauseOfDeath, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-5')", "")]
         public string AutoUnderlyingCOD
@@ -8233,7 +8233,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Manual Underlying Cause of Death: {ExampleDeathRecord.ManUnderlyingCOD}");</para>
         /// </example>
-        [Property("Manual Underlying Cause of Death", Property.Types.Dictionary, "Coded Content", "Manual Underlying Cause of Death.", true, IGURL.ManualUnderlyingCauseOfDeath, false, 34)]
+        [Property("Manual Underlying Cause of Death", Property.Types.String, "Coded Content", "Manual Underlying Cause of Death.", true, IGURL.ManualUnderlyingCauseOfDeath, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-580359-3')", "")]
         public string ManUnderlyingCOD
@@ -9968,14 +9968,7 @@ namespace VRDR
             }
             else
             {
-                throw new System.ArgumentException("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).");
-            }
-
-            // Grab Input Race and Ethinicity
-            var inputRaceAndEthnicity = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "inputraceandethnicity" );
-            if (inputRaceAndEthnicity != null)
-            {
-                InputRaceAndEthnicityObs = (Observation)inputRaceAndEthnicity.Resource;
+                throw new System.ArgumentException("Failed to find a Decedent (Patient).");
             }
 
             // Grab Certifier
@@ -10004,18 +9997,6 @@ namespace VRDR
             //     Pronouncer = (Practitioner)pronouncerEntry.Resource;
             // }
 
-            // // Grab Mortician
-            // // IMPROVEMENT: Move away from using meta profile or id to find this Practitioner, use reference from disposition method performer instead or as well
-            // var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Mortician", entry.Resource.Meta.Profile.FirstOrDefault()));
-            // if (morticianEntry == null)
-            // {
-            //     morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
-            // }
-            // if (morticianEntry != null)
-            // {
-            //     Mortician = (Practitioner)morticianEntry.Resource;
-            // }
-
             // Grab Death Certification
             var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
             if (procedureEntry != null)
@@ -10023,16 +10004,15 @@ namespace VRDR
                 DeathCertification = (Procedure)procedureEntry.Resource;
             }
 
-            // Grab State Local Identifier
-            var stateDocumentReferenceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.DocumentReference && ((DocumentReference)entry.Resource).Type.Coding.First().Code == "64297-5" );
-            if (stateDocumentReferenceEntry != null)
-            {
-                StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
-            }
+            // // Grab State Local Identifier
+            // var stateDocumentReferenceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.DocumentReference && ((DocumentReference)entry.Resource).Type.Coding.First().Code == "64297-5" );
+            // if (stateDocumentReferenceEntry != null)
+            // {
+            //     StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
+            // }
 
             // Grab Funeral Home  - Organization with type="funeral"
             var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization &&
-                    ((Organization)entry.Resource).Meta.Profile.FirstOrDefault() != null &&
                     ((Organization)entry.Resource).Type.FirstOrDefault() != null  && (CodeableConceptToDict(((Organization)entry.Resource).Type.First())["code"] == "funeralhome"));
             if (funeralHome != null)
             {
@@ -10045,6 +10025,17 @@ namespace VRDR
             // {
             //     FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
             // }
+            // // Grab Mortician
+            // // IMPROVEMENT: Move away from using meta profile or id to find this Practitioner, use reference from disposition method performer instead or as well
+            // var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Mortician", entry.Resource.Meta.Profile.FirstOrDefault()));
+            // if (morticianEntry == null)
+            // {
+            //     morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            // }
+            // if (morticianEntry != null)
+            // {
+            //     Mortician = (Practitioner)morticianEntry.Resource;
+            // }
 
             // Scan through all Observations to make sure they all have codes!
             foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
@@ -10054,20 +10045,93 @@ namespace VRDR
                 {
                     throw new System.ArgumentException("Found an Observation resource that did not contain a code. All Observations must include a code to specify what the Observation is referring to.");
                 }
-            }
-
-            // Grab Manner of Death
-            var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
-            if (mannerOfDeath != null)
-            {
-                MannerOfDeath = (Observation)mannerOfDeath.Resource;
-            }
-
-            // Grab Disposition Method
-            var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );
-            if (dispositionMethod != null)
-            {
-                DispositionMethod = (Observation)dispositionMethod.Resource;
+                switch(obs.Code.Coding.First().Code)
+                {
+                case "69449-7":
+                    MannerOfDeath = (Observation)obs;
+                    break;
+                case "80905-3":
+                    DispositionMethod = (Observation)obs;
+                    // Link the Mortician based on the performer of this observation
+                    break;
+                case "69441-4":
+                    ConditionContributingToDeath = (Observation)obs;
+                    break;
+                case "80913-7":
+                    DecedentEducationLevel = (Observation)obs;
+                    break;
+                case "21843-8":
+                    UsualWork = (Observation)obs;
+                    break;
+                case "55280-2":
+                    MilitaryServiceObs = (Observation)obs;
+                    break;
+                case "BR":
+                    BirthRecordIdentifier = (Observation)obs;
+                    break;
+                case "emergingissues":
+                    EmergingIssues = (Observation)obs;
+                    break;
+                case "codedraceandethnicity":
+                    CodedRaceAndEthnicityObs = (Observation)obs;
+                    break;
+                case "inputraceandethnicity":
+                    InputRaceAndEthnicityObs = (Observation)obs;
+                    break;
+                case "11376-1":
+                    PlaceOfInjuryObs = (Observation)obs;
+                    break;
+                case "80358-5":
+                    AutomatedUnderlyingCauseOfDeathObs = (Observation)obs;
+                    break;
+                case "80359-3":
+                    ManualUnderlyingCauseOfDeathObs = (Observation)obs;
+                    break;
+                case "80626-5":
+                    ActivityAtTimeOfDeathObs = (Observation)obs;
+                    break;
+               case "80992-1":
+                    SurgeryDateObs = (Observation)obs;
+                    break;
+                case "81956-5":
+                    DeathDateObs = (Observation)obs;
+                    break;
+                case "11374-6":
+                    InjuryIncidentObs = (Observation)obs;
+                    break;
+                case "69443-0":
+                    TobaccoUseObs = (Observation)obs;
+                    break;
+                case "74497-9":
+                    ExaminerContactedObs = (Observation)obs;
+                    break;
+                case "69442-2":
+                    PregnancyObs = (Observation)obs;
+                    break;
+                case "39016-1":
+                    AgeAtDeathObs = (Observation)obs;
+                    break;
+                case "85699-7":
+                    AutopsyPerformed = (Observation)obs;
+                    break;
+                case "80356-9":
+                    if (EntityAxisCauseOfDeathObsList == null)
+                    {
+                         EntityAxisCauseOfDeathObsList = new List<Observation>();
+                    }
+                    EntityAxisCauseOfDeathObsList.Add((Observation)obs);
+                    break;
+                case "80357-7":
+                    if (RecordAxisCauseOfDeathObsList == null)
+                    {
+                        RecordAxisCauseOfDeathObsList = new List<Observation>();
+                    }
+                    RecordAxisCauseOfDeathObsList.Add((Observation)obs);
+                    break;
+                default:
+                    // skip
+                    break;
+                }
             }
 
             // Grab Cause Of Death Condition Pathway
@@ -10111,226 +10175,54 @@ namespace VRDR
                 }
 
             }
-
-            // Grab Condition Contributing To Death
-            List<Observation> remainingConditions = new List<Observation>();
-            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69441-4")))
-            {
-                if (condition != null)
-                {
-                    if (!causeConditions.Contains((Observation)condition.Resource)) // should never trigger, since now Part1 and Part2 are observations with different codes
-                    {
-                        remainingConditions.Add((Observation)condition.Resource);
-
-                    }
-                }
-            }
-            if (remainingConditions.Count() > 1)
-            {
-                throw new System.ArgumentException("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.");
-            }
-            else if (remainingConditions.Count() == 1)
-            {
-                ConditionContributingToDeath = remainingConditions[0];
-            }
-
             // Scan through all RelatedPerson to make sure they all have relationship codes!
             foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
             {
                 RelatedPerson rpn = (RelatedPerson)rp.Resource;
-                if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding.First().Code == null)
+                if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null ||
+                      rpn.Relationship.FirstOrDefault().Coding.First().Code == null)
                 {
                     throw new System.ArgumentException("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.");
                 }
-            }
-
-            // Grab Father
-            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "FTH" );
-            if (father != null)
-            {
-                Father = (RelatedPerson)father.Resource;
-            }
-
-            // Grab Mother
-            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "MTH" );
-            if (mother != null)
-            {
-                Mother = (RelatedPerson)mother.Resource;
-            }
-
-            // Grab Spouse
-            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "SPS" );
-            if (spouse != null)
-            {
-                Spouse = (RelatedPerson)spouse.Resource;
-            }
-
-            // Grab Decedent Education Level
-            var decedentEducationLevel = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7" );
-            if (decedentEducationLevel != null)
-            {
-                DecedentEducationLevel = (Observation)decedentEducationLevel.Resource;
-            }
-
-            // Grab Birth Record Identifier
-            var birthRecordIdentifier = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR" );
-            if (birthRecordIdentifier != null)
-            {
-                BirthRecordIdentifier = (Observation)birthRecordIdentifier.Resource;
-            }
-
-            // Grab Employment History
-            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "21843-8" );
-            if (employmentHistory != null)
-            {
-                UsualWork = (Observation)employmentHistory.Resource;
-            }
-
-            // Grab Employment History
-            var militaryServiceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "55280-2" );
-            if (militaryServiceEntry != null)
-            {
-                MilitaryServiceObs = (Observation)militaryServiceEntry.Resource;
-            }
-
-            // Grab Disposition Location -- location with type = "disposition"
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
-               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "disposition"));
-            if (dispositionLocation != null)
-            {
-                DispositionLocation = (Location)dispositionLocation.Resource;
-            }
-
-            // Grab Injury Location -- location with type = "injury"
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
-               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "injury"));
-             // Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("vrdr-injury-location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
-            if (injuryLocation != null)
-            {
-                InjuryLocationLoc = (Location)injuryLocation.Resource;
-            }
-
-            // Grab Death Location - -- location with type = "death"
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => (entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Type.FirstOrDefault() != null ) &&
-               (CodeableConceptToDict(((Location)entry.Resource).Type.First())["code"] == "death"));
-            if (deathLocation != null)
-            {
-                DeathLocationLoc = (Location)deathLocation.Resource;
-            }
-
-            // Grab Autopsy Performed
-            var autopsyPerformed = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7" );
-            if (autopsyPerformed != null)
-            {
-                AutopsyPerformed = (Observation)autopsyPerformed.Resource;
-            }
-
-            // Grab Age At Death
-            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "39016-1" );
-            if (ageAtDeath != null)
-            {
-                AgeAtDeathObs = (Observation)ageAtDeath.Resource;
-            }
-
-            // Grab Pregnancy
-            var pregnancyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
-            if (pregnancyStatus != null)
-            {
-                PregnancyObs = (Observation)pregnancyStatus.Resource;
-            }
-
-            // Grab Examiner Contacted
-            var examinerContacted = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9" );
-            if (examinerContacted != null)
-            {
-                ExaminerContactedObs = (Observation)examinerContacted.Resource;
-            }
-
-            // Grab Tobacco Use
-            var tobaccoUse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0" );
-            if (tobaccoUse != null)
-            {
-                TobaccoUseObs = (Observation)tobaccoUse.Resource;
-            }
-
-            // Grab Injury Incident
-            var injuryIncident = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6" );
-            if (injuryIncident != null)
-            {
-                InjuryIncidentObs = (Observation)injuryIncident.Resource;
-            }
-
-            // Grab Death Date
-            var dateOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5" );
-            if (dateOfDeath != null)
-            {
-                DeathDateObs = (Observation)dateOfDeath.Resource;
-            }
-
-            // Grab Surgery Date
-            var surgeryDate = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80992-1" );
-            if (surgeryDate != null)
-            {
-                SurgeryDateObs = (Observation)surgeryDate.Resource;
-            }
-
-            // Grab Emerging Parameters
-            var emergingIssues = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "emergingissues" );
-            if (emergingIssues != null)
-            {
-                EmergingIssues = (Observation)emergingIssues.Resource;
-            }
-            // Grab Activity at Time of Death
-            var activityAtTimeOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80626-5" );
-            if (activityAtTimeOfDeath != null)
-            {
-                ActivityAtTimeOfDeathObs = (Observation)activityAtTimeOfDeath.Resource;
-            }
-            // Grab Man Underlying Cause of Death
-            var mancauseOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80359-3" );
-            if (mancauseOfDeath != null)
-            {
-                ManualUnderlyingCODObs = (Observation)mancauseOfDeath.Resource;
-            }
-            // Grab Auto Underlying Cause of Death
-            var autocauseOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80358-5" );
-            if (autocauseOfDeath != null)
-            {
-                AutoUnderlyingCODObs = (Observation)autocauseOfDeath.Resource;
-            }
-            // Grab Injury Place
-            var placeOfInjury = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11376-1" );
-            if (placeOfInjury != null)
-            {
-                PlaceOfInjuryObs = (Observation)placeOfInjury.Resource;
-            }
-            // Grab Coded Race and Ethnicity
-            var codedRaceEthnicity = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "codedraceandethnicity" );
-            if (codedRaceEthnicity != null)
-            {
-                CodedRaceAndEthnicityObs = (Observation)codedRaceEthnicity.Resource;
-            }
-            // Grab Entity Axis Cause of death
-            EntityAxisCauseOfDeathObsList = new List<Observation>();
-            foreach (var cod in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9")))
-            {
-                if (cod != null)
-                {
-                    EntityAxisCauseOfDeathObsList.Add((Observation)cod.Resource);
+                switch(rpn.Relationship.FirstOrDefault().Coding.First().Code){
+                    case "FTH":
+                        Father = (RelatedPerson)rpn;
+                        break;
+                    case "MTH":
+                        Mother = (RelatedPerson)rpn;
+                        break;
+                    case "SPS":
+                        Spouse = (RelatedPerson)rpn;
+                        break;
+                    default:
+                        // skip
+                        break;
                 }
             }
-
-            // Grab Record Axis Cause of death
-            RecordAxisCauseOfDeathObsList = new List<Observation>();
-            foreach (var cod in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7")))
-            {
-                if (cod != null)
+            foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Location )){
+                Location lcn = (Location)rp.Resource;
+                if ( (lcn.Type.FirstOrDefault() == null)  || lcn.Type.FirstOrDefault().Coding == null || lcn.Type.FirstOrDefault().Coding.First().Code  == null )
                 {
-                    RecordAxisCauseOfDeathObsList.Add((Observation)cod.Resource);
+                    // throw new System.ArgumentException("Found a Location resource that did not contain a type code. All Locations must include a type code to specify the role of the location.");
+                }
+                else
+                {
+                    switch(lcn.Type.FirstOrDefault().Coding.First().Code){
+                        case "death":
+                            DeathLocationLoc = lcn;
+                            break;
+                        case "disposition":
+                            DispositionLocation = lcn;
+                            break;
+                        case "injury":
+                            InjuryLocationLoc = lcn;
+                            break;
+                        default:
+                            // skip
+                            break;
+                    }
                 }
             }
-
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>

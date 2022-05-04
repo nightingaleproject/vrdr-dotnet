@@ -1311,6 +1311,17 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "death",
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                "display": "Death Location"
+              }
+            ]
+          }
+        ],
         "name": "Pecan Grove Nursing Home",
         "description": "nursing home",
         "address": {
@@ -1334,6 +1345,17 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location"
           ]
         },
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "injury",
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                "display": "InjuryLocation"
+              }
+            ]
+          }
+        ],
         "description": "5590 Lockwood Drive 20621 US",
         "name": "Home",
         "address": {
@@ -1622,6 +1644,17 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location"
           ]
         },
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "disposition",
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                "display": "Disposition location"
+              }
+            ]
+          }
+        ],
         "name": "Rosewood Cemetary",
         "address": {
           "line": [

@@ -3051,7 +3051,7 @@ namespace VRDR.Tests
         public void Get_EntityAxisCodes()
         {
             Tuple<string, string, string, string>[] eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
-            Assert.Equal(1, eacGet.Length);
+            Assert.Single(eacGet);
             Assert.Equal("1", eacGet[0].Item1);
             Assert.Equal("1", eacGet[0].Item2);
             Assert.Equal("J96.0", eacGet[0].Item3);
@@ -3083,7 +3083,7 @@ namespace VRDR.Tests
         public void Get_RecordAxisCodes()
         {
             Tuple<string, string, string>[] racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
-            Assert.Equal(1, racGet.Length);
+            Assert.Single(racGet);
             Assert.Equal("1", racGet[0].Item1);
             Assert.Equal("J96.0", racGet[0].Item2);
             Assert.Equal("", racGet[0].Item3);

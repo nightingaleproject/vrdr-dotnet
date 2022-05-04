@@ -33,9 +33,6 @@ namespace VRDR
         /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         private Composition Composition;
 
-        /// <summary>DocumentReference that is used to specify state local death record identifier.</summary>
-        private DocumentReference StateDocumentReference;
-
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
 

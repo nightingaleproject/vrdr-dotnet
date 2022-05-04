@@ -19,7 +19,7 @@ namespace VRDR
     /// HL7 FHIR Vital Records Death Reporting Implementation Guide, as described at:
     /// http://hl7.org/fhir/us/vrdr and https://github.com/hl7/vrdr.
     /// </summary>
-    public class DeathRecord : ICauseOfDeathCodedContent, IDemographicCodedContent
+    public class DeathRecord : ICauseOfDeathCodedContent, IDemographicCodedContent, IDeathCertificateDocument
     {
         /// <summary>Mortality data for code translations.</summary>
         private MortalityData MortalityData = MortalityData.Instance;
@@ -787,6 +787,17 @@ namespace VRDR
             return Bundle;
         }
 
+        /// <summary>
+        /// Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually
+        /// the complete DeathRecord Bundle accessible via a method name that aligns with the other specific
+        /// GetBundle methods (GetCauseOfDeathCodedContentBundle and GetDemographicCodedContentBundle).
+        /// </summary>
+        /// <returns>a FHIR Bundle</returns>
+        public Bundle GetDeathCertificateDocumentBundle()
+        {
+            return Bundle;
+        }
+
         private void AddResourceToBundleIfPresent(Resource resource, Bundle bundle)
         {
             if (resource != null)
@@ -796,7 +807,7 @@ namespace VRDR
         }
 
         /// <summary>Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</summary>
-        /// <returns>a FHIR Bundle</returns>
+        /// <returns>a new FHIR Bundle</returns>
         public Bundle GetCauseOfDeathCodedContentBundle()
         {
             Bundle codccBundle = new Bundle();
@@ -843,7 +854,7 @@ namespace VRDR
         }
 
         /// <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
-        /// <returns>a FHIR Bundle</returns>
+        /// <returns>a new FHIR Bundle</returns>
         public Bundle GetDemographicCodedContentBundle()
         {
             Bundle dccBundle = new Bundle();

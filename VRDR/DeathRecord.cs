@@ -810,13 +810,19 @@ namespace VRDR
             AddResourceToBundleIfPresent(ActivityAtTimeOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(AutomatedUnderlyingCauseOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(ManualUnderlyingCauseOfDeathObs, codccBundle);
-            foreach (Observation observation in EntityAxisCauseOfDeathObsList)
+            if (EntityAxisCauseOfDeathObsList != null)
             {
-                AddResourceToBundleIfPresent(observation, codccBundle);
+                foreach (Observation observation in EntityAxisCauseOfDeathObsList)
+                {
+                    AddResourceToBundleIfPresent(observation, codccBundle);
+                }
             }
-            foreach (Observation observation in RecordAxisCauseOfDeathObsList)
+            if (RecordAxisCauseOfDeathObsList != null)
             {
-                AddResourceToBundleIfPresent(observation, codccBundle);
+                foreach (Observation observation in RecordAxisCauseOfDeathObsList)
+                {
+                    AddResourceToBundleIfPresent(observation, codccBundle);
+                }
             }
             AddResourceToBundleIfPresent(PlaceOfInjuryObs, codccBundle);
             // TODO: Add CodingStatusValues once implemented

@@ -4156,13 +4156,13 @@ get
             // TODO: Implement mapping from FHIR record location: DecedentFather
             get
             {
-                return LeftJustified_Get("FATHERSUFFIX", "Suffix");
+                return LeftJustified_Get("FATHERSUFFIX", "FatherSuffix");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("FATHERSUFFIX", "Suffix", value.Trim());
+                    LeftJustified_Set("FATHERSUFFIX", "FatherSuffix", value.Trim());
                 }
             }
         }
@@ -4174,13 +4174,13 @@ get
             // TODO: Implement mapping from FHIR record location: DecedentMother
             get
             {
-                return LeftJustified_Get("MOTHERSSUFFIX", "Suffix");
+                return LeftJustified_Get("MOTHERSSUFFIX", "MotherSuffix");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("MOTHERSSUFFIX", "Suffix", value.Trim());
+                    LeftJustified_Set("MOTHERSSUFFIX", "MotherSuffix", value.Trim());
                 }
             }
         }

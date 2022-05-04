@@ -3889,13 +3889,8 @@ namespace VRDR
         {
             get
             {
-                if (Father != null && Father.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Father == null)
@@ -4019,13 +4014,8 @@ namespace VRDR
         {
             get
             {
-                if (Mother != null && Mother.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Mother == null)
@@ -10758,7 +10748,7 @@ namespace VRDR
         }
 
         /// <summary>Given a FHIR path, return the first element that matches the given path as a string;
-        /// returns an empty string if no match is found.</summary>
+        /// returns null if no match is found.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path as a string, or null if no match is found.</returns>
         private string GetFirstString(string path)

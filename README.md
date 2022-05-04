@@ -301,6 +301,7 @@ dotnet test
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
 #### Example Usages
+
 ```bash
 # Builds a fake death record and print out the record as FHIR XML and JSON
 dotnet run --project VRDR.CLI
@@ -334,8 +335,43 @@ dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
+
+# Generate the first connectathon record with certifcate number 100 and jurisdiction MA
+dotnet run --project VRDR.CLI connectathon 1 100 MA
+
+# Generate a verbose JSON description of the record (in the format used to drive Canary)
+dotnet run --project VRDR.CLI description VRDR.CLI/1.json
+
+# Convert a record to IJE and back to identify any conversion issues
+dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json
+
+# Convert a record to JSON and back to identify any conversion issues
+dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1.json
+
+# Create a record using the provided IJE field name and value pairs
+dotnet run --project VRDR.CLI ijebuilder GNAME=Lazarus AGE=990
+
+# Compare an IJE record with a FHIR record by each IJE field
+dotnet run --project VRDR.CLI compare VRDR.CLI/1.MOR VRDR.CLI/1.json
+
+# Extract a FHIR record from a FHIR message
+dotnet run --project VRDR.CLI extract VRDR.CLI/1submit.json
+
+# Create a submission FHIR message wrapping a FHIR record
+dotnet run --project VRDR.CLI submit VRDR.CLI/1.json
+
+# Create an update FHIR message wrapping a FHIR record
+dotnet run --project VRDR.CLI resubmit VRDR.CLI/1.json
+
+# Create an acknowledgement FHIR message for a submission FHIR message
+dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json
+
+# Extract and show the codes in a coding response message
+dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
 ```
+
 ### VRDR.Client
+
 This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API). 
 
 *This package is not yet published on NuGet.*

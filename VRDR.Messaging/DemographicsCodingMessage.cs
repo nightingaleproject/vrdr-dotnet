@@ -7,7 +7,7 @@ namespace VRDR
     /// <summary>
     /// A <c>CodingResponseMessage</c> that conveys the coded demographic information of a decedent.
     /// </summary>
-    public class DemographicsCodingResponseMessage : CodingResponseMessage
+    public class DemographicsCodingMessage : CodingResponseMessage
     {
         /// <summary>
         /// The event URI for DemographicCodingResponseMessage.
@@ -17,7 +17,7 @@ namespace VRDR
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="sourceMessage">the message to create a response for.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public DemographicsCodingResponseMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
+        public DemographicsCodingMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
         {
             this.CertificateNumber = sourceMessage?.CertificateNumber;
             this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
@@ -30,14 +30,14 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicCodingResponseMessage</param>
         /// <returns></returns>
-        internal DemographicsCodingResponseMessage(Bundle messageBundle) : base(messageBundle)
+        internal DemographicsCodingMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
 
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        public DemographicsCodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
+        public DemographicsCodingMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
         {
         }
 
@@ -161,7 +161,7 @@ namespace VRDR
     }
 
     /// <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded race and ethnicity of a decedent.</summary>
-    public class DemographicsCodingUpdateMessage : DemographicsCodingResponseMessage
+    public class DemographicsCodingUpdateMessage : DemographicsCodingMessage
     {
         /// <summary>
         /// The event URI for DemographicsCodingUpdateMessage.

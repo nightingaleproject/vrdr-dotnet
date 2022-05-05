@@ -2,36 +2,36 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>AckMessage</c> supports the acknowledgment of other messages.</summary>
-    public class AckMessage : BaseMessage
+    /// <summary>Class <c>AcknowledgementMessage</c> supports the acknowledgment of other messages.</summary>
+    public class AcknowledgementMessage : BaseMessage
     {
         /// <summary>
-        /// The Event URI for AckMessage
+        /// The Event URI for AcknowledgementMessage
         /// </summary>
         public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_acknowledgement";
 
         /// <summary>Constructor that creates an acknowledgement for the specified message.</summary>
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
-        public AckMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
+        public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
         {
             this.CertificateNumber = messageToAck?.CertificateNumber;
             this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;
             this.DeathJurisdictionID = messageToAck?.DeathJurisdictionID;
             this.DeathYear = messageToAck?.DeathYear;
 
-            if(typeof(VoidMessage).IsInstanceOfType(messageToAck))
+            if(typeof(DeathRecordVoidMessage).IsInstanceOfType(messageToAck))
             {
-                VoidMessage voidMessageToAck = (VoidMessage) messageToAck;
+                DeathRecordVoidMessage voidMessageToAck = (DeathRecordVoidMessage) messageToAck;
                 this.BlockCount = voidMessageToAck?.BlockCount;
             }
         }
 
         /// <summary>
-        /// Construct an AckMessage from a FHIR Bundle.
+        /// Construct an AcknowledgementMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the AckMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the AcknowledgementMessage</param>
         /// <returns></returns>
-        internal AckMessage(Bundle messageBundle) : base(messageBundle)
+        internal AcknowledgementMessage(Bundle messageBundle) : base(messageBundle)
         {
             // no payload for Ack message
         }
@@ -40,7 +40,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an acknowledgement for.</param>
         /// <param name="destination">the endpoint identifier that the ack message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the ack message will be sent from.</param>
-        public AckMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
+        public AcknowledgementMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

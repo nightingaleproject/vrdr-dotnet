@@ -25,7 +25,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateSubmission()
         {
-            DeathRecordSubmission submission = new DeathRecordSubmission();
+            DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Null(submission.DeathRecord);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageDestination);
@@ -41,7 +41,7 @@ namespace VRDR.Tests
         public void CreateSubmissionFromDeathRecord()
         {
             DeathRecord record = (DeathRecord)XMLRecords[0];
-            DeathRecordSubmission submission = new DeathRecordSubmission(record);
+            DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
@@ -52,7 +52,7 @@ namespace VRDR.Tests
             Assert.Equal("2019YC000182", submission.NCHSIdentifier);
 
             record = (DeathRecord)JSONRecords[0];
-            submission = new DeathRecordSubmission(record);
+            submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
@@ -62,7 +62,7 @@ namespace VRDR.Tests
             Assert.Equal("2019YC000182", submission.NCHSIdentifier);
 
             record = null;
-            submission = new DeathRecordSubmission(record);
+            submission = new DeathRecordSubmissionMessage(record);
             Assert.Null(submission.DeathRecord);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Null(submission.CertificateNumber);
@@ -70,7 +70,7 @@ namespace VRDR.Tests
             Assert.Null(submission.NCHSIdentifier);
 
             record = (DeathRecord)JSONRecords[1];
-            submission = new DeathRecordSubmission(record);
+            submission = new DeathRecordSubmissionMessage(record);
             Assert.NotNull(submission.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
@@ -82,7 +82,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateSubmissionFromJSON()
         {
-            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Equal("2018MA000001", submission.NCHSIdentifier);
@@ -91,7 +91,7 @@ namespace VRDR.Tests
             Assert.Equal("42", submission.StateAuxiliaryIdentifier);
             Assert.Equal(submission.DeathJurisdictionID, submission.DeathRecord.DeathLocationJurisdiction);
 
-            submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmissionNoIdentifiers.json"));
+            submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionNoIdentifiers.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", submission.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageType);
             Assert.Null(submission.CertificateNumber);
@@ -109,20 +109,20 @@ namespace VRDR.Tests
             Assert.Equal((uint)2018, errMsg.DeathYear);
             Assert.Equal("42", errMsg.StateAuxiliaryIdentifier);
 
-            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/DeathRecordSubmission.json")));
-            Assert.Equal("The supplied message was of type VRDR.DeathRecordSubmission, expected VRDR.AckMessage or a subclass", ex.Message);
+            ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse<AcknowledgementMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json")));
+            Assert.Equal("The supplied message was of type VRDR.DeathRecordSubmissionMessage, expected VRDR.AcknowledgementMessage or a subclass", ex.Message);
         }
 
         [Fact]
         public void CreateSubmissionFromBundle()
         {
-            DeathRecordSubmission submission = new DeathRecordSubmission();
+            DeathRecordSubmissionMessage submission = new DeathRecordSubmissionMessage();
             submission.DeathRecord = new DeathRecord();
             submission.CertificateNumber = 42;
             submission.StateAuxiliaryIdentifier = "identifier";
             Bundle submissionBundle = (Bundle)submission;
 
-            DeathRecordSubmission parsed = BaseMessage.Parse<DeathRecordSubmission>(submissionBundle);
+            DeathRecordSubmissionMessage parsed = BaseMessage.Parse<DeathRecordSubmissionMessage>(submissionBundle);
             Assert.Equal(submission.DeathRecord.ToJson(), parsed.DeathRecord.ToJson());
             Assert.Equal(submission.MessageType, parsed.MessageType);
             Assert.Equal(submission.CertificateNumber, parsed.CertificateNumber);
@@ -133,7 +133,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateUpdate()
         {
-            DeathRecordUpdate submission = new DeathRecordUpdate();
+            DeathRecordUpdateMessage submission = new DeathRecordUpdateMessage();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", submission.MessageType);
             Assert.Null(submission.DeathRecord);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", submission.MessageDestination);
@@ -148,7 +148,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateUpdateFromDeathRecord()
         {
-            DeathRecordUpdate update = new DeathRecordUpdate((DeathRecord)XMLRecords[0]);
+            DeathRecordUpdateMessage update = new DeathRecordUpdateMessage((DeathRecord)XMLRecords[0]);
             Assert.NotNull(update.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
@@ -157,7 +157,7 @@ namespace VRDR.Tests
             Assert.Equal("000000000042", update.StateAuxiliaryIdentifier);
             Assert.Equal("2019YC000182", update.NCHSIdentifier);
 
-            update = new DeathRecordUpdate((DeathRecord)JSONRecords[1]); // no ids in this death record (except jurisdiction id which is required)
+            update = new DeathRecordUpdateMessage((DeathRecord)JSONRecords[1]); // no ids in this death record (except jurisdiction id which is required)
             Assert.NotNull(update.DeathRecord);
             Assert.Equal("2019-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
@@ -169,7 +169,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateUpdateFromJSON()
         {
-            DeathRecordUpdate update = BaseMessage.Parse<DeathRecordUpdate>(FixtureStream("fixtures/json/DeathRecordUpdate.json"));
+            DeathRecordUpdateMessage update = BaseMessage.Parse<DeathRecordUpdateMessage>(FixtureStream("fixtures/json/DeathRecordUpdateMessage.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Equal("2018MA000001", update.NCHSIdentifier);
@@ -177,7 +177,7 @@ namespace VRDR.Tests
             Assert.Equal((uint)2018, update.DeathYear);
             Assert.Equal("42", update.StateAuxiliaryIdentifier);
 
-            update = BaseMessage.Parse<DeathRecordUpdate>(FixtureStream("fixtures/json/DeathRecordUpdateNoIdentifiers.json"));
+            update = BaseMessage.Parse<DeathRecordUpdateMessage>(FixtureStream("fixtures/json/DeathRecordUpdateNoIdentifiers.json"));
             Assert.Equal("2018-02-20T16:48:06-05:00", update.DeathRecord.DateOfDeathPronouncement);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_update", update.MessageType);
             Assert.Null(update.CertificateNumber);
@@ -188,13 +188,13 @@ namespace VRDR.Tests
         [Fact]
         public void CreatUpdateFromBundle()
         {
-            DeathRecordUpdate update = new DeathRecordUpdate();
+            DeathRecordUpdateMessage update = new DeathRecordUpdateMessage();
             update.DeathRecord = new DeathRecord();
             update.CertificateNumber = 42;
             update.StateAuxiliaryIdentifier = "identifier";
             Bundle updateBundle = (Bundle)update;
 
-            DeathRecordUpdate parsed = BaseMessage.Parse<DeathRecordUpdate>(updateBundle);
+            DeathRecordUpdateMessage parsed = BaseMessage.Parse<DeathRecordUpdateMessage>(updateBundle);
             Assert.Equal(update.DeathRecord.ToJson(), parsed.DeathRecord.ToJson());
             Assert.Equal(update.MessageType, parsed.MessageType);
             Assert.Equal(update.CertificateNumber, parsed.CertificateNumber);
@@ -205,8 +205,8 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckForMessage()
         {
-            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
-            AckMessage ack = new AckMessage(submission);
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
+            AcknowledgementMessage ack = new AcknowledgementMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
@@ -216,7 +216,7 @@ namespace VRDR.Tests
             Assert.Equal(submission.NCHSIdentifier, ack.NCHSIdentifier);
 
             submission = null;
-            ack = new AckMessage(submission);
+            ack = new AcknowledgementMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Null(ack.AckedMessageId);
             Assert.Null(ack.MessageDestination);
@@ -225,8 +225,8 @@ namespace VRDR.Tests
             Assert.Null(ack.StateAuxiliaryIdentifier);
             Assert.Null(ack.NCHSIdentifier);
 
-            submission = new DeathRecordSubmission();
-            ack = new AckMessage(submission);
+            submission = new DeathRecordSubmissionMessage();
+            ack = new AcknowledgementMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(submission.MessageId, ack.AckedMessageId);
             Assert.Equal(submission.MessageSource, ack.MessageDestination);
@@ -239,7 +239,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromJSON()
         {
-            AckMessage ack = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/AckMessage.json"));
+            AcknowledgementMessage ack = BaseMessage.Parse<AcknowledgementMessage>(FixtureStream("fixtures/json/AcknowledgementMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -252,7 +252,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromXML()
         {
-            AckMessage ack = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/xml/AckMessage.xml"));
+            AcknowledgementMessage ack = BaseMessage.Parse<AcknowledgementMessage>(FixtureStream("fixtures/xml/AcknowledgementMessage.xml"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
@@ -265,9 +265,9 @@ namespace VRDR.Tests
         [Fact]
         public void CreateAckFromBundle()
         {
-            AckMessage ackFixture = BaseMessage.Parse<AckMessage>(FixtureStream("fixtures/json/AckMessage.json"));
+            AcknowledgementMessage ackFixture = BaseMessage.Parse<AcknowledgementMessage>(FixtureStream("fixtures/json/AcknowledgementMessage.json"));
             Bundle ackBundle = (Bundle)ackFixture;
-            AckMessage ack = BaseMessage.Parse<AckMessage>(ackBundle);
+            AcknowledgementMessage ack = BaseMessage.Parse<AcknowledgementMessage>(ackBundle);
             Assert.Equal("a9d66d2e-2480-4e8d-bab3-4e4c761da1b7", ack.AckedMessageId);
             Assert.Equal("nightingale", ack.MessageDestination);
             Assert.Equal("2018MA000001", ack.NCHSIdentifier);
@@ -285,9 +285,9 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCauseOfDeathCodingResponseFromJSON()
         {
-            CauseOfDeathCodingResponseMessage message = BaseMessage.Parse<CauseOfDeathCodingResponseMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"));
+            CauseOfDeathCodingMessage message = BaseMessage.Parse<CauseOfDeathCodingMessage>(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"));
 
-            Assert.Equal(CauseOfDeathCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);
             Assert.Equal((uint)2018, message.DeathYear);
@@ -332,18 +332,18 @@ namespace VRDR.Tests
             Assert.Equal("01", message.NCHSReceiptMonthString);
             Assert.Equal((uint)2021, message.NCHSReceiptYear);
             Assert.Equal("2021", message.NCHSReceiptYearString);
-            Assert.Equal(CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            Assert.Equal(CauseOfDeathCodingMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
             Assert.Equal("5", message.IntentionalReject);
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
-            Assert.Equal(CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+            Assert.Equal(CauseOfDeathCodingMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
         }
 
         [Fact]
         public void CreateDemographicCodingResponseFromJSON()
         {
-            DemographicsCodingResponseMessage message = BaseMessage.Parse<DemographicsCodingResponseMessage>(FixtureStream("fixtures/json/DemographicsCodingResponseMessage.json"));
+            DemographicsCodingMessage message = BaseMessage.Parse<DemographicsCodingMessage>(FixtureStream("fixtures/json/DemographicsCodingMessage.json"));
 
-            Assert.Equal(DemographicsCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal(DemographicsCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
             Assert.Equal((uint)1, message.CertificateNumber);
             Assert.Equal((uint)2018, message.DeathYear);
@@ -351,18 +351,18 @@ namespace VRDR.Tests
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             var ethnicity = message.Ethnicity;
             Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "foo"));
             var race = message.Race;
             Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACEBRG, "yyz"));
         }
 
         [Fact]
@@ -412,25 +412,25 @@ namespace VRDR.Tests
             Assert.Equal("2018MA000001", message.NCHSIdentifier);
             var ethnicity = message.Ethnicity;
             Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "foo"));
             var race = message.Race;
             Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACEBRG, "yyz"));
         }
 
         [Fact]
         public void CreateCauseOfDeathCodingResponse()
         {
-            CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
-            Assert.Equal(CauseOfDeathCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
+            CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
 
             Assert.Null(message.CertificateNumber);
@@ -478,8 +478,8 @@ namespace VRDR.Tests
             Assert.Equal((uint)2021, message.NCHSReceiptYear);
 
             Assert.Null(message.MannerOfDeath);
-            message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;
-            Assert.Equal(CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
+            message.MannerOfDeath = CauseOfDeathCodingMessage.MannerOfDeathEnum.Accident;
+            Assert.Equal(CauseOfDeathCodingMessage.MannerOfDeathEnum.Accident, message.MannerOfDeath);
 
             Assert.Null(message.CoderStatus);
             message.CoderStatus = "8";
@@ -494,8 +494,8 @@ namespace VRDR.Tests
             Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
 
             Assert.Null(message.PlaceOfInjury);
-            message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;
-            Assert.Equal(CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
+            message.PlaceOfInjury = CauseOfDeathCodingMessage.PlaceOfInjuryEnum.Home;
+            Assert.Equal(CauseOfDeathCodingMessage.PlaceOfInjuryEnum.Home, message.PlaceOfInjury);
 
             Assert.Null(message.OtherSpecifiedPlace);
             message.OtherSpecifiedPlace = "Unique Location";
@@ -566,8 +566,8 @@ namespace VRDR.Tests
         [Fact]
         public void CreateDemographicCodingResponse()
         {
-            DemographicsCodingResponseMessage message = new DemographicsCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
-            Assert.Equal(DemographicsCodingResponseMessage.MESSAGE_TYPE, message.MessageType);
+            DemographicsCodingMessage message = new DemographicsCodingMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            Assert.Equal(DemographicsCodingMessage.MESSAGE_TYPE, message.MessageType);
             Assert.Equal("destination", message.MessageDestination);
 
             Assert.Null(message.CertificateNumber);
@@ -636,31 +636,31 @@ namespace VRDR.Tests
             Assert.Equal("5", message.IntentionalReject);
 
             Assert.Empty(message.Ethnicity);
-            var ethnicity = new Dictionary<DemographicsCodingResponseMessage.HispanicOrigin, string>();
-            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "123");
-            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
+            var ethnicity = new Dictionary<DemographicsCodingMessage.HispanicOrigin, string>();
+            ethnicity.Add(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "123");
+            ethnicity.Add(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "456");
             message.Ethnicity = ethnicity;
             ethnicity = message.Ethnicity;
             Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "foo"));
 
             Assert.Empty(message.Race);
-            var race = new Dictionary<DemographicsCodingResponseMessage.RaceCode, string>();
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE1E, "foo");
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE17C, "bar");
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "baz");
+            var race = new Dictionary<DemographicsCodingMessage.RaceCode, string>();
+            race.Add(DemographicsCodingMessage.RaceCode.RACE1E, "foo");
+            race.Add(DemographicsCodingMessage.RaceCode.RACE17C, "bar");
+            race.Add(DemographicsCodingMessage.RaceCode.RACEBRG, "baz");
             message.Race = race;
             race = message.Race;
             Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACEBRG, "yyz"));
         }
 
         [Theory]
@@ -669,7 +669,7 @@ namespace VRDR.Tests
         [InlineData(null, 2021)]
         public void SuccessfullySetNCHSReceiptYear(string receiptYear, uint deathYear)
         {
-            CodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            CodingResponseMessage message = new CauseOfDeathCodingMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             message.DeathYear = deathYear;
             message.NCHSReceiptYearString = receiptYear;
             Assert.Equal(receiptYear, message.NCHSReceiptYearString);
@@ -680,7 +680,7 @@ namespace VRDR.Tests
         [InlineData("2020", 2021)]
         public void NCHSReceiptYearMustBeGreaterThanOrEqualToDeathYear(string receiptYear, uint deathYear)
         {
-            CodingResponseMessage message = new CauseOfDeathCodingResponseMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
+            CodingResponseMessage message = new CauseOfDeathCodingMessage("destination", "http://nchs.cdc.gov/vrdr_submission");
             message.DeathYear = deathYear;
             System.ArgumentException ex = Assert.Throws<System.ArgumentException>(() => message.NCHSReceiptYearString = receiptYear);
             Assert.Equal("NCHS Receipt Year must be greater than or equal to Death Year, or null", ex.Message);
@@ -774,31 +774,31 @@ namespace VRDR.Tests
             Assert.Equal("2019NH000010", message.NCHSIdentifier);
 
             Assert.Empty(message.Ethnicity);
-            var ethnicity = new Dictionary<DemographicsCodingResponseMessage.HispanicOrigin, string>();
-            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "123");
-            ethnicity.Add(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "456");
+            var ethnicity = new Dictionary<DemographicsCodingMessage.HispanicOrigin, string>();
+            ethnicity.Add(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "123");
+            ethnicity.Add(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "456");
             message.Ethnicity = ethnicity;
             ethnicity = message.Ethnicity;
             Assert.Equal(2, ethnicity.Count);
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE));
-            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNICE, "foo"));
-            Assert.True(ethnicity.ContainsKey(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C));
-            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingResponseMessage.HispanicOrigin.DETHNIC5C, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNICE));
+            Assert.Equal("123", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNICE, "foo"));
+            Assert.True(ethnicity.ContainsKey(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C));
+            Assert.Equal("456", ethnicity.GetValueOrDefault(DemographicsCodingMessage.HispanicOrigin.DETHNIC5C, "foo"));
 
             Assert.Empty(message.Race);
-            var race = new Dictionary<DemographicsCodingResponseMessage.RaceCode, string>();
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE1E, "foo");
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACE17C, "bar");
-            race.Add(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "baz");
+            var race = new Dictionary<DemographicsCodingMessage.RaceCode, string>();
+            race.Add(DemographicsCodingMessage.RaceCode.RACE1E, "foo");
+            race.Add(DemographicsCodingMessage.RaceCode.RACE17C, "bar");
+            race.Add(DemographicsCodingMessage.RaceCode.RACEBRG, "baz");
             message.Race = race;
             race = message.Race;
             Assert.Equal(3, race.Count);
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE1E));
-            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE1E, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACE17C));
-            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACE17C, "yyz"));
-            Assert.True(race.ContainsKey(DemographicsCodingResponseMessage.RaceCode.RACEBRG));
-            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingResponseMessage.RaceCode.RACEBRG, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE1E));
+            Assert.Equal("foo", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE1E, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACE17C));
+            Assert.Equal("bar", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACE17C, "yyz"));
+            Assert.True(race.ContainsKey(DemographicsCodingMessage.RaceCode.RACEBRG));
+            Assert.Equal("baz", race.GetValueOrDefault(DemographicsCodingMessage.RaceCode.RACEBRG, "yyz"));
         }
 
         [Fact]
@@ -815,9 +815,9 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void CreateVoidMessage()
+        public void CreateDeathRecordVoidMessage()
         {
-            VoidMessage message = new VoidMessage();
+            DeathRecordVoidMessage message = new DeathRecordVoidMessage();
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Null(message.CertificateNumber);
             message.CertificateNumber = 11;
@@ -832,10 +832,10 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void CreateAckForVoidMessage()
+        public void CreateAckForDeathRecordVoidMessage()
         {
-            VoidMessage voidMessage = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
-            AckMessage ack = new AckMessage(voidMessage);
+            DeathRecordVoidMessage voidMessage = BaseMessage.Parse<DeathRecordVoidMessage>(FixtureStream("fixtures/json/DeathRecordVoidMessage.json"));
+            AcknowledgementMessage ack = new AcknowledgementMessage(voidMessage);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(voidMessage.MessageId, ack.AckedMessageId);
             Assert.Equal(voidMessage.MessageSource, ack.MessageDestination);
@@ -846,7 +846,7 @@ namespace VRDR.Tests
             Assert.Equal(voidMessage.BlockCount, ack.BlockCount);
 
             voidMessage = null;
-            ack = new AckMessage(voidMessage);
+            ack = new AcknowledgementMessage(voidMessage);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Null(ack.AckedMessageId);
             Assert.Null(ack.MessageDestination);
@@ -856,8 +856,8 @@ namespace VRDR.Tests
             Assert.Null(ack.NCHSIdentifier);
             Assert.Null(ack.BlockCount);
 
-            voidMessage = new VoidMessage();
-            ack = new AckMessage(voidMessage);
+            voidMessage = new DeathRecordVoidMessage();
+            ack = new AcknowledgementMessage(voidMessage);
             Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
             Assert.Equal(voidMessage.MessageId, ack.AckedMessageId);
             Assert.Equal(voidMessage.MessageSource, ack.MessageDestination);
@@ -869,9 +869,9 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void CreateVoidMessageFromJson()
+        public void CreateDeathRecordVoidMessageFromJson()
         {
-            VoidMessage message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessage.json"));
+            DeathRecordVoidMessage message = BaseMessage.Parse<DeathRecordVoidMessage>(FixtureStream("fixtures/json/DeathRecordVoidMessage.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal((uint)1, message.CertificateNumber);
             Assert.Equal((uint)10, message.BlockCount);
@@ -880,7 +880,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Equal("nightingale", message.MessageSource);
 
-            message = BaseMessage.Parse<VoidMessage>(FixtureStream("fixtures/json/VoidMessageNoIdentifiers.json"));
+            message = BaseMessage.Parse<DeathRecordVoidMessage>(FixtureStream("fixtures/json/DeathRecordVoidMessageNoIdentifiers.json"));
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Null(message.CertificateNumber);
             Assert.Null(message.StateAuxiliaryIdentifier);
@@ -892,7 +892,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateVoidForDocument()
         {
-            VoidMessage message = new VoidMessage((DeathRecord)XMLRecords[0]);
+            DeathRecordVoidMessage message = new DeathRecordVoidMessage((DeathRecord)XMLRecords[0]);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Equal((uint)182, message.CertificateNumber);
             Assert.Equal("000000000042", message.StateAuxiliaryIdentifier);
@@ -900,7 +900,7 @@ namespace VRDR.Tests
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
             Assert.Null(message.MessageSource);
 
-            message = new VoidMessage(null);
+            message = new DeathRecordVoidMessage(null);
             Assert.Equal("http://nchs.cdc.gov/vrdr_submission_void", message.MessageType);
             Assert.Null(message.CertificateNumber);
             Assert.Null(message.StateAuxiliaryIdentifier);
@@ -912,22 +912,22 @@ namespace VRDR.Tests
         [Fact]
         public void SelectMessageType()
         {
-            var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AckMessage.json"), false);
-            Assert.IsType<AckMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/VoidMessage.json"), false);
-            Assert.IsType<VoidMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingResponseMessage.json"), false);
-            Assert.IsType<CauseOfDeathCodingResponseMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DemographicsCodingResponseMessage.json"), false);
-            Assert.IsType<DemographicsCodingResponseMessage>(msg);
+            var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AcknowledgementMessage.json"), false);
+            Assert.IsType<AcknowledgementMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordVoidMessage.json"), false);
+            Assert.IsType<DeathRecordVoidMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingMessage.json"), false);
+            Assert.IsType<CauseOfDeathCodingMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DemographicsCodingMessage.json"), false);
+            Assert.IsType<DemographicsCodingMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/CauseOfDeathCodingUpdateMessage.json"), false);
             Assert.IsType<CauseOfDeathCodingUpdateMessage>(msg);
             msg = BaseMessage.Parse(FixtureStream("fixtures/json/DemographicsCodingUpdateMessage.json"), false);
             Assert.IsType<DemographicsCodingUpdateMessage>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmission.json"), false);
-            Assert.IsType<DeathRecordSubmission>(msg);
-            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdate.json"), false);
-            Assert.IsType<DeathRecordUpdate>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"), false);
+            Assert.IsType<DeathRecordSubmissionMessage>(msg);
+            msg = BaseMessage.Parse(FixtureStream("fixtures/json/DeathRecordUpdateMessage.json"), false);
+            Assert.IsType<DeathRecordUpdateMessage>(msg);
 
             MessageParseException ex = Assert.Throws<MessageParseException>(() => BaseMessage.Parse(FixtureStream("fixtures/json/InvalidMessageType.json")));
             Assert.Equal("Unsupported message type: http://nchs.cdc.gov/vrdr_invalid_type", ex.Message);
@@ -973,7 +973,7 @@ namespace VRDR.Tests
         [Fact]
         public void CreateExtractionErrorForMessage()
         {
-            DeathRecordSubmission submission = BaseMessage.Parse<DeathRecordSubmission>(FixtureStream("fixtures/json/DeathRecordSubmission.json"));
+            DeathRecordSubmissionMessage submission = BaseMessage.Parse<DeathRecordSubmissionMessage>(FixtureStream("fixtures/json/DeathRecordSubmissionMessage.json"));
             ExtractionErrorMessage err = new ExtractionErrorMessage(submission);
             Assert.Equal("http://nchs.cdc.gov/vrdr_extraction_error", err.MessageType);
             Assert.Equal(submission.MessageId, err.FailedMessageId);

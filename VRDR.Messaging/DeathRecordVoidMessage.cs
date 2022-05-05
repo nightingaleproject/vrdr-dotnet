@@ -3,31 +3,31 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>VoidMessage</c> indicates that a previously submitted DeathRecordSubmission message should be voided.</summary>
-    public class VoidMessage : BaseMessage
+    /// <summary>Class <c>DeathRecordVoidMessage</c> indicates that a previously submitted DeathRecordSubmissionMessage should be voided.</summary>
+    public class DeathRecordVoidMessage : BaseMessage
     {
         /// <summary>
-        /// The Event URI for VoidMessage
+        /// The Event URI for DeathRecordVoidMessage
         /// </summary>
         public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_void";
 
-        /// <summary>Default constructor that creates a new, empty VoidMessage.</summary>
-        public VoidMessage() : base(MESSAGE_TYPE)
+        /// <summary>Default constructor that creates a new, empty DeathRecordVoidMessage.</summary>
+        public DeathRecordVoidMessage() : base(MESSAGE_TYPE)
         {
         }
 
         /// <summary>
-        /// Construct a VoidMessage from a FHIR Bundle.
+        /// Construct a DeathRecordVoidMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the VoidMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordVoidMessage</param>
         /// <returns></returns>
-        internal VoidMessage(Bundle messageBundle) : base(messageBundle)
+        internal DeathRecordVoidMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
 
         /// <summary>Constructor that takes a VRDR.DeathRecord and creates a message to void that record.</summary>
-        /// <param name="record">the VRDR.DeathRecord to create a VoidMessage for.</param>
-        public VoidMessage(DeathRecord record) : this()
+        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordVoidMessage for.</param>
+        public DeathRecordVoidMessage(DeathRecord record) : this()
         {
             ExtractBusinessIdentifiers(record);
         }

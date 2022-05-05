@@ -7,17 +7,17 @@ namespace VRDR
     /// <summary>
     /// A <c>CodingResponseMessage</c> that conveys the coded cause of death information of a decedent.
     /// </summary>
-    public class CauseOfDeathCodingResponseMessage : CodingResponseMessage
+    public class CauseOfDeathCodingMessage : CodingResponseMessage
     {
         /// <summary>
-        /// The event URI for CauseOfDeathCodingResponseMessage.
+        /// The event URI for CauseOfDeathCodingMessage.
         /// </summary>
         public const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_causeofdeath_coding";
 
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="sourceMessage">the message to create a response for.</param>
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        public CauseOfDeathCodingResponseMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
+        public CauseOfDeathCodingMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
         {
             this.CertificateNumber = sourceMessage?.CertificateNumber;
             this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
@@ -26,18 +26,18 @@ namespace VRDR
         }
 
         /// <summary>
-        /// Construct a CauseOfDeathCodingResponseMessage from a FHIR Bundle.
+        /// Construct a CauseOfDeathCodingMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingResponseMessage</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the CauseOfDeathCodingMessage</param>
         /// <returns></returns>
-        internal CauseOfDeathCodingResponseMessage(Bundle messageBundle) : base(messageBundle)
+        internal CauseOfDeathCodingMessage(Bundle messageBundle) : base(messageBundle)
         {
         }
 
         /// <summary>Constructor that creates a response for the specified message.</summary>
         /// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        public CauseOfDeathCodingResponseMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
+        public CauseOfDeathCodingMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
         {
         }
 
@@ -373,7 +373,7 @@ namespace VRDR
     }
 
     /// <summary>Class <c>CauseOfDeathCodingUpdateMessage</c> conveys an updated coded cause of death of a decedent.</summary>
-    public class CauseOfDeathCodingUpdateMessage : CauseOfDeathCodingResponseMessage
+    public class CauseOfDeathCodingUpdateMessage : CauseOfDeathCodingMessage
     {
         /// <summary>
         /// The event URI for CauseOfDeathCodingUpdateMessage.

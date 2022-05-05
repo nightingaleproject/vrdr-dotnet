@@ -4,7 +4,7 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
+    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmissionMessage failed.</summary>
     public class ExtractionErrorMessage : BaseMessage
     {
         /// <summary>

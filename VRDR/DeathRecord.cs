@@ -1750,51 +1750,47 @@ namespace VRDR
         /// <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
-        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
-        /// approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code describing this finding</para>
-        /// <para>"system" - the system the given code belongs to</para>
-        /// <para>"display" - the human readable display text that corresponds to the given code</para>
-        /// </value>
+        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1")
+        /// and the approximate onset to death (Tuple "Item2").</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
+        /// <para>Tuple&lt;string, string&gt;[] causes =</para>
         /// <para>{</para>
-        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary&lt;string, string&gt;(){ {"code", "1234"}, {"system", "example"} }),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary&lt;string, string&gt;())</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years")</para>
         /// <para>};</para>
         /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
         /// <para>// Getter:</para>
         /// <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
         /// <para>foreach (var cause in causes)</para>
         /// <para>{</para>
-        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
+        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
+        [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
-        public Tuple<string, string /*, Dictionary<string, string>*/>[] CausesOfDeath
+        public Tuple<string, string>[] CausesOfDeath
         {
             get
             {
-                List<Tuple<string, string/*, Dictionary<string, string>*/>> results = new List<Tuple<string, string /*, Dictionary<string, string>*/>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) /*|| (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"]))*/ )
+                List<Tuple<string, string>> results = new List<Tuple<string, string>>();
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A))
                 {
-                    results.Add(Tuple.Create(COD1A, INTERVAL1A /*, CODE1A)*/));
+                    results.Add(Tuple.Create(COD1A, INTERVAL1A));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) /*|| (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])) */)
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B))
                 {
-                    results.Add(Tuple.Create(COD1B, INTERVAL1B/* , CODE1B*/));
+                    results.Add(Tuple.Create(COD1B, INTERVAL1B));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) /*|| (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])) */)
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C))
                 {
-                    results.Add(Tuple.Create(COD1C, INTERVAL1C /*, CODE1C */));
+                    results.Add(Tuple.Create(COD1C, INTERVAL1C));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) /*||  (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])) */)
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D))
                 {
-                    results.Add(Tuple.Create(COD1D, INTERVAL1D  /*, CODE1D */));
+                    results.Add(Tuple.Create(COD1D, INTERVAL1D));
                 }
 
                 return results.ToArray();
@@ -1807,27 +1803,22 @@ namespace VRDR
                     {
                         COD1A = value[0].Item1;
                         INTERVAL1A = value[0].Item2;
-                        // CODE1A = value[0].Item3;
                     }
                     if (value.Length > 1)
                     {
                         COD1B = value[1].Item1;
                         INTERVAL1B = value[1].Item2;
-                        // CODE1B = value[1].Item3;
                     }
                     if (value.Length > 2)
                     {
                         COD1C = value[2].Item1;
                         INTERVAL1C = value[2].Item2;
-                        // CODE1C = value[2].Item3;
                     }
                     if (value.Length > 3)
                     {
                         COD1D = value[3].Item1;
                         INTERVAL1D = value[3].Item2;
-                        // CODE1D = value[3].Item3;
                     }
-
                 }
             }
         }
@@ -3490,7 +3481,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
         /// </example>
-        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [Property("RaceMissingValueReason", Property.Types.String, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
         public string RaceMissingValueReasonHelper
         {
@@ -4138,13 +4129,8 @@ namespace VRDR
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Spouse == null)
@@ -4256,7 +4242,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.SpouseAliveHelper = VRDR.ValueSets.YesNoUnknownNotApplicable.Y;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
+        /// <para>Console.WriteLine($"Decedent's Spouse Alive: {ExampleDeathRecord.SpouseAliveHelper}");</para>
         /// </example>
         [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, IGURL.Decedent, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]

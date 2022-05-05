@@ -587,25 +587,8 @@ namespace VRDR
             // Start with an empty funeral home.
             CreateFuneralHome();
 
-            // FuneralHomeLicensee Points to Mortician and FuneralHome
-            // FuneralHomeDirector = new PractitionerRole();
-            // FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-            // FuneralHomeDirector.Meta = new Meta();
-            // string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
-            // FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-            // FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
-            // FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
-
             // Location of Disposition
             CreateDispositionLocation();
-            // DispositionLocation = new Location();
-            // DispositionLocation.Id = Guid.NewGuid().ToString();
-            // DispositionLocation.Meta = new Meta();
-            // string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-            // DispositionLocation.Meta.Profile = dispositionlocation_profile;
-            // Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-            // DispositionLocation.PhysicalType = new CodeableConcept();
-            // DispositionLocation.PhysicalType.Coding.Add(pt);
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
@@ -1452,7 +1435,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
         [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, IGURL.Certifier, true, 5)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string[] CertifierGivenNames
         {
             get
@@ -1488,8 +1471,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
         /// </example>
-        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 6)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, IGURL.Certifier, true, 6)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string CertifierFamilyName
         {
             get
@@ -1525,8 +1508,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
-        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 7)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, IGURL.Certifier, true, 7)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string CertifierSuffix
         {
             get
@@ -1625,10 +1608,10 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
         /// </example>
-        [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 10)]
+        [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, IGURL.Certifier, false, 10)]
         [PropertyParam("system", "The identifier system.")]
         [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "identifier")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "identifier")]
         public Dictionary<string, string> CertifierIdentifier
         {
             get
@@ -1712,8 +1695,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
         /// </example>
-        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Condition-Contributing-To-Death.html", true, 100)]
-        [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty())", "")]
+        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, IGURL.CauseOfDeathPart2, true, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69441-4')", "")]
         public string ContributingConditions
         {
             get
@@ -1770,7 +1753,7 @@ namespace VRDR
         /// <para>}</para>
         /// </example>
         [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(onset.empty().not())", "")]
         public Tuple<string, string>[] CausesOfDeath
         {
             get
@@ -5349,7 +5332,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
             get
@@ -5380,7 +5363,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
         [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, IGURL.DispositionLocation, false, 92)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "name")]
         public string DispositionLocationName
         {
             get
@@ -5447,7 +5430,7 @@ namespace VRDR
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
 //                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    // LinkObservationToLocation(DispositionMethod, DispositionLocation);
                     AddReferenceToComposition(DispositionMethod.Id, "DecedentDisposition");
                     Bundle.AddResourceEntry(DispositionMethod, "urn:uuid:" + DispositionMethod.Id);
                 }
@@ -5486,30 +5469,30 @@ namespace VRDR
             }
         }
 
-        private void LinkObservationToLocation(Observation observation, Location location)
-        {
-            if (observation == null || location == null)
-            {
-                return;
-            }
+        // private void LinkObservationToLocation(Observation observation, Location location)
+        // {
+        //     if (observation == null || location == null)
+        //     {
+        //         return;
+        //     }
 
-            Extension extension = null;
-            foreach (Extension ext in observation.Extension)
-            {
-                if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
-                {
-                    extension = ext;
-                    break;
-                }
-            }
-            if (extension == null)
-            {
-                extension = new Extension();
-                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
-                observation.Extension.Add(extension);
-            }
-            extension.Value = new ResourceReference("urn:uuid:" + location.Id);
-        }
+        //     Extension extension = null;
+        //     foreach (Extension ext in observation.Extension)
+        //     {
+        //         if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
+        //         {
+        //             extension = ext;
+        //             break;
+        //         }
+        //     }
+        //     if (extension == null)
+        //     {
+        //         extension = new Extension();
+        //         extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
+        //         observation.Extension.Add(extension);
+        //     }
+        //     extension.Value = new ResourceReference("urn:uuid:" + location.Id);
+        // }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -6299,7 +6282,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
         [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
@@ -6388,7 +6371,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state literal")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country literal")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
             get
@@ -6421,7 +6404,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
         [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, IGURL.DeathLocation, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "name")]
         public string DeathLocationName
         {
             get
@@ -6530,7 +6513,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
         [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 18)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "description")]
         public string DeathLocationDescription
         {
             get
@@ -6552,7 +6535,7 @@ namespace VRDR
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
                     DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
+                    // LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
@@ -6584,7 +6567,7 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public Dictionary<string, string> DeathLocationType
         {
          get
@@ -6636,7 +6619,7 @@ namespace VRDR
         /// </example>
         [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public string DeathLocationTypeHelper
         {
             get
@@ -7138,7 +7121,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -7154,7 +7137,7 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    //LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -7250,7 +7233,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "name")]
         public string InjuryLocationName
         {
             get
@@ -7266,7 +7249,7 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -7283,7 +7266,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
         [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='" + ProfileURL.InjuryLocation + "')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -7299,7 +7282,7 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
                     AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
@@ -10850,15 +10833,15 @@ namespace VRDR
             return value;
         }
 
-        /// <summary>Check to make sure the given profile contains the given resource.</summary>
-        private static bool MatchesProfile(string resource, string profile)
-        {
-            if (!String.IsNullOrWhiteSpace(profile) && profile.Contains(resource))
-            {
-                return true;
-            }
-            return false;
-        }
+        // /// <summary>Check to make sure the given profile contains the given resource.</summary>
+        // private static bool MatchesProfile(string resource, string profile)
+        // {
+        //     if (!String.IsNullOrWhiteSpace(profile) && profile.Contains(resource))
+        //     {
+        //         return true;
+        //     }
+        //     return false;
+        // }
 
         /// <summary>Combine the given dictionaries and return the combined result.</summary>
         private static Dictionary<string, string> UpdateDictionary(Dictionary<string, string> a, Dictionary<string, string> b)

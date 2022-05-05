@@ -6317,7 +6317,8 @@ namespace VRDR
             {
                 if (DeathLocationLoc != null && DeathLocationLoc.Address != null )
                 {
-                    string stateName = "";
+                    string stateName = null;
+                    string jurisdictionName = null;
                     if(DeathLocationLoc.Address.State != null){
                         stateName = DeathLocationLoc.Address.State;
                     }
@@ -6325,11 +6326,15 @@ namespace VRDR
                     {
                         Extension jurisdiction = DeathLocationLoc.Address.StateElement.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
                         if(jurisdiction != null && jurisdiction.Value != null){
-                            stateName = jurisdiction.Value.ToString();
+                            jurisdictionName = jurisdiction.Value.ToString();
                         }
                     }
-                    if(!String.IsNullOrWhiteSpace(stateName)){
-                        return stateName;
+                    if(jurisdictionName == null && stateName != null)   // If jurisdictionName is present, use it.  Otherwise return the statename
+                    {
+                        jurisdictionName = stateName;
+                    }
+                    if(!String.IsNullOrWhiteSpace(jurisdictionName)){
+                        return jurisdictionName;
                     }
                 }
                 return null;

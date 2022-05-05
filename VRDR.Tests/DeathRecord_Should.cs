@@ -345,8 +345,8 @@ namespace VRDR.Tests
         public void Set_StateLocalIdentifier()
         {
             SetterDeathRecord.StateLocalIdentifier1 = "000000000042";
-            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier1);
             SetterDeathRecord.StateLocalIdentifier2 = "100000000042";
+            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier1);
             Assert.Equal("100000000042", SetterDeathRecord.StateLocalIdentifier2);
         }
 

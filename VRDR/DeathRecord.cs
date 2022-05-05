@@ -44,7 +44,14 @@ namespace VRDR
 
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;
-
+        /// <summary>Create Certifier.</summary>
+        private void CreateCertifier(){
+            Certifier = new Practitioner();
+            Certifier.Id = Guid.NewGuid().ToString();
+            Certifier.Meta = new Meta();
+            string[] certifier_profile = { ProfileURL.Certifier  };
+            Certifier.Meta.Profile = certifier_profile;
+        }
         // ///<summary>The Mortician.</summary>
         //private Practitioner Mortician;
 
@@ -565,11 +572,7 @@ namespace VRDR
             InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
 
             // Start with an empty certifier.
-            Certifier = new Practitioner();
-            Certifier.Id = Guid.NewGuid().ToString();
-            Certifier.Meta = new Meta();
-            string[] certifier_profile = { ProfileURL.Certifier  };
-            Certifier.Meta.Profile = certifier_profile;
+            CreateCertifier();
 
             // // Start with an empty pronouncer.
             // Pronouncer = new Practitioner();
@@ -1440,7 +1443,7 @@ namespace VRDR
         {
             get
             {
-                if (Certifier.Name.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0)
                 {
                     return Certifier.Name.First().Given.ToArray();
                 }
@@ -1448,6 +1451,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null)
                 {
@@ -1477,7 +1484,7 @@ namespace VRDR
         {
             get
             {
-                if (Certifier.Name.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0)
                 {
                     return Certifier.Name.First().Family;
                 }
@@ -1485,6 +1492,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -1514,7 +1525,7 @@ namespace VRDR
         {
             get
             {
-                if (Certifier.Name.Count() > 0 && Certifier.Name.First().Suffix.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0 && Certifier.Name.First().Suffix.Count() > 0)
                 {
                     return Certifier.Name.First().Suffix.First();
                 }
@@ -1522,6 +1533,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -1585,10 +1600,17 @@ namespace VRDR
         {
             get
             {
+                if (Certifier == null){
+                    return (new Dictionary<string, string>());
+                }
                 return AddressToDict(Certifier.Address.FirstOrDefault());
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 Certifier.Address.Clear();
                 Certifier.Address.Add(DictToAddress(value));
             }
@@ -1616,17 +1638,23 @@ namespace VRDR
         {
             get
             {
+
+                if (Certifier == null || Certifier.Identifier.FirstOrDefault() == null)
+                {
+                    return new Dictionary<string, string>();
+                }
                 Identifier identifier = Certifier.Identifier.FirstOrDefault();
                 var result = new Dictionary<string, string>();
-                if (identifier != null)
-                {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
-                }
+                result["system"] = identifier.System;
+                result["value"] = identifier.Value;
                 return result;
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 if (Certifier.Identifier.Count > 0)
                 {
                     Certifier.Identifier.Clear();
@@ -2519,7 +2547,7 @@ namespace VRDR
         {
             get
             {
-                Extension sex = Decedent.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath");
+                Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
                 {
                     return CodeableConceptToDict((CodeableConcept)sex.Value);
@@ -2528,9 +2556,9 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath");
+                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
                 Extension sex = new Extension();
-                sex.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath";
+                sex.Url = ExtensionURL.NVSSSexAtDeath;
                 sex.Value = DictToCodeableConcept(value);
                 Decedent.Extension.Add(sex);
             }
@@ -2578,7 +2606,7 @@ namespace VRDR
         {
             get
             {
-                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == OtherExtensionURL.BirthSex);
                 if (birthsex != null && birthsex.Value != null && birthsex.Value.GetType() == typeof(Code))
                 {
                     return ((Code)birthsex.Value).Value;
@@ -2587,9 +2615,9 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.BirthSex);
                 Extension birthsex = new Extension();
-                birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                birthsex.Url = OtherExtensionURL.BirthSex;
                 birthsex.Value = new Code(value);
                 Decedent.Extension.Add(birthsex);
             }
@@ -2699,7 +2727,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
-        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, IGURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public string DateOfBirth
         {

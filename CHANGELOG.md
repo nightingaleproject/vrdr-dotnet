@@ -10,6 +10,9 @@
     - Changed CauseOfDeathCodingResponseMessage to CauseOfDeathCodingMessage
     - Changed DemographicsCodingResponseMessage to DemographicsCodingMessage
     - Added DeathRecordAliasMessage
+    - Changed CertificateNumber property to CertNo
+    - Changed StateAuxiliaryIdentifier property to StateAuxiliaryId
+    - Changed DeathJurisdictionID property to JurisdictionId
 
 ### v3.3.1 - 2022-04-07
 

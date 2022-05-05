@@ -19,9 +19,9 @@ namespace VRDR
         /// <param name="source">the endpoint identifier that the message will be sent from.</param>
         public CauseOfDeathCodingMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
         {
-            this.CertificateNumber = sourceMessage?.CertificateNumber;
-            this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
-            this.DeathJurisdictionID = sourceMessage?.DeathJurisdictionID;
+            this.CertNo = sourceMessage?.CertNo;
+            this.StateAuxiliaryId = sourceMessage?.StateAuxiliaryId;
+            this.JurisdictionId = sourceMessage?.JurisdictionId;
             this.DeathYear = sourceMessage?.DeathYear;
         }
 

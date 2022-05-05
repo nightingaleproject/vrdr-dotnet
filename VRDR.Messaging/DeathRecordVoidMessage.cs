@@ -32,7 +32,7 @@ namespace VRDR
             ExtractBusinessIdentifiers(record);
         }
 
-        /// <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        /// <summary>The number of records to void starting at the certificate number specified by the `CertNo` parameter</summary>
         public uint? BlockCount
         {
             get

@@ -14,9 +14,9 @@ namespace VRDR
         /// <param name="messageToAck">the message to create an acknowledgement for.</param>
         public AcknowledgementMessage(BaseMessage messageToAck) : this(messageToAck?.MessageId, messageToAck?.MessageSource, messageToAck?.MessageDestination)
         {
-            this.CertificateNumber = messageToAck?.CertificateNumber;
-            this.StateAuxiliaryIdentifier = messageToAck?.StateAuxiliaryIdentifier;
-            this.DeathJurisdictionID = messageToAck?.DeathJurisdictionID;
+            this.CertNo = messageToAck?.CertNo;
+            this.StateAuxiliaryId = messageToAck?.StateAuxiliaryId;
+            this.JurisdictionId = messageToAck?.JurisdictionId;
             this.DeathYear = messageToAck?.DeathYear;
 
             if(typeof(DeathRecordVoidMessage).IsInstanceOfType(messageToAck))
@@ -64,7 +64,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>The number of records to void starting at the certificate number specified by the `CertificateNumber` parameter</summary>
+        /// <summary>The number of records to void starting at the certificate number specified by the `CertNo` parameter</summary>
         public uint? BlockCount
         {
             get

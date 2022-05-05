@@ -100,22 +100,22 @@ namespace VRDR
             uint certificateNumber;
             if (UInt32.TryParse(from?.Identifier, out certificateNumber))
             {
-                this.CertificateNumber = certificateNumber;
+                this.CertNo = certificateNumber;
             }
             // take the first state local identifier if it exists
             if (from?.StateLocalIdentifier1 != null)
             {
-                this.StateAuxiliaryIdentifier = from.StateLocalIdentifier1;
+                this.StateAuxiliaryId = from.StateLocalIdentifier1;
             }
             else
             {
-                this.StateAuxiliaryIdentifier = null;
+                this.StateAuxiliaryId = null;
             }
             if (from?.DeathYear != null)
             {
                 this.DeathYear = from.DeathYear;
             }
-            this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
+            this.JurisdictionId = from?.DeathLocationJurisdiction;
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace VRDR
         }
 
         /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public uint? CertificateNumber
+        public uint? CertNo
         {
             get
             {
@@ -271,7 +271,7 @@ namespace VRDR
         }
 
         /// <summary>Jurisdiction-assigned auxiliary identifier</summary>
-        public string StateAuxiliaryIdentifier
+        public string StateAuxiliaryId
         {
             get
             {
@@ -308,7 +308,7 @@ namespace VRDR
         }
 
         /// <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
-        public string DeathJurisdictionID
+        public string JurisdictionId
         {
             get
             {
@@ -333,11 +333,11 @@ namespace VRDR
         {
             get
             {
-                if (DeathYear == null || DeathJurisdictionID == null || CertificateNumber == null)
+                if (DeathYear == null || JurisdictionId == null || CertNo == null)
                 {
                     return null;
                 }
-                return DeathYear.Value.ToString("D4") + DeathJurisdictionID + CertificateNumber.Value.ToString("D6");
+                return DeathYear.Value.ToString("D4") + JurisdictionId + CertNo.Value.ToString("D6");
             }
         }
 

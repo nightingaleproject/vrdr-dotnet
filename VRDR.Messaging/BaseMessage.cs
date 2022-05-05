@@ -249,6 +249,16 @@ namespace VRDR
             }
         }
 
+        /// <summary>Helper method to set a single string value on the Record portion of the Message<summary>
+        protected void SetSingleStringValue(string key, string value)
+        {
+            Record.Remove(key);
+            if (value != null)
+            {
+                Record.Add(key, new FhirString(value));
+            }
+        }
+
         /// <summary>Jurisdiction-assigned death certificate number</summary>
         public uint? CertNo
         {
@@ -279,11 +289,7 @@ namespace VRDR
             }
             set
             {
-                Record.Remove("state_auxiliary_id");
-                if (value != null)
-                {
-                    Record.Add("state_auxiliary_id", new FhirString(value));
-                }
+                SetSingleStringValue("state_auxiliary_id", value);
             }
         }
 

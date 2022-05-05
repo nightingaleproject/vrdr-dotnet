@@ -910,6 +910,80 @@ namespace VRDR.Tests
         }
 
         [Fact]
+        public void CreateDeathRecordAliasMessage()
+        {
+            DeathRecordAliasMessage message = new DeathRecordAliasMessage();
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Null(message.CertNo);
+            message.CertNo = 12;
+            Assert.Equal((uint)12, message.CertNo);
+            Assert.Null(message.StateAuxiliaryId);
+            message.StateAuxiliaryId = "SAI";
+            Assert.Equal("SAI", message.StateAuxiliaryId);
+            Assert.Null(message.NCHSIdentifier);
+            Assert.Null(message.AliasDecedentFirstName);
+            message.AliasDecedentFirstName = "DecedentFirstName";
+            Assert.Equal("DecedentFirstName", message.AliasDecedentFirstName);
+            Assert.Null(message.AliasDecedentLastName);
+            message.AliasDecedentLastName = "DecedentLastName";
+            Assert.Equal("DecedentLastName", message.AliasDecedentLastName);
+            Assert.Null(message.AliasDecedentMiddleName);
+            message.AliasDecedentMiddleName = "DecedentMiddleName";
+            Assert.Equal("DecedentMiddleName", message.AliasDecedentMiddleName);
+            Assert.Null(message.AliasDecedentNameSuffix);
+            message.AliasDecedentNameSuffix = "DecedentNameSuffix";
+            Assert.Equal("DecedentNameSuffix", message.AliasDecedentNameSuffix);
+            Assert.Null(message.AliasFatherSurname);
+            message.AliasFatherSurname = "FatherSurname";
+            Assert.Equal("FatherSurname", message.AliasFatherSurname);
+            Assert.Null(message.AliasSocialSecurityNumber);
+            message.AliasSocialSecurityNumber = "SocialSecurityNumber";
+            Assert.Equal("SocialSecurityNumber", message.AliasSocialSecurityNumber);
+        }
+
+        [Fact]
+        public void CreateAckForDeathRecordAliasMessage()
+        {
+            DeathRecordAliasMessage message = BaseMessage.Parse<DeathRecordAliasMessage>(FixtureStream("fixtures/json/DeathRecordAliasMessage.json"));
+            AcknowledgementMessage ack = new AcknowledgementMessage(message);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_acknowledgement", ack.MessageType);
+            Assert.Equal(message.MessageId, ack.AckedMessageId);
+            Assert.Equal(message.MessageSource, ack.MessageDestination);
+            Assert.Equal(message.MessageDestination, ack.MessageSource);
+            Assert.Equal(message.StateAuxiliaryId, ack.StateAuxiliaryId);
+            Assert.Equal(message.CertNo, ack.CertNo);
+            Assert.Equal(message.NCHSIdentifier, ack.NCHSIdentifier);
+        }
+
+        [Fact]
+        public void CreateDeathRecordAliasMessageFromJson()
+        {
+            DeathRecordAliasMessage message = BaseMessage.Parse<DeathRecordAliasMessage>(FixtureStream("fixtures/json/DeathRecordAliasMessage.json"));
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Equal((uint)12, message.CertNo);
+            Assert.Equal("SAI", message.StateAuxiliaryId);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal("DecedentFirstName", message.AliasDecedentFirstName);
+            Assert.Equal("DecedentLastName", message.AliasDecedentLastName);
+            Assert.Equal("DecedentMiddleName", message.AliasDecedentMiddleName);
+            Assert.Equal("DecedentNameSuffix", message.AliasDecedentNameSuffix);
+            Assert.Equal("FatherSurname", message.AliasFatherSurname);
+            Assert.Equal("SocialSecurityNumber", message.AliasSocialSecurityNumber);
+        }
+
+        [Fact]
+        public void CreateAliasForDocument()
+        {
+            DeathRecordAliasMessage message = new DeathRecordAliasMessage((DeathRecord)XMLRecords[0]);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_alias", message.MessageType);
+            Assert.Equal((uint)1, message.CertNo);
+            Assert.Equal("000000000042", message.StateAuxiliaryId);
+            Assert.Equal("2019YC000001", message.NCHSIdentifier);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Null(message.MessageSource);
+        }
+
+        [Fact]
         public void SelectMessageType()
         {
             var msg = BaseMessage.Parse(FixtureStream("fixtures/json/AcknowledgementMessage.json"), false);

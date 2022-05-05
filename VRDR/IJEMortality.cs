@@ -2514,7 +2514,6 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: EntityAxisCauseOfDeath
                 Tuple<string, string, string, string>[] eac = record.EntityAxisCauseOfDeath;
                 string eacStr = "";
                 foreach(Tuple<string, string, string, string> entry in eac)
@@ -2577,7 +2576,6 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: RecordAxisCauseOfDeath
                 Tuple<string, string, string>[] rac = record.RecordAxisCauseOfDeath;
                 string racStr = "";
                 foreach(Tuple<string, string, string> entry in rac)
@@ -3144,7 +3142,6 @@ namespace VRDR
         /// <summary>Spouse's First Name</summary>
         [IJEField(144, 1385, 50, "Spouse's First Name", "SPOUSEF", 1)]
         public string SPOUSEF
-        // TODO: Implement mapping from FHIR record location: DecedentSpouse
         {
             get
             {
@@ -3167,7 +3164,7 @@ namespace VRDR
         /// <summary>Husband's Surname/Wife's Maiden Last Name</summary>
         [IJEField(145, 1435, 50, "Husband's Surname/Wife's Maiden Last Name", "SPOUSEL", 1)]
         public string SPOUSEL
-        { // TODO: Implement mapping from FHIR record location: DecedentSpouse
+        {
             get
             {
                 return LeftJustified_Get("SPOUSEL", "SpouseMaidenName");
@@ -3544,7 +3541,6 @@ namespace VRDR
         [IJEField(167, 1858, 50, "Father's First Name", "DDADF", 1)]
         public string DDADF
         {
-            // TODO: Implement mapping from FHIR record location: DecedentFather
             get
             {
                 string[] names = record.FatherGivenNames;
@@ -3566,7 +3562,7 @@ namespace VRDR
         /// <summary>Father's Middle Name</summary>
         [IJEField(168, 1908, 50, "Father's Middle Name", "DDADMID", 2)]
         public string DDADMID
-        {// TODO: Implement mapping to FHIR record location: DecedentFather
+        {
             get
             {
                 string[] names = record.FatherGivenNames;
@@ -3615,7 +3611,7 @@ namespace VRDR
         /// <summary>Mother's Middle Name</summary>
         [IJEField(170, 2008, 50, "Mother's Middle Name", "DMOMMID", 2)]
         public string DMOMMID
-        {// TODO: Implement mapping to FHIR record location: DecedentMother
+        {
             get
             {
                 string[] names = record.MotherGivenNames;
@@ -4108,7 +4104,7 @@ get
         /// <summary>Spouse's Middle Name</summary>
         [IJEField(197, 3425, 50, "Spouse's Middle Name", "SPOUSEMIDNAME", 2)]
         public string SPOUSEMIDNAME
-        {// TODO: Implement mapping to FHIR record location: DecedentSpouse
+        {
             get
             {
                 string[] names = record.SpouseGivenNames;
@@ -4136,16 +4132,15 @@ get
         [IJEField(198, 3475, 10, "Spouse's Suffix", "SPOUSESUFFIX", 1)]
         public string SPOUSESUFFIX
          {
-            // TODO: Implement mapping from FHIR record location: DecedentSpouse
             get
             {
-                return LeftJustified_Get("SPOUSESUFFIX", "Suffix");
+                return LeftJustified_Get("SPOUSESUFFIX", "SpouseSuffix");
             }
             set
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("SPOUSESUFFIX", "Suffix", value.Trim());
+                    LeftJustified_Set("SPOUSESUFFIX", "SpouseSuffix", value.Trim());
                 }
             }
         }
@@ -4153,7 +4148,6 @@ get
         [IJEField(199, 3485, 10, "Father's Suffix", "FATHERSUFFIX", 1)]
         public string FATHERSUFFIX
         {
-            // TODO: Implement mapping from FHIR record location: DecedentFather
             get
             {
                 return LeftJustified_Get("FATHERSUFFIX", "FatherSuffix");
@@ -4171,7 +4165,6 @@ get
         [IJEField(200, 3495, 10, "Mother's Suffix", "MOTHERSSUFFIX", 1)]
         public string MOTHERSSUFFIX
         {
-            // TODO: Implement mapping from FHIR record location: DecedentMother
             get
             {
                 return LeftJustified_Get("MOTHERSSUFFIX", "MotherSuffix");

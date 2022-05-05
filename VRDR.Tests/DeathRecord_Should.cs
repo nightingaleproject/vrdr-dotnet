@@ -317,8 +317,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_Identifier()
         {
-            Assert.Equal("1", ((DeathRecord)JSONRecords[0]).Identifier);
-            Assert.Equal("1", ((DeathRecord)XMLRecords[0]).Identifier);
+            Assert.Equal("000182", ((DeathRecord)JSONRecords[0]).Identifier);
+            Assert.Equal("000182", ((DeathRecord)XMLRecords[0]).Identifier);
         }
 
         [Fact]

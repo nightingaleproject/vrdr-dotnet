@@ -8,18 +8,8 @@
   },
   "type": "document",
   "identifier": {
-    "extension": [
-      {
-        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
-        "valueString": "000000000001"
-      },
-      {
-        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
-        "valueString": "100000000001"
-      }
-    ],
     "system": "http://nchs.cdc.gov/vrdr_id",
-    "value": "000182"
+    "value": "2020YC000182"
   },
   "timestamp": "2020-10-20T14:48:35.401641-04:00",
   "entry": [
@@ -70,6 +60,19 @@
             ]
           }
         ],
+        "identifier": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+              "valueString": "000000000001"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+              "valueString": "100000000001"
+            }
+          ],
+          "value": "000182"
+        },
         "section": [
           {
             "code": {
@@ -411,15 +414,15 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
-                  "valueInteger": 10
+                  "valueUnsignedInt": 10
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
-                  "valueInteger": 2004
+                  "valueUnsignedInt": 2004
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
-                  "valueInteger": 11
+                  "valueUnsignedInt": 11
                 }
               ],
               "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
@@ -599,8 +602,7 @@
           "coding": [
             {
               "code": "inputraceandethnicity",
-              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
-              "display": "Input Race and Ethnicity"
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs"
             }
           ]
         },
@@ -610,8 +612,7 @@
               "coding": [
                 {
                   "code": "White",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "White"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -622,8 +623,7 @@
               "coding": [
                 {
                   "code": "BlackOrAfricanAmerican",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "BlackOrAfricanAmerican"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -634,20 +634,18 @@
               "coding": [
                 {
                   "code": "AmericanIndianOrAlaskaNative",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "AmericanIndianOrAlaskaNative"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
-            "valueBoolean": false
+            "valueBoolean": true
           },
           {
             "code": {
               "coding": [
                 {
                   "code": "AsianIndian",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "AsianIndian"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -658,8 +656,7 @@
               "coding": [
                 {
                   "code": "Chinese",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Chinese"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -670,8 +667,7 @@
               "coding": [
                 {
                   "code": "Filipino",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Filipino"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -682,8 +678,7 @@
               "coding": [
                 {
                   "code": "Japanese",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Japanese"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -694,8 +689,7 @@
               "coding": [
                 {
                   "code": "Korean",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Korean"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -706,8 +700,7 @@
               "coding": [
                 {
                   "code": "Vietnamese",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Vietnamese"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -718,20 +711,18 @@
               "coding": [
                 {
                   "code": "OtherAsian",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "OtherAsian"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
-            "valueBoolean": false
+            "valueBoolean": true
           },
           {
             "code": {
               "coding": [
                 {
                   "code": "NativeHawaiian",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "NativeHawaiian"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -742,8 +733,7 @@
               "coding": [
                 {
                   "code": "GuamanianOrChamorro",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "GuamanianOrChamorro"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -754,8 +744,7 @@
               "coding": [
                 {
                   "code": "Samoan",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Samoan"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -766,8 +755,7 @@
               "coding": [
                 {
                   "code": "OtherPacificIslander",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "OtherPacificIslander"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -778,8 +766,7 @@
               "coding": [
                 {
                   "code": "OtherRace",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "OtherRace"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -789,9 +776,30 @@
             "code": {
               "coding": [
                 {
+                  "code": "FirstOtherAsianLiteral",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+                }
+              ]
+            },
+            "valueString": "Malaysian"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "FirstAmericanIndianOrAlaskaNativeLiteral",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+                }
+              ]
+            },
+            "valueString": "Arikara"
+          },
+          {
+            "code": {
+              "coding": [
+                {
                   "code": "HispanicMexican",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "HispanicMexican"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -1181,15 +1189,15 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
-                  "valueInteger": 12
+                  "valueUnsignedInt": 12
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
-                  "valueInteger": 2020
+                  "valueUnsignedInt": 2020
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
-                  "valueInteger": 11
+                  "valueUnsignedInt": 11
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time",
@@ -1316,8 +1324,7 @@
             "coding": [
               {
                 "code": "death",
-                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
-                "display": "Death Location"
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs"
               }
             ]
           }
@@ -1350,8 +1357,7 @@
             "coding": [
               {
                 "code": "injury",
-                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
-                "display": "InjuryLocation"
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs"
               }
             ]
           }
@@ -1363,6 +1369,92 @@
         }
       },
       "fullUrl": "http://www.example.org/fhir/Location/InjuryLocation-Example1"
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "InjuryIncident-Example1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "11374-6",
+              "system": "http://loinc.org",
+              "display": "Injury incident description Narrative"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "69444-8",
+                  "system": "http://loinc.org",
+                  "display": "Did death result from injury at work"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "N",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "display": "No"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "69450-5",
+                  "system": "http://loinc.org",
+                  "display": "Place of injury Facility"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "Home"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "69451-3",
+                  "system": "http://loinc.org",
+                  "display": "Transportation role of decedent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "OTH",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "display": "Other"
+                }
+              ],
+              "text": "Hoverboard Rider"
+            }
+          }
+        ],
+        "subject": {
+          "reference": "Patient/Decedent-Example1"
+        },
+        "effectiveDateTime": "2019-11-02T13:00:00-05:00",
+        "valueCodeableConcept": {
+          "text": "drug toxicity"
+        }
+      },
+      "fullUrl": "http://www.example.org/fhir/Observation/InjuryIncident-Example1"
     },
     {
       "resource": {
@@ -1649,8 +1741,7 @@
             "coding": [
               {
                 "code": "disposition",
-                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
-                "display": "Disposition location"
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs"
               }
             ]
           }
@@ -1849,8 +1940,7 @@
           "coding": [
             {
               "code": "80626-5",
-              "system": "http://loinc.org",
-              "display": "Activity at time of death [CDC]"
+              "system": "http://loinc.org"
             }
           ]
         },
@@ -1883,8 +1973,7 @@
           "coding": [
             {
               "code": "codedraceandethnicity",
-              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
-              "display": "Coded Race and Ethnicity"
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs"
             }
           ]
         },
@@ -1894,8 +1983,7 @@
               "coding": [
                 {
                   "code": "FirstEditedCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "FirstEditedCode"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -1914,8 +2002,7 @@
               "coding": [
                 {
                   "code": "SecondEditedCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "SecondEditedCode"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -1933,18 +2020,17 @@
             "code": {
               "coding": [
                 {
-                  "code": "HispanicCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "HispanicCode"
+                  "code": "FirstAmericanIndianCode",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "code": "233",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs",
-                  "display": "Chilean"
+                  "code": "A31",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
+                  "display": "Arikara"
                 }
               ]
             }
@@ -1954,8 +2040,7 @@
               "coding": [
                 {
                   "code": "RaceRecode40",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "RaceRecode40"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -1965,6 +2050,25 @@
                   "code": "20",
                   "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs",
                   "display": "AIAN and Asian"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "HispanicCode",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "233",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs",
+                  "display": "Chilean"
                 }
               ]
             }
@@ -1990,8 +2094,7 @@
           "coding": [
             {
               "code": "80359-3",
-              "system": "http://loinc.org",
-              "display": "Cause of death.underlying [Manual]"
+              "system": "http://loinc.org"
             }
           ]
         },
@@ -2023,8 +2126,7 @@
           "coding": [
             {
               "code": "80358-5",
-              "system": "http://loinc.org",
-              "display": "Cause of death.underlying [Automated]"
+              "system": "http://loinc.org"
             }
           ]
         },
@@ -2056,8 +2158,7 @@
           "coding": [
             {
               "code": "80357-7",
-              "system": "http://loinc.org",
-              "display": "Cause of death record axis code [Automated]"
+              "system": "http://loinc.org"
             }
           ]
         },
@@ -2067,8 +2168,7 @@
               "coding": [
                 {
                   "code": "position",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Position"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -2103,8 +2203,7 @@
           "coding": [
             {
               "code": "80356-9",
-              "system": "http://loinc.org",
-              "display": "Cause of death entity axis code [Automated]"
+              "system": "http://loinc.org"
             }
           ]
         },
@@ -2114,8 +2213,7 @@
               "coding": [
                 {
                   "code": "lineNumber",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "lineNumber"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -2126,8 +2224,7 @@
               "coding": [
                 {
                   "code": "position",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
-                  "display": "Position"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
                 }
               ]
             },
@@ -2162,8 +2259,7 @@
           "coding": [
             {
               "code": "11376-1",
-              "system": "http://loinc.org",
-              "display": "Injury location"
+              "system": "http://loinc.org"
             }
           ]
         },

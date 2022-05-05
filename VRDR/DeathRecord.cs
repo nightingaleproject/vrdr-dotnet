@@ -961,7 +961,7 @@ namespace VRDR
             {
                 if (Composition?.Identifier?.Extension != null)
                 {
-                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                    Extension ext = Composition.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
                     if (ext?.Value != null)
                     {
                         return Convert.ToString(ext.Value);
@@ -5784,7 +5784,7 @@ namespace VRDR
                         // There's either a specific claim that there's no data or actually no data, so return null
                         return null;
                     }
-                    return (uint?)((Integer)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
+                    return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
                 }
             }
             return null;

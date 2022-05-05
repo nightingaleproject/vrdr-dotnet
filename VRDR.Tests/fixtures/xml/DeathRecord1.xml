@@ -4,18 +4,6 @@
     <profile
              value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"/>
   </meta>
-  <identifier>
-    <extension
-               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1">
-      <valueString value="000000000042"/>
-    </extension>
-    <extension
-               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2">
-      <valueString value="100000000001"/>
-    </extension>
-    <system value="http://nchs.cdc.gov/vrdr_id"/>
-    <value value="000182"/>
-  </identifier>
   <type value="document"/>
   <timestamp value="2020-10-20T14:48:35.401641-04:00"/>
   <entry>
@@ -47,9 +35,18 @@
         <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField">
           <valueString value="State Specific Content"/>
         </extension>
-        <identifier>
-          <value value="99999" />
-        </identifier>
+  <identifier>
+    <extension
+               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1">
+      <valueString value="000000000042"/>
+    </extension>
+    <extension
+               url="http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2">
+      <valueString value="100000000001"/>
+    </extension>
+    <system value="http://nchs.cdc.gov/vrdr_id"/>
+    <value value="000182"/>
+  </identifier>
         <status value="final" />
         <type>
           <coding>

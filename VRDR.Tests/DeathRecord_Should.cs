@@ -337,8 +337,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_BundleIdentifier()
         {
-            Assert.Equal("000182", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("000182", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("2019YC000182", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
+            Assert.Equal("2019YC000182", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
         }
 
         [Fact]

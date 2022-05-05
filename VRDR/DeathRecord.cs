@@ -1750,51 +1750,47 @@ namespace VRDR
         /// <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
-        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
-        /// approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code describing this finding</para>
-        /// <para>"system" - the system the given code belongs to</para>
-        /// <para>"display" - the human readable display text that corresponds to the given code</para>
-        /// </value>
+        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1")
+        /// and the approximate onset to death (Tuple "Item2").</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
+        /// <para>Tuple&lt;string, string&gt;[] causes =</para>
         /// <para>{</para>
-        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary&lt;string, string&gt;(){ {"code", "1234"}, {"system", "example"} }),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary&lt;string, string&gt;())</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years")</para>
         /// <para>};</para>
         /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
         /// <para>// Getter:</para>
         /// <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
         /// <para>foreach (var cause in causes)</para>
         /// <para>{</para>
-        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
+        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
+        [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
-        public Tuple<string, string /*, Dictionary<string, string>*/>[] CausesOfDeath
+        public Tuple<string, string>[] CausesOfDeath
         {
             get
             {
-                List<Tuple<string, string/*, Dictionary<string, string>*/>> results = new List<Tuple<string, string /*, Dictionary<string, string>*/>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) /*|| (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"]))*/ )
+                List<Tuple<string, string>> results = new List<Tuple<string, string>>();
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A))
                 {
-                    results.Add(Tuple.Create(COD1A, INTERVAL1A /*, CODE1A)*/));
+                    results.Add(Tuple.Create(COD1A, INTERVAL1A));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) /*|| (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])) */)
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B))
                 {
-                    results.Add(Tuple.Create(COD1B, INTERVAL1B/* , CODE1B*/));
+                    results.Add(Tuple.Create(COD1B, INTERVAL1B));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) /*|| (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])) */)
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C))
                 {
-                    results.Add(Tuple.Create(COD1C, INTERVAL1C /*, CODE1C */));
+                    results.Add(Tuple.Create(COD1C, INTERVAL1C));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) /*||  (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])) */)
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D))
                 {
-                    results.Add(Tuple.Create(COD1D, INTERVAL1D  /*, CODE1D */));
+                    results.Add(Tuple.Create(COD1D, INTERVAL1D));
                 }
 
                 return results.ToArray();
@@ -1807,27 +1803,22 @@ namespace VRDR
                     {
                         COD1A = value[0].Item1;
                         INTERVAL1A = value[0].Item2;
-                        // CODE1A = value[0].Item3;
                     }
                     if (value.Length > 1)
                     {
                         COD1B = value[1].Item1;
                         INTERVAL1B = value[1].Item2;
-                        // CODE1B = value[1].Item3;
                     }
                     if (value.Length > 2)
                     {
                         COD1C = value[2].Item1;
                         INTERVAL1C = value[2].Item2;
-                        // CODE1C = value[2].Item3;
                     }
                     if (value.Length > 3)
                     {
                         COD1D = value[3].Item1;
                         INTERVAL1D = value[3].Item2;
-                        // CODE1D = value[3].Item3;
                     }
-
                 }
             }
         }
@@ -2635,7 +2626,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
         /// </example>
-        [Property("BirthYear", Property.Types.Number, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthYear
         {
@@ -2665,7 +2656,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
         /// </example>
-        [Property("BirthMonth", Property.Types.Number, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthMonth
         {
@@ -2695,7 +2686,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
         /// </example>
-        [Property("BirthDay", Property.Types.Number, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthDay
         {
@@ -3490,7 +3481,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
         /// </example>
-        [Property("RaceMissingValueReason", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [Property("RaceMissingValueReason", Property.Types.String, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
         public string RaceMissingValueReasonHelper
         {
@@ -3889,13 +3880,8 @@ namespace VRDR
         {
             get
             {
-                if (Father != null && Father.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Father == null)
@@ -4019,13 +4005,8 @@ namespace VRDR
         {
             get
             {
-                if (Mother != null && Mother.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Mother == null)
@@ -4148,13 +4129,8 @@ namespace VRDR
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null ) {
-                    string[] suffixes = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
-                    return suffixes != null ? suffixes[0] : null;
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
             }
-
             set
             {
                 if (Spouse == null)
@@ -4266,7 +4242,7 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.SpouseAliveHelper = VRDR.ValueSets.YesNoUnknownNotApplicable.Y;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
+        /// <para>Console.WriteLine($"Decedent's Spouse Alive: {ExampleDeathRecord.SpouseAliveHelper}");</para>
         /// </example>
         [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, IGURL.Decedent, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]
@@ -5907,7 +5883,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Death: {ExampleDeathRecord.DeathYear}");</para>
         /// </example>
-        [Property("DeathYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathYear
         {
@@ -5938,7 +5914,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Death: {ExampleDeathRecord.DeathMonth}");</para>
         /// </example>
-        [Property("DeathMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathMonth
         {
@@ -5968,7 +5944,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Death: {ExampleDeathRecord.DeathDay}");</para>
         /// </example>
-        [Property("DeathDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathDay
         {
@@ -6125,7 +6101,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Surgery: {ExampleDeathRecord.SurgeryYear}");</para>
         /// </example>
-        [Property("SurgeryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryYear
         {
@@ -6156,7 +6132,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Surgery: {ExampleDeathRecord.SurgeryMonth}");</para>
         /// </example>
-        [Property("SurgeryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryMonth
         {
@@ -6186,7 +6162,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Surgery: {ExampleDeathRecord.SurgeryDay}");</para>
         /// </example>
-        [Property("SurgeryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryDay
         {
@@ -7340,7 +7316,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
         /// </example>
-        [Property("InjuryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryYear
         {
@@ -7371,7 +7347,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
         /// </example>
-        [Property("InjuryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryMonth
         {
@@ -7402,7 +7378,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
         /// </example>
-        [Property("InjuryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryDay
         {
@@ -10758,7 +10734,7 @@ namespace VRDR
         }
 
         /// <summary>Given a FHIR path, return the first element that matches the given path as a string;
-        /// returns an empty string if no match is found.</summary>
+        /// returns null if no match is found.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path as a string, or null if no match is found.</returns>
         private string GetFirstString(string path)
@@ -11039,8 +11015,8 @@ namespace VRDR
             TupleArr,
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
             TupleCOD,
-            /// <summary>Parameter is a number.</summary>
-            Number,
+            /// <summary>Parameter is an unsigned integer.</summary>
+            UInt32,
             /// <summary>Parameter is an array of 4-Tuples, specifically for entity axis codes.</summary>
             Tuple4Arr
         };

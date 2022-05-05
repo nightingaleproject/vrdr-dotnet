@@ -2635,7 +2635,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
         /// </example>
-        [Property("BirthYear", Property.Types.Number, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthYear
         {
@@ -2665,7 +2665,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
         /// </example>
-        [Property("BirthMonth", Property.Types.Number, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthMonth
         {
@@ -2695,7 +2695,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
         /// </example>
-        [Property("BirthDay", Property.Types.Number, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
+        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public uint? BirthDay
         {
@@ -5897,7 +5897,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Death: {ExampleDeathRecord.DeathYear}");</para>
         /// </example>
-        [Property("DeathYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathYear
         {
@@ -5928,7 +5928,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Death: {ExampleDeathRecord.DeathMonth}");</para>
         /// </example>
-        [Property("DeathMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathMonth
         {
@@ -5958,7 +5958,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Death: {ExampleDeathRecord.DeathDay}");</para>
         /// </example>
-        [Property("DeathDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("DeathDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public uint? DeathDay
         {
@@ -6115,7 +6115,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Surgery: {ExampleDeathRecord.SurgeryYear}");</para>
         /// </example>
-        [Property("SurgeryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryYear
         {
@@ -6146,7 +6146,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Surgery: {ExampleDeathRecord.SurgeryMonth}");</para>
         /// </example>
-        [Property("SurgeryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryMonth
         {
@@ -6176,7 +6176,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Surgery: {ExampleDeathRecord.SurgeryDay}");</para>
         /// </example>
-        [Property("SurgeryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [Property("SurgeryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
         public uint? SurgeryDay
         {
@@ -7330,7 +7330,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
         /// </example>
-        [Property("InjuryYear", Property.Types.Number, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryYear
         {
@@ -7361,7 +7361,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
         /// </example>
-        [Property("InjuryMonth", Property.Types.Number, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryMonth
         {
@@ -7392,7 +7392,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
         /// </example>
-        [Property("InjuryDay", Property.Types.Number, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [Property("InjuryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public uint? InjuryDay
         {
@@ -11029,8 +11029,8 @@ namespace VRDR
             TupleArr,
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
             TupleCOD,
-            /// <summary>Parameter is a number.</summary>
-            Number,
+            /// <summary>Parameter is an unsigned integer.</summary>
+            UInt32,
             /// <summary>Parameter is an array of 4-Tuples, specifically for entity axis codes.</summary>
             Tuple4Arr
         };

@@ -249,7 +249,7 @@ namespace VRDR
             }
         }
 
-        /// <summary>Helper method to set a single string value on the Record portion of the Message<summary>
+        /// <summary>Helper method to set a single string value on the Record portion of the Message</summary>
         protected void SetSingleStringValue(string key, string value)
         {
             Record.Remove(key);
@@ -456,16 +456,16 @@ namespace VRDR
                     message = new DeathRecordAliasMessage(bundle);
                     break;
                 case CauseOfDeathCodingMessage.MESSAGE_TYPE:
-                    message = new CauseOfDeathCodingMessage(bundle);
+                    message = new CauseOfDeathCodingMessage(bundle, message);
                     break;
                 case DemographicsCodingMessage.MESSAGE_TYPE:
-                    message = new DemographicsCodingMessage(bundle);
+                    message = new DemographicsCodingMessage(bundle, message);
                     break;
                 case CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE:
-                    message = new CauseOfDeathCodingUpdateMessage(bundle);
+                    message = new CauseOfDeathCodingUpdateMessage(bundle, message);
                     break;
                 case DemographicsCodingUpdateMessage.MESSAGE_TYPE:
-                    message = new DemographicsCodingUpdateMessage(bundle);
+                    message = new DemographicsCodingUpdateMessage(bundle, message);
                     break;
                 case ExtractionErrorMessage.MESSAGE_TYPE:
                     message = new ExtractionErrorMessage(bundle, message);

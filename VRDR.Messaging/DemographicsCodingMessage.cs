@@ -5,44 +5,70 @@ using Hl7.Fhir.Model;
 namespace VRDR
 {
     /// <summary>
-    /// A <c>CodingResponseMessage</c> that conveys the coded demographic information of a decedent.
+    /// A <c>DemographicsCodingMessage</c> that conveys the coded demographics information of a decedent.
     /// </summary>
     public class DemographicsCodingMessage : BaseMessage
     {
         /// <summary>
-        /// The event URI for DemographicCodingResponseMessage.
+        /// The event URI for DemographicsCodingMessage.
         /// </summary>
         public const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_demographics_coding";
 
-        ///// <summary>Constructor that creates a response for the specified message.</summary>
-        ///// <param name="sourceMessage">the message to create a response for.</param>
-        ///// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        //public DemographicsCodingMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
-        //{
-        //    this.CertNo = sourceMessage?.CertNo;
-        //    this.StateAuxiliaryId = sourceMessage?.StateAuxiliaryId;
-        //    this.JurisdictionId = sourceMessage?.JurisdictionId;
-        //    this.DeathYear = sourceMessage?.DeathYear;
-        //}
+        /// <summary>Bundle that contains the message payload.</summary>
+        private DeathRecord deathRecord;
 
         /// <summary>
-        /// Construct a DemographicCodingResponseMessage from a FHIR Bundle.
+        /// Construct a DemographicsCodingMessage from a record containing demographics coded content.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicCodingResponseMessage</param>
+        /// <param name="record">a record containing demographics coded content for initializing the DemographicsCodingMessage</param>
         /// <returns></returns>
-        internal DemographicsCodingMessage(Bundle messageBundle) : base(messageBundle)
+        public DemographicsCodingMessage(DeathRecord record) : base(MESSAGE_TYPE)
         {
+            this.DeathRecord = record;
+            ExtractBusinessIdentifiers(record);
         }
 
-        ///// <summary>Constructor that creates a response for the specified message.</summary>
-        ///// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
-        ///// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        //public DemographicsCodingMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE, destination, source)
-        //{
-        //}
+        /// <summary>
+        /// Construct a DemographicsCodingMessage from a FHIR Bundle.
+        /// </summary>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicsCodingMessage</param>
+        /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
+        /// <returns></returns>
+        internal DemographicsCodingMessage(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle)
+        {
+            try
+            {
+                DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
+            }
+            catch (System.ArgumentException ex)
+            {
+                throw new MessageParseException($"Error processing DeathRecord entry in the message: {ex.Message}", baseMessage);
+            }
+        }
+
+        /// <summary>The DeathRecord conveyed by this message</summary>
+        /// <value>the DeathRecord</value>
+        public DeathRecord DeathRecord
+        {
+            get
+            {
+                return deathRecord;
+            }
+            set
+            {
+                deathRecord = value;
+                MessageBundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Bundle );
+                Header.Focus.Clear();
+                if (deathRecord != null)
+                {
+                    MessageBundle.AddResourceEntry(deathRecord.GetDemographicCodedContentBundle(), "urn:uuid:" + deathRecord.GetDemographicCodedContentBundle().Id);
+                    Header.Focus.Add(new ResourceReference("urn:uuid:" + deathRecord.GetDemographicCodedContentBundle().Id));
+                }
+            }
+        }
     }
 
-    /// <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded race and ethnicity of a decedent.</summary>
+    /// <summary>Class <c>DemographicsCodingUpdateMessage</c> conveys an updated coded demographics of a decedent.</summary>
     public class DemographicsCodingUpdateMessage : DemographicsCodingMessage
     {
         /// <summary>
@@ -50,28 +76,22 @@ namespace VRDR
         /// </summary>
         public new const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_demographics_coding_update";
 
-        ///// <summary>Constructor that creates an update for the specified message.</summary>
-        ///// <param name="sourceMessage">the message to create a response for.</param>
-        ///// <param name="source">the endpoint identifier that the message will be sent from.</param>
-        //public DemographicsCodingUpdateMessage(BaseMessage sourceMessage, string source = "http://nchs.cdc.gov/vrdr_submission") : this(sourceMessage.MessageSource, source)
-        //{
-        //}
+        /// <summary>
+        /// Construct a DemographicsCodingUpdateMessage from a record containing demographics coded content.
+        /// </summary>
+        /// <param name="record">a record containing demographics coded content for initializing the DemographicsCodingUpdateMessage</param>
+        /// <returns></returns>
+        public DemographicsCodingUpdateMessage(DeathRecord record) : base(record)
+        {
+            MessageType = MESSAGE_TYPE;
+        }
 
         /// <summary>
         /// Construct a DemographicsCodingUpdateMessage from a FHIR Bundle.
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DemographicsCodingUpdateMessage</param>
+        /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
         /// <returns></returns>
-        internal DemographicsCodingUpdateMessage(Bundle messageBundle) : base(messageBundle)
-        {
-        }
-
-        ///// <summary>Constructor that creates a response for the specified message.</summary>
-        ///// <param name="destination">the endpoint identifier that the response message will be sent to.</param>
-        ///// <param name="source">the endpoint identifier that the response message will be sent from.</param>
-        //public DemographicsCodingUpdateMessage(string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(destination, source)
-        //{
-        //    Header.Event = new FhirUri(MESSAGE_TYPE);
-        //}
+        internal DemographicsCodingUpdateMessage(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle, baseMessage) { }
     }
 }

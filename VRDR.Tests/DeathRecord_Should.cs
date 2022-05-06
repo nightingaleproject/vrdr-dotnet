@@ -3017,7 +3017,7 @@ namespace VRDR.Tests
             Assert.Equal(VRDR.ValueSets.AcmeSystemReject.Not_Rejected, ((DeathRecord)JSONRecords[1]).AcmeSystemRejectCodesHelper);
         }
 
-                [Fact]
+        [Fact]
         public void Set_IntentionalReject()
         {
             SetterDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Reject1;
@@ -3029,6 +3029,20 @@ namespace VRDR.Tests
         {
             Assert.Equal(VRDR.ValueSets.IntentionalReject.Reject1, ((DeathRecord)JSONRecords[1]).IntentionalRejectHelper);
         }
+
+        [Fact]
+        public void Set_ShipmentNumber()
+        {
+            SetterDeathRecord.ShipmentNumber = "3";
+            Assert.Equal("3", SetterDeathRecord.ShipmentNumber);
+        }
+
+        [Fact]
+        public void Get_ShipmentNumber()
+        {
+            Assert.Equal("A2B2", ((DeathRecord)JSONRecords[1]).ShipmentNumber);
+        }
+
 
         [Fact]
         public void Set_EmergingIssues()

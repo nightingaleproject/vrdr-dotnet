@@ -10123,13 +10123,26 @@ namespace VRDR
         {
             get
             {
-                // TODO: ShipmentNumber
-                throw new NotImplementedException("ShipmentNumber");
+                FhirString s = this.CodingStatus?.GetSingleValue<FhirString>("shipmentNumber");
+                if (s != null){
+                    return s.Value;
+                }
+                return "";
             }
             set
             {
-                // TODO: ShipmentNumber
-                throw new NotImplementedException("ShipmentNumber");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                FhirString s = this.CodingStatus?.GetSingleValue<FhirString>("shipmentNumber");
+                if (s == null)
+                {
+                    CodingStatus.Add("shipmentNumber", new FhirString(value));
+                }
+                else
+                {
+                    s = new FhirString(value);
+                }
             }
         }
         /// <summary>
@@ -10139,7 +10152,7 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public  Dictionary<string, string> IntentionalReject
         {
-get
+            get
             {
                 CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("intentionalReject");
                 if (codeable != null){

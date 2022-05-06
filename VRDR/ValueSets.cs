@@ -40,7 +40,7 @@ namespace VRDR
             /// <summary> Codes </summary>
             public static string[,] Codes = {
                 { "LA14084-0", "Home", VRDR.CodeSystems.LOINC },
-                { "LA14085-7", "Residential institution	", VRDR.CodeSystems.LOINC },
+                { "LA14085-7", "Residential institution", VRDR.CodeSystems.LOINC },
                 { "LA14086-5", "School", VRDR.CodeSystems.LOINC },
                 { "LA14088-1", "Sports or recreational area", VRDR.CodeSystems.LOINC },
                 { "LA14089-9", "Street or highway", VRDR.CodeSystems.LOINC },
@@ -71,7 +71,6 @@ namespace VRDR
             /// <summary> Other </summary>
             public static string  Other = "OTH";
         };
-
         /// <summary> AdministrativeGender </summary>
         public static class AdministrativeGender {
             /// <summary> Codes </summary>
@@ -369,10 +368,10 @@ namespace VRDR
             public static string  Not_Pregnant_Within_Past_Year = "1";
             /// <summary> Pregnant_At_Time_Of_Death </summary>
             public static string  Pregnant_At_Time_Of_Death = "2";
-            /// <summary> Not_Pregnant_But_Pregnant_Within_Days_Of_Death </summary>
-            public static string  Not_Pregnant_But_Pregnant_Within_Days_Of_Death = "3";
-            /// <summary> Not_Pregnant_But_Pregnant_Days_To_Year_Before_Death </summary>
-            public static string  Not_Pregnant_But_Pregnant_Days_To_Year_Before_Death = "4";
+            /// <summary> Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death </summary>
+            public static string  Not_Pregnant_But_Pregnant_Within_42_Days_Of_Death = "3";
+            /// <summary> Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death </summary>
+            public static string  Not_Pregnant_But_Pregnant_43_Days_To_1_Year_Before_Death = "4";
             /// <summary> Unknown_If_Pregnant_Within_The_Past_Year </summary>
             public static string  Unknown_If_Pregnant_Within_The_Past_Year = "9";
             /// <summary> Not_Applicable </summary>
@@ -508,7 +507,6 @@ namespace VRDR
         public static class RaceCode {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
                 { "100", "White Checkbox", VRDR.CodeSystems.RaceCode },
                 { "101", "White", VRDR.CodeSystems.RaceCode },
                 { "102", "Arab", VRDR.CodeSystems.RaceCode },
@@ -592,7 +590,7 @@ namespace VRDR
                 { "447", "Thai", VRDR.CodeSystems.RaceCode },
                 { "451", "Vietnamese", VRDR.CodeSystems.RaceCode },
                 { "461", "Amerasian", VRDR.CodeSystems.RaceCode },
-                { "462", "Asian", VRDR.CodeSystems.RaceCode },
+                { "462", "Asian2", VRDR.CodeSystems.RaceCode },
                 { "463", "Asiatic", VRDR.CodeSystems.RaceCode },
                 { "464", "Eurasian", VRDR.CodeSystems.RaceCode },
                 { "465", "Mongolian", VRDR.CodeSystems.RaceCode },
@@ -1449,7 +1447,7 @@ namespace VRDR
                 { "N22", "Village of Venetie", VRDR.CodeSystems.RaceCode },
                 { "N23", "Wiseman", VRDR.CodeSystems.RaceCode },
                 { "N24", "Kenaitze Indian Tribe", VRDR.CodeSystems.RaceCode },
-                { "N27", "TLINGIT-HAIDA", VRDR.CodeSystems.RaceCode },
+                { "N27", "TLINGIT HAIDA", VRDR.CodeSystems.RaceCode },
                 { "N28", "Angoon Community Association", VRDR.CodeSystems.RaceCode },
                 { "N29", "Central Council of the Tlingit and Haida Indian Tribes", VRDR.CodeSystems.RaceCode },
                 { "N30", "Chilkat Indian Village", VRDR.CodeSystems.RaceCode },
@@ -1668,8 +1666,6 @@ namespace VRDR
                 { "R95", "Native Village of Unga", VRDR.CodeSystems.RaceCode },
                 { "R96", "Kaguyak Village", VRDR.CodeSystems.RaceCode }
             };
-            /// <summary> Unknown </summary>
-            public static string  Unknown = "UNK";
             /// <summary> White_Checkbox </summary>
             public static string  White_Checkbox = "100";
             /// <summary> White </summary>
@@ -1836,7 +1832,7 @@ namespace VRDR
             public static string  Vietnamese = "451";
             /// <summary> Amerasian </summary>
             public static string  Amerasian = "461";
-            /// <summary> Asian </summary>
+            /// <summary> Asian2 </summary>
             public static string  Asian2 = "462";
             /// <summary> Asiatic </summary>
             public static string  Asiatic = "463";
@@ -2090,14 +2086,14 @@ namespace VRDR
             public static string  Other_Spanish = "686";
             /// <summary> Other_Race_N_E_C </summary>
             public static string  Other_Race_N_E_C = "699";
-            /// <summary> Multiple_Some_Other_Race_Responses_American </summary>
-            public static string  Multiple_Some_Other_Race_Responses_American = "990";
+            /// <summary> Multiple_Some_Other_Race_Responses_995_American </summary>
+            public static string  Multiple_Some_Other_Race_Responses_995_American = "990";
             /// <summary> Uncodable </summary>
             public static string  Uncodable = "996";
             /// <summary> Deferred </summary>
             public static string  Deferred = "997";
             /// <summary> Unknown </summary>
-            public static string  Unknown2 = "998";
+            public static string  Unknown = "998";
             /// <summary> First_Pass_Reject </summary>
             public static string  First_Pass_Reject = "999";
             /// <summary> Abenaki_Nation_Of_Missiquoi </summary>
@@ -3550,8 +3546,8 @@ namespace VRDR
             public static string  Wiseman = "N23";
             /// <summary> Kenaitze_Indian_Tribe </summary>
             public static string  Kenaitze_Indian_Tribe = "N24";
-            /// <summary> Tlingit </summary>
-            public static string  Tlingit = "N27";
+            /// <summary> Tlingit_Haida </summary>
+            public static string  Tlingit_Haida = "N27";
             /// <summary> Angoon_Community_Association </summary>
             public static string  Angoon_Community_Association = "N28";
             /// <summary> Central_Council_Of_The_Tlingit_And_Haida_Indian_Tribes </summary>
@@ -3589,7 +3585,7 @@ namespace VRDR
             /// <summary> Tenakee_Springs </summary>
             public static string  Tenakee_Springs = "N47";
             /// <summary> Tlingit </summary>
-            public static string  Tlingit2 = "N48";
+            public static string  Tlingit = "N48";
             /// <summary> Wrangell_Cooperative_Association </summary>
             public static string  Wrangell_Cooperative_Association = "N49";
             /// <summary> Yakutat_Tlingit_Tribe </summary>
@@ -4011,10 +4007,10 @@ namespace VRDR
                 { "18", "AIAN and NHOPI", VRDR.CodeSystems.RaceRecode40 },
                 { "19", "NHOPI and White", VRDR.CodeSystems.RaceRecode40 },
                 { "20", "AIAN and Asian", VRDR.CodeSystems.RaceRecode40 },
-                { "21", "AIAN and NHOPI 2", VRDR.CodeSystems.RaceRecode40 },
+                { "21", "AIAN and NHOPI-2", VRDR.CodeSystems.RaceRecode40 },
                 { "22", "Asian and White", VRDR.CodeSystems.RaceRecode40 },
                 { "23", "Asian and NHOPI", VRDR.CodeSystems.RaceRecode40 },
-                { "24", "NHOPI and White 2", VRDR.CodeSystems.RaceRecode40 },
+                { "24", "NHOPI and White-2", VRDR.CodeSystems.RaceRecode40 },
                 { "25", "Black, AIAN and White", VRDR.CodeSystems.RaceRecode40 },
                 { "26", "Black, AIAN and Asian", VRDR.CodeSystems.RaceRecode40 },
                 { "27", "Black, AIAN and NHOPI", VRDR.CodeSystems.RaceRecode40 },
@@ -4073,14 +4069,14 @@ namespace VRDR
             public static string  Nhopi_And_White = "19";
             /// <summary> Aian_And_Asian </summary>
             public static string  Aian_And_Asian = "20";
-            /// <summary> Aian_And_Nhopi </summary>
-            public static string  Aian_And_Nhopi2 = "21";
+            /// <summary> Aian_And_Nhopi_2 </summary>
+            public static string  Aian_And_Nhopi_2 = "21";
             /// <summary> Asian_And_White </summary>
             public static string  Asian_And_White = "22";
             /// <summary> Asian_And_Nhopi </summary>
             public static string  Asian_And_Nhopi = "23";
-            /// <summary> Nhopi_And_White </summary>
-            public static string  Nhopi_And_White2 = "24";
+            /// <summary> Nhopi_And_White_2 </summary>
+            public static string  Nhopi_And_White_2 = "24";
             /// <summary> Black_Aian_And_White </summary>
             public static string  Black_Aian_And_White = "25";
             /// <summary> Black_Aian_And_Asian </summary>
@@ -4120,7 +4116,6 @@ namespace VRDR
         public static class HispanicOrigin {
             /// <summary> Codes </summary>
             public static string[,] Codes = {
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
                 { "100", "Not Hispanic", VRDR.CodeSystems.HispanicOrigin },
                 { "200", "Spaniard", VRDR.CodeSystems.HispanicOrigin },
                 { "201", "Andalusian", VRDR.CodeSystems.HispanicOrigin },
@@ -4133,7 +4128,7 @@ namespace VRDR
                 { "208", "Canarian", VRDR.CodeSystems.HispanicOrigin },
                 { "209", "Spanish Basque", VRDR.CodeSystems.HispanicOrigin },
                 { "210", "Mexican", VRDR.CodeSystems.HispanicOrigin },
-                { "211", "Mexican 2", VRDR.CodeSystems.HispanicOrigin },
+                { "211", "Mexican-2", VRDR.CodeSystems.HispanicOrigin },
                 { "212", "Mexican American", VRDR.CodeSystems.HispanicOrigin },
                 { "213", "Mexicano", VRDR.CodeSystems.HispanicOrigin },
                 { "214", "Chicano", VRDR.CodeSystems.HispanicOrigin },
@@ -4167,9 +4162,9 @@ namespace VRDR
                 { "251", "Latin", VRDR.CodeSystems.HispanicOrigin },
                 { "252", "Latino", VRDR.CodeSystems.HispanicOrigin },
                 { "260", "Puerto Rican", VRDR.CodeSystems.HispanicOrigin },
-                { "261", "Puerto Rican 2", VRDR.CodeSystems.HispanicOrigin },
+                { "261", "Puerto Rican-2", VRDR.CodeSystems.HispanicOrigin },
                 { "270", "Cuban", VRDR.CodeSystems.HispanicOrigin },
-                { "271", "Cuban 2", VRDR.CodeSystems.HispanicOrigin },
+                { "271", "Cuban-2", VRDR.CodeSystems.HispanicOrigin },
                 { "275", "Dominican", VRDR.CodeSystems.HispanicOrigin },
                 { "280", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
                 { "281", "Hispanic", VRDR.CodeSystems.HispanicOrigin },
@@ -4182,14 +4177,12 @@ namespace VRDR
                 { "288", "Meso American Indian", VRDR.CodeSystems.HispanicOrigin },
                 { "289", "Mestizo", VRDR.CodeSystems.HispanicOrigin },
                 { "291", "Multiple Hispanic Responses", VRDR.CodeSystems.HispanicOrigin },
-                { "299", "Other Spanish", VRDR.CodeSystems.HispanicOrigin },
+                { "299", "Other Spanish 2", VRDR.CodeSystems.HispanicOrigin },
                 { "996", "Uncodable", VRDR.CodeSystems.HispanicOrigin },
                 { "997", "Deferred", VRDR.CodeSystems.HispanicOrigin },
                 { "998", "Unknown", VRDR.CodeSystems.HispanicOrigin },
                 { "999", "First Pass Reject", VRDR.CodeSystems.HispanicOrigin }
             };
-            /// <summary> Unknown </summary>
-            public static string  Unknown = "UNK";
             /// <summary> Not_Hispanic </summary>
             public static string  Not_Hispanic = "100";
             /// <summary> Spaniard </summary>
@@ -4214,8 +4207,8 @@ namespace VRDR
             public static string  Spanish_Basque = "209";
             /// <summary> Mexican </summary>
             public static string  Mexican = "210";
-            /// <summary> Mexican </summary>
-            public static string  Mexican2 = "211";
+            /// <summary> Mexican_2 </summary>
+            public static string  Mexican_2 = "211";
             /// <summary> Mexican_American </summary>
             public static string  Mexican_American = "212";
             /// <summary> Mexicano </summary>
@@ -4282,12 +4275,12 @@ namespace VRDR
             public static string  Latino = "252";
             /// <summary> Puerto_Rican </summary>
             public static string  Puerto_Rican = "260";
-            /// <summary> Puerto_Rican </summary>
-            public static string  Puerto_Rican2 = "261";
+            /// <summary> Puerto_Rican_2 </summary>
+            public static string  Puerto_Rican_2 = "261";
             /// <summary> Cuban </summary>
             public static string  Cuban = "270";
-            /// <summary> Cuban </summary>
-            public static string  Cuban2 = "271";
+            /// <summary> Cuban_2 </summary>
+            public static string  Cuban_2 = "271";
             /// <summary> Dominican </summary>
             public static string  Dominican = "275";
             /// <summary> Other_Spanish </summary>
@@ -4312,16 +4305,79 @@ namespace VRDR
             public static string  Mestizo = "289";
             /// <summary> Multiple_Hispanic_Responses </summary>
             public static string  Multiple_Hispanic_Responses = "291";
-            /// <summary> Other_Spanish </summary>
-            public static string  Other_Spanish2 = "299";
+            /// <summary> Other_Spanish_2 </summary>
+            public static string  Other_Spanish_2 = "299";
             /// <summary> Uncodable </summary>
             public static string  Uncodable = "996";
             /// <summary> Deferred </summary>
             public static string  Deferred = "997";
             /// <summary> Unknown </summary>
-            public static string  Unknown2 = "998";
+            public static string  Unknown = "998";
             /// <summary> First_Pass_Reject </summary>
             public static string  First_Pass_Reject = "999";
+        };
+        /// <summary> TransaxConversion </summary>
+        public static class TransaxConversion {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "3", "Conversion using non-ambivalent table entries", VRDR.CodeSystems.TransaxConversion },
+                { "4", "Conversion using ambivalent table entries", VRDR.CodeSystems.TransaxConversion },
+                { "5", "Duplicate entity-axis codes deleted; no other action involved", VRDR.CodeSystems.TransaxConversion },
+                { "6", "Artificial code conversion; no other action", VRDR.CodeSystems.TransaxConversion }
+            };
+            /// <summary> Conversion_Using_Non_Ambivalent_Table_Entries </summary>
+            public static string  Conversion_Using_Non_Ambivalent_Table_Entries = "3";
+            /// <summary> Conversion_Using_Ambivalent_Table_Entries </summary>
+            public static string  Conversion_Using_Ambivalent_Table_Entries = "4";
+            /// <summary> Duplicate_Entity_Axis_Codes_Deleted_No_Other_Action_Involved </summary>
+            public static string  Duplicate_Entity_Axis_Codes_Deleted_No_Other_Action_Involved = "5";
+            /// <summary> Artificial_Code_Conversion_No_Other_Action </summary>
+            public static string  Artificial_Code_Conversion_No_Other_Action = "6";
+        };
+        /// <summary> AcmeSystemReject </summary>
+        public static class AcmeSystemReject {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "0", "Not Rejected", VRDR.CodeSystems.SystemReject },
+                { "1", "MICAR Reject Dictionary Match", VRDR.CodeSystems.SystemReject },
+                { "2", "ACME Reject", VRDR.CodeSystems.SystemReject },
+                { "3", "MICAR Reject Rule Application", VRDR.CodeSystems.SystemReject },
+                { "4", "Record Reviewed", VRDR.CodeSystems.SystemReject }
+            };
+            /// <summary> Not_Rejected </summary>
+            public static string  Not_Rejected = "0";
+            /// <summary> Micar_Reject_Dictionary_Match </summary>
+            public static string  Micar_Reject_Dictionary_Match = "1";
+            /// <summary> Acme_Reject </summary>
+            public static string  Acme_Reject = "2";
+            /// <summary> Micar_Reject_Rule_Application </summary>
+            public static string  Micar_Reject_Rule_Application = "3";
+            /// <summary> Record_Reviewed </summary>
+            public static string  Record_Reviewed = "4";
+        };
+        /// <summary> IntentionalReject </summary>
+        public static class IntentionalReject {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "1", "Reject1", VRDR.CodeSystems.IntentionalReject },
+                { "2", "Reject2", VRDR.CodeSystems.IntentionalReject },
+                { "3", "Reject3", VRDR.CodeSystems.IntentionalReject },
+                { "4", "Reject4", VRDR.CodeSystems.IntentionalReject },
+                { "5", "Reject5", VRDR.CodeSystems.IntentionalReject },
+                { "9", "Reject9", VRDR.CodeSystems.IntentionalReject }
+            };
+            /// <summary> Reject1 </summary>
+            public static string  Reject1 = "1";
+            /// <summary> Reject2 </summary>
+            public static string  Reject2 = "2";
+            /// <summary> Reject3 </summary>
+            public static string  Reject3 = "3";
+            /// <summary> Reject4 </summary>
+            public static string  Reject4 = "4";
+            /// <summary> Reject5 </summary>
+            public static string  Reject5 = "5";
+            /// <summary> Reject9 </summary>
+            public static string  Reject9 = "9";
         };
    }
 }

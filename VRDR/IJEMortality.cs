@@ -2537,10 +2537,10 @@ namespace VRDR
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        string lineNumber = code.Substring(0);
-                        string position = code.Substring(1);
-                        string icdCode = NCHSICD10toActualICD10(code.Substring(2,6));
-                        string eCode = code.Substring(7);
+                        string lineNumber = code.Substring(0, 1);
+                        string position = code.Substring(1, 1);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
+                        string eCode = code.Substring(7, 1);
                         Tuple<string, string, string, string> entry = Tuple.Create(lineNumber, position, icdCode, eCode);
                         eac.Add(entry);
                     }
@@ -2598,8 +2598,8 @@ namespace VRDR
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        string icdCode = NCHSICD10toActualICD10(code.Substring(0,4));
-                        string preg = code.Substring(4);
+                        string icdCode = NCHSICD10toActualICD10(code.Substring(0, 4));
+                        string preg = code.Substring(4, 1);
                         Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
                         rac.Add(entry);
                     }

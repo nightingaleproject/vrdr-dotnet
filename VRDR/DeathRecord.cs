@@ -9766,7 +9766,7 @@ namespace VRDR
                         string icd10code = "";
                         string lineNumber = "";
                         string position = "";
-                        string code = "";
+                        string ecode = "";
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
                         if (valueCC != null)
                         {
@@ -9782,12 +9782,12 @@ namespace VRDR
                         {
                             lineNumber = lineNumComp.Value.ToString();
                         }
-                        Observation.ComponentComponent codeComp = ob.Component.Where(c => c.Code.Coding[0].Code=="eCodeIndicator").FirstOrDefault();
-                        if (codeComp != null && codeComp.Value != null)
+                        Observation.ComponentComponent ecodeComp = ob.Component.Where(c => c.Code.Coding[0].Code=="eCodeIndicator").FirstOrDefault();
+                        if (ecodeComp != null && ecodeComp.Value != null)
                         {
-                            code = codeComp.Value.ToString();
+                            ecode = ecodeComp.Value.ToString() == "true" ? "&" : " ";
                         }
-                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, icd10code, code);
+                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, icd10code, ecode);
                         eac.Add(eacod);
                     }
                 }
@@ -9825,23 +9825,23 @@ namespace VRDR
                     ob.Effective = new FhirDateTime();
                     ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
 
-                    if (Int32.TryParse(lineNumber, out int i))
+                    if (Int32.TryParse(lineNumber, out int lineNumberInt))
                     {
                         Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                        lineNumComp.Value = new Integer(i);
+                        lineNumComp.Value = new Integer(lineNumberInt);
                         lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
                         ob.Component.Add(lineNumComp);
                     }
-                    if (Int32.TryParse(position, out int j))
+                    if (Int32.TryParse(position, out int positionInt))
                     {
                         Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                        positionComp.Value = new Integer(j);
+                        positionComp.Value = new Integer(positionInt);
                         positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
                         ob.Component.Add(positionComp);
                     }
 
                     Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
-                    eCodeComp.Value = new FhirString(ecode);
+                    eCodeComp.Value = new FhirBoolean(ecode == "&");
                     eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
                     ob.Component.Add(eCodeComp);
 

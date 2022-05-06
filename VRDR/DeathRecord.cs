@@ -929,10 +929,12 @@ namespace VRDR
             }
             private set
             {
-                Identifier identifier = new Identifier();
-                identifier.Value = value;
-                identifier.System = "http://nchs.cdc.gov/vrdr_id";
-                Bundle.Identifier = identifier;
+                if (Bundle.Identifier == null)
+                {
+                    Bundle.Identifier = new Identifier();
+                }
+                Bundle.Identifier.Value = value;
+                Bundle.Identifier.System = "http://nchs.cdc.gov/vrdr_id";
             }
         }
 

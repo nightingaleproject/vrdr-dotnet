@@ -276,7 +276,7 @@ namespace VRDR.Tests
             Assert.Equal("42", ack.StateAuxiliaryId);
         }
 
-        [Fact]
+/*         [Fact]
         public void GenericCodingResponseMessageNoLongerSupported()
         {
             Assert.Throws<MessageParseException>(() => BaseMessage.Parse<CodingResponseMessage>(FixtureStream("fixtures/json/CodingResponseMessage.json")));
@@ -812,7 +812,7 @@ namespace VRDR.Tests
             Assert.Equal(2, entry.AssignedCodes.Count);
             Assert.Equal("A10.4", entry.AssignedCodes[0]);
             Assert.Equal("J01.5", entry.AssignedCodes[1]);
-        }
+        } */
 
         [Fact]
         public void CreateDeathRecordVoidMessage()
@@ -1100,7 +1100,7 @@ namespace VRDR.Tests
             Assert.Equal("The message was very old", issues[1].Description);
         }
 
-        [Fact]
+/*         [Fact]
         public void BuildEntityAxis()
         {
             var builder = new CauseOfDeathEntityAxisBuilder();
@@ -1145,7 +1145,7 @@ namespace VRDR.Tests
             Assert.Equal("6", entry.LineNumber);
             Assert.Equal(1, (int)entry.AssignedCodes.Count);
             Assert.Equal("A047", entry.AssignedCodes[0]);
-        }
+        } */
 
         private string FixturePath(string filePath)
         {

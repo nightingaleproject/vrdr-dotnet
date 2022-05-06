@@ -707,7 +707,7 @@ namespace VRDR.CLI
             }
             else if (args.Length == 2 && args[0] == "showcodes")
             {
-                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+/*                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
                     case CauseOfDeathCodingMessage codingResponse:
@@ -736,6 +736,8 @@ namespace VRDR.CLI
                         Console.WriteLine("Message does not appear to be a CodingMessage");
                         break;
                 }
+*/
+                return 0;
             }
             return 0;
         }

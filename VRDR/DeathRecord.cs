@@ -5863,6 +5863,10 @@ namespace VRDR
         /// field (year, month, or day) to be read from either the value or the extension</summary>
         private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
         {
+            if (value == null)
+            {
+                return null;
+            }
             // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
             DateTimeOffset? dateTimeOffset = null;
             if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
@@ -9976,18 +9980,27 @@ namespace VRDR
         /// The year NCHS received the death record.
         /// </summary>
         [Property("ReceiptYear", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptYear
         {
             get
             {
-                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateYear);
+                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateYear);
             }
             set
             {
-                // TODO: ReceiptYear
-                throw new NotImplementedException("ReceiptYear");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                if (date == null)
+                {
+                    CodingStatus.Add("receiptDate", new Date());
+                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                }
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
             }
         }
 
@@ -9995,7 +10008,7 @@ namespace VRDR
         /// The month NCHS received the death record.
         /// </summary>
         [Property("ReceiptMonth", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptMonth
         {
             get
@@ -10005,8 +10018,17 @@ namespace VRDR
             }
             set
             {
-                // TODO: ReceiptMonth
-                throw new NotImplementedException("ReceiptMonth");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                if (date == null)
+                {
+                    CodingStatus.Add("receiptDate", new Date());
+                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                }
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -10014,7 +10036,7 @@ namespace VRDR
         /// The day NCHS received the death record.
         /// </summary>
         [Property("ReceiptDay", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptDay
         {
             get
@@ -10024,8 +10046,52 @@ namespace VRDR
             }
             set
             {
-                // TODO: ReceiptDay
-                throw new NotImplementedException("ReceiptDay");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                if (date == null)
+                {
+                    CodingStatus.Add("receiptDate", new Date());
+                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                }
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        /// <summary>Receipt Date.</summary>
+        /// <value>receipt date</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReceiptDate = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
+        /// </example>
+        [Property("Receipt Date", Property.Types.StringDateTime, "Coded Observations", "Receipt Date.", true, IGURL.CodingStatusValues, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string ReceiptDate
+        {
+            get
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                if (ReceiptYear != null && ReceiptMonth != null && ReceiptDay != null)
+                {
+                    Date result = new Date((int)ReceiptYear, (int)ReceiptMonth, (int)ReceiptDay);
+                    return result.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
+                {
+                    ReceiptYear = (uint?)parsedDate.Year;
+                    ReceiptMonth = (uint?)parsedDate.Month;
+                    ReceiptDay = (uint?)parsedDate.Day;
+                }
             }
         }
 
@@ -10033,7 +10099,7 @@ namespace VRDR
         /// Coder Status; TRX field with no IJE mapping
         /// </summary>
         [Property("CoderStatus", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public int CoderStatus
         {
             get
@@ -10052,7 +10118,7 @@ namespace VRDR
         /// Shipment Number; TRX field with no IJE mapping
         /// </summary>
         [Property("ShipmentNumber", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public string ShipmentNumber
         {
             get
@@ -10069,59 +10135,187 @@ namespace VRDR
         /// <summary>
         /// Intentional Reject
         /// </summary>
-        [Property("IntentionalReject", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
-        public string IntentionalReject
+        [Property("IntentionalReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public  Dictionary<string, string> IntentionalReject
         {
-            get
+get
             {
-                // TODO: IntentionalReject
-                throw new NotImplementedException("IntentionalReject");
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("intentionalReject");
+                if (codeable != null){
+                    return CodeableConceptToDict(codeable);
+                }
+                return EmptyCodeDict();
             }
             set
             {
-                // TODO: IntentionalReject
-                throw new NotImplementedException("IntentionalReject");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("intentionalReject");
+                if (codeable == null)
+                {
+                    CodingStatus.Add("intentionalReject", DictToCodeableConcept(value));
+                }
+                else
+                {
+                    codeable = DictToCodeableConcept(value);
+                }
+            }
+        }
+       /// <summary>Intentional Reject Helper.</summary>
+        /// <value>Intentional Reject
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Not_Rejected;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
+        /// </example>
+        [Property("Intentional RejectCodes Helper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string IntentionalRejectHelper
+        {
+            get
+            {
+                if (IntentionalReject.ContainsKey("code"))
+                {
+                    return IntentionalReject["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
             }
         }
 
         /// <summary>
         /// Acme System Reject Codes
         /// </summary>
-        [Property("AcmeSystemRejectCodes", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
-        public string AcmeSystemRejectCodes
+        [Property("AcmeSystemRejectCodes", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public Dictionary<string, string> AcmeSystemRejectCodes
         {
-            get
+           get
             {
-                // TODO: AcmeSystemRejectCodes
-                throw new NotImplementedException("AcmeSystemRejectCodes");
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                if (codeable != null){
+                    return CodeableConceptToDict(codeable);
+                }
+                return EmptyCodeDict();
             }
             set
             {
-                // TODO: AcmeSystemRejectCodes
-                throw new NotImplementedException("AcmeSystemRejectCodes");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                if (codeable == null)
+                {
+                    CodingStatus.Add("acmeSystemReject", DictToCodeableConcept(value));
+                }
+                else
+                {
+                    codeable = DictToCodeableConcept(value);
+                }
+            }
+
+        }
+        /// <summary>ACME System Reject Codes Helper.</summary>
+        /// <value>Acme System REject codes
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AcmeSystemRejectCodeHelper = ValueSets.SystemRejectCodes.Not_Rejected;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemRejectCodeHelper}");</para>
+        /// </example>
+        [Property("AcmeSystemRejectCodes Helper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string AcmeSystemRejectCodesHelper
+        {
+            get
+            {
+                if (AcmeSystemRejectCodes.ContainsKey("code"))
+                {
+                    return AcmeSystemRejectCodes["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("AcmeSystemRejectCodes", value, VRDR.ValueSets.AcmeSystemReject.Codes);
             }
         }
+
+
 
         /// <summary>
         /// Transax Conversion Flag
         /// </summary>
-        [Property("TransaxConversionFlag", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Paramaters)", "")]
-        public string TransaxConversionFlag
+        [Property("TransaxConversionFlag", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public Dictionary<string, string> TransaxConversionFlag
         {
             get
             {
-                // TODO: TransaxConversionFlag
-                throw new NotImplementedException("TransaxConversionFlag");
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("transaxConversion");
+                if (codeable != null){
+                    return CodeableConceptToDict(codeable);
+                }
+                return EmptyCodeDict();
             }
             set
             {
-                // TODO: TransaxConversionFlag
-                throw new NotImplementedException("TransaxConversionFlag");
+                if(CodingStatus == null){
+                    CodingStatus = new Parameters();
+                }
+                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("transaxConversion");
+                if (codeable == null)
+                {
+                    CodingStatus.Add("transaxConversion", DictToCodeableConcept(value));
+                }
+                else
+                {
+                    codeable = DictToCodeableConcept(value);
+                }
             }
         }
+
+        /// <summary>TransaxConversion Helper.</summary>
+        /// <value>transax conversion code
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
+        /// </example>
+        [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string TransaxConversionFlagHelper
+        {
+            get
+            {
+                if (TransaxConversionFlag.ContainsKey("code"))
+                {
+                    return TransaxConversionFlag["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("TransaxConversionFlag", value, VRDR.ValueSets.TransaxConversion.Codes);
+            }
+        }
+
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -10261,6 +10455,13 @@ namespace VRDR
             //     Mortician = (Practitioner)morticianEntry.Resource;
             // }
 
+
+            // Grab Coding Status
+            var parameterEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Parameters );
+            if (parameterEntry != null)
+            {
+                CodingStatus = (Parameters)parameterEntry.Resource;
+            }
             // Scan through all Observations to make sure they all have codes!
             foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
             {

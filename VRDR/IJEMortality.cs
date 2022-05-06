@@ -2279,15 +2279,14 @@ namespace VRDR
         /// <summary>Receipt date -- Year</summary>
         [IJEField(91, 673, 4, "Receipt date -- Year", "R_YR", 1)]
         public string R_YR
-        {
+        {// TODO: Implement mapping from FHIR record location: CodingStatusValues
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_YR", "ReceiptYear");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_YR", "ReceiptYear", value);
             }
         }
 
@@ -2297,12 +2296,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_MO", "ReceiptMonth");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_MO", "ReceiptMonth", value);
             }
         }
 
@@ -2312,12 +2310,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_DY", "ReceiptDay");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_DY", "ReceiptDay", value);
             }
         }
 
@@ -2437,12 +2434,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.IntentionalReject.FHIRToIJE, "IntentionalReject", "INT_REJ");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.IntentionalReject.IJEToFHIR, "INT_REJ", "IntentionalReject", value);
             }
         }
 
@@ -2452,12 +2448,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.SystemReject.FHIRToIJE, "SystemReject", "SYS_REJ");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.SystemReject.IJEToFHIR, "SYS_REJ", "SystemReject", value);
             }
         }
 
@@ -2559,12 +2554,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.TransaxConversion.FHIRToIJE, "TransaxConversionFlag", "TRX_FLG");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.TransaxConversion.IJEToFHIR, "TRXFLG", "TransaxConversionFlag", value);
             }
         }
 
@@ -5125,5 +5119,11 @@ get
                 LeftJustified_Set("MARITAL_DESCRIP", "MaritalStatusLiteral", value);
             }
         }
+
+        // Fields below have no mapping to IJE. An IJE-like interface could be included for convenience
+        // CS - Coder Status -- integer
+        // SHIP - shipment number - string
+        // RECODE40 - Race Recode 40 - codeable
+        // BUNDLEID - BundleIdentifier - string
     }
 }

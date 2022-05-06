@@ -2942,7 +2942,31 @@ namespace VRDR.Tests
             Assert.Equal(3, (int)SetterDeathRecord.SurgeryMonth);
             Assert.Null(SetterDeathRecord.SurgeryDay);
         }
+        [Fact]
+        public void Set_ReceiptDate_Partial_Date()
+        {
+            SetterDeathRecord.ReceiptYear = 2017;
+            SetterDeathRecord.ReceiptMonth = 3;
+            SetterDeathRecord.ReceiptDay = null;
+            Assert.Equal(2017, (int)SetterDeathRecord.ReceiptYear);
+            Assert.Equal(3, (int)SetterDeathRecord.ReceiptMonth);
+            Assert.Null(SetterDeathRecord.ReceiptDay);
+        }
 
+        [Fact]
+        public void Get_ReceiptDate_Roundtrip()
+        {
+            DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json")));
+            IJEMortality ije1 = new IJEMortality(dr);
+            Assert.Equal("2017", ije1.R_YR);
+            Assert.Equal("03", ije1.R_MO);
+            Assert.Equal("18", ije1.R_DY);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("2017-03-18", dr2.ReceiptDate);
+            Assert.Equal(2017, (int)dr2.ReceiptYear);
+            Assert.Equal(03, (int)dr2.ReceiptMonth);
+            Assert.Equal(18, (int)dr2.ReceiptDay);
+        }
         [Fact]
         public void Get_SurgeryDate_Partial_Date()
         {
@@ -2951,6 +2975,59 @@ namespace VRDR.Tests
             Assert.Equal("2017", ije1.SUR_YR);
             Assert.Equal("03", ije1.SUR_MO);
             Assert.Equal("99", ije1.SUR_DY);
+        }
+
+                [Fact]
+        public void Set_ReceiptDate()
+        {
+            SetterDeathRecord.ReceiptDate = "2017-03-18";
+            Assert.Equal("2017-03-18", SetterDeathRecord.ReceiptDate);
+        }
+
+        [Fact]
+        public void Get_ReceiptDate()
+        {
+            Assert.Equal("2021-12-12", ((DeathRecord)JSONRecords[1]).ReceiptDate);
+            // Assert.Equal("2017-03-18", ((DeathRecord)XMLRecords[0]).ReceiptDate);
+        }
+
+        [Fact]
+        public void Set_TransaxConversion()
+        {
+            SetterDeathRecord.TransaxConversionFlagHelper = ValueSets.TransaxConversion.Artificial_Code_Conversion_No_Other_Action;
+            Assert.Equal(ValueSets.TransaxConversion.Artificial_Code_Conversion_No_Other_Action, SetterDeathRecord.TransaxConversionFlagHelper);
+        }
+
+        [Fact]
+        public void Get_TransaxConversion()
+        {
+            Assert.Equal(VRDR.ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries, ((DeathRecord)JSONRecords[1]).TransaxConversionFlagHelper);
+        }
+
+        [Fact]
+        public void Set_AcmeSystemReject()
+        {
+            SetterDeathRecord.AcmeSystemRejectCodesHelper = ValueSets.AcmeSystemReject.Not_Rejected;
+            Assert.Equal(ValueSets.AcmeSystemReject.Not_Rejected, SetterDeathRecord.AcmeSystemRejectCodesHelper);
+        }
+
+        [Fact]
+        public void Get_AcmeSystemReject()
+        {
+            Assert.Equal(VRDR.ValueSets.AcmeSystemReject.Not_Rejected, ((DeathRecord)JSONRecords[1]).AcmeSystemRejectCodesHelper);
+        }
+
+                [Fact]
+        public void Set_IntentionalReject()
+        {
+            SetterDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Reject1;
+            Assert.Equal(ValueSets.IntentionalReject.Reject1, SetterDeathRecord.IntentionalRejectHelper);
+        }
+
+        [Fact]
+        public void Get_IntentionalReject()
+        {
+            Assert.Equal(VRDR.ValueSets.IntentionalReject.Reject1, ((DeathRecord)JSONRecords[1]).IntentionalRejectHelper);
         }
 
         [Fact]

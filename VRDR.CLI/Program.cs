@@ -709,23 +709,24 @@ namespace VRDR.CLI
             {
                 // Mapping a TRX file to an IJE file:
                 // char 1-12 of TRX -> char 1-12 of IJE
+                // char 22-29 of TRX -> char 673-681 if IJE WITH ORDER SWAPPED
                 // char 13-41 of TRX -> TRX only
                 // char 42-407 of TRX -> char 701-1037 of IJE
                 // There might be some additional data in TRX now (SUR_MO, etc.)
                 string trx = File.ReadAllText(args[1]);
                 string ije = trx.Substring(0,12);
+                ije = ije.PadRight(672, ' ');
+                ije = ije + trx.Substring(25, 4);
+                ije = ije + trx.Substring(21, 4);
                 ije = ije.PadRight(700, ' ');
                 ije = ije + trx.Substring(41, 365);
                 ije = ije.PadRight(5000, ' ');
                 IJEMortality ijeRecord = new IJEMortality(ije);
-                //CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
-                CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
+                ijeRecord.CS = "3";
+                ijeRecord.SHIP = "555";
+                CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
+                //CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
                 Console.WriteLine(cod.ToJSON(true));
-            }
-            else if (args.Length == 2 && args[0] == "fhir2trx")
-            {
-                string json = File.ReadAllText(args[1]);
-                CauseOfDeathCodingMessage cod = BaseMessage.Parse<CauseOfDeathCodingMessage>(json);
             }
             else if (args.Length == 2 && args[0] == "showcodes")
             {

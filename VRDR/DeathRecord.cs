@@ -10095,17 +10095,23 @@ namespace VRDR
         /// </summary>
         [Property("CoderStatus", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
-        public int CoderStatus
+        public int? CoderStatus
         {
             get
             {
-                // TODO: CoderStatus
-                throw new NotImplementedException("CoderStatus");
+                return this.CodingStatusValues?.GetSingleValue<Integer>("coderStatus")?.Value;
             }
             set
             {
-                // TODO: CoderStatus
-                throw new NotImplementedException("CoderStatus");
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("coderStatus");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("coderStatus", new Integer(value));
+                }
             }
         }
 
@@ -10126,7 +10132,11 @@ namespace VRDR
                 {
                     CreateEmptyCodingStatusValues();
                 }
-                CodingStatusValues.Add("shipmentNumber", new FhirString(value));
+                CodingStatusValues.Remove("shipmentNumber");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("shipmentNumber", new FhirString(value));
+                }
             }
         }
         /// <summary>
@@ -10138,29 +10148,28 @@ namespace VRDR
         {
             get
             {
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
-                if (codeable != null){
-                    return CodeableConceptToDict(codeable);
+                CodeableConcept intentionalReject = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
+                if (intentionalReject != null)
+                {
+                    return CodeableConceptToDict(intentionalReject);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if(CodingStatusValues == null){
-                    CodingStatusValues = new Parameters();
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
                 }
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
-                if (codeable == null)
+                CodingStatusValues.Remove("intentionalReject");
+                if (value != null)
                 {
                     CodingStatusValues.Add("intentionalReject", DictToCodeableConcept(value));
                 }
-                else
-                {
-                    codeable = DictToCodeableConcept(value);
-                }
             }
         }
-       /// <summary>Intentional Reject Helper.</summary>
+
+        /// <summary>Intentional Reject Helper.</summary>
         /// <value>Intentional Reject
         /// <para>"code" - the code</para>
         /// </value>
@@ -10170,7 +10179,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
         /// </example>
-        [Property("Intentional RejectCodes Helper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [Property("IntentionalRejectHelper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public string IntentionalRejectHelper
@@ -10192,35 +10201,33 @@ namespace VRDR
         /// <summary>
         /// Acme System Reject Codes
         /// </summary>
-        [Property("AcmeSystemRejectCodes", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
-        public Dictionary<string, string> AcmeSystemRejectCodes
+        public Dictionary<string, string> AcmeSystemReject
         {
-           get
+            get
             {
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
-                if (codeable != null){
-                    return CodeableConceptToDict(codeable);
+                CodeableConcept acmeSystemReject = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                if (acmeSystemReject != null)
+                {
+                    return CodeableConceptToDict(acmeSystemReject);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if(CodingStatusValues == null){
-                    CodingStatusValues = new Parameters();
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
                 }
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
-                if (codeable == null)
+                CodingStatusValues.Remove("acmeSystemReject");
+                if (value != null)
                 {
                     CodingStatusValues.Add("acmeSystemReject", DictToCodeableConcept(value));
                 }
-                else
-                {
-                    codeable = DictToCodeableConcept(value);
-                }
             }
-
         }
+
         /// <summary>ACME System Reject Codes Helper.</summary>
         /// <value>Acme System REject codes
         /// <para>"code" - the code</para>
@@ -10231,55 +10238,51 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemRejectCodeHelper}");</para>
         /// </example>
-        [Property("AcmeSystemRejectCodes Helper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [Property("AcmeSystemRejectHelper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
-        public string AcmeSystemRejectCodesHelper
+        public string AcmeSystemRejectHelper
         {
             get
             {
-                if (AcmeSystemRejectCodes.ContainsKey("code"))
+                if (AcmeSystemReject.ContainsKey("code"))
                 {
-                    return AcmeSystemRejectCodes["code"];
+                    return AcmeSystemReject["code"];
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("AcmeSystemRejectCodes", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+                SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
             }
         }
-
-
 
         /// <summary>
         /// Transax Conversion Flag
         /// </summary>
-        [Property("TransaxConversionFlag", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("TransaxConversion", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
-        public Dictionary<string, string> TransaxConversionFlag
+        public Dictionary<string, string> TransaxConversion
         {
             get
             {
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
-                if (codeable != null){
-                    return CodeableConceptToDict(codeable);
+                CodeableConcept transaxConversion = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
+                if (transaxConversion != null)
+                {
+                    return CodeableConceptToDict(transaxConversion);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                if(CodingStatusValues == null){
-                    CodingStatusValues = new Parameters();
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
                 }
-                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
-                if (codeable == null)
+                CodingStatusValues.Remove("transaxConversion");
+                if (value != null)
                 {
                     CodingStatusValues.Add("transaxConversion", DictToCodeableConcept(value));
-                }
-                else
-                {
-                    codeable = DictToCodeableConcept(value);
                 }
             }
         }
@@ -10297,19 +10300,19 @@ namespace VRDR
         [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
-        public string TransaxConversionFlagHelper
+        public string TransaxConversionHelper
         {
             get
             {
-                if (TransaxConversionFlag.ContainsKey("code"))
+                if (TransaxConversion.ContainsKey("code"))
                 {
-                    return TransaxConversionFlag["code"];
+                    return TransaxConversion["code"];
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("TransaxConversionFlag", value, VRDR.ValueSets.TransaxConversion.Codes);
+                SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
             }
         }
 

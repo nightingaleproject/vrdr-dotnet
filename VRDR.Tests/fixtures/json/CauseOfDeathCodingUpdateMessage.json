@@ -1,123 +1,878 @@
 {
-    "resourceType": "Bundle",
-    "id": "7b9a5410-4f5a-4ff0-98e4-6899708e1829",
-    "timestamp": "2020-04-03T11:15:41.614703-04:00",
-    "type": "message",
-    "entry": [
-        {
-            "fullUrl": "urn:uuid:a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
-            "resource": {
-                "resourceType": "MessageHeader",
-                "id": "a3a1ff4e-fc50-47eb-b3af-442e5fceadd1",
-                "eventUri": "http://nchs.cdc.gov/vrdr_causeofdeath_coding_update",
-                "destination": [{"endpoint": "destination"}],
-                "source": {"endpoint": "http://nchs.cdc.gov/vrdr_submission"},
-                "focus": [{"reference": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88"}]
-            }
+  "resourceType": "Bundle",
+  "id": "5c6ce0f3-f901-4046-8745-31540d5b3fec",
+  "type": "message",
+  "timestamp": "2022-05-06T15:19:59.400562-04:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:594ec60b-350e-4033-b4ae-ab334185e971",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "594ec60b-350e-4033-b4ae-ab334185e971",
+        "eventUri": "http://nchs.cdc.gov/vrdr_causeofdeath_coding_update",
+        "destination": [
+          {
+            "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+          }
+        ],
+        "focus": [
+          {
+            "reference": "urn:uuid:280df08b-7eef-4a83-9a75-a359ed982cff"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a487552b-6b3e-4190-8cfb-0f83d456399c",
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "a487552b-6b3e-4190-8cfb-0f83d456399c",
+        "parameter": [
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 100000
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2019
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "AK"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8153b15c-355c-4dc8-949a-aa7ffabab78e",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "f99700d9-51c5-4403-9d28-70a42e499bf1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-coded-content-bundle"
+          ]
         },
-        {
-            "fullUrl": "urn:uuid:041b337f-8a85-4e83-9c37-b50610b1be88",
+        "identifier": {
+          "system": "http://nchs.cdc.gov/vrdr_id",
+          "value": "2019AK100000"
+        },
+        "type": "collection",
+        "timestamp": "2022-05-06T15:19:59.402103-04:00",
+        "entry": [
+          {
+            "fullUrl": "urn:uuid:50adf352-977f-4894-b943-a89d0e0e2a8e",
             "resource": {
-                "resourceType": "Parameters",
-                "id": "041b337f-8a85-4e83-9c37-b50610b1be88",
-                "parameter": [
-                    {
-                        "name": "cert_no",
-                        "valueUnsignedInt": 1
-                    },
-                    {
-                        "name": "death_year",
-                        "valueUnsignedInt": 2018
-                    },
-                    {
-                        "name": "state_auxiliary_id",
-                        "valueString": "42"
-                    },
-                    {
-                        "name": "jurisdiction_id",
-                        "valueString": "MA"
-                    },
-                    {
-                        "name": "underlying_cause_of_death",
-                        "valueCoding": {
-                            "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                            "code": "A04.7"
-                        }
-                    },
-                    {
-                        "name": "record_cause_of_death",
-                        "part": [
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "A04.7"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "A41.9"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "J18.9"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "J96.0"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "name": "entity_axis_code",
-                        "part": [
-                            {
-                                "name": "lineNumber",
-                                "valueId": "1"
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code1_1"
-                                }
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code1_2"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "name": "entity_axis_code",
-                        "part": [
-                            {
-                                "name": "lineNumber",
-                                "valueId": "2"
-                            },
-                            {
-                                "name": "coding",
-                                "valueCoding": {
-                                    "system": "http://hl7.org/fhir/ValueSet/icd-10",
-                                    "code": "code2_1"
-                                }
-                            }
-                        ]
-                    }
+              "resourceType": "Observation",
+              "id": "50adf352-977f-4894-b943-a89d0e0e2a8e",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-automated-underlying-cause-of-death"
                 ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80358-5",
+                    "display": "Cause of death.underlying [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.1"
+                  }
+                ]
+              }
             }
-        }
-    ]
+          },
+          {
+            "fullUrl": "urn:uuid:e5af90d6-a0bd-4c07-89dc-092569bda546",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "e5af90d6-a0bd-4c07-89dc-092569bda546",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80356-9",
+                    "display": "Cause of death entity axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.9"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "lineNumber",
+                        "display": "lineNumber"
+                      }
+                    ]
+                  },
+                  "valueInteger": 1
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 1
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "eCodeIndicator",
+                        "display": "eCodeIndicator"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:9a203eb6-f451-4eeb-95a0-4a42cbf4dc8d",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "9a203eb6-f451-4eeb-95a0-4a42cbf4dc8d",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80356-9",
+                    "display": "Cause of death entity axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.1"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "lineNumber",
+                        "display": "lineNumber"
+                      }
+                    ]
+                  },
+                  "valueInteger": 2
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 1
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "eCodeIndicator",
+                        "display": "eCodeIndicator"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:3cb0baa3-e217-409d-a399-57c0e24be479",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "3cb0baa3-e217-409d-a399-57c0e24be479",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80356-9",
+                    "display": "Cause of death entity axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.0"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "lineNumber",
+                        "display": "lineNumber"
+                      }
+                    ]
+                  },
+                  "valueInteger": 3
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 1
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "eCodeIndicator",
+                        "display": "eCodeIndicator"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:c75fc438-80f4-4b51-a1e3-e0d63cf6b0a8",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "c75fc438-80f4-4b51-a1e3-e0d63cf6b0a8",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80356-9",
+                    "display": "Cause of death entity axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I51.7"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "lineNumber",
+                        "display": "lineNumber"
+                      }
+                    ]
+                  },
+                  "valueInteger": 3
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 2
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "eCodeIndicator",
+                        "display": "eCodeIndicator"
+                      }
+                    ]
+                  },
+                  "valueBoolean": true
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:dc9a719c-1fb1-4bba-85f2-5fbb95258d8e",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "dc9a719c-1fb1-4bba-85f2-5fbb95258d8e",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80357-7",
+                    "display": "Cause of death record axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.1"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 1
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:eea4628d-e0ba-4e16-bd11-32a7573fcbfe",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "eea4628d-e0ba-4e16-bd11-32a7573fcbfe",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80357-7",
+                    "display": "Cause of death record axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I25.0"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 2
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:41fbedc9-a559-4df4-9e04-82595882c0ae",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "41fbedc9-a559-4df4-9e04-82595882c0ae",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death"
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80357-7",
+                    "display": "Cause of death record axis code [Automated]"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "I51.7"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "position",
+                        "display": "Position"
+                      }
+                    ]
+                  },
+                  "valueInteger": 3
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:9b1c97c4-9fec-4187-8d93-7d7215e5a638",
+            "resource": {
+              "resourceType": "List",
+              "id": "9b1c97c4-9fec-4187-8d93-7d7215e5a638",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-pathway"
+                ]
+              },
+              "status": "current",
+              "mode": "snapshot",
+              "source": {
+                "reference": "urn:uuid:88e0b7e8-df59-4100-9216-272202cd74e1"
+              },
+              "orderedBy": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                    "code": "priority",
+                    "display": "Sorted by Priority"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:0005f2a6-1fcf-4e6e-b97c-e0ba508662ec",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "0005f2a6-1fcf-4e6e-b97c-e0ba508662ec",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manner-of-death"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "69449-7",
+                    "display": "Manner of death"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "performer": [
+                {
+                  "reference": "urn:uuid:88e0b7e8-df59-4100-9216-272202cd74e1"
+                }
+              ],
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "38605008",
+                    "display": "Natural death"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:739fc00e-dc02-4af0-b55b-9667d7a5cbbe",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "739fc00e-dc02-4af0-b55b-9667d7a5cbbe",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "85699-7",
+                    "display": "Autopsy was performed"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                    "code": "Y",
+                    "display": "Yes"
+                  }
+                ]
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "69436-4",
+                        "display": "Autopsy results available"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:858fe51d-0ba2-41aa-8628-4e586236801b",
+            "resource": {
+              "resourceType": "Procedure",
+              "id": "858fe51d-0ba2-41aa-8628-4e586236801b",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification"
+                ]
+              },
+              "identifier": [
+                {
+                  "value": "100000"
+                }
+              ],
+              "status": "completed",
+              "category": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "103693007",
+                    "display": "Diagnostic procedure"
+                  }
+                ]
+              },
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "308646001",
+                    "display": "Death certification"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:3cc8c486-c554-421a-a924-ed0416af8ab1",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "3cc8c486-c554-421a-a924-ed0416af8ab1",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "11374-6",
+                    "display": "Injury incident description Narrative"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "_effectiveDateTime": {
+                "extension": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"
+                      },
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"
+                      },
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                      },
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time"
+                      }
+                    ],
+                    "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:d8e5e5c1-673c-45d5-a377-ecab61c56448",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "d8e5e5c1-673c-45d5-a377-ecab61c56448",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "69443-0",
+                    "display": "Did tobacco use contribute to death"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                    "code": "UNK",
+                    "display": "Unknown"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:309d2880-7269-4312-bc44-1b64ea979a5d",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "309d2880-7269-4312-bc44-1b64ea979a5d",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy-status"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "69442-2",
+                    "display": "Timing of recent pregnancy in relation to death"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs",
+                    "code": "9",
+                    "display": "Unknown if pregnant within the past year"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:f6b40c47-41bf-4242-a606-0dacdadd6a65",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "f6b40c47-41bf-4242-a606-0dacdadd6a65",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "80992-1",
+                    "display": "Date and time of surgery"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:09e1ebac-a907-4d20-b803-6b2b7d9e3273"
+              },
+              "_valueDateTime": {
+                "extension": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year"
+                      },
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month"
+                      },
+                      {
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
+                      }
+                    ],
+                    "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }
+

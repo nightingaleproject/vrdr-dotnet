@@ -1651,22 +1651,22 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_AutoUnderlyingCOD()
+        public void Set_AutomatedUnderlyingCOD()
         {
-            SetterDeathRecord.AutoUnderlyingCOD = "I131";
-            Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13.1";
-            Assert.Equal("I13.1", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13.";
-            Assert.Equal("I13.", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13";
-            Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I131";
+            Assert.Equal("I131", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13.1";
+            Assert.Equal("I13.1", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13.";
+            Assert.Equal("I13.", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13";
+            Assert.Equal("I13", SetterDeathRecord.AutomatedUnderlyingCOD);
         }
 
         [Fact]
-        public void Get_AutoUnderlyingCOD()
+        public void Get_AutomatedUnderlyingCOD()
         {
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutoUnderlyingCOD);
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutomatedUnderlyingCOD);
         }
 
         [Fact]

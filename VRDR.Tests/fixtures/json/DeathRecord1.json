@@ -6,20 +6,6 @@
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
     ]
   },
-  "identifier" : {
-    "extension" : [
-      {
-        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
-        "valueString" : "000000000042"
-      },
-      {
-        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
-        "valueString" : "100000000001"
-      }
-    ],
-    "system" : "http://nchs.cdc.gov/vrdr_id",
-    "value" : "000182"
-  },
   "type" : "document",
   "timestamp" : "2020-10-20T14:48:35.401641-04:00",
   "entry": [
@@ -33,8 +19,18 @@
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
         },
-        "identifier": {
-          "value": "99999"
+        "identifier" : {
+          "extension" : [
+            {
+              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+              "valueString" : "000000000042"
+            },
+            {
+              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+              "valueString" : "100000000001"
+            }
+          ],
+          "value" : "000182"
         },
         "extension" : [
           {

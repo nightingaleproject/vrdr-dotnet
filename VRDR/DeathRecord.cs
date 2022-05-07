@@ -6145,7 +6145,6 @@ namespace VRDR
                     CreateSurgeryDateObs();
                 }
                 SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
-                UpdateBundleIdentifier();
             }
         }
 
@@ -7341,7 +7340,6 @@ namespace VRDR
                     CreateInjuryIncidentObs();
                 }
                 SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
-                UpdateBundleIdentifier();
             }
         }
 
@@ -7372,7 +7370,6 @@ namespace VRDR
                     CreateInjuryIncidentObs();
                 }
                 SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
-                UpdateBundleIdentifier();
             }
         }
 
@@ -7403,7 +7400,6 @@ namespace VRDR
                     CreateInjuryIncidentObs();
                 }
                 SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
-                UpdateBundleIdentifier();
             }
         }
 

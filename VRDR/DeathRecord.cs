@@ -837,7 +837,7 @@ namespace VRDR
                 }
             }
             AddResourceToBundleIfPresent(PlaceOfInjuryObs, codccBundle);
-            // TODO: Add CodingStatusValues once implemented
+            AddResourceToBundleIfPresent(CodingStatusValues, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionA, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionB, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionC, codccBundle);

@@ -87,8 +87,10 @@ namespace VRDR
                 ije = ije.PadRight(5000, ' ');
             }
             this.record = new DeathRecord();
-            // Loop over every property (these are the fields); Order by priority
-            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
+            // Loop over every property (these are the fields); Order by priority and skip any that don't have attributes because they're not represented in the IJE text (CS, SHIP)
+            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList()
+                                                                .FindAll(p => p.CustomAttributes.Count() > 0)
+                                                                .OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
             foreach(PropertyInfo property in properties)
             {
                 // Grab the field attributes
@@ -122,7 +124,11 @@ namespace VRDR
             {
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
-                // Grab the field attributes
+                // Grab the field attributes if available, skipping any that don't have them because they're not represented in the IJE text (CS, SHIP)
+                if (property.CustomAttributes.Count() == 0)
+                {
+                    continue;
+                }
                 IJEField info = (IJEField)property.GetCustomAttributes().First();
                 // Be mindful about lengths
                 if (field.Length > info.Length)
@@ -2425,6 +2431,74 @@ namespace VRDR
             set
             {
                 Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "MANNER", "MannerOfDeathType", value);
+            }
+        }
+
+        /// <summary>coder status</summary>
+        // NOTE: This is a special 1 character field that is used in TRX records that does not get mapped to an
+        // IJE file, so we do not specify that this is an IJE field. We'll need to handle this differently if we
+        // ever want to support TRX files
+        public string CS
+        {
+            get
+            {
+                int? value = record.CoderStatus;
+                if (value != null)
+                {
+                    string valueString = Convert.ToString(value);
+                    if (valueString.Length > 1)
+                    {
+                        validationErrors.Add($"Error: FHIR field CoderStatus contains string '{valueString}' that's not the expected length of 1");
+                    }
+                    return Truncate(valueString, 1);
+                }
+                else
+                {
+                    return " ";
+                }
+            }
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    record.CoderStatus = null;
+                }
+                else
+                {
+                    if (value.Length > 1)
+                    {
+                        validationErrors.Add($"Error: FHIR field CoderStatus set to string '{value}' that's not the expected length of 1");
+                    }
+                    record.CoderStatus = Convert.ToInt32(value);
+                }
+            }
+        }
+
+        /// <summary>shipment number</summary>
+        // NOTE: This is a special 3 character field that is used in TRX records that does not get mapped to an
+        // IJE file, so we do not specify that this is an IJE field. We'll need to handle this differently if we
+        // ever want to support TRX files
+        public string SHIP
+        {
+            get
+            {
+                string current = record.ShipmentNumber;
+                if (current != null)
+                {
+                    if (current.Length > 3)
+                    {
+                        validationErrors.Add($"Error: FHIR field ShipmentNumber contains string '{current}' too long for TRX field SHIP of length 3");
+                    }
+                    return Truncate(current, 3).PadRight(3, ' ');
+                }
+                else
+                {
+                    return "   ";
+                }
+            }
+            set
+            {
+                record.ShipmentNumber = value.Trim();
             }
         }
 

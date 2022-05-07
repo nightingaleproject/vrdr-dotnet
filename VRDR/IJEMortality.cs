@@ -2279,7 +2279,7 @@ namespace VRDR
         /// <summary>Receipt date -- Year</summary>
         [IJEField(91, 673, 4, "Receipt date -- Year", "R_YR", 1)]
         public string R_YR
-        {// TODO: Implement mapping from FHIR record location: CodingStatusValues
+        {
             get
             {
                 return NumericAllowingUnknown_Get("R_YR", "ReceiptYear");

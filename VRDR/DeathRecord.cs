@@ -184,8 +184,19 @@ namespace VRDR
         /// <summary>
         /// Coding Status
         /// </summary>
-        private Parameters CodingStatus;
+        private Parameters CodingStatusValues;
 
+        private void CreateEmptyCodingStatusValues()
+        {
+            CodingStatusValues = new Parameters();
+            CodingStatusValues.Id = Guid.NewGuid().ToString();
+            CodingStatusValues.Meta = new Meta();
+            string[] profile = { ProfileURL.CodingStatusValues };
+            CodingStatusValues.Meta.Profile = profile;
+            Date date = new Date();
+            date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+            CodingStatusValues.Add("receiptDate", date);
+        }
 
         private void CreateBirthRecordIdentifier(){
             BirthRecordIdentifier = new Observation();
@@ -627,8 +638,7 @@ namespace VRDR
             CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
             CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
-            CodingStatus = new Parameters();
-            CodingStatus.Id = Guid.NewGuid().ToString();
+            CreateEmptyCodingStatusValues();
 
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
@@ -639,7 +649,7 @@ namespace VRDR
             AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
             AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
             AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
-            AddReferenceToComposition(CodingStatus.Id, "CodingStatus");
+            AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
             // TODO: Some of these, particularly the ones that only appear in certain bundles, probably shouldn't be added by default
             Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
@@ -651,7 +661,7 @@ namespace VRDR
             //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
-            Bundle.AddResourceEntry(CodingStatus, "urn:uuid:" + CodingStatus.Id);
+            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -9979,27 +9989,22 @@ namespace VRDR
         /// <summary>
         /// The year NCHS received the death record.
         /// </summary>
-        [Property("ReceiptYear", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptYear", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptYear
         {
             get
             {
-                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 return GetDateFragmentOrPartialDate(date, ExtensionURL.DateYear);
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
-                }
-                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                if (date == null)
+                if (CodingStatusValues == null)
                 {
-                    CodingStatus.Add("receiptDate", new Date());
-                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                    CreateEmptyCodingStatusValues();
                 }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
             }
         }
@@ -10007,27 +10012,22 @@ namespace VRDR
         /// <summary>
         /// The month NCHS received the death record.
         /// </summary>
-        [Property("ReceiptMonth", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptMonth", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptMonth
         {
             get
             {
-                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateMonth);
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateMonth);
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
-                }
-                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                if (date == null)
+                if (CodingStatusValues == null)
                 {
-                    CodingStatus.Add("receiptDate", new Date());
-                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                    CreateEmptyCodingStatusValues();
                 }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
             }
         }
@@ -10035,27 +10035,22 @@ namespace VRDR
         /// <summary>
         /// The day NCHS received the death record.
         /// </summary>
-        [Property("ReceiptDay", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [Property("ReceiptDay", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public uint? ReceiptDay
         {
             get
             {
-                Date param = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                return GetDateFragmentOrPartialDate(param, ExtensionURL.DateDay);
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateDay);
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
-                }
-                Date date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                if (date == null)
+                if (CodingStatusValues == null)
                 {
-                    CodingStatus.Add("receiptDate", new Date());
-                    date = this.CodingStatus?.GetSingleValue<Date>("receiptDate");
-                    date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+                    CreateEmptyCodingStatusValues();
                 }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
             }
         }
@@ -10098,7 +10093,7 @@ namespace VRDR
         /// <summary>
         /// Coder Status; TRX field with no IJE mapping
         /// </summary>
-        [Property("CoderStatus", Property.Types.Number, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [Property("CoderStatus", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
         [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
         public int CoderStatus
         {
@@ -10123,26 +10118,15 @@ namespace VRDR
         {
             get
             {
-                FhirString s = this.CodingStatus?.GetSingleValue<FhirString>("shipmentNumber");
-                if (s != null){
-                    return s.Value;
-                }
-                return "";
+                return this.CodingStatusValues?.GetSingleValue<FhirString>("shipmentNumber")?.Value;
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
-                }
-                FhirString s = this.CodingStatus?.GetSingleValue<FhirString>("shipmentNumber");
-                if (s == null)
+                if (CodingStatusValues == null)
                 {
-                    CodingStatus.Add("shipmentNumber", new FhirString(value));
+                    CreateEmptyCodingStatusValues();
                 }
-                else
-                {
-                    s = new FhirString(value);
-                }
+                CodingStatusValues.Add("shipmentNumber", new FhirString(value));
             }
         }
         /// <summary>
@@ -10154,7 +10138,7 @@ namespace VRDR
         {
             get
             {
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("intentionalReject");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
                 if (codeable != null){
                     return CodeableConceptToDict(codeable);
                 }
@@ -10162,13 +10146,13 @@ namespace VRDR
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
+                if(CodingStatusValues == null){
+                    CodingStatusValues = new Parameters();
                 }
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("intentionalReject");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
                 if (codeable == null)
                 {
-                    CodingStatus.Add("intentionalReject", DictToCodeableConcept(value));
+                    CodingStatusValues.Add("intentionalReject", DictToCodeableConcept(value));
                 }
                 else
                 {
@@ -10214,7 +10198,7 @@ namespace VRDR
         {
            get
             {
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
                 if (codeable != null){
                     return CodeableConceptToDict(codeable);
                 }
@@ -10222,13 +10206,13 @@ namespace VRDR
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
+                if(CodingStatusValues == null){
+                    CodingStatusValues = new Parameters();
                 }
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
                 if (codeable == null)
                 {
-                    CodingStatus.Add("acmeSystemReject", DictToCodeableConcept(value));
+                    CodingStatusValues.Add("acmeSystemReject", DictToCodeableConcept(value));
                 }
                 else
                 {
@@ -10277,7 +10261,7 @@ namespace VRDR
         {
             get
             {
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("transaxConversion");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
                 if (codeable != null){
                     return CodeableConceptToDict(codeable);
                 }
@@ -10285,13 +10269,13 @@ namespace VRDR
             }
             set
             {
-                if(CodingStatus == null){
-                    CodingStatus = new Parameters();
+                if(CodingStatusValues == null){
+                    CodingStatusValues = new Parameters();
                 }
-                CodeableConcept codeable = this.CodingStatus?.GetSingleValue<CodeableConcept>("transaxConversion");
+                CodeableConcept codeable = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
                 if (codeable == null)
                 {
-                    CodingStatus.Add("transaxConversion", DictToCodeableConcept(value));
+                    CodingStatusValues.Add("transaxConversion", DictToCodeableConcept(value));
                 }
                 else
                 {
@@ -10473,7 +10457,7 @@ namespace VRDR
             var parameterEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Parameters );
             if (parameterEntry != null)
             {
-                CodingStatus = (Parameters)parameterEntry.Resource;
+                CodingStatusValues = (Parameters)parameterEntry.Resource;
             }
             // Scan through all Observations to make sure they all have codes!
             foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))

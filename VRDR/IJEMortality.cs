@@ -798,8 +798,9 @@ namespace VRDR
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    LeftJustified_Set("DSTATE", "DeathLocationJurisdiction",value);
-                    // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value); // WHY????... used to be STATEC
+                    LeftJustified_Set("DSTATE", "DeathLocationJurisdiction", value);
+                    // We used to state the DeathLocationAddress here as well, but that's now handled in DeathRecord
+                    // Dictionary_Set("STATEC", "DeathLocationAddress", "addressState", value);
                 }
             }
         }

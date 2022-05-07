@@ -444,9 +444,6 @@ namespace VRDR
         /// <summary>Date Of Surgery.</summary>
         private Observation SurgeryDateObs;
 
-        private const string  locationJurisdictionExtPath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
-
-
         // Coded Observations
         /// <summary> Activity at Time of Death </summary>
         private Observation ActivityAtTimeOfDeathObs;
@@ -4374,7 +4371,6 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
         /// </example>
-        // TODO: This URL should be the html one, and those should be generated as well
         [Property("Education Level Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
@@ -6311,61 +6307,39 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, IGURL.DeathLocation, false, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
             {
-                if (DeathLocationLoc != null && DeathLocationLoc.Address != null )
+                // If addressJurisdiction is present use it, otherwise return the addressState
+                if (DeathLocationAddress.ContainsKey("addressJurisdiction") && !String.IsNullOrWhiteSpace(DeathLocationAddress["addressJurisdiction"]))
                 {
-                    string stateName = null;
-                    string jurisdictionName = null;
-                    if(DeathLocationLoc.Address.State != null){
-                        stateName = DeathLocationLoc.Address.State;
-                    }
-                    if (DeathLocationLoc.Address.StateElement != null)
-                    {
-                        Extension jurisdiction = DeathLocationLoc.Address.StateElement.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
-                        if(jurisdiction != null && jurisdiction.Value != null){
-                            jurisdictionName = jurisdiction.Value.ToString();
-                        }
-                    }
-                    if(jurisdictionName == null && stateName != null)   // If jurisdictionName is present, use it.  Otherwise return the statename
-                    {
-                        jurisdictionName = stateName;
-                    }
-                    if(!String.IsNullOrWhiteSpace(jurisdictionName)){
-                        return jurisdictionName;
-                    }
+                    return DeathLocationAddress["addressJurisdiction"];
+                }
+                if (DeathLocationAddress.ContainsKey("addressState") && !String.IsNullOrWhiteSpace(DeathLocationAddress["addressState"]))
+                {
+                    return DeathLocationAddress["addressState"];
                 }
                 return null;
             }
             set
             {
-                if (DeathLocationLoc == null)
+                // If the jurisdiction is YC (New York City) set the addressJurisdiction to YC and the addressState to NY, otherwise just set the addressState
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    CreateDeathLocation();
-                    DeathLocationLoc.Address = DictToAddress(EmptyAddrDict());
-                    DeathLocationLoc.Address.StateElement = new FhirString();
-                }
-                else
-                {
-                    DeathLocationLoc.Address.StateElement.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
-                }
-                if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
-                {
-                    if (value == "YC"){
-                        DeathLocationLoc.Address.State = "NY";
-                        Extension extension = new Extension();
-                        extension.Url = locationJurisdictionExtPath;
-                        extension.Value = new FhirString(value);
-                        DeathLocationLoc.Address.StateElement.Extension.Add(extension);
+                    Dictionary<string, string> currentAddress = DeathLocationAddress;
+                    if (value == "YC")
+                    {
+                        currentAddress["addressJurisdiction"] = value;
+                        currentAddress["addressState"] = "NY";
                     }
                     else
                     {
-                        DeathLocationLoc.Address.State = value;
+                        currentAddress["addressState"] = value;
                     }
+                    DeathLocationAddress = currentAddress;
                     UpdateBundleIdentifier();
                 }
             }
@@ -6411,7 +6385,7 @@ namespace VRDR
         {
             get
             {
-            if (DeathLocationLoc != null)
+                if (DeathLocationLoc != null)
                 {
                     return AddressToDict(DeathLocationLoc.Address);
                 }
@@ -6423,9 +6397,7 @@ namespace VRDR
                 {
                     CreateDeathLocation();
                 }
-
                 DeathLocationLoc.Address = DictToAddress(value);
-
                 UpdateBundleIdentifier();
             }
         }
@@ -6566,7 +6538,7 @@ namespace VRDR
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { locationJurisdictionExtPath };
+                    string[] deathlocation_profile = { ProfileURL.DeathLocation };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
                     DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
@@ -10481,6 +10453,18 @@ namespace VRDR
                 {
                     address.State = dict["addressState"];
                 }
+                // Special address field to support the jurisdiction extension custom to VRDR to support YC (New York City)
+                // as used in the DeathLocationLoc
+                if (dict.ContainsKey("addressJurisdiction") && !String.IsNullOrEmpty(dict["addressJurisdiction"]))
+                {
+                    if (address.StateElement == null)
+                    {
+                        address.StateElement = new FhirString();
+                    }
+                    address.StateElement.Extension.RemoveAll(ext => ext.Url == ExtensionURL.LocationJurisdictionId);
+                    Extension extension = new Extension(ExtensionURL.LocationJurisdictionId, new FhirString(dict["addressJurisdiction"]));
+                    address.StateElement.Extension.Add(extension);
+                }
                 if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
                 {
                     address.PostalCode = dict["addressZip"];
@@ -10601,22 +10585,7 @@ namespace VRDR
         /// <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
         private Dictionary<string, string> AddressToDict(Address addr)
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            dictionary.Add("addressLine1", "");
-            dictionary.Add("addressLine2", "");
-            dictionary.Add("addressCity", "");
-            dictionary.Add("addressCityC", "");
-            dictionary.Add("addressCounty", "");
-            dictionary.Add("addressCountyC", "");
-            dictionary.Add("addressState", "");
-            dictionary.Add("addressZip", "");
-            dictionary.Add("addressCountry", "");
-            dictionary.Add("addressStnum", "");
-            dictionary.Add("addressPredir", "");
-            dictionary.Add("addressStname", "");
-            dictionary.Add("addressStdesig", "");
-            dictionary.Add("addressPostdir", "");
-            dictionary.Add("addressUnitnum", "");
+            Dictionary<string, string> dictionary = EmptyAddrDict();
             if (addr != null)
             {
                 if (addr.Line != null && addr.Line.Count() > 0)
@@ -10688,14 +10657,14 @@ namespace VRDR
                     dictionary["addressState"] = addr.State;
                 }
                 if (addr.StateElement != null)
-                 {
-                     dictionary["addressJurisdiction"] = addr.State; // by default.  If extension present, override
-                     Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
-                     if (stateExt != null)
-                     {
-                         dictionary["addressJurisdiction"] = stateExt.Value.ToString();
-                     }
-                 }
+                {
+                    dictionary["addressJurisdiction"] = addr.State; // by default.  If extension present, override
+                    Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
+                    if (stateExt != null)
+                    {
+                        dictionary["addressJurisdiction"] = stateExt.Value.ToString();
+                    }
+                }
                 if (addr.City != null)
                 {
                     dictionary["addressCity"] = addr.City;
@@ -10726,9 +10695,17 @@ namespace VRDR
             dictionary.Add("addressCity", "");
             dictionary.Add("addressCityC", "");
             dictionary.Add("addressCounty", "");
+            dictionary.Add("addressCountyC", "");
             dictionary.Add("addressState", "");
+            dictionary.Add("addressJurisdiction", "");
             dictionary.Add("addressZip", "");
             dictionary.Add("addressCountry", "");
+            dictionary.Add("addressStnum", "");
+            dictionary.Add("addressPredir", "");
+            dictionary.Add("addressStname", "");
+            dictionary.Add("addressStdesig", "");
+            dictionary.Add("addressPostdir", "");
+            dictionary.Add("addressUnitnum", "");
             return dictionary;
         }
 

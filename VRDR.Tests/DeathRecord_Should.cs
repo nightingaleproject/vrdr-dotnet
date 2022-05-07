@@ -345,8 +345,8 @@ namespace VRDR.Tests
         public void Set_StateLocalIdentifier()
         {
             SetterDeathRecord.StateLocalIdentifier1 = "000000000042";
-            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier1);
             SetterDeathRecord.StateLocalIdentifier2 = "100000000042";
+            Assert.Equal("000000000042", SetterDeathRecord.StateLocalIdentifier1);
             Assert.Equal("100000000042", SetterDeathRecord.StateLocalIdentifier2);
         }
 
@@ -1699,34 +1699,57 @@ namespace VRDR.Tests
             Assert.Equal(ValueSets.PlaceOfInjury.Home, ((DeathRecord)JSONRecords[1]).PlaceOfInjuryHelper);
         }
         [Fact]
-        public void Set_FirstEditedRaceCode()
+        public void Set_EditedRaceCodes()
         {
             SetterDeathRecord.FirstEditedRaceCodeHelper = ValueSets.RaceCode.African;
+            SetterDeathRecord.SecondEditedRaceCodeHelper = ValueSets.RaceCode.Asian;
+            SetterDeathRecord.ThirdEditedRaceCodeHelper = ValueSets.RaceCode.Blackfeet;
+            SetterDeathRecord.FourthEditedRaceCodeHelper = ValueSets.RaceCode.Jamestown_Sklallam;
+            SetterDeathRecord.FifthEditedRaceCodeHelper = ValueSets.RaceCode.Kaw;
+            SetterDeathRecord.SixthEditedRaceCodeHelper = ValueSets.RaceCode.Madagascar;
+            SetterDeathRecord.SeventhEditedRaceCodeHelper = ValueSets.RaceCode.Okinawan;
+            SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Zaire;
+            SetterDeathRecord.FirstAmericanIndianRaceCodeHelper = ValueSets.RaceCode.Navajo;
+            SetterDeathRecord.SecondAmericanIndianRaceCodeHelper = ValueSets.RaceCode.Stockbridgemunsee_Community_Of_Mohican_Indians_Of_Wisconsin;
+            SetterDeathRecord.FirstOtherAsianRaceCodeHelper = ValueSets.RaceCode.Malaysian;
+            SetterDeathRecord.SecondOtherAsianRaceCodeHelper = ValueSets.RaceCode.Burmese;
+            SetterDeathRecord.FirstOtherPacificIslanderRaceCodeHelper = ValueSets.RaceCode.Taiwanese;
+            SetterDeathRecord.SecondOtherPacificIslanderRaceCodeHelper = ValueSets.RaceCode.New_Hebrides;
+            SetterDeathRecord.FirstOtherRaceCodeHelper = ValueSets.RaceCode.Lebanese;
+            SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Palestinian;
+            SetterDeathRecord.HispanicCodeForLiteralHelper = ValueSets.HispanicOrigin.Canal_Zone;
+            SetterDeathRecord.HispanicCodeHelper = ValueSets.HispanicOrigin.Cuban;
+            SetterDeathRecord.RaceRecode40Helper = ValueSets.RaceRecode40.Aian_And_Asian;
             Assert.Equal(ValueSets.RaceCode.African, SetterDeathRecord.FirstEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Asian, SetterDeathRecord.SecondEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Blackfeet, SetterDeathRecord.ThirdEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Jamestown_Sklallam, SetterDeathRecord.FourthEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Kaw, SetterDeathRecord.FifthEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Madagascar, SetterDeathRecord.SixthEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Okinawan, SetterDeathRecord.SeventhEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Zaire, SetterDeathRecord.EighthEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Navajo, SetterDeathRecord.FirstAmericanIndianRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Stockbridgemunsee_Community_Of_Mohican_Indians_Of_Wisconsin, SetterDeathRecord.SecondAmericanIndianRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Malaysian, SetterDeathRecord.FirstOtherAsianRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Burmese, SetterDeathRecord.SecondOtherAsianRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Taiwanese, SetterDeathRecord.FirstOtherPacificIslanderRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.New_Hebrides, SetterDeathRecord.SecondOtherPacificIslanderRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Lebanese, SetterDeathRecord.FirstOtherRaceCodeHelper);
+            Assert.Equal(ValueSets.RaceCode.Palestinian, SetterDeathRecord.SecondOtherRaceCodeHelper);
+            Assert.Equal(ValueSets.HispanicOrigin.Canal_Zone, SetterDeathRecord.HispanicCodeForLiteralHelper);
+            Assert.Equal(ValueSets.HispanicOrigin.Cuban, SetterDeathRecord.HispanicCodeHelper);
+            Assert.Equal(ValueSets.RaceRecode40.Aian_And_Asian, SetterDeathRecord.RaceRecode40Helper);
         }
         [Fact]
-        public void Get_FirstEditedRaceCode()
+        public void Get_EditedRaceCodes()
         {
             Assert.Equal(ValueSets.RaceCode.White, ((DeathRecord)JSONRecords[1]).FirstEditedRaceCodeHelper);
-        }
-        [Fact]
-        public void Set_EighthEditedRaceCode()
-        {
-            SetterDeathRecord.EighthEditedRaceCodeHelper = ValueSets.RaceCode.Eritrean;
-            Assert.Equal(ValueSets.RaceCode.Eritrean, SetterDeathRecord.EighthEditedRaceCodeHelper);
-        }
-        [Fact]
-        public void Get_SecondEditedRaceCode()
-        {
             Assert.Equal(ValueSets.RaceCode.Israeli, ((DeathRecord)JSONRecords[1]).SecondEditedRaceCodeHelper);
+            Assert.Equal(ValueSets.HispanicOrigin.Chilean, ((DeathRecord)JSONRecords[1]).HispanicCodeHelper);
+            Assert.Equal(ValueSets.RaceRecode40.Aian_And_Asian, ((DeathRecord)JSONRecords[1]).RaceRecode40Helper);
         }
 
-        [Fact]
-        public void Set_SecondOtherRaceCode()
-        {
-            SetterDeathRecord.SecondOtherRaceCodeHelper = ValueSets.RaceCode.Tlingit;
-            Assert.Equal(ValueSets.RaceCode.Tlingit, SetterDeathRecord.SecondOtherRaceCodeHelper);
-        }
+
 
         [Fact]
         public void Set_BirthRecordId()
@@ -2671,42 +2694,7 @@ namespace VRDR.Tests
             Assert.Equal("N",((DeathRecord)XMLRecords[0]).InjuryAtWorkHelper);
         }
 
-        // [Fact]
-        // public void Set_TransportationEvent()
-        // {
-        //     Dictionary<string, string> ite = new Dictionary<string, string>();
-        //     ite.Add("code", "Y");
-        //     ite.Add("system", VRDR.CodeSystems.PH_YesNo_HL7_2x);
-        //     ite.Add("display", "Yes");
-        //     SetterDeathRecord.TransportationEvent = ite;
-        //     Assert.Equal("Y", SetterDeathRecord.TransportationEvent["code"]);
-        //     Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
-        //     Assert.Equal("Yes", SetterDeathRecord.TransportationEvent["display"]);
-        //     Assert.True(SetterDeathRecord.TransportationEventBoolean);
-        //     SetterDeathRecord.TransportationEventBoolean = false;
-        //     Assert.Equal("N", SetterDeathRecord.TransportationEvent["code"]);
-        //     Assert.Equal(VRDR.CodeSystems.PH_YesNo_HL7_2x, SetterDeathRecord.TransportationEvent["system"]);
-        //     Assert.Equal("No", SetterDeathRecord.TransportationEvent["display"]);
-        //     Assert.False(SetterDeathRecord.TransportationEventBoolean);
-        //     SetterDeathRecord.TransportationEventBoolean = null;
-        //     Assert.Equal("UNK", SetterDeathRecord.TransportationEvent["code"]);
-        //     Assert.Equal(VRDR.CodeSystems.PH_NullFlavor_HL7_V3, SetterDeathRecord.TransportationEvent["system"]);
-        //     Assert.Equal("unknown", SetterDeathRecord.TransportationEvent["display"]);
-        //     Assert.Null(SetterDeathRecord.TransportationEventBoolean);
-        // }
 
-        // [Fact]
-        // public void Get_TransportationEvent()
-        // {
-        //     Assert.Equal("Y", ((DeathRecord)JSONRecords[0]).TransportationEvent["code"]);
-        //     Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)JSONRecords[0]).TransportationEvent["system"]);
-        //     Assert.Equal("Yes", ((DeathRecord)JSONRecords[0]).TransportationEvent["display"]);
-        //     Assert.True(((DeathRecord)JSONRecords[0]).TransportationEventBoolean);
-        //     Assert.Equal("Y", ((DeathRecord)XMLRecords[0]).TransportationEvent["code"]);
-        //     Assert.Equal(VRDR.CodeSystems.YesNo, ((DeathRecord)XMLRecords[0]).TransportationEvent["system"]);
-        //     Assert.Equal("Yes", ((DeathRecord)XMLRecords[0]).TransportationEvent["display"]);
-        //     Assert.True(((DeathRecord)XMLRecords[0]).TransportationEventBoolean);
-        // }
 
         [Fact]
         public void Set_DeathLocationLatLong(){
@@ -2722,9 +2710,6 @@ namespace VRDR.Tests
             Assert.Equal("-77.050636", ((DeathRecord)XMLRecords[0]).DeathLocationLongitude);
             Assert.Equal("38.889248", ((DeathRecord)XMLRecords[0]).DeathLocationLatitude);
         }
-
-
-
 
         [Fact]
         public void Set_DeathLocationAddress()

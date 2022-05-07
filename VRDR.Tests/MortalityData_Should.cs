@@ -301,6 +301,30 @@ namespace VRDR.Tests
             DeathRecord dr = ije1.ToDeathRecord();
             IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
+            ije1.DSTATE = "YC";
+            ije1.AUXNO = "000000000001";
+            ije1.AUXNO2 = "000000000002";
+            Assert.Equal("YC", ije1.DSTATE);
+            Assert.Equal("000000000001", ije1.AUXNO);
+            Assert.Equal("000000000002", ije1.AUXNO2);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("1", dr2.StateLocalIdentifier1);
+            Assert.Equal("2", dr2.StateLocalIdentifier2);
+            Assert.Equal("NY", dr2.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr2.DeathLocationJurisdiction);
+            IJEMortality ije1rt2 = new IJEMortality(dr2);
+            DeathRecord dr3 = ije1rt2.ToDeathRecord();
+            Assert.Equal("NY", dr3.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr3.DeathLocationJurisdiction);
+            Assert.Equal("1", dr3.StateLocalIdentifier1);
+            Assert.Equal("2", dr3.StateLocalIdentifier2);
+            IJEMortality ije3 = new IJEMortality(ije1.ToString());
+            Assert.Equal("000000000001", ije3.AUXNO);
+            Assert.Equal("000000000002", ije3.AUXNO2);
+            Assert.Equal("YC", ije3.DSTATE);
+            DeathRecord dr4 = ije3.ToDeathRecord();
+            Assert.Equal("NY", dr4.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr4.DeathLocationJurisdiction);
         }
 
         [Fact]

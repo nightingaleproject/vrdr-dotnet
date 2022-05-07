@@ -15,6 +15,9 @@ namespace VRDR
 
         /// <summary>URL for PatientBirthPlace</summary>
         public const string PatientBirthPlace = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
+
+        /// <summary>URL for US Core Birthsex </summary>
+        public const string BirthSex = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
     }
 
     /// <summary>IG URLs for non-VRDR Profiles</summary>

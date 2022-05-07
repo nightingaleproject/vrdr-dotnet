@@ -312,17 +312,11 @@ namespace VRDR.Tests
             Assert.Equal("2", entityAxisEntryList[3].Item2);
             Assert.Equal("I51.7", entityAxisEntryList[3].Item3);
             Assert.Equal("&", entityAxisEntryList[3].Item4);
-            // TODO: Add these back using new approach once CodingStatusValues is supported
-            //Assert.Equal("8", message.CoderStatus);
-            //Assert.Equal("B202101", message.ShipmentNumber);
-            //Assert.Equal((uint)8, message.NCHSReceiptDay);
-            //Assert.Equal("08", message.NCHSReceiptDayString);
-            //Assert.Equal((uint)1, message.NCHSReceiptMonth);
-            //Assert.Equal("01", message.NCHSReceiptMonthString);
-            //Assert.Equal((uint)2021, message.NCHSReceiptYear);
-            //Assert.Equal("2021", message.NCHSReceiptYearString);
-            //Assert.Equal("5", message.IntentionalReject);
-            //Assert.Equal(CodingResponseMessage.ACMESystemRejectEnum.ACMEReject, message.ACMESystemRejectCodes);
+            Assert.Equal(3, message.DeathRecord.CoderStatus);
+            Assert.Equal("555", message.DeathRecord.ShipmentNumber);
+            Assert.Equal(2021, (int)message.DeathRecord.ReceiptYear);
+            Assert.Equal(6, (int)message.DeathRecord.ReceiptMonth);
+            Assert.Equal(1, (int)message.DeathRecord.ReceiptDay);
             Assert.Equal(ValueSets.MannerOfDeath.Natural_Death, message.DeathRecord.MannerOfDeathTypeHelper);
         }
 
@@ -361,6 +355,11 @@ namespace VRDR.Tests
             Assert.Equal("2", entityAxisEntryList[3].Item2);
             Assert.Equal("I51.7", entityAxisEntryList[3].Item3);
             Assert.Equal("&", entityAxisEntryList[3].Item4);
+            Assert.Equal(3, message.DeathRecord.CoderStatus);
+            Assert.Equal("555", message.DeathRecord.ShipmentNumber);
+            Assert.Equal(2021, (int)message.DeathRecord.ReceiptYear);
+            Assert.Equal(6, (int)message.DeathRecord.ReceiptMonth);
+            Assert.Equal(1, (int)message.DeathRecord.ReceiptDay);
         }
 
         [Fact]
@@ -375,7 +374,14 @@ namespace VRDR.Tests
             ije.ACME_UC = "T273";
             ije.RAC = "T273 T270 ";
             ije.EAC = "11T273  21T270 &";
-            // TODO: Add CodingStatusValues fields once supported
+            ije.R_YR = "2019";
+            ije.R_MO = "11";
+            ije.R_DY = "14";
+            ije.CS = "8";
+            ije.SHIP = "876";
+            ije.INT_REJ = "4";
+            ije.SYS_REJ = "3";
+            ije.TRX_FLG = "5";
             ije.MANNER = "A";
             ije.INJPL = "7";
             ije.DOI_YR = "2022";
@@ -403,9 +409,19 @@ namespace VRDR.Tests
             Assert.Equal("1", entityAxisEntryList[1].Item2);
             Assert.Equal("T27.0", entityAxisEntryList[1].Item3);
             Assert.Equal("&", entityAxisEntryList[1].Item4);
-            // TODO: Add CodingStatusValues fields once supported
+            Assert.Equal(2019, (int)message.DeathRecord.ReceiptYear);
+            Assert.Equal(11, (int)message.DeathRecord.ReceiptMonth);
+            Assert.Equal(14, (int)message.DeathRecord.ReceiptDay);
+            Assert.Equal(8, (int)message.DeathRecord.CoderStatus);
+            Assert.Equal("876", message.DeathRecord.ShipmentNumber);
+            Assert.Equal(ValueSets.IntentionalReject.Reject4, message.DeathRecord.IntentionalRejectHelper);
+            Assert.Equal(ValueSets.AcmeSystemReject.Micar_Reject_Rule_Application, message.DeathRecord.AcmeSystemRejectHelper);
+            Assert.Equal(ValueSets.TransaxConversion.Duplicate_Entity_Axis_Codes_Deleted_No_Other_Action_Involved, message.DeathRecord.TransaxConversionHelper);
             Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, message.DeathRecord.MannerOfDeathTypeHelper);
             Assert.Equal(ValueSets.PlaceOfInjury.Farm, message.DeathRecord.PlaceOfInjuryHelper);
+            Assert.Equal(2022, (int)message.DeathRecord.InjuryYear);
+            Assert.Equal(1, (int)message.DeathRecord.InjuryMonth);
+            Assert.Equal(15, (int)message.DeathRecord.InjuryDay);
         }
 
         [Fact]
@@ -420,7 +436,14 @@ namespace VRDR.Tests
             ije.ACME_UC = "T273";
             ije.RAC = "T273 T270 ";
             ije.EAC = "11T273  21T270 &";
-            // TODO: Add CodingStatusValues fields once supported
+            ije.R_YR = "2019";
+            ije.R_MO = "11";
+            ije.R_DY = "14";
+            ije.CS = "8";
+            ije.SHIP = "876";
+            ije.INT_REJ = "4";
+            ije.SYS_REJ = "3";
+            ije.TRX_FLG = "5";
             ije.MANNER = "A";
             ije.INJPL = "7";
             ije.DOI_YR = "2022";
@@ -448,9 +471,19 @@ namespace VRDR.Tests
             Assert.Equal("1", entityAxisEntryList[1].Item2);
             Assert.Equal("T27.0", entityAxisEntryList[1].Item3);
             Assert.Equal("&", entityAxisEntryList[1].Item4);
-            // TODO: Add CodingStatusValues fields once supported
+            Assert.Equal(2019, (int)message.DeathRecord.ReceiptYear);
+            Assert.Equal(11, (int)message.DeathRecord.ReceiptMonth);
+            Assert.Equal(14, (int)message.DeathRecord.ReceiptDay);
+            Assert.Equal(8, (int)message.DeathRecord.CoderStatus);
+            Assert.Equal("876", message.DeathRecord.ShipmentNumber);
+            Assert.Equal(ValueSets.IntentionalReject.Reject4, message.DeathRecord.IntentionalRejectHelper);
+            Assert.Equal(ValueSets.AcmeSystemReject.Micar_Reject_Rule_Application, message.DeathRecord.AcmeSystemRejectHelper);
+            Assert.Equal(ValueSets.TransaxConversion.Duplicate_Entity_Axis_Codes_Deleted_No_Other_Action_Involved, message.DeathRecord.TransaxConversionHelper);
             Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, message.DeathRecord.MannerOfDeathTypeHelper);
             Assert.Equal(ValueSets.PlaceOfInjury.Farm, message.DeathRecord.PlaceOfInjuryHelper);
+            Assert.Equal(2022, (int)message.DeathRecord.InjuryYear);
+            Assert.Equal(1, (int)message.DeathRecord.InjuryMonth);
+            Assert.Equal(15, (int)message.DeathRecord.InjuryDay);
         }
 
         [Fact]

@@ -366,13 +366,91 @@ namespace VRDR.Tests
         [Fact]
         public void CreateCauseOfDeathCodingResponse()
         {
-            // TODO: This test create a response using the approach NCHS will use
+            // This test creates a response using the approach NCHS will use via IJE setters
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ije.ACME_UC = "T273";
+            ije.RAC = "T273 T270 ";
+            ije.EAC = "11T273  21T270 &";
+            // TODO: Add CodingStatusValues fields once supported
+            ije.MANNER = "A";
+            ije.INJPL = "7";
+            ije.DOI_YR = "2022";
+            ije.DOI_MO = "1";
+            ije.DOI_DY = "15";
+            CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
+            Assert.Equal(CauseOfDeathCodingMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal((uint)123, message.CertNo);
+            Assert.Equal((uint)2022, message.DeathYear);
+            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
+            var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
+            Assert.Equal(2, recordAxisCodes.Length);
+            Assert.Equal("T27.3", recordAxisCodes[0].Item2);
+            Assert.Equal("T27.0", recordAxisCodes[1].Item2);
+            var entityAxisEntryList = message.DeathRecord.EntityAxisCauseOfDeath;
+            Assert.Equal(2, entityAxisEntryList.Length);
+            Assert.Equal("1", entityAxisEntryList[0].Item1);
+            Assert.Equal("1", entityAxisEntryList[0].Item2);
+            Assert.Equal("T27.3", entityAxisEntryList[0].Item3);
+            Assert.Equal(" ", entityAxisEntryList[0].Item4);
+            Assert.Equal("2", entityAxisEntryList[1].Item1);
+            Assert.Equal("1", entityAxisEntryList[1].Item2);
+            Assert.Equal("T27.0", entityAxisEntryList[1].Item3);
+            Assert.Equal("&", entityAxisEntryList[1].Item4);
+            // TODO: Add CodingStatusValues fields once supported
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, message.DeathRecord.MannerOfDeathTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfInjury.Farm, message.DeathRecord.PlaceOfInjuryHelper);
         }
 
         [Fact]
         public void CreateCauseOfDeathCodingUpdate()
         {
-            // TODO: This test create a response using the approach NCHS will use
+            // This test creates a response using the approach NCHS will use via IJE setters
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ije.ACME_UC = "T273";
+            ije.RAC = "T273 T270 ";
+            ije.EAC = "11T273  21T270 &";
+            // TODO: Add CodingStatusValues fields once supported
+            ije.MANNER = "A";
+            ije.INJPL = "7";
+            ije.DOI_YR = "2022";
+            ije.DOI_MO = "1";
+            ije.DOI_DY = "15";
+            CauseOfDeathCodingUpdateMessage message = new CauseOfDeathCodingUpdateMessage(ije.ToDeathRecord());
+            Assert.Equal(CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal((uint)123, message.CertNo);
+            Assert.Equal((uint)2022, message.DeathYear);
+            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal("T27.3", message.DeathRecord.AutomatedUnderlyingCOD);
+            var recordAxisCodes = message.DeathRecord.RecordAxisCauseOfDeath;
+            Assert.Equal(2, recordAxisCodes.Length);
+            Assert.Equal("T27.3", recordAxisCodes[0].Item2);
+            Assert.Equal("T27.0", recordAxisCodes[1].Item2);
+            var entityAxisEntryList = message.DeathRecord.EntityAxisCauseOfDeath;
+            Assert.Equal(2, entityAxisEntryList.Length);
+            Assert.Equal("1", entityAxisEntryList[0].Item1);
+            Assert.Equal("1", entityAxisEntryList[0].Item2);
+            Assert.Equal("T27.3", entityAxisEntryList[0].Item3);
+            Assert.Equal(" ", entityAxisEntryList[0].Item4);
+            Assert.Equal("2", entityAxisEntryList[1].Item1);
+            Assert.Equal("1", entityAxisEntryList[1].Item2);
+            Assert.Equal("T27.0", entityAxisEntryList[1].Item3);
+            Assert.Equal("&", entityAxisEntryList[1].Item4);
+            // TODO: Add CodingStatusValues fields once supported
+            Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, message.DeathRecord.MannerOfDeathTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfInjury.Farm, message.DeathRecord.PlaceOfInjuryHelper);
         }
 
         [Fact]

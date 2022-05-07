@@ -1,5 +1,19 @@
 ## Changelog
 
+### v4.0.0.preview1 - 2022
+
+* Aligned VRDR.Messaging classes to match Messaging IG:
+    - Changed DeathRecordSubmission to DeathRecordSubmissionMessage
+    - Changed DeathRecordUpdate to DeathRecordUpdateMessage
+    - Changed AckMessage to AcknowledgementMessage
+    - Changed VoidMessage to DeathRecordVoidMessage
+    - Changed CauseOfDeathCodingResponseMessage to CauseOfDeathCodingMessage
+    - Changed DemographicsCodingResponseMessage to DemographicsCodingMessage
+    - Added DeathRecordAliasMessage
+    - Changed CertificateNumber property to CertNo
+    - Changed StateAuxiliaryIdentifier property to StateAuxiliaryId
+    - Changed DeathJurisdictionID property to JurisdictionId
+
 ### v3.3.1 - 2022-04-07
 
 * Added the CertificationRoleHelper method

@@ -667,7 +667,7 @@ namespace VRDR.CLI
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
-                    case DeathRecordSubmission submission:
+                    case DeathRecordSubmissionMessage submission:
                         var record = submission.DeathRecord;
                         Console.WriteLine(record.ToJSON());
                         break;
@@ -677,7 +677,7 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "submit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecordSubmission message = new DeathRecordSubmission(record);
+                DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
@@ -685,7 +685,15 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "resubmit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecordUpdate message = new DeathRecordUpdate(record);
+                DeathRecordUpdateMessage message = new DeathRecordUpdateMessage(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "void")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordVoidMessage message = new DeathRecordVoidMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
@@ -693,16 +701,38 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "ack")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
-                AckMessage ackMessage = new AckMessage(message);
+                AcknowledgementMessage ackMessage = new AcknowledgementMessage(message);
                 Console.WriteLine(ackMessage.ToJSON(true));
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "trx2fhir")
+            {
+                // Mapping a TRX file to an IJE file:
+                // char 1-12 of TRX -> char 1-12 of IJE
+                // char 13-41 of TRX -> TRX only
+                // char 42-407 of TRX -> char 701-1037 of IJE
+                // There might be some additional data in TRX now (SUR_MO, etc.)
+                string trx = File.ReadAllText(args[1]);
+                string ije = trx.Substring(0,12);
+                ije = ije.PadRight(700, ' ');
+                ije = ije + trx.Substring(41, 365);
+                ije = ije.PadRight(5000, ' ');
+                IJEMortality ijeRecord = new IJEMortality(ije);
+                //CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
+                CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
+                Console.WriteLine(cod.ToJSON(true));
+            }
+            else if (args.Length == 2 && args[0] == "fhir2trx")
+            {
+                string json = File.ReadAllText(args[1]);
+                CauseOfDeathCodingMessage cod = BaseMessage.Parse<CauseOfDeathCodingMessage>(json);
+            }
             else if (args.Length == 2 && args[0] == "showcodes")
             {
-                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+/*                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
-                    case CauseOfDeathCodingResponseMessage codingResponse:
+                    case CauseOfDeathCodingMessage codingResponse:
                         Console.WriteLine($"\nUnderlying COD: {codingResponse.UnderlyingCauseOfDeath}\n");
                         Console.WriteLine($"Record Axis Codes: {String.Join(", ", codingResponse.CauseOfDeathRecordAxis.ToArray())}\n");
                         Console.WriteLine("Entity Axis Codes:");
@@ -712,7 +742,7 @@ namespace VRDR.CLI
                         }
                         Console.WriteLine();
                         break;
-                    case DemographicsCodingResponseMessage codingResponse:
+                    case DemographicsCodingMessage codingResponse:
                         Console.WriteLine("\nEthnicity:");
                         foreach (var entry in codingResponse.Ethnicity)
                         {
@@ -725,9 +755,11 @@ namespace VRDR.CLI
                         }
                         break;
                     default:
-                        Console.WriteLine("Message does not appear to be a CauseOfDeathCodingResponseMessage");
+                        Console.WriteLine("Message does not appear to be a CodingMessage");
                         break;
                 }
+*/
+                return 0;
             }
             return 0;
         }

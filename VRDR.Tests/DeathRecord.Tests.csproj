@@ -20,20 +20,20 @@
     <None Update="fixtures/json/Bundle-DeathCertificateDocument-Example2.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecord1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/AckMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/AcknowledgementMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BadConditions.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/CauseOfDeathCodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/CauseOfDeathCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CauseOfDeathCodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/CodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathLocationType.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/BirthAndDeathDateDataAbsent.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordBirthRecordDataAbsent.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/DeathRecordSubmission.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordSubmissionMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordSubmissionNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/DeathRecordUpdate.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordUpdateNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/DemographicsCodingResponseMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DemographicsCodingMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DemographicsCodingUpdateMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/Empty.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/EmptyMessage.json" CopyToOutputDirectory="PreserveNewest" />
@@ -53,11 +53,12 @@
     <None Update="fixtures/json/MissingRelatedPersonRelationshipCode.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/RaceEthnicityCaseRecord.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/RaceEthnicityCaseRecord2.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/VoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/json/VoidMessageNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordVoidMessage.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordVoidMessageNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/DeathRecordAliasMessage.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/MissingEthnicityData.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/DeathRecord1.xml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="fixtures/xml/AckMessage.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/xml/AcknowledgementMessage.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/MissingValue.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/CODandCOUNTYCUnknown.ije" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/ije/CODandCOUNTYCOther.ije" CopyToOutputDirectory="PreserveNewest" />

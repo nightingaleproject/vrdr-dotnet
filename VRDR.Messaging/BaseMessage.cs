@@ -79,7 +79,7 @@ namespace VRDR
             Header.Event = new FhirUri(messageType);
 
             MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-            dest.Endpoint = DeathRecordSubmission.MESSAGE_TYPE;
+            dest.Endpoint = DeathRecordSubmissionMessage.MESSAGE_TYPE;
             Header.Destination.Add(dest);
             MessageHeader.MessageSourceComponent src = new MessageHeader.MessageSourceComponent();
             Header.Source = src;
@@ -100,22 +100,22 @@ namespace VRDR
             uint certificateNumber;
             if (UInt32.TryParse(from?.Identifier, out certificateNumber))
             {
-                this.CertificateNumber = certificateNumber;
+                this.CertNo = certificateNumber;
             }
             // take the first state local identifier if it exists
             if (from?.StateLocalIdentifier1 != null)
             {
-                this.StateAuxiliaryIdentifier = from.StateLocalIdentifier1;
+                this.StateAuxiliaryId = from.StateLocalIdentifier1;
             }
             else
             {
-                this.StateAuxiliaryIdentifier = null;
+                this.StateAuxiliaryId = null;
             }
             if (from?.DeathYear != null)
             {
                 this.DeathYear = from.DeathYear;
             }
-            this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
+            this.JurisdictionId = from?.DeathLocationJurisdiction;
         }
 
         /// <summary>
@@ -124,33 +124,33 @@ namespace VRDR
         /// <param name="message">the death record to extract the bundle from</param>
         public static explicit operator Bundle(BaseMessage message) => message.MessageBundle;
 
-        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in XML format</returns>
         public string ToXML(bool prettyPrint = false)
         {
             return MessageBundle.ToXml(new FhirXmlSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint, TrimWhitespaces = prettyPrint });
         }
 
-        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in XML format</returns>
         public string ToXml(bool prettyPrint = false)
         {
             return ToXML(prettyPrint);
         }
 
-        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in JSON format</returns>
         public string ToJSON(bool prettyPrint = false)
         {
             return MessageBundle.ToJson(new FhirJsonSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint });
         }
 
-        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in JSON format</returns>
         public string ToJson(bool prettyPrint = false)
         {
             return ToJSON(prettyPrint);
@@ -249,8 +249,18 @@ namespace VRDR
             }
         }
 
+        /// <summary>Helper method to set a single string value on the Record portion of the Message</summary>
+        protected void SetSingleStringValue(string key, string value)
+        {
+            Record.Remove(key);
+            if (value != null)
+            {
+                Record.Add(key, new FhirString(value));
+            }
+        }
+
         /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public uint? CertificateNumber
+        public uint? CertNo
         {
             get
             {
@@ -271,7 +281,7 @@ namespace VRDR
         }
 
         /// <summary>Jurisdiction-assigned auxiliary identifier</summary>
-        public string StateAuxiliaryIdentifier
+        public string StateAuxiliaryId
         {
             get
             {
@@ -279,11 +289,7 @@ namespace VRDR
             }
             set
             {
-                Record.Remove("state_auxiliary_id");
-                if (value != null)
-                {
-                    Record.Add("state_auxiliary_id", new FhirString(value));
-                }
+                SetSingleStringValue("state_auxiliary_id", value);
             }
         }
 
@@ -308,7 +314,7 @@ namespace VRDR
         }
 
         /// <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
-        public string DeathJurisdictionID
+        public string JurisdictionId
         {
             get
             {
@@ -333,11 +339,11 @@ namespace VRDR
         {
             get
             {
-                if (DeathYear == null || DeathJurisdictionID == null || CertificateNumber == null)
+                if (DeathYear == null || JurisdictionId == null || CertNo == null)
                 {
                     return null;
                 }
-                return DeathYear.Value.ToString("D4") + DeathJurisdictionID + CertificateNumber.Value.ToString("D6");
+                return DeathYear.Value.ToString("D4") + JurisdictionId + CertNo.Value.ToString("D6");
             }
         }
 
@@ -434,29 +440,32 @@ namespace VRDR
             BaseMessage message = new BaseMessage(bundle, true, false);
             switch (message.MessageType)
             {
-                case DeathRecordSubmission.MESSAGE_TYPE:
-                    message = new DeathRecordSubmission(bundle, message);
+                case DeathRecordSubmissionMessage.MESSAGE_TYPE:
+                    message = new DeathRecordSubmissionMessage(bundle, message);
                     break;
-                case DeathRecordUpdate.MESSAGE_TYPE:
-                    message = new DeathRecordUpdate(bundle, message);
+                case DeathRecordUpdateMessage.MESSAGE_TYPE:
+                    message = new DeathRecordUpdateMessage(bundle, message);
                     break;
-                case AckMessage.MESSAGE_TYPE:
-                    message = new AckMessage(bundle);
+                case AcknowledgementMessage.MESSAGE_TYPE:
+                    message = new AcknowledgementMessage(bundle);
                     break;
-                case VoidMessage.MESSAGE_TYPE:
-                    message = new VoidMessage(bundle);
+                case DeathRecordVoidMessage.MESSAGE_TYPE:
+                    message = new DeathRecordVoidMessage(bundle);
                     break;
-                case CauseOfDeathCodingResponseMessage.MESSAGE_TYPE:
-                    message = new CauseOfDeathCodingResponseMessage(bundle);
+                case DeathRecordAliasMessage.MESSAGE_TYPE:
+                    message = new DeathRecordAliasMessage(bundle);
                     break;
-                case DemographicsCodingResponseMessage.MESSAGE_TYPE:
-                    message = new DemographicsCodingResponseMessage(bundle);
+                case CauseOfDeathCodingMessage.MESSAGE_TYPE:
+                    message = new CauseOfDeathCodingMessage(bundle, message);
+                    break;
+                case DemographicsCodingMessage.MESSAGE_TYPE:
+                    message = new DemographicsCodingMessage(bundle, message);
                     break;
                 case CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE:
-                    message = new CauseOfDeathCodingUpdateMessage(bundle);
+                    message = new CauseOfDeathCodingUpdateMessage(bundle, message);
                     break;
                 case DemographicsCodingUpdateMessage.MESSAGE_TYPE:
-                    message = new DemographicsCodingUpdateMessage(bundle);
+                    message = new DemographicsCodingUpdateMessage(bundle, message);
                     break;
                 case ExtractionErrorMessage.MESSAGE_TYPE:
                     message = new ExtractionErrorMessage(bundle, message);

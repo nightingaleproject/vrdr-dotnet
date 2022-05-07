@@ -1651,22 +1651,22 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_AutoUnderlyingCOD()
+        public void Set_AutomatedUnderlyingCOD()
         {
-            SetterDeathRecord.AutoUnderlyingCOD = "I131";
-            Assert.Equal("I131", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13.1";
-            Assert.Equal("I13.1", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13.";
-            Assert.Equal("I13.", SetterDeathRecord.AutoUnderlyingCOD);
-            SetterDeathRecord.AutoUnderlyingCOD = "I13";
-            Assert.Equal("I13", SetterDeathRecord.AutoUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I131";
+            Assert.Equal("I131", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13.1";
+            Assert.Equal("I13.1", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13.";
+            Assert.Equal("I13.", SetterDeathRecord.AutomatedUnderlyingCOD);
+            SetterDeathRecord.AutomatedUnderlyingCOD = "I13";
+            Assert.Equal("I13", SetterDeathRecord.AutomatedUnderlyingCOD);
         }
 
         [Fact]
-        public void Get_AutoUnderlyingCOD()
+        public void Get_AutomatedUnderlyingCOD()
         {
-            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutoUnderlyingCOD);
+            Assert.Equal("J96.0", ((DeathRecord)JSONRecords[1]).AutomatedUnderlyingCOD);
         }
 
         [Fact]
@@ -3017,7 +3017,7 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T27.3", "Y")};
+            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T27.3", "&")};
             SetterDeathRecord.EntityAxisCauseOfDeath = eac;
 
             Tuple<string, string, string, string>[] eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
@@ -3025,10 +3025,10 @@ namespace VRDR.Tests
             Assert.Equal("2", eacGet[0].Item1);
             Assert.Equal("1", eacGet[0].Item2);
             Assert.Equal("T27.3", eacGet[0].Item3);
-            Assert.Equal("Y", eacGet[0].Item4);
+            Assert.Equal("&", eacGet[0].Item4);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtEac = "21T273 Y".PadRight(160, ' ');
+            string fmtEac = "21T273 &".PadRight(160, ' ');
             Assert.Equal(fmtEac, ije.EAC);
         }
 

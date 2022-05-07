@@ -4,7 +4,7 @@ using Hl7.Fhir.Model;
 namespace VRDR
 {
     /// <summary>Class <c>DeathRecordSubmission</c> supports the submission of VRDR records.</summary>
-    public class DeathRecordSubmission : BaseMessage
+    public class DeathRecordSubmissionMessage : BaseMessage
     {
         /// <summary>
         /// The event URI for DeathRecordSubmission.
@@ -15,13 +15,13 @@ namespace VRDR
         private DeathRecord deathRecord;
 
         /// <summary>Default constructor that creates a new, empty DeathRecordSubmission.</summary>
-        public DeathRecordSubmission() : base(MESSAGE_TYPE)
+        public DeathRecordSubmissionMessage() : base(MESSAGE_TYPE)
         {
         }
 
         /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordSubmission.</summary>
         /// <param name="record">the VRDR.DeathRecord to create a DeathRecordSubmission for.</param>
-        public DeathRecordSubmission(DeathRecord record) : this()
+        public DeathRecordSubmissionMessage(DeathRecord record) : this()
         {
             this.DeathRecord = record;
             ExtractBusinessIdentifiers(record);
@@ -32,7 +32,7 @@ namespace VRDR
         /// </summary>
         /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordSubmission</param>
         /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
-        internal DeathRecordSubmission(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle)
+        internal DeathRecordSubmissionMessage(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle)
         {
             try
             {
@@ -66,33 +66,33 @@ namespace VRDR
         }
     }
 
-    /// <summary>Class <c>DeathRecordUpdate</c> supports the update of VRDR records.</summary>
-    public class DeathRecordUpdate : DeathRecordSubmission
+    /// <summary>Class <c>DeathRecordUpdateMessage</c> supports the update of VRDR records.</summary>
+    public class DeathRecordUpdateMessage : DeathRecordSubmissionMessage
     {
         /// <summary>
-        /// The event URI for DeathRecordUpdate.
+        /// The event URI for DeathRecordUpdateMessage.
         /// </summary>
         public new const String MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_submission_update";
 
-        /// <summary>Default constructor that creates a new, empty DeathRecordUpdate.</summary>
-        public DeathRecordUpdate() : base()
+        /// <summary>Default constructor that creates a new, empty DeathRecordUpdateMessage.</summary>
+        public DeathRecordUpdateMessage() : base()
         {
             MessageType = MESSAGE_TYPE;
         }
 
-        /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdate.</summary>
-        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdate for.</param>
-        public DeathRecordUpdate(DeathRecord record) : base(record)
+        /// <summary>Constructor that takes a VRDR.DeathRecord and wraps it in a DeathRecordUpdateMessage.</summary>
+        /// <param name="record">the VRDR.DeathRecord to create a DeathRecordUpdateMessage for.</param>
+        public DeathRecordUpdateMessage(DeathRecord record) : base(record)
         {
             MessageType = MESSAGE_TYPE;
         }
 
         /// <summary>
-        /// Construct a DeathRecordUpdate from a FHIR Bundle.
+        /// Construct a DeathRecordUpdateMessage from a FHIR Bundle.
         /// </summary>
-        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdate</param>
+        /// <param name="messageBundle">a FHIR Bundle that will be used to initialize the DeathRecordUpdateMessage</param>
         /// <param name="baseMessage">the BaseMessage instance that was constructed during parsing that can be used in a MessageParseException if needed</param>
-        internal DeathRecordUpdate(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle, baseMessage)
+        internal DeathRecordUpdateMessage(Bundle messageBundle, BaseMessage baseMessage) : base(messageBundle, baseMessage)
         {
         }
     }

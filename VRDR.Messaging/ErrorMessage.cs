@@ -4,7 +4,7 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
+    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmissionMessage failed.</summary>
     public class ExtractionErrorMessage : BaseMessage
     {
         /// <summary>
@@ -18,9 +18,9 @@ namespace VRDR
         /// <param name="sourceMessage">the message that could not be processed.</param>
         public ExtractionErrorMessage(BaseMessage sourceMessage) : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, sourceMessage?.MessageDestination)
         {
-            this.CertificateNumber = sourceMessage?.CertificateNumber;
-            this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
-            this.DeathJurisdictionID = sourceMessage?.DeathJurisdictionID;
+            this.CertNo = sourceMessage?.CertNo;
+            this.StateAuxiliaryId = sourceMessage?.StateAuxiliaryId;
+            this.JurisdictionId = sourceMessage?.JurisdictionId;
             this.DeathYear = sourceMessage?.DeathYear;
         }
 

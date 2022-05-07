@@ -484,13 +484,67 @@ namespace VRDR.Tests
         [Fact]
         public void CreateDemographicCodingResponse()
         {
-            // TODO: This test create a response using the approach NCHS will use
+            // This test creates a response using the approach NCHS will use via IJE setters
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ije.DETHNIC1 = "Y";
+            ije.DETHNIC2 = "N";
+            ije.RACE1 = "Y";
+            ije.RACE2 = "N";
+            ije.RACE16 = "Cheyenne";
+            ije.RACE1E = "199";
+            ije.RACE16C = "B40";
+            DemographicsCodingMessage message = new DemographicsCodingMessage(ije.ToDeathRecord());
+            Assert.Equal(DemographicsCodingMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal((uint)123, message.CertNo);
+            Assert.Equal((uint)2022, message.DeathYear);
+            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.Ethnicity1Helper);
+            Assert.Equal(ValueSets.YesNoUnknown.No, message.DeathRecord.Ethnicity2Helper);
+            Assert.Equal(NvssRace.White, message.DeathRecord.Race[0].Item1);
+            Assert.Equal("Y", message.DeathRecord.Race[0].Item2);
+            Assert.Equal(NvssRace.BlackOrAfricanAmerican, message.DeathRecord.Race[1].Item1);
+            Assert.Equal("N", message.DeathRecord.Race[1].Item2);
+            Assert.Equal("199", message.DeathRecord.FirstEditedRaceCodeHelper);
+            Assert.Equal("B40", message.DeathRecord.FirstAmericanIndianRaceCodeHelper);
         }
 
         [Fact]
         public void CreateDemographicCodingUpdate()
         {
-            // TODO: This test create a response using the approach NCHS will use
+            // This test creates a response using the approach NCHS will use via IJE setters
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2022";
+            ije.DSTATE = "YC";
+            ije.FILENO = "123";
+            ije.AUXNO = "500";
+            ije.DETHNIC1 = "Y";
+            ije.DETHNIC2 = "N";
+            ije.RACE1 = "Y";
+            ije.RACE2 = "N";
+            ije.RACE16 = "Cheyenne";
+            ije.RACE1E = "199";
+            ije.RACE16C = "B40";
+            DemographicsCodingUpdateMessage message = new DemographicsCodingUpdateMessage(ije.ToDeathRecord());
+            Assert.Equal(DemographicsCodingUpdateMessage.MESSAGE_TYPE, message.MessageType);
+            Assert.Equal("http://nchs.cdc.gov/vrdr_submission", message.MessageDestination);
+            Assert.Equal((uint)123, message.CertNo);
+            Assert.Equal((uint)2022, message.DeathYear);
+            Assert.Equal("500", message.StateAuxiliaryId);
+            Assert.Equal("2022YC000123", message.NCHSIdentifier);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.Ethnicity1Helper);
+            Assert.Equal(ValueSets.YesNoUnknown.No, message.DeathRecord.Ethnicity2Helper);
+            Assert.Equal(NvssRace.White, message.DeathRecord.Race[0].Item1);
+            Assert.Equal("Y", message.DeathRecord.Race[0].Item2);
+            Assert.Equal(NvssRace.BlackOrAfricanAmerican, message.DeathRecord.Race[1].Item1);
+            Assert.Equal("N", message.DeathRecord.Race[1].Item2);
+            Assert.Equal("199", message.DeathRecord.FirstEditedRaceCodeHelper);
+            Assert.Equal("B40", message.DeathRecord.FirstAmericanIndianRaceCodeHelper);
         }
 
         [Fact]

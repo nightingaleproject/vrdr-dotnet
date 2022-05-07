@@ -714,12 +714,13 @@ namespace VRDR
 
         /// <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
         /// <param name="bundle">represents a FHIR Bundle.</param>
+        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
         /// <exception cref="ArgumentException">Record is invalid.</exception>
-        public DeathRecord(Bundle bundle)
+        public DeathRecord(Bundle bundle, bool fullRecord = true)
         {
             Bundle = bundle;
             Navigator = Bundle.ToTypedElement();
-            RestoreReferences();
+            RestoreReferences(fullRecord);
         }
 
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
@@ -794,7 +795,10 @@ namespace VRDR
             string[] profile = { ProfileURL.CauseOfDeathCodedContentBundle };
             codccBundle.Meta.Profile = profile;
             codccBundle.Timestamp = DateTime.Now;
-            codccBundle.Identifier = Bundle.Identifier; // We want the base identifiers, including certificate number and auxiliary state IDs
+            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
+            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
+            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
+            codccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
             AddResourceToBundleIfPresent(ActivityAtTimeOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(AutomatedUnderlyingCauseOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(ManualUnderlyingCauseOfDeathObs, codccBundle);
@@ -841,7 +845,10 @@ namespace VRDR
             string[] profile = { ProfileURL.DemographicCodedContentBundle };
             dccBundle.Meta.Profile = profile;
             dccBundle.Timestamp = DateTime.Now;
-            dccBundle.Identifier = Bundle.Identifier; // We want the base identifiers, including certificate number and auxiliary state IDs
+            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
+            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
+            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
+            dccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
             AddResourceToBundleIfPresent(CodedRaceAndEthnicityObs, dccBundle);
             AddResourceToBundleIfPresent(InputRaceAndEthnicityObs, dccBundle);
             return dccBundle;
@@ -8172,14 +8179,14 @@ namespace VRDR
         /// <value>Decedent's Automated Underlying Cause of Death.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutoUnderlyingCOD = "I13.1";</para>
+        /// <para>ExampleDeathRecord.AutomatedUnderlyingCOD = "I13.1";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutoUnderlyingCOD}");</para>
+        /// <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutomatedUnderlyingCOD}");</para>
         /// </example>
         [Property("Automated Underlying Cause of Death", Property.Types.String, "Coded Content", "Automated Underlying Cause of Death.", true, IGURL.AutomatedUnderlyingCauseOfDeath, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-5')", "")]
-        public string AutoUnderlyingCOD
+        public string AutomatedUnderlyingCOD
         {
             get
             {
@@ -9743,14 +9750,16 @@ namespace VRDR
                 SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
             }
         }
+
+        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
         /// <summary>Entity Axis Cause Of Death</summary>
         /// <value>Entity-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para> Tuple&lt;string, string, string, string&gt;[] eac = new Tuple&lt;string, string, string, string&gt;{Tuple.Create("value", "position", "line", "code")}</para>
+        /// <para> Tuple&lt;string, string, string, string&gt;[] eac = new Tuple&lt;string, string, string, string&gt;{Tuple.Create("line", "position", "code", "ecode")}</para>
         /// <para> ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EntityAxisCauseOfDeath}");</para>
+        /// <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath[0].Item3}");</para>
         /// </example>
         [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Entity Axis Cause of Death", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80356-9)", "")]
@@ -9851,14 +9860,15 @@ namespace VRDR
             }
         }
 
+        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
         /// <summary>Record Axis Cause Of Death</summary>
         /// <value>record-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("value", "position", "pregnancy")}</para>
+        /// <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("position", "code", "pregnancy")}</para>
         /// <para>ExampleDeathRecord.RecordAxisCauseOfDeath = eac;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.RecordAxisCauseOfDeath}");</para>
+        /// <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath[0].Item2}");</para>
         /// </example>
         [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "RecordAxisCauseOfDeath", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80357-7)", "")]
@@ -9993,7 +10003,8 @@ namespace VRDR
         }
 
         /// <summary>Restores class references from a newly parsed record.</summary>
-        private void RestoreReferences()
+        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
+        private void RestoreReferences(bool fullRecord = true)
         {
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
@@ -10001,13 +10012,13 @@ namespace VRDR
             {
                 Composition = (Composition)compositionEntry.Resource;
             }
-            else
+            else if (fullRecord)
             {
                 throw new System.ArgumentException("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.");
             }
 
             // Grab Patient
-            if (Composition.Subject == null || String.IsNullOrWhiteSpace(Composition.Subject.Reference))
+            if (fullRecord && (Composition.Subject == null || String.IsNullOrWhiteSpace(Composition.Subject.Reference)))
             {
                 throw new System.ArgumentException("The Composition is missing a subject (a reference to the Decedent resource).");
             }
@@ -10016,13 +10027,13 @@ namespace VRDR
             {
                 Decedent = (Patient)patientEntry.Resource;
             }
-            else
+            else if (fullRecord)
             {
                 throw new System.ArgumentException("Failed to find a Decedent (Patient).");
             }
 
             // Grab Certifier
-            if (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference))
+            if (fullRecord && (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
             {
                 throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
             }

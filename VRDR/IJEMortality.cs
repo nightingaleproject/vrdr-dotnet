@@ -2495,11 +2495,11 @@ namespace VRDR
         {
             get
             {
-               return( ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC","AutoUnderlyingCOD")));
+               return( ActualICD10toNCHSICD10(LeftJustified_Get("ACME_UC","AutomatedUnderlyingCOD")));
             }
             set
             {
-                LeftJustified_Set("ACME_UC","AutoUnderlyingCOD", NCHSICD10toActualICD10(value));
+                LeftJustified_Set("ACME_UC","AutomatedUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 

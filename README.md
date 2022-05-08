@@ -40,6 +40,13 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1"> github</a></td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
+<tr>
+<td style="text-align: center;">1.3.0 - STU2 (Post-Ballot, Pre-Publication Draft)</td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V4.0.0.preview1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
+</tr>
 </tbody>
 </table>
 
@@ -67,7 +74,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.3.1" />
+  <PackageReference Include="VRDR" Version="4.0.0.preview1" />
   ...
 </ItemGroup>
 ```
@@ -267,7 +274,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.3.1" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0.preview1" />
   ...
 </ItemGroup>
 ```

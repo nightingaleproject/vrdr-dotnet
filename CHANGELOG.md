@@ -1,18 +1,27 @@
 ## Changelog
 
-### v4.0.0.preview1 - 2022
+### v4.0.0.preview1 - 2022-05-07
 
-* Aligned VRDR.Messaging classes to match Messaging IG:
-    - Changed DeathRecordSubmission to DeathRecordSubmissionMessage
-    - Changed DeathRecordUpdate to DeathRecordUpdateMessage
-    - Changed AckMessage to AcknowledgementMessage
-    - Changed VoidMessage to DeathRecordVoidMessage
-    - Changed CauseOfDeathCodingResponseMessage to CauseOfDeathCodingMessage
-    - Changed DemographicsCodingResponseMessage to DemographicsCodingMessage
-    - Added DeathRecordAliasMessage
-    - Changed CertificateNumber property to CertNo
-    - Changed StateAuxiliaryIdentifier property to StateAuxiliaryId
-    - Changed DeathJurisdictionID property to JurisdictionId
+* Aligned VRDR library to latest VRDR IG at http://build.fhir.org/ig/HL7/vrdr/artifacts.html
+    - Updated 137 fields to the latest FHIR representation
+    - Added support for 109 additional fields in the IJE specification that were not previously supported by the IG
+    - Added helper methods for all coded fields
+    - Provide constants for all Value Sets, Profile URLs, and Extension URLs
+    - Moved Connectathon records to VRDR library and updated them for June 2022 testing event
+    - Updated Canary mappings to prepare for Canary update to align with the new IG
+* Aligned VRDR.Messaging library to latest VRDR Messaging IG at http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html
+    - Renamed classes and properties to align with IG
+        - Changed DeathRecordSubmission to DeathRecordSubmissionMessage
+        - Changed DeathRecordUpdate to DeathRecordUpdateMessage
+        - Changed AckMessage to AcknowledgementMessage
+        - Changed VoidMessage to DeathRecordVoidMessage
+        - Changed CauseOfDeathCodingResponseMessage to CauseOfDeathCodingMessage
+        - Changed DemographicsCodingResponseMessage to DemographicsCodingMessage
+        - Changed CertificateNumber property to CertNo
+        - Changed StateAuxiliaryIdentifier property to StateAuxiliaryId
+        - Changed DeathJurisdictionID property to JurisdictionId
+    - Added support for new DeathRecordAliasMessage
+    - New common model of message bundles to support submission messages, coding response messages, and full interjurisdictional exchange messages
 
 ### v3.3.1 - 2022-04-07
 

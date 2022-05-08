@@ -377,8 +377,8 @@ namespace VRDR.Tests
             ije.R_YR = "2019";
             ije.R_MO = "11";
             ije.R_DY = "14";
-            ije.CS = "8";
-            ije.SHIP = "876";
+            ije.trx.CS = "8";
+            ije.trx.SHIP = "876";
             ije.INT_REJ = "4";
             ije.SYS_REJ = "3";
             ije.TRX_FLG = "5";
@@ -439,8 +439,8 @@ namespace VRDR.Tests
             ije.R_YR = "2019";
             ije.R_MO = "11";
             ije.R_DY = "14";
-            ije.CS = "8";
-            ije.SHIP = "876";
+            ije.trx.CS = "8";
+            ije.trx.SHIP = "876";
             ije.INT_REJ = "4";
             ije.SYS_REJ = "3";
             ije.TRX_FLG = "5";

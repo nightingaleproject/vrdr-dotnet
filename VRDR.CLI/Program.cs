@@ -722,8 +722,8 @@ namespace VRDR.CLI
                 ije = ije + trx.Substring(41, 365);
                 ije = ije.PadRight(5000, ' ');
                 IJEMortality ijeRecord = new IJEMortality(ije);
-                ijeRecord.CS = "3";
-                ijeRecord.SHIP = "555";
+                ijeRecord.trx.CS = "3";
+                ijeRecord.trx.SHIP = "555";
                 CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
                 //CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
                 Console.WriteLine(cod.ToJSON(true));

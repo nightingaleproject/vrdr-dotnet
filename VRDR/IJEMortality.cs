@@ -50,6 +50,61 @@ namespace VRDR
     /// on the embedded FHIR based <c>DeathRecord</c>.</summary>
     public class IJEMortality
     {
+        /// <summary>Utility location to provide support for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public TRXHelper trx;
+
+        /// <summary>Utility location to provide support for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
+        public MREHelper mre;
+
+        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public class TRXHelper
+        {
+            private DeathRecord record;
+            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            public TRXHelper(DeathRecord record)
+            {
+                this.record = record;
+            }
+            /// <summary>coder status - Property for setting the CodingStatus of a Cause of Death Coding Submission</summary>
+            public string CS
+            {
+                set
+                {
+                    if (!String.IsNullOrWhiteSpace(value))
+                    {
+                        record.CoderStatus = Convert.ToInt32(value);
+                    }
+                }
+            }
+            /// <summary>shipment number - Property for setting the ShipmentNumber of a Cause of Death Coding Submission</summary>
+            public string SHIP
+            {
+                set
+                {
+                    record.ShipmentNumber = value;
+                }
+            }
+        }
+
+        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public class MREHelper
+        {
+            private DeathRecord record;
+            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            public MREHelper(DeathRecord record)
+            {
+                this.record = record;
+            }
+            /// <summary>Property for setting the Race Recode 40 of a Demographic Coding Submission</summary>
+            public string RECODE40
+            {
+                set
+                {
+                    record.RaceRecode40Helper = value;
+                }
+            }
+        }
+
         /// <summary>FHIR based death record.</summary>
         private DeathRecord record;
 
@@ -63,6 +118,8 @@ namespace VRDR
         public IJEMortality(DeathRecord record, bool validate = true)
         {
             this.record = record;
+            this.trx = new TRXHelper(record);
+            this.mre = new MREHelper(record);
             if (validate)
             {
                 // We need to force a conversion to happen by calling ToString() if we want to validate
@@ -76,7 +133,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
-        public IJEMortality(string ije, bool validate = true)
+        public IJEMortality(string ije, bool validate = true) : this()
         {
             if (ije == null)
             {
@@ -86,11 +143,8 @@ namespace VRDR
             {
                 ije = ije.PadRight(5000, ' ');
             }
-            this.record = new DeathRecord();
-            // Loop over every property (these are the fields); Order by priority and skip any that don't have attributes because they're not represented in the IJE text (CS, SHIP)
-            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList()
-                                                                .FindAll(p => p.CustomAttributes.Count() > 0)
-                                                                .OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
+            // Loop over every property (these are the fields); Order by priority
+            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
             foreach(PropertyInfo property in properties)
             {
                 // Grab the field attributes
@@ -111,6 +165,8 @@ namespace VRDR
         public IJEMortality()
         {
             this.record = new DeathRecord();
+            this.trx = new TRXHelper(record);
+            this.mre = new MREHelper(record);
         }
 
         /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -124,11 +180,7 @@ namespace VRDR
             {
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
-                // Grab the field attributes if available, skipping any that don't have them because they're not represented in the IJE text (CS, SHIP)
-                if (property.CustomAttributes.Count() == 0)
-                {
-                    continue;
-                }
+                // Grab the field attributes
                 IJEField info = (IJEField)property.GetCustomAttributes().First();
                 // Be mindful about lengths
                 if (field.Length > info.Length)
@@ -2431,74 +2483,6 @@ namespace VRDR
             set
             {
                 Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "MANNER", "MannerOfDeathType", value);
-            }
-        }
-
-        /// <summary>coder status</summary>
-        // NOTE: This is a special 1 character field that is used in TRX records that does not get mapped to an
-        // IJE file, so we do not specify that this is an IJE field. We'll need to handle this differently if we
-        // ever want to support TRX files
-        public string CS
-        {
-            get
-            {
-                int? value = record.CoderStatus;
-                if (value != null)
-                {
-                    string valueString = Convert.ToString(value);
-                    if (valueString.Length > 1)
-                    {
-                        validationErrors.Add($"Error: FHIR field CoderStatus contains string '{valueString}' that's not the expected length of 1");
-                    }
-                    return Truncate(valueString, 1);
-                }
-                else
-                {
-                    return " ";
-                }
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value))
-                {
-                    record.CoderStatus = null;
-                }
-                else
-                {
-                    if (value.Length > 1)
-                    {
-                        validationErrors.Add($"Error: FHIR field CoderStatus set to string '{value}' that's not the expected length of 1");
-                    }
-                    record.CoderStatus = Convert.ToInt32(value);
-                }
-            }
-        }
-
-        /// <summary>shipment number</summary>
-        // NOTE: This is a special 3 character field that is used in TRX records that does not get mapped to an
-        // IJE file, so we do not specify that this is an IJE field. We'll need to handle this differently if we
-        // ever want to support TRX files
-        public string SHIP
-        {
-            get
-            {
-                string current = record.ShipmentNumber;
-                if (current != null)
-                {
-                    if (current.Length > 3)
-                    {
-                        validationErrors.Add($"Error: FHIR field ShipmentNumber contains string '{current}' too long for TRX field SHIP of length 3");
-                    }
-                    return Truncate(current, 3).PadRight(3, ' ');
-                }
-                else
-                {
-                    return "   ";
-                }
-            }
-            set
-            {
-                record.ShipmentNumber = value.Trim();
             }
         }
 
@@ -5193,11 +5177,5 @@ get
                 LeftJustified_Set("MARITAL_DESCRIP", "MaritalStatusLiteral", value);
             }
         }
-
-        // Fields below have no mapping to IJE. An IJE-like interface could be included for convenience
-        // CS - Coder Status -- integer
-        // SHIP - shipment number - string
-        // RECODE40 - Race Recode 40 - codeable
-        // BUNDLEID - BundleIdentifier - string
     }
 }

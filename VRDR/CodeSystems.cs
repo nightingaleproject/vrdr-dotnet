@@ -144,6 +144,15 @@ namespace VRDR
         /// <summary> Hispanic Origin </summary>
         public static string HispanicOrigin = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs";
 
+        /// <summary> Intentional Reject </summary>
+        public static string IntentionalReject = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs";
+
+        /// <summary> System Reject </summary>
+        public static string SystemReject = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs";
+
+        /// <summary> Hispanic Origin </summary>
+        public static string TransaxConversion = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs";
+
         /// <summary> Observation Codes </summary>
         public static string ObservationCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs";
 

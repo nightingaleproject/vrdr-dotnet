@@ -70,7 +70,10 @@ codesystems = {
     "http://loinc.org" => "VRDR.CodeSystems.LOINC",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs" => "VRDR.CodeSystems.RaceCode",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs" => "VRDR.CodeSystems.RaceRecode40",
-    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs" => "VRDR.CodeSystems.HispanicOrigin"
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs" => "VRDR.CodeSystems.HispanicOrigin",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs" => "VRDR.CodeSystems.IntentionalReject",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs" => "VRDR.CodeSystems.SystemReject",
+    "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs" => "VRDR.CodeSystems.TransaxConversion",
 }
 
 valuesets = {
@@ -90,7 +93,6 @@ valuesets = {
     "ValueSet-vrdr-method-of-disposition-vs.json" => "MethodOfDisposition",
     "ValueSet-vrdr-not-applicable-vs.json" => "NotApplicable",
     "ValueSet-vrdr-place-of-death-vs.json" => "PlaceOfDeath",
-    "ValueSet-vrdr-place-of-injury-vs.json" => "PlaceOfInjury",
     "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
     "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
     "ValueSet-vrdr-replace-status-vs.json" => "ReplaceStatus",
@@ -102,6 +104,9 @@ valuesets = {
     "ValueSet-vrdr-race-code-vs.json" => "RaceCode",
     "ValueSet-vrdr-race-recode-40-vs.json" => "RaceRecode40",
     "ValueSet-vrdr-hispanic-origin-vs.json" => "HispanicOrigin",
+    "ValueSet-vrdr-transax-conversion-vs.json" => "TransaxConversion",
+    "ValueSet-vrdr-system-reject-vs.json" => "AcmeSystemReject",
+    "ValueSet-vrdr-intentional-reject-vs.json" => "IntentionalReject",
 }
 
 outfilename = ARGV[1] + "/ValueSets.cs"
@@ -146,7 +151,7 @@ valuesets.each do |vsfile, fieldname|
             end
             for concept in group["concept"]
                 display = concept["display"].split(/-[A-Z]/).first
-                display = display.gsub("'", '').split(/[^a-z]+/i).map(&:capitalize).join('_')
+                display = display.gsub("'", '').split(/[^a-z0-9]+/i).map(&:capitalize).join('_')
                 if display[0][/\d/] then display = "_" + display end
                 file.puts "            /// <summary> #{display} </summary>"
                 file.puts "            public static string  #{display} = \"#{concept["code"]}\";"

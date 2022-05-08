@@ -50,6 +50,61 @@ namespace VRDR
     /// on the embedded FHIR based <c>DeathRecord</c>.</summary>
     public class IJEMortality
     {
+        /// <summary>Utility location to provide support for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public TRXHelper trx;
+
+        /// <summary>Utility location to provide support for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
+        public MREHelper mre;
+
+        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public class TRXHelper
+        {
+            private DeathRecord record;
+            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            public TRXHelper(DeathRecord record)
+            {
+                this.record = record;
+            }
+            /// <summary>coder status - Property for setting the CodingStatus of a Cause of Death Coding Submission</summary>
+            public string CS
+            {
+                set
+                {
+                    if (!String.IsNullOrWhiteSpace(value))
+                    {
+                        record.CoderStatus = Convert.ToInt32(value);
+                    }
+                }
+            }
+            /// <summary>shipment number - Property for setting the ShipmentNumber of a Cause of Death Coding Submission</summary>
+            public string SHIP
+            {
+                set
+                {
+                    record.ShipmentNumber = value;
+                }
+            }
+        }
+
+        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        public class MREHelper
+        {
+            private DeathRecord record;
+            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            public MREHelper(DeathRecord record)
+            {
+                this.record = record;
+            }
+            /// <summary>Property for setting the Race Recode 40 of a Demographic Coding Submission</summary>
+            public string RECODE40
+            {
+                set
+                {
+                    record.RaceRecode40Helper = value;
+                }
+            }
+        }
+
         /// <summary>FHIR based death record.</summary>
         private DeathRecord record;
 
@@ -63,6 +118,8 @@ namespace VRDR
         public IJEMortality(DeathRecord record, bool validate = true)
         {
             this.record = record;
+            this.trx = new TRXHelper(record);
+            this.mre = new MREHelper(record);
             if (validate)
             {
                 // We need to force a conversion to happen by calling ToString() if we want to validate
@@ -76,7 +133,7 @@ namespace VRDR
         }
 
         /// <summary>Constructor that takes an IJE string and builds a corresponding internal <c>DeathRecord</c>.</summary>
-        public IJEMortality(string ije, bool validate = true)
+        public IJEMortality(string ije, bool validate = true) : this()
         {
             if (ije == null)
             {
@@ -86,7 +143,6 @@ namespace VRDR
             {
                 ije = ije.PadRight(5000, ' ');
             }
-            this.record = new DeathRecord();
             // Loop over every property (these are the fields); Order by priority
             List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
             foreach(PropertyInfo property in properties)
@@ -109,6 +165,8 @@ namespace VRDR
         public IJEMortality()
         {
             this.record = new DeathRecord();
+            this.trx = new TRXHelper(record);
+            this.mre = new MREHelper(record);
         }
 
         /// <summary>Converts the internal <c>DeathRecord</c> into an IJE string.</summary>
@@ -2282,12 +2340,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_YR", "ReceiptYear");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_YR", "ReceiptYear", value);
             }
         }
 
@@ -2297,12 +2354,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_MO", "ReceiptMonth");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_MO", "ReceiptMonth", value);
             }
         }
 
@@ -2312,12 +2368,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return NumericAllowingUnknown_Get("R_DY", "ReceiptDay");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                NumericAllowingUnknown_Set("R_DY", "ReceiptDay", value);
             }
         }
 
@@ -2437,12 +2492,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.IntentionalReject.FHIRToIJE, "IntentionalReject", "INT_REJ");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.IntentionalReject.IJEToFHIR, "INT_REJ", "IntentionalReject", value);
             }
         }
 
@@ -2452,12 +2506,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.SystemReject.FHIRToIJE, "AcmeSystemReject", "SYS_REJ");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.SystemReject.IJEToFHIR, "SYS_REJ", "AcmeSystemReject", value);
             }
         }
 
@@ -2559,12 +2612,11 @@ namespace VRDR
         {
             get
             {
-                // TODO: Implement mapping from FHIR record location: CodingStatusValues
-                return "";
+                return Get_MappingFHIRToIJE(Mappings.TransaxConversion.FHIRToIJE, "TransaxConversion", "TRX_FLG");
             }
             set
             {
-                // TODO: Implement mapping to FHIR record location: CodingStatusValues
+                Set_MappingIJEToFHIR(Mappings.TransaxConversion.IJEToFHIR, "TRXFLG", "TransaxConversion", value);
             }
         }
 

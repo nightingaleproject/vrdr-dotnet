@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['dethnic5c_0',['DETHNIC5C',['../class_v_r_d_r_1_1_coding_response_message.html#a2527ceb327b7b48f95cad525002eaf74abbdf322b84570d4adce374e8e7e57fc1',1,'VRDR::CodingResponseMessage']]],
-  ['dethnice_1',['DETHNICE',['../class_v_r_d_r_1_1_coding_response_message.html#a2527ceb327b7b48f95cad525002eaf74acacdae1a0b2f8fff30cf1973d236a785',1,'VRDR::CodingResponseMessage']]],
-  ['dictionary_2',['Dictionary',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53a3beb75d1563ebc22253341be4ce57f44',1,'VRDR::Property']]]
+  ['tuple4arr_0',['Tuple4Arr',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53a2636aa4d2a2d88badcf50c5ec091bb5a',1,'VRDR::Property']]],
+  ['tuplearr_1',['TupleArr',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53ab7dc82b3f36573155bf60f5cf38cc215',1,'VRDR::Property']]],
+  ['tuplecod_2',['TupleCOD',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53a30ac878decefab61e01fcb80362bff5d',1,'VRDR::Property']]]
 ];

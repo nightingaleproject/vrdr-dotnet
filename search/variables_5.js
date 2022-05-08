@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['header_0',['Header',['../class_v_r_d_r_1_1_base_message.html#a8a98cbb639d05ea6f6fecbb569d0bc3e',1,'VRDR::BaseMessage']]]
+  ['igurl_0',['IGUrl',['../class_v_r_d_r_1_1_property.html#aa8a0c7e020636f6be0174dabaa4be9be',1,'VRDR::Property']]]
 ];

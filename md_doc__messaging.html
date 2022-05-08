@@ -66,11 +66,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p >This document describes how to use the VRDR.Messaging library to simplify implementation of <a class="el" href="namespace_v_r_d_r.html">VRDR</a> message exchange flows.</p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Death Record Submission</h1>
 <p >The diagram below illustrates the messages exchanged during submission of a death record and the subsequent return of coded causes of death and race and ethnicity information.</p>
 <p ><img src="submission.png" alt="Message Exchange Pattern for Death Record Submission and Coding Response" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Submit Death Record</h2>
 <p >A vital records jurisdiction can create a death record submission as follows:</p>
 <div class="fragment"><div class="line"><span class="comment">// Create a DeathRecord</span></div>
@@ -86,7 +86,7 @@ Submit Death Record</h2>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >The <code>DeathRecordSubmission</code> constructor will extract information from the supplied <code>DeathRecord</code> to populate the corresponding message property values (<code>StateAuxiliaryIdentifier</code>, <code>CertificateNumber</code>, <code>NCHSIdentifier</code>) automatically.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Extract Death Record</h2>
 <p >On receipt of a message, NCHS can parse it, determine the type of the message, and extract a death record using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -105,7 +105,7 @@ Extract Death Record</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
 Acknowledge Death Record</h2>
 <p >If extraction was succesful, NCHS can generate an acknowledgement message and send it to the submitting jurisdiction. An <code>AckMessage</code> constructor is available that accepts a source message parameter (<code>submission</code> in the example below) and this is used to initialize <code>AckMessage</code> properties:</p>
 <ul>
@@ -143,13 +143,13 @@ Acknowledge Death Record</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
 Return Coding</h2>
-<p >NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information together or separately. Here we will assume the two are coded and sent together, if they were coded separately then the corresponding code blocks would simply be omitted.</p>
-<p >Once NCHS have determined the causes of death they can create a <code>CodingResponseMessage</code> to return that information to the jurisdiction:</p>
+<p >NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes <code>CauseofDeathCodingResponseMessage</code> and <code>DemographicsCodingResponseMessage</code>, which are subtypes of the abstract class <code>CodingResponseMessage</code>.</p>
+<p >Once NCHS have determined the causes of death they can create a <code>CauseOfDeathCodingResponseMessage</code> to return that information to the jurisdiction:</p>
 <div class="fragment"><div class="line"><span class="comment">// Create an empty coding response message</span></div>
-<div class="line">CodingResponseMessage message = <span class="keyword">new</span> CodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>,</div>
-<div class="line">                                                          <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>);</div>
+<div class="line">CauseOfDeathCodingResponseMessage message = <span class="keyword">new</span> CauseOfDeathCodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>,</div>
+<div class="line">                                                                                  <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Assign the business identifiers</span></div>
 <div class="line">message.CertificateNumber = 10;</div>
@@ -161,26 +161,13 @@ Return Coding</h2>
 <div class="line">message.NCHSReceiptMonthString = <span class="stringliteral">&quot;1&quot;</span>;</div>
 <div class="line">message.NCHSReceiptDayString = <span class="stringliteral">&quot;9&quot;</span>;</div>
 <div class="line">message.NCHSReceiptYearString = <span class="stringliteral">&quot;2020&quot;</span>;</div>
-<div class="line">message.MannerOfDeath = CodingResponseMessage.MannerOfDeathEnum.Accident;</div>
+<div class="line">message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;</div>
 <div class="line">message.CoderStatus = <span class="stringliteral">&quot;8&quot;</span>;</div>
 <div class="line">message.ShipmentNumber = <span class="stringliteral">&quot;B202101&quot;</span>;</div>
-<div class="line">message.ACMESystemRejectCodes = CodingResponseMessage.ACMESystemRejectEnum.ACMEReject;</div>
-<div class="line">message.PlaceOfInjury = CodingResponseMessage.PlaceOfInjuryEnum.Home;</div>
+<div class="line">message.ACMESystemRejectCodes = CauseOfDeathCodingResponseMessage.ACMESystemRejectEnum.ACMEReject;</div>
+<div class="line">message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;</div>
 <div class="line">message.OtherSpecifiedPlace = <span class="stringliteral">&quot;Unique Location&quot;</span>;</div>
 <div class="line">message.IntentionalReject = <span class="stringliteral">&quot;5&quot;</span>;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Create the ethnicity coding</span></div>
-<div class="line">var ethnicity = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt;();</div>
-<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
-<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
-<div class="line">message.Ethnicity = ethnicity;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Create the race coding</span></div>
-<div class="line">var race = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt;();</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE1E, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE17C, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACEBRG, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">message.Race = race;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create the cause of death coding</span></div>
 <div class="line">message.UnderlyingCauseOfDeath = <span class="stringliteral">&quot;A04.7&quot;</span>;</div>
@@ -205,7 +192,36 @@ Return Coding</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
-</div><!-- fragment --><p >Note that the <code>CodingUpdateMessage</code> class supports the same constructor and properties as <code>CodingResponseMessage</code>. If a second coding message is needed to return causes of death coding or race and ethnicity coding then the same code as above can be used substituting <code>CodingUpdateMessage</code> for <code>CodingResponseMessage</code>.</p>
+</div><!-- fragment --><p >Similarly, NCHS can create a <code>DemographicsCodingResponseMessage</code> to convey coding information about the decedent's demographics.</p>
+<div class="fragment"><div class="line"><span class="comment">// Create an empty coding response message</span></div>
+<div class="line">DemographicsCodingResponseMessage message = <span class="keyword">new</span> DemographicsCodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>,</div>
+<div class="line">                                                                                  <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Assign the business identifiers</span></div>
+<div class="line">message.CertificateNumber = 10;</div>
+<div class="line">message.StateAuxiliaryIdentifier = <span class="stringliteral">&quot;101010&quot;</span>;</div>
+<div class="line">message.DeathYear = 2019;</div>
+<div class="line">message.DeathJurisdictionID = <span class="stringliteral">&quot;MA&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create the ethnicity coding</span></div>
+<div class="line">var ethnicity = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt;();</div>
+<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
+<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
+<div class="line">message.Ethnicity = ethnicity;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create the race coding</span></div>
+<div class="line">var race = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt;();</div>
+<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE1E, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
+<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE17C, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
+<div class="line">race.Add(CodingResponseMessage.RaceCode.RACEBRG, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
+<div class="line">message.Race = race;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
+<div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Send the JSON message</span></div>
+<div class="line">...</div>
+</div><!-- fragment --><p >Note that the <code>CauseOfDeathCodingUpdateMessage</code> and <code>DemographicsCodingUpdateMessage</code> classes support the same constructor and properties as their corresponding initial coding response classes. If a second coding message is needed to return causes of death coding or race and ethnicity coding, then the same code as above can be used substituting <code>CauseOfDeathCodingUpdateMessage</code> for <code>CauseOfDeathCodingResponseMessage</code> or <code>DemographicsCodingUpdateMessage</code> for <code>DemographicsCodingResponseMessage</code>.</p>
 <p >On receipt of the <code>CodingResponseMessage</code>, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
 <div class="line">StreamReader messageStream = ...;</div>
@@ -216,21 +232,27 @@ Return Coding</h2>
 <div class="line"><span class="comment">// Switch to determine the type of message</span></div>
 <div class="line"><span class="keywordflow">switch</span>(message)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keywordflow">case</span> CodingResponseMessage coding:</div>
+<div class="line">    <span class="keywordflow">case</span> CauseOfDeathCodingResponseMessage coding:</div>
 <div class="line">        <span class="keywordtype">string</span> nchsId = coding.NCHSIdentifier;</div>
 <div class="line">        <span class="keywordtype">string</span> stateAuxId = coding.StateAuxiliaryIdentifier;</div>
 <div class="line">        <span class="keywordtype">string</span> cod = coding.CauseOfDeathConditionId;</div>
-<div class="line">        Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt; ethnicity = coding.Ethnicity;</div>
-<div class="line">        Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt; race = coding.Race;</div>
 <div class="line">        List&lt;string&gt; recordAxis = coding.CauseOfDeathRecordAxis;</div>
 <div class="line">        List&lt;CauseOfDeathEntityAxisEntry&gt; entityAxis = coding.CauseOfDeathEntityAxis;</div>
-<div class="line">        ProcessCoding(nchsId, stateAuxId, ethnicity, race, cod, recordAxis, entityAxis);</div>
+<div class="line">        ProcessCauseOfDeathCoding(nchsId, stateAuxId, cod, recordAxis, entityAxis);</div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
+<div class="line">    <span class="keywordflow">case</span> CauseOfDeathCodingResponseMessage coding:</div>
+<div class="line">        <span class="keywordtype">string</span> nchsId = coding.NCHSIdentifier;</div>
+<div class="line">        <span class="keywordtype">string</span> stateAuxId = coding.StateAuxiliaryIdentifier;</div>
+<div class="line">        Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt; ethnicity = coding.Ethnicity;</div>
+<div class="line">        Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt; race = coding.Race;</div>
+<div class="line">        ProcessDemographicsCoding(nchsId, stateAuxId, ethnicity, race);</div>
+<div class="line">        <span class="keywordflow">break</span>;</div>
+<div class="line"> </div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
 Acknowledge Coding</h2>
-<p >If extraction of the coding information was succesful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source coding message.</p>
+<p >If extraction of the coding information was successful, the jurisdiction can generate an acknowledgement message and send it to NCHS. As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source coding message.</p>
 <div class="fragment"><div class="line"><span class="comment">// Create the acknowledgement message</span></div>
 <div class="line">var ackMsg = <span class="keyword">new</span> AckMessage(coding);</div>
 <div class="line"> </div>
@@ -258,7 +280,7 @@ Acknowledge Coding</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md27"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md28"></a>
 Failed Death Record Submission</h1>
 <p >The diagram below illustrates two message extraction failures:</p>
 <ol type="1">
@@ -267,14 +289,14 @@ Failed Death Record Submission</h1>
 </ol>
 <p ><img src="error.png" alt="Message Exchange Patterns for Failed Message Extraction" class="inline"/></p>
 <p >Use of the API to create the Death Record Submission, Acknowledgement and Coding Response messages is identical to that shown above and is not repeated here.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Create an Extraction Error Message</h2>
 <div class="fragment"><div class="line">DeathRecordSubmission submissionMessage = <span class="keyword">null</span>;</div>
 <div class="line"><span class="keywordflow">try</span></div>
 <div class="line">{</div>
 <div class="line">    submissionMessage = ...;</div>
 <div class="line">    ExtractSubmission(submissionMessage);</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">}</div>
 <div class="line"><span class="keywordflow">catch</span> (Exception ex)</div>
 <div class="line">{</div>
@@ -294,12 +316,12 @@ Create an Extraction Error Message</h2>
 <div class="line">    ...</div>
 <div class="line">}</div>
 </div><!-- fragment --><p >Note that the <code>ExtractionErrorMessage</code> constructor shown above will automatically set the message header properties and copy the business identifier properties (<code>CertificateNumber</code>, <code>StateAuxiliaryIdentifier</code> and <code>NCHSIdentifier</code>) from the supplied <code>DeathRecordSubmission</code>. If the supplied message is <code>null</code> these message properties will need to be set manually instead (not shown).</p>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Voiding a Death Record</h1>
 <p >The diagram below illustrates the sequence of message exchanges between a vital records jurisdiction and NVSS when an initial submission needs to be subsequently voided. Depending on timing, the initial submission may result in a Coding Response or not.</p>
 <p ><img src="void.png" alt="Message Exchange Pattern for Voiding a Prior Submission" class="inline"/></p>
 <p >It is also possible for a jurisdiction to send a <code>VoidMessage</code> to notify NCHS that a particular certificate identifier will not be used in the future. In this case, only the Death Record Void and corresponding Acknowledgement messages from the diagram above are used.</p>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Create a Void Messsage</h2>
 <p >There are two ways to create a <code>VoidMessage</code>, the first requires a <code>DeathRecord</code> for the record that will be voided:</p>
 <div class="fragment"><div class="line">DeathRecord record = ...;</div>
@@ -313,7 +335,7 @@ Create a Void Messsage</h2>
 <div class="line">voidMsg.NCHSIdentifier = <span class="stringliteral">&quot;2020MA001034&quot;</span>;</div>
 </div><!-- fragment --><p >In both cases the <code>MessageDestination</code> property value is defaulted to <code><a href="http://nchs.cdc.gov/vrdr_submission">http://nchs.cdc.gov/vrdr_submission</a></code> which is the value that should be used for messages sent to NCHS. A JSON representation of the message can be obtained as follows:</p>
 <div class="fragment"><div class="line">var jsonVoidMsg = voidMsg.ToJSON();</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
 Extract Void Information</h2>
 <p >On receipt of a message, NCHS can parse it, determine the type of the message, and extract the void record information using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -333,7 +355,7 @@ Extract Void Information</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
 Acknowledge Void Message</h2>
 <p >NCHS can generate an acknowledgement message and send it to jurisdiction as follows.</p>
 <div class="fragment"><div class="line"><span class="comment">// Create the acknowledgement message</span></div>
@@ -345,7 +367,7 @@ Acknowledge Void Message</h2>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >As described earlier, the <code>AckMessage</code> constructor initializes properties based on the source <code>VoidMessage</code> negating the need to initialize its properties manually.</p>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Process Acknowledgement</h2>
 <p >On receipt of the <code>AckMessage</code>, the jurisdiction can parse it, determine the type of the message, and extract the required information using the following steps:</p>
 <div class="fragment"><div class="line"><span class="comment">// Get the message as a stream</span></div>
@@ -366,7 +388,7 @@ Process Acknowledgement</h2>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md35"></a>
 Retrying Failed Deliveries</h1>
 <p >The diagram below illustrates the case where the vital records jurisdiction does not receive a timely Acknowledgement to a Death Record Submission. To recover, the vital records jurisdiction resends the Death Record Submission.</p>
 <p ><img src="retry.png" alt="Message Exchange Pattern for Voiding a Prior Submission" class="inline"/></p>
@@ -415,7 +437,7 @@ Retrying Failed Deliveries</h1>
 <div class="line"><span class="comment">// Resend the message</span></div>
 <div class="line">...</div>
 </div><!-- fragment --><p >The above two approaches are also applicable to the case where a coding response or update needs to be resent.</p>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Error Handling</h1>
 <p >Errors found when parsing messages will be reported either via a <code>System.ArgumentException</code> or a <code><a class="el" href="class_v_r_d_r_1_1_message_parse_exception.html" title="An exception that may be thrown during message parsing">VRDR.MessageParseException</a></code>. A <code>MessageParseException</code> encapsulates information from the message that caused the error. The exception can be used to construct a <code><a class="el" href="class_v_r_d_r_1_1_extraction_error_message.html" title="Class ExtractionErrorMessage is used to communicate that initial processing of a DeathRecordSubmissio...">VRDR.ExtractionErrorMessage</a></code> to report the error to the original sender of the message that caused the error. The code below illustrates this.</p>
 <div class="fragment"><div class="line"><span class="keywordflow">try</span></div>
@@ -430,7 +452,7 @@ Error Handling</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Validate completeness of error message</span></div>
 <div class="line">    ...</div>
-<div class="line">    </div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Serialize the error message</span></div>
 <div class="line">    <span class="keywordtype">string</span> errorReplyJson = errorReply.ToJSON();</div>
 <div class="line"> </div>

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['vivienneleewright_0',['VivienneLeeWright',['../class_v_r_d_r_1_1_connectathon.html#af7a87c515328de95aa27f85592c90bda',1,'VRDR::Connectathon']]],
-  ['voidmessage_1',['VoidMessage',['../class_v_r_d_r_1_1_void_message.html#aec9b6037da346dff7a8ce90100fa08a0',1,'VRDR.VoidMessage.VoidMessage()'],['../class_v_r_d_r_1_1_void_message.html#a1c347502013d9bd0c52e572c2c57c243',1,'VRDR.VoidMessage.VoidMessage(DeathRecord record)']]]
+  ['wracecodetoracename_0',['WRaceCodeToRaceName',['../class_v_r_d_r_1_1_mortality_data.html#a47bd577c1e02083895b6446dfebdf3b8',1,'VRDR::MortalityData']]],
+  ['wracenametoracecode_1',['WRaceNameToRaceCode',['../class_v_r_d_r_1_1_mortality_data.html#a0197b5e640164129aeebc8dde91d3d8c',1,'VRDR::MortalityData']]],
+  ['writerecordasxml_2',['WriteRecordAsXml',['../class_v_r_d_r_1_1_connectathon.html#afe3410925e22daf283bb19fa2a1d7c05',1,'VRDR::Connectathon']]]
 ];

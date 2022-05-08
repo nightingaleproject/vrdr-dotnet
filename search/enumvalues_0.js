@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['accident_0',['Accident',['../class_v_r_d_r_1_1_coding_response_message.html#af94c0650389a78a37743f20cdc63c971abc84b360bbb3fde2a03c44a41a49fa45',1,'VRDR::CodingResponseMessage']]],
-  ['acmereject_1',['ACMEReject',['../class_v_r_d_r_1_1_coding_response_message.html#afc446601dce0c6e00159c77d733e1e8ba09e433c58b487adef9078785e69ca306',1,'VRDR::CodingResponseMessage']]]
+  ['bool_0',['Bool',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53ac26f15e86e3de4c398a8273272aba034',1,'VRDR::Property']]]
 ];

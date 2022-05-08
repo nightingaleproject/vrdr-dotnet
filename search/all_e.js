@@ -1,7 +1,9 @@
 var searchData=
 [
   ['occup_0',['OCCUP',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a0c3b697af3301bac0d74f9382eabf8f2',1,'VRDR::IJEMortality']]],
-  ['operator_20bundle_1',['operator Bundle',['../class_v_r_d_r_1_1_base_message.html#a77ebf929dc7957b03164dd6eb1a1843c',1,'VRDR::BaseMessage']]],
-  ['othercondition_2',['OTHERCONDITION',['../class_v_r_d_r_1_1_i_j_e_mortality.html#af86ef038dffd9d91bed252753945825a',1,'VRDR::IJEMortality']]],
-  ['otherspecifiedplace_3',['OtherSpecifiedPlace',['../class_v_r_d_r_1_1_coding_response_message.html#acefdec6c2590bb29ad5b29ce691cd249',1,'VRDR.CodingResponseMessage.OtherSpecifiedPlace()'],['../class_v_r_d_r_1_1_coding_response_message.html#a791c2ddb5796e1dc5655aeae337d627baa9e23084859214d16e4dc7413be7ade5',1,'VRDR.CodingResponseMessage.OtherSpecifiedPlace()']]]
+  ['occupc_1',['OCCUPC',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7e652f58c9007bf7b9e329987302cc7b',1,'VRDR::IJEMortality']]],
+  ['occupc4_2',['OCCUPC4',['../class_v_r_d_r_1_1_i_j_e_mortality.html#ab7ecbfa1ac98d380cfb0881cf7ce491e',1,'VRDR::IJEMortality']]],
+  ['oldeduc_3',['OLDEDUC',['../class_v_r_d_r_1_1_i_j_e_mortality.html#adc4c40d5e9c9678491da1be4d00b167c',1,'VRDR::IJEMortality']]],
+  ['operator_20bundle_4',['operator Bundle',['../class_v_r_d_r_1_1_base_message.html#a77ebf929dc7957b03164dd6eb1a1843c',1,'VRDR::BaseMessage']]],
+  ['othercondition_5',['OTHERCONDITION',['../class_v_r_d_r_1_1_i_j_e_mortality.html#af86ef038dffd9d91bed252753945825a',1,'VRDR::IJEMortality']]]
 ];

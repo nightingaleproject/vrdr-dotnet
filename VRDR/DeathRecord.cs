@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
@@ -31,51 +33,75 @@ namespace VRDR
         /// <summary>Composition that described what the Bundle is, as well as keeping references to its contents.</summary>
         private Composition Composition;
 
-        /// <summary>DocumentReference that is used to specify state local death record identifier.</summary>
-        private DocumentReference StateDocumentReference;
-
         /// <summary>The Decedent.</summary>
         private Patient Decedent;
 
-        /// <summary>The Pronouncer of death.</summary>
-        private Practitioner Pronouncer;
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        private Observation InputRaceAndEthnicityObs;
+
+        // ///<summary>The Pronouncer of death.</summary>
+        //private Practitioner Pronouncer;
 
         /// <summary>The Certifier.</summary>
         private Practitioner Certifier;
-
-        /// <summary>The Mortician.</summary>
-        private Practitioner Mortician;
+        /// <summary>Create Certifier.</summary>
+        private void CreateCertifier(){
+            Certifier = new Practitioner();
+            Certifier.Id = Guid.NewGuid().ToString();
+            Certifier.Meta = new Meta();
+            string[] certifier_profile = { ProfileURL.Certifier  };
+            Certifier.Meta.Profile = certifier_profile;
+        }
+        // ///<summary>The Mortician.</summary>
+        //private Practitioner Mortician;
 
         /// <summary>The Certification.</summary>
         private Procedure DeathCertification;
 
-        /// <summary>The Interested Party.</summary>
-        private Organization InterestedParty;
+        /// <summary>Create Death Certification.</summary>
+        private void CreateDeathCertification(){
+            CreateEmptyDeathCertification();
+            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
+            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
+        }
+
+        /// <summary>Create Empty Death Certification.</summary>
+        private void CreateEmptyDeathCertification(){
+            DeathCertification = new Procedure();
+            DeathCertification.Id = Guid.NewGuid().ToString();
+            DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            DeathCertification.Meta = new Meta();
+            string[] deathcertification_profile = { ProfileURL.DeathCertification };
+            DeathCertification.Meta.Profile = deathcertification_profile;
+            DeathCertification.Status = EventStatus.Completed;
+            DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
+            DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
+        }
 
         /// <summary>The Manner of Death Observation.</summary>
         private Observation MannerOfDeath;
 
         /// <summary>Condition Contributing to Death.</summary>
-        private Condition ConditionContributingToDeath;
+        private Observation ConditionContributingToDeath;
 
         /// <summary>Create a Cause Of Death Condition </summary>
-        private Condition CauseOfDeathCondition(int index){
-                    Condition CodCondition;
-                    CodCondition = new Condition();
+        private Observation CauseOfDeathCondition(int index){
+                    Observation CodCondition;
+                    CodCondition = new Observation();
                     CodCondition.Id = Guid.NewGuid().ToString();
                     CodCondition.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition" };
+                    string[] condition_profile = { ProfileURL.CauseOfDeathPart1 };
                     CodCondition.Meta.Profile = condition_profile;
-                    CodCondition.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
+                    CodCondition.Code = new CodeableConcept(CodeSystems.LOINC, "69453-9", "Cause of death [US Standard Certificate of Death]", null);
                     CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    CodCondition.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    AddReferenceToComposition(CodCondition.Id);
+                    CodCondition.Performer.Add (new ResourceReference("urn:uuid:" + Certifier.Id));
+                    AddReferenceToComposition(CodCondition.Id, "DeathCertification");
                     Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
                     List.EntryComponent entry = new List.EntryComponent();
                     entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 10)
+                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
                     {
-                        foreach (var i in Enumerable.Range(0, 10)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                        foreach (var i in Enumerable.Range(0, 4)) { CauseOfDeathConditionPathway.Entry.Add(null); }
                     }
                     CauseOfDeathConditionPathway.Entry[index] = entry;
                     return (CodCondition);
@@ -83,34 +109,16 @@ namespace VRDR
 
 
         /// <summary>Cause Of Death Condition Line A (#1).</summary>
-        private Condition CauseOfDeathConditionA;
+        private Observation CauseOfDeathConditionA;
 
         /// <summary>Cause Of Death Condition Line B (#2).</summary>
-        private Condition CauseOfDeathConditionB;
+        private Observation CauseOfDeathConditionB;
 
         /// <summary>Cause Of Death Condition Line C (#3).</summary>
-        private Condition CauseOfDeathConditionC;
+        private Observation CauseOfDeathConditionC;
 
         /// <summary>Cause Of Death Condition Line D (#4).</summary>
-        private Condition CauseOfDeathConditionD;
-
-        /// <summary>Cause Of Death Condition Line E (#5).</summary>
-        private Condition CauseOfDeathConditionE;
-
-        /// <summary>Cause Of Death Condition Line F (#6).</summary>
-        private Condition CauseOfDeathConditionF;
-
-        /// <summary>Cause Of Death Condition Line G (#7).</summary>
-        private Condition CauseOfDeathConditionG;
-
-        /// <summary>Cause Of Death Condition Line H (#8).</summary>
-        private Condition CauseOfDeathConditionH;
-
-        /// <summary>Cause Of Death Condition Line I (#9).</summary>
-        private Condition CauseOfDeathConditionI;
-
-        /// <summary>Cause Of Death Condition Line J (#10).</summary>
-        private Condition CauseOfDeathConditionJ;
+        private Observation CauseOfDeathConditionD;
 
         /// <summary>Cause Of Death Condition Pathway.</summary>
         private List CauseOfDeathConditionPathway;
@@ -118,11 +126,51 @@ namespace VRDR
         /// <summary>Decedent's Father.</summary>
         private RelatedPerson Father;
 
+                /// <summary>Create Spouse.</summary>
+        private void CreateFather(){
+            Father = new RelatedPerson();
+            Father.Id = Guid.NewGuid().ToString();
+            Father.Meta = new Meta();
+            string[] father_profile = { ProfileURL.DecedentFather };
+            Father.Meta.Profile = father_profile;
+            Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
+            AddReferenceToComposition(Father.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
+        }
+
         /// <summary>Decedent's Mother.</summary>
         private RelatedPerson Mother;
 
+        /// <summary>Create Mother.</summary>
+        private void CreateMother(){
+            Mother = new RelatedPerson();
+            Mother.Id = Guid.NewGuid().ToString();
+            Mother.Meta = new Meta();
+            string[] mother_profile = { ProfileURL.DecedentMother };
+            Mother.Meta.Profile = mother_profile;
+            Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
+            AddReferenceToComposition(Mother.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
+        }
+
         /// <summary>Decedent's Spouse.</summary>
         private RelatedPerson Spouse;
+
+        /// <summary>Create Spouse.</summary>
+        private void CreateSpouse(){
+            Spouse = new RelatedPerson();
+            Spouse.Id = Guid.NewGuid().ToString();
+            Spouse.Meta = new Meta();
+            string[] spouse_profile = { ProfileURL.DecedentSpouse };
+            Spouse.Meta.Profile = spouse_profile;
+            Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
+            Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
+            AddReferenceToComposition(Spouse.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+        }
+
 
         /// <summary>Decedent Education Level.</summary>
         private Observation DecedentEducationLevel;
@@ -130,23 +178,59 @@ namespace VRDR
         /// <summary>Birth Record Identifier.</summary>
         private Observation BirthRecordIdentifier;
 
+        /// <summary>Emerging Issues.</summary>
+        protected Observation EmergingIssues;
+
+        /// <summary>
+        /// Coding Status
+        /// </summary>
+        private Parameters CodingStatusValues;
+
+        private void CreateEmptyCodingStatusValues()
+        {
+            CodingStatusValues = new Parameters();
+            CodingStatusValues.Id = Guid.NewGuid().ToString();
+            CodingStatusValues.Meta = new Meta();
+            string[] profile = { ProfileURL.CodingStatusValues };
+            CodingStatusValues.Meta.Profile = profile;
+            Date date = new Date();
+            date.Extension.Add(NewBlankPartialDateTimeExtension(false));
+            CodingStatusValues.Add("receiptDate", date);
+        }
+
         private void CreateBirthRecordIdentifier(){
             BirthRecordIdentifier = new Observation();
             BirthRecordIdentifier.Id = Guid.NewGuid().ToString();
             BirthRecordIdentifier.Meta = new Meta();
-            string[] br_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-BirthRecordIdentifier" };
+            string[] br_profile = { ProfileURL.BirthRecordIdentifier };
             BirthRecordIdentifier.Meta.Profile = br_profile;
             BirthRecordIdentifier.Status = ObservationStatus.Final;
-            BirthRecordIdentifier.Code = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", "BR", "Birth registry number", null);
+            BirthRecordIdentifier.Code = new CodeableConcept(CodeSystems.HL7_identifier_type, "BR", "Birth registry number", null);
             BirthRecordIdentifier.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             BirthRecordIdentifier.Value = (FhirString) null;
             BirthRecordIdentifier.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null);
 
-            AddReferenceToComposition(BirthRecordIdentifier.Id);
+            AddReferenceToComposition(BirthRecordIdentifier.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(BirthRecordIdentifier, "urn:uuid:" + BirthRecordIdentifier.Id);
         }
         /// <summary>Usual Work.</summary>
         private Observation UsualWork;
+
+        /// <summary>Create Usual Work.</summary>
+        private void CreateUsualWork(){
+            UsualWork = new Observation();
+            UsualWork.Id = Guid.NewGuid().ToString();
+            UsualWork.Meta = new Meta();
+            string[] usualwork_profile = { ProfileURL.DecedentUsualWork };
+            UsualWork.Meta.Profile = usualwork_profile;
+            UsualWork.Status = ObservationStatus.Final;
+            UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
+            UsualWork.Category.Add(new CodeableConcept(CodeSystems.ObservationCategory,"social-history",null, null));
+            UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            UsualWork.Effective = new Period();
+            AddReferenceToComposition(UsualWork.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+        }
 
         /// <summary>Whether the decedent served in the military</summary>
         private Observation MilitaryServiceObs;
@@ -154,17 +238,56 @@ namespace VRDR
         /// <summary>The Funeral Home.</summary>
         private Organization FuneralHome;
 
-        /// <summary>The Funeral Home Director.</summary>
-        private PractitionerRole FuneralHomeDirector;
+
+        /// <summary>Create Funeral Home.</summary>
+        private void CreateFuneralHome(){
+            FuneralHome = new Organization();
+            FuneralHome.Id = Guid.NewGuid().ToString();
+            FuneralHome.Meta = new Meta();
+            string[] funeralhome_profile = { ProfileURL.FuneralHome };
+            FuneralHome.Meta.Profile = funeralhome_profile;
+            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.OrganizationType, "funeralhome", "Funeral Home",null));
+            FuneralHome.Active = true;
+        }
+        // /// <summary>The Funeral Home Director.</summary>
+        // private PractitionerRole FuneralHomeDirector;
+
 
         /// <summary>Disposition Location.</summary>
         private Location DispositionLocation;
+
+        /// <summary>Create Disposition Location.</summary>
+        private void CreateDispositionLocation(){
+            DispositionLocation = new Location();
+            DispositionLocation.Id = Guid.NewGuid().ToString();
+            DispositionLocation.Meta = new Meta();
+            string[] dispositionlocation_profile = { ProfileURL.DispositionLocation };
+            DispositionLocation.Meta.Profile = dispositionlocation_profile;
+            Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
+            DispositionLocation.PhysicalType = new CodeableConcept();
+            DispositionLocation.PhysicalType.Coding.Add(pt);
+            DispositionLocation.Type.Add(new CodeableConcept( CodeSystems.LocationType, "disposition", "disposition location", null));
+        }
 
         /// <summary>Disposition Method.</summary>
         private Observation DispositionMethod;
 
         /// <summary>Autopsy Performed.</summary>
         private Observation AutopsyPerformed;
+
+        /// <summary>Create Autopsy Performed </summary>
+        private void CreateAutopsyPerformed(){
+            AutopsyPerformed = new Observation();
+            AutopsyPerformed.Id = Guid.NewGuid().ToString();
+            AutopsyPerformed.Meta = new Meta();
+            string[] autopsyperformed_profile = { ProfileURL.AutopsyPerformedIndicator };
+            AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
+            AutopsyPerformed.Status = ObservationStatus.Final;
+            AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
+            AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(AutopsyPerformed.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+        }
 
         /// <summary>Age At Death.</summary>
         private Observation AgeAtDeathObs;
@@ -174,33 +297,106 @@ namespace VRDR
             AgeAtDeathObs = new Observation();
             AgeAtDeathObs.Id = Guid.NewGuid().ToString();
             AgeAtDeathObs.Meta = new Meta();
-            string[] age_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age" };
+            string[] age_profile = { ProfileURL.DecedentAge };
             AgeAtDeathObs.Meta.Profile = age_profile;
             AgeAtDeathObs.Status = ObservationStatus.Final;
-            AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "30525-0", "Age", null);
+            AgeAtDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "39016-1", "Age at death", null);
             AgeAtDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AgeAtDeathObs.Effective = DeathDateObs?.Value;
             AgeAtDeathObs.Value = new Quantity();
             AgeAtDeathObs.DataAbsentReason = new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null); // set at birth
-            AddReferenceToComposition(AgeAtDeathObs.Id);
+            AddReferenceToComposition(AgeAtDeathObs.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(AgeAtDeathObs, "urn:uuid:" + AgeAtDeathObs.Id);
+        }
+
+        // Build a blank PartialDateTime extension (which means all the data absent reasons are present to note that the data is not in fact
+        // present); takes an optional flag to determine if this extension should include the time field, which is not always needed
+        private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
+        {
+            Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
+            Extension year = new Extension(ExtensionURL.DateYear, null);
+            year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(year);
+            Extension month = new Extension(ExtensionURL.DateMonth, null);
+            month.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(month);
+            Extension day = new Extension(ExtensionURL.DateDay, null);
+            day.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            partialDateTime.Extension.Add(day);
+            if (includeTime)
+            {
+                Extension time = new Extension(ExtensionURL.DateTime, null);
+                time.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+                partialDateTime.Extension.Add(time);
+            }
+            return partialDateTime;
         }
 
         private void CreateDeathDateObs() {
             DeathDateObs = new Observation();
             DeathDateObs.Id = Guid.NewGuid().ToString();
             DeathDateObs.Meta = new Meta();
-            string[] deathdate_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date" };
+            string[] deathdate_profile = { ProfileURL.DeathDate };
             DeathDateObs.Meta.Profile = deathdate_profile;
             DeathDateObs.Status = ObservationStatus.Final;
             DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
             DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(DeathDateObs.Id);
+            // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
+            // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
+            // by default set up all the PartialDate extensions with a default state of "data absent"
+            DeathDateObs.Value = new FhirDateTime();
+            DeathDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(true));
+            AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
+        }
+
+        private void CreateSurgeryDateObs() {
+            SurgeryDateObs = new Observation();
+            SurgeryDateObs.Id = Guid.NewGuid().ToString();
+            SurgeryDateObs.Meta = new Meta();
+            string[] profile = { ProfileURL.SurgeryDate };
+            SurgeryDateObs.Meta.Profile = profile;
+            SurgeryDateObs.Status = ObservationStatus.Final;
+            SurgeryDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "80992-1", "Date and time of surgery", null);
+            SurgeryDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            // A SurgeryDate can be represented either using the PartialDateTime or the valueDateTime as with DeathDate above
+            SurgeryDateObs.Value = new FhirDateTime();
+            SurgeryDateObs.Value.Extension.Add(NewBlankPartialDateTimeExtension(false));
+            AddReferenceToComposition(SurgeryDateObs.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(SurgeryDateObs, "urn:uuid:" + SurgeryDateObs.Id);
+        }
+
+        private void CreateRaceEthnicityObs() {
+            InputRaceAndEthnicityObs = new Observation();
+            InputRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
+            InputRaceAndEthnicityObs.Meta = new Meta();
+            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
+            InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
+            InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
+            Dictionary<string, string> coding = new Dictionary<string, string>();
+            coding.Add("code", "inputraceandethnicity");
+            coding.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs");
+            InputRaceAndEthnicityObs.Code = DictToCodeableConcept(coding);
+            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
+            AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
         }
 
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
+
+        /// <summary> Create Pregnancy Status. </summary>
+        private void CreatePregnancyObs(){
+            PregnancyObs = new Observation();
+            PregnancyObs.Id = Guid.NewGuid().ToString();
+            PregnancyObs.Meta = new Meta();
+            string[] p_profile = { ProfileURL.DecedentPregnancyStatus };
+            PregnancyObs.Meta.Profile = p_profile;
+            PregnancyObs.Status = ObservationStatus.Final;
+            PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
+            PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PregnancyObs.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+        }
 
         /// <summary>Examiner Contacted.</summary>
         private Observation ExaminerContactedObs;
@@ -208,20 +404,21 @@ namespace VRDR
         /// <summary>Tobacco Use Contributed To Death.</summary>
         private Observation TobaccoUseObs;
 
-        /// <summary>Transportation Role.</summary>
-        private Observation TransportationRoleObs;
+        // /// <summary>Transportation Role.</summary>
+        // private Observation TransportationRoleObs;
 
         /// <summary>Injury Location.</summary>
         private Location InjuryLocationLoc;
-
 
           /// <summary>Create Injury Location.</summary>
           private void CreateInjuryLocationLoc(){
             InjuryLocationLoc = new Location();
             InjuryLocationLoc.Id = Guid.NewGuid().ToString();
             InjuryLocationLoc.Meta = new Meta();
-            string[] injurylocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location" };
+            string[] injurylocation_profile = {ProfileURL.InjuryLocation };
             InjuryLocationLoc.Meta.Profile = injurylocation_profile;
+            InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
+            InjuryLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "injury", "injury location", null));
         }
 
         /// <summary>Injury Incident.</summary>
@@ -232,13 +429,14 @@ namespace VRDR
                     InjuryIncidentObs = new Observation();
                     InjuryIncidentObs.Id = Guid.NewGuid().ToString();
                     InjuryIncidentObs.Meta = new Meta();
-                    string[] iio_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" };
+                    string[] iio_profile = { ProfileURL.InjuryIncident };
                     InjuryIncidentObs.Meta.Profile = iio_profile;
                     InjuryIncidentObs.Status = ObservationStatus.Final;
                     InjuryIncidentObs.Code = new CodeableConcept(CodeSystems.LOINC, "11374-6", "Injury incident description Narrative", null);
                     InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryIncidentObs.Id);
+                    InjuryIncidentObs.Effective = new FhirDateTime();
+                    InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
+                    AddReferenceToComposition(InjuryIncidentObs.Id, "OBE");
                     Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
         /// <summary>Death Location.</summary>
@@ -248,16 +446,114 @@ namespace VRDR
             DeathLocationLoc = new Location();
             DeathLocationLoc.Id = Guid.NewGuid().ToString();
             DeathLocationLoc.Meta = new Meta();
-            string[] deathlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location" };
+            string[] deathlocation_profile = { ProfileURL.DeathLocation };
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
-            LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-            AddReferenceToComposition(DeathLocationLoc.Id);
+            DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
+            AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+
         }
 
         /// <summary>Date Of Death.</summary>
         private Observation DeathDateObs;
-        private const string  locationJurisdictionExtPath = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id";
+
+        /// <summary>Date Of Surgery.</summary>
+        private Observation SurgeryDateObs;
+
+        // Coded Observations
+        /// <summary> Activity at Time of Death </summary>
+        private Observation ActivityAtTimeOfDeathObs;
+
+        /// <summary>Create an empty ActivityAtTimeOfDeathObs, to be populated in ActivityAtDeath.</summary>
+        private void CreateActivityAtTimeOfDeathObs()
+        {
+            ActivityAtTimeOfDeathObs = new Observation();
+            ActivityAtTimeOfDeathObs.Id = Guid.NewGuid().ToString();
+            ActivityAtTimeOfDeathObs.Meta = new Meta();
+            string[] profile = { ProfileURL.ActivityAtTimeOfDeath };
+            ActivityAtTimeOfDeathObs.Meta.Profile = profile;
+            ActivityAtTimeOfDeathObs.Status = ObservationStatus.Final;
+            ActivityAtTimeOfDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "80626-5", "Activity at time of death [CDC]", null);
+            ActivityAtTimeOfDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(ActivityAtTimeOfDeathObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(ActivityAtTimeOfDeathObs, "urn:uuid:" + ActivityAtTimeOfDeathObs.Id);
+        }
+        /// <summary> Automated Underlying Cause of Death </summary>
+        private Observation AutomatedUnderlyingCauseOfDeathObs;
+
+        /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        private void CreateAutomatedUnderlyingCauseOfDeathObs()
+        {
+            AutomatedUnderlyingCauseOfDeathObs = new Observation();
+            AutomatedUnderlyingCauseOfDeathObs.Id = Guid.NewGuid().ToString();
+            AutomatedUnderlyingCauseOfDeathObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            AutomatedUnderlyingCauseOfDeathObs.Meta.Profile = profile;
+            AutomatedUnderlyingCauseOfDeathObs.Status = ObservationStatus.Final;
+            AutomatedUnderlyingCauseOfDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "80358-5", "Cause of death.underlying [Automated]", null);
+            AutomatedUnderlyingCauseOfDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(AutomatedUnderlyingCauseOfDeathObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(AutomatedUnderlyingCauseOfDeathObs, "urn:uuid:" + AutomatedUnderlyingCauseOfDeathObs.Id);
+        }
+        /// <summary> Manual Underlying Cause of Death </summary>
+        private Observation ManualUnderlyingCauseOfDeathObs;
+
+        /// <summary>Create an empty AutomatedUnderlyingCODObs, to be populated in AutomatedUnderlyingCOD.</summary>
+        private void CreateManualUnderlyingCauseOfDeathObs()
+        {
+            ManualUnderlyingCauseOfDeathObs = new Observation();
+            ManualUnderlyingCauseOfDeathObs.Id = Guid.NewGuid().ToString();
+            ManualUnderlyingCauseOfDeathObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            ManualUnderlyingCauseOfDeathObs.Meta.Profile = profile;
+            ManualUnderlyingCauseOfDeathObs.Status = ObservationStatus.Final;
+            ManualUnderlyingCauseOfDeathObs.Code = new CodeableConcept(CodeSystems.LOINC, "80359-3", "Cause of death.underlying [Manual]", null);
+            ManualUnderlyingCauseOfDeathObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(ManualUnderlyingCauseOfDeathObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(ManualUnderlyingCauseOfDeathObs, "urn:uuid:" + ManualUnderlyingCauseOfDeathObs.Id);
+        }
+
+        /// <summary> Place Of Injury </summary>
+        private Observation PlaceOfInjuryObs;
+
+        /// <summary>Create an empty PlaceOfInjuryObs, to be populated in PlaceOfInjury.</summary>
+        private void CreatePlaceOfInjuryObs()
+        {
+            PlaceOfInjuryObs = new Observation();
+            PlaceOfInjuryObs.Id = Guid.NewGuid().ToString();
+            PlaceOfInjuryObs.Meta = new Meta();
+            string[] profile = { ProfileURL.AutomatedUnderlyingCauseOfDeath };
+            PlaceOfInjuryObs.Meta.Profile = profile;
+            PlaceOfInjuryObs.Status = ObservationStatus.Final;
+            PlaceOfInjuryObs.Code = new CodeableConcept(CodeSystems.LOINC, "11376-1", "Injury location", null);
+            PlaceOfInjuryObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(PlaceOfInjuryObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(PlaceOfInjuryObs, "urn:uuid:" + PlaceOfInjuryObs.Id);
+        }
+
+        /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
+        private Observation CodedRaceAndEthnicityObs;
+
+
+        /// <summary>Create an empty CodedRaceAndEthnicityObs, to be populated in Various Methods.</summary>
+        private void CreateCodedRaceAndEthnicityObs()
+        {
+            CodedRaceAndEthnicityObs = new Observation();
+            CodedRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
+            CodedRaceAndEthnicityObs.Meta = new Meta();
+            string[] profile = { ProfileURL.CodedRaceAndEthnicity };
+            CodedRaceAndEthnicityObs.Meta.Profile = profile;
+            CodedRaceAndEthnicityObs.Status = ObservationStatus.Final;
+            CodedRaceAndEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "codedraceandethnicity", "Coded Race and Ethnicity", null);
+            CodedRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(CodedRaceAndEthnicityObs.Id, "CodedContent");
+            Bundle.AddResourceEntry(CodedRaceAndEthnicityObs, "urn:uuid:" + CodedRaceAndEthnicityObs.Id);
+        }
+        /// <summary>Entity Axis Cause of Death</summary>
+        private List<Observation> EntityAxisCauseOfDeathObsList;
+
+        /// <summary>Record Axis Cause of Death</summary>
+        private List<Observation> RecordAxisCauseOfDeathObsList;
 
         /// <summary>Default constructor that creates a new, empty DeathRecord.</summary>
         public DeathRecord()
@@ -275,79 +571,47 @@ namespace VRDR
             Decedent = new Patient();
             Decedent.Id = Guid.NewGuid().ToString();
             Decedent.Meta = new Meta();
-            string[] decedent_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent" };
+            string[] decedent_profile = { ProfileURL.Decedent };
             Decedent.Meta.Profile = decedent_profile;
 
-            // Start with an empty certifier.
-            Certifier = new Practitioner();
-            Certifier.Id = Guid.NewGuid().ToString();
-            Certifier.Meta = new Meta();
-            string[] certifier_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier" };
-            Certifier.Meta.Profile = certifier_profile;
+            // Start with an empty race and ethinicity observation
+            InputRaceAndEthnicityObs = new Observation();
+            InputRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
+            InputRaceAndEthnicityObs.Meta = new Meta();
+            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
+            InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
+            InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
+            InputRaceAndEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "inputraceandethnicity", "Input Race and Ethnicity", null);
+            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
 
-            // Start with an empty pronouncer.
-            Pronouncer = new Practitioner();
-            Pronouncer.Id = Guid.NewGuid().ToString();
-            Pronouncer.Meta = new Meta();
-            string[] pronouncer_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer" };
-            Pronouncer.Meta.Profile = pronouncer_profile;
+            // Start with an empty certifier.
+            CreateCertifier();
+
+            // // Start with an empty pronouncer.
+            // Pronouncer = new Practitioner();
+            // Pronouncer.Id = Guid.NewGuid().ToString();
+            // Pronouncer.Meta = new Meta();
+            // string[] pronouncer_profile = { OtherProfileURL.USCorePractitioner };
+            // Pronouncer.Meta.Profile = pronouncer_profile;
 
             // Start with an empty mortician.
-            InitializeMorticianIfNull();
+           // InitializeMorticianIfNull();
 
             // Start with an empty certification.
-            DeathCertification = new Procedure();
-            DeathCertification.Id = Guid.NewGuid().ToString();
-            DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            DeathCertification.Meta = new Meta();
-            string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-            DeathCertification.Meta.Profile = deathcertification_profile;
-            DeathCertification.Status = EventStatus.Completed;
-            DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
-            DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
-
-            // Start with an empty interested party.
-            InterestedParty = new Organization();
-            InterestedParty.Id = Guid.NewGuid().ToString();
-            InterestedParty.Meta = new Meta();
-            string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-            InterestedParty.Meta.Profile = interestedparty_profile;
-            InterestedParty.Active = true;
+            CreateEmptyDeathCertification();
 
             // Start with an empty funeral home.
-            FuneralHome = new Organization();
-            FuneralHome.Id = Guid.NewGuid().ToString();
-            FuneralHome.Meta = new Meta();
-            string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-            FuneralHome.Meta.Profile = funeralhome_profile;
-            FuneralHome.Active = true;
-            FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
-
-            // FuneralHomeLicensee Points to Mortician and FuneralHome
-            FuneralHomeDirector = new PractitionerRole();
-            FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-            FuneralHomeDirector.Meta = new Meta();
-            string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
-            FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-            FuneralHomeDirector.Practitioner = new ResourceReference("urn:uuid:" + Mortician.Id);
-            FuneralHomeDirector.Organization = new ResourceReference("urn:uuid:" + FuneralHome.Id);
+            CreateFuneralHome();
 
             // Location of Disposition
-            DispositionLocation = new Location();
-            DispositionLocation.Id = Guid.NewGuid().ToString();
-            DispositionLocation.Meta = new Meta();
-            string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-            DispositionLocation.Meta.Profile = dispositionlocation_profile;
-            Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-            DispositionLocation.PhysicalType = new CodeableConcept();
-            DispositionLocation.PhysicalType.Coding.Add(pt);
+            CreateDispositionLocation();
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
             Composition.Id = Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
             Composition.Meta = new Meta();
-            string[] composition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate" };
+            string[] composition_profile = { ProfileURL.DeathCertificate };
             Composition.Meta.Profile = composition_profile;
             Composition.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
             Composition.Section.Add(new Composition.SectionComponent());
@@ -367,34 +631,37 @@ namespace VRDR
             CauseOfDeathConditionPathway = new List();
             CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
             CauseOfDeathConditionPathway.Meta = new Meta();
-            string[] causeofdeathconditionpathway_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" };
+            string[] causeofdeathconditionpathway_profile = { ProfileURL.CauseOfDeathPathway };
             CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
             CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
             CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
             CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
             CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
+            CreateEmptyCodingStatusValues();
+
             // Add references back to the Decedent, Certifier, Certification, etc.
-            AddReferenceToComposition(Decedent.Id);
-            AddReferenceToComposition(Certifier.Id);
-            AddReferenceToComposition(Pronouncer.Id);
-            AddReferenceToComposition(Mortician.Id);
-            AddReferenceToComposition(DeathCertification.Id);
-            AddReferenceToComposition(InterestedParty.Id);
-            AddReferenceToComposition(FuneralHome.Id);
-            AddReferenceToComposition(FuneralHomeDirector.Id);
-            AddReferenceToComposition(CauseOfDeathConditionPathway.Id);
-            AddReferenceToComposition(DispositionLocation.Id);
+            AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
+            AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
+            AddReferenceToComposition(Certifier.Id, "DeathCertification");
+            // AddReferenceToComposition(Pronouncer.Id, "OBE");
+            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
+            AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
+            AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
+            AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
+            AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
+            // TODO: Some of these, particularly the ones that only appear in certain bundles, probably shouldn't be added by default
+            Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
-            Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
-            Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
+            // Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
+            //Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-            Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
-            Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
+            //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
+            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -467,12 +734,13 @@ namespace VRDR
 
         /// <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
         /// <param name="bundle">represents a FHIR Bundle.</param>
+        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
         /// <exception cref="ArgumentException">Record is invalid.</exception>
-        public DeathRecord(Bundle bundle)
+        public DeathRecord(Bundle bundle, bool fullRecord = true)
         {
             Bundle = bundle;
             Navigator = Bundle.ToTypedElement();
-            RestoreReferences();
+            RestoreReferences(fullRecord);
         }
 
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
@@ -517,6 +785,95 @@ namespace VRDR
             return Bundle;
         }
 
+        /// <summary>
+        /// Helper method to return the bundle that makes up a CauseOfDeathCodedContent bundle. This is actually
+        /// the complete DeathRecord Bundle accessible via a method name that aligns with the other specific
+        /// GetBundle methods (GetCauseOfDeathCodedContentBundle and GetDemographicCodedContentBundle).
+        /// </summary>
+        /// <returns>a FHIR Bundle</returns>
+        public Bundle GetDeathCertificateDocumentBundle()
+        {
+            return Bundle;
+        }
+
+        private void AddResourceToBundleIfPresent(Resource resource, Bundle bundle)
+        {
+            if (resource != null)
+            {
+                bundle.AddResourceEntry(resource, "urn:uuid:" + resource.Id);
+            }
+        }
+
+        /// <summary>Helper method to return the subset of this record that makes up a CauseOfDeathCodedContent bundle.</summary>
+        /// <returns>a new FHIR Bundle</returns>
+        public Bundle GetCauseOfDeathCodedContentBundle()
+        {
+            Bundle codccBundle = new Bundle();
+            codccBundle.Id = Guid.NewGuid().ToString();
+            codccBundle.Type = Bundle.BundleType.Collection;
+            codccBundle.Meta = new Meta();
+            string[] profile = { ProfileURL.CauseOfDeathCodedContentBundle };
+            codccBundle.Meta.Profile = profile;
+            codccBundle.Timestamp = DateTime.Now;
+            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
+            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
+            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
+            codccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
+            AddResourceToBundleIfPresent(ActivityAtTimeOfDeathObs, codccBundle);
+            AddResourceToBundleIfPresent(AutomatedUnderlyingCauseOfDeathObs, codccBundle);
+            AddResourceToBundleIfPresent(ManualUnderlyingCauseOfDeathObs, codccBundle);
+            if (EntityAxisCauseOfDeathObsList != null)
+            {
+                foreach (Observation observation in EntityAxisCauseOfDeathObsList)
+                {
+                    AddResourceToBundleIfPresent(observation, codccBundle);
+                }
+            }
+            if (RecordAxisCauseOfDeathObsList != null)
+            {
+                foreach (Observation observation in RecordAxisCauseOfDeathObsList)
+                {
+                    AddResourceToBundleIfPresent(observation, codccBundle);
+                }
+            }
+            AddResourceToBundleIfPresent(PlaceOfInjuryObs, codccBundle);
+            AddResourceToBundleIfPresent(CodingStatusValues, codccBundle);
+            AddResourceToBundleIfPresent(CauseOfDeathConditionA, codccBundle);
+            AddResourceToBundleIfPresent(CauseOfDeathConditionB, codccBundle);
+            AddResourceToBundleIfPresent(CauseOfDeathConditionC, codccBundle);
+            AddResourceToBundleIfPresent(CauseOfDeathConditionD, codccBundle);
+            AddResourceToBundleIfPresent(CauseOfDeathConditionPathway, codccBundle);
+            AddResourceToBundleIfPresent(ConditionContributingToDeath, codccBundle);
+            AddResourceToBundleIfPresent(MannerOfDeath, codccBundle);
+            AddResourceToBundleIfPresent(AutopsyPerformed, codccBundle);
+            AddResourceToBundleIfPresent(DeathCertification, codccBundle);
+            AddResourceToBundleIfPresent(InjuryIncidentObs, codccBundle);
+            AddResourceToBundleIfPresent(TobaccoUseObs, codccBundle);
+            AddResourceToBundleIfPresent(PregnancyObs, codccBundle);
+            AddResourceToBundleIfPresent(SurgeryDateObs, codccBundle);
+            return codccBundle;
+        }
+
+        /// <summary>Helper method to return the subset of this record that makes up a DemographicCodedContent bundle.</summary>
+        /// <returns>a new FHIR Bundle</returns>
+        public Bundle GetDemographicCodedContentBundle()
+        {
+            Bundle dccBundle = new Bundle();
+            dccBundle.Id = Guid.NewGuid().ToString();
+            dccBundle.Type = Bundle.BundleType.Collection;
+            dccBundle.Meta = new Meta();
+            string[] profile = { ProfileURL.DemographicCodedContentBundle };
+            dccBundle.Meta.Profile = profile;
+            dccBundle.Timestamp = DateTime.Now;
+            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
+            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
+            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
+            dccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
+            AddResourceToBundleIfPresent(CodedRaceAndEthnicityObs, dccBundle);
+            AddResourceToBundleIfPresent(InputRaceAndEthnicityObs, dccBundle);
+            return dccBundle;
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
         //
         // Record Properties: Death Certification
@@ -531,21 +888,28 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
-        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 3)]
-        [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
+        [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, IGURL.DeathCertificate, true, 3)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
+         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
         public string Identifier
         {
             get
             {
-                Identifier id = DeathCertification?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
-                return id == null ? null : id.Value;
+                if(Composition != null && Composition.Identifier != null && Composition.Identifier.Value != null && Composition.Identifier.Value.Length > 0)
+                {
+                    return Composition.Identifier.Value;
+                }
+                return null;
+
             }
             set
             {
-                DeathCertification.Identifier.Clear();
                 Identifier identifier = new Identifier();
                 identifier.Value = value;
-                DeathCertification.Identifier.Add(identifier);
+                if(Composition == null){
+                    Composition = new Composition();
+                }
+                Composition.Identifier = identifier;
                 UpdateBundleIdentifier();
             }
         }
@@ -554,14 +918,14 @@ namespace VRDR
         private void UpdateBundleIdentifier()
         {
             uint certificateNumber = 0;
-            UInt32.TryParse(this.Identifier, out certificateNumber);
-            uint deathYear = 0;
-            if (this.DateOfDeath != null)
+            if (Composition != null && Composition.Identifier != null && Composition.Identifier.Value != null)
             {
-                if (this.DateOfDeath.Length >= 4)
-                {
-                    UInt32.TryParse(this.DateOfDeath.Substring(0,4), out deathYear);
-                }
+                UInt32.TryParse(Composition.Identifier.Value, out certificateNumber);
+            }
+            uint deathYear = 0;
+            if (this.DeathYear != null)
+            {
+                deathYear = (uint)this.DeathYear;
             }
 
             String jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
@@ -585,7 +949,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.BundleIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Document.html", true, 4)]
+        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, IGURL.DeathCertificateDocument, true, 4)]
         [FHIRPath("Bundle", "identifier")]
         public string BundleIdentifier
         {
@@ -599,68 +963,116 @@ namespace VRDR
             }
             private set
             {
-                Identifier identifier = new Identifier();
-                identifier.Value = value;
-                identifier.System = "http://nchs.cdc.gov/vrdr_id";
-                Bundle.Identifier = identifier;
+                if (Bundle.Identifier == null)
+                {
+                    Bundle.Identifier = new Identifier();
+                }
+                Bundle.Identifier.Value = value;
+                Bundle.Identifier.System = "http://nchs.cdc.gov/vrdr_id";
             }
         }
 
-        /// <summary>State Local Identifier.</summary>
-        /// <value>a state local identification string.</value>
+        /// <summary>State Local Identifier1.</summary>
+        /// <para>"value" the string representation of the local identifier</para>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.StateLocalIdentifier = "4242123";</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier1 = "MA";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier}");</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
-        [Property("State Local Identifier", Property.Types.String, "Decedent Demographics", "State Local Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate-Reference.html", true, 4)]
-        [FHIRPath("Bundle.entry.resource.where($this is DocumentReference).where(type.coding.code='64297-5')", "")]
-        public string StateLocalIdentifier
+        [Property("State Local Identifier1", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        public string StateLocalIdentifier1
         {
             get
             {
-                // return first non-null/empty identifier value or null if none found
-                Identifier identifier = StateDocumentReference?.Identifier?.FirstOrDefault(i => i.Value != null && i.Value.Length > 0);
-                return identifier==null ? null : identifier.Value;
+                if (Composition?.Identifier?.Extension != null)
+                {
+                    Extension ext = Composition.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                    if (ext?.Value != null)
+                    {
+                        return Convert.ToString(ext.Value);
+                    }
+                }
+
+                return null;
             }
             set
             {
-                if (StateDocumentReference == null)
+                if(Composition == null){
+                    Composition = new Composition();
+                }
+                if (Composition?.Identifier?.Extension != null)
                 {
-                    StateDocumentReference = new DocumentReference();
-                    StateDocumentReference.Id = Guid.NewGuid().ToString();
-                    StateDocumentReference.Meta = new Meta();
-                    string[] profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Reference" };
-                    StateDocumentReference.Meta.Profile = profile;
-                    StateDocumentReference.Status = DocumentReferenceStatus.Current;
-                    StateDocumentReference.Type = new CodeableConcept(CodeSystems.LOINC, "64297-5", "Death certificate", null);
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    StateDocumentReference.Identifier.Add(identifier);
-                    if (InterestedParty != null)
+                    Composition.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                }
+
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Extension ext = new Extension();
+                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier1;
+                    ext.Value = new FhirString(value);
+                    if (Composition.Identifier == null)
                     {
-                        StateDocumentReference.Author.Add(new ResourceReference("urn:uuid:" + InterestedParty.Id));
+                        Identifier identifier = new Identifier();
+                        Composition.Identifier = identifier;
                     }
-                    StateDocumentReference.Date = new DateTimeOffset(DateTime.Now);
-                    Attachment attachment = new Attachment();
-                    attachment.Url = "urn:uuid:" + Bundle.Id;
-                    DocumentReference.ContentComponent content = new DocumentReference.ContentComponent();
-                    content.Attachment = attachment;
-                    StateDocumentReference.Content.Add(content);
-                    AddReferenceToComposition(StateDocumentReference.Id);
-                    Bundle.AddResourceEntry(StateDocumentReference, "urn:uuid:" + StateDocumentReference.Id);
+                    Composition.Identifier.Extension.Add(ext);
                 }
-                else
-                {
-                    StateDocumentReference.Identifier.Clear();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    StateDocumentReference.Identifier.Add(identifier);
-                }
+
             }
         }
 
+        /// <summary>State Local Identifier2.</summary>
+        /// <para>"value" the string representation of the local identifier</para>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.StateLocalIdentifier2 = "YC";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
+        /// </example>
+        [Property("State Local Identifier2", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        public string StateLocalIdentifier2
+        {
+            get
+            {
+                if (Composition?.Identifier?.Extension != null)
+                {
+                    Extension ext = Composition.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
+                    if (ext?.Value != null)
+                    {
+                        return Convert.ToString(ext.Value);
+                    }
+                }
+
+                return null;
+            }
+            set
+            {
+                 if(Composition == null){
+                    Composition = new Composition();
+                }
+                if (Composition?.Identifier?.Extension != null)
+                {
+                    Composition.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
+                }
+
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Extension ext = new Extension();
+                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier2;
+                    ext.Value = new FhirString(value);
+                    if (Composition.Identifier == null)
+                    {
+                        Identifier identifier = new Identifier();
+                        Composition.Identifier = identifier;
+                    }
+                    Composition.Identifier.Extension.Add(ext);
+                }
+
+            }
+        }
 
         /// <summary>Certified time.</summary>
         /// <value>time when the record was certified.</value>
@@ -670,7 +1082,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certified at: {ExampleDeathRecord.CertifiedTime}");</para>
         /// </example>
-        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", false, 12)]
+        [Property("Certified Time", Property.Types.StringDateTime, "Death Certification", "Certified time (i.e. certifier date signed).", true, IGURL.DeathCertification, false, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "")]
         public string CertifiedTime
         {
@@ -689,24 +1101,72 @@ namespace VRDR
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure();
-                    DeathCertification.Id = Guid.NewGuid().ToString();
-                    DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-                    DeathCertification.Meta.Profile = deathcertification_profile;
-                    DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
-                    AddReferenceToComposition(DeathCertification.Id);
-                    Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                    Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirDateTime(value);
+                    CreateDeathCertification();
                 }
-                else
+
+                Composition.Attester.First().Time = value;
+                DeathCertification.Performed = new FhirDateTime(value);
+            }
+        }
+
+        /// <summary>Filing Format.</summary>
+        /// <value>Source flag: paper/electronic.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FilingFormat = ValueSets.FilingFormat.electronic;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.FilingFormat}");</para>
+        /// </example>
+        [Property("Filing Format", Property.Types.Dictionary, "Death Certification", "Filing format.", true, IGURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
+        public Dictionary<string, string> FilingFormat
+        {
+            get
+            {
+                Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
+
+                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
                 {
-                    Composition.Attester.First().Time = value;
-                    DeathCertification.Performed = new FhirDateTime(value);
+                    return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
                 }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.FilingFormat);
+                Extension filingFormat = new Extension();
+                filingFormat.Url = ExtensionURL.FilingFormat;
+                filingFormat.Value = DictToCodeableConcept(value);
+                Composition.Extension.Add(filingFormat);
+            }
+        }
+
+        /// <summary>Filing Format Helper.</summary>
+        /// <value>filing format.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FilingFormatHelper = ValueSets.FilingFormat.Electronic;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.FilingFormatHelper}");</para>
+        /// </example>
+        [Property("Filing Format Helper", Property.Types.String, "Death Certification", "Filing Format.", true, IGURL.DeathCertificate, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat')", "")]
+        public string FilingFormatHelper
+        {
+            get
+            {
+                if (FilingFormat.ContainsKey("code"))
+                {
+                    return FilingFormat["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FilingFormat", value, VRDR.ValueSets.FilingFormat.Codes);
             }
         }
 
@@ -718,7 +1178,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Registered at: {ExampleDeathRecord.RegisteredTime}");</para>
         /// </example>
-        [Property("Registered Date/Time", Property.Types.StringDateTime, "Death Certification", "Date/Time of record registration.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certificate.html", true, 13)]
+        [Property("Registered Date/Time", Property.Types.StringDateTime, "Death Certification", "Date/Time of record registration.", true, IGURL.DeathCertificate, true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "date")]
         public string RegisteredTime
         {
@@ -731,6 +1191,99 @@ namespace VRDR
                 Composition.Date = value;
             }
         }
+
+        /// <summary>State Specific Data.</summary>
+        /// <value>Possible use for future filler unless two neighboring states wish to use for some specific information that they both collect. This would be a non-standard field</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.StateSpecific = "Data";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"State Specific Data: {ExampleDeathRecord.StateSpecific}");</para>
+        /// </example>
+        [Property("State Specific Data", Property.Types.String, "Death Certification", "State Specific Content.", true, IGURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField')", "date")]
+        public string StateSpecific
+        {
+            get
+            {
+                Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
+                if (stateSpecificData != null)
+                {
+                    return stateSpecificData.Value.ToString();
+                }
+                return "";
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
+                Extension stateSpecificData = new Extension();
+                stateSpecificData.Url = ExtensionURL.StateSpecificField;
+                stateSpecificData.Value = new FhirString(value);
+                Composition.Extension.Add(stateSpecificData);
+            }
+        }
+
+        /// <summary>Replace Status.</summary>
+        /// <value>Replacement Record – suggested codes.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatus = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filed method: {ExampleDeathRecord.ReplaceStatus}");</para>
+        /// </example>
+        [Property("Replace Status", Property.Types.Dictionary, "Death Certification", "Replace status.", true, IGURL.DeathCertificate, true, 13)]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public Dictionary<string, string> ReplaceStatus
+        {
+            get
+            {
+                Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
+
+                if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                Extension replaceStatus = new Extension();
+                replaceStatus.Url = ExtensionURL.ReplaceStatus;
+                replaceStatus.Value = DictToCodeableConcept(value);
+                Composition.Extension.Add(replaceStatus);
+            }
+        }
+
+        /// <summary>Replace Status Helper.</summary>
+        /// <value>replace status.
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReplaceStatusHelper = ValueSets.ReplaceStatus.Original_Record;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"ReplaceStatus: {ExampleDeathRecord.ReplaceStatusHelper}");</para>
+        /// </example>
+        [Property("Replace Status Helper", Property.Types.String, "Death Certification", "Replace Status.", true, IGURL.DeathCertificate, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Composition).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus')", "")]
+        public string ReplaceStatusHelper
+        {
+            get
+            {
+                if (ReplaceStatus.ContainsKey("code"))
+                {
+                    return ReplaceStatus["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ReplaceStatus", value, VRDR.ValueSets.ReplaceStatus.Codes);
+            }
+        }
+
 
         /// <summary>Certification Role.</summary>
         /// <value>the role/qualification of the person who certified the death. A Dictionary representing a code, containing the following key/value pairs:
@@ -748,7 +1301,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRole['display']}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [Property("Certification Role", Property.Types.Dictionary, "Death Certification", "Certification Role.", true, IGURL.DeathCertification, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -772,30 +1325,13 @@ namespace VRDR
             {
                 if (DeathCertification == null)
                 {
-                    DeathCertification = new Procedure();
-                    DeathCertification.Id = Guid.NewGuid().ToString();
-                    DeathCertification.Meta = new Meta();
-                    string[] deathcertification_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" };
-                    DeathCertification.Meta.Profile = deathcertification_profile;
-                    DeathCertification.Status = EventStatus.Completed;
-                    DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
-                    DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
-                    AddReferenceToComposition(DeathCertification.Id);
-                    Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Function = DictToCodeableConcept(value);
-                    performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    DeathCertification.Performer.Clear();
-                    DeathCertification.Performer.Add(performer);
+                    CreateDeathCertification();
                 }
-                else
-                {
-                    Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
-                    performer.Function = DictToCodeableConcept(value);
-                    performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
-                    DeathCertification.Performer.Clear();
-                    DeathCertification.Performer.Add(performer);
-                }
+                Hl7.Fhir.Model.Procedure.PerformerComponent performer = new Hl7.Fhir.Model.Procedure.PerformerComponent();
+                performer.Function = DictToCodeableConcept(value);
+                performer.Actor = new ResourceReference("urn:uuid:" + Certifier.Id);
+                DeathCertification.Performer.Clear();
+                DeathCertification.Performer.Add(performer);
             }
         }
 
@@ -809,7 +1345,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certification Role: {ExampleDeathRecord.CertificationRoleHelper}");</para>
         /// </example>
-        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Certification.html", true, 4)]
+        [Property("Certification Role", Property.Types.String, "Death Certification", "Certification Role.", true, IGURL.DeathCertification, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "performer")]
         public string CertificationRoleHelper
@@ -818,202 +1354,31 @@ namespace VRDR
             {
                 if (CertificationRole.ContainsKey("code"))
                 {
-                    return CertificationRole["code"];
+                    string code = CertificationRole["code"] ;
+                    if (code == "OTH"){
+                        if (CertificationRole.ContainsKey("text")){
+                            return (CertificationRole["text"]);
+                        }
+                        return("Other");
+                    }
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("CertificationRole", value, VRDR.ValueSets.CertificationRole.Codes);
-            }
-        }
-
-        /// <summary>Interested Party Identifier.</summary>
-        /// <value>the interested party identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the identifier value, e.g. US NPI number</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        /// <para>identifier.Add("value", "1234567890");</para>
-        /// <para>ExampleDeathRecord.InterestedPartyIdentifier = identifier;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.InterestedPartyIdentifier['value']}");</para>
-        /// </example>
-        [Property("Interested Party Identifier", Property.Types.Dictionary, "Death Certification", "Interested Party Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        [PropertyParam("system", "The identifier system.")]
-        [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "identifier")]
-        public Dictionary<string, string> InterestedPartyIdentifier
-        {
-            get
-            {
-                Identifier identifier = InterestedParty?.Identifier?.FirstOrDefault();
-                var result = new Dictionary<string, string>();
-                if (identifier != null)
-                {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
-                }
-                return result;
-            }
-            set
-            {
-                if (InterestedParty == null)
-                {
-                    InterestedParty = new Organization();
-                    InterestedParty.Id = Guid.NewGuid().ToString();
-                    InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-                    InterestedParty.Meta.Profile = interestedparty_profile;
-                    InterestedParty.Active = true;
-                    AddReferenceToComposition(InterestedParty.Id);
-                    Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
-                }
-                if (InterestedParty.Identifier.Count > 0)
-                {
-                    InterestedParty.Identifier.Clear();
-                }
-                if(value.ContainsKey("system") && value.ContainsKey("value")) {
-                    Identifier identifier = new Identifier();
-                    identifier.System = value["system"];
-                    identifier.Value = value["value"];
-                    InterestedParty.Identifier.Add(identifier);
-                }
-            }
-        }
-
-        /// <summary>Interested Party Name.</summary>
-        /// <value>an interested party name string.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InterestedPartyName = "Fourty Two";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interested Party name: {ExampleDeathRecord.InterestedPartyName}");</para>
-        /// </example>
-        [Property("Interested Party Name", Property.Types.String, "Death Certification", "Interested Party Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "name")]
-        public string InterestedPartyName
-        {
-            get
-            {
-                if (InterestedParty != null)
-                {
-                    return InterestedParty.Name;
-                }
-                return null;
-            }
-            set
-            {
-                if (InterestedParty == null)
-                {
-                    InterestedParty = new Organization();
-                    InterestedParty.Id = Guid.NewGuid().ToString();
-                    InterestedParty.Meta = new Meta();
-                    string[] interestedparty_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party" };
-                    InterestedParty.Meta.Profile = interestedparty_profile;
-                    InterestedParty.Active = true;
-                    InterestedParty.Name = value;
-                    AddReferenceToComposition(InterestedParty.Id);
-                    Bundle.AddResourceEntry(InterestedParty, "urn:uuid:" + InterestedParty.Id);
+                if ((value != null) && !VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value)){ //other
+                    if (DeathCertification == null)
+                    {
+                        CreateDeathCertification();
+                    }
+                    CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
                 }
                 else
-                {
-                    InterestedParty.Name = value;
+                { // normal path
+                    SetCodeValue("CertificationRole", value, VRDR.ValueSets.CertifierTypes.Codes);
                 }
             }
         }
-
-        /// <summary>Interested Party's address.</summary>
-        /// <value>Interested Party's address. A Dictionary representing an address, containing the following key/value pairs:
-        /// <para>"addressLine1" - address, line one</para>
-        /// <para>"addressLine2" - address, line two</para>
-        /// <para>"addressCity" - address, city</para>
-        /// <para>"addressCounty" - address, county</para>
-        /// <para>"addressState" - address, state</para>
-        /// <para>"addressZip" - address, zip</para>
-        /// <para>"addressCountry" - address, country</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; address = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>address.Add("addressLine1", "9 Example Street");</para>
-        /// <para>address.Add("addressLine2", "Line 2");</para>
-        /// <para>address.Add("addressCity", "Bedford");</para>
-        /// <para>address.Add("addressCounty", "Middlesex");</para>
-        /// <para>address.Add("addressState", "MA");</para>
-        /// <para>address.Add("addressZip", "12345");</para>
-        /// <para>address.Add("addressCountry", "US");</para>
-        /// <para>ExampleDeathRecord.InterestedPartyAddress = address;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interested Party state: {ExampleDeathRecord.InterestedPartyAddress["addressState"]}");</para>
-        /// </example>
-        [Property("Interested Party Address", Property.Types.Dictionary, "Death Certification", "Interested Party's address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        [PropertyParam("addressLine1", "address, line one")]
-        [PropertyParam("addressLine2", "address, line two")]
-        [PropertyParam("addressCity", "address, city")]
-        [PropertyParam("addressCounty", "address, county")]
-        [PropertyParam("addressState", "address, state")]
-        [PropertyParam("addressZip", "address, zip")]
-        [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "address")]
-        public Dictionary<string, string> InterestedPartyAddress
-        {
-            get
-            {
-                if (InterestedParty != null && InterestedParty.Address != null && InterestedParty.Address.Count() > 0)
-                {
-                    return AddressToDict(InterestedParty.Address.First());
-                }
-                return EmptyAddrDict();
-            }
-            set
-            {
-                InterestedParty.Address.Clear();
-                InterestedParty.Address.Add(DictToAddress(value));
-            }
-        }
-
-        /// <summary>Interested Party Type.</summary>
-        /// <value>the interested party type. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; type = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>type.Add("code", "prov");</para>
-        /// <para>type.Add("system",CodeSystems.HL7_organization_type);</para>
-        /// <para>type.Add("display", "Healthcare Provider");</para>
-        /// <para>ExampleDeathRecord.InterestedPartyType = type;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interested Party Type: {ExampleDeathRecord.InterestedPartyType['display']}");</para>
-        /// </example>
-        [Property("Interested Party Type", Property.Types.Dictionary, "Death Certification", "Interested Party Type.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Interested-Party.html", false, 101)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Interested-Party')", "type")]
-        public Dictionary<string, string> InterestedPartyType
-        {
-            get
-            {
-                if (InterestedParty != null && InterestedParty.Type != null && InterestedParty.Type.Count() > 0)
-                {
-                    return CodeableConceptToDict(InterestedParty.Type.First());
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                InterestedParty.Type.Clear();
-                InterestedParty.Type.Add(DictToCodeableConcept(value));
-            }
-        }
-
         /// <summary>Manner of Death Type.</summary>
         /// <value>the manner of death type. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -1052,14 +1417,14 @@ namespace VRDR
                     MannerOfDeath = new Observation();
                     MannerOfDeath.Id = Guid.NewGuid().ToString();
                     MannerOfDeath.Meta = new Meta();
-                    string[] mannerofdeath_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death" };
+                    string[] mannerofdeath_profile = { ProfileURL.MannerOfDeath };
                     MannerOfDeath.Meta.Profile = mannerofdeath_profile;
                     MannerOfDeath.Status = ObservationStatus.Final;
                     MannerOfDeath.Code = new CodeableConcept(CodeSystems.LOINC, "69449-7", "Manner of death", null);
                     MannerOfDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MannerOfDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     MannerOfDeath.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(MannerOfDeath.Id);
+                    AddReferenceToComposition(MannerOfDeath.Id, "DeathCertification");
                     Bundle.AddResourceEntry(MannerOfDeath, "urn:uuid:" + MannerOfDeath.Id);
                 }
                 else
@@ -1114,13 +1479,13 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Given Name(s): {string.Join(", ", ExampleDeathRecord.CertifierGivenNames)}");</para>
         /// </example>
-        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 5)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [Property("Certifier Given Names", Property.Types.StringArr, "Death Certification", "Given name(s) of certifier.", true, IGURL.Certifier, true, 5)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string[] CertifierGivenNames
         {
             get
             {
-                if (Certifier.Name.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0)
                 {
                     return Certifier.Name.First().Given.ToArray();
                 }
@@ -1128,6 +1493,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
                 if (name != null)
                 {
@@ -1151,13 +1520,13 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier's Last Name: {ExampleDeathRecord.CertifierFamilyName}");</para>
         /// </example>
-        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 6)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [Property("Certifier Family Name", Property.Types.String, "Death Certification", "Family name of certifier.", true, IGURL.Certifier, true, 6)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string CertifierFamilyName
         {
             get
             {
-                if (Certifier.Name.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0)
                 {
                     return Certifier.Name.First().Family;
                 }
@@ -1165,6 +1534,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -1188,13 +1561,13 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Certifier Suffix: {ExampleDeathRecord.CertifierSuffix}");</para>
         /// </example>
-        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 7)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "name")]
+        [Property("Certifier Suffix", Property.Types.String, "Death Certification", "Certifier's Suffix.", true, IGURL.Certifier, true, 7)]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "name")]
         public string CertifierSuffix
         {
             get
             {
-                if (Certifier.Name.Count() > 0 && Certifier.Name.First().Suffix.Count() > 0)
+                if (Certifier != null && Certifier.Name.Count() > 0 && Certifier.Name.First().Suffix.Count() > 0)
                 {
                     return Certifier.Name.First().Suffix.First();
                 }
@@ -1202,6 +1575,10 @@ namespace VRDR
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 HumanName name = Certifier.Name.FirstOrDefault();
                 if (name != null && !String.IsNullOrEmpty(value))
                 {
@@ -1246,76 +1623,42 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\tCertifierAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", true, 8)]
+        [Property("Certifier Address", Property.Types.Dictionary, "Death Certification", "Certifier's Address.", true, IGURL.Certifier, true, 8)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressStnum", "address, stnum")]
+        [PropertyParam("addressPredir", "address, predir")]
+        [PropertyParam("addressPostdir", "address, postdir")]
+        [PropertyParam("addressStname", "address, stname")]
+        [PropertyParam("addressStrdesig", "address, strdesig")]
+        [PropertyParam("addressUnitnum", "address, unitnum")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "address")]
         public Dictionary<string, string> CertifierAddress
         {
             get
             {
+                if (Certifier == null){
+                    return (new Dictionary<string, string>());
+                }
                 return AddressToDict(Certifier.Address.FirstOrDefault());
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 Certifier.Address.Clear();
                 Certifier.Address.Add(DictToAddress(value));
             }
         }
 
-        /// <summary>Certifier Qualification.</summary>
-        /// <value>the certifier qualification. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; qualification = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>qualification.Add("code", "434641000124105");</para>
-        /// <para>qualification.Add("system", CodeSystems.SCT);</para>
-        /// <para>qualification.Add("display", "Physician certified and pronounced death certificate");</para>
-        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
-        /// </example>
-        [Property("Certifier Qualification", Property.Types.Dictionary, "Death Certification", "Certifier Qualification.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 9)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
-        public Dictionary<string, string> CertifierQualification
-        {
-            get
-            {
-                Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-                if (qualification != null && qualification.Code != null && qualification.Code.Coding.FirstOrDefault() != null)
-                {
-                    return CodeableConceptToDict(qualification.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (Certifier.Qualification.FirstOrDefault() == null)
-                {
-                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-                    qualification.Code = DictToCodeableConcept(value);
-                    Certifier.Qualification.Add(qualification);
-                }
-                else
-                {
-                    Certifier.Qualification.First().Code = DictToCodeableConcept(value);
-                }
-            }
-        }
-
-        /// <summary>Certifier Identifier.</summary>
+        /// <summary>Certifier Identifier ** not mapped to IJE **.</summary>
         /// <value>the certifier identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
         /// <para>"system" - the identifier system, e.g. US NPI</para>
         /// <para>"value" - the idetifier value, e.g. US NPI number</para>
@@ -1329,25 +1672,31 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"\tCertifier Identifier: {ExampleDeathRecord.CertifierIdentifier['value']}");</para>
         /// </example>
-        [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 10)]
+        [Property("Certifier Identifier", Property.Types.Dictionary, "Death Certification", "Certifier Identifier.", true, IGURL.Certifier, false, 10)]
         [PropertyParam("system", "The identifier system.")]
         [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "identifier")]
+        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier')", "identifier")]
         public Dictionary<string, string> CertifierIdentifier
         {
             get
             {
+
+                if (Certifier == null || Certifier.Identifier.FirstOrDefault() == null)
+                {
+                    return new Dictionary<string, string>();
+                }
                 Identifier identifier = Certifier.Identifier.FirstOrDefault();
                 var result = new Dictionary<string, string>();
-                if (identifier != null)
-                {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
-                }
+                result["system"] = identifier.System;
+                result["value"] = identifier.Value;
                 return result;
             }
             set
             {
+                if (Certifier == null)
+                {
+                    CreateCertifier();
+                }
                 if (Certifier.Identifier.Count > 0)
                 {
                     Certifier.Identifier.Clear();
@@ -1361,50 +1710,50 @@ namespace VRDR
             }
         }
 
-        /// <summary>Certifier License Number.</summary>
-        /// <value>A string containing the certifier license number.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
-        /// </example>
-        [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
-        public string CertifierLicenseNumber
-        {
-            get
-            {
-                Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
-                if (qualification != null && qualification.Identifier.FirstOrDefault() != null)
-                {
-                    if (!String.IsNullOrWhiteSpace(qualification.Identifier.First().Value))
-                    {
-                        return qualification.Identifier.First().Value;
-                    }
-                    return null;
-                }
-                return null;
-            }
-            set
-            {
-                if (Certifier.Qualification.FirstOrDefault() == null)
-                {
-                    Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    qualification.Identifier.Add(identifier);
-                    Certifier.Qualification.Add(qualification);
-                }
-                else
-                {
-                    Certifier.Qualification.First().Identifier.Clear();
-                    Identifier identifier = new Identifier();
-                    identifier.Value = value;
-                    Certifier.Qualification.First().Identifier.Add(identifier);
-                }
-            }
-        }
+        // /// <summary>Certifier License Number. ** NOT MAPPED TO IJE ** </summary>
+        // /// <value>A string containing the certifier license number.</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.CertifierQualification = qualification;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCertifier Qualification: {ExampleDeathRecord.CertifierQualification['display']}");</para>
+        // /// </example>
+        // [Property("Certifier License Number", Property.Types.String, "Death Certification", "Certifier License Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Certifier.html", false, 11)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')", "qualification")]
+        // public string CertifierLicenseNumber
+        // {
+        //     get
+        //     {
+        //         Practitioner.QualificationComponent qualification = Certifier.Qualification.FirstOrDefault();
+        //         if (qualification != null && qualification.Identifier.FirstOrDefault() != null)
+        //         {
+        //             if (!String.IsNullOrWhiteSpace(qualification.Identifier.First().Value))
+        //             {
+        //                 return qualification.Identifier.First().Value;
+        //             }
+        //             return null;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         if (Certifier.Qualification.FirstOrDefault() == null)
+        //         {
+        //             Practitioner.QualificationComponent qualification = new Practitioner.QualificationComponent();
+        //             Identifier identifier = new Identifier();
+        //             identifier.Value = value;
+        //             qualification.Identifier.Add(identifier);
+        //             Certifier.Qualification.Add(qualification);
+        //         }
+        //         else
+        //         {
+        //             Certifier.Qualification.First().Identifier.Clear();
+        //             Identifier identifier = new Identifier();
+        //             identifier.Value = value;
+        //             Certifier.Qualification.First().Identifier.Add(identifier);
+        //         }
+        //     }
+        // }
 
         /// <summary>Significant conditions that contributed to death but did not result in the underlying cause.
         /// Corresponds to part 2 of item 32 of the U.S. Standard Certificate of Death.</summary>
@@ -1416,15 +1765,15 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.ContributingConditions}");</para>
         /// </example>
-        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Condition-Contributing-To-Death.html", true, 100)]
-        [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty())", "")]
+        [Property("Contributing Conditions", Property.Types.String, "Death Certification", "Significant conditions that contributed to death but did not result in the underlying cause.", true, IGURL.CauseOfDeathPart2, true, 100)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69441-4')", "")]
         public string ContributingConditions
         {
             get
             {
-                if (ConditionContributingToDeath != null && ConditionContributingToDeath.Code != null && ConditionContributingToDeath.Code.Text != null)
+                if (ConditionContributingToDeath != null && ConditionContributingToDeath.Value != null)
                 {
-                    return ConditionContributingToDeath.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)ConditionContributingToDeath.Value))["text"];
                 }
                 return null;
             }
@@ -1432,22 +1781,20 @@ namespace VRDR
             {
                 if (ConditionContributingToDeath != null)
                 {
-                    ConditionContributingToDeath.Code.Text = value;
+                    ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
                 }
                 else
                 {
-                    ConditionContributingToDeath = new Condition();
+                    ConditionContributingToDeath = new Observation();
                     ConditionContributingToDeath.Id = Guid.NewGuid().ToString();
                     ConditionContributingToDeath.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    ConditionContributingToDeath.Asserter = new ResourceReference("urn:uuid:" + Certifier.Id);
+                    ConditionContributingToDeath.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
                     ConditionContributingToDeath.Meta = new Meta();
-                    string[] condition_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death" };
+                    string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
-                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death diagnosis", null));
-                    ConditionContributingToDeath.Code = new CodeableConcept();
-                    ConditionContributingToDeath.Category.Add (new CodeableConcept(CodeSystems.SCT, "16100001", "Death Diagnosis", null));
-                    ConditionContributingToDeath.Code.Text = value;
-                    AddReferenceToComposition(ConditionContributingToDeath.Id);
+                    ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
+                    ConditionContributingToDeath.Value= new CodeableConcept(null, null, null, value);
+                    AddReferenceToComposition(ConditionContributingToDeath.Id, "OBE");
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
                 }
             }
@@ -1456,76 +1803,49 @@ namespace VRDR
         /// <summary>Conditions that resulted in the cause of death. Corresponds to part 1 of item 32 of the U.S.
         /// Standard Certificate of Death.</summary>
         /// <value>Conditions that resulted in the underlying cause of death. An array of tuples (in the order they would
-        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1") the
-        /// approximate onset to death (Tuple "Item2"), and an (optional) Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code describing this finding</para>
-        /// <para>"system" - the system the given code belongs to</para>
-        /// <para>"display" - the human readable display text that corresponds to the given code</para>
-        /// </value>
+        /// appear on a death certificate, from top to bottom), each containing the cause of death literal (Tuple "Item1")
+        /// and the approximate onset to death (Tuple "Item2").</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string, Dictionary&lt;string, string&gt;&gt;[] causes =</para>
+        /// <para>Tuple&lt;string, string&gt;[] causes =</para>
         /// <para>{</para>
-        /// <para>    Tuple.Create("Example Immediate COD", "minutes", new Dictionary&lt;string, string&gt;(){ {"code", "1234"}, {"system", "example"} }),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months", new Dictionary&lt;string, string&gt;()),</para>
-        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years", new Dictionary&lt;string, string&gt;())</para>
+        /// <para>    Tuple.Create("Example Immediate COD", "minutes"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 1", "2 hours"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 2", "6 months"),</para>
+        /// <para>    Tuple.Create("Example Underlying COD 3", "15 years")</para>
         /// <para>};</para>
         /// <para>ExampleDeathRecord.CausesOfDeath = causes;</para>
         /// <para>// Getter:</para>
         /// <para>Tuple&lt;string, string&gt;[] causes = ExampleDeathRecord.CausesOfDeath;</para>
         /// <para>foreach (var cause in causes)</para>
         /// <para>{</para>
-        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}, Code: {cause.Item3}");</para>
+        /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleCOD, "Death Certification", "Conditions that resulted in the cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-of-Death-Pathway.html", true, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Condition).where(onset.empty().not())", "")]
-        public Tuple<string, string, Dictionary<string, string>>[] CausesOfDeath
+        [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(onset.empty().not())", "")]
+        public Tuple<string, string>[] CausesOfDeath
         {
             get
             {
-                List<Tuple<string, string, Dictionary<string, string>>> results = new List<Tuple<string, string, Dictionary<string, string>>>();
-                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A) || (CODE1A != null && !String.IsNullOrEmpty(CODE1A["code"])))
+                List<Tuple<string, string>> results = new List<Tuple<string, string>>();
+                if (!String.IsNullOrEmpty(COD1A) || !String.IsNullOrEmpty(INTERVAL1A))
                 {
-                    results.Add(Tuple.Create(COD1A, INTERVAL1A, CODE1A));
+                    results.Add(Tuple.Create(COD1A, INTERVAL1A));
                 }
-                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B) || (CODE1B != null && !String.IsNullOrEmpty(CODE1B["code"])))
+                if (!String.IsNullOrEmpty(COD1B) || !String.IsNullOrEmpty(INTERVAL1B))
                 {
-                    results.Add(Tuple.Create(COD1B, INTERVAL1B, CODE1B));
+                    results.Add(Tuple.Create(COD1B, INTERVAL1B));
                 }
-                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C) || (CODE1C != null && !String.IsNullOrEmpty(CODE1C["code"])))
+                if (!String.IsNullOrEmpty(COD1C) || !String.IsNullOrEmpty(INTERVAL1C))
                 {
-                    results.Add(Tuple.Create(COD1C, INTERVAL1C, CODE1C));
+                    results.Add(Tuple.Create(COD1C, INTERVAL1C));
                 }
-                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D) || (CODE1D != null && !String.IsNullOrEmpty(CODE1D["code"])))
+                if (!String.IsNullOrEmpty(COD1D) || !String.IsNullOrEmpty(INTERVAL1D))
                 {
-                    results.Add(Tuple.Create(COD1D, INTERVAL1D, CODE1D));
+                    results.Add(Tuple.Create(COD1D, INTERVAL1D));
                 }
-                if (!String.IsNullOrEmpty(COD1E) || !String.IsNullOrEmpty(INTERVAL1E) || (CODE1E != null && !String.IsNullOrEmpty(CODE1E["code"])))
-                {
-                    results.Add(Tuple.Create(COD1E, INTERVAL1E, CODE1E));
-                }
-                if (!String.IsNullOrEmpty(COD1F) || !String.IsNullOrEmpty(INTERVAL1F) || (CODE1F != null && !String.IsNullOrEmpty(CODE1F["code"])))
-                {
-                    results.Add(Tuple.Create(COD1F, INTERVAL1F, CODE1F));
-                }
-                if (!String.IsNullOrEmpty(COD1G) || !String.IsNullOrEmpty(INTERVAL1G) || (CODE1G != null && !String.IsNullOrEmpty(CODE1G["code"])))
-                {
-                    results.Add(Tuple.Create(COD1G, INTERVAL1G, CODE1G));
-                }
-                if (!String.IsNullOrEmpty(COD1H) || !String.IsNullOrEmpty(INTERVAL1H) || (CODE1H != null && !String.IsNullOrEmpty(CODE1H["code"])))
-                {
-                    results.Add(Tuple.Create(COD1H, INTERVAL1H, CODE1H));
-                }
-                if (!String.IsNullOrEmpty(COD1I) || !String.IsNullOrEmpty(INTERVAL1I) || (CODE1I != null && !String.IsNullOrEmpty(CODE1I["code"])))
-                {
-                    results.Add(Tuple.Create(COD1I, INTERVAL1I, CODE1I));
-                }
-                if (!String.IsNullOrEmpty(COD1J) || !String.IsNullOrEmpty(INTERVAL1J) || (CODE1J != null && !String.IsNullOrEmpty(CODE1J["code"])))
-                {
-                    results.Add(Tuple.Create(COD1J, INTERVAL1J, CODE1J));
-                }
+
                 return results.ToArray();
             }
             set
@@ -1536,61 +1856,21 @@ namespace VRDR
                     {
                         COD1A = value[0].Item1;
                         INTERVAL1A = value[0].Item2;
-                        CODE1A = value[0].Item3;
                     }
                     if (value.Length > 1)
                     {
                         COD1B = value[1].Item1;
                         INTERVAL1B = value[1].Item2;
-                        CODE1B = value[1].Item3;
                     }
                     if (value.Length > 2)
                     {
                         COD1C = value[2].Item1;
                         INTERVAL1C = value[2].Item2;
-                        CODE1C = value[2].Item3;
                     }
                     if (value.Length > 3)
                     {
                         COD1D = value[3].Item1;
                         INTERVAL1D = value[3].Item2;
-                        CODE1D = value[3].Item3;
-                    }
-                    if (value.Length > 4)
-                    {
-                        COD1E = value[4].Item1;
-                        INTERVAL1E = value[4].Item2;
-                        CODE1E = value[4].Item3;
-                    }
-                    if (value.Length > 5)
-                    {
-                        COD1F = value[5].Item1;
-                        INTERVAL1F = value[5].Item2;
-                        CODE1F = value[5].Item3;
-                    }
-                    if (value.Length > 6)
-                    {
-                        COD1G = value[6].Item1;
-                        INTERVAL1G = value[6].Item2;
-                        CODE1G = value[6].Item3;
-                    }
-                    if (value.Length > 7)
-                    {
-                        COD1H = value[7].Item1;
-                        INTERVAL1H = value[7].Item2;
-                        CODE1H = value[7].Item3;
-                    }
-                    if (value.Length > 8)
-                    {
-                        COD1I = value[8].Item1;
-                        INTERVAL1I = value[8].Item2;
-                        CODE1I = value[8].Item3;
-                    }
-                    if (value.Length > 9)
-                    {
-                        COD1J = value[9].Item1;
-                        INTERVAL1J = value[9].Item2;
-                        CODE1J = value[9].Item3;
                     }
                 }
             }
@@ -1604,14 +1884,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1A}");</para>
         /// </example>
-        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1A", Property.Types.String, "Death Certification", "Cause of Death Part I, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1A
         {
             get
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Value != null)
                 {
-                    return CauseOfDeathConditionA.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionA.Value))["text"];
                 }
                 return null;
             }
@@ -1621,15 +1901,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                if (CauseOfDeathConditionA.Code != null)
-                {
-                    CauseOfDeathConditionA.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionA.Code = new CodeableConcept();
-                    CauseOfDeathConditionA.Code.Text = value;
-                }
+                CauseOfDeathConditionA.Value= new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1641,16 +1913,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1A}");</para>
         /// </example>
-        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1A", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1A
         {
             get
             {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Onset != null)
+                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Component != null)
                 {
-                    return CauseOfDeathConditionA.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1658,58 +1935,73 @@ namespace VRDR
                 {
                     CauseOfDeathConditionA = CauseOfDeathCondition(0);
                 }
-                CauseOfDeathConditionA.Onset = new FhirString(value);
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
+
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionA.Component.Add(component);
+                }
             }
+
         }
 
-        /// <summary>Cause of Death Part I Code, Line a.</summary>
-        /// <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.0");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
-        /// <para>ExampleDeathRecord.CODE1A = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
-        /// </example>
-        [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1A
-        {
-            get
-            {
-                if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionA.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if(CauseOfDeathConditionA == null)
-                {
-                    CauseOfDeathConditionA = CauseOfDeathCondition(0);
-                }
-                if (CauseOfDeathConditionA.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionA.Code.Text;
-                    CauseOfDeathConditionA.Code = code;
-                }
-                else
-                {
-                CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
+        // /// <summary>Cause of Death Part I Code, Line a.</summary>
+        // /// <value>the immediate cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.0");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute transmural myocardial infarction of anterior wall");</para>
+        // /// <para>ExampleDeathRecord.CODE1A = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1A['display']}");</para>
+        // /// </example>
+        // [Property("CODE1A", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line a.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1A
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionA != null && CauseOfDeathConditionA.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionA.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionA == null)
+        //         {
+        //             CauseOfDeathConditionA = CauseOfDeathCondition(0);
+        //         }
+        //         if (CauseOfDeathConditionA.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionA.Code.Text;
+        //             CauseOfDeathConditionA.Code = code;
+        //         }
+        //         else
+        //         {
+        //         CauseOfDeathConditionA.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
         /// <summary>Cause of Death Part I, Line b.</summary>
         /// <value>the first underlying cause of death literal.</value>
@@ -1719,14 +2011,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1B}");</para>
         /// </example>
-        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1B", Property.Types.String, "Death Certification", "Cause of Death Part I, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1B
         {
             get
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Value != null)
                 {
-                    return CauseOfDeathConditionB.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionB.Value))["text"];
                 }
                 return null;
             }
@@ -1736,16 +2028,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-
-                if (CauseOfDeathConditionB.Code != null)
-                {
-                    CauseOfDeathConditionB.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionB.Code = new CodeableConcept();
-                    CauseOfDeathConditionB.Code.Text = value;
-                }
+                CauseOfDeathConditionB.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1757,16 +2040,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1B}");</para>
         /// </example>
-        [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1B
+     [Property("INTERVAL1B", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
+       public string INTERVAL1B
         {
             get
             {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Onset != null)
+                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Component != null)
                 {
-                    return CauseOfDeathConditionB.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1774,58 +2062,72 @@ namespace VRDR
                 {
                     CauseOfDeathConditionB = CauseOfDeathCondition(1);
                 }
-                CauseOfDeathConditionB.Onset = new FhirString(value);
-            }
-        }
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
 
-        /// <summary>Cause of Death Part I Code, Line b.</summary>
-        /// <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1B = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
-        /// </example>
-        [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1B
-        {
-            get
-            {
-                if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionB.Code);
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionB.Component.Add(component);
                 }
-                return EmptyCodeDict();
             }
-            set
-            {
-                if(CauseOfDeathConditionB == null)
-                {
-                    CauseOfDeathConditionB = CauseOfDeathCondition(1);
-                }
-                if (CauseOfDeathConditionB.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionB.Code.Text;
-                    CauseOfDeathConditionB.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
-                }
-                            }
+
         }
+        // /// <summary>Cause of Death Part I Code, Line b.</summary>
+        // /// <value>the first underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1B = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1B['display']}");</para>
+        // /// </example>
+        // [Property("CODE1B", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line b.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1B
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionB != null && CauseOfDeathConditionB.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionB.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionB == null)
+        //         {
+        //             CauseOfDeathConditionB = CauseOfDeathCondition(1);
+        //         }
+        //         if (CauseOfDeathConditionB.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionB.Code.Text;
+        //             CauseOfDeathConditionB.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionB.Code = DictToCodeableConcept(value);
+        //         }
+        //                     }
+        // }
 
         /// <summary>Cause of Death Part I, Line c.</summary>
         /// <value>the second underlying cause of death literal.</value>
@@ -1835,14 +2137,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1C}");</para>
         /// </example>
-        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1C", Property.Types.String, "Death Certification", "Cause of Death Part I, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1C
         {
             get
             {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Value != null)
                 {
-                    return CauseOfDeathConditionC.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionC.Value))["text"];
                 }
                 return null;
             }
@@ -1852,15 +2154,9 @@ namespace VRDR
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
-                if (CauseOfDeathConditionC.Code != null)
-                {
-                    CauseOfDeathConditionC.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionC.Code = new CodeableConcept();
-                    CauseOfDeathConditionC.Code.Text = value;
-                }
+
+                CauseOfDeathConditionC.Value = new CodeableConcept(null, null, null, value);
+
             }
         }
 
@@ -1872,16 +2168,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1C}");</para>
         /// </example>
-        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1C", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1C
         {
             get
             {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Onset != null)
+                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Component != null)
                 {
-                    return CauseOfDeathConditionC.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
@@ -1889,59 +2190,72 @@ namespace VRDR
                 {
                     CauseOfDeathConditionC = CauseOfDeathCondition(2);
                 }
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
 
-                CauseOfDeathConditionC.Onset = new FhirString(value);
-              }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line c.</summary>
-        /// <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1C = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
-        /// </example>
-        [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1C
-        {
-            get
-            {
-                if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionC.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if(CauseOfDeathConditionC == null)
-                {
-                    CauseOfDeathConditionC = CauseOfDeathCondition(2);
-                }
-               if (CauseOfDeathConditionC.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionC.Code.Text;
-                    CauseOfDeathConditionC.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionC.Component.Add(component);
                 }
             }
         }
+
+        // /// <summary>Cause of Death Part I Code, Line c.</summary>
+        // /// <value>the second underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1C = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1C['display']}");</para>
+        // /// </example>
+        // [Property("CODE1C", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line c.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1C
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionC != null && CauseOfDeathConditionC.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionC.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if(CauseOfDeathConditionC == null)
+        //         {
+        //             CauseOfDeathConditionC = CauseOfDeathCondition(2);
+        //         }
+        //        if (CauseOfDeathConditionC.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionC.Code.Text;
+        //             CauseOfDeathConditionC.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionC.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
         /// <summary>Cause of Death Part I, Line d.</summary>
         /// <value>the third underlying cause of death literal.</value>
@@ -1951,14 +2265,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1D}");</para>
         /// </example>
-        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("COD1D", Property.Types.String, "Death Certification", "Cause of Death Part I, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string COD1D
         {
             get
             {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Value != null)
                 {
-                    return CauseOfDeathConditionD.Code.Text;
+                    return (CodeableConceptToDict((CodeableConcept)CauseOfDeathConditionD.Value))["text"];
                 }
                 return null;
             }
@@ -1968,15 +2282,7 @@ namespace VRDR
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
-                if (CauseOfDeathConditionD.Code != null)
-                {
-                    CauseOfDeathConditionD.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionD.Code = new CodeableConcept();
-                    CauseOfDeathConditionD.Code.Text = value;
-                }
+                CauseOfDeathConditionD.Value = new CodeableConcept(null, null, null, value);
             }
         }
 
@@ -1988,772 +2294,95 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1D}");</para>
         /// </example>
-        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
+        [Property("INTERVAL1D", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
         public string INTERVAL1D
         {
             get
             {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Onset != null)
+                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Component != null)
                 {
-                    return CauseOfDeathConditionD.Onset.ToString();
+                    var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    {
+                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                    }
                 }
-                return null;
+                return "";
             }
             set
             {
-                 if (CauseOfDeathConditionD == null)
-                 {
-                    CauseOfDeathConditionD = CauseOfDeathCondition(3);
-                 }
-                CauseOfDeathConditionD.Onset = new FhirString(value);
-            }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line d.</summary>
-        /// <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "I21.9");</para>
-        /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
-        /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
-        /// <para>ExampleDeathRecord.CODE1D = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
-        /// </example>
-        [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        public Dictionary<string, string> CODE1D
-        {
-            get
-            {
-                if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionD.Code);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionD == null)
+                if(CauseOfDeathConditionD == null)
                 {
                     CauseOfDeathConditionD = CauseOfDeathCondition(3);
                 }
-               if (CauseOfDeathConditionD.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionD.Code.Text;
-                    CauseOfDeathConditionD.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
+                // Find correct component; if doesn't exist add another
+                var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                       ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
+                    if (intervalComp != null)
+                    {
+
+                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    }
+                    else
+                    {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    CauseOfDeathConditionD.Component.Add(component);
                 }
             }
         }
 
-        /// <summary>Cause of Death Part I, Line e.</summary>
-        /// <value>the fourth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1E = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1E}");</para>
-        /// </example>
-        [Property("COD1E", Property.Types.String, "Death Certification", "Cause of Death Part I, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
-                {
-                    return CauseOfDeathConditionE.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                 if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                if (CauseOfDeathConditionE.Code != null)
-                {
-                    CauseOfDeathConditionE.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionE.Code = new CodeableConcept();
-                    CauseOfDeathConditionE.Code.Text = value;
-                }
-            }
-        }
+        // /// <summary>Cause of Death Part I Code, Line d.</summary>
+        // /// <value>the third underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
+        // /// <para>"code" - the code</para>
+        // /// <para>"system" - the code system this code belongs to</para>
+        // /// <para>"display" - a human readable meaning of the code</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>code.Add("code", "I21.9");</para>
+        // /// <para>code.Add("system", "http://hl7.org/fhir/sid/icd-10");</para>
+        // /// <para>code.Add("display", "Acute myocardial infarction, unspecified");</para>
+        // /// <para>ExampleDeathRecord.CODE1D = code;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1D['display']}");</para>
+        // /// </example>
+        // [Property("CODE1D", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line d.", false, IGURL.CauseOfDeathPart1, false, 100)]
+        // [PropertyParam("code", "The code used to describe this concept.")]
+        // [PropertyParam("system", "The relevant code system.")]
+        // [PropertyParam("display", "The human readable version of this code.")]
+        // public Dictionary<string, string> CODE1D
+        // {
+        //     get
+        //     {
+        //         if (CauseOfDeathConditionD != null && CauseOfDeathConditionD.Code != null)
+        //         {
+        //             return CodeableConceptToDict(CauseOfDeathConditionD.Code);
+        //         }
+        //         return EmptyCodeDict();
+        //     }
+        //     set
+        //     {
+        //         if (CauseOfDeathConditionD == null)
+        //         {
+        //             CauseOfDeathConditionD = CauseOfDeathCondition(3);
+        //         }
+        //        if (CauseOfDeathConditionD.Code != null)
+        //         {
+        //             CodeableConcept code = DictToCodeableConcept(value);
+        //             code.Text = CauseOfDeathConditionD.Code.Text;
+        //             CauseOfDeathConditionD.Code = code;
+        //         }
+        //         else
+        //         {
+        //             CauseOfDeathConditionD.Code = DictToCodeableConcept(value);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Cause of Death Part I Interval, Line e.</summary>
-        /// <value>the fourth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1E = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1E}");</para>
-        /// </example>
-        [Property("INTERVAL1E", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Onset != null)
-                {
-                    return CauseOfDeathConditionE.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                CauseOfDeathConditionE.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line e.</summary>
-        /// <value>the fourth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1E = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1E['display']}");</para>
-        /// </example>
-        [Property("CODE1E", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line e.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1E
-        {
-            get
-            {
-                if (CauseOfDeathConditionE != null && CauseOfDeathConditionE.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionE.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                 if (CauseOfDeathConditionE == null)
-                 {
-                    CauseOfDeathConditionE = CauseOfDeathCondition(4);
-                 }
-                if (CauseOfDeathConditionE.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionE.Code.Text;
-                    CauseOfDeathConditionE.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionE.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I, Line f.</summary>
-        /// <value>the fifth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1F = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1F}");</para>
-        /// </example>
-        [Property("COD1F", Property.Types.String, "Death Certification", "Cause of Death Part I, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
-                {
-                    return CauseOfDeathConditionF.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                  if (CauseOfDeathConditionF.Code != null)
-                {
-                    CauseOfDeathConditionF.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionF.Code = new CodeableConcept();
-                    CauseOfDeathConditionF.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line f.</summary>
-        /// <value>the fifth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1F = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1F}");</para>
-        /// </example>
-        [Property("INTERVAL1F", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Onset != null)
-                {
-                    return CauseOfDeathConditionF.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                CauseOfDeathConditionF.Onset = new FhirString(value);
-            }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line f.</summary>
-        /// <value>the fifth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1F = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1F['display']}");</para>
-        /// </example>
-        [Property("CODE1F", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line f.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1F
-        {
-            get
-            {
-                if (CauseOfDeathConditionF != null && CauseOfDeathConditionF.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionF.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionF == null)
-                 {
-                    CauseOfDeathConditionF = CauseOfDeathCondition(5);
-                 }
-                if (CauseOfDeathConditionF.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionF.Code.Text;
-                    CauseOfDeathConditionF.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionF.Code = DictToCodeableConcept(value);
-                }
-             }
-        }
-
-        /// <summary>Cause of Death Part I, Line g.</summary>
-        /// <value>the sixth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1G = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1G}");</para>
-        /// </example>
-        [Property("COD1G", Property.Types.String, "Death Certification", "Cause of Death Part I, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
-                {
-                    return CauseOfDeathConditionG.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionG == null)
-                 {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                 }
-                if (CauseOfDeathConditionG.Code != null)
-                {
-                    CauseOfDeathConditionG.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionG.Code = new CodeableConcept();
-                    CauseOfDeathConditionG.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line g.</summary>
-        /// <value>the sixth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1G = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1G}");</para>
-        /// </example>
-        [Property("INTERVAL1G", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Onset != null)
-                {
-                    return CauseOfDeathConditionG.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionG == null)
-                 {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                 }
-                CauseOfDeathConditionG.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line g.</summary>
-        /// <value>the sixth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1G = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1G['display']}");</para>
-        /// </example>
-        [Property("CODE1G", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line g.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1G
-        {
-            get
-            {
-                if (CauseOfDeathConditionG != null && CauseOfDeathConditionG.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionG.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-               if (CauseOfDeathConditionG == null)
-                {
-                    CauseOfDeathConditionG = CauseOfDeathCondition(6);
-                }
-                if (CauseOfDeathConditionG.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionG.Code.Text;
-                    CauseOfDeathConditionG.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionG.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I, Line h.</summary>
-        /// <value>the seventh underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1H = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1H}");</para>
-        /// </example>
-        [Property("COD1H", Property.Types.String, "Death Certification", "Cause of Death Part I, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
-                {
-                    return CauseOfDeathConditionH.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionH == null)
-                 {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                 }
-                if (CauseOfDeathConditionH.Code != null)
-                {
-                    CauseOfDeathConditionH.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionH.Code = new CodeableConcept();
-                    CauseOfDeathConditionH.Code.Text = value;
-                }
-            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line h.</summary>
-        /// <value>the seventh underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1H = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1H}");</para>
-        /// </example>
-        [Property("INTERVAL1H", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Onset != null)
-                {
-                    return CauseOfDeathConditionH.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionH == null)
-                {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                }
-                CauseOfDeathConditionH.Onset = new FhirString(value);
-            }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line h.</summary>
-        /// <value>the seventh underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1H = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1H['display']}");</para>
-        /// </example>
-        [Property("CODE1H", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line h.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1H
-        {
-            get
-            {
-                if (CauseOfDeathConditionH != null && CauseOfDeathConditionH.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionH.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-              if (CauseOfDeathConditionH == null)
-                {
-                    CauseOfDeathConditionH = CauseOfDeathCondition(7);
-                }
-                if (CauseOfDeathConditionH.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionH.Code.Text;
-                    CauseOfDeathConditionH.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionH.Code = DictToCodeableConcept(value);
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I, Line i.</summary>
-        /// <value>the eighth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1I = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1I}");</para>
-        /// </example>
-        [Property("COD1I", Property.Types.String, "Death Certification", "Cause of Death Part I, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
-                {
-                    return CauseOfDeathConditionI.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-              if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                if (CauseOfDeathConditionI.Code != null)
-                {
-                    CauseOfDeathConditionI.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionI.Code = new CodeableConcept();
-                    CauseOfDeathConditionI.Code.Text = value;
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line i.</summary>
-        /// <value>the eighth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1I = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1I}");</para>
-        /// </example>
-        [Property("INTERVAL1I", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Onset != null)
-                {
-                    return CauseOfDeathConditionI.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-               if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                CauseOfDeathConditionI.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line i.</summary>
-        /// <value>the eighth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1I = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1I['display']}");</para>
-        /// </example>
-        [Property("CODE1I", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line i.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1I
-        {
-            get
-            {
-                if (CauseOfDeathConditionI != null && CauseOfDeathConditionI.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionI.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionI == null)
-                {
-                    CauseOfDeathConditionI = CauseOfDeathCondition(8);
-                }
-                if (CauseOfDeathConditionI.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionI.Code.Text;
-                    CauseOfDeathConditionI.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionI.Code = DictToCodeableConcept(value);
-                }
-                            }
-        }
-
-        /// <summary>Cause of Death Part I, Line j.</summary>
-        /// <value>the ninth underlying cause of death literal.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.COD1J = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Cause: {ExampleDeathRecord.COD1J}");</para>
-        /// </example>
-        [Property("COD1J", Property.Types.String, "Death Certification", "Cause of Death Part I, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string COD1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
-                {
-                    return CauseOfDeathConditionJ.Code.Text;
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-                if (CauseOfDeathConditionJ.Code != null)
-                {
-                    CauseOfDeathConditionJ.Code.Text = value;
-                }
-                else
-                {
-                    CauseOfDeathConditionJ.Code = new CodeableConcept();
-                    CauseOfDeathConditionJ.Code.Text = value;
-                }
-             }
-        }
-
-        /// <summary>Cause of Death Part I Interval, Line j.</summary>
-        /// <value>the ninth underlying cause of death approximate interval: onset to death.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.INTERVAL1J = "example";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Interval: {ExampleDeathRecord.INTERVAL1J}");</para>
-        /// </example>
-        [Property("INTERVAL1J", Property.Types.String, "Death Certification", "Cause of Death Part I Interval, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        public string INTERVAL1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Onset != null)
-                {
-                    return CauseOfDeathConditionJ.Onset.ToString();
-                }
-                return null;
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-
-                CauseOfDeathConditionJ.Onset = new FhirString(value);
-             }
-        }
-
-        /// <summary>Cause of Death Part I Code, Line j.</summary>
-        /// <value>the ninth underlying cause of death coding. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "example");</para>
-        /// <para>code.Add("system", "example");</para>
-        /// <para>code.Add("display", "example");</para>
-        /// <para>ExampleDeathRecord.CODE1J = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tCause of Death: {ExampleDeathRecord.CODE1J['display']}");</para>
-        /// </example>
-        [Property("CODE1J", Property.Types.Dictionary, "Death Certification", "Cause of Death Part I Code, Line j.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Cause-Of-Death-Condition.html", false, 100)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        public Dictionary<string, string> CODE1J
-        {
-            get
-            {
-                if (CauseOfDeathConditionJ != null && CauseOfDeathConditionJ.Code != null)
-                {
-                    return CodeableConceptToDict(CauseOfDeathConditionJ.Code);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (CauseOfDeathConditionJ == null)
-                {
-                    CauseOfDeathConditionJ = CauseOfDeathCondition(9);
-                }
-               if (CauseOfDeathConditionJ.Code != null)
-                {
-                    CodeableConcept code = DictToCodeableConcept(value);
-                    code.Text = CauseOfDeathConditionJ.Code.Text;
-                    CauseOfDeathConditionJ.Code = code;
-                }
-                else
-                {
-                    CauseOfDeathConditionJ.Code = DictToCodeableConcept(value);
-                }
-            }
-        }
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -2762,7 +2391,7 @@ namespace VRDR
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Decedent's Given Name(s). Middle name should be the last entry.</summary>
+        /// <summary>Decedent's Legal Name - Given. Middle name should be the last entry.</summary>
         /// <value>the decedent's name (first, etc., middle)</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -2771,7 +2400,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Given Name(s): {string.Join(", ", ExampleDeathRecord.GivenNames)}");</para>
         /// </example>
-        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 0)]
+        [Property("Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Given Name(s).", true, IGURL.Decedent, true, 0)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string[] GivenNames
         {
@@ -2805,7 +2434,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Last Name: {ExampleDeathRecord.FamilyName}");</para>
         /// </example>
-        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 5)]
+        [Property("Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Family Name.", true, IGURL.Decedent, true, 5)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string FamilyName
         {
@@ -2838,7 +2467,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.Suffix}");</para>
         /// </example>
-        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 6)]
+        [Property("Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Suffix.", true, IGURL.Decedent, true, 6)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "name")]
         public string Suffix
         {
@@ -2865,109 +2494,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Alias Name(s). Middle name should be the last entry.</summary>
-        /// <value>the decedent's alias name (first, etc., middle)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>string[] names = { "FirstAlias", "MiddleAlias" };</para>
-        /// <para>ExampleDeathRecord.AliasGivenNames = names;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Alias Given Name(s): {string.Join(", ", ExampleDeathRecord.AliasGivenNames)}");</para>
-        /// </example>
-        [Property("Alias Given Names", Property.Types.StringArr, "Decedent Demographics", "Decedent's Alias Given Name(s).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 7)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "first")]
-        public string[] AliasGivenNames
-        {
-            get
-            {
-                string[] names = GetAllString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').given");
-                return names != null ? names : new string[0];
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    name.Given = value;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Alias Family Name.</summary>
-        /// <value>the decedent's alias family name (i.e. last name)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AliasFamilyName = "AliasLast";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent's Alias Last Name: {ExampleDeathRecord.AliasFamilyName}");</para>
-        /// </example>
-        [Property("Alias Family Name", Property.Types.String, "Decedent Demographics", "Decedent's Alias Family Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 8)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "family")]
-        public string AliasFamilyName
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').family");
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    name.Family = value;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    name.Family = value;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Decedent's Alias Suffix.</summary>
-        /// <value>the decedent's alias suffix</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AliasSuffix = "Jr.";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Alias Suffix: {ExampleDeathRecord.AliasSuffix}");</para>
-        /// </example>
-        [Property("Alias Suffix", Property.Types.String, "Decedent Demographics", "Decedent's Alias Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", false, 9)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='nickname')", "suffix")]
-        public string AliasSuffix
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='nickname').suffix");
-            }
-            set
-            {
-                HumanName name = Decedent.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Nickname);
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Nickname;
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Decedent.Name.Add(name);
-                }
-            }
-        }
-
         /// <summary>Decedent's Maiden Name.</summary>
         /// <value>the decedent's maiden name (i.e. last name before marriage)</value>
         /// <example>
@@ -2976,13 +2502,13 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Maiden Name: {ExampleDeathRecord.MaidenName}");</para>
         /// </example>
-        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 10)]
+        [Property("Maiden Name", Property.Types.String, "Decedent Demographics", "Decedent's Maiden Name.", true, IGURL.Decedent, true, 10)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).name.where(use='maiden')", "family")]
         public string MaidenName
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').family");
+                return GetFirstString("Bundle.entry.resource.where($this is Patient).name.where(use='maiden').text");
             }
             set
             {
@@ -2995,7 +2521,7 @@ namespace VRDR
                 {
                     name = new HumanName();
                     name.Use = HumanName.NameUse.Maiden;
-                    name.Family = value;
+                    name.Text = value;
                     Decedent.Name.Add(name);
                 }
             }
@@ -3009,7 +2535,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
         /// </example>
-        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 11)]
+        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, IGURL.Decedent, true, 11)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
         public string Gender
         {
@@ -3049,6 +2575,65 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Sex at Death.</summary>
+        /// <value>the decedent's sex at time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SexAtDeath = "F";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Sex at Time of Death: {ExampleDeathRecord.SexAtDeath}");</para>
+        /// </example>
+        [Property("Sex At Death", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Sex at Death.", true, IGURL.Decedent, true, 12)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
+        public Dictionary<string, string> SexAtDeath
+        {
+            get
+            {
+                Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
+                if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)sex.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                Decedent.Extension.RemoveAll(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
+                Extension sex = new Extension();
+                sex.Url = ExtensionURL.NVSSSexAtDeath;
+                sex.Value = DictToCodeableConcept(value);
+                Decedent.Extension.Add(sex);
+            }
+        }
+
+        /// <summary>Decedent's Sex At Death Helper</summary>
+        /// <value>Decedent's sex at death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SexAtDeathHelper = VRDR.ValueSets.AdministractiveGender.Male;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's SexAtDeathHelper: {ExampleDeathRecord.SexAtDeathHelper}");</para>
+        /// </example>
+        [Property("Sex At Death", Property.Types.String, "Decedent Demographics", "Decedent's Sex At Death.", true, IGURL.Decedent, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath')", "")]
+        public string SexAtDeathHelper
+        {
+            get
+            {
+                if (SexAtDeath.ContainsKey("code"))
+                {
+                    return SexAtDeath["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SexAtDeath", value, VRDR.ValueSets.AdministrativeGender.Codes);
+            }
+        }
+
+        // Should this be removed for IG v1.3 updates?
         /// <summary>Decedent's Birth Sex.</summary>
         /// <value>the decedent's birth sex</value>
         /// <example>
@@ -3057,13 +2642,13 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
         /// </example>
-        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 12)]
+        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, IGURL.Decedent, true, 12)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
         public string BirthSex
         {
             get
             {
-                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == OtherExtensionURL.BirthSex);
                 if (birthsex != null && birthsex.Value != null && birthsex.Value.GetType() == typeof(Code))
                 {
                     return ((Code)birthsex.Value).Value;
@@ -3072,11 +2657,107 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex");
+                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.BirthSex);
                 Extension birthsex = new Extension();
-                birthsex.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex";
+                birthsex.Url = OtherExtensionURL.BirthSex;
                 birthsex.Value = new Code(value);
                 Decedent.Extension.Add(birthsex);
+            }
+        }
+
+        private void AddBirthDateToDecedent()
+        {
+            Decedent.BirthDateElement = new Date();
+            Decedent.BirthDateElement.Extension.Add(NewBlankPartialDateTimeExtension(false));
+        }
+
+        /// <summary>Decedent's Year of Birth.</summary>
+        /// <value>the decedent's year of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthYear = 1928;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Birth: {ExampleDeathRecord.BirthYear}");</para>
+        /// </example>
+        [Property("BirthYear", Property.Types.UInt32, "Decedent Demographics", "Decedent's Year of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        public uint? BirthYear
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+        /// <summary>Decedent's Month of Birth.</summary>
+        /// <value>the decedent's month of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthMonth = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Birth: {ExampleDeathRecord.BirthMonth}");</para>
+        /// </example>
+        [Property("BirthMonth", Property.Types.UInt32, "Decedent Demographics", "Decedent's Month of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        public uint? BirthMonth
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>Decedent's Day of Birth.</summary>
+        /// <value>the decedent's dau of birth</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.BirthDay = 11;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Birth: {ExampleDeathRecord.BirthDay}");</para>
+        /// </example>
+        [Property("BirthDay", Property.Types.UInt32, "Decedent Demographics", "Decedent's Day of Birth.", true, IGURL.Decedent, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
+        public uint? BirthDay
+        {
+            get
+            {
+                if (Decedent.BirthDateElement != null)
+                {
+                    return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (Decedent.BirthDateElement == null)
+                {
+                    AddBirthDateToDecedent();
+                }
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
             }
         }
 
@@ -3088,78 +2769,31 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Birth: {ExampleDeathRecord.DateOfBirth}");</para>
         /// </example>
-        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
+        [Property("Date Of Birth", Property.Types.String, "Decedent Demographics", "Decedent's Date of Birth.", true, IGURL.Decedent, true, 14)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "birthDate")]
         public string DateOfBirth
         {
             get
             {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).birthDate");
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value))
+                // We support this legacy API entrypoint via the new partial date entrypoints
+                if (BirthYear != null && BirthMonth != null && BirthDay != null)
                 {
-                    return;
-                }
-                if (Decedent.BirthDateElement == null){
-                    Decedent.BirthDateElement = new Date();
-                }
-                Decedent.BirthDateElement.Value = value.Trim();
-            }
-        }
-
-        /// <summary>Decedent's Date of Birth Date Part Absent Extension.</summary>
-        /// <value>the decedent's date of birth date part absent reason</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DateOfBirthDatePartReason = "1940-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Date of Birth Date Part Reason: {ExampleDeathRecord.DateOfBirthDatePartAbsent}");</para>
-        /// </example>
-        [Property("Date Of Birth Date Part Absent", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "_birthDate")]
-        public Tuple<string,string>[] DateOfBirthDatePartAbsent
-        {
-            get
-            {
-                if (Decedent.BirthDateElement != null){
-                    Extension datePartAbsent = Decedent.BirthDateElement.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    return DatePartsToArray(datePartAbsent);
+                    Date result = new Date((int)BirthYear, (int)BirthMonth, (int)BirthDay);
+                    return result.ToString();
                 }
                 return null;
             }
             set
             {
-                if (value != null && value.Length > 0)
+                // We support this legacy API entrypoint via the new partial date entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
                 {
-                    if (Decedent.BirthDateElement != null){
-                        // Clear the previous date part absent and rebuild with the new data
-                        Decedent.BirthDateElement.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
-                    }
-                    
-                    Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
-                    foreach (Tuple<string, string> element in value)
-                    {
-                        if (element != null)
-                        {
-                            Extension datePartDetails = new Extension();
-                            datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = DatePartToIntegerOrCode(element);
-                            datePart.Extension.Add(datePartDetails);
-                        }
-
-                    }
-                    if (Decedent.BirthDateElement == null){
-                        Decedent.BirthDateElement = new Date();
-                    }
-                    Decedent.BirthDateElement.Extension.Add(datePart);
-
+                    BirthYear = (uint?)parsedDate.Year;
+                    BirthMonth = (uint?)parsedDate.Month;
+                    BirthDay = (uint?)parsedDate.Day;
                 }
-
             }
-
         }
 
         /// <summary>Decedent's Residence.</summary>
@@ -3178,18 +2812,20 @@ namespace VRDR
         /// <para>address.Add("addressLine1", "123 Test Street");</para>
         /// <para>address.Add("addressLine2", "Unit 3");</para>
         /// <para>address.Add("addressCity", "Boston");</para>
+        /// <para>address.Add("addressCityC", "1234");</para>
         /// <para>address.Add("addressCounty", "Suffolk");</para>
         /// <para>address.Add("addressState", "MA");</para>
         /// <para>address.Add("addressZip", "12345");</para>
         /// <para>address.Add("addressCountry", "US");</para>
-        /// <para>SetterDeathRecord.Residence = address;</para>
+        /// <para>SetterDeathRecord.Residence = address;</para> (addressStnum, 6)
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State of residence: {ExampleDeathRecord.Residence["addressState"]}");</para>
         /// </example>
-        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 19)]
+        [Property("Residence", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence.", true, IGURL.Decedent, true, 19)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
+        [PropertyParam("addressCityC", "address, _city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
@@ -3201,34 +2837,25 @@ namespace VRDR
             {
                 if (Decedent != null && Decedent.Address != null && Decedent.Address.Count() > 0)
                 {
-                    return AddressToDict(Decedent.Address.First());
+                    Dictionary<string, string> address = AddressToDict(Decedent.Address.First());
+                    return address;
                 }
                 return EmptyAddrDict();
             }
             set
             {
-                if (ResidenceWithinCityLimitsBoolean == false)
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimitsBoolean = false;
+                if (Decedent.Address == null){
+                    Decedent.Address = new List<Address>();
                 }
-                if (ResidenceWithinCityLimitsBoolean == true)
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                    ResidenceWithinCityLimitsBoolean = true;
-                }
-                else
-                {
-                    Decedent.Address.Clear();
-                    Decedent.Address.Add(DictToAddress(value));
-                }
+                Decedent.Address.Clear();
+                Decedent.Address.Add(DictToAddress(value));
+
+
                 // Now encode -
                 //        Address.Country as PH_Country_GEC
                 //        Adress.County as PHVS_DivisionVitalStatistics__County
                 //        Address.City as 5 digit code as per FIPS 55-3, which are included as the preferred alternate code in https://phinvads.cdc.gov/vads/ViewValueSet.action?id=D06EE94C-4D4C-440A-AD2A-1C3CB35E6D08#
-               Address a = Decedent.Address.FirstOrDefault();
+                //Address a = Decedent.Address.FirstOrDefault();
             }
         }
 
@@ -3247,7 +2874,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimits['display']}");</para>
         /// </example>
-        [Property("Residence Within City Limits", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 20)]
+        [Property("Residence Within City Limits", Property.Types.Dictionary, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, IGURL.Decedent, true, 20)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -3258,8 +2885,8 @@ namespace VRDR
             {
                 if (Decedent != null && Decedent.Address.FirstOrDefault() != null)
                 {
-                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Find(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
-                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value.GetType() == typeof(Coding))
+                    Extension cityLimits = Decedent.Address.FirstOrDefault().Extension.Where(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator).FirstOrDefault();
+                    if (cityLimits != null && cityLimits.Value != null && cityLimits.Value as Coding != null)
                     {
                         return CodingToDict((Coding)cityLimits.Value);
                     }
@@ -3274,15 +2901,43 @@ namespace VRDR
                     {
                         Decedent.Address.Add(new Address());
                     }
-                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator");
+                    Decedent.Address.FirstOrDefault().Extension.RemoveAll(ext => ext.Url == ExtensionURL.WithinCityLimitsIndicator);
                     Extension withinCityLimits = new Extension();
-                    withinCityLimits.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator";
+                    withinCityLimits.Url = ExtensionURL.WithinCityLimitsIndicator;
                     withinCityLimits.Value = DictToCoding(value);
                     Decedent.Address.FirstOrDefault().Extension.Add(withinCityLimits);
                 }
             }
         }
 
+        /// <summary>Residence Within City Limits Helper</summary>
+        /// <value>Residence Within City Limits.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ResidenceWithinCityLimitsHelper = VRDR.ValueSets.YesNoUnknown.Y;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsHelper}");</para>
+        /// </example>
+        [Property("ResidenceWithinCityLimits Helper", Property.Types.String, "Decedent Demographics", "Decedent's ResidenceWithinCityLimits.", true, IGURL.Decedent, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
+        public string ResidenceWithinCityLimitsHelper
+        {
+            get
+            {
+                if (ResidenceWithinCityLimits.ContainsKey("code"))
+                {
+                    return ResidenceWithinCityLimits["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
+        // Todo remove in V1.3 IG updates
         /// <summary>Decedent's residence is/is not within city limits. This is a convenience method, to access the coded value use ResidenceWithinCityLimits.</summary>
         /// <value>Decedent's residence is/is not within city limits. A null value means "not applicable".</value>
         /// <example>
@@ -3291,7 +2946,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
         /// </example>
-        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 21)]
+        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, IGURL.Decedent, true, 21)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
         public bool? ResidenceWithinCityLimitsBoolean
         {
@@ -3341,7 +2996,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Suffix: {ExampleDeathRecord.SSN}");</para>
         /// </example>
-        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 13)]
+        [Property("SSN", Property.Types.String, "Decedent Demographics", "Decedent's Social Security Number.", true, IGURL.Decedent, true, 13)]
         [FHIRPath("Bundle.entry.resource.where($this is Patient).identifier.where(system='http://hl7.org/fhir/sid/us-ssn')", "")]
         public string SSN
         {
@@ -3364,294 +3019,536 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Ethnicity.</summary>
-        /// <value>the decedent's ethnicity as a text string. Use the Ethnicity property to set coded ethnicity.</value>
+        /// <summary>Decedent's Ethnicity Hispanic Mexican.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.EthnicityText = "Hispanic or Latino";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Ethnicity Text: {ExampleDeathRecord.EthnicityText}");</para>
-        /// </example>
-        [Property("EthnicityText", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
-        public string EthnicityText
-        {
-            get
-            {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
-                if (ethnicity != null)
-                {
-                    Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                    if (ethnicityText != null && ethnicityText.Value.GetType() == typeof(FhirString))
-                    {
-                        return ethnicityText.Value.ToString();
-                    }
-                }
-                return null;
-            }
-            set
-            {
-                Extension ethnicity = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity").FirstOrDefault();
-                if (ethnicity == null)
-                {
-                    ethnicity = new Extension();
-                    ethnicity.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
-                    Decedent.Extension.Add(ethnicity);
-                }
-                Extension ethnicityText = ethnicity.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                if (ethnicityText == null)
-                {
-                    ethnicityText = new Extension();
-                    ethnicityText.Url = "text";
-                    ethnicity.Extension.Add(ethnicityText);
-                }
-                ethnicityText.Value = new FhirString(value);
-            }
-        }
-
-        /// <summary>Decedent's Ethnicity.</summary>
-        /// <value>the decedent's ethnicity. An array of tuples, where the first value of each tuple is the display value, and the second is
-        /// the code. Use the EthnicityText property to set this value as a simple string, setting the value of this property will create a default value for the
-        /// EthnicityText property by concatenating the supplied code display texts.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string&gt;[] ethnicity = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
         /// <para>ExampleDeathRecord.Ethnicity = ethnicity;</para>
         /// <para>// Getter:</para>
-        /// <para>foreach(var pair in deathRecord.Ethnicity)</para>
-        /// <para>{</para>
-        /// <para>  Console.WriteLine($"\tEthnicity text: {pair.Key}: code: {pair.Value}");</para>
-        /// <para>};</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity1['display']}");</para>
         /// </example>
-        [Property("Ethnicity", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Ethnicity.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')", "")]
-        public Tuple<string, string>[] Ethnicity
+        [Property("Ethnicity1", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Mexican.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public Dictionary<string, string> Ethnicity1
         {
             get
             {
-                string[] ombCodes = new string[] { };
-                string[] detailedCodes = new string[] { };
-                string[] ombDisplays = new string[] { };
-                string[] detailedDisplays = new string[] { };
-                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.code");
-                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.code");
-                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'ombCategory').value.display");
-                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.where(url = 'detailed').value.display");
-                Tuple<string, string>[] ethnicityList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
-                for (int i = 0; i < ombCodes.Length; i++)
+                if (InputRaceAndEthnicityObs != null)
                 {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i])))
+                    Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
                     {
-                        ethnicityList[i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
-                    }
-                    else
-                    {
-                        ethnicityList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
                     }
                 }
-                for (int i = 0; i < detailedCodes.Length; i++)
-                {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i])))
-                    {
-                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(MortalityData.EthnicityCodeToEthnicityName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                    else
-                    {
-                        ethnicityList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                }
-                return ethnicityList;
+                return EmptyCodeableDict();
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity");
-                Extension ethnicities = new Extension();
-                ethnicities.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity";
-                List<string> textEthStrs = new List<string>();
-                foreach (Tuple<string, string> element in value)
+                if (InputRaceAndEthnicityObs == null)
                 {
-                    string display = element.Item1;
-                    string code = element.Item2;
-                    textEthStrs.Add(display);
-                    Extension codeEthnicity = new Extension();
-                    if (code == "2135-2" || code == "2186-5")
-                    {
-                        codeEthnicity.Url = "ombCategory";
-                    }
-                    else if (display.Equals("Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Not Hispanic or Latino", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        codeEthnicity.Url = "ombCategory";
-                    }
-                    else
-                    {
-                        codeEthnicity.Url = "detailed";
-                    }
-                    Coding coding = new Coding();
-                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
-                    if (!String.IsNullOrWhiteSpace(code))
-                    {
-                        coding.Code = code;
-                    }
-                    if (!String.IsNullOrWhiteSpace(display))
-                    {
-                        coding.Display = display;
-                    }
-                    codeEthnicity.Value = coding;
-                    ethnicities.Extension.Add(codeEthnicity);
+                    CreateRaceEthnicityObs();
                 }
-                Extension textEth = new Extension();
-                textEth.Url = "text";
-                textEth.Value = new FhirString(String.Join(", ", textEthStrs));
-                ethnicities.Extension.Add(textEth);
-                Decedent.Extension.Add(ethnicities);
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Mexican;
+                coding["display"] = NvssEthnicity.Mexican;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
             }
         }
 
-        /// <summary>Decedent's Race.</summary>
-        /// <value>the decedent's race as a text string. Use the Race property to set coded race.</value>
+        /// <summary>Decedent's Ethnicity 1 Helper</summary>
+        /// <value>Decedent's Ethnicity 1.</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.RaceText = "White";</para>
+        /// <para>ExampleDeathRecord.EthnicityLevel = VRDR.ValueSets.YesNoUnknown.Yes;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Race Text: {ExampleDeathRecord.RaceText}");</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
         /// </example>
-        [Property("RaceText", Property.Types.String, "Decedent Demographics", "Decedent's Race.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 37)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
-        public string RaceText
+        [Property("Ethnicity 1 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 1.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public string Ethnicity1Helper
         {
             get
             {
-                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
-                if (race != null)
+                if (Ethnicity1.ContainsKey("code"))
                 {
-                    Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                    if (raceText != null && raceText.Value.GetType() == typeof(FhirString))
-                    {
-                        return raceText.Value.ToString();
-                    }
+                    return Ethnicity1["code"];
                 }
                 return null;
             }
             set
             {
-                Extension race = Decedent.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race").FirstOrDefault();
-                if (race == null)
-                {
-                    race = new Extension();
-                    race.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-                    Decedent.Extension.Add(race);
-                }
-                Extension raceText = race.Extension.Where(ext => ext.Url == "text").FirstOrDefault();
-                if (raceText == null)
-                {
-                    raceText = new Extension();
-                    raceText.Url = "text";
-                    race.Extension.Add(raceText);
-                }
-                raceText.Value = new FhirString(value);
+                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
-        /// <summary>Decedent's Race.</summary>
-        /// <value>the decedent's race. An array of tuples, where the first value of each tuple is the display value, and the second is
-        /// the code. Use the RaceText property to set this value as a simple string, setting the value of this property will create a default value for the
-        /// RaceText property by concatenating the supplied code display texts.</value>
+        /// <summary>Decedent's Ethnicity Hispanic Puerto Rican.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Tuple&lt;string, string&gt;[] race = { Tuple.Create("Non Hispanic or Latino", "2186-5"), Tuple.Create("Salvadoran", "2161-8") };</para>
-        /// <para>ExampleDeathRecord.Race = race;</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity2 = ethnicity;</para>
         /// <para>// Getter:</para>
-        /// <para>foreach(var pair in ExampleDeathRecord.race)</para>
-        /// <para>{</para>
-        /// <para>   Console.WriteLine($"\Race text: {pair.Key}: code: {pair.Value}");</para>
-        /// <para>};</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity2['display']}");</para>
         /// </example>
-        [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 38)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')", "")]
+        [Property("Ethnicity2", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Puerto Rican.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public Dictionary<string, string> Ethnicity2
+        {
+            get
+            {
+                if (InputRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (InputRaceAndEthnicityObs == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.PuertoRican;
+                coding["display"] = NvssEthnicity.PuertoRican;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity 2 Helper</summary>
+        /// <value>Decedent's Ethnicity 2.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Ethnicity2Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity1Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 2 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 2.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public string Ethnicity2Helper
+        {
+            get
+            {
+                if (Ethnicity2.ContainsKey("code"))
+                {
+                    return Ethnicity2["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Cuban.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity3 = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity3['display']}");</para>
+        /// </example>
+        [Property("Ethnicity3", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Cuban.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public Dictionary<string, string> Ethnicity3
+        {
+            get
+            {
+                if (InputRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (InputRaceAndEthnicityObs == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Cuban;
+                coding["display"] = NvssEthnicity.Cuban;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity 3 Helper</summary>
+        /// <value>Decedent's Ethnicity 3.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Ethnicity3Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity3Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 3 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 3.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public string Ethnicity3Helper
+        {
+            get
+            {
+                if (Ethnicity3.ContainsKey("code"))
+                {
+                    return Ethnicity3["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Other.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ethnicity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ethnicity.Add("code", "Y");</para>
+        /// <para>ethnicity.Add("system", CodeSystems.YesNo);</para>
+        /// <para>ethnicity.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.Ethnicity4 = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
+        /// </example>
+        [Property("Ethnicity4", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Ethnicity Hispanic Other.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public Dictionary<string, string> Ethnicity4
+        {
+            get
+            {
+                if (InputRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
+                    if (ethnicity != null && ethnicity.Value != null && ethnicity.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)ethnicity.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (InputRaceAndEthnicityObs == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Other;
+                coding["display"] = NvssEthnicity.Other;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity 4 Helper</summary>
+        /// <value>Decedent's Ethnicity 4.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Ethnicity4Helper = "Y";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Ethnicity: {ExampleDeathRecord.Ethnicity4Helper}");</para>
+        /// </example>
+        [Property("Ethnicity 4 Helper", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity 4.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public string Ethnicity4Helper
+        {
+            get
+            {
+                if (Ethnicity4.ContainsKey("code"))
+                {
+                    return Ethnicity4["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+
+        /// <summary>Decedent's Ethnicity Hispanic Literal.</summary>
+        /// <value>the decedent's ethnicity. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EthnicityLiteral = ethnicity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Ethnicity: {ExampleDeathRecord.Ethnicity4['display']}");</para>
+        /// </example>
+        [Property("EthnicityLiteral", Property.Types.String, "Decedent Demographics", "Decedent's Ethnicity Literal.", true, IGURL.InputRaceAndEthnicity, false, 34)]
+        [PropertyParam("ethnicity", "The literal string to describe ethnicity.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
+        public string EthnicityLiteral
+        {
+            get
+            {
+                if (InputRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent ethnicity = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                    if (ethnicity != null && ethnicity.Value != null)
+                    {
+                        return ethnicity.Value.ToString();
+                    }
+                }
+                return "";
+            }
+            set
+            {
+                if (InputRaceAndEthnicityObs == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssEthnicity.Literal;
+                coding["display"] = NvssEthnicity.Literal;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = new FhirString(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Decedent's Race values.</summary>
+        /// <value>the decedent's race. A tuple, where the first value of the tuple is the display value, and the second is
+        /// the IJE code Y or N.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Race = {NvssRace.BlackOrAfricanAmerican, "Y"};</para>
+        /// <para>// Getter:</para>
+        /// <para>string boaa = ExampleDeathRecord.RaceBlackOfAfricanAmerican;</para>
+        /// </example>
+        [Property("Race", Property.Types.TupleArr, "Decedent Demographics", "Decedent's Race", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='inputraceandethnicity')", "")]
         public Tuple<string, string>[] Race
         {
             get
             {
-                string[] ombCodes = new string[] { };
-                string[] detailedCodes = new string[] { };
-                string[] ombDisplays = new string[] { };
-                string[] detailedDisplays = new string[] { };
-                ombCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.code");
-                detailedCodes = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.code");
-                ombDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'ombCategory').value.display");
-                detailedDisplays = GetAllString("Bundle.entry.resource.where($this is Patient).extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.where(url = 'detailed').value.display");
-                Tuple<string, string>[] raceList = new Tuple<string, string>[ombCodes.Length + detailedCodes.Length];
-                for (int i = 0; i < ombCodes.Length; i++)
+                // filter the boolean race values
+                var booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
+                List<string> raceCodes = booleanRaceCodes.Concat(NvssRace.GetLiteralRaceCodes()).ToList();
+
+                var races = new List<Tuple<string, string>>(){};
+
+                if (InputRaceAndEthnicityObs == null)
                 {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(ombCodes[i])))
+                    return races.ToArray();
+                }
+                foreach(string raceCode in raceCodes)
+                {
+                    Observation.ComponentComponent component = InputRaceAndEthnicityObs.Component.Where(c => c.Code.Coding[0].Code == raceCode).FirstOrDefault();
+                    if (component != null)
                     {
-                        raceList[i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(ombCodes[i]), String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
-                    }
-                    else
-                    {
-                        raceList[i] = (Tuple.Create(ombDisplays[i], String.IsNullOrWhiteSpace(ombCodes[i]) ? null : ombCodes[i]));
+                        // convert boolean race codes to strings
+                        if (booleanRaceCodes.Contains(raceCode))
+                        {
+
+                            // Todo Find conversion from FhirBoolean to bool
+                            string raceBool = ((FhirBoolean)component.Value).ToString();
+
+                            if (Convert.ToBoolean(raceBool))
+                            {
+                                var race = Tuple.Create(raceCode, "Y");
+                                races.Add(race);
+                            }
+                            else
+                            {
+                                var race = Tuple.Create(raceCode, "N");
+                                races.Add(race);
+                            }
+                        }
+                        else
+                        {
+                            var race = Tuple.Create(raceCode, component.Value.ToString());
+                            races.Add(race);
+                        }
+
                     }
                 }
-                for (int i = 0; i < detailedCodes.Length; i++)
-                {
-                    if (!String.IsNullOrWhiteSpace(MortalityData.RaceCodeToRaceName(detailedCodes[i])))
-                    {
-                        raceList[ombCodes.Length + i] = (Tuple.Create(MortalityData.RaceCodeToRaceName(detailedCodes[i]), String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                    else
-                    {
-                        raceList[ombCodes.Length + i] = (Tuple.Create(detailedDisplays[i], String.IsNullOrWhiteSpace(detailedCodes[i]) ? null : detailedCodes[i]));
-                    }
-                }
-                return raceList;
+
+                return races.ToArray();
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race");
-                Extension races = new Extension();
-                races.Url = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race";
-                List<string> textRaceStrs = new List<string>();
-                foreach(Tuple<string,string> element in value)
+                if (InputRaceAndEthnicityObs == null)
                 {
-                    string display = element.Item1;
-                    string code = element.Item2;
-                    textRaceStrs.Add(display);
-                    Extension codeRace = new Extension();
-                    if (code == "1002-5" || code == "2028-9" || code == "2054-5" || code == "2076-8" || code == "2106-3")
+                    CreateRaceEthnicityObs();
+                }
+                var booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
+                foreach (Tuple<string, string> element in value)
+                {
+                    InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
+                    var coding = EmptyRaceEthnicityCodeDict();
+                    coding["code"] = element.Item1;
+                    coding["display"] = element.Item1;
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = DictToCodeableConcept(coding);
+                    if (booleanRaceCodes.Contains(element.Item1))
                     {
-                        codeRace.Url = "ombCategory";
-                    }
-                    else if (display.Equals("American Indian or Alaska Native", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Asian", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Black or African American", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("Native Hawaiian or Other Pacific Islander", StringComparison.InvariantCultureIgnoreCase) ||
-                             display.Equals("White", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        codeRace.Url = "ombCategory";
+                        if (element.Item2 == "Y")
+                        {
+                            component.Value = new FhirBoolean(true);
+                        }
+                        else
+                        {
+                            component.Value = new FhirBoolean(false);
+                        }
                     }
                     else
                     {
-                        codeRace.Url = "detailed";
+                        component.Value = new FhirString(element.Item2);
                     }
-                    Coding coding = new Coding();
-                    coding.System = CodeSystems.PH_RaceAndEthnicity_CDC;
-                    if (!String.IsNullOrWhiteSpace(code))
-                    {
-                        coding.Code = code;
-                    }
-                    if (!String.IsNullOrWhiteSpace(display))
-                    {
-                        coding.Display = display;
-                    }
-                    codeRace.Value = coding;
-                    races.Extension.Add(codeRace);
+                    InputRaceAndEthnicityObs.Component.Add(component);
                 }
-                Extension textRace = new Extension();
-                textRace.Url = "text";
-                textRace.Value = new FhirString(String.Join(", ", textRaceStrs));
-                races.Extension.Add(textRace);
-                Decedent.Extension.Add(races);
+
+            }
+        }
+
+        /// <summary>Decedent's Race MissingValueReason.</summary>
+        /// <value>why the decedent's race is missing. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; mvr = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>mvr.Add("code", "R");</para>
+        /// <para>mvr.Add("system", CodeSystems.MissingValueReason);</para>
+        /// <para>mvr.Add("display", "Refused");</para>
+        /// <para>ExampleDeathRecord.RaceMissingValueReason = mvr;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Missing Race: {ExampleDeathRecord.RaceMissingValueReason['display']}");</para>
+        /// </example>
+        [Property("RaceMissingValueReason", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
+        public Dictionary<string, string> RaceMissingValueReason
+        {
+            get
+            {
+                if (InputRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent raceMVR = InputRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
+                    if (raceMVR != null && raceMVR.Value != null && raceMVR.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)raceMVR.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (InputRaceAndEthnicityObs == null)
+                {
+                    CreateRaceEthnicityObs();
+                }
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
+                var coding = EmptyRaceEthnicityCodeDict();
+                coding["code"] = NvssRace.MissingValueReason;
+                coding["display"] = NvssRace.MissingValueReason;
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = DictToCodeableConcept(coding);
+                component.Value = DictToCodeableConcept(value);
+                InputRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+
+        /// <summary>Decedent's RaceMissingValueReason</summary>
+        /// <value>Decedent's RaceMissingValueReason.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceMissingValueReasonHelper = VRDR.ValueSets.RaceMissingValueReason.R;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's RaceMissingValueReason: {ExampleDeathRecord.RaceMissingValueReasonHelper}");</para>
+        /// </example>
+        [Property("RaceMissingValueReason", Property.Types.String, "Decedent Demographics", "Decedent's Race MissingValueReason.", true, IGURL.InputRaceAndEthnicity, true, 38)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='MissingValueReason')", "")]
+        public string RaceMissingValueReasonHelper
+        {
+            get
+            {
+                if (RaceMissingValueReason.ContainsKey("code"))
+                {
+                    return RaceMissingValueReason["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("RaceMissingValueReason", value, VRDR.ValueSets.RaceMissingValueReason.Codes);
             }
         }
 
@@ -3679,7 +3576,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"State where decedent was born: {ExampleDeathRecord.PlaceOfBirth["placeOfBirthState"]}");</para>
         /// </example>
-        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 15)]
+        [Property("Place Of Birth", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Place Of Birth.", true, IGURL.Decedent, true, 15)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -3687,12 +3584,12 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/StructureDefinition/patient-birthPlace')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='" + OtherExtensionURL.PatientBirthPlace + "')", "")]
         public Dictionary<string, string> PlaceOfBirth
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace" );
+                Extension addressExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == OtherExtensionURL.PatientBirthPlace );
                 if (addressExt != null)
                 {
                     Address address = (Address)addressExt.Value;
@@ -3706,13 +3603,48 @@ namespace VRDR
             }
             set
             {
-                Decedent.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/patient-birthPlace");
+                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.PatientBirthPlace);
                 Extension placeOfBirthExt = new Extension();
-                placeOfBirthExt.Url = "http://hl7.org/fhir/StructureDefinition/patient-birthPlace";
+                placeOfBirthExt.Url = OtherExtensionURL.PatientBirthPlace;
                 placeOfBirthExt.Value = DictToAddress(value);
                 Decedent.Extension.Add(placeOfBirthExt);
             }
         }
+
+        /// <summary>The informant of the decedent's death.</summary>
+        /// <value>String representation of the informant's relationship to the decedent
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.Contact = "Friend of family";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Contact's Relationship: {ExampleDeathRecord.Contact}");</para>
+        /// </example>
+        [Property("Contact Relationship", Property.Types.Dictionary, "Decedent Demographics", "The informant's relationship to the decedent", true, IGURL.Decedent, true, 24)]
+        [PropertyParam("relationship", "The relationship to the decedent.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "contact")]
+        public Dictionary<string, string> ContactRelationship
+        {
+            get
+            {
+                if (Decedent != null && Decedent.Contact != null)
+                {
+                    var contact = Decedent.Contact.FirstOrDefault();
+                    if (contact != null && contact.Relationship != null)
+                    {
+                        return CodeableConceptToDict(contact.Relationship.FirstOrDefault());
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                Patient.ContactComponent component = new Patient.ContactComponent();
+                component.Relationship.Add(DictToCodeableConcept(value));
+                Decedent.Contact.Add(component);
+            }
+        }
+
 
         /// <summary>The marital status of the decedent at the time of death.</summary>
         /// <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
@@ -3730,7 +3662,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [Property("Marital Status", Property.Types.Dictionary, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -3739,16 +3671,76 @@ namespace VRDR
         {
             get
             {
-                if (Decedent != null && Decedent.MaritalStatus != null)
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus as CodeableConcept != null)
                 {
-                    return CodeableConceptToDict(Decedent.MaritalStatus);
+                    return CodeableConceptToDict((CodeableConcept)Decedent.MaritalStatus);
                 }
                 return EmptyCodeDict();
             }
             set
             {
-                Decedent.MaritalStatus = DictToCodeableConcept(value);
+                if (Decedent.MaritalStatus == null)
+                {
+                    Decedent.MaritalStatus = DictToCodeableConcept(value);
+                }
+                else
+                {
+                    string text = Decedent.MaritalStatus.Text;
+                    Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
+                    Decedent.MaritalStatus = DictToCodeableConcept(value);
+                    Decedent.MaritalStatus.Extension.Add(bypass);
+                    Decedent.MaritalStatus.Text = text;
+                }
+
             }
+        }
+
+        /// <summary>The marital status edit flag.</summary>
+        /// <value>the marital status edit flag
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "S");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");</para>
+        /// <para>code.Add("display", "Never Married");</para>
+        /// <para>ExampleDeathRecord.MaritalStatus = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
+        /// </example>
+        [Property("Marital Status Bypass", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, IGURL.Decedent, true, 24)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public Dictionary<string, string> MaritalBypass
+        {
+            get
+            {
+                if (Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
+                {
+                    Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)addressExt.Value);
+                    }
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                Extension ext = new Extension();
+                ext.Url = ExtensionURL.BypassEditFlag;
+                ext.Value = DictToCodeableConcept(value);
+                if (Decedent.MaritalStatus == null){
+                    Decedent.MaritalStatus = new CodeableConcept();
+                }
+                Decedent.MaritalStatus.Extension.Add(ext);
+            }
+
         }
 
         /// <summary>The marital status of the decedent at the time of death helper method.</summary>
@@ -3761,7 +3753,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusHelper}");</para>
         /// </example>
-        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent.html", true, 24)]
+        [Property("Marital Status", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
         public string MaritalStatusHelper
@@ -3780,6 +3772,68 @@ namespace VRDR
             }
         }
 
+        /// <summary>The marital bypass helper method.</summary>
+        /// <value>the marital pass.:
+        /// <para>"code" - the code describing this finding</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.0;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalBypassHelper}");</para>
+        /// </example>
+        [Property("Marital Bypass", Property.Types.String, "Decedent Demographics", "The marital bypass.", true, IGURL.Decedent, true, 24)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public string MaritalBypassHelper
+        {
+            get
+            {
+                if (MaritalBypass.ContainsKey("code"))
+                {
+                    return MaritalBypass["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("MaritalBypass", value, VRDR.ValueSets.EditBypass0124.Codes);
+            }
+        }
+
+        /// <summary>The literal text string of the marital status of the decedent at the time of death.</summary>
+        /// <value>the marital status of the decedent at the time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"text" - the code describing this finding</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.MaritalStatusLiteral = "Single";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusLiteral}");</para>
+        /// </example>
+        [Property("Marital Status Literal", Property.Types.String, "Decedent Demographics", "The marital status of the decedent at the time of death.", true, IGURL.Decedent, true, 24)]
+        [PropertyParam("text", "The literal string")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
+        public string MaritalStatusLiteral
+        {
+            get
+            {
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus.Text != null)
+                {
+                    return Decedent.MaritalStatus.Text;
+                }
+                return "";
+            }
+            set
+            {
+                if (Decedent.MaritalStatus == null)
+                {
+                    Decedent.MaritalStatus = new CodeableConcept();
+                }
+                Decedent.MaritalStatus.Text = value;
+            }
+        }
+
         /// <summary>Given name(s) of decedent's father.</summary>
         /// <value>the decedent's father's name (first, middle, etc.)</value>
         /// <example>
@@ -3789,14 +3843,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Given Name(s): {string.Join(", ", ExampleDeathRecord.FatherGivenNames)}");</para>
         /// </example>
-        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 28)]
+        [Property("Father Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's father.", true, IGURL.DecedentFather , false, 28)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string[] FatherGivenNames
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Given != null) {
-                    return Father.Name.First().Given.ToArray();
+                if (Father != null && Father.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3804,22 +3861,19 @@ namespace VRDR
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
+                    CreateFather();
+                }
+                   HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
-                }
-                else
-                {
-                    Father.Name.First().Given = value;
                 }
 
             }
@@ -3833,14 +3887,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father's Last Name: {ExampleDeathRecord.FatherFamilyName}");</para>
         /// </example>
-        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 29)]
+        [Property("Father Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's father.", true, IGURL.DecedentFather, false, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherFamilyName
         {
-            get
+           get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Family != null) {
-                    return Father.Name.First().Family;
+                if (Father != null && Father.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').family");
                 }
                 return null;
             }
@@ -3848,24 +3902,20 @@ namespace VRDR
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
+                    CreateFather();
+                }
+                HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Family = value;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
                 }
-                else
-                {
-                    Father.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -3877,40 +3927,32 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Father Suffix: {ExampleDeathRecord.FatherSuffix}");</para>
         /// </example>
-        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Father.html", false, 30)]
+        [Property("Father Suffix", Property.Types.String, "Decedent Demographics", "Father's Suffix.", true, IGURL.DecedentFather, false, 30)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH')", "name")]
         public string FatherSuffix
         {
             get
             {
-                if (Father != null && Father.Name != null && Father.Name.Count() > 0 && Father.Name.First().Suffix != null) {
-
-                    return Father.Name.First().Suffix.FirstOrDefault();
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='FTH').name.where(use='official').suffix");
             }
             set
             {
                 if (Father == null)
                 {
-                    Father = new RelatedPerson();
-                    Father.Id = Guid.NewGuid().ToString();
-                    Father.Meta = new Meta();
-                    string[] father_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Father" };
-                    Father.Meta.Profile = father_profile;
-                    Father.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Father.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "FTH", "father", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
+                    CreateFather();
+                }
+                HumanName name = Father.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Suffix = suffix;
                     Father.Name.Add(name);
-                    AddReferenceToComposition(Father.Id);
-                    Bundle.AddResourceEntry(Father, "urn:uuid:" + Father.Id);
-                }
-                else
-                {
-                    string[] suffix = { value };
-                    Father.Name.First().Suffix = suffix;
                 }
 
             }
@@ -3925,14 +3967,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Given Name(s): {string.Join(", ", ExampleDeathRecord.MotherGivenNames)}");</para>
         /// </example>
-        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 31)]
+        [Property("Mother Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's mother.", true, IGURL.DecedentMother, false, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string[] MotherGivenNames
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Given != null) {
-                    return Mother.Name.First().Given.ToArray();
+                if (Mother != null && Mother.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -3940,22 +3985,19 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                   HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    Mother.Name.First().Given = value;
                 }
 
             }
@@ -3969,14 +4011,15 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother's Maiden Name: {ExampleDeathRecord.MotherMaidenName}");</para>
         /// </example>
-        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 32)]
+        [Property("Mother Maiden Name", Property.Types.String, "Decedent Demographics", "Maiden name of decedent's mother.", true, IGURL.DecedentMother, false, 32)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherMaidenName
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Family != null) {
-                    return Mother.Name.First().Family;
+
+                if (Mother != null && Mother.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -3984,24 +4027,20 @@ namespace VRDR
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
                     name.Family = value;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
                 }
-                else
-                {
-                    Mother.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -4013,40 +4052,32 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Mother Suffix: {ExampleDeathRecord.MotherSuffix}");</para>
         /// </example>
-        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Mother.html", false, 33)]
+        [Property("Mother Suffix", Property.Types.String, "Decedent Demographics", "Mother's Suffix.", true, IGURL.DecedentMother, false, 33)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH')", "name")]
         public string MotherSuffix
         {
             get
             {
-                if (Mother != null && Mother.Name != null && Mother.Name.Count() > 0 && Mother.Name.First().Suffix != null) {
-
-                    return Mother.Name.First().Suffix.FirstOrDefault();
-                }
-                return null;
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='MTH').name.where(use='official').suffix");
             }
             set
             {
                 if (Mother == null)
                 {
-                    Mother = new RelatedPerson();
-                    Mother.Id = Guid.NewGuid().ToString();
-                    Mother.Meta = new Meta();
-                    string[] mother_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Mother" };
-                    Mother.Meta.Profile = mother_profile;
-                    Mother.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Mother.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "MTH", "mother", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
+                    CreateMother();
+                }
+                HumanName name = Mother.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Suffix = suffix;
                     Mother.Name.Add(name);
-                    AddReferenceToComposition(Mother.Id);
-                    Bundle.AddResourceEntry(Mother, "urn:uuid:" + Mother.Id);
-                }
-                else
-                {
-                    string[] suffix = { value };
-                    Mother.Name.First().Suffix = suffix;
                 }
 
             }
@@ -4061,14 +4092,17 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Given Name(s): {string.Join(", ", ExampleDeathRecord.SpouseGivenNames)}");</para>
         /// </example>
-        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 25)]
+        [Property("Spouse Given Names", Property.Types.StringArr, "Decedent Demographics", "Given name(s) of decedent's spouse.", true, IGURL.DecedentSpouse, false, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string[] SpouseGivenNames
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Given != null) {
-                    return Spouse.Name.First().Given.ToArray();
+                if (Spouse != null && Spouse.Name != null ) {
+                    // Evaluation of method System.Linq.Enumerable.SingleOrDefault requires calling method System.Reflection.TypeInfo.get_DeclaredFields, which cannot be called in this context.
+                    //HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                    string[] names = GetAllString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').given");
+                    return names != null ? names : new string[0];
                 }
                 return new string[0];
             }
@@ -4076,22 +4110,19 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                   HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && value != null)
+                {
+                    name.Given = value;
+                }
+                else if (value != null)
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Given = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
-                }
-                else
-                {
-                    Spouse.Name.First().Given = value;
                 }
 
             }
@@ -4105,14 +4136,14 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse's Last Name: {ExampleDeathRecord.SpouseFamilyName}");</para>
         /// </example>
-        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 26)]
+        [Property("Spouse Family Name", Property.Types.String, "Decedent Demographics", "Family name of decedent's spouse.", true, IGURL.DecedentSpouse, false, 26)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseFamilyName
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Family != null) {
-                    return Spouse.Name.First().Family;
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').family");
                 }
                 return null;
             }
@@ -4120,24 +4151,20 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Family = value;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
                     name.Family = value;
                     Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
                 }
-                else
-                {
-                    Spouse.Name.First().Family = value;
-                }
-
             }
         }
 
@@ -4149,15 +4176,54 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
         /// </example>
-        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Spouse.html", false, 27)]
+        [Property("Spouse Suffix", Property.Types.String, "Decedent Demographics", "Spouse's Suffix.", true, IGURL.DecedentSpouse, false, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS')", "name")]
         public string SpouseSuffix
         {
             get
             {
-                if (Spouse != null && Spouse.Name != null && Spouse.Name.Count() > 0 && Spouse.Name.First().Suffix != null) {
+                return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='official').suffix");
+            }
+            set
+            {
+                if (Spouse == null)
+                {
+                    CreateSpouse();
+                }
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+                string[] suffix = { value };
+                if (name != null && !String.IsNullOrEmpty(value))
+                {
+                    name.Suffix = suffix;
+                }
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Official;
+                    name.Suffix = suffix;
+                    Spouse.Name.Add(name);
+                }
 
-                    return Spouse.Name.First().Suffix.FirstOrDefault();
+            }
+        }
+
+        /// <summary>Spouse's Maiden Name.</summary>
+        /// <value>the decedent's spouse's maiden name</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseSuffix = "Jr.";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Spouse Suffix: {ExampleDeathRecord.SpouseSuffix}");</para>
+        /// </example>
+        [Property("Spouse Maiden Name", Property.Types.String, "Decedent Demographics", "Spouse's Maiden Name.", true, IGURL.DecedentSpouse, false, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden')", "family")]
+        public string SpouseMaidenName
+        {
+            get
+            {
+
+                if (Spouse != null && Spouse.Name != null ) {
+                    return GetFirstString("Bundle.entry.resource.where($this is RelatedPerson).where(relationship.coding.code='SPS').name.where(use='maiden').family");
                 }
                 return null;
             }
@@ -4165,27 +4231,103 @@ namespace VRDR
             {
                 if (Spouse == null)
                 {
-                    Spouse = new RelatedPerson();
-                    Spouse.Id = Guid.NewGuid().ToString();
-                    Spouse.Meta = new Meta();
-                    string[] spouse_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Spouse" };
-                    Spouse.Meta.Profile = spouse_profile;
-                    Spouse.Patient = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Spouse.Relationship.Add(new CodeableConcept(CodeSystems.RoleCode_HL7_V3, "SPS", "spouse", null));
-                    HumanName name = new HumanName();
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Spouse.Name.Add(name);
-                    AddReferenceToComposition(Spouse.Id);
-                    Bundle.AddResourceEntry(Spouse, "urn:uuid:" + Spouse.Id);
+                    CreateSpouse();
                 }
-                else
+                HumanName name = Spouse.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Maiden);
+                if (name != null && !String.IsNullOrEmpty(value))
                 {
-                    string[] suffix = { value };
-                    Spouse.Name.First().Suffix = suffix;
+                    name.Family = value;
                 }
-
+                else if (!String.IsNullOrEmpty(value))
+                {
+                    name = new HumanName();
+                    name.Use = HumanName.NameUse.Maiden;
+                    name.Family = value;
+                    Spouse.Name.Add(name);
+                }
             }
+        }
+        /// <summary>Spouse Alive.</summary>
+        /// <value>whether the decedent's spouse is alive
+        /// <para>"code" - the code describing this finding</para>
+        /// <para>"system" - the system the given code belongs to</para>
+        /// <para>"display" - the human readable display text that corresponds to the given code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>code.Add("code", "Y");</para>
+        /// <para>code.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");</para>
+        /// <para>code.Add("display", "Yes");</para>
+        /// <para>ExampleDeathRecord.SpouseAlive = code;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.SpouseAlive["display"]}");</para>
+        /// </example>
+        [Property("Spouse Alive", Property.Types.Dictionary, "Decedent Demographics", "Spouse Alive", true, IGURL.Decedent, false, 27)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]
+        public Dictionary<string, string> SpouseAlive
+        {
+            get
+            {
+                Extension spouseExt = Decedent.Extension.FirstOrDefault( extension => extension.Url == ExtensionURL.SpouseAlive);
+                if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null) {
+
+                    return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+
+                Extension ext = new Extension();
+                ext.Url = ExtensionURL.SpouseAlive;
+                ext.Value = DictToCodeableConcept(value);
+                Decedent.Extension.Add(ext);
+            }
+        }
+
+        /// <summary>Decedent's SpouseAlive</summary>
+        /// <value>Decedent's SpouseAlive.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SpouseAliveHelper = VRDR.ValueSets.YesNoUnknownNotApplicable.Y;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Spouse Alive: {ExampleDeathRecord.SpouseAliveHelper}");</para>
+        /// </example>
+        [Property("Spouse Alive", Property.Types.String, "Decedent Demographics", "Spouse Alive", true, IGURL.Decedent, false, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "")]
+        public string SpouseAliveHelper
+        {
+            get
+            {
+                if (SpouseAlive.ContainsKey("code"))
+                {
+                    return SpouseAlive["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SpouseAlive", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+            }
+        }
+
+        /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
+        private void CreateEmptyEducationLevelObservation()
+        {
+            DecedentEducationLevel = new Observation();
+            DecedentEducationLevel.Id = Guid.NewGuid().ToString();
+            DecedentEducationLevel.Meta = new Meta();
+            string[] educationlevel_profile = { ProfileURL.DecedentEducationLevel };
+            DecedentEducationLevel.Meta.Profile = educationlevel_profile;
+            DecedentEducationLevel.Status = ObservationStatus.Final;
+            DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
+            DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographic");
+            Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
         }
 
         /// <summary>Decedent's Education Level.</summary>
@@ -4197,14 +4339,14 @@ namespace VRDR
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>elevel.Add("code", "BD");</para>
-        /// <para>elevel.Add("system", CodeSystems.PH_PHINVS_CDC);</para>
-        /// <para>elevel.Add("display", "College or baccalaureate degree complete");</para>
+        /// <para>elevel.Add("code", "BA");</para>
+        /// <para>elevel.Add("system", CodeSystems.EducationLevel);</para>
+        /// <para>elevel.Add("display", "Bachelor’s Degree");</para>
         /// <para>ExampleDeathRecord.EducationLevel = elevel;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Education-Level.html", false, 34)]
+        [Property("Education Level", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4223,24 +4365,12 @@ namespace VRDR
             {
                 if (DecedentEducationLevel == null)
                 {
-                    DecedentEducationLevel = new Observation();
-                    DecedentEducationLevel.Id = Guid.NewGuid().ToString();
-                    DecedentEducationLevel.Meta = new Meta();
-                    string[] educationlevel_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Education-Level" };
-                    DecedentEducationLevel.Meta.Profile = educationlevel_profile;
-                    DecedentEducationLevel.Status = ObservationStatus.Final;
-                    DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
-                    DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(DecedentEducationLevel.Id);
-                    Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
+                    CreateEmptyEducationLevelObservation();
                 }
-                else
-                {
-                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
-                }
+                DecedentEducationLevel.Value = DictToCodeableConcept(value);
             }
         }
+
         /// <summary>Decedent's Education Level Helper</summary>
         /// <value>Decedent's Education Level.</value>
         /// <example>
@@ -4249,7 +4379,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level: {ExampleDeathRecord.EducationLevelHelper}");</para>
         /// </example>
-        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Education-Level.html", false, 34)]
+        [Property("Education Level", Property.Types.String, "Decedent Demographics", "Decedent's Education Level.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
         public string EducationLevelHelper
@@ -4268,7 +4398,86 @@ namespace VRDR
             }
         }
 
+        /// <summary>Decedent's Education Level Edit Flag.</summary>
+        /// <value>the decedent's education level edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>elevel.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.EducationLevelEditFlag = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
+        /// </example>
+        [Property("Education Level Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
+        public Dictionary<string, string> EducationLevelEditFlag
+        {
+            get
+            {
+                if (DecedentEducationLevel != null && DecedentEducationLevel.Extension != null)
+                {
+                    Extension editFlag = DecedentEducationLevel.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (editFlag != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (DecedentEducationLevel == null)
+                {
+                    CreateEmptyEducationLevelObservation();
+                }
+                if (DecedentEducationLevel.Value != null && DecedentEducationLevel.Value.Extension != null){
+                    DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
+                Extension editFlag = new Extension();
+                editFlag.Url = ExtensionURL.BypassEditFlag;
+                if(DecedentEducationLevel.Value == null){
+                    DecedentEducationLevel.Value = new CodeableConcept();
+                }
+                editFlag.Value = DictToCodeableConcept(value);
+                DecedentEducationLevel.Value.Extension.Add(editFlag);
+            }
+        }
 
+        /// <summary>Decedent's Education Level Edit Flag Helper</summary>
+        /// <value>Decedent's Education Level Edit Flag.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentEducationLevelEditFlag = VRDR.ValueSets.EditBypass01234.EditPassed;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Education Level Edit Flag: {ExampleDeathRecord.EducationLevelHelperEditFlag}");</para>
+        /// </example>
+        [Property("Education Level Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
+        public string EducationLevelEditFlagHelper
+        {
+            get
+            {
+                if (EducationLevelEditFlag.ContainsKey("code"))
+                {
+                    return EducationLevelEditFlag["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("EducationLevelEditFlag", value, VRDR.ValueSets.EditBypass01234.Codes);
+            }
+        }
 
         /// <summary>Birth Record Identifier.</summary>
         /// <value>a birth record identification string.</value>
@@ -4278,7 +4487,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordId}");</para>
         /// </example>
-        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 16)]
+        [Property("Birth Record Id", Property.Types.String, "Decedent Demographics", "Birth Record Identifier (i.e. Certificate Number).", true, IGURL.BirthRecordIdentifier, true, 16)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordId
         {
@@ -4322,7 +4531,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4362,7 +4571,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
         /// </example>
-        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", false, 17)]
+        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
         public bool BirthRecordIdentifierDataAbsentBoolean
         {
@@ -4415,12 +4624,12 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record identification: {ExampleDeathRecord.BirthRecordState}");</para>
         /// </example>
-        [Property("Birth Record State", Property.Types.Dictionary, "Decedent Demographics", "Birth Record State.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 17)]
+        [Property("Birth Record State", Property.Types.String, "Decedent Demographics", "Birth Record State.", true, IGURL.BirthRecordIdentifier, true, 17)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
-        public Dictionary<string, string> BirthRecordState
+        public string BirthRecordState
         {
             get
             {
@@ -4428,22 +4637,22 @@ namespace VRDR
                 {
                     // Find correct component
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
-                    if (stateComp != null && stateComp.Value != null && stateComp.Value as CodeableConcept != null)
+                    if (stateComp != null && stateComp.Value != null)
                     {
-                        return(CodeableConceptToDict((CodeableConcept)stateComp.Value));
+                        return(Convert.ToString(stateComp.Value));
                     }
                 }
-                return EmptyCodeDict();
+                return "";
             }
             set
             {
-               CodeableConcept state = DictToCodeableConcept(value);
+            //    CodeableConcept state = DictToCodeableConcept(value);
                if (BirthRecordIdentifier == null)
                 {
                     CreateBirthRecordIdentifier();
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                    component.Value = state;
+                    component.Value = new FhirString(value);
                     BirthRecordIdentifier.Component.Add(component);
                 }
                 else
@@ -4452,13 +4661,13 @@ namespace VRDR
                     var stateComp = BirthRecordIdentifier.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "21842-0" );
                     if (stateComp != null)
                     {
-                        ((Observation.ComponentComponent)stateComp).Value = state;
+                        ((Observation.ComponentComponent)stateComp).Value = new FhirString(value);
                     }
                     else
                     {
                         Observation.ComponentComponent component = new Observation.ComponentComponent();
                         component.Code = new CodeableConcept(CodeSystems.LOINC, "21842-0", "Birthplace", null);
-                        component.Value = state;
+                        component.Value = new FhirString(value);
                         BirthRecordIdentifier.Component.Add(component);
                     }
                 }
@@ -4473,7 +4682,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Birth Record year: {ExampleDeathRecord.BirthRecordYear}");</para>
         /// </example>
-        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-BirthRecordIdentifier.html", true, 18)]
+        [Property("Birth Record Year", Property.Types.String, "Decedent Demographics", "Birth Record Year.", true, IGURL.BirthRecordIdentifier, true, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR')", "")]
         public string BirthRecordYear
         {
@@ -4518,7 +4727,6 @@ namespace VRDR
                 }
             }
         }
-
         /// <summary>Decedent's Usual Occupation (Code).</summary>
         /// <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -4535,7 +4743,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
         /// </example>
-        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", false, 39)]
+        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, IGURL.DecedentUsualWork, false, 39)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4555,23 +4763,10 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    UsualWork.Effective = new Period();
-                    UsualWork.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                    CreateUsualWork();
                 }
-                else
-                {
-                    UsualWork.Value = DictToCodeableConcept(value);
-                }
+                UsualWork.Value = DictToCodeableConcept(value);
+
             }
         }
 
@@ -4583,7 +4778,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupation}");</para>
         /// </example>
-        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 40)]
+        [Property("Usual Occupation (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 40)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupation
         {
@@ -4615,7 +4810,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Start of Usual Occupation: {ExampleDeathRecord.UsualOccupationStart}");</para>
         /// </example>
-        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 41)]
+        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 41)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupationStart
         {
@@ -4631,25 +4826,12 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateUsualWork();
                     UsualWork.Effective = new Period(new FhirDateTime(value), null);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
-                else if (UsualWork.Effective as Period != null)
+                if (UsualWork.Effective as Period != null)
                 {
                     ((Period)UsualWork.Effective).Start = value;
-                }
-                else
-                {
-                    UsualWork.Effective = new Period(new FhirDateTime(value), null);
                 }
             }
         }
@@ -4662,7 +4844,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"End of Usual Occupation: {ExampleDeathRecord.UsualOccupationEnd}");</para>
         /// </example>
-        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 42)]
+        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualOccupationEnd
         {
@@ -4678,29 +4860,15 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] usualwork_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work" };
-                    UsualWork.Meta.Profile = usualwork_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    CreateUsualWork();
                     UsualWork.Effective = new Period(null, new FhirDateTime(value));
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
                 }
-                else if (UsualWork.Effective as Period != null)
+                if (UsualWork.Effective as Period != null)
                 {
                     ((Period)UsualWork.Effective).End = value;
                 }
-                else
-                {
-                    UsualWork.Effective = new Period(null, new FhirDateTime(value));
-                }
             }
         }
-
         /// <summary>Decedent's Usual Industry (Code).</summary>
         /// <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
         /// <para>"code" - the code</para>
@@ -4717,7 +4885,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
         /// </example>
-        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", false, 43)]
+        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, IGURL.DecedentUsualWork, false, 43)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4741,30 +4909,16 @@ namespace VRDR
             {
                 if (UsualWork == null)
                 {
-                    UsualWork = new Observation();
-                    UsualWork.Id = Guid.NewGuid().ToString();
-                    UsualWork.Meta = new Meta();
-                    string[] employmenthistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Employment-History" };
-                    UsualWork.Meta.Profile = employmenthistory_profile;
-                    UsualWork.Status = ObservationStatus.Final;
-                    UsualWork.Code = new CodeableConcept(CodeSystems.LOINC, "21843-8", "History of Usual occupation", null);
-                    UsualWork.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    UsualWork.Effective = new Period();
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
-                    AddReferenceToComposition(UsualWork.Id);
-                    Bundle.AddResourceEntry(UsualWork, "urn:uuid:" + UsualWork.Id);
+                    CreateUsualWork();
                 }
-                else
-                {
-                    UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-                    component.Value = DictToCodeableConcept(value);
-                    UsualWork.Component.Add(component);
-                }
+
+                UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
+
+                component.Value = DictToCodeableConcept(value);
+                UsualWork.Component.Add(component);
+
             }
         }
 
@@ -4776,7 +4930,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustry}");</para>
         /// </example>
-        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Usual-Work.html", true, 44)]
+        [Property("Usual Industry (Text)", Property.Types.String, "Decedent Demographics", "Decedent's Usual Industry.", true, IGURL.DecedentUsualWork, true, 44)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
         public string UsualIndustry
         {
@@ -4838,13 +4992,13 @@ namespace VRDR
                     MilitaryServiceObs = new Observation();
                     MilitaryServiceObs.Id = Guid.NewGuid().ToString();
                     MilitaryServiceObs.Meta = new Meta();
-                    string[] militaryhistory_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service" };
+                    string[] militaryhistory_profile = { ProfileURL.DecedentMilitaryService };
                     MilitaryServiceObs.Meta.Profile = militaryhistory_profile;
                     MilitaryServiceObs.Status = ObservationStatus.Final;
                     MilitaryServiceObs.Code = new CodeableConcept(CodeSystems.LOINC, "55280-2", "Military service Narrative", null);
                     MilitaryServiceObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     MilitaryServiceObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(MilitaryServiceObs.Id);
+                    AddReferenceToComposition(MilitaryServiceObs.Id, "DecedentDemographics");
                     Bundle.AddResourceEntry(MilitaryServiceObs, "urn:uuid:" + MilitaryServiceObs.Id);
                 }
                 else
@@ -4858,49 +5012,25 @@ namespace VRDR
         /// <value>the decedent's military service. Whether the decedent served in the military, a null value means "unknown".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MilitaryServiceBoolean = true;</para>
+        /// <para>ExampleDeathRecord.MilitaryServiceHelper = Y;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceBoolean}");</para>
+        /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</para>
         /// </example>
-        [Property("Military Service Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
+        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
-        public bool? MilitaryServiceBoolean
+         public string MilitaryServiceHelper
         {
             get
             {
-                var code = this.MilitaryService;
-                switch (code["code"])
+                if (MilitaryService.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Unknown
-                        return null;
+                    return(MilitaryService["code"]);
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "UNK";
-                        code["display"] = "unknown";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.MilitaryService = code;
+                SetCodeValue("MilitaryService", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
@@ -4910,181 +5040,181 @@ namespace VRDR
         //
         /////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>Given name(s) of mortician.</summary>
-        /// <value>the mortician's name (first, middle, etc.)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>string[] names = { "FD", "Middle" };</para>
-        /// <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
-        /// </example>
-        [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
-        public string[] MorticianGivenNames
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0)
-                {
-                    return Mortician.Name.First().Given.ToArray();
-                }
-                return new string[0];
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // /// <summary>Given name(s) of mortician.</summary>
+        // /// <value>the mortician's name (first, middle, etc.)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>string[] names = { "FD", "Middle" };</para>
+        // /// <para>ExampleDeathRecord.MorticianGivenNames = names;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician Given Name(s): {string.Join(", ", ExampleDeathRecord.MorticianGivenNames)}");</para>
+        // /// </example>
+        // [Property("Mortician Given Names", Property.Types.StringArr, "Decedent Disposition", "Given name(s) of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 96)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // public string[] MorticianGivenNames
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Given.ToArray();
+        //         }
+        //         return new string[0];
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+        //         if (name != null)
+        //         {
+        //             name.Given = value;
+        //         }
+        //         else
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Given = value;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Family name of mortician.</summary>
-        /// <value>the mortician's family name (i.e. last name)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
-        /// </example>
-        [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
-        public string MorticianFamilyName
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0)
-                {
-                    return Mortician.Name.First().Family;
-                }
-                return null;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    name.Family = value;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Family = value;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // /// <summary>Family name of mortician.</summary>
+        // /// <value>the mortician's family name (i.e. last name)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.MorticianFamilyName = "Last";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician's Last Name: {ExampleDeathRecord.MorticianFamilyName}");</para>
+        // /// </example>
+        // [Property("Mortician Family Name", Property.Types.String, "Decedent Disposition", "Family name of mortician.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 97)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "name")]
+        // public string MorticianFamilyName
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Family;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             name.Family = value;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Family = value;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Mortician's Suffix.</summary>
-        /// <value>the mortician's suffix</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
-        /// </example>
-        [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
-        public string MorticianSuffix
-        {
-            get
-            {
-                if (Mortician != null && Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
-                {
-                    return Mortician.Name.First().Suffix.First();
-                }
-                return null;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                HumanName name = Mortician.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
-                {
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Mortician.Name.Add(name);
-                }
-            }
-        }
+        // /// <summary>Mortician's Suffix.</summary>
+        // /// <value>the mortician's suffix</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.MorticianSuffix = "Jr.";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Mortician Suffix: {ExampleDeathRecord.MorticianSuffix}");</para>
+        // /// </example>
+        // [Property("Mortician Suffix", Property.Types.String, "Decedent Disposition", "Mortician's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 98)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "suffix")]
+        // public string MorticianSuffix
+        // {
+        //     get
+        //     {
+        //         if (Mortician != null && Mortician.Name.Count() > 0 && Mortician.Name.First().Suffix.Count() > 0)
+        //         {
+        //             return Mortician.Name.First().Suffix.First();
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         HumanName name = Mortician.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //             Mortician.Name.Add(name);
+        //         }
+        //     }
+        // }
 
-        /// <summary>Mortician Identifier.</summary>
-        /// <value>the mortician identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the idetifier value, e.g. US NPI number</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        /// <para>identifier.Add("value", "1234567890");</para>
-        /// <para>ExampleDeathRecord.MorticianIdentifier = identifier;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tMortician Identifier: {ExampleDeathRecord.MorticianIdentifier['value']}");</para>
-        /// </example>
-        [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
-        [PropertyParam("system", "The identifier system.")]
-        [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
-        public Dictionary<string, string> MorticianIdentifier
-        {
-            get
-            {
-                Identifier identifier = Mortician?.Identifier?.FirstOrDefault();
-                var result = new Dictionary<string, string>();
-                if (identifier != null)
-                {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
-                }
-                return result;
-            }
-            set
-            {
-                InitializeMorticianIfNull();
-                if (Mortician.Identifier.Count > 0)
-                {
-                    Mortician.Identifier.Clear();
-                }
-                if(value.ContainsKey("system") && value.ContainsKey("value")) {
-                    Identifier identifier = new Identifier();
-                    identifier.System = value["system"];
-                    identifier.Value = value["value"];
-                    Mortician.Identifier.Add(identifier);
-                }
-            }
-        }
+        // /// <summary>Mortician Identifier.</summary>
+        // /// <value>the mortician identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        // /// <para>"system" - the identifier system, e.g. US NPI</para>
+        // /// <para>"value" - the idetifier value, e.g. US NPI number</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        // /// <para>identifier.Add("value", "1234567890");</para>
+        // /// <para>ExampleDeathRecord.MorticianIdentifier = identifier;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tMortician Identifier: {ExampleDeathRecord.MorticianIdentifier['value']}");</para>
+        // /// </example>
+        // [Property("Mortician Identifier", Property.Types.Dictionary, "Decedent Disposition", "Mortician Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Mortician.html", false, 99)]
+        // [PropertyParam("system", "The identifier system.")]
+        // [PropertyParam("value", "The identifier value.")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician')", "identifier")]
+        // public Dictionary<string, string> MorticianIdentifier
+        // {
+        //     get
+        //     {
+        //         Identifier identifier = Mortician?.Identifier?.FirstOrDefault();
+        //         var result = new Dictionary<string, string>();
+        //         if (identifier != null)
+        //         {
+        //             result["system"] = identifier.System;
+        //             result["value"] = identifier.Value;
+        //         }
+        //         return result;
+        //     }
+        //     set
+        //     {
+        //         InitializeMorticianIfNull();
+        //         if (Mortician.Identifier.Count > 0)
+        //         {
+        //             Mortician.Identifier.Clear();
+        //         }
+        //         if(value.ContainsKey("system") && value.ContainsKey("value")) {
+        //             Identifier identifier = new Identifier();
+        //             identifier.System = value["system"];
+        //             identifier.Value = value["value"];
+        //             Mortician.Identifier.Add(identifier);
+        //         }
+        //     }
+        // }
 
-        private void InitializeMorticianIfNull()
-        {
-            if (Mortician == null)
-            {
-                Mortician = new Practitioner();
-                Mortician.Id = Guid.NewGuid().ToString();
-                Mortician.Meta = new Meta();
-                string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
-                Mortician.Meta.Profile = mortician_profile;
-            }
-        }
+        // private void InitializeMorticianIfNull()
+        // {
+        //     if (Mortician == null)
+        //     {
+        //         Mortician = new Practitioner();
+        //         Mortician.Id = Guid.NewGuid().ToString();
+        //         Mortician.Meta = new Meta();
+        //         string[] mortician_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Mortician" };
+        //         Mortician.Meta.Profile = mortician_profile;
+        //     }
+        // }
 
         /// <summary>Funeral Home Address.</summary>
         /// <value>the funeral home address. A Dictionary representing an address, containing the following key/value pairs:
@@ -5113,12 +5243,18 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\FuneralHomeAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Home.html", false, 93)]
+        [Property("Funeral Home Address", Property.Types.Dictionary, "Decedent Disposition", "Funeral Home Address.", true, IGURL.FuneralHome, false, 93)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
         [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressStnum", "address, stnum")]
+        [PropertyParam("addressStdesig", "address, stdesig")]
+        [PropertyParam("addressPredir", "address, predir")]
+        [PropertyParam("addressPostDir", "address, postdir")]
+        [PropertyParam("addressStname", "address, stname")]
+        [PropertyParam("addressUnitnum", "address, unitnum")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "address")]
@@ -5139,20 +5275,12 @@ namespace VRDR
             {
                 if (FuneralHome == null)
                 {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Active = true;
-                    FuneralHome.Address.Add(DictToAddress(value));
+                    CreateFuneralHome();
                 }
-                else
-                {
-                    FuneralHome.Address.Clear();
-                    FuneralHome.Address.Add(DictToAddress(value));
-                }
+
+                FuneralHome.Address.Clear();
+                FuneralHome.Address.Add(DictToAddress(value));
+
             }
         }
 
@@ -5180,73 +5308,63 @@ namespace VRDR
             {
                 if (FuneralHome == null)
                 {
-                    FuneralHome = new Organization();
-                    FuneralHome.Id = Guid.NewGuid().ToString();
-                    FuneralHome.Meta = new Meta();
-                    string[] funeralhome_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Home" };
-                    FuneralHome.Meta.Profile = funeralhome_profile;
-                    FuneralHome.Type.Add(new CodeableConcept(CodeSystems.HL7_organization_type, "bus", "Non-Healthcare Business or Corporation", null));
-                    FuneralHome.Active = true;
-                    FuneralHome.Name = value;
+                    CreateFuneralHome();
                 }
-                else
-                {
-                    FuneralHome.Name = value;
-                }
+                FuneralHome.Name = value;
             }
         }
 
-        /// <summary>Funeral Director Phone.</summary>
-        /// <value>the funeral director phone number.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
-        /// </example>
-        [Property("Funeral Director Phone", Property.Types.String, "Decedent Disposition", "Funeral Director Phone.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Service-Licensee.html", false, 95)]
-        [FHIRPath("Bundle.entry.resource.where($this is PractitionerRole)", "telecom")]
-        public string FuneralDirectorPhone
-        {
-            get
-            {
-                string value = null;
-                if (FuneralHomeDirector != null)
-                {
-                    ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
-                    if (cp != null)
-                    {
-                        value = cp.Value;
-                    }
-                }
-                return value;
-            }
-            set
-            {
-                if (FuneralHomeDirector == null)
-                {
-                    FuneralHomeDirector = new PractitionerRole();
-                    FuneralHomeDirector.Id = Guid.NewGuid().ToString();
-                    FuneralHomeDirector.Meta = new Meta();
-                    string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
-                    FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
-                    AddReferenceToComposition(FuneralHomeDirector.Id);
-                    Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
-                }
-                ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
-                if (cp != null)
-                {
-                    cp.Value = value;
-                }
-                else
-                {
-                    cp = new ContactPoint();
-                    cp.System = ContactPoint.ContactPointSystem.Phone;
-                    cp.Value = value;
-                    FuneralHomeDirector.Telecom.Add(cp);
-                }
-            }
-        }
+        // /// <summary>Funeral Director Phone.</summary>
+        // /// <value>the funeral director phone number.</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.FuneralDirectorPhone = "000-000-0000";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Funeral Director Phone: {ExampleDeathRecord.FuneralDirectorPhone}");</para>
+        // /// </example>
+        // [Property("Funeral Director Phone", Property.Types.String, "Decedent Disposition", "Funeral Director Phone.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Service-Licensee.html", false, 95)]
+        // [FHIRPath("Bundle.entry.resource.where($this is PractitionerRole)", "telecom")]
+        // public string FuneralDirectorPhone
+        // {
+        //     get
+        //     {
+        //         string value = null;
+        //         if (FuneralHomeDirector != null)
+        //         {
+        //             ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+        //             if (cp != null)
+        //             {
+        //                 value = cp.Value;
+        //             }
+        //         }
+        //         return value;
+        //     }
+        //     set
+        //     {
+        //         if (FuneralHomeDirector == null)
+        //         {
+        //             FuneralHomeDirector = new PractitionerRole();
+        //             FuneralHomeDirector.Id = Guid.NewGuid().ToString();
+        //             FuneralHomeDirector.Meta = new Meta();
+        //             string[] funeralhomedirector_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Funeral-Service-Licensee" };
+        //             FuneralHomeDirector.Meta.Profile = funeralhomedirector_profile;
+        //             AddReferenceToComposition(FuneralHomeDirector.Id);
+        //             Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
+        //         }
+        //         ContactPoint cp = FuneralHomeDirector.Telecom.FirstOrDefault(entry => entry.System == ContactPoint.ContactPointSystem.Phone);
+        //         if (cp != null)
+        //         {
+        //             cp.Value = value;
+        //         }
+        //         else
+        //         {
+        //             cp = new ContactPoint();
+        //             cp.System = ContactPoint.ContactPointSystem.Phone;
+        //             cp.Value = value;
+        //             FuneralHomeDirector.Telecom.Add(cp);
+        //         }
+        //     }
+        // }
 
         /// <summary>Disposition Location Address.</summary>
         /// <value>the disposition location address. A Dictionary representing an address, containing the following key/value pairs:
@@ -5275,7 +5393,7 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DispositionLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 91)]
+        [Property("Disposition Location Address", Property.Types.Dictionary, "Decedent Disposition", "Disposition Location Address.", true, IGURL.DispositionLocation, true, 91)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
@@ -5283,7 +5401,7 @@ namespace VRDR
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "address")]
         public Dictionary<string, string> DispositionLocationAddress
         {
             get
@@ -5298,21 +5416,10 @@ namespace VRDR
             {
                 if (DispositionLocation == null)
                 {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    DispositionLocation.Address = DictToAddress(value);
-                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-                    DispositionLocation.PhysicalType = new CodeableConcept();
-                    DispositionLocation.PhysicalType.Coding.Add(pt);
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    CreateDispositionLocation();
                 }
-                else
-                {
-                    DispositionLocation.Address = DictToAddress(value);
-                }
+
+                DispositionLocation.Address = DictToAddress(value);
             }
         }
 
@@ -5324,8 +5431,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Disposition Location Name: {ExampleDeathRecord.DispositionLocationName}");</para>
         /// </example>
-        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", false, 92)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location')", "name")]
+        [Property("Disposition Location Name", Property.Types.String, "Decedent Disposition", "Name of Disposition Location.", true, IGURL.DispositionLocation, false, 92)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='disposition')", "name")]
         public string DispositionLocationName
         {
             get
@@ -5340,21 +5447,10 @@ namespace VRDR
             {
                 if (DispositionLocation == null)
                 {
-                    DispositionLocation = new Location();
-                    DispositionLocation.Id = Guid.NewGuid().ToString();
-                    DispositionLocation.Meta = new Meta();
-                    string[] dispositionlocation_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Disposition-Location" };
-                    DispositionLocation.Meta.Profile = dispositionlocation_profile;
-                    Coding pt = new Coding(CodeSystems.HL7_location_physical_type, "si", "Site");
-                    DispositionLocation.PhysicalType = new CodeableConcept();
-                    DispositionLocation.PhysicalType.Coding.Add(pt);
-                    DispositionLocation.Name = value;
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    CreateDispositionLocation();
                 }
-                else
-                {
-                    DispositionLocation.Name = value;
-                }
+
+                DispositionLocation.Name = value;
             }
         }
 
@@ -5374,7 +5470,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
         /// </example>
-        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5401,10 +5497,10 @@ namespace VRDR
                     DispositionMethod.Status = ObservationStatus.Final;
                     DispositionMethod.Code = new CodeableConcept(CodeSystems.LOINC, "80905-3", "Body disposition method", null);
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
+//                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
-                    LinkObservationToLocation(DispositionMethod, DispositionLocation);
-                    AddReferenceToComposition(DispositionMethod.Id);
+                    // LinkObservationToLocation(DispositionMethod, DispositionLocation);
+                    AddReferenceToComposition(DispositionMethod.Id, "DecedentDisposition");
                     Bundle.AddResourceEntry(DispositionMethod, "urn:uuid:" + DispositionMethod.Id);
                 }
                 else
@@ -5420,10 +5516,10 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>ExampleDeathRecord.DecedentDispositionMethodHelper = dmethod;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
+        /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</para>
         /// </example>
         /// </value>
-        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Disposition-Location.html", true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
         public string DecedentDispositionMethodHelper
@@ -5438,34 +5534,34 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodsOfDisposition.Codes);
+                SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
             }
         }
 
-        private void LinkObservationToLocation(Observation observation, Location location)
-        {
-            if (observation == null || location == null)
-            {
-                return;
-            }
+        // private void LinkObservationToLocation(Observation observation, Location location)
+        // {
+        //     if (observation == null || location == null)
+        //     {
+        //         return;
+        //     }
 
-            Extension extension = null;
-            foreach (Extension ext in observation.Extension)
-            {
-                if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
-                {
-                    extension = ext;
-                    break;
-                }
-            }
-            if (extension == null)
-            {
-                extension = new Extension();
-                extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
-                observation.Extension.Add(extension);
-            }
-            extension.Value = new ResourceReference("urn:uuid:" + location.Id);
-        }
+        //     Extension extension = null;
+        //     foreach (Extension ext in observation.Extension)
+        //     {
+        //         if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
+        //         {
+        //             extension = ext;
+        //             break;
+        //         }
+        //     }
+        //     if (extension == null)
+        //     {
+        //         extension = new Extension();
+        //         extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
+        //         observation.Extension.Add(extension);
+        //     }
+        //     extension.Value = new ResourceReference("urn:uuid:" + location.Id);
+        // }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -5508,26 +5604,14 @@ namespace VRDR
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    AutopsyPerformed.Value = DictToCodeableConcept(value);
-                }
+
+                AutopsyPerformed.Value = DictToCodeableConcept(value);
             }
         }
 
-        /// <summary>Autopsy Performed Indicator Boolean. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
+        /// <summary>Autopsy Performed Indicator Helper. This is a helper method, to access the code use the AutopsyPerformedIndicator property.</summary>
         /// <value>autopsy performed indicator. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -5535,208 +5619,438 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicatorBoolean}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator Boolean", Property.Types.Bool, "Death Investigation", "Autopsy Performed Indicator.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 29)]
+        [Property("Autopsy Performed Indicator Helper", Property.Types.String, "Death Investigation", "Autopsy Performed Indicator.", true, IGURL.AutopsyPerformedIndicator, true, 29)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyPerformedIndicatorBoolean
+        public string AutopsyPerformedIndicatorHelper
         {
             get
             {
-                var code = this.AutopsyPerformedIndicator;
-                switch (code["code"])
+                if (AutopsyPerformedIndicator.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
+                    return AutopsyPerformedIndicator["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("AutopsyPerformedIndicator", value, VRDR.ValueSets.YesNoUnknown.Codes);
+            }
+        }
+        // ** Pronouncer not curently supported **/
+        // /// <summary>Given name(s) of Pronouncer.</summary>
+        // /// <value>the Pronouncer's name (first, middle, etc.)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>string[] names = { "FD", "Middle" };</para>
+        // /// <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+        // /// </example>
+        // [Property("Pronouncer Given Names", Property.Types.StringArr, "Death Investigation", "Given name(s) of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 21)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
+        // public string[] PronouncerGivenNames
+        // {
+        //     get
+        //     {
+        //         if (Pronouncer != null && Pronouncer.Name.Count() > 0)
+        //         {
+        //             return Pronouncer.Name.First().Given.ToArray();
+        //         }
+        //         return new string[0];
+        //     }
+        //     set
+        //     {
+        //         HumanName name = Pronouncer.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
+        //         if (name != null)
+        //         {
+        //             name.Given = value;
+        //         }
+        //         else
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Given = value;
+        //             Pronouncer.Name.Add(name);
+        //         }
+        //     }
+        // }
+
+        // /// <summary>Family name of Pronouncer.</summary>
+        // /// <value>the Pronouncer's family name (i.e. last name)</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.PronouncerFamilyName = "Last";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Pronouncer's Last Name: {ExampleDeathRecord.PronouncerFamilyName}");</para>
+        // /// </example>
+        // [Property("Pronouncer Family Name", Property.Types.String, "Death Investigation", "Family name of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 22)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
+        // public string PronouncerFamilyName
+        // {
+        //     get
+        //     {
+        //         if (Pronouncer != null && Pronouncer.Name.Count() > 0)
+        //         {
+        //             return Pronouncer.Name.First().Family;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         HumanName name = Pronouncer.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             name.Family = value;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             name.Family = value;
+        //             Pronouncer.Name.Add(name);
+        //         }
+        //     }
+        // }
+
+        // /// <summary>Pronouncer's Suffix.</summary>
+        // /// <value>the Pronouncer's suffix</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.PronouncerSuffix = "Jr.";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Pronouncer Suffix: {ExampleDeathRecord.PronouncerSuffix}");</para>
+        // /// </example>
+        // [Property("Pronouncer Suffix", Property.Types.String, "Death Investigation", "Pronouncer's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 23)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "suffix")]
+        // public string PronouncerSuffix
+        // {
+        //     get
+        //     {
+        //         if (Pronouncer != null && Pronouncer.Name.Count() > 0 && Pronouncer.Name.First().Suffix.Count() > 0)
+        //         {
+        //             return Pronouncer.Name.First().Suffix.First();
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         HumanName name = Pronouncer.Name.FirstOrDefault();
+        //         if (name != null && !String.IsNullOrEmpty(value))
+        //         {
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //         }
+        //         else if (!String.IsNullOrEmpty(value))
+        //         {
+        //             name = new HumanName();
+        //             name.Use = HumanName.NameUse.Official;
+        //             string[] suffix = { value };
+        //             name.Suffix = suffix;
+        //             Pronouncer.Name.Add(name);
+        //         }
+        //     }
+        // }
+
+        // /// <summary>Pronouncer Identifier.</summary>
+        // /// <value>the Pronouncer identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
+        // /// <para>"system" - the identifier system, e.g. US NPI</para>
+        // /// <para>"value" - the identifier value, e.g. US NPI number</para>
+        // /// </value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
+        // /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
+        // /// <para>identifier.Add("value", "1234567890");</para>
+        // /// <para>ExampleDeathRecord.PronouncerIdentifier = identifier;</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.PronouncerIdentifier['value']}");</para>
+        // /// </example>
+        // [Property("Pronouncer Identifier", Property.Types.Dictionary, "Death Investigation", "Pronouncer Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 24)]
+        // [PropertyParam("system", "The identifier system.")]
+        // [PropertyParam("value", "The identifier value.")]
+        // [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "identifier")]
+        // public Dictionary<string, string> PronouncerIdentifier
+        // {
+        //     get
+        //     {
+        //         Identifier identifier = Pronouncer?.Identifier?.FirstOrDefault();
+        //         var result = new Dictionary<string, string>();
+        //         if (identifier != null)
+        //         {
+        //             result["system"] = identifier.System;
+        //             result["value"] = identifier.Value;
+        //         }
+        //         return result;
+        //     }
+        //     set
+        //     {
+        //         if (Pronouncer.Identifier.Count > 0)
+        //         {
+        //             Pronouncer.Identifier.Clear();
+        //         }
+        //         if(value.ContainsKey("system") && value.ContainsKey("value")) {
+        //             Identifier identifier = new Identifier();
+        //             identifier.System = value["system"];
+        //             identifier.Value = value["value"];
+        //             Pronouncer.Identifier.Add(identifier);
+        //         }
+        //     }
+        // }
+
+        /// <summary>Getter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be read from the extension</summary>
+        private uint? GetPartialDate(Extension partialDateTime, string partURL)
+        {
+            if (partialDateTime != null)
+            {
+                Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
+                if (part != null)
+                {
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+                    if (dataAbsent != null || part.Value == null)
+                    {
+                        // There's either a specific claim that there's no data or actually no data, so return null
                         return null;
+                    }
+                    return (uint?)((UnsignedInt)part.Value).Value; // Untangle a FHIR UnsignedInt in an extension into a uint
                 }
             }
-            set
+            return null;
+        }
+
+        /// <summary>Setter helper for anything that uses PartialDateTime, allowing a particular date field (year, month, or day) to be set in the extension</summary>
+        private void SetPartialDate(Extension partialDateTime, string partURL, uint? value)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == partURL);
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (value != null)
             {
-                var code = EmptyCodeDict();
-                switch(value)
+                part.Value = new UnsignedInt((int)value);
+            }
+            else
+            {
+                part.Value = null;
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            }
+        }
+
+        /// <summary>Getter helper for anything that uses PartialDateTime, allowing the time to be read from the extension</summary>
+        private string GetPartialTime(Extension partialDateTime)
+        {
+            if (partialDateTime != null)
+            {
+                Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
+                if (part != null)
                 {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
+                    Extension dataAbsent = part.Extension.Find(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+                    if (dataAbsent != null || part.Value == null)
+                    {
+                        // There's either a specific claim that there's no data or actually no data, so return null
+                        return null;
+                    }
+                    return part.Value.ToString();
+                }
+            }
+            return null;
+        }
+
+        /// <summary>Setter helper for anything that uses PartialDateTime, allowing the time to be set in the extension</summary>
+        private void SetPartialTime(Extension partialDateTime, String value)
+        {
+            Extension part = partialDateTime.Extension.Find(ext => ext.Url == ExtensionURL.DateTime);
+            part.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.DataAbsentReason);
+            if (value != null)
+            {
+                part.Value = new Time(value);
+            }
+            else
+            {
+                part.Value = null;
+                part.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
+            }
+        }
+
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing a particular date
+        /// field (year, month, or day) to be read from either the value or the extension</summary>
+        private uint? GetDateFragmentOrPartialDate(Element value, string partURL)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            DateTimeOffset? dateTimeOffset = null;
+            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            {
+                dateTimeOffset = ((FhirDateTime)value).ToDateTimeOffset(TimeSpan.Zero);
+            }
+            else if (value is Date && ((Date)value).Value != null)
+            {
+                dateTimeOffset = ((Date)value).ToDateTimeOffset();
+            }
+            if (dateTimeOffset != null)
+            {
+                switch(partURL)
+                {
+                    case ExtensionURL.DateYear:
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Year;
+                    case ExtensionURL.DateMonth:
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Month;
+                    case ExtensionURL.DateDay:
+                        return (uint?)((DateTimeOffset)dateTimeOffset).Day;
                     default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
+                        throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
                 }
-                this.AutopsyPerformedIndicator = code;
             }
+            return GetPartialDate(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), partURL);
         }
 
-        /// <summary>Given name(s) of Pronouncer.</summary>
-        /// <value>the Pronouncer's name (first, middle, etc.)</value>
+        /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
+        /// from either the value or the extension</summary>
+        private string GetTimeFragmentOrPartialTime(Element value)
+        {
+            // If we have a basic value as a valueDateTime use that, otherwise pull from the PartialDateTime extension
+            if (value is FhirDateTime && ((FhirDateTime)value).Value != null)
+            {
+                // Using FhirDateTime's ToDateTimeOffset doesn't keep the time in the original time zone, so we parse the string representation, first using the appropriate segment of
+                // the Regex defined at http://hl7.org/fhir/R4/datatypes.html#dateTime to pull out everything except the time zone
+                string dateRegex = "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)?)?)?)?";
+                Match dateStringMatch = Regex.Match(((FhirDateTime)value).ToString(), dateRegex);
+                DateTime dateTime;
+                if (dateStringMatch != null && DateTime.TryParse(dateStringMatch.ToString(), out dateTime))
+                {
+                    TimeSpan timeSpan = new TimeSpan(0, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                    return timeSpan.ToString(@"hh\:mm");
+                }
+                return null;
+            }
+            return GetPartialTime(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime));
+        }
+
+        // The idea here is that we have getters and setters for each of the parts of the death datetime, which get used in IJEMortality.cs
+        // These getters and setters 1) use the DeathDateObs Observation 2) get and set values on the PartialDateTime extension using helpers that
+        // can be reused across year, month, etc. 3) interpret null as data being absent, and so set the data absent reason if value is null 4) when
+        // getting, look also in the valueDateTime and return the year from there if it happens to be set (but never bother to set it ourselves)
+
+        /// <summary>Decedent's Year of Death.</summary>
+        /// <value>the decedent's year of death</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>string[] names = { "FD", "Middle" };</para>
-        /// <para>ExampleDeathRecord.PronouncerGivenNames = names;</para>
+        /// <para>ExampleDeathRecord.DeathYear = 2018;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pronouncer Given Name(s): {string.Join(", ", ExampleDeathRecord.PronouncerGivenNames)}");</para>
+        /// <para>Console.WriteLine($"Decedent Year of Death: {ExampleDeathRecord.DeathYear}");</para>
         /// </example>
-        [Property("Pronouncer Given Names", Property.Types.StringArr, "Death Investigation", "Given name(s) of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 21)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
-        public string[] PronouncerGivenNames
+        [Property("DeathYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public uint? DeathYear
         {
             get
             {
-                if (Pronouncer != null && Pronouncer.Name.Count() > 0)
+                if (DeathDateObs != null && DeathDateObs.Value != null)
                 {
-                    return Pronouncer.Name.First().Given.ToArray();
-                }
-                return new string[0];
-            }
-            set
-            {
-                HumanName name = Pronouncer.Name.SingleOrDefault(n => n.Use == HumanName.NameUse.Official);
-                if (name != null)
-                {
-                    name.Given = value;
-                }
-                else
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Given = value;
-                    Pronouncer.Name.Add(name);
-                }
-            }
-        }
-
-        /// <summary>Family name of Pronouncer.</summary>
-        /// <value>the Pronouncer's family name (i.e. last name)</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.PronouncerFamilyName = "Last";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pronouncer's Last Name: {ExampleDeathRecord.PronouncerFamilyName}");</para>
-        /// </example>
-        [Property("Pronouncer Family Name", Property.Types.String, "Death Investigation", "Family name of Pronouncer.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 22)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "name")]
-        public string PronouncerFamilyName
-        {
-            get
-            {
-                if (Pronouncer != null && Pronouncer.Name.Count() > 0)
-                {
-                    return Pronouncer.Name.First().Family;
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateYear);
                 }
                 return null;
             }
             set
             {
-                HumanName name = Pronouncer.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
+                if (DeathDateObs == null)
                 {
-                    name.Family = value;
+                    CreateDeathDateObs();
                 }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    name.Family = value;
-                    Pronouncer.Name.Add(name);
-                }
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                UpdateBundleIdentifier();
             }
         }
 
-        /// <summary>Pronouncer's Suffix.</summary>
-        /// <value>the Pronouncer's suffix</value>
+        /// <summary>Decedent's Month of Death.</summary>
+        /// <value>the decedent's month of death</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.PronouncerSuffix = "Jr.";</para>
+        /// <para>ExampleDeathRecord.DeathMonth = 6;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pronouncer Suffix: {ExampleDeathRecord.PronouncerSuffix}");</para>
+        /// <para>Console.WriteLine($"Decedent Month of Death: {ExampleDeathRecord.DeathMonth}");</para>
         /// </example>
-        [Property("Pronouncer Suffix", Property.Types.String, "Death Investigation", "Pronouncer's Suffix.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 23)]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "suffix")]
-        public string PronouncerSuffix
+        [Property("DeathMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public uint? DeathMonth
         {
             get
             {
-                if (Pronouncer != null && Pronouncer.Name.Count() > 0 && Pronouncer.Name.First().Suffix.Count() > 0)
+                if (DeathDateObs != null && DeathDateObs.Value != null)
                 {
-                    return Pronouncer.Name.First().Suffix.First();
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateMonth);
                 }
                 return null;
             }
             set
             {
-                HumanName name = Pronouncer.Name.FirstOrDefault();
-                if (name != null && !String.IsNullOrEmpty(value))
+                if (DeathDateObs == null)
                 {
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
+                    CreateDeathDateObs();
                 }
-                else if (!String.IsNullOrEmpty(value))
-                {
-                    name = new HumanName();
-                    name.Use = HumanName.NameUse.Official;
-                    string[] suffix = { value };
-                    name.Suffix = suffix;
-                    Pronouncer.Name.Add(name);
-                }
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
             }
         }
 
-        /// <summary>Pronouncer Identifier.</summary>
-        /// <value>the Pronouncer identification. A Dictionary representing a system (e.g. NPI) and a value, containing the following key/value pairs:
-        /// <para>"system" - the identifier system, e.g. US NPI</para>
-        /// <para>"value" - the identifier value, e.g. US NPI number</para>
-        /// </value>
+        /// <summary>Decedent's Day of Death.</summary>
+        /// <value>the decedent's day of death</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; identifier = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>identifier.Add("system", "http://hl7.org/fhir/sid/us-npi");</para>
-        /// <para>identifier.Add("value", "1234567890");</para>
-        /// <para>ExampleDeathRecord.PronouncerIdentifier = identifier;</para>
+        /// <para>ExampleDeathRecord.DeathDay = 16;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"\tPronouncer Identifier: {ExampleDeathRecord.PronouncerIdentifier['value']}");</para>
+        /// <para>Console.WriteLine($"Decedent Day of Death: {ExampleDeathRecord.DeathDay}");</para>
         /// </example>
-        [Property("Pronouncer Identifier", Property.Types.Dictionary, "Death Investigation", "Pronouncer Identifier.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Pronouncement-Performer.html", false, 24)]
-        [PropertyParam("system", "The identifier system.")]
-        [PropertyParam("value", "The identifier value.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Practitioner).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Pronouncement-Performer')", "identifier")]
-        public Dictionary<string, string> PronouncerIdentifier
+        [Property("DeathDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public uint? DeathDay
         {
             get
             {
-                Identifier identifier = Pronouncer?.Identifier?.FirstOrDefault();
-                var result = new Dictionary<string, string>();
-                if (identifier != null)
+                if (DeathDateObs != null && DeathDateObs.Value != null)
                 {
-                    result["system"] = identifier.System;
-                    result["value"] = identifier.Value;
+                    return GetDateFragmentOrPartialDate(DeathDateObs.Value, ExtensionURL.DateDay);
                 }
-                return result;
+                return null;
             }
             set
             {
-                if (Pronouncer.Identifier.Count > 0)
+                if (DeathDateObs == null)
                 {
-                    Pronouncer.Identifier.Clear();
+                    CreateDeathDateObs();
                 }
-                if(value.ContainsKey("system") && value.ContainsKey("value")) {
-                    Identifier identifier = new Identifier();
-                    identifier.System = value["system"];
-                    identifier.Value = value["value"];
-                    Pronouncer.Identifier.Add(identifier);
-                }
+                SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
             }
         }
 
+        /// <summary>Decedent's Time of Death.</summary>
+        /// <value>the decedent's time of death</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathTime = "07:15";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Time of Death: {ExampleDeathRecord.DeathTime}");</para>
+        /// </example>
+        [Property("DeathTime", Property.Types.String, "Death Investigation", "Decedent's Time of Death.", true, IGURL.DeathDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
+        public string DeathTime
+        {
+            get
+            {
+                if (DeathDateObs != null && DeathDateObs.Value != null)
+                {
+                    return GetTimeFragmentOrPartialTime(DeathDateObs.Value);
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathDateObs == null)
+                {
+                    CreateDeathDateObs();
+                }
+                SetPartialTime(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
+            }
+        }
 
         /// <summary>Decedent's Date/Time of Death.</summary>
         /// <value>the decedent's date and time of death</value>
@@ -5746,95 +6060,42 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 25)]
+        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
         {
             get
             {
-                if (DeathDateObs != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                if (DeathYear != null && DeathMonth != null && DeathDay != null && DeathTime != null)
                 {
-                    return Convert.ToString(DeathDateObs.Value);
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(DeathTime, out parsedTime))
+                    {
+                        DateTimeOffset result = new DateTimeOffset((int)DeathYear, (int)DeathMonth, (int)DeathDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
+                    }
+                }
+                else if (DeathYear != null && DeathMonth != null && DeathDay != null)
+                {
+                    DateTime result = new DateTime((int)DeathYear, (int)DeathMonth, (int)DeathDay);
+                    return result.ToString("s");
                 }
                 return null;
             }
             set
             {
-                if (DeathDateObs == null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateDeathDateObs();
-                    if (Pronouncer != null)
-                    {
-                        DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Pronouncer.Id));
-                    }
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
+                    DeathYear = (uint?)parsedTime.Year;
+                    DeathMonth = (uint?)parsedTime.Month;
+                    DeathDay = (uint?)parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    DeathTime = timeSpan.ToString(@"hh\:mm");
                 }
-
-                DeathDateObs.Value = new FhirDateTime(value);
-                DeathDateObs.Effective = new FhirDateTime(value);
-
-                UpdateBundleIdentifier();
             }
-        }
-
-        /// <summary>Decedent's Date of Death Date Part Absent Extension.</summary>
-        /// <value>the decedent's date of death date part absent reason</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.DateOfDeathDatePartReason = "2021-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Decedent Date of Death Date Part Reason: {ExampleDeathRecord.DateOfDeathDatePartAbsent}");</para>
-        /// </example>
-        [Property("Date Of Death Date Part Absent", Property.Types.TupleArr, "Death Investigation", "Decedent's Date of Birth Date Part.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", true, 14)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "_valueDateTime")]
-        public Tuple<string,string>[] DateOfDeathDatePartAbsent
-        {
-            get
-            {
-                if (DeathDateObs != null && DeathDateObs.Value != null){
-                    Extension datePartAbsent = DeathDateObs.Value.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason").FirstOrDefault();
-                    return DatePartsToArray(datePartAbsent);
-                }
-                return null;
-            }
-            set
-            {
-                if (DeathDateObs == null)
-                {
-                    CreateDeathDateObs();
-                }
-                if (value != null && value.Length > 0)
-                {
-                    if (DeathDateObs.Value != null)
-                    {
-                        DeathDateObs.Value.Extension.RemoveAll(ext => ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason");
-                    }
-                    Extension datePart = new Extension();
-                    datePart.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Partial-date-part-absent-reason";
-                    foreach (Tuple<string, string> element in value)
-                    {
-                        if (element != null)
-                        {
-                            Extension datePartDetails = new Extension();
-                            datePartDetails.Url = element.Item1;
-                            datePartDetails.Value = DatePartToIntegerOrCode(element);
-                            datePart.Extension.Add(datePartDetails);
-                        }
-
-                    }
-                    if (DeathDateObs.Value == null){
-                        DeathDateObs.Value = new FhirDateTime();
-                    }
-                    DeathDateObs.Value.Extension.Add(datePart);
-                    // set effective date to some arbitrary date since it is a required field
-                    // TODO the IG should be updated to put the extension on the Effective Date instead of value
-                    // since effective date is the required field
-                    DeathDateObs.Effective = new FhirDateTime("2021-01-01T00:00:00-00:00");
-
-                }
-
-            }
-
         }
 
         /// <summary>Decedent's Date/Time of Death Pronouncement.</summary>
@@ -5849,36 +6110,166 @@ namespace VRDR
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
-            get
+         get
             {
-                if (DeathDateObs != null)
+                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
                 {
-                    Observation.ComponentComponent component = DeathDateObs.Component.FirstOrDefault();
-                    if (component != null)
+                    var pronComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6" );
+                    if (pronComp != null && pronComp.Value != null)
                     {
-                        return Convert.ToString(component.Value);
+                        return Convert.ToString(pronComp.Value);
                     }
                 }
                 return null;
             }
             set
             {
+
                 if (DeathDateObs == null)
                 {
-                    CreateDeathDateObs();
-                    DeathDateObs.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
+                    CreateDeathDateObs(); // Create it
+                }
+
+                // Find correct component; if doesn't exist add another
+                var pronComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "80616-6" );
+                if (pronComp != null)
+                {
+                    ((Observation.ComponentComponent)pronComp).Value = new FhirDateTime(value);
+                }
+                else
+                {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
                     component.Value = new FhirDateTime(value);
                     DeathDateObs.Component.Add(component);
                 }
-                else
+              }
+
+        }
+
+        /// <summary>Decedent's Year of Surgery.</summary>
+        /// <value>the decedent's year of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Surgery: {ExampleDeathRecord.SurgeryYear}");</para>
+        /// </example>
+        [Property("SurgeryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryYear
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
                 {
-                    DeathDateObs.Component.Clear();
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "80616-6", "Date and time pronounced dead [US Standard Certificate of Death]", null);
-                    component.Value = new FhirDateTime(value);
-                    DeathDateObs.Component.Add(component);
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+        /// <summary>Decedent's Month of Surgery.</summary>
+        /// <value>the decedent's month of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryMonth = 6;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Surgery: {ExampleDeathRecord.SurgeryMonth}");</para>
+        /// </example>
+        [Property("SurgeryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryMonth
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>Decedent's Day of Surgery.</summary>
+        /// <value>the decedent's day of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryDay = 16;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Surgery: {ExampleDeathRecord.SurgeryDay}");</para>
+        /// </example>
+        [Property("SurgeryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public uint? SurgeryDay
+        {
+            get
+            {
+                if (SurgeryDateObs != null && SurgeryDateObs.Value != null)
+                {
+                    return GetDateFragmentOrPartialDate(SurgeryDateObs.Value, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (SurgeryDateObs == null)
+                {
+                    CreateSurgeryDateObs();
+                }
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        /// <summary>Decedent's Surgery Date.</summary>
+        /// <value>the decedent's date of surgery</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SurgeryDate = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Surgery Date: {ExampleDeathRecord.SurgeryDate}");</para>
+        /// </example>
+        [Property("Surgery Date", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Surgery.", true, IGURL.SurgeryDate, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80992-1')", "")]
+        public string SurgeryDate
+        {
+            get
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                if (SurgeryYear != null && SurgeryMonth != null && SurgeryDay != null)
+                {
+                    Date result = new Date((int)SurgeryYear, (int)SurgeryMonth, (int)SurgeryDay);
+                    return result.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
+                {
+                    SurgeryYear = (uint?)parsedDate.Year;
+                    SurgeryMonth = (uint?)parsedDate.Month;
+                    SurgeryDay = (uint?)parsedDate.Day;
                 }
             }
         }
@@ -5918,80 +6309,39 @@ namespace VRDR
             {
                 if (AutopsyPerformed == null)
                 {
-                    AutopsyPerformed = new Observation();
-                    AutopsyPerformed.Id = Guid.NewGuid().ToString();
-                    AutopsyPerformed.Meta = new Meta();
-                    string[] autopsyperformed_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator" };
-                    AutopsyPerformed.Meta.Profile = autopsyperformed_profile;
-                    AutopsyPerformed.Status = ObservationStatus.Final;
-                    AutopsyPerformed.Code = new CodeableConcept(CodeSystems.LOINC, "85699-7", "Autopsy was performed", null);
-                    AutopsyPerformed.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                    AddReferenceToComposition(AutopsyPerformed.Id);
-                    Bundle.AddResourceEntry(AutopsyPerformed, "urn:uuid:" + AutopsyPerformed.Id);
+                    CreateAutopsyPerformed();
                 }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
-                    component.Value = DictToCodeableConcept(value);
-                    AutopsyPerformed.Component.Clear();
-                    AutopsyPerformed.Component.Add(component);
-                }
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "69436-4", "Autopsy results available", null);
+                component.Value = DictToCodeableConcept(value);
+                AutopsyPerformed.Component.Clear();
+                AutopsyPerformed.Component.Add(component);
             }
         }
 
-        /// <summary>Autopsy Results Available Boolean. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
+        /// <summary>Autopsy Results Available Helper. This is a convenience method, to access the coded value use AutopsyResultsAvailable.</summary>
         /// <value>autopsy results available. A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AutopsyResultsAvailableBoolean = false;</para>
+        /// <para>ExampleDeathRecord.AutopsyResultsAvailableHelper = "N";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableBoolean}");</para>
+        /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailableHelper}");</para>
         /// </example>
-        [Property("Autopsy Results Available Boolean", Property.Types.Bool, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 31)]
+        [Property("Autopsy Results Available Helper", Property.Types.String, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, IGURL.AutopsyPerformedIndicator, true, 31)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='85699-7')", "")]
-        public bool? AutopsyResultsAvailableBoolean
+        public string AutopsyResultsAvailableHelper
         {
             get
             {
-                var code = this.AutopsyResultsAvailable;
-                switch (code["code"])
+                if (AutopsyResultsAvailable.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return AutopsyResultsAvailable["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.AutopsyResultsAvailable = code;
+                SetCodeValue("AutopsyResultsAvailable", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
             }
         }
 
@@ -6003,57 +6353,39 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Jurisdiction: {ExampleDeathRecord.DeathLocationJurisdiction}");</para>
         /// </example>
-        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, locationJurisdictionExtPath, false, 16)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "extension")]
+        [Property("Death Location Jurisdiction", Property.Types.String, "Death Investigation", "Vital Records Jurisdiction of Death Location (two character jurisdiction code, e.g. CA).", true, IGURL.DeathLocation, false, 16)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "extension")]
         public string DeathLocationJurisdiction
         {
             get
             {
-                if (DeathLocationLoc != null)
+                // If addressJurisdiction is present use it, otherwise return the addressState
+                if (DeathLocationAddress.ContainsKey("addressJurisdiction") && !String.IsNullOrWhiteSpace(DeathLocationAddress["addressJurisdiction"]))
                 {
-                    Extension jurisdiction = DeathLocationLoc.Extension.Find(ext => ext.Url == locationJurisdictionExtPath);
-                    if (jurisdiction != null && jurisdiction.Value != null &&  jurisdiction.Value.GetType() == typeof(CodeableConcept))
-                    {
-                        CodeableConcept cc = (CodeableConcept)jurisdiction.Value;
-                        if (cc.Coding.Count > 0)
-                        {
-                            return MortalityData.JurisdictionCodeToJurisdictionName(cc.Coding[0].Code);
-                        }
-                    }
+                    return DeathLocationAddress["addressJurisdiction"];
+                }
+                if (DeathLocationAddress.ContainsKey("addressState") && !String.IsNullOrWhiteSpace(DeathLocationAddress["addressState"]))
+                {
+                    return DeathLocationAddress["addressState"];
                 }
                 return null;
-
             }
             set
             {
-                if (DeathLocationLoc == null)
+                // If the jurisdiction is YC (New York City) set the addressJurisdiction to YC and the addressState to NY, otherwise just set the addressState
+                if (!String.IsNullOrWhiteSpace(value))
                 {
-                    CreateDeathLocation();
-                }
-                else
-                {
-                    DeathLocationLoc.Extension.RemoveAll(ext => ext.Url == locationJurisdictionExtPath);
-                }
-                if (!String.IsNullOrWhiteSpace(value)) // If a jurisdiction is provided, create and add the extension
-                {
-                    CodeableConcept cc = new CodeableConcept();
-                    string code = MortalityData.JurisdictionNameToJurisdictionCode(value);
-                    string  system;
-                    string  display = value;
-
+                    Dictionary<string, string> currentAddress = DeathLocationAddress;
                     if (value == "YC")
                     {
-                        system = CodeSystems.PH_USGS_GNIS ;  // YC is the only code U.S. Board on Geographic Names (USGS - GNIS)
+                        currentAddress["addressJurisdiction"] = value;
+                        currentAddress["addressState"] = "NY";
                     }
                     else
                     {
-                        system = CodeSystems.PH_State_FIPS_5_2 ; // All other codes are from FIPS_5-2
+                        currentAddress["addressState"] = value;
                     }
-                    cc = new CodeableConcept(system, code, display, display);
-                    Extension extension = new Extension();
-                    extension.Url = locationJurisdictionExtPath;
-                    extension.Value = cc;
-                    DeathLocationLoc.Extension.Add(extension);
+                    DeathLocationAddress = currentAddress;
                     UpdateBundleIdentifier();
                 }
             }
@@ -6086,20 +6418,20 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\DeathLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", true, 15)]
+        [Property("Death Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Death.", true, IGURL.DeathLocation, true, 15)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
         [PropertyParam("addressCounty", "address, county")]
-        [PropertyParam("addressState", "address, state")]
+        [PropertyParam("addressState", "address, state literal")]
         [PropertyParam("addressZip", "address, zip")]
-        [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "address")]
+        [PropertyParam("addressCountry", "address, country literal")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "address")]
         public Dictionary<string, string> DeathLocationAddress
         {
             get
             {
-            if (DeathLocationLoc != null)
+                if (DeathLocationLoc != null)
                 {
                     return AddressToDict(DeathLocationLoc.Address);
                 }
@@ -6111,9 +6443,7 @@ namespace VRDR
                 {
                     CreateDeathLocation();
                 }
-
                 DeathLocationLoc.Address = DictToAddress(value);
-
                 UpdateBundleIdentifier();
             }
         }
@@ -6126,8 +6456,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Name: {ExampleDeathRecord.DeathLocationName}");</para>
         /// </example>
-        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "name")]
+        [Property("Death Location Name", Property.Types.String, "Death Investigation", "Name of Death Location.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "name")]
         public string DeathLocationName
         {
             get
@@ -6150,6 +6480,83 @@ namespace VRDR
             }
         }
 
+        /// <summary>Lattitude of Death Location.</summary>
+        /// <value>tLattitude of Death Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationLattitude = "37.88888" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Lattitude: {ExampleDeathRecord.DeathLocationLattitude}");</para>
+        /// </example>
+        [Property("Death Location Latitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.latitude")]
+        public string DeathLocationLatitude
+        {
+            get
+            {
+                if (DeathLocationLoc != null && DeathLocationLoc.Position != null)
+                {
+                    return (DeathLocationLoc.Position.Latitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+                if (DeathLocationLoc.Position == null)
+                {
+                    DeathLocationLoc.Position = new Location.PositionComponent();
+                }
+                if (value != null)
+                {
+                    DeathLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                }
+
+            }
+        }
+
+        /// <summary>Longitude of Death Location.</summary>
+        /// <value>Longitude of Death Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DeathLocationLongitude = "-50.000" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Death Location Longitude: {ExampleDeathRecord.DeathLocationLongitude}");</para>
+        /// </example>
+        [Property("Death Location Longitude", Property.Types.String, "Death Investigation", "Death Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "position.longitude")]
+        public string DeathLocationLongitude
+        {
+            get
+            {
+                if (DeathLocationLoc != null && DeathLocationLoc.Position != null)
+                {
+                    return (DeathLocationLoc.Position.Longitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (DeathLocationLoc == null)
+                {
+                    CreateDeathLocation();
+                }
+                if (DeathLocationLoc.Position == null)
+                {
+                    DeathLocationLoc.Position = new Location.PositionComponent();
+                }
+                if (value != null)
+                {
+                    DeathLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                }
+
+            }
+        }
+
+
         /// <summary>Description of Death Location.</summary>
         /// <value>the death location description.</value>
         /// <example>
@@ -6159,7 +6566,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
         [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 18)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "description")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "description")]
         public string DeathLocationDescription
         {
             get
@@ -6177,11 +6584,12 @@ namespace VRDR
                     DeathLocationLoc = new Location();
                     DeathLocationLoc.Id = Guid.NewGuid().ToString();
                     DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { locationJurisdictionExtPath };
+                    string[] deathlocation_profile = { ProfileURL.DeathLocation };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
+                    DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
+                    // LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
+                    AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
                 }
                 else
@@ -6212,37 +6620,46 @@ namespace VRDR
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public Dictionary<string, string> DeathLocationType
         {
-            get
+         get
             {
-                if (DeathLocationLoc != null && DeathLocationLoc.Type != null && DeathLocationLoc.Type.Count > 0)
+                if (DeathDateObs != null && DeathDateObs.Component.Count > 0) // if there is a value for death location type, return it
                 {
-                    return CodeableConceptToDict(DeathLocationLoc.Type.First());
+                    var placeComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "58332-8" );
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    {
+                        return(CodeableConceptToDict((CodeableConcept)placeComp.Value));
+                    }
                 }
-                return EmptyCodeableDict();
+                return null;
             }
             set
             {
-                if (DeathLocationLoc == null)
+
+                if (DeathDateObs == null)
                 {
-                    DeathLocationLoc = new Location();
-                    DeathLocationLoc.Id = Guid.NewGuid().ToString();
-                    DeathLocationLoc.Meta = new Meta();
-                    string[] deathlocation_profile = { locationJurisdictionExtPath };
-                    DeathLocationLoc.Meta.Profile = deathlocation_profile;
-                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
-                    LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
-                    AddReferenceToComposition(DeathLocationLoc.Id);
-                    Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
+                    CreateDeathDateObs(); // Create it
+                }
+
+                // Find correct component; if doesn't exist add another
+                var placeComp = DeathDateObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "58332-8" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
                 }
                 else
                 {
-                    DeathLocationLoc.Type.Clear();
-                    DeathLocationLoc.Type.Add(DictToCodeableConcept(value));
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "58332-8", "Place of death", null);
+                    component.Value = DictToCodeableConcept(value);
+                    DeathDateObs.Component.Add(component);
                 }
-            }
+              }
+
         }
 
         /// <summary>Type of Death Location Helper</summary>
@@ -6255,12 +6672,12 @@ namespace VRDR
         /// </example>
         [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')", "type")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public string DeathLocationTypeHelper
         {
             get
             {
-                if (DeathLocationType.ContainsKey("code"))
+                if (DeathLocationType != null && DeathLocationType.ContainsKey("code"))
                 {
                     return DeathLocationType["code"];
                 }
@@ -6281,15 +6698,15 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; age = new Dictionary&lt;string, string&gt;();</para>
         /// <para>age.Add("value", "100");</para>
-        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/stu3/valueset-age-units.html</para>
+        /// <para>age.Add("unit", "a"); // USE: http://hl7.org/fhir/us/vrdr/ValueSet/vrdr-units-of-age-vs </para>
         /// <para>ExampleDeathRecord.AgeAtDeath = age;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Age At Death: {ExampleDeathRecord.AgeAtDeath['unit']} years");</para>
         /// </example>
-        [Property("Age At Death", Property.Types.Dictionary, "Death Investigation", "Age At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
-        [PropertyParam("value", "The quantity value.")]
-        [PropertyParam("unit", "The quantity unit.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0')", "")]
+        [Property("Age At Death", Property.Types.Dictionary, "Decedent Demographics", "Age At Death.", true, IGURL.DecedentAge, true, 2)]
+        [PropertyParam("type", "The unit type, from UnitsOfAge ValueSet.")]
+        [PropertyParam("units", "The quantity value.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1')", "")]
         public Dictionary<string, string> AgeAtDeath
         {
             get
@@ -6297,11 +6714,11 @@ namespace VRDR
                 if (AgeAtDeathObs?.Value != null && !AgeAtDeathDataAbsentBoolean) // if there is a value for age, return it
                 {
                     Dictionary<string, string> age = new Dictionary<string, string>();
-                    age.Add("value", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
-                    age.Add("unit", ((Quantity)AgeAtDeathObs.Value).Unit);
+                    age.Add("units", Convert.ToString(((Quantity)AgeAtDeathObs.Value).Value));
+                    age.Add("type", ((Quantity)AgeAtDeathObs.Value).Unit);
                     return age;
                 }
-                return new Dictionary<string, string>() { { "value", "" }, { "unit", "" } };
+                return new Dictionary<string, string>() { { "type", "" }, { "units", "" } };
             }
             set
             {
@@ -6310,7 +6727,7 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs(); // Create it
                 }
-                string extractedValue = GetValue(value, "value");
+                string extractedValue = GetValue(value, "units");
                 // If the value or unit is null, put out a data absent reason
                 if ( !String.IsNullOrWhiteSpace(extractedValue) ){  // if there is a value for age, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
@@ -6318,12 +6735,81 @@ namespace VRDR
                     AgeAtDeathObs.Value = quantity;
                     AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
                 }
-                if( (!String.IsNullOrWhiteSpace(GetValue(value, "unit"))) ){ // if there is a value for unit, set it
+                extractedValue = GetValue(value, "type");
+                if (!String.IsNullOrWhiteSpace(extractedValue))
+                { // if there is a value for unit, set it
                     Quantity quantity = (Quantity)AgeAtDeathObs.Value;
-                    quantity.Unit = GetValue(value, "unit");
+                    quantity.Unit = extractedValue;
                     AgeAtDeathObs.Value = quantity;
+                    AgeAtDeathDataAbsentBoolean = false; // if age is present, cancel the data absent reason
                 }
               }
+        }
+
+        /// <summary>Decedent's Age At Death Edit Flag.</summary>
+        /// <value>the decedent's age at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; ageEdit = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>ageEdit.Add("code", "0");</para>
+        /// <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>ageEdit.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathEditBypassFlag = ageEdit;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditBypassFlag['display']}");</para>
+        /// </example>
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [PropertyParam("text", "Additional descriptive text.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
+        public Dictionary<string, string> AgeAtDeathEditBypassFlag
+        {
+            get
+            {
+                Extension editFlag = AgeAtDeathObs?.Extension.Find(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                if (editFlag != null && editFlag.Value != null && editFlag.Value.GetType() == typeof(CodeableConcept))
+                {
+                    return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (AgeAtDeathObs == null) // if it hasn't been created, create it
+                {
+                    CreateAgeAtDeathObs();
+                }
+
+                AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                Extension editFlag = new Extension();
+                editFlag.Url = ExtensionURL.BypassEditFlag;
+                editFlag.Value = DictToCodeableConcept(value);
+                AgeAtDeathObs.Extension.Add(editFlag);
+            }
+        }
+
+        /// <summary>
+        /// Age at Death Edit Bypass Flag Helper
+        /// </summary>
+        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
+        public String AgeAtDeathEditBypassFlagHelper
+        {
+            get
+            {
+                return AgeAtDeathEditBypassFlag.ContainsKey("code") ? AgeAtDeathEditBypassFlag["code"] : null;
+            }
+            set
+            {
+                SetCodeValue("AgeAtDeathEditBypassFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+            }
         }
 
         /// <summary>Decedent's Age At Death Data Absent Reason (code).</summary>
@@ -6342,12 +6828,12 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", false, 2)]
+        [Property("Age At Death Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, false, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public Dictionary<string, string> AgeAtDeathDataAbsentReason
         {
            get
@@ -6370,6 +6856,9 @@ namespace VRDR
                 if(!IsDictEmptyOrDefault(value)) {
                     AgeAtDeathObs.DataAbsentReason = DictToCodeableConcept(value);
                     AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
+                } else
+                {
+                    AgeAtDeathObs.DataAbsentReason = DictToCodeableConcept(EmptyCodeableDict());
                 }
             }
         }
@@ -6382,8 +6871,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"AgeAtDeathDataAbsentBoolean: {ExampleDeathRecord.AgeAtDeathDataAbsentReason}");</para>
         /// </example>
-        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Death Investigation", "Age At Death Data Absent Reason.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Age.html", true, 2)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
+        [Property("Age At Death Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Age At Death Data Absent Reason.", true, IGURL.DecedentAge, true, 2)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').dataAbsentReason", "")]
         public bool AgeAtDeathDataAbsentBoolean
         {
            get
@@ -6428,12 +6917,12 @@ namespace VRDR
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "PHC1260");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.274");</para>
+        /// <para>code.Add("code", "1");</para>
+        /// <para>code.Add("system", VRDR.CodeSystems.PregnancyStatus);</para>
         /// <para>code.Add("display", "Not pregnant within past year");</para>
-        /// <para>ExampleDeathRecord.PregnancyStatus = code;</para>
+        /// <para>ExampleDeathRecord.PregnancyObs = code;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatus['display']}");</para>
+        /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyObs['display']}");</para>
         /// </example>
         [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
@@ -6454,22 +6943,9 @@ namespace VRDR
             {
                 if (PregnancyObs == null)
                 {
-                    PregnancyObs = new Observation();
-                    PregnancyObs.Id = Guid.NewGuid().ToString();
-                    PregnancyObs.Meta = new Meta();
-                    string[] p_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Pregnancy" };
-                    PregnancyObs.Meta.Profile = p_profile;
-                    PregnancyObs.Status = ObservationStatus.Final;
-                    PregnancyObs.Code = new CodeableConcept(CodeSystems.LOINC, "69442-2", "Timing of recent pregnancy in relation to death", null);
-                    PregnancyObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(PregnancyObs.Id);
-                    Bundle.AddResourceEntry(PregnancyObs, "urn:uuid:" + PregnancyObs.Id);
+                    CreatePregnancyObs();
                 }
-                else
-                {
-                    PregnancyObs.Value = DictToCodeableConcept(value);
-                }
+                PregnancyObs.Value = DictToCodeableConcept(value);
             }
         }
 
@@ -6501,6 +6977,88 @@ namespace VRDR
                 SetCodeValue("PregnancyStatus", value, VRDR.ValueSets.PregnancyStatus.Codes);
             }
         }
+        /// <summary>Decedent's Pregnancy Status at Death Edit Flag.</summary>
+        /// <value>the decedent's pregnancy status at death edit flag. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.BypassEditFlag);</para>
+        /// <para>elevel.Add("display", "Edit Passed");</para>
+        /// <para>ExampleDeathRecord.EducationLevelEditFlag = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
+        /// </example>
+        [Property("Decedent's Pregnancy Status at Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public Dictionary<string, string> PregnancyStatusEditFlag
+        {
+            get
+            {
+                if (PregnancyObs != null && PregnancyObs.Value != null && PregnancyObs.Value.Extension != null)
+                {
+                    Extension editFlag = PregnancyObs.Value.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
+                    if (editFlag != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)editFlag.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (PregnancyObs == null)
+                {
+                    CreatePregnancyObs();
+                }
+                if (PregnancyObs.Value != null && PregnancyObs.Value.Extension != null){
+                    PregnancyObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                }
+                Extension editFlag = new Extension();
+                editFlag.Url = ExtensionURL.BypassEditFlag;
+                editFlag.Value = DictToCodeableConcept(value);
+                if(PregnancyObs.Value == null){
+                    PregnancyObs.Value = new CodeableConcept();
+                }
+                PregnancyObs.Value.Extension.Add(editFlag);
+            }
+        }
+
+        /// <summary>Decedent's Pregnancy Status Edit Flag Helper</summary>
+        /// <value>Decedent's Pregnancy Status Edit Flag.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.DecedentPregnancyStatusEditFlag = VRDR.ValueSets.EditBypass012.EditPassed;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Pregnancy Status Edit Flag: {ExampleDeathRecord.PregnancyStatusHelperEditFlag}");</para>
+        /// </example>
+        [Property("Pregnancy Status Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
+        public string PregnancyStatusEditFlagHelper
+        {
+            get
+            {
+                if (PregnancyStatusEditFlag.ContainsKey("code"))
+                {
+                    return PregnancyStatusEditFlag["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PregnancyStatusEditFlag", value, VRDR.ValueSets.EditBypass012.Codes);
+            }
+        }
+
+
         /// <summary>Examiner Contacted.</summary>
         /// <value>if a medical examiner was contacted.</value>
         /// <example>
@@ -6513,7 +7071,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted['display']}");</para>
         /// </example>
-        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", true, 26)]
+        [Property("Examiner Contacted", Property.Types.Dictionary, "Death Investigation", "Examiner Contacted.", true, IGURL.ExaminerContacted, true, 26)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6537,13 +7095,13 @@ namespace VRDR
                     ExaminerContactedObs = new Observation();
                     ExaminerContactedObs.Id = Guid.NewGuid().ToString();
                     ExaminerContactedObs.Meta = new Meta();
-                    string[] ec_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted" };
+                    string[] ec_profile = { ProfileURL.ExaminerContacted };
                     ExaminerContactedObs.Meta.Profile = ec_profile;
                     ExaminerContactedObs.Status = ObservationStatus.Final;
                     ExaminerContactedObs.Code = new CodeableConcept(CodeSystems.LOINC, "74497-9", "Medical examiner or coroner was contacted [US Standard Certificate of Death]", null);
                     ExaminerContactedObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     ExaminerContactedObs.Value = contactedCoding;
-                    AddReferenceToComposition(ExaminerContactedObs.Id);
+                    AddReferenceToComposition(ExaminerContactedObs.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(ExaminerContactedObs, "urn:uuid:" + ExaminerContactedObs.Id);
                 }
                 else
@@ -6561,45 +7119,21 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Examiner Contacted: {ExampleDeathRecord.ExaminerContacted}");</para>
         /// </example>
-        [Property("Examiner Contacted Boolean", Property.Types.Bool, "Death Investigation", "Examiner Contacted.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Examiner-Contacted.html", true, 27)]
+        [Property("Examiner Contacted Helper", Property.Types.String, "Death Investigation", "Examiner Contacted.", true, IGURL.ExaminerContacted, true, 27)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='74497-9')", "")]
-        public bool? ExaminerContactedBoolean
+        public string ExaminerContactedHelper
         {
             get
             {
-                var code = this.ExaminerContacted;
-                switch (code["code"])
+                if (ExaminerContacted.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Unknown
-                        return null;
+                    return ExaminerContacted["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "UNK";
-                        code["display"] = "unknown";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.ExaminerContacted = code;
+                SetCodeValue("ExaminerContacted", value, VRDR.ValueSets.YesNoUnknown.Codes);
             }
         }
 
@@ -6630,15 +7164,17 @@ namespace VRDR
         /// <para>  Console.WriteLine($"\InjuryLocationAddress key: {pair.Key}: value: {pair.Value}");</para>
         /// <para>};</para>
         /// </example>
-        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 34)]
+        [Property("Injury Location Address", Property.Types.Dictionary, "Death Investigation", "Location of Injury.", true, IGURL.InjuryLocation, true, 34)]
         [PropertyParam("addressLine1", "address, line one")]
         [PropertyParam("addressLine2", "address, line two")]
         [PropertyParam("addressCity", "address, city")]
+        [PropertyParam("addressCityC", "address, city code")]
         [PropertyParam("addressCounty", "address, county")]
+        [PropertyParam("addressCountyC", "address, county code")]
         [PropertyParam("addressState", "address, state")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "address")]
         public Dictionary<string, string> InjuryLocationAddress
         {
             get
@@ -6654,14 +7190,92 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    //LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
 
                 InjuryLocationLoc.Address = DictToAddress(value);
             }
         }
+
+        /// <summary>Lattitude of Injury Location.</summary>
+        /// <value>tLattitude of Injury Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationLattitude = "37.88888" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Lattitude: {ExampleDeathRecord.InjuryLocationLattitude}");</para>
+        /// </example>
+        [Property("Injury Location Latitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.InjuryLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.latitude")]
+        public string InjuryLocationLatitude
+        {
+            get
+            {
+                if (InjuryLocationLoc != null && InjuryLocationLoc.Position != null)
+                {
+                    return (InjuryLocationLoc.Position.Latitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    CreateInjuryLocationLoc();
+                }
+                if (InjuryLocationLoc.Position == null)
+                {
+                    InjuryLocationLoc.Position = new Location.PositionComponent();
+                }
+                if (value != null)
+                {
+                    InjuryLocationLoc.Position.Latitude = Convert.ToDecimal(value);
+                }
+
+            }
+        }
+
+        /// <summary>Longitude of Injury Location.</summary>
+        /// <value>Longitude of Injury Location.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryLocationLongitude = "-50.000" ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Injury Location Longitude: {ExampleDeathRecord.InjuryLocationLongitude}");</para>
+        /// </example>
+        [Property("Injury Location Longitude", Property.Types.String, "Death Investigation", "Injury Location Lattitude.", true, IGURL.DeathLocation, false, 17)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "position.longitude")]
+        public string InjuryLocationLongitude
+        {
+            get
+            {
+                if (InjuryLocationLoc != null && InjuryLocationLoc.Position != null)
+                {
+                    return (InjuryLocationLoc.Position.Longitude).ToString();
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryLocationLoc == null)
+                {
+                    CreateInjuryLocationLoc();
+                }
+                if (InjuryLocationLoc.Position == null)
+                {
+                    InjuryLocationLoc.Position = new Location.PositionComponent();
+                }
+                if (value != null)
+                {
+                    InjuryLocationLoc.Position.Longitude = Convert.ToDecimal(value);
+                }
+
+
+            }
+        }
+
 
         /// <summary>Name of Injury Location.</summary>
         /// <value>the injury location name.</value>
@@ -6672,7 +7286,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
         [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 35)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "name")]
         public string InjuryLocationName
         {
             get
@@ -6688,8 +7302,8 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
                 InjuryLocationLoc.Name = value;
@@ -6704,8 +7318,8 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
         /// </example>
-        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(meta.profile='http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location')", "description")]
+        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
+        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "description")]
         public string InjuryLocationDescription
         {
             get
@@ -6721,12 +7335,132 @@ namespace VRDR
                 if (InjuryLocationLoc == null)
                 {
                     CreateInjuryLocationLoc();
-                    LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id);
+                    // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
 
                 InjuryLocationLoc.Description = value;
+            }
+        }
+
+        /// <summary>Decedent's Year of Injury.</summary>
+        /// <value>the decedent's year of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryYear = 2018;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Year of Injury: {ExampleDeathRecord.InjuryYear}");</para>
+        /// </example>
+        [Property("InjuryYear", Property.Types.UInt32, "Death Investigation", "Decedent's Year of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryYear
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateYear);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+        /// <summary>Decedent's Month of Injury.</summary>
+        /// <value>the decedent's month of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryMonth = 7;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Month of Injury: {ExampleDeathRecord.InjuryMonth}");</para>
+        /// </example>
+        [Property("InjuryMonth", Property.Types.UInt32, "Death Investigation", "Decedent's Month of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryMonth
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateMonth);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>Decedent's Day of Injury.</summary>
+        /// <value>the decedent's day of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryDay = 22;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Day of Injury: {ExampleDeathRecord.InjuryDay}");</para>
+        /// </example>
+        [Property("InjuryDay", Property.Types.UInt32, "Death Investigation", "Decedent's Day of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public uint? InjuryDay
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetDateFragmentOrPartialDate(InjuryIncidentObs.Effective, ExtensionURL.DateDay);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialDate(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        /// <summary>Decedent's Time of Injury.</summary>
+        /// <value>the decedent's time of injury</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.InjuryTime = "07:15";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent Time of Injury: {ExampleDeathRecord.InjuryTime}");</para>
+        /// </example>
+        [Property("InjuryTime", Property.Types.String, "Death Investigation", "Decedent's Time of Injury.", true, IGURL.InjuryIncident, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
+        public string InjuryTime
+        {
+            get
+            {
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Effective != null)
+                {
+                    return GetTimeFragmentOrPartialTime(InjuryIncidentObs.Effective);
+                }
+                return null;
+            }
+            set
+            {
+                if (InjuryIncidentObs == null)
+                {
+                    CreateInjuryIncidentObs();
+                }
+                SetPartialTime(InjuryIncidentObs.Effective.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), value);
             }
         }
 
@@ -6738,25 +7472,41 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Date of Injury: {ExampleDeathRecord.InjuryDate}");</para>
         /// </example>
-        [Property("Injury Date/Time", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 37)]
+        [Property("Injury Date/Time", Property.Types.StringDateTime, "Death Investigation", "Date/Time of Injury.", true, IGURL.InjuryIncident, true, 37)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDate
         {
             get
             {
-                if (InjuryIncidentObs?.Effective != null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                if (InjuryYear != null && InjuryMonth != null && InjuryDay != null && InjuryTime != null)
                 {
-                    return Convert.ToString(InjuryIncidentObs.Effective);
+                    DateTimeOffset parsedTime;
+                    if (DateTimeOffset.TryParse(InjuryTime, out parsedTime))
+                    {
+                        DateTimeOffset result = new DateTimeOffset((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay, parsedTime.Hour, parsedTime.Minute, parsedTime.Second, TimeSpan.Zero);
+                        return result.ToString("s");
+                    }
+                }
+                else if (InjuryYear != null && InjuryMonth != null && InjuryDay != null)
+                {
+                    DateTime result = new DateTime((int)InjuryYear, (int)InjuryMonth, (int)InjuryDay);
+                    return result.ToString("s");
                 }
                 return null;
             }
             set
             {
-                if (InjuryIncidentObs == null)
+                // We support this legacy API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedTime;
+                if (DateTimeOffset.TryParse(value, out parsedTime))
                 {
-                    CreateInjuryIncidentObs();
+                    InjuryYear = (uint?)parsedTime.Year;
+                    InjuryMonth = (uint?)parsedTime.Month;
+                    InjuryDay = (uint?)parsedTime.Day;
+                    TimeSpan timeSpan = new TimeSpan(0, parsedTime.Hour, parsedTime.Minute, parsedTime.Second);
+                    InjuryTime = timeSpan.ToString(@"hh\:mm");
                 }
-                InjuryIncidentObs.Effective = new FhirDateTime(value);
             }
         }
 
@@ -6768,7 +7518,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Description: {ExampleDeathRecord.InjuryDescription}");</para>
         /// </example>
-        [Property("Injury Description", Property.Types.String, "Death Investigation", "Description of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 38)]
+        [Property("Injury Description", Property.Types.String, "Death Investigation", "Description of Injury.", true, IGURL.InjuryIncident, true, 38)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryDescription
         {
@@ -6790,94 +7540,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Place of Injury.</summary>
-        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "0");</para>
-        /// <para>code.Add("system", "urn:oid:2.16.840.1.114222.4.5.320");</para>
-        /// <para>code.Add("display", "Home");</para>
-        /// <para>ExampleDeathRecord.InjuryPlace = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlace['display']}");</para>
-        /// </example>
-        [Property("Injury Place", Property.Types.Dictionary, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public Dictionary<string, string> InjuryPlace
-        {
-            get
-            {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
-                {
-                    // Find correct component
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                    if (placeComp?.Value != null && placeComp.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)placeComp.Value);
-                    }
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (InjuryIncidentObs == null)
-                {
-                    CreateInjuryIncidentObs();
-                }
-
-                // Find correct component; if doesn't exist add another
-                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
-                if (placeComp != null)
-                {
-                    ((Observation.ComponentComponent)placeComp).Value = DictToCodeableConcept(value);
-                }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
-                    component.Value = DictToCodeableConcept(value);
-                    InjuryIncidentObs.Component.Add(component);
-                }
-            }
-        }
-       /// <summary>Place of Injury Helper.</summary>
-        /// <value>the place of injury. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryPlaceHelper = "code";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.InjuryPlaceHelper}");</para>
-        /// </example>
-        [Property("Injury Place", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 39)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public string InjuryPlaceHelper
-        {
-            get
-            {
-                if (InjuryPlace.ContainsKey("code"))
-                {
-                    return InjuryPlace["code"];
-                }
-                return null;
-            }
-            set
-            {
-                SetCodeValue("InjuryPlace", value, VRDR.ValueSets.PlaceOfInjury.Codes);
-            }
-        }
-
         /// <summary>Place of Injury Description.</summary>
         /// <value>the place of injury.</value>
         /// <example>
@@ -6886,27 +7548,47 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Place of Injury Description: {ExampleDeathRecord.InjuryPlaceDescription}");</para>
         /// </example>
-        [Property("Injury Place Description", Property.Types.String, "Death Investigation", "Place of Injury.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 40)]
+        [Property("Injury Place Description", Property.Types.String, "Death Investigation", "Place of Injury.", true, IGURL.InjuryIncident, true, 40)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
         public string InjuryPlaceDescription
         {
             get
             {
-                var injuryPlace = this.InjuryPlace;
-                if (injuryPlace.ContainsKey("text") && injuryPlace["text"] != null)
+                // Find the component
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
                 {
-                    return injuryPlace["text"];
+                    // Find correct component
+                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                         && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
+                    if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
+                    {
+                        Dictionary<string, string> dict = CodeableConceptToDict((CodeableConcept)placeComp.Value);
+                        if ( dict.ContainsKey("text")){
+                                    return (dict["text"]);
+                        }
+                    }
                 }
-                else
-                {
-                    return "";
-                }
+                return "";
             }
             set
             {
-                var injuryPlace = this.InjuryPlace;
-                injuryPlace["text"] = value;
-                this.InjuryPlace = injuryPlace;
+                if (InjuryIncidentObs == null){
+                    CreateInjuryIncidentObs();
+                }
+                // Find correct component; if doesn't exist add another
+                var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69450-5" );
+                if (placeComp != null)
+                {
+                    ((Observation.ComponentComponent)placeComp).Value = new CodeableConcept(null, null, null, value);
+                }
+                else
+                {
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69450-5", "Place of injury Facility", null);
+                    component.Value = new CodeableConcept(null, null, null, value);
+                    InjuryIncidentObs.Component.Add(component);
+                }
             }
         }
 
@@ -6920,13 +7602,13 @@ namespace VRDR
         /// <para>// Setter:</para>
         /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
         /// <para>code.Add("code", "N");</para>
-        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
+        /// <para>code.Add("system", CodeSystems.YesNo);</para>
         /// <para>code.Add("display", "No");</para>
         /// <para>ExampleDeathRecord.InjuryAtWork = code;</para>
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWork['display']}");</para>
         /// </example>
-        [Property("Injury At Work?", Property.Types.Dictionary, "Death Investigation", "Did the injury occur at work?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 41)]
+        [Property("Injury At Work?", Property.Types.Dictionary, "Death Investigation", "Did the injury occur at work?", true, IGURL.InjuryIncident, true, 41)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6938,7 +7620,8 @@ namespace VRDR
                 if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
                 {
                     // Find correct component
-                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
+                    var placeComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null
+                    && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69444-8" );
                     if (placeComp != null && placeComp.Value != null && placeComp.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)placeComp.Value);
@@ -6970,162 +7653,29 @@ namespace VRDR
             }
         }
 
-        /// <summary>Injury At Work? This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
+        /// <summary>Injury At Work Helper This is a convenience method, to access the code use the InjuryAtWork property instead.</summary>
         /// <value>did the injury occur at work? A null value indicates "not applicable".</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryAtWorkBoolean = true;</para>
+        /// <para>ExampleDeathRecord.InjuryAtWorkHelper = true;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Injury At Work?: {ExampleDeathRecord.InjuryAtWorkBoolean}");</para>
+        /// <para>Console.WriteLine($"Injury At Work? : {ExampleDeathRecord.InjuryAtWorkHelper}");</para>
         /// </example>
-        [Property("Injury At Work?", Property.Types.Bool, "Death Investigation", "Did the injury occur at work?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 42)]
+        [Property("Injury At Work Helper", Property.Types.String, "Death Investigation", "Did the injury occur at work?", true, IGURL.InjuryIncident, true, 42)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public bool? InjuryAtWorkBoolean
+        public string InjuryAtWorkHelper
         {
             get
             {
-                var code = this.InjuryAtWork;
-                switch (code["code"])
+                if (InjuryAtWork.ContainsKey("code"))
                 {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
+                    return InjuryAtWork["code"];
                 }
+                return null;
             }
             set
             {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.InjuryAtWork = code;
-            }
-        }
-
-        /// <summary>Transportation Event?</summary>
-        /// <value>was the injury associated with a transportation event? A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; code = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>code.Add("code", "N");</para>
-        /// <para>code.Add("system", CodeSystems.PH_YesNo_HL7_2x);</para>
-        /// <para>code.Add("display", "No");</para>
-        /// <para>ExampleDeathRecord.TransportationEvent = code;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEvent['display']}");</para>
-        /// </example>
-        [Property("Transportation Event?", Property.Types.Dictionary, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 43)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public Dictionary<string, string> TransportationEvent
-        {
-            get
-            {
-                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
-                {
-                    // Find correct component
-                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
-                    if (transportComp != null && transportComp.Value != null && transportComp.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)transportComp.Value);
-                    }
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (InjuryIncidentObs == null)
-                {
-                    CreateInjuryIncidentObs();
-                }
-                // Find correct component; if doesn't exist add another
-                var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69448-9" );
-                if (transportComp != null)
-                {
-                    ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
-                }
-                else
-                {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69448-9", "Injury leading to death associated with transportation event", null);
-                    component.Value = DictToCodeableConcept(value);
-                    InjuryIncidentObs.Component.Add(component);
-                    }
-            }
-        }
-
-        /// <summary>Transportation Event Boolean?</summary>
-        /// <value>was the injury associated with a transportation event? A null value indicates "unknown"</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.TransportationEventBoolean = true;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Transportation Event?: {ExampleDeathRecord.TransportationEventBoolean}");</para>
-        /// </example>
-        [Property("Transportation Event Boolean?", Property.Types.Bool, "Death Investigation", "Was the injury associated with a transportation event?", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-InjuryIncident.html", true, 44)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]
-        public bool? TransportationEventBoolean
-        {
-            get
-            {
-                var code = this.TransportationEvent;
-                switch (code["code"])
-                {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Unknown
-                        return null;
-                }
-            }
-            set
-            {
-                var code = EmptyCodeDict();
-                switch(value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "UNK";
-                        code["display"] = "unknown";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.TransportationEvent = code;
+                SetCodeValue("InjuryAtWork", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
             }
         }
 
@@ -7154,32 +7704,38 @@ namespace VRDR
         {
             get
             {
-                if (TransportationRoleObs?.Value != null && TransportationRoleObs.Value as CodeableConcept != null)
+                if (InjuryIncidentObs != null && InjuryIncidentObs.Component.Count > 0)
                 {
-                    return CodeableConceptToDict((CodeableConcept)TransportationRoleObs.Value);
+                    // Find correct component
+                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                    ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
+                    if (transportComp != null && transportComp.Value != null && transportComp.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)transportComp.Value);
+                    }
                 }
-                return EmptyCodeDict();
+                return EmptyCodeableDict();
             }
             set
             {
-                if (TransportationRoleObs == null)
+                if (InjuryIncidentObs == null)
                 {
-                    TransportationRoleObs = new Observation();
-                    TransportationRoleObs.Id = Guid.NewGuid().ToString();
-                    TransportationRoleObs.Meta = new Meta();
-                    string[] t_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" };
-                    TransportationRoleObs.Meta.Profile = t_profile;
-                    TransportationRoleObs.Status = ObservationStatus.Final;
-                    TransportationRoleObs.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent ", null);
-                    TransportationRoleObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(TransportationRoleObs.Id);
-                    Bundle.AddResourceEntry(TransportationRoleObs, "urn:uuid:" + TransportationRoleObs.Id);
+                    CreateInjuryIncidentObs();
+                }
+                // Find correct component; if doesn't exist add another
+                var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
+                if (transportComp != null)
+                {
+                    ((Observation.ComponentComponent)transportComp).Value = DictToCodeableConcept(value);
                 }
                 else
                 {
-                    TransportationRoleObs.Value = DictToCodeableConcept(value);
-                }
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent", null);
+                    component.Value = DictToCodeableConcept(value);
+                    InjuryIncidentObs.Component.Add(component);
+                    }
             }
         }
         /// <summary>Transportation Role in death helper.</summary>
@@ -7201,13 +7757,35 @@ namespace VRDR
             {
                 if (TransportationRole.ContainsKey("code"))
                 {
-                    return TransportationRole["code"] ;
+                    string code = TransportationRole["code"] ;
+                    if (code == "OTH"){
+                        if (TransportationRole.ContainsKey("text")){
+                            return (TransportationRole["text"]);
+                        }
+                        return("Other");
+                    }
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationRoles.Codes);
+                if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
+                { //other
+                    //Find the component, or create it
+                    var transportComp = InjuryIncidentObs.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
+                    ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69451-3" );
+                    if (transportComp == null)
+                    {
+                        transportComp = new Observation.ComponentComponent();
+                        transportComp.Code = new CodeableConcept(CodeSystems.LOINC, "69451-3", "Transportation role of decedent", null);
+                        InjuryIncidentObs.Component.Add(transportComp);
+                    }
+                    transportComp.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value);
+                }
+                else
+                { // normal path
+                    SetCodeValue("TransportationRole", value, VRDR.ValueSets.TransportationIncidentRole.Codes);
+                }
             }
         }
 
@@ -7227,7 +7805,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUse['display']}");</para>
         /// </example>
-        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Tobacco-Use-Contributed-To-Death.html", true, 32)]
+        [Property("Tobacco Use", Property.Types.Dictionary, "Death Investigation", "If Tobacco Use Contributed To Death.", true, IGURL.TobaccoUseContributedToDeath , true, 32)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -7249,19 +7827,2492 @@ namespace VRDR
                     TobaccoUseObs = new Observation();
                     TobaccoUseObs.Id = Guid.NewGuid().ToString();
                     TobaccoUseObs.Meta = new Meta();
-                    string[] tb_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Tobacco-Use-Contributed-To-Death" };
+                    string[] tb_profile = { ProfileURL.TobaccoUseContributedToDeath };
                     TobaccoUseObs.Meta.Profile = tb_profile;
                     TobaccoUseObs.Status = ObservationStatus.Final;
                     TobaccoUseObs.Code = new CodeableConcept(CodeSystems.LOINC, "69443-0", "Did tobacco use contribute to death", null);
                     TobaccoUseObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     TobaccoUseObs.Value = DictToCodeableConcept(value);
-                    AddReferenceToComposition(TobaccoUseObs.Id);
+                    AddReferenceToComposition(TobaccoUseObs.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(TobaccoUseObs, "urn:uuid:" + TobaccoUseObs.Id);
                 }
                 else
                 {
                     TobaccoUseObs.Value = DictToCodeableConcept(value);
                 }
+            }
+        }
+
+        /// <summary>Tobacco Use Helper. This is a convenience method, to access the code use TobaccoUse instead.</summary>
+        /// <value>From a value set..</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TobaccoUseHelper = "N";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Tobacco Use: {ExampleDeathRecord.TobaccoUseHelper}");</para>
+        /// </example>
+        [Property("Tobacco Use Helper", Property.Types.String, "Death Investigation", "Tobacco Use.", true, IGURL.TobaccoUseContributedToDeath, true, 27)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69443-0')", "")]
+        public string TobaccoUseHelper
+        {
+            get
+            {
+                if (TobaccoUse.ContainsKey("code"))
+                {
+                    return TobaccoUse["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("TobaccoUse", value, VRDR.ValueSets.ContributoryTobaccoUse.Codes);
+            }
+        }
+
+        /// <summary>Set an emerging issue value, creating an empty EmergingIssues Observation as needed.</summary>
+        private void SetEmergingIssue(string identifier, string value)
+        {
+                if (EmergingIssues == null)
+                {
+                    EmergingIssues = new Observation();
+                    EmergingIssues.Id = Guid.NewGuid().ToString();
+                    EmergingIssues.Meta = new Meta();
+                    string[] tb_profile = { ProfileURL.EmergingIssues };
+                    EmergingIssues.Meta.Profile = tb_profile;
+                    EmergingIssues.Status = ObservationStatus.Final;
+                    EmergingIssues.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs", "emergingissues", "Emerging Issues", null);
+                    EmergingIssues.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    AddReferenceToComposition(EmergingIssues.Id, "DecedentDemographics");
+                    Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
+                }
+                // Remove existing component (if it exists) and add an appropriate component.
+                EmergingIssues.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == identifier );
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs", identifier, null, null);
+                component.Value = new FhirString(value);
+                EmergingIssues.Component.Add(component);
+        }
+
+        /// <summary>Get an emerging issue value.</summary>
+        private string GetEmergingIssue(string identifier)
+        {
+                if (EmergingIssues == null)
+                {
+                    return null;
+                }
+                // Remove existing component (if it exists) and add an appropriate component.
+                Observation.ComponentComponent issue = EmergingIssues.Component.FirstOrDefault(c => c.Code.Coding[0].Code == identifier);
+                if (issue != null){
+                    return issue.Value.ToString() ;
+                }
+                return null;
+        }
+
+
+        /// <summary>Emerging Issue Field Length 1 Number 1</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_1 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues", false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+        public string EmergingIssue1_1
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_1");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_1", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 2</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_2 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_2')", "value")]
+        public string EmergingIssue1_2
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_2");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_2", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 3</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_3 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_3')", "value")]
+        public string EmergingIssue1_3
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_3");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_3", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 4</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_4 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_4')", "value")]
+        public string EmergingIssue1_4
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_4");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_4", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 5</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_5 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_5')", "value")]
+        public string EmergingIssue1_5
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_5");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_5", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 1 Number 6</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue1_6 = "X";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_6')", "value")]
+        public string EmergingIssue1_6
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue1_6");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue1_6", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 1</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_1 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_1')", "value")]
+        public string EmergingIssue8_1
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue8_1");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue8_1", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 2</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_2 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_2')", "value")]
+        public string EmergingIssue8_2
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue8_2");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue8_2", value);
+            }
+        }
+
+        /// <summary>Emerging Issue Field Length 8 Number 3</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue8_3 = "XXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_3')", "value")]
+        public string EmergingIssue8_3
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue8_3");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue8_3", value);
+            }
+        }
+
+
+
+        /// <summary>Emerging Issue Field Length 20</summary>
+        /// <value>the emerging issue value</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EmergingIssue20 = "XXXXXXXXXXXXXXXXXXXX";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
+        /// </example>
+        [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, IGURL.EmergingIssues, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE20')", "value")]
+        public string EmergingIssue20
+        {
+            get
+            {
+                return GetEmergingIssue("EmergingIssue20");
+            }
+            set
+            {
+                SetEmergingIssue("EmergingIssue20", value);
+            }
+        }
+
+        /// <summary>Activity at Time of Death.</summary>
+        /// <value>the decedent's activity at time of death. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; activity = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "0");</para>
+        /// <para>elevel.Add("system", CodeSystems.ActivityAtTimeOfDeath);</para>
+        /// <para>elevel.Add("display", "While engaged in sports activity");</para>
+        /// <para>ExampleDeathRecord.ActivityAtDeath = activity;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Education Level: {ExampleDeathRecord.EducationLevel['display']}");</para>
+        /// </example>
+        [Property("Activity at Time of Death", Property.Types.Dictionary, "Coded Content", "Decedent's Activity at Time of Death.", true, IGURL.ActivityAtTimeOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80626-5')", "")]
+        public Dictionary<string, string> ActivityAtDeath
+        {
+            get
+            {
+                if (ActivityAtTimeOfDeathObs != null && ActivityAtTimeOfDeathObs.Value != null && ActivityAtTimeOfDeathObs.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)ActivityAtTimeOfDeathObs.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (ActivityAtTimeOfDeathObs == null)
+                {
+                    CreateActivityAtTimeOfDeathObs();
+                }
+                ActivityAtTimeOfDeathObs.Value = DictToCodeableConcept(value);
+            }
+        }
+
+        /// <summary>Decedent's Activity At Time of Death Helper</summary>
+        /// <value>Decedent's Activity at Time of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ActivityAtDeath = 0;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Activity at Time of Death: {ExampleDeathRecord.ActivityAtDeath}");</para>
+        /// </example>
+        [Property("Activity at Time of Death", Property.Types.String, "Coded Content", "Decedent's Activity at Time of Death.", true, IGURL.ActivityAtTimeOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80626-5')", "")]
+        public string ActivityAtDeathHelper
+        {
+            get
+            {
+                if (ActivityAtDeath.ContainsKey("code"))
+                {
+                    return ActivityAtDeath["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ActivityAtDeath", value, VRDR.ValueSets.ActivityAtTimeOfDeath.Codes);
+            }
+        }
+
+       /// <summary>Decedent's Automated Underlying Cause of Death</summary>
+        /// <value>Decedent's Automated Underlying Cause of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AutomatedUnderlyingCOD = "I13.1";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Automated Underlying Cause of Death: {ExampleDeathRecord.AutomatedUnderlyingCOD}");</para>
+        /// </example>
+        [Property("Automated Underlying Cause of Death", Property.Types.String, "Coded Content", "Automated Underlying Cause of Death.", true, IGURL.AutomatedUnderlyingCauseOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-5')", "")]
+        public string AutomatedUnderlyingCOD
+        {
+            get
+            {
+                if (AutomatedUnderlyingCauseOfDeathObs != null && AutomatedUnderlyingCauseOfDeathObs.Value != null && AutomatedUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
+                {
+
+                    return CodeableConceptToDict((CodeableConcept)AutomatedUnderlyingCauseOfDeathObs.Value)["code"];
+                }
+                return "";
+            }
+            set
+            {
+                if (AutomatedUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateAutomatedUnderlyingCauseOfDeathObs();
+                }
+                AutomatedUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+            }
+        }
+
+       /// <summary>Decedent's Manual Underlying Cause of Death</summary>
+        /// <value>Decedent's Manual Underlying Cause of Death.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ManUnderlyingCOD = "I13.1";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Decedent's Manual Underlying Cause of Death: {ExampleDeathRecord.ManUnderlyingCOD}");</para>
+        /// </example>
+        [Property("Manual Underlying Cause of Death", Property.Types.String, "Coded Content", "Manual Underlying Cause of Death.", true, IGURL.ManualUnderlyingCauseOfDeath, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80358-580359-3')", "")]
+        public string ManUnderlyingCOD
+        {
+            get
+            {
+                if (ManualUnderlyingCauseOfDeathObs != null && ManualUnderlyingCauseOfDeathObs.Value != null && ManualUnderlyingCauseOfDeathObs.Value as CodeableConcept != null)
+                {
+
+                    return CodeableConceptToDict((CodeableConcept)ManualUnderlyingCauseOfDeathObs.Value)["code"];
+                }
+                return "";
+            }
+            set
+            {
+                if (ManualUnderlyingCauseOfDeathObs == null)
+                {
+                    CreateManualUnderlyingCauseOfDeathObs();
+                }
+                ManualUnderlyingCauseOfDeathObs.Value = new CodeableConcept(CodeSystems.ICD10, value, null, null);
+            }
+        }
+
+        /// <summary>Place of Injury.</summary>
+        /// <value>Place of Injury. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; elevel = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>elevel.Add("code", "LA14084-0");</para>
+        /// <para>elevel.Add("system", CodeSystems.LOINC);</para>
+        /// <para>elevel.Add("display", "Home");</para>
+        /// <para>ExampleDeathRecord.PlaceOfInjury = elevel;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"PlaceOfInjury: {ExampleDeathRecord.PlaceOfInjury['display']}");</para>
+        /// </example>
+        [Property("Place of Injury", Property.Types.Dictionary, "Coded Content", "Place of Injury.", true, IGURL.PlaceOfInjury, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11376-1')", "")]
+        public Dictionary<string, string> PlaceOfInjury
+        {
+            get
+            {
+                if (PlaceOfInjuryObs != null && PlaceOfInjuryObs.Value != null && PlaceOfInjuryObs.Value as CodeableConcept != null)
+                {
+                    return CodeableConceptToDict((CodeableConcept)PlaceOfInjuryObs.Value);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (PlaceOfInjuryObs == null)
+                {
+                    CreatePlaceOfInjuryObs();
+                }
+                PlaceOfInjuryObs.Value = DictToCodeableConcept(value);
+            }
+        }
+
+        /// <summary>Decedent's Place of Injury Helper</summary>
+        /// <value>Place of Injury.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.PlaceOfInjuryHelper = ValueSets.PlaceOfInjury.Home;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Place of Injury: {ExampleDeathRecord.PlaceOfInjuryHelper}");</para>
+        /// </example>
+        [Property("Place of Injury", Property.Types.String, "Coded Content", "Place of Injury.", true, IGURL.PlaceOfInjury, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11376-1')", "")]
+        public string PlaceOfInjuryHelper
+        {
+            get
+            {
+                if (PlaceOfInjury.ContainsKey("code"))
+                {
+                    return PlaceOfInjury["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("PlaceOfInjury", value, VRDR.ValueSets.PlaceOfInjury.Codes);
+            }
+        }
+
+        /// <summary>First Edited Race Code.</summary>
+        /// <value>First Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstEditedRaceCode", Property.Types.Dictionary, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstEditedCode", "First Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First Edited Race Code  Helper</summary>
+        /// <value>First Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Edited Race Code: {ExampleDeathRecord.FirstEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First Edited Race Code Helper", Property.Types.String, "Coded Content", "First Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstEditedRaceCodeHelper
+        {
+            get
+            {
+                if (FirstEditedRaceCode.ContainsKey("code"))
+                {
+                    return FirstEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Second Edited Race Code.</summary>
+        /// <value>Second Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SecondEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("SecondEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Second Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SecondEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondEditedCode", "Second Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Second Edited Race Code  Helper</summary>
+        /// <value>Second Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SecondEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Edited Race Code: {ExampleDeathRecord.SecondEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Second Edited Race Code Helper", Property.Types.String, "Coded Content", "Second Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SecondEditedRaceCodeHelper
+        {
+            get
+            {
+                if (SecondEditedRaceCode.ContainsKey("code"))
+                {
+                    return SecondEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SecondEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Third Edited Race Code.</summary>
+        /// <value>Third Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.ThirdEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("ThirdEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Third Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> ThirdEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "ThirdEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "ThirdEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "ThirdEditedCode", "Third Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Third Edited Race Code  Helper</summary>
+        /// <value>Third Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ThirdEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Third Edited Race Code: {ExampleDeathRecord.ThirdEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Third Edited Race Code Helper", Property.Types.String, "Coded Content", "Third Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string ThirdEditedRaceCodeHelper
+        {
+            get
+            {
+                if (ThirdEditedRaceCode.ContainsKey("code"))
+                {
+                    return ThirdEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("ThirdEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Fourth Edited Race Code.</summary>
+        /// <value>Fourth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FourthEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("FourthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Fourth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FourthEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FourthEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FourthEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FourthEditedCode", "Fourth Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Fourth Edited Race Code  Helper</summary>
+        /// <value>Fourth Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FourthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Fourth Edited Race Code: {ExampleDeathRecord.FourthEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Fourth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fourth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FourthEditedRaceCodeHelper
+        {
+            get
+            {
+                if (FourthEditedRaceCode.ContainsKey("code"))
+                {
+                    return FourthEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FourthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Fifth Edited Race Code.</summary>
+        /// <value>Fifth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FifthEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("FifthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Fifth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FifthEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FifthEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FifthEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FifthEditedCode", "Fifth Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Fifth Edited Race Code  Helper</summary>
+        /// <value>Fifth Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FifthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Fifth Edited Race Code: {ExampleDeathRecord.FifthEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Fifth Edited Race Code Helper", Property.Types.String, "Coded Content", "Fifth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FifthEditedRaceCodeHelper
+        {
+            get
+            {
+                if (FifthEditedRaceCode.ContainsKey("code"))
+                {
+                    return FifthEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FifthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Sixth Edited Race Code.</summary>
+        /// <value>Sixth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SixthEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("SixthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Sixth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SixthEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SixthEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SixthEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SixthEditedCode", "Sixth Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Sixth Edited Race Code  Helper</summary>
+        /// <value>Sixth Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SixthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Sixth Edited Race Code: {ExampleDeathRecord.SixthEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Sixth Edited Race Code Helper", Property.Types.String, "Coded Content", "Sixth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SixthEditedRaceCodeHelper
+        {
+            get
+            {
+                if (SixthEditedRaceCode.ContainsKey("code"))
+                {
+                    return SixthEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SixthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Seventh Edited Race Code.</summary>
+        /// <value>Seventh Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SeventhEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("SeventhEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Seventh Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SeventhEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SeventhEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SeventhEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SeventhEditedCode", "Seventh Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Seventh Edited Race Code  Helper</summary>
+        /// <value>Seventh Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SeventhEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Seventh Edited Race Code: {ExampleDeathRecord.SeventhEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Seventh Edited Race Code Helper", Property.Types.String, "Coded Content", "Seventh Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SeventhEditedRaceCodeHelper
+        {
+            get
+            {
+                if (SeventhEditedRaceCode.ContainsKey("code"))
+                {
+                    return SeventhEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SeventhEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Eighth Edited Race Code.</summary>
+        /// <value>Eighth Edited Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.EighthEditedRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCode['display']}");</para>
+        /// </example>
+        [Property("EighthEditedRaceCode", Property.Types.Dictionary, "Coded Content", "Eighth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> EighthEditedRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "EighthEditedCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "EighthEditedCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "EighthEditedCode", "Eighth Edited Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Eighth Edited Race Code  Helper</summary>
+        /// <value>Eighth Edited Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.EighthEditedRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Eighth Edited Race Code: {ExampleDeathRecord.EighthEditedRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Eighth Edited Race Code Helper", Property.Types.String, "Coded Content", "Eighth Edited Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string EighthEditedRaceCodeHelper
+        {
+            get
+            {
+                if (EighthEditedRaceCode.ContainsKey("code"))
+                {
+                    return EighthEditedRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("EighthEditedRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>First American Indian Race Code.</summary>
+        /// <value>First American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstAmericanIndianRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstAmericanIndianRaceCode", Property.Types.Dictionary, "Coded Content", "First American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstAmericanIndianRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstAmericanIndianRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstAmericanIndianRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstAmericanIndianRace", "First American Indian Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First American Indian Race Code  Helper</summary>
+        /// <value>First American Indian Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First American Indian Race Code: {ExampleDeathRecord.FirstAmericanIndianRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First American Indian Race Code Helper", Property.Types.String, "Coded Content", "First American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstAmericanIndianRaceCodeHelper
+        {
+            get
+            {
+                if (FirstAmericanIndianRaceCode.ContainsKey("code"))
+                {
+                    return FirstAmericanIndianRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Second American Indian Race Code.</summary>
+        /// <value>Second American Indian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SecondAmericanIndianRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCode['display']}");</para>
+        /// </example>
+        [Property("SecondAmericanIndianRaceCode", Property.Types.Dictionary, "Coded Content", "Second American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SecondAmericanIndianRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondAmericanIndianRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondAmericanIndianRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondAmericanIndianRace", "Second American Indian Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Second American Indian Race Code  Helper</summary>
+        /// <value>Second American Indian Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second American Indian Race Code: {ExampleDeathRecord.SecondAmericanIndianRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Second American Indian Race Code Helper", Property.Types.String, "Coded Content", "Second American Indian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SecondAmericanIndianRaceCodeHelper
+        {
+            get
+            {
+                if (SecondAmericanIndianRaceCode.ContainsKey("code"))
+                {
+                    return SecondAmericanIndianRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SecondAmericanIndianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>First Other Asian Race Code.</summary>
+        /// <value>First Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstOtherAsianRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstOtherAsianRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstOtherAsianRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherAsianRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherAsianRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherAsianRace", "First Other Asian Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First Other Asian Race Code  Helper</summary>
+        /// <value>First Other Asian Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Asian Race Code: {ExampleDeathRecord.FirstOtherAsianRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First Other Asian Race Code Helper", Property.Types.String, "Coded Content", "First Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstOtherAsianRaceCodeHelper
+        {
+            get
+            {
+                if (FirstOtherAsianRaceCode.ContainsKey("code"))
+                {
+                    return FirstOtherAsianRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Second Other Asian Race Code.</summary>
+        /// <value>Second Other Asian Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SecondOtherAsianRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCode['display']}");</para>
+        /// </example>
+        [Property("SecondOtherAsianRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SecondOtherAsianRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherAsianRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherAsianRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherAsianRace", "Second Other Asian Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Second Other Asian Race Code  Helper</summary>
+        /// <value>Second Other Asian Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SecondOtherAsianRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Asian Race Code: {ExampleDeathRecord.SecondOtherAsianRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Second Other Asian Race Code Helper", Property.Types.String, "Coded Content", "Second Other Asian Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SecondOtherAsianRaceCodeHelper
+        {
+            get
+            {
+                if (SecondOtherAsianRaceCode.ContainsKey("code"))
+                {
+                    return SecondOtherAsianRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SecondOtherAsianRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>First Other Pacific Islander Race Code.</summary>
+        /// <value>First Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstOtherPacificIslanderRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstOtherPacificIslanderRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherPacificIslanderRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherPacificIslanderRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherPacificIslanderRace", "First Other Pacific Islander Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First Other Pacific Islander Race Code  Helper</summary>
+        /// <value>First Other Pacific Islander Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Pacific Islander Race Code: {ExampleDeathRecord.FirstOtherPacificIslanderRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "First Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstOtherPacificIslanderRaceCodeHelper
+        {
+            get
+            {
+                if (FirstOtherPacificIslanderRaceCode.ContainsKey("code"))
+                {
+                    return FirstOtherPacificIslanderRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Second Other Pacific Islander Race Code.</summary>
+        /// <value>Second Other Pacific Islander Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCode['display']}");</para>
+        /// </example>
+        [Property("SecondOtherPacificIslanderRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SecondOtherPacificIslanderRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherPacificIslanderRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherPacificIslanderRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherPacificIslanderRace", "Second Other Pacific Islander Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Second Other Pacific Islander Race Code  Helper</summary>
+        /// <value>Second Other Pacific Islander Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Pacific Islander Race Code: {ExampleDeathRecord.SecondOtherPacificIslanderRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Second Other Pacific Islander Race Code Helper", Property.Types.String, "Coded Content", "Second Other Pacific Islander Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SecondOtherPacificIslanderRaceCodeHelper
+        {
+            get
+            {
+                if (SecondOtherPacificIslanderRaceCode.ContainsKey("code"))
+                {
+                    return SecondOtherPacificIslanderRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SecondOtherPacificIslanderRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>First Other Race Code.</summary>
+        /// <value>First Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.FirstOtherRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCode['display']}");</para>
+        /// </example>
+        [Property("FirstOtherRaceCode", Property.Types.Dictionary, "Coded Content", "First Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> FirstOtherRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "FirstOtherRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "FirstOtherRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "FirstOtherRace", "First Other Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>First Other Race Code  Helper</summary>
+        /// <value>First Other Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.FirstOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Other Race Code: {ExampleDeathRecord.FirstOtherRaceCodeHelper}");</para>
+        /// </example>
+        [Property("First Other Race Code Helper", Property.Types.String, "Coded Content", "First Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string FirstOtherRaceCodeHelper
+        {
+            get
+            {
+                if (FirstOtherRaceCode.ContainsKey("code"))
+                {
+                    return FirstOtherRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("FirstOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Second Other Race Code.</summary>
+        /// <value>Second Other Race Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.SecondOtherRaceCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCode['display']}");</para>
+        /// </example>
+        [Property("SecondOtherRaceCode", Property.Types.Dictionary, "Coded Content", "Second Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> SecondOtherRaceCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "SecondOtherRace");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "SecondOtherRace");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "SecondOtherRace", "Second Other Race", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Second Other Race Code  Helper</summary>
+        /// <value>Second Other Race Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.SecondOtherRaceCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Second Other Race Code: {ExampleDeathRecord.SecondOtherRaceCodeHelper}");</para>
+        /// </example>
+        [Property("Second Other Race Code Helper", Property.Types.String, "Coded Content", "Second Other Race Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string SecondOtherRaceCodeHelper
+        {
+            get
+            {
+                if (SecondOtherRaceCode.ContainsKey("code"))
+                {
+                    return SecondOtherRaceCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("SecondOtherRaceCode", value, VRDR.ValueSets.RaceCode.Codes);
+            }
+        }
+
+        /// <summary>Hispanic Code.</summary>
+        /// <value>Hispanic Code. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.HispanicCode = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCode['display']}");</para>
+        /// </example>
+        [Property("HispanicCode", Property.Types.Dictionary, "Coded Content", "Hispanic Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> HispanicCode
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "HispanicCode");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCode");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "HispanicCode", "Hispanic Code", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Hispanic Code  Helper</summary>
+        /// <value>Hispanic Code Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.HispanicCodeHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Hispanic Code: {ExampleDeathRecord.HispanicCodeHelper}");</para>
+        /// </example>
+        [Property("Hispanic Code Helper", Property.Types.String, "Coded Content", "Hispanic Code.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string HispanicCodeHelper
+        {
+            get
+            {
+                if (HispanicCode.ContainsKey("code"))
+                {
+                    return HispanicCode["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("HispanicCode", value, VRDR.ValueSets.HispanicOrigin.Codes);
+            }
+        }
+
+        /// <summary>Hispanic Code For Literal.</summary>
+        /// <value>Hispanic Code For Literal. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "300");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceCode);</para>
+        /// <para>racecode.Add("display", "African");</para>
+        /// <para>ExampleDeathRecord.HispanicCodeForLiteral = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteral['display']}");</para>
+        /// </example>
+        [Property("HispanicCodeForLiteral", Property.Types.Dictionary, "Coded Content", "Hispanic Code For Literal.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> HispanicCodeForLiteral
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "HispanicCodeForLiteral");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "HispanicCodeForLiteral");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "HispanicCodeForLiteral", "Hispanic Code For Literal", null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Hispanic Code For Literal  Helper</summary>
+        /// <value>Hispanic Code For Literal Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.HispanicCodeForLiteralHelper = VRDR.ValueSets.RaceCode.African ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Hispanic Code For Literal: {ExampleDeathRecord.HispanicCodeForLiteralHelper}");</para>
+        /// </example>
+        [Property("Hispanic Code For Literal Helper", Property.Types.String, "Coded Content", "Hispanic Code For Literal.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string HispanicCodeForLiteralHelper
+        {
+            get
+            {
+                if (HispanicCodeForLiteral.ContainsKey("code"))
+                {
+                    return HispanicCodeForLiteral["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("HispanicCodeForLiteral", value, VRDR.ValueSets.HispanicOrigin.Codes);
+            }
+        }
+
+        /// <summary>Race Recode 40.</summary>
+        /// <value>Race Recode 40. A Dictionary representing a code, containing the following key/value pairs:
+        /// <para>"code" - the code</para>
+        /// <para>"system" - the code system this code belongs to</para>
+        /// <para>"display" - a human readable meaning of the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Dictionary&lt;string, string&gt; racecode = new Dictionary&lt;string, string&gt;();</para>
+        /// <para>racecode.Add("code", "09");</para>
+        /// <para>racecode.Add("system", CodeSystems.RaceRecode40CS);</para>
+        /// <para>racecode.Add("display", "Vietnamiese");</para>
+        /// <para>ExampleDeathRecord.RaceRecode40 = racecode;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"RaceRecode40: {ExampleDeathRecord.RaceRecode40['display']}");</para>
+        /// </example>
+        [Property("RaceRecode40", Property.Types.Dictionary, "Coded Content", "RaceRecode40.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [PropertyParam("system", "The relevant code system.")]
+        [PropertyParam("display", "The human readable version of this code.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public Dictionary<string, string> RaceRecode40
+        {
+            get
+            {
+                if (CodedRaceAndEthnicityObs != null)
+                {
+                    Observation.ComponentComponent racecode = CodedRaceAndEthnicityObs.Component.FirstOrDefault(c => c.Code.Coding[0].Code == "RaceRecode40");
+                    if (racecode != null && racecode.Value != null && racecode.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)racecode.Value);
+                    }
+                }
+                return EmptyCodeableDict();
+            }
+            set
+            {
+                if (CodedRaceAndEthnicityObs == null)
+                {
+                    CreateCodedRaceAndEthnicityObs();
+                }
+                CodedRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == "RaceRecode40");
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, "RaceRecode40", null, null);
+                component.Value = DictToCodeableConcept(value);
+                CodedRaceAndEthnicityObs.Component.Add(component);
+            }
+        }
+
+        /// <summary>Race Recode 40  Helper</summary>
+        /// <value>Race Recode 40 Helper.</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.RaceRecode40Helper = VRDR.ValueSets.RaceRecode40.AIAN ;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Race Recode 40: {ExampleDeathRecord.RaceRecode40Helper}");</para>
+        /// </example>
+        [Property("Race Recode 40 Helper", Property.Types.String, "Coded Content", "Race Recode 40.", true, IGURL.CodedRaceAndEthnicity, false, 34)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='codedraceandethnicity')", "")]
+        public string RaceRecode40Helper
+        {
+            get
+            {
+                if (RaceRecode40.ContainsKey("code"))
+                {
+                    return RaceRecode40["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("RaceRecode40", value, VRDR.ValueSets.RaceRecode40.Codes);
+            }
+        }
+
+        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
+        /// <summary>Entity Axis Cause Of Death</summary>
+        /// <value>Entity-axis codes</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para> Tuple&lt;string, string, string, string&gt;[] eac = new Tuple&lt;string, string, string, string&gt;{Tuple.Create("line", "position", "code", "ecode")}</para>
+        /// <para> ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath[0].Item3}");</para>
+        /// </example>
+        [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Entity Axis Cause of Death", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80356-9)", "")]
+        public Tuple<string, string, string, string>[] EntityAxisCauseOfDeath
+        {
+            get
+            {
+                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
+                if (EntityAxisCauseOfDeathObsList != null)
+                {
+                    foreach(Observation ob in EntityAxisCauseOfDeathObsList)
+                    {
+                        string icd10code = "";
+                        string lineNumber = "";
+                        string position = "";
+                        string ecode = "";
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        if (valueCC != null)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
+                        }
+                        Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
+                        if (positionComp != null && positionComp.Value != null)
+                        {
+                            position = positionComp.Value.ToString();
+                        }
+                        Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
+                        if (lineNumComp != null && lineNumComp.Value != null)
+                        {
+                            lineNumber = lineNumComp.Value.ToString();
+                        }
+                        Observation.ComponentComponent ecodeComp = ob.Component.Where(c => c.Code.Coding[0].Code=="eCodeIndicator").FirstOrDefault();
+                        if (ecodeComp != null && ecodeComp.Value != null)
+                        {
+                            ecode = ecodeComp.Value.ToString() == "true" ? "&" : " ";
+                        }
+                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, icd10code, ecode);
+                        eac.Add(eacod);
+                    }
+                }
+                return eac.ToArray();
+            }
+            set
+            {
+                // clear all existing eac
+                Bundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80356-9"));
+                if (EntityAxisCauseOfDeathObsList != null)
+                {
+                    EntityAxisCauseOfDeathObsList.Clear();
+                }
+                else
+                {
+                    EntityAxisCauseOfDeathObsList = new List<Observation>();
+                }
+                // Rebuild the list of observations
+                foreach(Tuple<string, string, string, string> eac in value)
+                {
+                    string lineNumber = eac.Item1;
+                    string position = eac.Item2;
+                    string icd10code = eac.Item3;
+                    string ecode = eac.Item4;
+
+                    Observation ob = new Observation();
+                    ob.Id = Guid.NewGuid().ToString();
+                    ob.Meta = new Meta();
+                    string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
+                    ob.Meta.Profile = entityAxis_profile;
+                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
+                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    AddReferenceToComposition(ob.Id, "CodedContent");
+
+                    ob.Effective = new FhirDateTime();
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
+
+                    if (Int32.TryParse(lineNumber, out int lineNumberInt))
+                    {
+                        Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                        lineNumComp.Value = new Integer(lineNumberInt);
+                        lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
+                        ob.Component.Add(lineNumComp);
+                    }
+                    if (Int32.TryParse(position, out int positionInt))
+                    {
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(positionInt);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
+                    }
+
+                    Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
+                    eCodeComp.Value = new FhirBoolean(ecode == "&");
+                    eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
+                    ob.Component.Add(eCodeComp);
+
+                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                    EntityAxisCauseOfDeathObsList.Add(ob);
+                }
+            }
+        }
+
+        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
+        /// <summary>Record Axis Cause Of Death</summary>
+        /// <value>record-axis codes</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("position", "code", "pregnancy")}</para>
+        /// <para>ExampleDeathRecord.RecordAxisCauseOfDeath = eac;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath[0].Item2}");</para>
+        /// </example>
+        [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "RecordAxisCauseOfDeath", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80357-7)", "")]
+        public Tuple<string, string, string>[] RecordAxisCauseOfDeath
+        {
+            get
+            {
+                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
+                if (RecordAxisCauseOfDeathObsList != null)
+                {
+                    foreach(Observation ob in RecordAxisCauseOfDeathObsList)
+                    {
+                        string icd10code = "";
+                        string position = "";
+                        string pregnancy = "";
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        if (valueCC != null)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
+                        }
+                        Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code=="position").FirstOrDefault();
+                        if (positionComp != null && positionComp.Value != null)
+                        {
+                            position = positionComp.Value.ToString();
+                        }
+                        Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code=="wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
+                        if (pregComp != null && pregComp.Value != null)
+                        {
+                            string preg = pregComp.Value.ToString();
+                            pregnancy = preg == "true" ? "1" : " ";
+
+                        }
+                        Tuple<string, string, string> racod = Tuple.Create(position, icd10code, pregnancy);
+
+                        rac.Add(racod);
+                    }
+                }
+                return rac.ToArray();
+            }
+            set
+            {
+                // clear all existing eac
+                Bundle.Entry.RemoveAll( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "80357-7"));
+                if (RecordAxisCauseOfDeathObsList != null)
+                {
+                    RecordAxisCauseOfDeathObsList.Clear();
+                }
+                else
+                {
+                    RecordAxisCauseOfDeathObsList = new List<Observation>();
+                }
+                // Rebuild the list of observations
+                foreach(Tuple<string, string, string> rac in value)
+                {
+                    string position = rac.Item1;
+                    string icd10code = rac.Item2;
+                    string preg = rac.Item3;
+
+                    Observation ob = new Observation();
+                    ob.Id = Guid.NewGuid().ToString();
+                    ob.Meta = new Meta();
+                    string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
+                    ob.Meta.Profile = recordAxis_profile;
+                    ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
+                    ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+                    AddReferenceToComposition(ob.Id, "CodedContent");
+
+                    ob.Effective = new FhirDateTime();
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
+
+                    if (Int32.TryParse(position, out int j))
+                    {
+                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                        positionComp.Value = new Integer(j);
+                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                        ob.Component.Add(positionComp);
+                    }
+                    if (preg == "1" && position == "2")
+                    {
+                        Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
+                        pregComp.Value = new FhirBoolean(true);
+                        pregComp.Code = new CodeableConcept(CodeSystems.Component, "wouldBeUnderlyingCauseOfDeathWithoutPregnancy", "Would be underlying cause of death without pregnancy, if true");
+                        ob.Component.Add(pregComp);
+                    }
+
+                    Bundle.AddResourceEntry(ob, "urn:uuid:" + ob.Id);
+                    RecordAxisCauseOfDeathObsList.Add(ob);
+                }
+            }
+        }
+
+        // TODO: Appropriate FHIRPath attributes on the next several properties (supporting Coding Status)
+
+        /// <summary>
+        /// The year NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptYear", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public uint? ReceiptYear
+        {
+            get
+            {
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateYear);
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+            }
+        }
+
+        /// <summary>
+        /// The month NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptMonth", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public uint? ReceiptMonth
+        {
+            get
+            {
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateMonth);
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+            }
+        }
+
+        /// <summary>
+        /// The day NCHS received the death record.
+        /// </summary>
+        [Property("ReceiptDay", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public uint? ReceiptDay
+        {
+            get
+            {
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                return GetDateFragmentOrPartialDate(date, ExtensionURL.DateDay);
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+            }
+        }
+
+        /// <summary>Receipt Date.</summary>
+        /// <value>receipt date</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReceiptDate = "2018-02-19";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
+        /// </example>
+        [Property("Receipt Date", Property.Types.StringDateTime, "Coded Observations", "Receipt Date.", true, IGURL.CodingStatusValues, true, 25)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string ReceiptDate
+        {
+            get
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                if (ReceiptYear != null && ReceiptMonth != null && ReceiptDay != null)
+                {
+                    Date result = new Date((int)ReceiptYear, (int)ReceiptMonth, (int)ReceiptDay);
+                    return result.ToString();
+                }
+                return null;
+            }
+            set
+            {
+                // We support this legacy-style API entrypoint via the new partial date and time entrypoints
+                DateTimeOffset parsedDate;
+                if (DateTimeOffset.TryParse(value, out parsedDate))
+                {
+                    ReceiptYear = (uint?)parsedDate.Year;
+                    ReceiptMonth = (uint?)parsedDate.Month;
+                    ReceiptDay = (uint?)parsedDate.Day;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Coder Status; TRX field with no IJE mapping
+        /// </summary>
+        [Property("CoderStatus", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public int? CoderStatus
+        {
+            get
+            {
+                return this.CodingStatusValues?.GetSingleValue<Integer>("coderStatus")?.Value;
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("coderStatus");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("coderStatus", new Integer(value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shipment Number; TRX field with no IJE mapping
+        /// </summary>
+        [Property("ShipmentNumber", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string ShipmentNumber
+        {
+            get
+            {
+                return this.CodingStatusValues?.GetSingleValue<FhirString>("shipmentNumber")?.Value;
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("shipmentNumber");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("shipmentNumber", new FhirString(value));
+                }
+            }
+        }
+        /// <summary>
+        /// Intentional Reject
+        /// </summary>
+        [Property("IntentionalReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public  Dictionary<string, string> IntentionalReject
+        {
+            get
+            {
+                CodeableConcept intentionalReject = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("intentionalReject");
+                if (intentionalReject != null)
+                {
+                    return CodeableConceptToDict(intentionalReject);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("intentionalReject");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("intentionalReject", DictToCodeableConcept(value));
+                }
+            }
+        }
+
+        /// <summary>Intentional Reject Helper.</summary>
+        /// <value>Intentional Reject
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.IntentionalRejectHelper = ValueSets.IntentionalReject.Not_Rejected;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Intentional Reject Code: {ExampleDeathRecord.IntentionalRejectHelper}");</para>
+        /// </example>
+        [Property("IntentionalRejectHelper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string IntentionalRejectHelper
+        {
+            get
+            {
+                if (IntentionalReject.ContainsKey("code"))
+                {
+                    return IntentionalReject["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("IntentionalReject", value, VRDR.ValueSets.IntentionalReject.Codes);
+            }
+        }
+
+        /// <summary>
+        /// Acme System Reject Codes
+        /// </summary>
+        [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public Dictionary<string, string> AcmeSystemReject
+        {
+            get
+            {
+                CodeableConcept acmeSystemReject = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("acmeSystemReject");
+                if (acmeSystemReject != null)
+                {
+                    return CodeableConceptToDict(acmeSystemReject);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("acmeSystemReject");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("acmeSystemReject", DictToCodeableConcept(value));
+                }
+            }
+        }
+
+        /// <summary>ACME System Reject Codes Helper.</summary>
+        /// <value>Acme System REject codes
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AcmeSystemRejectCodeHelper = ValueSets.SystemRejectCodes.Not_Rejected;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemRejectCodeHelper}");</para>
+        /// </example>
+        [Property("AcmeSystemRejectHelper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string AcmeSystemRejectHelper
+        {
+            get
+            {
+                if (AcmeSystemReject.ContainsKey("code"))
+                {
+                    return AcmeSystemReject["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("AcmeSystemReject", value, VRDR.ValueSets.AcmeSystemReject.Codes);
+            }
+        }
+
+        /// <summary>
+        /// Transax Conversion Flag
+        /// </summary>
+        [Property("TransaxConversion", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public Dictionary<string, string> TransaxConversion
+        {
+            get
+            {
+                CodeableConcept transaxConversion = this.CodingStatusValues?.GetSingleValue<CodeableConcept>("transaxConversion");
+                if (transaxConversion != null)
+                {
+                    return CodeableConceptToDict(transaxConversion);
+                }
+                return EmptyCodeDict();
+            }
+            set
+            {
+                if (CodingStatusValues == null)
+                {
+                    CreateEmptyCodingStatusValues();
+                }
+                CodingStatusValues.Remove("transaxConversion");
+                if (value != null)
+                {
+                    CodingStatusValues.Add("transaxConversion", DictToCodeableConcept(value));
+                }
+            }
+        }
+
+        /// <summary>TransaxConversion Helper.</summary>
+        /// <value>transax conversion code
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TransaxConversionHelper = ValueSets.TransaxConversion.Conversion_Using_Non_Ambivalent_Table_Entries;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Filing Format: {ExampleDeathRecord.TransaxConversionHelper}");</para>
+        /// </example>
+        [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", true, IGURL.CodingStatusValues, true, 4)]
+        [PropertyParam("code", "The code used to describe this concept.")]
+        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        public string TransaxConversionHelper
+        {
+            get
+            {
+                if (TransaxConversion.ContainsKey("code"))
+                {
+                    return TransaxConversion["code"];
+                }
+                return null;
+            }
+            set
+            {
+                SetCodeValue("TransaxConversion", value, VRDR.ValueSets.TransaxConversion.Codes);
             }
         }
 
@@ -7274,20 +10325,43 @@ namespace VRDR
 
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
-        private void AddReferenceToComposition(string reference)
+        /// <param name="code">the code for the section to add to.</param>
+        private void AddReferenceToComposition(string reference, string code)
         {
-            Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
+            //Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
+            Composition.SectionComponent section = new Composition.SectionComponent();
+            // Find the right section
+            foreach (var s in Composition.Section)
+            {
+                if (s.Code != null && s.Code.Coding.Count > 0 && s.Code.Coding.First().Code == code)
+                {
+                    section = s;
+                }
+            }
+            if (section.Code == null)
+            {
+                Dictionary<string, string> coding = new Dictionary<string, string>();
+                coding["system"] = VRDR.CodeSystems.DocumentSections;
+                coding["code"] = code;
+                section.Code = DictToCodeableConcept(coding);
+                Composition.Section.Add(section);
+            }
+            section.Entry.Add(new ResourceReference("urn:uuid:" + reference));
+
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
-        private bool RemoveReferenceFromComposition(string reference)
+        /// <param name="code">a code for the section to modify.</param>
+        private bool RemoveReferenceFromComposition(string reference, string code)
         {
-            return Composition.Section.First().Entry.RemoveAll(entry => entry.Reference == reference) > 0;
+            Composition.SectionComponent section = Composition.Section.Where(s => s.Code.Coding.First().Code == code).First();
+            return section.Entry.RemoveAll(entry => entry.Reference == reference) > 0;
         }
 
         /// <summary>Restores class references from a newly parsed record.</summary>
-        private void RestoreReferences()
+        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
+        private void RestoreReferences(bool fullRecord = true)
         {
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Composition );
@@ -7295,13 +10369,13 @@ namespace VRDR
             {
                 Composition = (Composition)compositionEntry.Resource;
             }
-            else
+            else if (fullRecord)
             {
                 throw new System.ArgumentException("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.");
             }
 
             // Grab Patient
-            if (Composition.Subject == null || String.IsNullOrWhiteSpace(Composition.Subject.Reference))
+            if (fullRecord && (Composition.Subject == null || String.IsNullOrWhiteSpace(Composition.Subject.Reference)))
             {
                 throw new System.ArgumentException("The Composition is missing a subject (a reference to the Decedent resource).");
             }
@@ -7310,45 +10384,36 @@ namespace VRDR
             {
                 Decedent = (Patient)patientEntry.Resource;
             }
-            else
+            else if (fullRecord)
             {
-                throw new System.ArgumentException("Failed to find a Decedent (Patient). The second entry in the FHIR Bundle is usually the Decedent (Patient).");
+                throw new System.ArgumentException("Failed to find a Decedent (Patient).");
             }
 
             // Grab Certifier
-            if (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference))
+            if (fullRecord && (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
             {
                 throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
             }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference || (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
+            var practitionerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
+            (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
             if (practitionerEntry != null)
             {
                 Certifier = (Practitioner)practitionerEntry.Resource;
             }
-            else
-            {
-                throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
-            }
-
-            // Grab Pronouncer
-            // IMPROVEMENT: Move away from using meta profile to find this Practitioner.
-            var pronouncerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Pronouncement-Performer", entry.Resource.Meta.Profile.FirstOrDefault()));
-            if (pronouncerEntry != null)
-            {
-                Pronouncer = (Practitioner)pronouncerEntry.Resource;
-            }
-
-            // Grab Mortician
-            // IMPROVEMENT: Move away from using meta profile or id to find this Practitioner, use reference from disposition method performer instead or as well
-            var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Mortician", entry.Resource.Meta.Profile.FirstOrDefault()));
-            if (morticianEntry == null)
-            {
-                morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
-            }
-            if (morticianEntry != null)
-            {
-                Mortician = (Practitioner)morticianEntry.Resource;
-            }
+            // else
+            // {
+            //     throw new System.ArgumentException("Failed to find a Certifier (Practitioner). The third entry in the FHIR Bundle is usually the Certifier (Practitioner). Either the Certifier is missing from the Bundle, or the attestor reference specified in the Composition is incorrect.");
+            // }
+            // *** Pronouncer and Mortician are not supported by IJE. ***
+            // They can be included in DeathCertificateDocument and linked from DeathCertificate.  THe only sure way to find them is to look for the reference from DeathDate and DispositionMethod, respectively.
+            // For now, we comment them out.
+            // // Grab Pronouncer
+            // // IMPROVEMENT: Move away from using meta profile to find this Practitioner.  Use performer reference from DeathDate
+            // var pronouncerEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Pronouncement-Performer", entry.Resource.Meta.Profile.FirstOrDefault()));
+            // if (pronouncerEntry != null)
+            // {
+            //     Pronouncer = (Practitioner)pronouncerEntry.Resource;
+            // }
 
             // Grab Death Certification
             var procedureEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Procedure );
@@ -7357,34 +10422,46 @@ namespace VRDR
                 DeathCertification = (Procedure)procedureEntry.Resource;
             }
 
-            // Grab State Local Identifier
-            var stateDocumentReferenceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.DocumentReference && ((DocumentReference)entry.Resource).Type.Coding.First().Code == "64297-5" );
-            if (stateDocumentReferenceEntry != null)
-            {
-                StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
-            }
+            // // Grab State Local Identifier
+            // var stateDocumentReferenceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.DocumentReference && ((DocumentReference)entry.Resource).Type.Coding.First().Code == "64297-5" );
+            // if (stateDocumentReferenceEntry != null)
+            // {
+            //     StateDocumentReference = (DocumentReference)stateDocumentReferenceEntry.Resource;
+            // }
 
-            // Grab Interested Party
-            var interestedParty = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && ((Organization)entry.Resource).Active != null );
-            if (interestedParty != null)
-            {
-                InterestedParty = (Organization)interestedParty.Resource;
-            }
-
-            // Grab Funeral Home
-            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization && (InterestedParty == null || ((Organization)entry.Resource).Id != InterestedParty.Id) );
+            // Grab Funeral Home  - Organization with type="funeral"
+            var funeralHome = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Organization &&
+                    ((Organization)entry.Resource).Type.FirstOrDefault() != null  && (CodeableConceptToDict(((Organization)entry.Resource).Type.First())["code"] == "funeralhome"));
             if (funeralHome != null)
             {
                 FuneralHome = (Organization)funeralHome.Resource;
             }
 
-            // Grab Funeral Home Director
-            var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
-            if (funeralHomeDirector != null)
-            {
-                FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
-            }
+            // // Grab Funeral Home Director
+            // var funeralHomeDirector = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.PractitionerRole );
+            // if (funeralHomeDirector != null)
+            // {
+            //     FuneralHomeDirector = (PractitionerRole)funeralHomeDirector.Resource;
+            // }
+            // // Grab Mortician
+            // // IMPROVEMENT: Move away from using meta profile or id to find this Practitioner, use reference from disposition method performer instead or as well
+            // var morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && entry.Resource.Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Mortician", entry.Resource.Meta.Profile.FirstOrDefault()));
+            // if (morticianEntry == null)
+            // {
+            //     morticianEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Practitioner && ((Practitioner)entry.Resource).Id != Certifier.Id );
+            // }
+            // if (morticianEntry != null)
+            // {
+            //     Mortician = (Practitioner)morticianEntry.Resource;
+            // }
 
+
+            // Grab Coding Status
+            var parameterEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Parameters );
+            if (parameterEntry != null)
+            {
+                CodingStatusValues = (Parameters)parameterEntry.Resource;
+            }
             // Scan through all Observations to make sure they all have codes!
             foreach (var ob in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Observation ))
             {
@@ -7393,27 +10470,93 @@ namespace VRDR
                 {
                     throw new System.ArgumentException("Found an Observation resource that did not contain a code. All Observations must include a code to specify what the Observation is referring to.");
                 }
-            }
-
-            // Grab Manner of Death
-            var mannerOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69449-7" );
-            if (mannerOfDeath != null)
-            {
-                MannerOfDeath = (Observation)mannerOfDeath.Resource;
-            }
-
-            // Grab Transportation Role Observation
-            var transportationRole = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69451-3" );
-            if (transportationRole != null)
-            {
-                TransportationRoleObs = (Observation)transportationRole.Resource;
-            }
-
-            // Grab Disposition Method
-            var dispositionMethod = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80905-3" );
-            if (dispositionMethod != null)
-            {
-                DispositionMethod = (Observation)dispositionMethod.Resource;
+                switch(obs.Code.Coding.First().Code)
+                {
+                case "69449-7":
+                    MannerOfDeath = (Observation)obs;
+                    break;
+                case "80905-3":
+                    DispositionMethod = (Observation)obs;
+                    // Link the Mortician based on the performer of this observation
+                    break;
+                case "69441-4":
+                    ConditionContributingToDeath = (Observation)obs;
+                    break;
+                case "80913-7":
+                    DecedentEducationLevel = (Observation)obs;
+                    break;
+                case "21843-8":
+                    UsualWork = (Observation)obs;
+                    break;
+                case "55280-2":
+                    MilitaryServiceObs = (Observation)obs;
+                    break;
+                case "BR":
+                    BirthRecordIdentifier = (Observation)obs;
+                    break;
+                case "emergingissues":
+                    EmergingIssues = (Observation)obs;
+                    break;
+                case "codedraceandethnicity":
+                    CodedRaceAndEthnicityObs = (Observation)obs;
+                    break;
+                case "inputraceandethnicity":
+                    InputRaceAndEthnicityObs = (Observation)obs;
+                    break;
+                case "11376-1":
+                    PlaceOfInjuryObs = (Observation)obs;
+                    break;
+                case "80358-5":
+                    AutomatedUnderlyingCauseOfDeathObs = (Observation)obs;
+                    break;
+                case "80359-3":
+                    ManualUnderlyingCauseOfDeathObs = (Observation)obs;
+                    break;
+                case "80626-5":
+                    ActivityAtTimeOfDeathObs = (Observation)obs;
+                    break;
+               case "80992-1":
+                    SurgeryDateObs = (Observation)obs;
+                    break;
+                case "81956-5":
+                    DeathDateObs = (Observation)obs;
+                    break;
+                case "11374-6":
+                    InjuryIncidentObs = (Observation)obs;
+                    break;
+                case "69443-0":
+                    TobaccoUseObs = (Observation)obs;
+                    break;
+                case "74497-9":
+                    ExaminerContactedObs = (Observation)obs;
+                    break;
+                case "69442-2":
+                    PregnancyObs = (Observation)obs;
+                    break;
+                case "39016-1":
+                    AgeAtDeathObs = (Observation)obs;
+                    break;
+                case "85699-7":
+                    AutopsyPerformed = (Observation)obs;
+                    break;
+                case "80356-9":
+                    if (EntityAxisCauseOfDeathObsList == null)
+                    {
+                         EntityAxisCauseOfDeathObsList = new List<Observation>();
+                    }
+                    EntityAxisCauseOfDeathObsList.Add((Observation)obs);
+                    break;
+                case "80357-7":
+                    if (RecordAxisCauseOfDeathObsList == null)
+                    {
+                        RecordAxisCauseOfDeathObsList = new List<Observation>();
+                    }
+                    RecordAxisCauseOfDeathObsList.Add((Observation)obs);
+                    break;
+                default:
+                    // skip
+                    break;
+                }
             }
 
             // Grab Cause Of Death Condition Pathway
@@ -7424,17 +10567,18 @@ namespace VRDR
             }
 
             // Grab Causes of Death using CauseOfDeathConditionPathway
-            List<Condition> causeConditions = new List<Condition>();
+            List<Observation> causeConditions = new List<Observation>();
             if (CauseOfDeathConditionPathway != null)
             {
                 foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
                 {
                     if (condition != null && condition.Item != null && condition.Item.Reference != null)
                     {
-                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Condition && (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
+                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69453-9") &&
+                        (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
                         if (codCond != null)
                         {
-                            causeConditions.Add((Condition)codCond.Resource);
+                            causeConditions.Add((Observation)codCond.Resource);
                         }
                     }
                 }
@@ -7454,184 +10598,57 @@ namespace VRDR
                 {
                     CauseOfDeathConditionD = causeConditions[3];
                 }
-                if (causeConditions.Count() > 4)
-                {
-                    CauseOfDeathConditionE = causeConditions[4];
-                }
-                if (causeConditions.Count() > 5)
-                {
-                    CauseOfDeathConditionF = causeConditions[5];
-                }
-                if (causeConditions.Count() > 6)
-                {
-                    CauseOfDeathConditionG = causeConditions[6];
-                }
-                if (causeConditions.Count() > 7)
-                {
-                    CauseOfDeathConditionH = causeConditions[7];
-                }
-                if (causeConditions.Count() > 8)
-                {
-                    CauseOfDeathConditionI = causeConditions[8];
-                }
-                if (causeConditions.Count() > 9)
-                {
-                    CauseOfDeathConditionJ = causeConditions[9];
-                }
-            }
 
-            // Grab Condition Contributing To Death
-            List<Condition> remainingConditions = new List<Condition>();
-            foreach (var condition in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Condition ))
-            {
-                if (condition != null)
-                {
-                    if (!causeConditions.Contains((Condition)condition.Resource))
-                    {
-                        remainingConditions.Add((Condition)condition.Resource);
-                    }
-                }
             }
-            if (remainingConditions.Count() > 1)
-            {
-                throw new System.ArgumentException("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.");
-            }
-            else if (remainingConditions.Count() == 1)
-            {
-                ConditionContributingToDeath = remainingConditions[0];
-            }
-
             // Scan through all RelatedPerson to make sure they all have relationship codes!
             foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
             {
                 RelatedPerson rpn = (RelatedPerson)rp.Resource;
-                if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding.First().Code == null)
+                if (rpn.Relationship == null || rpn.Relationship.FirstOrDefault() == null || rpn.Relationship.FirstOrDefault().Coding == null || rpn.Relationship.FirstOrDefault().Coding.FirstOrDefault() == null ||
+                      rpn.Relationship.FirstOrDefault().Coding.First().Code == null)
                 {
                     throw new System.ArgumentException("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.");
                 }
+                switch(rpn.Relationship.FirstOrDefault().Coding.First().Code){
+                    case "FTH":
+                        Father = (RelatedPerson)rpn;
+                        break;
+                    case "MTH":
+                        Mother = (RelatedPerson)rpn;
+                        break;
+                    case "SPS":
+                        Spouse = (RelatedPerson)rpn;
+                        break;
+                    default:
+                        // skip
+                        break;
+                }
             }
-
-            // Grab Father
-            var father = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "FTH" );
-            if (father != null)
-            {
-                Father = (RelatedPerson)father.Resource;
+            foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.Location )){
+                Location lcn = (Location)rp.Resource;
+                if ( (lcn.Type.FirstOrDefault() == null)  || lcn.Type.FirstOrDefault().Coding == null || lcn.Type.FirstOrDefault().Coding.First().Code  == null )
+                {
+                    // throw new System.ArgumentException("Found a Location resource that did not contain a type code. All Locations must include a type code to specify the role of the location.");
+                }
+                else
+                {
+                    switch(lcn.Type.FirstOrDefault().Coding.First().Code){
+                        case "death":
+                            DeathLocationLoc = lcn;
+                            break;
+                        case "disposition":
+                            DispositionLocation = lcn;
+                            break;
+                        case "injury":
+                            InjuryLocationLoc = lcn;
+                            break;
+                        default:
+                            // skip
+                            break;
+                    }
+                }
             }
-
-            // Grab Mother
-            var mother = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "MTH" );
-            if (mother != null)
-            {
-                Mother = (RelatedPerson)mother.Resource;
-            }
-
-            // Grab Spouse
-            var spouse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson && ((RelatedPerson)entry.Resource).Relationship.First().Coding.First().Code == "SPS" );
-            if (spouse != null)
-            {
-                Spouse = (RelatedPerson)spouse.Resource;
-            }
-
-            // Grab Decedent Education Level
-            var decedentEducationLevel = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "80913-7" );
-            if (decedentEducationLevel != null)
-            {
-                DecedentEducationLevel = (Observation)decedentEducationLevel.Resource;
-            }
-
-            // Grab Birth Record Identifier
-            var birthRecordIdentifier = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "BR" );
-            if (birthRecordIdentifier != null)
-            {
-                BirthRecordIdentifier = (Observation)birthRecordIdentifier.Resource;
-            }
-
-            // Grab Employment History
-            var employmentHistory = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "21843-8" );
-            if (employmentHistory != null)
-            {
-                UsualWork = (Observation)employmentHistory.Resource;
-            }
-
-            // Grab Employment History
-            var militaryServiceEntry = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "55280-2" );
-            if (militaryServiceEntry != null)
-            {
-                MilitaryServiceObs = (Observation)militaryServiceEntry.Resource;
-            }
-
-            // Grab Disposition Location
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var dispositionLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Disposition-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
-            if (dispositionLocation != null)
-            {
-                DispositionLocation = (Location)dispositionLocation.Resource;
-            }
-
-            // Grab Injury Location
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var injuryLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Injury-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
-            if (injuryLocation != null)
-            {
-                InjuryLocationLoc = (Location)injuryLocation.Resource;
-            }
-
-            // Grab Death Location
-            // IMPROVEMENT: Move away from using meta profile to find this exact Location.
-            var deathLocation = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Location && ((Location)entry.Resource).Meta.Profile.FirstOrDefault() != null && MatchesProfile("VRDR-Death-Location", ((Location)entry.Resource).Meta.Profile.FirstOrDefault()));
-            if (deathLocation != null)
-            {
-                DeathLocationLoc = (Location)deathLocation.Resource;
-            }
-
-            // Grab Autopsy Performed
-            var autopsyPerformed = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "85699-7" );
-            if (autopsyPerformed != null)
-            {
-                AutopsyPerformed = (Observation)autopsyPerformed.Resource;
-            }
-
-            // Grab Age At Death
-            var ageAtDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "30525-0" );
-            if (ageAtDeath != null)
-            {
-                AgeAtDeathObs = (Observation)ageAtDeath.Resource;
-            }
-
-            // Grab Pregnancy
-            var pregnancyStatus = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69442-2" );
-            if (pregnancyStatus != null)
-            {
-                PregnancyObs = (Observation)pregnancyStatus.Resource;
-            }
-
-            // Grab Examiner Contacted
-            var examinerContacted = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "74497-9" );
-            if (examinerContacted != null)
-            {
-                ExaminerContactedObs = (Observation)examinerContacted.Resource;
-            }
-
-            // Grab Tobacco Use
-            var tobaccoUse = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "69443-0" );
-            if (tobaccoUse != null)
-            {
-                TobaccoUseObs = (Observation)tobaccoUse.Resource;
-            }
-
-            // Grab Injury Incident
-            var injuryIncident = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "11374-6" );
-            if (injuryIncident != null)
-            {
-                InjuryIncidentObs = (Observation)injuryIncident.Resource;
-            }
-
-            // Grab Death Date
-            var dateOfDeath = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && ((Observation)entry.Resource).Code.Coding.First().Code == "81956-5" );
-            if (dateOfDeath != null)
-            {
-                DeathDateObs = (Observation)dateOfDeath.Resource;
-            }
+            UpdateBundleIdentifier();
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>
@@ -7765,6 +10782,7 @@ namespace VRDR
         private Address DictToAddress(Dictionary<string, string> dict)
         {
             Address address = new Address();
+
             if (dict != null)
             {
                 List<string> lines = new List<string>();
@@ -7780,17 +10798,60 @@ namespace VRDR
                 {
                     address.Line = lines.ToArray();
                 }
+                if (dict.ContainsKey("addressCityC") && !String.IsNullOrEmpty(dict["addressCityC"]))
+                {
+                    Extension cityCode = new Extension();
+                    cityCode.Url = ExtensionURL.CityCode;
+                    cityCode.Value = new FhirString(dict["addressCityC"]);
+                    address.CityElement = new FhirString();
+                    address.CityElement.Extension.Add(cityCode);
+                }
                 if (dict.ContainsKey("addressCity") && !String.IsNullOrEmpty(dict["addressCity"]))
                 {
-                    address.City = dict["addressCity"];
+                    if (address.CityElement != null)
+                    {
+                        address.CityElement.Value = dict["addressCity"];
+                    }
+                    else
+                    {
+                        address.City = dict["addressCity"];
+                    }
+
+                }
+                if (dict.ContainsKey("addressCountyC") && !String.IsNullOrEmpty(dict["addressCountyC"]))
+                {
+                    Extension countyCode = new Extension();
+                    countyCode.Url = ExtensionURL.DistrictCode;
+                    countyCode.Value = new FhirString(dict["addressCountyC"]);
+                    address.DistrictElement = new FhirString();
+                    address.DistrictElement.Extension.Add(countyCode);
                 }
                 if (dict.ContainsKey("addressCounty") && !String.IsNullOrEmpty(dict["addressCounty"]))
                 {
-                    address.District = dict["addressCounty"];
+                    if (address.DistrictElement != null)
+                    {
+                        address.DistrictElement.Value = dict["addressCounty"];
+                    }
+                    else
+                    {
+                        address.District = dict["addressCounty"];
+                    }
                 }
                 if (dict.ContainsKey("addressState") && !String.IsNullOrEmpty(dict["addressState"]))
                 {
                     address.State = dict["addressState"];
+                }
+                // Special address field to support the jurisdiction extension custom to VRDR to support YC (New York City)
+                // as used in the DeathLocationLoc
+                if (dict.ContainsKey("addressJurisdiction") && !String.IsNullOrEmpty(dict["addressJurisdiction"]))
+                {
+                    if (address.StateElement == null)
+                    {
+                        address.StateElement = new FhirString();
+                    }
+                    address.StateElement.Extension.RemoveAll(ext => ext.Url == ExtensionURL.LocationJurisdictionId);
+                    Extension extension = new Extension(ExtensionURL.LocationJurisdictionId, new FhirString(dict["addressJurisdiction"]));
+                    address.StateElement.Extension.Add(extension);
                 }
                 if (dict.ContainsKey("addressZip") && !String.IsNullOrEmpty(dict["addressZip"]))
                 {
@@ -7800,9 +10861,53 @@ namespace VRDR
                 {
                     address.Country = dict["addressCountry"];
                 }
+                if (dict.ContainsKey("addressStnum") && !String.IsNullOrEmpty(dict["addressStnum"]))
+                {
+                    Extension stnum = new Extension();
+                    stnum.Url = ExtensionURL.StreetNumber;
+                    stnum.Value = new FhirString(dict["addressStnum"]);
+                    address.Extension.Add(stnum);
+                }
+                if (dict.ContainsKey("addressPredir") && !String.IsNullOrEmpty(dict["addressPredir"]))
+                {
+                    Extension predir = new Extension();
+                    predir.Url = ExtensionURL.PreDirectional;
+                    predir.Value = new FhirString(dict["addressPredir"]);
+                    address.Extension.Add(predir);
+                }
+                if (dict.ContainsKey("addressStname") && !String.IsNullOrEmpty(dict["addressStname"]))
+                {
+                    Extension stname = new Extension();
+                    stname.Url = ExtensionURL.StreetName;
+                    stname.Value = new FhirString(dict["addressStname"]);
+                    address.Extension.Add(stname);
+                }
+                if (dict.ContainsKey("addressStdesig") && !String.IsNullOrEmpty(dict["addressStdesig"]))
+                {
+                    Extension stdesig = new Extension();
+                    stdesig.Url = ExtensionURL.StreetDesignator;
+                    stdesig.Value = new FhirString(dict["addressStdesig"]);
+                    address.Extension.Add(stdesig);
+                }
+                if (dict.ContainsKey("addressPostdir") && !String.IsNullOrEmpty(dict["addressPostdir"]))
+                {
+                    Extension postdir = new Extension();
+                    postdir.Url = ExtensionURL.PostDirectional;
+                    postdir.Value = new FhirString(dict["addressPostdir"]);
+                    address.Extension.Add(postdir);
+                }
+                if (dict.ContainsKey("addressUnitnum") && !String.IsNullOrEmpty(dict["addressUnitnum"]))
+                {
+                    Extension unitnum = new Extension();
+                    unitnum.Url = ExtensionURL.UnitOrAptNumber;
+                    unitnum.Value = new FhirString(dict["addressUnitnum"]);
+                    address.Extension.Add(unitnum);
+                }
+
             }
             return address;
         }
+
 
         /// <summary>Convert a Date Part Extension to an Array.</summary>
         /// <param name="datePartAbsent">a Date Part Extension.</param>
@@ -7868,40 +10973,102 @@ namespace VRDR
         /// <returns>the corresponding Dictionary representation of the FHIR Address.</returns>
         private Dictionary<string, string> AddressToDict(Address addr)
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            Dictionary<string, string> dictionary = EmptyAddrDict();
             if (addr != null)
             {
                 if (addr.Line != null && addr.Line.Count() > 0)
                 {
-                    dictionary.Add("addressLine1", addr.Line.First());
+                    dictionary["addressLine1"] = addr.Line.First();
                 }
-                else
-                {
-                    dictionary.Add("addressLine1", "");
-                }
+
                 if (addr.Line != null && addr.Line.Count() > 1)
                 {
-                    dictionary.Add("addressLine2", addr.Line.Last());
+                    dictionary["addressLine2"] = addr.Line.Last();
                 }
-                else
+
+                if(addr.CityElement != null)
                 {
-                    dictionary.Add("addressLine2", "");
+                    Extension cityCode = addr.CityElement.Extension.Where(ext => ext.Url == ExtensionURL.CityCode).FirstOrDefault();
+                    if (cityCode != null)
+                    {
+                        dictionary["addressCityC"] = cityCode.Value.ToString();
+                    }
                 }
-                dictionary.Add("addressCity", addr.City);
-                dictionary.Add("addressCounty", addr.District);
-                dictionary.Add("addressState", addr.State);
-                dictionary.Add("addressZip", addr.PostalCode);
-                dictionary.Add("addressCountry", addr.Country);
-            }
-            else
-            {
-                dictionary.Add("addressLine1", "");
-                dictionary.Add("addressLine2", "");
-                dictionary.Add("addressCity", "");
-                dictionary.Add("addressCounty", "");
-                dictionary.Add("addressState", "");
-                dictionary.Add("addressZip", "");
-                dictionary.Add("addressCountry", "");
+
+                if(addr.DistrictElement != null)
+                {
+                    Extension districtCode = addr.DistrictElement.Extension.Where(ext => ext.Url == ExtensionURL.DistrictCode).FirstOrDefault();
+                    if (districtCode != null){
+                        dictionary["addressCountyC"] = districtCode.Value.ToString();
+                    }
+                }
+
+                Extension stnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetNumber).FirstOrDefault();
+                if (stnum != null)
+                {
+                    dictionary["addressStnum"] = stnum.Value.ToString();
+                }
+
+                Extension predir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PreDirectional).FirstOrDefault();
+                if (predir != null)
+                {
+                    dictionary["addressPredir"] = predir.Value.ToString();
+                }
+
+                Extension stname = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetName).FirstOrDefault();
+                if (stname != null)
+                {
+                    dictionary["addressStname"] = stname.Value.ToString();
+                }
+
+                Extension stdesig = addr.Extension.Where(ext => ext.Url == ExtensionURL.StreetDesignator).FirstOrDefault();
+                if (stdesig != null)
+                {
+                    dictionary["addressStdesig"] = stdesig.Value.ToString();
+                }
+
+                Extension postdir = addr.Extension.Where(ext => ext.Url == ExtensionURL.PostDirectional).FirstOrDefault();
+                if (postdir != null)
+                {
+                    dictionary["addressPostdir"] = postdir.Value.ToString();
+                }
+
+                Extension unitnum = addr.Extension.Where(ext => ext.Url == ExtensionURL.UnitOrAptNumber).FirstOrDefault();
+                if (unitnum != null)
+                {
+                    dictionary["addressUnitnum"] = unitnum.Value.ToString();
+                }
+
+
+                if (addr.State != null)
+                {
+                    dictionary["addressState"] = addr.State;
+                }
+                if (addr.StateElement != null)
+                {
+                    dictionary["addressJurisdiction"] = addr.State; // by default.  If extension present, override
+                    Extension stateExt = addr.StateElement.Extension.Where(ext => ext.Url == ExtensionURL.LocationJurisdictionId).FirstOrDefault();
+                    if (stateExt != null)
+                    {
+                        dictionary["addressJurisdiction"] = stateExt.Value.ToString();
+                    }
+                }
+                if (addr.City != null)
+                {
+                    dictionary["addressCity"] = addr.City;
+                }
+                if (addr.District != null)
+                {
+                    dictionary["addressCounty"] = addr.District;
+                }
+                if (addr.PostalCode != null)
+                {
+                    dictionary["addressZip"] = addr.PostalCode;
+                }
+                if (addr.Country != null)
+                {
+                    dictionary["addressCountry"] = addr.Country;
+                }
             }
             return dictionary;
         }
@@ -7914,10 +11081,19 @@ namespace VRDR
             dictionary.Add("addressLine1", "");
             dictionary.Add("addressLine2", "");
             dictionary.Add("addressCity", "");
+            dictionary.Add("addressCityC", "");
             dictionary.Add("addressCounty", "");
+            dictionary.Add("addressCountyC", "");
             dictionary.Add("addressState", "");
+            dictionary.Add("addressJurisdiction", "");
             dictionary.Add("addressZip", "");
             dictionary.Add("addressCountry", "");
+            dictionary.Add("addressStnum", "");
+            dictionary.Add("addressPredir", "");
+            dictionary.Add("addressStname", "");
+            dictionary.Add("addressStdesig", "");
+            dictionary.Add("addressPostdir", "");
+            dictionary.Add("addressUnitnum", "");
             return dictionary;
         }
 
@@ -7928,6 +11104,16 @@ namespace VRDR
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             dictionary.Add("code", "");
             dictionary.Add("system", "");
+            dictionary.Add("display", "");
+            return dictionary;
+        }
+
+        /// <summary>Returns an empty "code" Dictionary for race and ethnicity.</summary>
+        /// <returns>an empty "code" Dictionary.</returns>
+        private Dictionary<string, string> EmptyRaceEthnicityCodeDict()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("code", "");
             dictionary.Add("display", "");
             return dictionary;
         }
@@ -8006,7 +11192,7 @@ namespace VRDR
         }
 
         /// <summary>Given a FHIR path, return the first element that matches the given path as a string;
-        /// returns an empty string if no match is found.</summary>
+        /// returns null if no match is found.</summary>
         /// <param name="path">represents a FHIR path.</param>
         /// <returns>the first element that matches the given path as a string, or null if no match is found.</returns>
         private string GetFirstString(string path)
@@ -8047,15 +11233,15 @@ namespace VRDR
             return value;
         }
 
-        /// <summary>Check to make sure the given profile contains the given resource.</summary>
-        private static bool MatchesProfile(string resource, string profile)
-        {
-            if (!String.IsNullOrWhiteSpace(profile) && profile.Contains(resource))
-            {
-                return true;
-            }
-            return false;
-        }
+        // /// <summary>Check to make sure the given profile contains the given resource.</summary>
+        // private static bool MatchesProfile(string resource, string profile)
+        // {
+        //     if (!String.IsNullOrWhiteSpace(profile) && profile.Contains(resource))
+        //     {
+        //         return true;
+        //     }
+        //     return false;
+        // }
 
         /// <summary>Combine the given dictionaries and return the combined result.</summary>
         private static Dictionary<string, string> UpdateDictionary(Dictionary<string, string> a, Dictionary<string, string> b)
@@ -8113,7 +11299,7 @@ namespace VRDR
                 var matches = Navigator.Select(path.Path);
                 if (matches.Count() > 0)
                 {
-                    if (info.Type == Property.Types.TupleCOD)
+                    if (info.Type == Property.Types.TupleCOD || info.Type == Property.Types.Tuple4Arr)
                     {
                         // Make sure to grab all of the Conditions for COD
                         string xml = "";
@@ -8243,7 +11429,7 @@ namespace VRDR
                     }
                     else if (property.Value["Type"] == Property.Types.TupleCOD)
                     {
-                        value = property.Value["Value"].ToObject<Tuple<string, string, Dictionary<string, string>>[]>();
+                        value = property.Value["Value"].ToObject<Tuple<string, string /*, Dictionary<string, string>*/>[]>();
                     }
                     else if (property.Value["Type"] == Property.Types.Dictionary)
                     {
@@ -8286,7 +11472,11 @@ namespace VRDR
             /// <summary>Parameter is an array of Tuples.</summary>
             TupleArr,
             /// <summary>Parameter is an array of Tuples, specifically for CausesOfDeath.</summary>
-            TupleCOD
+            TupleCOD,
+            /// <summary>Parameter is an unsigned integer.</summary>
+            UInt32,
+            /// <summary>Parameter is an array of 4-Tuples, specifically for entity axis codes.</summary>
+            Tuple4Arr
         };
 
         /// <summary>Name of this property.</summary>

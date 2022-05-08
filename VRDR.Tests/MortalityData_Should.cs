@@ -296,10 +296,51 @@ namespace VRDR.Tests
         public void HandleDeathLocationIJE()
         {
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("MA", ije1.DSTATE);
+            Assert.Equal("4", ije1.DPLACE);
             DeathRecord dr = ije1.ToDeathRecord();
             IJEMortality ije1rt = new IJEMortality(dr);
             Assert.Equal("4", ije1rt.DPLACE);
+            ije1.DSTATE = "YC";
+            ije1.AUXNO = "000000000001";
+            ije1.AUXNO2 = "000000000002";
+            Assert.Equal("YC", ije1.DSTATE);
+            Assert.Equal("000000000001", ije1.AUXNO);
+            Assert.Equal("000000000002", ije1.AUXNO2);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal("1", dr2.StateLocalIdentifier1);
+            Assert.Equal("2", dr2.StateLocalIdentifier2);
+            Assert.Equal("NY", dr2.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr2.DeathLocationJurisdiction);
+            IJEMortality ije1rt2 = new IJEMortality(dr2);
+            DeathRecord dr3 = ije1rt2.ToDeathRecord();
+            Assert.Equal("NY", dr3.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr3.DeathLocationJurisdiction);
+            Assert.Equal("1", dr3.StateLocalIdentifier1);
+            Assert.Equal("2", dr3.StateLocalIdentifier2);
+            IJEMortality ije3 = new IJEMortality(ije1.ToString());
+            Assert.Equal("000000000001", ije3.AUXNO);
+            Assert.Equal("000000000002", ije3.AUXNO2);
+            Assert.Equal("YC", ije3.DSTATE);
+            DeathRecord dr4 = ije3.ToDeathRecord();
+            Assert.Equal("NY", dr4.DeathLocationAddress["addressState"]);
+            Assert.Equal("YC", dr4.DeathLocationJurisdiction);
         }
+
+        [Fact]
+        public void HandleAddressUpdateIJE()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("582 Dustin Centers", ije1.ADDRESS_D.Trim());
+            Assert.Equal("902101111", ije1.ZIP9_D);
+
+            // Update dictionary fields
+            ije1.ADDRESS_D = "580 Dustin Center";
+            Assert.Equal("580 Dustin Center", ije1.ADDRESS_D.Trim());
+            Assert.Equal("902101111", ije1.ZIP9_D);
+
+        }
+
         [Fact]
         public void HandleUnknownBirthRecordId()
         {
@@ -317,13 +358,10 @@ namespace VRDR.Tests
             Assert.Equal("06", ije1.DOB_MO);
             Assert.Equal("02", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.True(dr1.DateOfBirthDatePartAbsent != null);
-
-            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("date-month", "6"), Tuple.Create("date-day", "2")};
-            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
-            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
-            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
-            Assert.Equal("0001-06-02", dr1.DateOfBirth);
+            Assert.Null(dr1.BirthYear);
+            Assert.Equal(6, (int)dr1.BirthMonth);
+            Assert.Equal(2, (int)dr1.BirthDay);
+            Assert.Null(dr1.DateOfBirth);
         }
 
         [Fact]
@@ -334,17 +372,10 @@ namespace VRDR.Tests
             Assert.Equal("99", ije1.DOB_MO);
             Assert.Equal("99", ije1.DOB_DY);
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.True(dr1.DateOfBirthDatePartAbsent != null);
-
-            //Tuple<string, string>[] datePart = { Tuple.Create("date-year", "1990"), Tuple.Create("month-absent-reason", "unknown"), Tuple.Create("day-absent-reason", "unknown")};
-            Tuple<string, string>[] datePart = { Tuple.Create("year-absent-reason", "unknown"), Tuple.Create("month-absent-reason", "unknown"), Tuple.Create("day-absent-reason", "unknown")};
-            Assert.Equal(datePart[0], dr1.DateOfBirthDatePartAbsent[0]);
-            Assert.Equal(datePart[1], dr1.DateOfBirthDatePartAbsent[1]);
-            Assert.Equal(datePart[2], dr1.DateOfBirthDatePartAbsent[2]);
-            // TODO we use a built in Date Time to format DateOfBirth so we cannot pass in 99 for month of day
-            // the default set day and month to 01 so if there are unknowns, this field becomes invalid
-            // either remove it or remove the validation and allow 99 for day and month
-            //Assert.Equal("1999-09-99", dr1.DateOfBirth);
+            Assert.Null(dr1.BirthYear);
+            Assert.Null(dr1.BirthMonth);
+            Assert.Null(dr1.BirthDay);
+            Assert.Null(dr1.DateOfBirth);
         }
 
         [Fact]
@@ -353,10 +384,10 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCUnknown.ije")), true);
             Assert.Equal("999", ije1.COD);
             Assert.Equal("999", ije1.COUNTYC);
-    
+
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("UNK", dr1.DeathLocationAddress["addressCounty"]);
-            Assert.Equal("UNK", dr1.Residence["addressCounty"]);
+            Assert.Equal("999", dr1.DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("999", dr1.Residence["addressCountyC"]);
         }
 
         [Fact]
@@ -365,10 +396,24 @@ namespace VRDR.Tests
             IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/CODandCOUNTYCOther.ije")), true);
             Assert.Equal("000", ije1.COD);
             Assert.Equal("000", ije1.COUNTYC);
-    
+
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("OTH", dr1.DeathLocationAddress["addressCounty"]);
-            Assert.Equal("OTH", dr1.Residence["addressCounty"]);
+            Assert.Equal("000", dr1.DeathLocationAddress["addressCountyC"]);
+            Assert.Equal("000", dr1.Residence["addressCountyC"]);
+        }
+
+        [Fact]
+        public void HandleCountyText()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("Middlesex", ije1.COUNTYTEXT_R.Trim());
+        }
+
+        [Fact]
+        public void HandleCityText()
+        {
+            IJEMortality ije1 = new IJEMortality(File.ReadAllText(FixturePath("fixtures/ije/DeathLocation.ije")), true);
+            Assert.Equal("Tyngsborough", ije1.CITYTEXT_R.Trim());
         }
 
         private string FixturePath(string filePath)

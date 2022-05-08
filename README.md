@@ -40,6 +40,13 @@ This repository includes .NET (C#) code for
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1"> github</a></td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
+<tr>
+<td style="text-align: center;">1.3.0 STU2 Post-Ballot Pre-Publication</td>
+<td style="text-align: center;">R4</td>
+<td style="text-align: center;">V4.0.0.preview1</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
+</tr>
 </tbody>
 </table>
 
@@ -50,8 +57,8 @@ This repository includes .NET (C#) code for
 ### Library Usage
 - The VRDR or VRDR.Messaging libraries target .NET Standard 2.0
 - To check whether your .NET version supports a release, refer to [the .NET matrix](https://docs.microsoft.com/en-us/dotnet/standard/net-standard#net-implementation-support).
-  - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options. 
-  - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version. 
+  - Note whether you are using .NET Core or .NET Framework - see [here](https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/september/net-standard-demystifying-net-core-and-net-standard) for distinctions between the .NET implementation options.
+  - Once you’ve determined your .NET implementation type and version, for example you are using .NET Framework 4.6.1, refer to the matrix to verify whether your .NET implementation supports the targeted .NET Standard version.
     - Ex. If you are using .NET Framework 4.6.1, you can look at the matrix and see the .NET Framework 4.6.1 supports .NET Standard 2.0 so the tool would be supported.
 
 ## Project Organization
@@ -67,7 +74,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="3.3.1" />
+  <PackageReference Include="VRDR" Version="4.0.0.preview1" />
   ...
 </ItemGroup>
 ```
@@ -220,12 +227,12 @@ Console.WriteLine(deathRecord.ToJSON());
 ```
 
 #### Return Coding
-An example of producing a `CodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](https://github.com/nightingaleproject/vrdr-dotnet/blob/master/doc/Messaging.md#return-coding).
+An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](doc/Messaging.md#return-coding).
 
 ```cs
 using VRDR;
-// Create an empty coding response message
-CodingResponseMessage message = new CodingResponseMessage("https://example.org/jurisdiction/endpoint");
+// Create an empty cause of death coding response message
+CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("https://example.org/jurisdiction/endpoint");
 
 // Assign the business identifiers
 message.CertificateNumber = "...";
@@ -255,7 +262,7 @@ message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();
 ```
-Note that the `CauseCodes` class from previous versions is now obsolete, use the `CodingResponseMessage` described above instead.
+Note that the `CauseCodes` class from previous versions is now obsolete, and the `CodingResponseMessage` is now an abstract base class; use the `CauseOfDeathCodingResponseMessage` and `DemographicsCodingResponseMessage` as described above instead.
 
 ### VRDR.Messaging
 
@@ -267,7 +274,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="3.3.1" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0.preview1" />
   ...
 </ItemGroup>
 ```
@@ -301,6 +308,7 @@ dotnet test
 This directory contains a sample command line interface app that uses the VRDR library to do a few different things.
 
 #### Example Usages
+
 ```bash
 # Builds a fake death record and print out the record as FHIR XML and JSON
 dotnet run --project VRDR.CLI
@@ -334,8 +342,43 @@ dotnet run --project VRDR.CLI checkJson VRDR.CLI/1.json
 
 # Read in and parse an IJE death record and print out the values for every (supported) field
 dotnet run --project VRDR.CLI ije VRDR.CLI/1.MOR
+
+# Generate the first connectathon record with certifcate number 100 and jurisdiction MA
+dotnet run --project VRDR.CLI connectathon 1 100 MA
+
+# Generate a verbose JSON description of the record (in the format used to drive Canary)
+dotnet run --project VRDR.CLI description VRDR.CLI/1.json
+
+# Convert a record to IJE and back to identify any conversion issues
+dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json
+
+# Convert a record to JSON and back to identify any conversion issues
+dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1.json
+
+# Create a record using the provided IJE field name and value pairs
+dotnet run --project VRDR.CLI ijebuilder GNAME=Lazarus AGE=990
+
+# Compare an IJE record with a FHIR record by each IJE field
+dotnet run --project VRDR.CLI compare VRDR.CLI/1.MOR VRDR.CLI/1.json
+
+# Extract a FHIR record from a FHIR message
+dotnet run --project VRDR.CLI extract VRDR.CLI/1submit.json
+
+# Create a submission FHIR message wrapping a FHIR record
+dotnet run --project VRDR.CLI submit VRDR.CLI/1.json
+
+# Create an update FHIR message wrapping a FHIR record
+dotnet run --project VRDR.CLI resubmit VRDR.CLI/1.json
+
+# Create an acknowledgement FHIR message for a submission FHIR message
+dotnet run --project VRDR.CLI ack VRDR.CLI/1submit.json
+
+# Extract and show the codes in a coding response message
+dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
 ```
+
 ### VRDR.Client
+
 This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API). 
 
 *This package is not yet published on NuGet.*

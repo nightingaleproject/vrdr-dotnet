@@ -739,8 +739,8 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "urn:oid:2.16.840.1.114222.4.5.274",
-              "code": "PHC1453",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+              "code": "BA",
               "display": "Bachelor's Degree"
             }
           ]
@@ -1022,40 +1022,6 @@
               "system": "http://hl7.org/fhir/stu3/valueset-PregnancyStatusVS",
               "code": "PHC1260",
               "display": "Not pregnant within past year"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:f68f89e5-062c-4bac-8412-ae552254f152",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "urn:uuid:f68f89e5-062c-4bac-8412-ae552254f152",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role"
-          ]
-        },
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "69451-3",
-              "display": "Transportation role of decedent"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/stu3/valueset-TransportationRelationships",
-              "code": "example-code",
-              "display": "Example Code"
             }
           ]
         }

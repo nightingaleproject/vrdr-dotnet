@@ -40,35 +40,8 @@ namespace VRDR.CLI
                 certificationRole.Add("display", "Physician");
                 deathRecord.CertificationRole = certificationRole;
 
-                // InterestedPartyIdentifier
-                var ipId = new Dictionary<string, string>();
-                ipId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                ipId["value"] = "0000000000";
-                deathRecord.InterestedPartyIdentifier = ipId;
-
-                // InterestedPartyName
-                deathRecord.InterestedPartyName = "Example Hospital";
-
-                // InterestedPartyAddress
-                Dictionary<string, string> address = new Dictionary<string, string>();
-                address.Add("addressLine1", "10 Example Street");
-                address.Add("addressLine2", "Line 2");
-                address.Add("addressCity", "Bedford");
-                address.Add("addressCounty", "Middlesex");
-                address.Add("addressState", "MA");
-                address.Add("addressZip", "01730");
-                address.Add("addressCountry", "US");
-                deathRecord.InterestedPartyAddress = address;
-
-                // InterestedPartyType
-                Dictionary<string, string> type = new Dictionary<string, string>();
-                type.Add("code", "prov");
-                type.Add("system", "http://terminology.hl7.org/CodeSystem/organization-type");
-                type.Add("display", "Healthcare Provider");
-                deathRecord.InterestedPartyType = type;
-
                 // State Local Identifier
-                deathRecord.StateLocalIdentifier = "42";
+                deathRecord.StateLocalIdentifier1 = "000000000042";
 
                 // MannerOfDeathType
                 Dictionary<string, string> mannerOfDeathType = new Dictionary<string, string>();
@@ -103,15 +76,8 @@ namespace VRDR.CLI
                 certifierIdentifier.Add("value", "1234567890");
                 deathRecord.CertifierIdentifier = certifierIdentifier;
 
-                // CertifierLicenseNumber
-                deathRecord.CertifierLicenseNumber = "789123456";
-
-                // CertifierQualification
-                Dictionary<string, string> qualification = new Dictionary<string, string>();
-                qualification.Add("code", "434641000124105");
-                qualification.Add("system", "http://snomed.info/sct");
-                qualification.Add("display", "Physician certified and pronounced death certificate");
-                deathRecord.CertifierQualification = qualification;
+                // // CertifierLicenseNumber
+                // deathRecord.CertifierLicenseNumber = "789123456";
 
                 // ContributingConditions
                 deathRecord.ContributingConditions = "Example Contributing Conditions";
@@ -122,12 +88,12 @@ namespace VRDR.CLI
                 // INTERVAL1A
                 deathRecord.INTERVAL1A = "minutes";
 
-                // CODE1A
-                Dictionary<string, string> code1a = new Dictionary<string, string>();
-                code1a.Add("code", "I21.0");
-                code1a.Add("system", "http://hl7.org/fhir/sid/icd-10");
-                code1a.Add("display", "Acute transmural myocardial infarction of anterior wall");
-                deathRecord.CODE1A = code1a;
+                // // CODE1A
+                // Dictionary<string, string> code1a = new Dictionary<string, string>();
+                // code1a.Add("code", "I21.0");
+                // code1a.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                // code1a.Add("display", "Acute transmural myocardial infarction of anterior wall");
+                // deathRecord.CODE1A = code1a;
 
                 // COD1B
                 deathRecord.COD1B = "Acute myocardial infarction";
@@ -135,12 +101,12 @@ namespace VRDR.CLI
                 // INTERVAL1B
                 deathRecord.INTERVAL1B = "6 days";
 
-                // CODE1B
-                Dictionary<string, string> code1b = new Dictionary<string, string>();
-                code1b.Add("code", "I21.9");
-                code1b.Add("system", "http://hl7.org/fhir/sid/icd-10");
-                code1b.Add("display", "Acute myocardial infarction, unspecified");
-                deathRecord.CODE1B = code1b;
+                // // CODE1B
+                // Dictionary<string, string> code1b = new Dictionary<string, string>();
+                // code1b.Add("code", "I21.9");
+                // code1b.Add("system", "http://hl7.org/fhir/sid/icd-10");
+                // code1b.Add("display", "Acute myocardial infarction, unspecified");
+                // deathRecord.CODE1B = code1b;
 
                 // COD1C
                 deathRecord.COD1C = "Coronary artery thrombosis";
@@ -159,15 +125,6 @@ namespace VRDR.CLI
 
                 // FamilyName
                 deathRecord.FamilyName = "Last";
-
-                // AliasGivenNames
-                deathRecord.AliasGivenNames = new string[] { "FirstNameAlias", "MiddleAlias" };
-
-                // AliasFamilyName
-                deathRecord.AliasFamilyName = "LastNameAlias";
-
-                // AliasSuffix
-                deathRecord.AliasSuffix = "Jr.";
 
                 // Suffix
                 deathRecord.Suffix = "Jr.";
@@ -199,11 +156,10 @@ namespace VRDR.CLI
                 deathRecord.SSN = "123456789";
 
                 // Ethnicity
-                Tuple<string, string>[] ethnicity = { Tuple.Create("Hispanic or Latino", "2135-2"), Tuple.Create("Puerto Rican", "2180-8") };
-                deathRecord.Ethnicity = ethnicity;
+                deathRecord.Ethnicity2Helper = "H";
 
                 // Race
-                Tuple<string, string>[] race = { Tuple.Create("White", "2106-3"), Tuple.Create("Native Hawaiian or Other Pacific Islander", "2076-8"), Tuple.Create("Native Hawaiian", "2079-2") };
+                Tuple<string, string>[] race = { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslander, "Y") };
                 deathRecord.Race = race;
 
                 // MaritalStatus
@@ -254,11 +210,7 @@ namespace VRDR.CLI
                 deathRecord.BirthRecordId = "4242123";
 
                 // BirthRecordState
-                Dictionary<string, string> brs = new Dictionary<string, string>();
-                brs.Add("code", "US-MA");
-                brs.Add("system", "urn:iso:std:iso:3166:-2");
-                brs.Add("display", "Massachusetts");
-                deathRecord.BirthRecordState = brs;
+                deathRecord.BirthRecordState = "MA";
 
                 // BirthRecordYear
                 deathRecord.BirthRecordYear = "1940";
@@ -278,21 +230,21 @@ namespace VRDR.CLI
                 mserv.Add("display", "Yes");
                 deathRecord.MilitaryService = mserv;
 
-                // MorticianGivenNames
-                string[] fdnames = { "FD", "Middle" };
-                deathRecord.MorticianGivenNames = fdnames;
+                // // MorticianGivenNames
+                // string[] fdnames = { "FD", "Middle" };
+                // deathRecord.MorticianGivenNames = fdnames;
 
-                // MorticianFamilyName
-                deathRecord.MorticianFamilyName = "Last";
+                // // MorticianFamilyName
+                // deathRecord.MorticianFamilyName = "Last";
 
-                // MorticianSuffix
-                deathRecord.MorticianSuffix = "Jr.";
+                // // MorticianSuffix
+                // deathRecord.MorticianSuffix = "Jr.";
 
-                // MorticianIdentifier
-                var mortId = new Dictionary<string, string>();
-                mortId["value"] = "9876543210";
-                mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                deathRecord.MorticianIdentifier = mortId;
+                // // MorticianIdentifier
+                // var mortId = new Dictionary<string, string>();
+                // mortId["value"] = "9876543210";
+                // mortId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // deathRecord.MorticianIdentifier = mortId;
 
                 // FuneralHomeAddress
                 Dictionary<string, string> fdaddress = new Dictionary<string, string>();
@@ -309,7 +261,7 @@ namespace VRDR.CLI
                 deathRecord.FuneralHomeName = "Smith Funeral Home";
 
                 // FuneralDirectorPhone
-                deathRecord.FuneralDirectorPhone = "000-000-0000";
+                //deathRecord.FuneralDirectorPhone = "000-000-0000";
 
                 // DispositionLocationAddress
                 Dictionary<string, string> dladdress = new Dictionary<string, string>();
@@ -361,7 +313,7 @@ namespace VRDR.CLI
                 deathRecord.TransportationRole = tr;
 
                 // ExaminerContacted
-                deathRecord.ExaminerContactedBoolean = false;
+                deathRecord.ExaminerContactedHelper = "N";
 
                 // TobaccoUse
                 Dictionary<string, string> tbu = new Dictionary<string, string>();
@@ -400,19 +352,8 @@ namespace VRDR.CLI
                 codeIW.Add("display", "No");
                 deathRecord.InjuryAtWork = codeIW;
 
-                // TransportationInjury
-                Dictionary<string, string> codeTI = new Dictionary<string, string>();
-                codeTI.Add("code", "Y");
-                codeTI.Add("system", "http://terminology.hl7.org/CodeSystem/v2-0136");
-                codeTI.Add("display", "Yes");
-                deathRecord.TransportationEvent = codeTI;
-
                 // InjuryPlace
-                Dictionary<string, string> ip = new Dictionary<string, string>();
-                ip["code"] = "0";
-                ip["system"] = "urn:oid:2.16.840.1.114222.4.5.320";
-                ip["display"] = "Home";
-                deathRecord.InjuryPlace = ip;
+                deathRecord.InjuryPlaceDescription = "Home";
 
                 // DeathLocationAddress
                 Dictionary<string, string> dtladdress = new Dictionary<string, string>();
@@ -454,20 +395,20 @@ namespace VRDR.CLI
                 deathRecord.DateOfDeathPronouncement = "2018-02-20T16:48:06-05:00";
 
                 // PronouncerGivenNames
-                string[] pronouncer_gnames = { "FD", "Middle" };
-                deathRecord.PronouncerGivenNames = pronouncer_gnames;
+                // string[] pronouncer_gnames = { "FD", "Middle" };
+                // deathRecord.PronouncerGivenNames = pronouncer_gnames;
 
-                // PronouncerFamilyName
-                deathRecord.PronouncerFamilyName = "Last";
+                // // PronouncerFamilyName
+                // deathRecord.PronouncerFamilyName = "Last";
 
-                // PronouncerSuffix
-                deathRecord.PronouncerSuffix = "Jr.";
+                // // PronouncerSuffix
+                // deathRecord.PronouncerSuffix = "Jr.";
 
-                // PronouncerIdentifier
-                var pronouncerId = new Dictionary<string, string>();
-                pronouncerId["value"] = "0000000000";
-                pronouncerId["system"] = "http://hl7.org/fhir/sid/us-npi";
-                deathRecord.PronouncerIdentifier = pronouncerId;
+                // // PronouncerIdentifier
+                // var pronouncerId = new Dictionary<string, string>();
+                // pronouncerId["value"] = "0000000000";
+                // pronouncerId["system"] = "http://hl7.org/fhir/sid/us-npi";
+                // deathRecord.PronouncerIdentifier = pronouncerId;
 
                 Console.WriteLine(XDocument.Parse(deathRecord.ToXML()).ToString() + "\n\n");
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(deathRecord.ToJSON()), Newtonsoft.Json.Formatting.Indented) + "\n\n");
@@ -591,7 +532,7 @@ namespace VRDR.CLI
                     if (val1.ToUpper() != val2.ToUpper() || val1.ToUpper() != val3.ToUpper() || val2.ToUpper() != val3.ToUpper())
                     {
                         issues++;
-                        Console.WriteLine($"[MISMATCH]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
+                        Console.WriteLine($"[***** MISMATCH *****]\t{info.Name}: {info.Contents} \t\t\"{val1}\" != \"{val2}\" != \"{val3}\"");
                     }
                     total++;
                 }
@@ -622,15 +563,17 @@ namespace VRDR.CLI
                     {
                         continue;
                     }
+                    Console.WriteLine($"Property: Name: {property.Name.ToString()} Type: {property.PropertyType.ToString()}");
                     string one;
                     string two;
                     string three;
                     if (property.PropertyType.ToString() == "System.Collections.Generic.Dictionary`2[System.String,System.String]")
                     {
                         Dictionary<string,string> oneDict = (Dictionary<string,string>)property.GetValue(d1);
-                        one = String.Join(", ", oneDict.Select(x => x.Key + "=" + x.Value).ToArray());
-                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => x.Key + "=" + x.Value).ToArray());
-                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => x.Key + "=" + x.Value).ToArray());
+                        // Ignore empty entries in the dictionary so they don't throw off comparisons.
+                        one = String.Join(", ", oneDict.Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");
+                        two = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d2)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
+                        three = String.Join(", ", ((Dictionary<string,string>)property.GetValue(d3)).Select(x => (x.Value != "")?(x.Key + "=" + x.Value):("")).ToArray()).Replace(" ,","");;
                     }
                     else if (property.PropertyType.ToString() == "System.String[]")
                     {
@@ -646,7 +589,7 @@ namespace VRDR.CLI
                     }
                     if (one.ToLower() != three.ToLower())
                     {
-                        Console.WriteLine("[MISMATCH]\t" + $"\"{one}\" (property: {property.Name}) does not equal \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
+                        Console.WriteLine("[***** MISMATCH *****]\t" + $"\"{one}\" (property: {property.Name}) does not equal \"{three}\"" + $"      1:\"{one}\" 2:\"{two}\" 3:\"{three}\"");
                         bad++;
                     }
                     else
@@ -676,6 +619,20 @@ namespace VRDR.CLI
                     string field = ijeString.Substring(info.Location - 1, info.Length);
                     Console.WriteLine($"{info.Field, -5} {info.Name,-15} {Truncate(info.Contents, 75), -75}: \"{field + "\"",-80}");
                 }
+            }
+            else if (args[0] == "ijebuilder")
+            {
+                IJEMortality ije = new IJEMortality();
+                foreach (string arg in args)
+                {
+                    string[] keyAndValue = arg.Split('=');
+                    if (keyAndValue.Length == 2)
+                    {
+                        typeof(IJEMortality).GetProperty(keyAndValue[0]).SetValue(ije, keyAndValue[1]);
+                    }
+                }
+                DeathRecord dr = ije.ToDeathRecord();
+                Console.WriteLine(dr.ToJson());
             }
             else if (args.Length == 3 && args[0] == "compare")
             {
@@ -710,7 +667,7 @@ namespace VRDR.CLI
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
-                    case DeathRecordSubmission submission:
+                    case DeathRecordSubmissionMessage submission:
                         var record = submission.DeathRecord;
                         Console.WriteLine(record.ToJSON());
                         break;
@@ -720,7 +677,7 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "submit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecordSubmission message = new DeathRecordSubmission(record);
+                DeathRecordSubmissionMessage message = new DeathRecordSubmissionMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
@@ -728,7 +685,15 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "resubmit")
             {
                 DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
-                DeathRecordUpdate message = new DeathRecordUpdate(record);
+                DeathRecordUpdateMessage message = new DeathRecordUpdateMessage(record);
+                message.MessageSource = "http://mitre.org/vrdr";
+                Console.WriteLine(message.ToJSON(true));
+                return 0;
+            }
+            else if (args.Length == 2 && args[0] == "void")
+            {
+                DeathRecord record = new DeathRecord(File.ReadAllText(args[1]));
+                DeathRecordVoidMessage message = new DeathRecordVoidMessage(record);
                 message.MessageSource = "http://mitre.org/vrdr";
                 Console.WriteLine(message.ToJSON(true));
                 return 0;
@@ -736,16 +701,39 @@ namespace VRDR.CLI
             else if (args.Length == 2 && args[0] == "ack")
             {
                 BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
-                AckMessage ackMessage = new AckMessage(message);
+                AcknowledgementMessage ackMessage = new AcknowledgementMessage(message);
                 Console.WriteLine(ackMessage.ToJSON(true));
                 return 0;
             }
+            else if (args.Length == 2 && args[0] == "trx2fhir")
+            {
+                // Mapping a TRX file to an IJE file:
+                // char 1-12 of TRX -> char 1-12 of IJE
+                // char 22-29 of TRX -> char 673-681 if IJE WITH ORDER SWAPPED
+                // char 13-41 of TRX -> TRX only
+                // char 42-407 of TRX -> char 701-1037 of IJE
+                // There might be some additional data in TRX now (SUR_MO, etc.)
+                string trx = File.ReadAllText(args[1]);
+                string ije = trx.Substring(0,12);
+                ije = ije.PadRight(672, ' ');
+                ije = ije + trx.Substring(25, 4);
+                ije = ije + trx.Substring(21, 4);
+                ije = ije.PadRight(700, ' ');
+                ije = ije + trx.Substring(41, 365);
+                ije = ije.PadRight(5000, ' ');
+                IJEMortality ijeRecord = new IJEMortality(ije);
+                ijeRecord.trx.CS = "3";
+                ijeRecord.trx.SHIP = "555";
+                CauseOfDeathCodingMessage cod = new CauseOfDeathCodingMessage(ijeRecord.ToDeathRecord());
+                //CauseOfDeathCodingUpdateMessage cod = new CauseOfDeathCodingUpdateMessage(ijeRecord.ToDeathRecord());
+                Console.WriteLine(cod.ToJSON(true));
+            }
             else if (args.Length == 2 && args[0] == "showcodes")
             {
-                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+/*                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
-                    case CodingResponseMessage codingResponse:
+                    case CauseOfDeathCodingMessage codingResponse:
                         Console.WriteLine($"\nUnderlying COD: {codingResponse.UnderlyingCauseOfDeath}\n");
                         Console.WriteLine($"Record Axis Codes: {String.Join(", ", codingResponse.CauseOfDeathRecordAxis.ToArray())}\n");
                         Console.WriteLine("Entity Axis Codes:");
@@ -755,10 +743,24 @@ namespace VRDR.CLI
                         }
                         Console.WriteLine();
                         break;
+                    case DemographicsCodingMessage codingResponse:
+                        Console.WriteLine("\nEthnicity:");
+                        foreach (var entry in codingResponse.Ethnicity)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        Console.WriteLine("Race:");
+                        foreach (var entry in codingResponse.Race)
+                        {
+                          Console.WriteLine($"{entry.Key}: {entry.Value}");
+                        }
+                        break;
                     default:
-                        Console.WriteLine("Message does not appear to be a coding response message");
+                        Console.WriteLine("Message does not appear to be a CodingMessage");
                         break;
                 }
+*/
+                return 0;
             }
             return 0;
         }

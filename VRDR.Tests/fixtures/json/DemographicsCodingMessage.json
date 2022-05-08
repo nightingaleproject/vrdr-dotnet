@@ -1,0 +1,423 @@
+{
+  "resourceType": "Bundle",
+  "id": "1b336b16-1758-4a1a-9c35-bb7462b64c40",
+  "type": "message",
+  "timestamp": "2022-05-07T11:17:58.573261-04:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:21002ed3-c5cc-443d-b2f1-ef5022b740f4",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "21002ed3-c5cc-443d-b2f1-ef5022b740f4",
+        "eventUri": "http://nchs.cdc.gov/vrdr_demographics_coding",
+        "destination": [
+          {
+            "endpoint": "http://nchs.cdc.gov/vrdr_submission"
+          }
+        ],
+        "focus": [
+          {
+            "reference": "urn:uuid:f51a5acd-1458-42fa-9e84-d39262466165"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b3e9a0a7-d730-4d21-87e9-4d8621b18034",
+      "resource": {
+        "resourceType": "Parameters",
+        "id": "b3e9a0a7-d730-4d21-87e9-4d8621b18034",
+        "parameter": [
+          {
+            "name": "cert_no",
+            "valueUnsignedInt": 123
+          },
+          {
+            "name": "state_auxiliary_id",
+            "valueString": "500"
+          },
+          {
+            "name": "death_year",
+            "valueUnsignedInt": 2022
+          },
+          {
+            "name": "jurisdiction_id",
+            "valueString": "YC"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3e3f6b98-5445-44b1-bd56-9ff9e438609d",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "1c8f5cb8-e124-449b-9e10-b9ecd53f3b7f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-demographic-coded-content-bundle"
+          ]
+        },
+        "identifier": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+              "valueString": "500"
+            }
+          ],
+          "value": "123"
+        },
+        "type": "collection",
+        "timestamp": "2022-05-07T11:17:58.574886-04:00",
+        "entry": [
+          {
+            "fullUrl": "urn:uuid:02611119-b9e6-4fe9-b1e2-12b10e79fa5f",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "02611119-b9e6-4fe9-b1e2-12b10e79fa5f",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coded-race-and-ethnicity"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
+                    "code": "codedraceandethnicity",
+                    "display": "Coded Race and Ethnicity"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:71c9215a-20d1-435f-a60f-57927e3aeda9"
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "FirstEditedCode",
+                        "display": "First Edited Race"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
+                        "code": "199",
+                        "display": "Multiple WHITE responses"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs",
+                        "code": "FirstAmericanIndianRace",
+                        "display": "First American Indian Race"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
+                        "code": "B40",
+                        "display": "Cheyenne"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:dcd7af01-098c-4329-9077-306d90d6a4f1",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "dcd7af01-098c-4329-9077-306d90d6a4f1",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity"
+                ]
+              },
+              "status": "final",
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs",
+                    "code": "inputraceandethnicity",
+                    "display": "Input Race and Ethnicity"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:dcd7af01-098c-4329-9077-306d90d6a4f1"
+              },
+              "component": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "HispanicMexican",
+                        "display": "HispanicMexican"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "HispanicPuertoRican",
+                        "display": "HispanicPuertoRican"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "HispanicCuban",
+                        "display": "HispanicCuban"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "HispanicOther",
+                        "display": "HispanicOther"
+                      }
+                    ]
+                  },
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "White",
+                        "display": "White"
+                      }
+                    ]
+                  },
+                  "valueBoolean": true
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "BlackOrAfricanAmerican",
+                        "display": "BlackOrAfricanAmerican"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "AmericanIndianOrAlaskaNative",
+                        "display": "AmericanIndianOrAlaskaNative"
+                      }
+                    ]
+                  },
+                  "valueBoolean": true
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "AsianIndian",
+                        "display": "AsianIndian"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Chinese",
+                        "display": "Chinese"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Filipino",
+                        "display": "Filipino"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Japanese",
+                        "display": "Japanese"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Korean",
+                        "display": "Korean"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Vietnamese",
+                        "display": "Vietnamese"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "OtherAsian",
+                        "display": "OtherAsian"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "NativeHawaiian",
+                        "display": "NativeHawaiian"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "GuamanianOrChamorro",
+                        "display": "GuamanianOrChamorro"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "Samoan",
+                        "display": "Samoan"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "OtherPacificIslander",
+                        "display": "OtherPacificIslander"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "OtherRace",
+                        "display": "OtherRace"
+                      }
+                    ]
+                  },
+                  "valueBoolean": false
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "code": "AmericanIndianOrAlaskanNativeLiteral1",
+                        "display": "AmericanIndianOrAlaskanNativeLiteral1"
+                      }
+                    ]
+                  },
+                  "valueString": "Cheyenne"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+

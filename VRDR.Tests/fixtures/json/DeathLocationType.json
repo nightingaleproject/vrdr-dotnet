@@ -876,6 +876,26 @@
               ]
             },
             "valueDateTime": "2021-08-11T01:00:00.0000000+00:00"
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "58332-8",
+                  "display": "Location of death"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://snomed.info/sct",
+                  "code" : "440081000124100",
+                  "display": "Death in home"
+                }
+              ]
+            }
           }
         ]
       }
@@ -917,36 +937,19 @@
         "id": "c9a372ec-37dc-4194-b225-d420355c109e",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
           ]
         },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "urn:oid:2.16.840.1.113883.6.92",
-                  "code": "25",
-                  "display": "MA"
-                }
-              ],
-              "text": "MA"
+        "type": [{
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+              "code": "death",
+              "display": "death location"
             }
-          }
-        ],
+          ]
+        }],
         "name": "Quincy Hospital",
-        "type": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "16983000",
-                "display": "Death in hospital"
-              }
-            ]
-          }
-        ],
         "address": {
           "line": [
             "525 Huel Extensions"
@@ -954,6 +957,14 @@
           "city": "Quincy",
           "district": "Norfolk",
           "state": "MA",
+          "_state" : {
+            "extension" : [
+              {
+                "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+                "valueString" : "MA"
+              }
+            ]
+          },
           "country": "US"
         }
       }
@@ -984,9 +995,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
-              "code": "GD",
-              "display": "Graduate or professional Degree complete"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+              "code": "MA",
+              "display": "Master's Degree"
             }
           ]
         }
@@ -1181,29 +1192,7 @@
         },
         "subject": {
           "reference": "urn:uuid:b7cff225-dc4a-45ff-b998-a1f230eb8282"
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "69448-9",
-                  "display": "Injury leading to death associated with transportation event"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-                  "code": "N",
-                  "display": "No"
-                }
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -1443,9 +1432,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-              "code": "NA",
-              "display": "not applicable"
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs",
+              "code": "1",
+              "display": "Not pregnant within past year"
             }
           ]
         }

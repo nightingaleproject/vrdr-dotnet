@@ -1045,9 +1045,9 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "urn:oid:2.16.840.1.113883.5.1008",
-              "code": "NA",
-              "display": "Not applicable"
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs",
+              "code": "1",
+              "display": "Not pregnant within past year"
             }
           ]
         }

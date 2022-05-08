@@ -9,7 +9,7 @@
             "resource": {
                 "resourceType": "MessageHeader",
                 "id": "a9d66d2e-2480-4e8d-bab3-4e4c761da1b7",
-                "eventUri": "http://nchs.cdc.gov/vrdr_submission_update",
+                "eventUri": "http://nchs.cdc.gov/vrdr_submission",
                 "destination": [{"endpoint": "http://nchs.cdc.gov/vrdr_submission"}],
                 "source": {"endpoint": "nightingale"},
                 "focus": [
@@ -29,12 +29,12 @@
                         "valueUnsignedInt": 1
                     },
                     {
-                        "name": "state_auxiliary_id",
-                        "valueString": "42"
-                    },
-                    {
                         "name": "death_year",
                         "valueUnsignedInt": 2018
+                    },
+                    {
+                        "name": "state_auxiliary_id",
+                        "valueString": "42"
                     },
                     {
                         "name": "jurisdiction_id",
@@ -434,7 +434,16 @@
                                 "state": "MA",
                                 "postalCode": "01730",
                                 "country": "US"
-                            }
+                            },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "disposition",
+                                    "display": "disposition location"
+                                  }
+                                ]
+                              }]
                         }
                     },
                     {
@@ -598,8 +607,8 @@
                             }]},
                             "subject": {"reference": "urn:uuid:e29e6433-1acf-4cff-b979-0f3413ce36a2"},
                             "valueCodeableConcept": {"coding": [            {
-                                "system": "urn:oid:2.16.840.1.114222.4.5.274",
-                                "code": "PHC1453",
+                                "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+                                "code": "BA",
                                 "display": "Bachelor's Degree"
                               }]}
                         }
@@ -695,13 +704,13 @@
                         }
                     },
                     {
-                        "fullUrl": "urn:uuid:e9b3c71b-fe74-4046-a47d-c085b8f76c63",
+                        "fullUrl": "urn:uuid:fee9f666-7099-4259-9a6c-25cf57f75654",
                         "resource": {
                           "resourceType": "Observation",
-                          "id": "e9b3c71b-fe74-4046-a47d-c085b8f76c63",
+                          "id": "fee9f666-7099-4259-9a6c-25cf57f75654",
                           "meta": {
                             "profile": [
-                              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Military-Service"
+                              "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Usual-Work"
                             ]
                           },
                           "status": "final",
@@ -709,26 +718,48 @@
                             "coding": [
                               {
                                 "system": "http://loinc.org",
-                                "code": "55280-2",
-                                "display": "Military service"
+                                "code": "21843-8",
+                                "display": "History of usual occupation"
+                              }
+                            ]
+                          },
+                          "effectivePeriod" : {
+                            "start" : "1965-01-01",
+                            "end" : "2010-01-01"
+                          },
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "display": "secretary"
                               }
                             ]
                           },
                           "subject": {
                             "reference": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f"
                           },
-                          "valueCodeableConcept": {
-                            "coding": [
-                              {
-                                "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
-                                "code": "Y",
-                                "display": "Yes"
+                          "component": [
+                            {
+                              "code": {
+                                "coding": [
+                                  {
+                                    "system": "http://loinc.org",
+                                    "code": "21844-6",
+                                    "display": "Usual industry"
+                                  }
+                                ]
+                              },
+                              "valueCodeableConcept": {
+                                "coding": [
+                                  {
+                                    "display": "State agency"
+                                  }
+                                ]
                               }
-                            ]
-                          }
+                            }
+                          ]
                         }
-                    },
-                    {
+                      },
+                      {
                         "fullUrl": "urn:uuid:993c4876-5bb5-4c68-a996-378f54c69cf3",
                         "resource": {
                             "resourceType": "Observation",
@@ -857,7 +888,8 @@
                                         "code": "69450-5",
                                         "display": "Place of injury Facility"
                                     }]},
-                                    "valueCodeableConcept": {"coding": [{
+                                    "valueCodeableConcept": {
+                                        "coding": [{
                                         "system": "urn:oid:2.16.840.1.114222.4.11.7374",
                                         "code": "0",
                                         "display": "Home"
@@ -918,6 +950,15 @@
                             "meta": {"profile": ["http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"]},
                             "name": "Example Injury Location Name",
                             "description": "Example Injury Location Description",
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "injury",
+                                    "display": "injury location"
+                                  }
+                                ]
+                              }],
                             "address": {
                                 "line": [
                                     "781 Example Street",
@@ -949,7 +990,31 @@
                                 "state": "MA",
                                 "postalCode": "01730",
                                 "country": "US"
-                            }
+                            },
+                            "type": [{
+                                "coding": [
+                                  {
+                                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                                    "code": "death",
+                                    "display": "death location"
+                                  }
+                                ]
+                              }],
+                            "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+                                  "valueCodeableConcept": {
+                                    "coding": [
+                                      {
+                                        "system": "urn:oid:2.16.840.1.113883.6.92",
+                                        "code": "25",
+                                        "display": "MA"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+
                         }
                     },
                     {

@@ -169,33 +169,42 @@ namespace VRDR.HTTP
 
             if (record.EducationLevelHelper != null)
             {
-                switch (record.EducationLevelHelper)
+                string[,] options = ValueSets.EducationLevel.Codes;
+                // Iterate over the allowed options and see if the code supplies is one of them
+                for (int i = 0; i < options.GetLength(0); i += 1)
                 {
-                    case "PHC1448":
-                        values["education.education"] = "8th grade or less";
-                        break;
-                    case "PHC1449":
-                        values["education.education"] = "9th through 12th grade; no diploma";
-                        break;
-                    case "PHC1450":
-                        values["education.education"] = "High School Graduate or GED Completed";
-                        break;
-                    case "PHC1451":
-                        values["education.education"] = "Some college credit, but no degree";
-                        break;
-                    case "PHC1452":
-                        values["education.education"] = "Associate Degree";
-                        break;
-                    case "PHC1453":
-                        values["education.education"] = "Bachelor's Degree";
-                        break;
-                    case "PHC1454":
-                        values["education.education"] = "Master's Degree";
-                        break;
-                    case "PHC1455":
-                        values["education.education"] = "Doctorate Degree or Professional Degree";
-                        break;
+                    if (options[i, 0] == record.EducationLevelHelper)
+                    {
+                        values["education.education"] = options[i, 1];
+                    }
                 }
+                //  switch (record.EducationLevelHelper)
+                // {
+                //     case "PHC1448":
+                //         values["education.education"] = "8th grade or less";
+                //         break;
+                //     case "PHC1449":
+                //         values["education.education"] = "9th through 12th grade; no diploma";
+                //         break;
+                //     case "PHC1450":
+                //         values["education.education"] = "High School Graduate or GED Completed";
+                //         break;
+                //     case "PHC1451":
+                //         values["education.education"] = "Some college credit, but no degree";
+                //         break;
+                //     case "PHC1452":
+                //         values["education.education"] = "Associate Degree";
+                //         break;
+                //     case "PHC1453":
+                //         values["education.education"] = "Bachelor's Degree";
+                //         break;
+                //     case "PHC1454":
+                //         values["education.education"] = "Master's Degree";
+                //         break;
+                //     case "PHC1455":
+                //         values["education.education"] = "Doctorate Degree or Professional Degree";
+                //         break;
+                // }
             }
 
             if (record.MannerOfDeathTypeHelper != null)
@@ -252,31 +261,31 @@ namespace VRDR.HTTP
 
             if (record.DeathLocationTypeHelper != null)
             {
-                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival)
+                if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Dead_On_Arrival_At_Hospital)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Dead on arrival at hospital";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Decedents_Home)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Home)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in home";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospice)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospice";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospital";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital_Based_Emergency_Department_Or_Outpatient_Department)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in hospital-based emergency department or outpatient department";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Death in nursing home or long term care facility";
                 }
-                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unknown)
+                else if (record.DeathLocationTypeHelper == VRDR.ValueSets.PlaceOfDeath.Unk)
                 {
                     values["placeOfDeath.placeOfDeath.option"] = "Unknown";
                 }
@@ -328,9 +337,9 @@ namespace VRDR.HTTP
             SetStringValueDeathRecordString(deathRecord, "Identifier", GetValue(values, "certificateNumber.certificateNumber"));
             SetStringValueDeathRecordString(deathRecord, "DeathLocationJurisdiction", GetValue(values, "deathLocationJurisdiction.deathLocationJurisdiction"));
 
-            SetYesNoValueDeathRecordBoolean(deathRecord, "MilitaryServiceBoolean", GetValue(values, "armedForcesService.armedForcesService"));
-            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyPerformedIndicatorBoolean", GetValue(values, "autopsyPerformed.autopsyPerformed"));
-            SetYesNoValueDeathRecordBoolean(deathRecord, "AutopsyResultsAvailableBoolean", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
+            SetStringValueDeathRecordString(deathRecord, "MilitaryServiceHelper", GetValue(values, "armedForcesService.armedForcesService"));
+            SetStringValueDeathRecordString(deathRecord, "AutopsyPerformedIndicatorHelper", GetValue(values, "autopsyPerformed.autopsyPerformed"));
+            SetStringValueDeathRecordString(deathRecord, "AutopsyResultsAvailableHelper", GetValue(values, "autopsyAvailableToCompleteCauseOfDeath.autopsyAvailableToCompleteCauseOfDeath"));
             SetYesNoValueDeathRecordBoolean(deathRecord, "ExaminerContactedBoolean", GetValue(values, "meOrCoronerContacted.meOrCoronerContacted"));
 
             SetYesNoValueDeathRecordCode(deathRecord, "TobaccoUse", GetValue(values, "didTobaccoUseContributeToDeath.didTobaccoUseContributeToDeath"));
@@ -517,25 +526,25 @@ namespace VRDR.HTTP
             switch (GetValue(values, "placeOfDeath.placeOfDeath.option"))
             {
                 case "Dead on arrival at hospital":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Dead_On_Arrival;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Dead_On_Arrival_At_Hospital;
                     break;
                 case "Death in home":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Decedents_Home;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Home;
                     break;
                 case "Death in hospice":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospice;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospice;
                     break;
                 case "Death in hospital":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Hospital_Inpatient;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital;
                     break;
                 case "Death in hospital-based emergency department or outpatient department":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Emergency_Room_Outpatient;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Hospital_Based_Emergency_Department_Or_Outpatient_Department;
                     break;
                 case "Death in nursing home or long term care facility":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Long_Term_Care_Facility;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Death_In_Nursing_Home_Or_Long_Term_Care_Facility;
                     break;
                 case "Unknown":
-                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unknown;
+                    deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Unk;
                     break;
                 default:
                     deathRecord.DeathLocationTypeHelper = VRDR.ValueSets.PlaceOfDeath.Other;
@@ -677,7 +686,7 @@ namespace VRDR.HTTP
             if (String.IsNullOrWhiteSpace(value))
             {
                 coding.Add("code", "UNK");
-                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("system", VRDR.CodeSystems.NullFlavor_HL7_V3);
                 coding.Add("display", "Unknown");
             }
             else if (value.Trim().ToLower() == "yes")
@@ -695,7 +704,7 @@ namespace VRDR.HTTP
             else
             {
                 coding.Add("code", "UNK");
-                coding.Add("system", VRDR.CodeSystems.PH_NullFlavor_HL7_V3);
+                coding.Add("system", VRDR.CodeSystems.NullFlavor_HL7_V3);
                 coding.Add("display", "Unknown");
             }
             Type type = deathRecord.GetType();

@@ -773,26 +773,34 @@
               "id": "53c9dd38-892a-4ae4-b92b-adcb0fc1197e",
               "meta": {
                 "profile": [
-                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+                  "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location"
                 ]
               },
+              "type": [{
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs",
+                    "code": "death",
+                    "display": "death location"
+                  }
+                ]
+              }],
               "name": "Testing Hospital (Manhattan)",
-              "type": [
-                {
-                  "coding": [
-                    {
-                      "code": "16983000"
-                    }
-                  ]
-                }
-              ],
               "address": {
                 "line": [
                   "125 Worth St"
                 ],
                 "city": "New York",
                 "district": "New York",
-                "state": "YC",
+                "state": "NY",
+                "_state": {
+                  "extension": [
+                    {
+                    "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Location-Jurisdiction-Id",
+                    "valueString": "YC"
+                    }
+                  ]
+                },
                 "postalCode": "10013-4006",
                 "country": "US"
               }
@@ -838,8 +846,8 @@
                 "coding": [
                   {
                     "system": "http://snomed.info/sct",
-                    "code": "455401000124109",
-                    "display": "City Burial (Potter's Field)"
+                    "code": "449971000124106",
+                    "display": "Burial"
                   }
                 ]
               }
@@ -871,9 +879,9 @@
               "valueCodeableConcept": {
                 "coding": [
                   {
-                    "system": "urn:oid:2.16.840.1.114222.4.5.274",
-                    "code": "PHC1452",
-                    "display": "Associate degree (e.g. AA, SS)"
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+                    "code": "AA",
+                    "display": "Associate degree"
                   }
                 ]
               }

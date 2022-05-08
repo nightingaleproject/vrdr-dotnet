@@ -9,7 +9,7 @@ using Hl7.Fhir.Serialization;
 namespace VRDR
 {
     /// <summary>Class <c>BaseMessage</c> is the base class of all messages.</summary>
-    public class BaseMessage
+    public partial class BaseMessage
     {
         /// <summary>Bundle that contains the message.</summary>
         protected Bundle MessageBundle;
@@ -79,7 +79,7 @@ namespace VRDR
             Header.Event = new FhirUri(messageType);
 
             MessageHeader.MessageDestinationComponent dest = new MessageHeader.MessageDestinationComponent();
-            dest.Endpoint = "http://nchs.cdc.gov/vrdr_submission";
+            dest.Endpoint = DeathRecordSubmissionMessage.MESSAGE_TYPE;
             Header.Destination.Add(dest);
             MessageHeader.MessageSourceComponent src = new MessageHeader.MessageSourceComponent();
             Header.Source = src;
@@ -100,18 +100,22 @@ namespace VRDR
             uint certificateNumber;
             if (UInt32.TryParse(from?.Identifier, out certificateNumber))
             {
-                this.CertificateNumber = certificateNumber;
+                this.CertNo = certificateNumber;
             }
-            this.StateAuxiliaryIdentifier = from?.StateLocalIdentifier;
-            if (from?.DateOfDeath != null)
+            // take the first state local identifier if it exists
+            if (from?.StateLocalIdentifier1 != null)
             {
-                uint deathYear;
-                if (from?.DateOfDeath?.Length >= 4 && UInt32.TryParse(from?.DateOfDeath?.Substring(0,4), out deathYear))
-                {
-                    this.DeathYear = deathYear;
-                }
+                this.StateAuxiliaryId = from.StateLocalIdentifier1;
             }
-            this.DeathJurisdictionID = from?.DeathLocationJurisdiction;
+            else
+            {
+                this.StateAuxiliaryId = null;
+            }
+            if (from?.DeathYear != null)
+            {
+                this.DeathYear = from.DeathYear;
+            }
+            this.JurisdictionId = from?.DeathLocationJurisdiction;
         }
 
         /// <summary>
@@ -120,33 +124,33 @@ namespace VRDR
         /// <param name="message">the death record to extract the bundle from</param>
         public static explicit operator Bundle(BaseMessage message) => message.MessageBundle;
 
-        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in XML format</returns>
         public string ToXML(bool prettyPrint = false)
         {
             return MessageBundle.ToXml(new FhirXmlSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint, TrimWhitespaces = prettyPrint });
         }
 
-        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a XML string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in XML format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in XML format</returns>
         public string ToXml(bool prettyPrint = false)
         {
             return ToXML(prettyPrint);
         }
 
-        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in JSON format</returns>
         public string ToJSON(bool prettyPrint = false)
         {
             return MessageBundle.ToJson(new FhirJsonSerializationSettings { Pretty = prettyPrint, AppendNewLine = prettyPrint });
         }
 
-        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmission.</summary>
+        /// <summary>Helper method to return a JSON string representation of this DeathRecordSubmissionMessage.</summary>
         /// <param name="prettyPrint">controls whether the returned string is formatted for human readability (true) or compact (false)</param>
-        /// <returns>a string representation of this DeathRecordSubmission in JSON format</returns>
+        /// <returns>a string representation of this DeathRecordSubmissionMessage in JSON format</returns>
         public string ToJson(bool prettyPrint = false)
         {
             return ToJSON(prettyPrint);
@@ -245,8 +249,18 @@ namespace VRDR
             }
         }
 
+        /// <summary>Helper method to set a single string value on the Record portion of the Message</summary>
+        protected void SetSingleStringValue(string key, string value)
+        {
+            Record.Remove(key);
+            if (value != null)
+            {
+                Record.Add(key, new FhirString(value));
+            }
+        }
+
         /// <summary>Jurisdiction-assigned death certificate number</summary>
-        public uint? CertificateNumber
+        public uint? CertNo
         {
             get
             {
@@ -267,7 +281,7 @@ namespace VRDR
         }
 
         /// <summary>Jurisdiction-assigned auxiliary identifier</summary>
-        public string StateAuxiliaryIdentifier
+        public string StateAuxiliaryId
         {
             get
             {
@@ -275,11 +289,7 @@ namespace VRDR
             }
             set
             {
-                Record.Remove("state_auxiliary_id");
-                if (value != null)
-                {
-                    Record.Add("state_auxiliary_id", new FhirString(value));
-                }
+                SetSingleStringValue("state_auxiliary_id", value);
             }
         }
 
@@ -304,7 +314,7 @@ namespace VRDR
         }
 
         /// <summary>Two character identifier of the jurisdiction in which the death occurred</summary>
-        public string DeathJurisdictionID
+        public string JurisdictionId
         {
             get
             {
@@ -329,11 +339,11 @@ namespace VRDR
         {
             get
             {
-                if (DeathYear == null || DeathJurisdictionID == null || CertificateNumber == null)
+                if (DeathYear == null || JurisdictionId == null || CertNo == null)
                 {
                     return null;
                 }
-                return DeathYear.Value.ToString("D4") + DeathJurisdictionID + CertificateNumber.Value.ToString("D6");
+                return DeathYear.Value.ToString("D4") + JurisdictionId + CertNo.Value.ToString("D6");
             }
         }
 
@@ -430,25 +440,34 @@ namespace VRDR
             BaseMessage message = new BaseMessage(bundle, true, false);
             switch (message.MessageType)
             {
-                case "http://nchs.cdc.gov/vrdr_submission":
-                    message = new DeathRecordSubmission(bundle, message);
+                case DeathRecordSubmissionMessage.MESSAGE_TYPE:
+                    message = new DeathRecordSubmissionMessage(bundle, message);
                     break;
-                case "http://nchs.cdc.gov/vrdr_submission_update":
-                    message = new DeathRecordUpdate(bundle, message);
+                case DeathRecordUpdateMessage.MESSAGE_TYPE:
+                    message = new DeathRecordUpdateMessage(bundle, message);
                     break;
-                case "http://nchs.cdc.gov/vrdr_acknowledgement":
-                    message = new AckMessage(bundle);
+                case AcknowledgementMessage.MESSAGE_TYPE:
+                    message = new AcknowledgementMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_submission_void":
-                    message = new VoidMessage(bundle);
+                case DeathRecordVoidMessage.MESSAGE_TYPE:
+                    message = new DeathRecordVoidMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_coding":
-                    message = new CodingResponseMessage(bundle);
+                case DeathRecordAliasMessage.MESSAGE_TYPE:
+                    message = new DeathRecordAliasMessage(bundle);
                     break;
-                case "http://nchs.cdc.gov/vrdr_coding_update":
-                    message = new CodingUpdateMessage(bundle);
+                case CauseOfDeathCodingMessage.MESSAGE_TYPE:
+                    message = new CauseOfDeathCodingMessage(bundle, message);
                     break;
-                case "http://nchs.cdc.gov/vrdr_extraction_error":
+                case DemographicsCodingMessage.MESSAGE_TYPE:
+                    message = new DemographicsCodingMessage(bundle, message);
+                    break;
+                case CauseOfDeathCodingUpdateMessage.MESSAGE_TYPE:
+                    message = new CauseOfDeathCodingUpdateMessage(bundle, message);
+                    break;
+                case DemographicsCodingUpdateMessage.MESSAGE_TYPE:
+                    message = new DemographicsCodingUpdateMessage(bundle, message);
+                    break;
+                case ExtractionErrorMessage.MESSAGE_TYPE:
                     message = new ExtractionErrorMessage(bundle, message);
                     break;
                 default:

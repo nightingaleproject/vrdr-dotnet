@@ -4,18 +4,23 @@ using Hl7.Fhir.Model;
 
 namespace VRDR
 {
-    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmission message failed.</summary>
+    /// <summary>Class <c>ExtractionErrorMessage</c> is used to communicate that initial processing of a DeathRecordSubmissionMessage failed.</summary>
     public class ExtractionErrorMessage : BaseMessage
     {
+        /// <summary>
+        /// The Event URI for ExtractionErrorMessage
+        /// </summary>
+        public const string MESSAGE_TYPE = "http://nchs.cdc.gov/vrdr_extraction_error";
+
         private OperationOutcome details;
 
         /// <summary>Constructor that creates an extraction error for the specified message.</summary>
         /// <param name="sourceMessage">the message that could not be processed.</param>
         public ExtractionErrorMessage(BaseMessage sourceMessage) : this(sourceMessage?.MessageId, sourceMessage?.MessageSource, sourceMessage?.MessageDestination)
         {
-            this.CertificateNumber = sourceMessage?.CertificateNumber;
-            this.StateAuxiliaryIdentifier = sourceMessage?.StateAuxiliaryIdentifier;
-            this.DeathJurisdictionID = sourceMessage?.DeathJurisdictionID;
+            this.CertNo = sourceMessage?.CertNo;
+            this.StateAuxiliaryId = sourceMessage?.StateAuxiliaryId;
+            this.JurisdictionId = sourceMessage?.JurisdictionId;
             this.DeathYear = sourceMessage?.DeathYear;
         }
 
@@ -40,7 +45,7 @@ namespace VRDR
         /// <param name="messageId">the id of the message to create an extraction error for.</param>
         /// <param name="destination">the endpoint identifier that the extraction error message will be sent to.</param>
         /// <param name="source">the endpoint identifier that the extraction error message will be sent from.</param>
-        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base("http://nchs.cdc.gov/vrdr_extraction_error")
+        public ExtractionErrorMessage(string messageId, string destination, string source = "http://nchs.cdc.gov/vrdr_submission") : base(MESSAGE_TYPE)
         {
             Header.Source.Endpoint = source;
             this.MessageDestination = destination;

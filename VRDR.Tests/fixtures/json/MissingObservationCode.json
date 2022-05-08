@@ -172,145 +172,380 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31",
+      "fullUrl": "urn:uuid:949354d3-9dcf-4c96-8ec4-6be27dd4c65f",
       "resource": {
-        "resourceType": "Patient",
-        "id": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent"
+        "resourceType" : "Patient",
+        "id" : "Decedent-Example1",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent"
           ]
         },
-        "extension": [
+        "extension" : [
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
-            "valueCodeableConcept": {
-              "coding": [
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive",
+            "valueCodeableConcept" : {
+              "coding" : [
                 {
-                  "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-birthsex",
-                  "code": "M",
-                  "display": "Male"
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y"
                 }
               ]
             }
           },
           {
-            "extension": [
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2135-2",
-                  "display": "Hispanic or Latino"
+            "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath",
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://hl7.org/fhir/administrative-gender",
+                  "code" : "unknown",
+                  "display" : "Unknown"
                 }
-              },
-              {
-                "url": "detailed",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2180-8",
-                  "display": "Puerto Rican"
-                }
-              },
-              {
-                "url": "text",
-                "valueString": "Hispanic or Latino, Puerto Rican"
-              }
-            ],
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+              ]
+            }
           },
           {
-            "extension": [
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2106-3",
-                  "display": "White"
-                }
-              },
-              {
-                "url": "ombCategory",
-                "valueCoding": {
-                  "system": "urn:oid:2.16.840.1.113883.6.238",
-                  "code": "2076-8",
-                  "display": "Native Hawaiian or Other Pacific Islander"
-                }
-              },
-              {
-                "url": "text",
-                "valueString": "White, Native Hawaiian or Other Pacific Islander"
-              }
-            ],
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-            "valueAddress": {
-              "line": [
-                "1011 Example Street",
-                "Line 2"
-              ],
-              "city": "Bedford",
-              "district": "Middlesex",
-              "state": "MA",
-              "postalCode": "01730",
-              "country": "US"
+            "url" : "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+            "valueAddress" : {
+              "city" : "Roanoke",
+              "state" : "VA",
+              "country" : "US"
             }
           }
         ],
-        "identifier": [
+        "identifier" : [
           {
-            "type": {
-              "coding": [
+            "type" : {
+              "coding" : [
                 {
-                  "code": "BR",
-                  "display": "Social Beneficiary Identifier"
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code" : "SB",
+                  "display" : "Social Beneficiary Identifier"
                 }
               ]
             },
-            "system": "http://hl7.org/fhir/sid/us-ssn",
-            "value": "123456789"
+            "system" : "http://hl7.org/fhir/sid/us-ssn",
+            "value" : "987654321"
           }
         ],
-        "name": [
+        "name" : [
           {
-            "use": "official",
-            "family": "Last",
-            "given": [
-              "Example",
-              "Something",
-              "Middle"
+            "use" : "official",
+            "family" : "Patel",
+            "given" : [
+              "Madelyn"
             ],
-            "suffix": [
-              "Jr."
-            ]
+            "suffix" : ["Jr."]
           }
         ],
-        "gender": "male",
-        "birthDate": "1940-02-19T16:48:06.498822-05:00",
-        "address": [
-          {
-            "line": [
-              "101 Example Street",
-              "Line 2"
-            ],
-            "city": "Bedford",
-            "district": "Middlesex",
-            "state": "MA",
-            "postalCode": "01730",
-            "country": "US"
-          }
-        ],
-        "maritalStatus": {
-          "coding": [
+        "gender" : "female",
+        "_birthDate" : {
+          "extension" : [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
-              "code": "S",
-              "display": "Never Married"
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
+                  "valueInteger" : 10
+                },
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
+                  "valueInteger" : 2004
+                },
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month",
+                  "valueInteger" : 11
+                }
+              ],
+              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
             }
           ]
-        }
+        },
+        "address" : [
+          {
+            "extension" : [
+              {
+                "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator",
+                "valueCoding" : {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y",
+                  "display" : "Yes"
+                }
+              },
+              {
+                "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName",
+                "valueString" : "Lockwood"
+              }
+            ],
+            "line" : [
+              "5590 Lockwood Drive"
+            ],
+            "city" : "Danville",
+            "_city" : {
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode",
+                  "valuePositiveInt" : 1234
+                }
+              ]
+            },
+            "district" : "Fairfax",
+            "_district" : {
+              "extension" : [
+                {
+                  "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode",
+                  "valuePositiveInt" : 321
+                }
+              ]
+            },
+            "state" : "VA",
+            "postalCode" : "01730",
+            "country" : "US"
+          }
+        ],
+        "maritalStatus" : {
+          "extension" : [
+            {
+              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag",
+              "valueCodeableConcept" : {
+                "coding" : [
+                  {
+                    "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
+                    "code" : "0"
+                  }
+                ]
+              }
+            }
+          ],
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
+              "code" : "S",
+              "display" : "Never Married"
+            }
+          ]
+        },
+        "contact" : [
+          {
+            "relationship" : [
+              {
+                "text" : "Friend of family"
+              }
+            ],
+            "name" : {
+              "text" : "Joe Smith"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:17e6d6c8-deea-464b-a009-d077ceb30af1",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "InputRaceAndEthnicity-Example1",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity"
+          ]
+        },
+        "status" : "final",
+        "code" : {
+          "coding" : [
+            {
+              "code" : "inputraceandethnicity",
+              "display" : "Input Race and Ethnicity"
+            }
+          ]
+        },
+        "subject" : {
+          "display" : "NCHS generated"
+        },
+        "component" : [
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "White",
+                  "display" : "White"
+                }
+              ]
+            },
+            "valueBoolean" : true
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "BlackOrAfricanAmerican",
+                  "display" : "BlackOrAfricanAmerican"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "AmericanIndianOrAlaskaNative",
+                  "display" : "AmericanIndianOrAlaskaNative"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "AsianIndian",
+                  "display" : "AsianIndian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Chinese",
+                  "display" : "Chinese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Filipino",
+                  "display" : "Filipino"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Japanese",
+                  "display" : "Japanese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Korean",
+                  "display" : "Korean"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Vietnamese",
+                  "display" : "Vietnamese"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherAsian",
+                  "display" : "OtherAsian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "NativeHawaiian",
+                  "display" : "NativeHawaiian"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "GuamanianOrChamorro",
+                  "display" : "GuamanianOrChamorro"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "Samoan",
+                  "display" : "Samoan"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherPacificIslander",
+                  "display" : "OtherPacificIslander"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "OtherRace",
+                  "display" : "OtherRace"
+                }
+              ]
+            },
+            "valueBoolean" : false
+          },
+          {
+            "code" : {
+              "coding" : [
+                {
+                  "code" : "HispanicMexican",
+                  "display" : "HispanicMexican"
+                }
+              ]
+            },
+            "valueCodeableConcept" : {
+              "coding" : [
+                {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "code" : "Y"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     {
@@ -899,8 +1134,8 @@
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "urn:oid:2.16.840.1.114222.4.5.274",
-              "code": "PHC1453",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+              "code": "BA",
               "display": "Bachelor's Degree"
             }
           ]
@@ -1158,40 +1393,7 @@
         }
       }
     },
-    {
-      "fullUrl": "urn:uuid:f68f89e5-062c-4bac-8412-ae552254f152",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "urn:uuid:f68f89e5-062c-4bac-8412-ae552254f152",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role"
-          ]
-        },
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "69451-3",
-              "display": "Transportation role of decedent"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "urn:uuid:c83bc94c-cf3f-4062-aa1c-dd86894a3b31"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/stu3/valueset-TransportationRelationships",
-              "code": "example-code",
-              "display": "Example Code"
-            }
-          ]
-        }
-      }
-    },
+
     {
       "fullUrl": "urn:uuid:c496b4ff-e65c-441e-9764-4a48becf3f9f",
       "resource": {

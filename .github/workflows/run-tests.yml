@@ -2,9 +2,13 @@ name: Run Test Suite on PR or push to master
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - 'IG-develop-*'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - 'IG-develop-*'
 
 jobs:
   test:
@@ -45,16 +49,16 @@ jobs:
           echo "* dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json"
           dotnet run --project VRDR.CLI description VRDR.CLI/1_wJurisdiction.json
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml"
-          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml  
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.xml
           echo "* ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json"
-          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json  
+          ! dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1.json
           echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml  
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.xml
           echo "* dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json   
+          dotnet run --project VRDR.CLI roundtrip-ije VRDR.CLI/1_wJurisdiction.json
           echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml"
-          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml  
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.xml
           echo "* dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json"
-          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json  
+          dotnet run --project VRDR.CLI roundtrip-all VRDR.CLI/1_wJurisdiction.json
           echo "* ./VRDR.Tests/test_translation_service.sh"
           echo "TEMPORARILY SKIPPING FOR 1.3 ./VRDR.Tests/test_translation_service.sh"

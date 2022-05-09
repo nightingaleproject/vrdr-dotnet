@@ -43,9 +43,9 @@ This repository includes .NET (C#) code for
 <tr>
 <td style="text-align: center;">1.3.0 STU2 Post-Ballot Pre-Publication</td>
 <td style="text-align: center;">R4</td>
-<td style="text-align: center;">V4.0.0.preview1</td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
-<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0.preview1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview1"> github</a></td>
+<td style="text-align: center;">V4.0.0.preview2</td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview2">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview2"> github</a></td>
+<td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/4.0.0.preview2">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview2"> github</a></td>
 </tr>
 </tbody>
 </table>
@@ -74,7 +74,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR" Version="4.0.0.preview1" />
+  <PackageReference Include="VRDR" Version="4.0.0.preview2" />
   ...
 </ItemGroup>
 ```
@@ -274,7 +274,7 @@ This package is published on NuGet, so including it is as easy as:
 ```xml
 <ItemGroup>
   ...
-  <PackageReference Include="VRDR.Messaging" Version="4.0.0.preview1" />
+  <PackageReference Include="VRDR.Messaging" Version="4.0.0.preview2" />
   ...
 </ItemGroup>
 ```

@@ -666,7 +666,7 @@ namespace VRDR
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
 
-            UpdateBundleIdentifier();
+            UpdateDeathRecordIdentifier();
         }
 
         /// <summary>Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format.</summary>
@@ -815,10 +815,8 @@ namespace VRDR
             string[] profile = { ProfileURL.CauseOfDeathCodedContentBundle };
             codccBundle.Meta.Profile = profile;
             codccBundle.Timestamp = DateTime.Now;
-            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
-            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
-            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
-            codccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
+            // Make sure to include the base identifiers, including certificate number and auxiliary state IDs
+            codccBundle.Identifier = Bundle.Identifier;
             AddResourceToBundleIfPresent(ActivityAtTimeOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(AutomatedUnderlyingCauseOfDeathObs, codccBundle);
             AddResourceToBundleIfPresent(ManualUnderlyingCauseOfDeathObs, codccBundle);
@@ -865,10 +863,8 @@ namespace VRDR
             string[] profile = { ProfileURL.DemographicCodedContentBundle };
             dccBundle.Meta.Profile = profile;
             dccBundle.Timestamp = DateTime.Now;
-            // Get the base identifiers, including certificate number and auxiliary state IDs; the identifiers can either be on
-            // the Composition (if this DeathRecord is constructed) or on the Bundle (if this DeathRecord was read from JSON)
-            // TODO: Make sure we're getting the identifiers from the right place, since we're thinking through where they go
-            dccBundle.Identifier = Composition != null ? Composition.Identifier : Bundle.Identifier;
+            // Make sure to include the base identifiers, including certificate number and auxiliary state IDs
+            dccBundle.Identifier = Bundle.Identifier;
             AddResourceToBundleIfPresent(CodedRaceAndEthnicityObs, dccBundle);
             AddResourceToBundleIfPresent(InputRaceAndEthnicityObs, dccBundle);
             return dccBundle;
@@ -889,46 +885,47 @@ namespace VRDR
         /// <para>Console.WriteLine($"Death Certificate Number: {ExampleDeathRecord.Identifier}");</para>
         /// </example>
         [Property("Identifier", Property.Types.String, "Death Certification", "Death Certificate Number.", true, IGURL.DeathCertificate, true, 3)]
-        // [FHIRPath("Bundle.entry.resource.where($this is Procedure).where(code.coding.code='308646001')", "identifier")]
-         [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        [FHIRPath("Bundle", "identifier")]
         public string Identifier
         {
             get
             {
-                if(Composition != null && Composition.Identifier != null && Composition.Identifier.Value != null && Composition.Identifier.Value.Length > 0)
+                if (Bundle?.Identifier?.Extension != null)
                 {
-                    return Composition.Identifier.Value;
+                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.CertificateNumber);
+                    if (ext?.Value != null)
+                    {
+                        return Convert.ToString(ext.Value);
+                    }
                 }
                 return null;
-
             }
             set
             {
-                Identifier identifier = new Identifier();
-                identifier.Value = value;
-                if(Composition == null){
-                    Composition = new Composition();
+                Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.CertificateNumber);
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    Extension ext = new Extension(ExtensionURL.CertificateNumber, new FhirString(value));
+                    Bundle.Identifier.Extension.Add(ext);
                 }
-                Composition.Identifier = identifier;
-                UpdateBundleIdentifier();
+                UpdateDeathRecordIdentifier();
             }
         }
 
         /// <summary>Update the bundle identifier from the component fields.</summary>
-        private void UpdateBundleIdentifier()
+        private void UpdateDeathRecordIdentifier()
         {
             uint certificateNumber = 0;
-            if (Composition != null && Composition.Identifier != null && Composition.Identifier.Value != null)
+            if (Identifier != null)
             {
-                UInt32.TryParse(Composition.Identifier.Value, out certificateNumber);
+                UInt32.TryParse(Identifier, out certificateNumber);
             }
             uint deathYear = 0;
             if (this.DeathYear != null)
             {
                 deathYear = (uint)this.DeathYear;
             }
-
-            String jurisdictionId = this.DeathLocationJurisdiction; // this.DeathLocationAddress?["addressState"];
+            String jurisdictionId = this.DeathLocationJurisdiction;
             if (jurisdictionId == null || jurisdictionId.Trim().Length < 2)
             {
                 jurisdictionId = "XX";
@@ -937,21 +934,19 @@ namespace VRDR
             {
                 jurisdictionId = jurisdictionId.Trim().Substring(0, 2).ToUpper();
             }
-            this.BundleIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
+            this.DeathRecordIdentifier = $"{deathYear.ToString("D4")}{jurisdictionId}{certificateNumber.ToString("D6")}";
 
         }
 
         /// <summary>Death Record Bundle Identifier, NCHS identifier.</summary>
-        /// <value>a record bundle identification string.</value>
+        /// <value>a record bundle identification string, e.g., 2022MA000100, derived from year of death, jurisdiction of death, and certificate number</value>
         /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.BundleIdentifier = "42";</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.BundleIdentifier}");</para>
+        /// <para>Console.WriteLine($"NCHS identifier: {ExampleDeathRecord.DeathRecordIdentifier}");</para>
         /// </example>
-        [Property("Bundle Identifier", Property.Types.String, "Death Certification", "NCHS identifier.", true, IGURL.DeathCertificateDocument, true, 4)]
+        [Property("Death Record Identifier", Property.Types.String, "Death Certification", "Death Record identifier.", true, IGURL.DeathCertificate, true, 4)]
         [FHIRPath("Bundle", "identifier")]
-        public string BundleIdentifier
+        public string DeathRecordIdentifier
         {
             get
             {
@@ -961,6 +956,7 @@ namespace VRDR
                 }
                 return null;
             }
+            // The setter is private because the value is derived so should never be set directly
             private set
             {
                 if (Bundle.Identifier == null)
@@ -981,45 +977,29 @@ namespace VRDR
         /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
         [Property("State Local Identifier1", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        [FHIRPath("Bundle", "identifier")]
         public string StateLocalIdentifier1
         {
             get
             {
-                if (Composition?.Identifier?.Extension != null)
+                if (Bundle?.Identifier?.Extension != null)
                 {
-                    Extension ext = Composition.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
+                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
                     if (ext?.Value != null)
                     {
                         return Convert.ToString(ext.Value);
                     }
                 }
-
                 return null;
             }
             set
             {
-                if(Composition == null){
-                    Composition = new Composition();
-                }
-                if (Composition?.Identifier?.Extension != null)
-                {
-                    Composition.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
-                }
-
+                Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier1);
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Extension ext = new Extension();
-                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier1;
-                    ext.Value = new FhirString(value);
-                    if (Composition.Identifier == null)
-                    {
-                        Identifier identifier = new Identifier();
-                        Composition.Identifier = identifier;
-                    }
-                    Composition.Identifier.Extension.Add(ext);
+                    Extension ext = new Extension(ExtensionURL.AuxiliaryStateIdentifier1, new FhirString(value));
+                    Bundle.Identifier.Extension.Add(ext);
                 }
-
             }
         }
 
@@ -1032,45 +1012,29 @@ namespace VRDR
         /// <para>Console.WriteLine($"State local identifier: {ExampleDeathRecord.StateLocalIdentifier1}");</para>
         /// </example>
         [Property("State Local Identifier2", Property.Types.String, "Death Certificate", "State Local Identifier.", true, ProfileURL.DeathCertificate, true, 5)]
-        [FHIRPath("Bundle.entry.resource.where($this is Composition)", "identifier")]
+        [FHIRPath("Bundle", "identifier")]
         public string StateLocalIdentifier2
         {
             get
             {
-                if (Composition?.Identifier?.Extension != null)
+                if (Bundle?.Identifier?.Extension != null)
                 {
-                    Extension ext = Composition.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
+                    Extension ext = Bundle.Identifier.Extension.Find(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
                     if (ext?.Value != null)
                     {
                         return Convert.ToString(ext.Value);
                     }
                 }
-
                 return null;
             }
             set
             {
-                 if(Composition == null){
-                    Composition = new Composition();
-                }
-                if (Composition?.Identifier?.Extension != null)
-                {
-                    Composition.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
-                }
-
+                Bundle.Identifier.Extension.RemoveAll(ex => ex.Url == ExtensionURL.AuxiliaryStateIdentifier2);
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    Extension ext = new Extension();
-                    ext.Url = ExtensionURL.AuxiliaryStateIdentifier2;
-                    ext.Value = new FhirString(value);
-                    if (Composition.Identifier == null)
-                    {
-                        Identifier identifier = new Identifier();
-                        Composition.Identifier = identifier;
-                    }
-                    Composition.Identifier.Extension.Add(ext);
+                    Extension ext = new Extension(ExtensionURL.AuxiliaryStateIdentifier2, new FhirString(value));
+                    Bundle.Identifier.Extension.Add(ext);
                 }
-
             }
         }
 
@@ -5958,7 +5922,7 @@ namespace VRDR
                     CreateDeathDateObs();
                 }
                 SetPartialDate(DeathDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
-                UpdateBundleIdentifier();
+                UpdateDeathRecordIdentifier();
             }
         }
 
@@ -6386,7 +6350,7 @@ namespace VRDR
                         currentAddress["addressState"] = value;
                     }
                     DeathLocationAddress = currentAddress;
-                    UpdateBundleIdentifier();
+                    UpdateDeathRecordIdentifier();
                 }
             }
         }
@@ -6444,7 +6408,7 @@ namespace VRDR
                     CreateDeathLocation();
                 }
                 DeathLocationLoc.Address = DictToAddress(value);
-                UpdateBundleIdentifier();
+                UpdateDeathRecordIdentifier();
             }
         }
 
@@ -10648,7 +10612,7 @@ namespace VRDR
                     }
                 }
             }
-            UpdateBundleIdentifier();
+            UpdateDeathRecordIdentifier();
         }
 
         /// <summary>Helper function to set a codeable value based on a code and the set of allowed codes.</summary>

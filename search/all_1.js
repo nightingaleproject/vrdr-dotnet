@@ -20,6 +20,5 @@ var searchData=
   ['bool_17',['Bool',['../class_v_r_d_r_1_1_property.html#a9b589a8914f04c543d399a46c02cdc53ac26f15e86e3de4c398a8273272aba034',1,'VRDR::Property']]],
   ['bplace_5fcnt_18',['BPLACE_CNT',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a6558289627f8c4f1eef4158ba505fe9a',1,'VRDR::IJEMortality']]],
   ['bplace_5fst_19',['BPLACE_ST',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5124286b7a737abe685905fd1a26b021',1,'VRDR::IJEMortality']]],
-  ['bstate_20',['BSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7eb8532a36f3260da66a7c48cd9c26ce',1,'VRDR::IJEMortality']]],
-  ['bundleidentifier_21',['BundleIdentifier',['../class_v_r_d_r_1_1_death_record.html#a85a930581b3824e20519e809ff4fecda',1,'VRDR::DeathRecord']]]
+  ['bstate_20',['BSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7eb8532a36f3260da66a7c48cd9c26ce',1,'VRDR::IJEMortality']]]
 ];

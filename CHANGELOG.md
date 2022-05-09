@@ -1,5 +1,9 @@
 ## Changelog
 
+### v4.0.0.preview2 - 2022-05-09
+
+* Addressed inconsistencies in how identifiers were being handled
+
 ### v4.0.0.preview1 - 2022-05-07
 
 * Aligned VRDR library to latest VRDR IG at http://build.fhir.org/ig/HL7/vrdr/artifacts.html

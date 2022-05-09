@@ -1,7 +1,7 @@
 # This script takes the JSON files that are generated as part of the VRDR IG and creates an output
 # file with static URL strings for each StructureDefinition, Extension, and IG HTML page
 #
-# Usage: ruby tools/generate_concept_mappings_from_VRDR_IG.rb <path-to-json-files> > VRDR/URLs.cs
+# Usage: ruby tools/generate_url_strings_from_VRDR_IG.rb <path-to-json-files> > VRDR/URLs.cs
 #
 # If you need to generate the concept map JSON files, first install sushi (https://github.com/FHIR/sushi) then
 #

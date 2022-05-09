@@ -145,76 +145,78 @@ Acknowledge Death Record</h2>
 <div class="line">}</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
 Return Coding</h2>
-<p >NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes <code>CauseofDeathCodingResponseMessage</code> and <code>DemographicsCodingResponseMessage</code>, which are subtypes of the abstract class <code>CodingResponseMessage</code>.</p>
+<p >NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes <code>CauseofDeathCodingResponseMessage</code> and <code>DemographicsCodingResponseMessage</code>.</p>
 <p >Once NCHS have determined the causes of death they can create a <code>CauseOfDeathCodingResponseMessage</code> to return that information to the jurisdiction:</p>
-<div class="fragment"><div class="line"><span class="comment">// Create an empty coding response message</span></div>
-<div class="line">CauseOfDeathCodingResponseMessage message = <span class="keyword">new</span> CauseOfDeathCodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>,</div>
-<div class="line">                                                                                  <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Assign the business identifiers</span></div>
-<div class="line">message.CertificateNumber = 10;</div>
-<div class="line">message.StateAuxiliaryIdentifier = <span class="stringliteral">&quot;101010&quot;</span>;</div>
-<div class="line">message.DeathYear = 2019;</div>
-<div class="line">message.DeathJurisdictionID = <span class="stringliteral">&quot;MA&quot;</span>;</div>
+<div class="line"><span class="comment">// Create an empty IJE Mortality record</span></div>
+<div class="line">IJEMortality ije = <span class="keyword">new</span> IJEMortality();</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Specify additional information</span></div>
-<div class="line">message.NCHSReceiptMonthString = <span class="stringliteral">&quot;1&quot;</span>;</div>
-<div class="line">message.NCHSReceiptDayString = <span class="stringliteral">&quot;9&quot;</span>;</div>
-<div class="line">message.NCHSReceiptYearString = <span class="stringliteral">&quot;2020&quot;</span>;</div>
-<div class="line">message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;</div>
-<div class="line">message.CoderStatus = <span class="stringliteral">&quot;8&quot;</span>;</div>
-<div class="line">message.ShipmentNumber = <span class="stringliteral">&quot;B202101&quot;</span>;</div>
-<div class="line">message.ACMESystemRejectCodes = CauseOfDeathCodingResponseMessage.ACMESystemRejectEnum.ACMEReject;</div>
-<div class="line">message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;</div>
-<div class="line">message.OtherSpecifiedPlace = <span class="stringliteral">&quot;Unique Location&quot;</span>;</div>
-<div class="line">message.IntentionalReject = <span class="stringliteral">&quot;5&quot;</span>;</div>
+<div class="line"><span class="comment">// Populate the IJE fields</span></div>
+<div class="line">ije.DOD_YR = <span class="stringliteral">&quot;2022&quot;</span>;</div>
+<div class="line">ije.DSTATE = <span class="stringliteral">&quot;YC&quot;</span>;</div>
+<div class="line">ije.FILENO = <span class="stringliteral">&quot;123&quot;</span>;</div>
+<div class="line">ije.AUXNO = <span class="stringliteral">&quot;500&quot;</span>;</div>
+<div class="line">ije.ACME_UC = <span class="stringliteral">&quot;T273&quot;</span>;</div>
+<div class="line">ije.RAC = <span class="stringliteral">&quot;T273 T270 &quot;</span>;</div>
+<div class="line">ije.EAC = <span class="stringliteral">&quot;11T273  21T270 &amp;&quot;</span>;</div>
+<div class="line">ije.R_YR = <span class="stringliteral">&quot;2019&quot;</span>;</div>
+<div class="line">ije.R_MO = <span class="stringliteral">&quot;11&quot;</span>;</div>
+<div class="line">ije.R_DY = <span class="stringliteral">&quot;14&quot;</span>;</div>
+<div class="line">ije.INT_REJ = <span class="stringliteral">&quot;4&quot;</span>;</div>
+<div class="line">ije.SYS_REJ = <span class="stringliteral">&quot;3&quot;</span>;</div>
+<div class="line">ije.TRX_FLG = <span class="stringliteral">&quot;5&quot;</span>;</div>
+<div class="line">ije.MANNER = <span class="stringliteral">&quot;A&quot;</span>;</div>
+<div class="line">ije.INJPL = <span class="stringliteral">&quot;7&quot;</span>;</div>
+<div class="line">ije.DOI_YR = <span class="stringliteral">&quot;2022&quot;</span>;</div>
+<div class="line">ije.DOI_MO = <span class="stringliteral">&quot;1&quot;</span>;</div>
+<div class="line">ije.DOI_DY = <span class="stringliteral">&quot;15&quot;</span>;</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Create the cause of death coding</span></div>
-<div class="line">message.UnderlyingCauseOfDeath = <span class="stringliteral">&quot;A04.7&quot;</span>;</div>
+<div class="line"><span class="comment">// Populate the fields that only appear in TRX records and not IJE</span></div>
+<div class="line">ije.trx.CS = <span class="stringliteral">&quot;8&quot;</span>;</div>
+<div class="line">ije.trx.SHIP = <span class="stringliteral">&quot;876&quot;</span>;</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Assign the record axis codes</span></div>
-<div class="line">var recordAxisCodes = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line">recordAxisCodes.Add(<span class="stringliteral">&quot;A04.7&quot;</span>);</div>
-<div class="line">recordAxisCodes.Add(<span class="stringliteral">&quot;A41.9&quot;</span>);</div>
-<div class="line">recordAxisCodes.Add(<span class="stringliteral">&quot;J18.9&quot;</span>);</div>
-<div class="line">recordAxisCodes.Add(<span class="stringliteral">&quot;J96.0&quot;</span>);</div>
-<div class="line">message.CauseOfDeathRecordAxis = recordAxisCodes;</div>
+<div class="line"><span class="comment">// Create the message</span></div>
+<div class="line">CauseOfDeathCodingMessage message = <span class="keyword">new</span> CauseOfDeathCodingMessage(ije.ToDeathRecord());</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Assign the entity axis codes</span></div>
-<div class="line">var builder = <span class="keyword">new</span> CauseOfDeathEntityAxisBuilder();</div>
-<div class="line">builder.Add(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;line1_code1&quot;</span>);</div>
-<div class="line">builder.Add(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;line1_code2&quot;</span>);</div>
-<div class="line">builder.Add(<span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;line2_code1&quot;</span>);</div>
-<div class="line">message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();</div>
+<div class="line"><span class="comment">// Set the source and destination</span></div>
+<div class="line">message.MessageSource = <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>;</div>
+<div class="line">message.MessageDestination = <span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
 <div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Send the JSON message</span></div>
 <div class="line">...</div>
+<div class="ttc" id="anamespace_v_r_d_r_html"><div class="ttname"><a href="namespace_v_r_d_r.html">VRDR</a></div><div class="ttdef"><b>Definition:</b> Program.cs:18</div></div>
 </div><!-- fragment --><p >Similarly, NCHS can create a <code>DemographicsCodingResponseMessage</code> to convey coding information about the decedent's demographics.</p>
-<div class="fragment"><div class="line"><span class="comment">// Create an empty coding response message</span></div>
-<div class="line">DemographicsCodingResponseMessage message = <span class="keyword">new</span> DemographicsCodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>,</div>
-<div class="line">                                                                                  <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Assign the business identifiers</span></div>
-<div class="line">message.CertificateNumber = 10;</div>
-<div class="line">message.StateAuxiliaryIdentifier = <span class="stringliteral">&quot;101010&quot;</span>;</div>
-<div class="line">message.DeathYear = 2019;</div>
-<div class="line">message.DeathJurisdictionID = <span class="stringliteral">&quot;MA&quot;</span>;</div>
+<div class="line"><span class="comment">// Create an empty IJE Mortality record</span></div>
+<div class="line">IJEMortality ije = <span class="keyword">new</span> IJEMortality();</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Create the ethnicity coding</span></div>
-<div class="line">var ethnicity = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt;();</div>
-<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
-<div class="line">ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, <span class="stringliteral">&quot;&lt;ethnicity-code&gt;&quot;</span>);</div>
-<div class="line">message.Ethnicity = ethnicity;</div>
+<div class="line"><span class="comment">// Populate the IJE fields</span></div>
+<div class="line">ije.DOD_YR = <span class="stringliteral">&quot;2022&quot;</span>;</div>
+<div class="line">ije.DSTATE = <span class="stringliteral">&quot;YC&quot;</span>;</div>
+<div class="line">ije.FILENO = <span class="stringliteral">&quot;123&quot;</span>;</div>
+<div class="line">ije.AUXNO = <span class="stringliteral">&quot;500&quot;</span>;</div>
+<div class="line">ije.DETHNIC1 = <span class="stringliteral">&quot;Y&quot;</span>;</div>
+<div class="line">ije.DETHNIC2 = <span class="stringliteral">&quot;N&quot;</span>;</div>
+<div class="line">ije.RACE1 = <span class="stringliteral">&quot;Y&quot;</span>;</div>
+<div class="line">ije.RACE2 = <span class="stringliteral">&quot;N&quot;</span>;</div>
+<div class="line">ije.RACE16 = <span class="stringliteral">&quot;Cheyenne&quot;</span>;</div>
+<div class="line">ije.RACE1E = <span class="stringliteral">&quot;199&quot;</span>;</div>
+<div class="line">ije.RACE16C = <span class="stringliteral">&quot;B40&quot;</span>;</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Create the race coding</span></div>
-<div class="line">var race = <span class="keyword">new</span> Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt;();</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE1E, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACE17C, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">race.Add(CodingResponseMessage.RaceCode.RACEBRG, <span class="stringliteral">&quot;&lt;race-code&gt;&quot;</span>);</div>
-<div class="line">message.Race = race;</div>
+<div class="line"><span class="comment">// Populate the fields that only appear in MRE records and not IJE</span></div>
+<div class="line">ije.mre.RECODE40 = <span class="stringliteral">&quot;88&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create the message</span></div>
+<div class="line">DemographicsCodingMessage message = <span class="keyword">new</span> DemographicsCodingMessage(ije.ToDeathRecord());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Set the source and destination</span></div>
+<div class="line">message.MessageSource = <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>;</div>
+<div class="line">message.MessageDestination = <span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
 <div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
@@ -232,20 +234,31 @@ Return Coding</h2>
 <div class="line"><span class="comment">// Switch to determine the type of message</span></div>
 <div class="line"><span class="keywordflow">switch</span>(message)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keywordflow">case</span> CauseOfDeathCodingResponseMessage coding:</div>
-<div class="line">        <span class="keywordtype">string</span> nchsId = coding.NCHSIdentifier;</div>
-<div class="line">        <span class="keywordtype">string</span> stateAuxId = coding.StateAuxiliaryIdentifier;</div>
-<div class="line">        <span class="keywordtype">string</span> cod = coding.CauseOfDeathConditionId;</div>
-<div class="line">        List&lt;string&gt; recordAxis = coding.CauseOfDeathRecordAxis;</div>
-<div class="line">        List&lt;CauseOfDeathEntityAxisEntry&gt; entityAxis = coding.CauseOfDeathEntityAxis;</div>
-<div class="line">        ProcessCauseOfDeathCoding(nchsId, stateAuxId, cod, recordAxis, entityAxis);</div>
+<div class="line">    <span class="keywordflow">case</span> CauseOfDeathCodingMessage codingResponse:</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;\nUnderlying COD: {codingResponse.DeathRecord.AutomatedUnderlyingCOD}\n&quot;</span>);</div>
+<div class="line">        Console.WriteLine(<span class="stringliteral">&quot;Record Axis Codes:&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> codingResponse.DeathRecord.RecordAxisCauseOfDeath)</div>
+<div class="line">        {</div>
+<div class="line">            Console.WriteLine($<span class="stringliteral">&quot;  Position: {entry.Item1}  Code: {entry.Item2}&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line">        Console.WriteLine(<span class="stringliteral">&quot;\nEntity Axis Codes:&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> codingResponse.DeathRecord.EntityAxisCauseOfDeath)</div>
+<div class="line">        {</div>
+<div class="line">            Console.WriteLine($<span class="stringliteral">&quot;  Line: {entry.Item1}  Position: {entry.Item2}  Code: {entry.Item3}&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line">        Console.WriteLine();</div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
-<div class="line">    <span class="keywordflow">case</span> CauseOfDeathCodingResponseMessage coding:</div>
-<div class="line">        <span class="keywordtype">string</span> nchsId = coding.NCHSIdentifier;</div>
-<div class="line">        <span class="keywordtype">string</span> stateAuxId = coding.StateAuxiliaryIdentifier;</div>
-<div class="line">        Dictionary&lt;CodingResponseMessage.HispanicOrigin, <span class="keywordtype">string</span>&gt; ethnicity = coding.Ethnicity;</div>
-<div class="line">        Dictionary&lt;CodingResponseMessage.RaceCode, <span class="keywordtype">string</span>&gt; race = coding.Race;</div>
-<div class="line">        ProcessDemographicsCoding(nchsId, stateAuxId, ethnicity, race);</div>
+<div class="line">    <span class="keywordflow">case</span> DemographicsCodingMessage codingResponse:</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;First Edited Race Code: {codingResponse.DeathRecord.FirstEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Second Edited Race Code: {codingResponse.DeathRecord.SecondEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Third Edited Race Code: {codingResponse.DeathRecord.ThirdEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Fourth Edited Race Code: {codingResponse.DeathRecord.FourthEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Fifth Edited Race Code: {codingResponse.DeathRecord.FifthEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Sixth Edited Race Code: {codingResponse.DeathRecord.SixthEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Seventh Edited Race Code: {codingResponse.DeathRecord.SeventhEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Eighth Edited Race Code: {codingResponse.DeathRecord.EighthEditedRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;First American Indian Race Code: {codingResponse.DeathRecord.FirstAmericanIndianRaceCodeHelper}&quot;</span>);</div>
+<div class="line">        Console.WriteLine($<span class="stringliteral">&quot;Second American Indian Race Code: {codingResponse.DeathRecord.SecondAmericanIndianRaceCodeHelper}&quot;</span>);</div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line"> </div>
 <div class="line">    ...</div>

@@ -83,21 +83,25 @@ Versions</h2>
 <table class="versionTable" border="3">
 </table>
 <p ><b><a class="el" href="namespace_v_r_d_r.html">VRDR</a> IG</b> </p>
+<p ><b>Messaging IG</b> </p>
 <p ><b>FHIR</b> </p>
 <p ><b>Version</b> </p>
 <p ><b><a class="el" href="namespace_v_r_d_r.html">VRDR</a></b> </p>
 <p ><b>VRDR.Messaging</b>  </p>
 <p >STU1 </p>
+<p >N/A </p>
 <p >R4 </p>
 <p >V3.1.1 </p>
 <p ><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1">github</a> </p>
 <p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  </p>
 <p >STU2 Ballot </p>
+<p >N/A </p>
 <p >R4 </p>
 <p >V3.3.1 </p>
 <p ><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1">github</a> </p>
 <p ><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf">github</a>  </p>
-<p >1.3.0 STU2 Post-Ballot Pre-Publication </p>
+<p ><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a> </p>
+<p ><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a> </p>
 <p >R4 </p>
 <p >V4.0.0.preview2 </p>
 <p ><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview2">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview2">github</a> </p>
@@ -291,45 +295,10 @@ FHIR VRDR record to/from IJE Mortality format</h4>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Print out the converted FHIR DeathRecord as a JSON string</span></div>
 <div class="line">Console.WriteLine(deathRecord.ToJSON());</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md51"></a>
-Return Coding</h4>
-<p >An example of producing a <code>CauseOfDeathCodingResponseMessage</code> for handling the returned message from NCHS containing coded causes. For a complete example, <a href="doc/Messaging.md#return-coding">click here</a>.</p>
-<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
-<div class="line"><span class="comment">// Create an empty cause of death coding response message</span></div>
-<div class="line">CauseOfDeathCodingResponseMessage message = <span class="keyword">new</span> CauseOfDeathCodingResponseMessage(<span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>);</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Assign the business identifiers</span></div>
-<div class="line">message.CertificateNumber = <span class="stringliteral">&quot;...&quot;</span>;</div>
-<div class="line">message.StateAuxiliaryIdentifier = <span class="stringliteral">&quot;...&quot;</span>;</div>
-<div class="line">message.DeathRecordIdentifier = <span class="stringliteral">&quot;...&quot;</span>;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Create the cause of death coding</span></div>
-<div class="line">message.UnderlyingCauseOfDeath = &lt;icd code&gt;;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Assign the record axis codes</span></div>
-<div class="line">var recordAxisCodes = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line">recordAxisCodes.Add(&lt;icd code&gt;);</div>
-<div class="line">recordAxisCodes.Add(&lt;icd code&gt;);</div>
-<div class="line">recordAxisCodes.Add(&lt;icd code&gt;);</div>
-<div class="line">recordAxisCodes.Add(&lt;icd code&gt;);</div>
-<div class="line">message.CauseOfDeathRecordAxis = recordAxisCodes;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Assign the entity axis codes</span></div>
-<div class="line">var builder = <span class="keyword">new</span> CauseOfDeathEntityAxisBuilder();</div>
-<div class="line"><span class="comment">// for each entity axis codes</span></div>
-<div class="line">...</div>
-<div class="line">builder.Add(&lt;lineNumber&gt;, &lt;positionInLine&gt;, &lt;icd code&gt;);</div>
-<div class="line">...</div>
-<div class="line"><span class="comment">// end loop</span></div>
-<div class="line">message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
-<div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
-</div><!-- fragment --><p> Note that the <code>CauseCodes</code> class from previous versions is now obsolete, and the <code>CodingResponseMessage</code> is now an abstract base class; use the <code>CauseOfDeathCodingResponseMessage</code> and <code>DemographicsCodingResponseMessage</code> as described above instead.</p>
-<h3><a class="anchor" id="autotoc_md52"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md51"></a>
 VRDR.Messaging</h3>
 <p >This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.</p>
-<h4><a class="anchor" id="autotoc_md53"></a>
+<h4><a class="anchor" id="autotoc_md52"></a>
 Usage</h4>
 <p >This package is published on NuGet, so including it is as easy as: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">  ...</div>
@@ -346,7 +315,48 @@ Usage</h4>
 <div class="line">  &lt;/<span class="keywordtype">ItemGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
 </div><!-- fragment --><p >Use of the VRDR.Messaging library to support various message exchange scenarios is described in <a class="el" href="md_doc__messaging.html">`doc/Messaging.md`</a>.</p>
-<h3><a class="anchor" id="autotoc_md54"></a>
+<h4><a class="anchor" id="autotoc_md53"></a>
+Return Coding Example</h4>
+<p >An example of producing a <code>CauseOfDeathCodingResponseMessage</code> for handling the returned message from NCHS containing coded causes. For convenience we can create the record either using IJE-style properties on an IJEMortality record (demonstrated below) or using FHIR IG properties on a DeathRecord record. For a complete example, <a href="doc/Messaging.md#return-coding">click here</a>.</p>
+<div class="fragment"><div class="line"><span class="keyword">using</span> <a class="code hl_namespace" href="namespace_v_r_d_r.html">VRDR</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create an empty IJE Mortality record</span></div>
+<div class="line">IJEMortality ije = <span class="keyword">new</span> IJEMortality();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Populate the IJE fields</span></div>
+<div class="line">ije.DOD_YR = <span class="stringliteral">&quot;2022&quot;</span>;</div>
+<div class="line">ije.DSTATE = <span class="stringliteral">&quot;YC&quot;</span>;</div>
+<div class="line">ije.FILENO = <span class="stringliteral">&quot;123&quot;</span>;</div>
+<div class="line">ije.AUXNO = <span class="stringliteral">&quot;500&quot;</span>;</div>
+<div class="line">ije.ACME_UC = <span class="stringliteral">&quot;T273&quot;</span>;</div>
+<div class="line">ije.RAC = <span class="stringliteral">&quot;T273 T270 &quot;</span>;</div>
+<div class="line">ije.EAC = <span class="stringliteral">&quot;11T273  21T270 &amp;&quot;</span>;</div>
+<div class="line">ije.R_YR = <span class="stringliteral">&quot;2019&quot;</span>;</div>
+<div class="line">ije.R_MO = <span class="stringliteral">&quot;11&quot;</span>;</div>
+<div class="line">ije.R_DY = <span class="stringliteral">&quot;14&quot;</span>;</div>
+<div class="line">ije.INT_REJ = <span class="stringliteral">&quot;4&quot;</span>;</div>
+<div class="line">ije.SYS_REJ = <span class="stringliteral">&quot;3&quot;</span>;</div>
+<div class="line">ije.TRX_FLG = <span class="stringliteral">&quot;5&quot;</span>;</div>
+<div class="line">ije.MANNER = <span class="stringliteral">&quot;A&quot;</span>;</div>
+<div class="line">ije.INJPL = <span class="stringliteral">&quot;7&quot;</span>;</div>
+<div class="line">ije.DOI_YR = <span class="stringliteral">&quot;2022&quot;</span>;</div>
+<div class="line">ije.DOI_MO = <span class="stringliteral">&quot;1&quot;</span>;</div>
+<div class="line">ije.DOI_DY = <span class="stringliteral">&quot;15&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Populate the fields that only appear in TRX records and not IJE</span></div>
+<div class="line">ije.trx.CS = <span class="stringliteral">&quot;8&quot;</span>;</div>
+<div class="line">ije.trx.SHIP = <span class="stringliteral">&quot;876&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create the message</span></div>
+<div class="line">CauseOfDeathCodingMessage message = <span class="keyword">new</span> CauseOfDeathCodingMessage(ije.ToDeathRecord());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Set the source and destination</span></div>
+<div class="line">message.MessageSource = <span class="stringliteral">&quot;http://nchs.cdc.gov/vrdr_submission&quot;</span>;</div>
+<div class="line">message.MessageDestination = <span class="stringliteral">&quot;https://example.org/jurisdiction/endpoint&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create a JSON representation of the coding response message</span></div>
+<div class="line"><span class="keywordtype">string</span> jsonMessage = message.ToJSON();</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md54"></a>
 VRDR.Tests</h3>
 <p >This directory contains unit and functional tests for the <a class="el" href="namespace_v_r_d_r.html">VRDR</a> library.</p>
 <h4><a class="anchor" id="autotoc_md55"></a>

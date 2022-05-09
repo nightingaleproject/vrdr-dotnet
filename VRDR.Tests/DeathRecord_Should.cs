@@ -322,23 +322,23 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_BundleIdentifier()
+        public void Set_DeathRecordIdentifier()
         {
             DeathRecord empty = new DeathRecord();
-            Assert.Equal("0000XX000000", empty.BundleIdentifier);
+            Assert.Equal("0000XX000000", empty.DeathRecordIdentifier);
             empty.DateOfDeath = "2019-10-01";
-            Assert.Equal("2019XX000000", empty.BundleIdentifier);
+            Assert.Equal("2019XX000000", empty.DeathRecordIdentifier);
             empty.Identifier = "101";
-            Assert.Equal("2019XX000101", empty.BundleIdentifier);
+            Assert.Equal("2019XX000101", empty.DeathRecordIdentifier);
             empty.DeathLocationJurisdiction = "MA";  // 25 is the code for MA
-            Assert.Equal("2019MA000101", empty.BundleIdentifier);
+            Assert.Equal("2019MA000101", empty.DeathRecordIdentifier);
         }
 
         [Fact]
-        public void Get_BundleIdentifier()
+        public void Get_DeathRecordIdentifier()
         {
-            Assert.Equal("2019YC000182", ((DeathRecord)JSONRecords[0]).BundleIdentifier);
-            Assert.Equal("2019YC000182", ((DeathRecord)XMLRecords[0]).BundleIdentifier);
+            Assert.Equal("2019YC000182", ((DeathRecord)JSONRecords[0]).DeathRecordIdentifier);
+            Assert.Equal("2019YC000182", ((DeathRecord)XMLRecords[0]).DeathRecordIdentifier);
         }
 
         [Fact]

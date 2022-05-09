@@ -1,6 +1,23 @@
 {
   "resourceType" : "Bundle",
   "id" : "DeathCertificateDocument-Example1",
+  "identifier" : {
+    "extension" : [
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString" : "000182"
+      },
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+        "valueString" : "000000000042"
+      },
+      {
+        "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+        "valueString" : "100000000001"
+      }
+    ],
+    "value" : "2022YC000182"
+  },
   "meta" : {
     "profile" : [
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
@@ -18,19 +35,6 @@
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
           ]
-        },
-        "identifier" : {
-          "extension" : [
-            {
-              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
-              "valueString" : "000000000042"
-            },
-            {
-              "url" : "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
-              "valueString" : "100000000001"
-            }
-          ],
-          "value" : "000182"
         },
         "extension" : [
           {

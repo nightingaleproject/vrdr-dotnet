@@ -99,50 +99,46 @@ switch(message)
 
 ### Return Coding
 
-NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes `CauseofDeathCodingResponseMessage` and `DemographicsCodingResponseMessage`, which are subtypes of the abstract class `CodingResponseMessage`.
+NCHS codes both causes of death, and race and ethnicity of decedents. The VRDR.Messaging library supports returning these two types of information separately, using the classes `CauseofDeathCodingResponseMessage` and `DemographicsCodingResponseMessage`.
 
 Once NCHS have determined the causes of death they can create a `CauseOfDeathCodingResponseMessage` to return that information to the jurisdiction:
 
 ```cs
-// Create an empty coding response message
-CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("https://example.org/jurisdiction/endpoint",
-                                                                                  "http://nchs.cdc.gov/vrdr_submission");
+using VRDR;
 
-// Assign the business identifiers
-message.CertificateNumber = 10;
-message.StateAuxiliaryIdentifier = "101010";
-message.DeathYear = 2019;
-message.DeathJurisdictionID = "MA";
+// Create an empty IJE Mortality record
+IJEMortality ije = new IJEMortality();
 
-// Specify additional information
-message.NCHSReceiptMonthString = "1";
-message.NCHSReceiptDayString = "9";
-message.NCHSReceiptYearString = "2020";
-message.MannerOfDeath = CauseOfDeathCodingResponseMessage.MannerOfDeathEnum.Accident;
-message.CoderStatus = "8";
-message.ShipmentNumber = "B202101";
-message.ACMESystemRejectCodes = CauseOfDeathCodingResponseMessage.ACMESystemRejectEnum.ACMEReject;
-message.PlaceOfInjury = CauseOfDeathCodingResponseMessage.PlaceOfInjuryEnum.Home;
-message.OtherSpecifiedPlace = "Unique Location";
-message.IntentionalReject = "5";
+// Populate the IJE fields
+ije.DOD_YR = "2022";
+ije.DSTATE = "YC";
+ije.FILENO = "123";
+ije.AUXNO = "500";
+ije.ACME_UC = "T273";
+ije.RAC = "T273 T270 ";
+ije.EAC = "11T273  21T270 &";
+ije.R_YR = "2019";
+ije.R_MO = "11";
+ije.R_DY = "14";
+ije.INT_REJ = "4";
+ije.SYS_REJ = "3";
+ije.TRX_FLG = "5";
+ije.MANNER = "A";
+ije.INJPL = "7";
+ije.DOI_YR = "2022";
+ije.DOI_MO = "1";
+ije.DOI_DY = "15";
 
-// Create the cause of death coding
-message.UnderlyingCauseOfDeath = "A04.7";
+// Populate the fields that only appear in TRX records and not IJE
+ije.trx.CS = "8";
+ije.trx.SHIP = "876";
 
-// Assign the record axis codes
-var recordAxisCodes = new List<string>();
-recordAxisCodes.Add("A04.7");
-recordAxisCodes.Add("A41.9");
-recordAxisCodes.Add("J18.9");
-recordAxisCodes.Add("J96.0");
-message.CauseOfDeathRecordAxis = recordAxisCodes;
+// Create the message
+CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
 
-// Assign the entity axis codes
-var builder = new CauseOfDeathEntityAxisBuilder();
-builder.Add("1", "1", "line1_code1");
-builder.Add("1", "2", "line1_code2");
-builder.Add("2", "1", "line2_code1");
-message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
+// Set the source and destination
+message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
+message.MessageDestination = "https://example.org/jurisdiction/endpoint";
 
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();
@@ -154,28 +150,33 @@ string jsonMessage = message.ToJSON();
 Similarly, NCHS can create a `DemographicsCodingResponseMessage` to convey coding information about the decedent's demographics.
 
 ```cs
-// Create an empty coding response message
-DemographicsCodingResponseMessage message = new DemographicsCodingResponseMessage("https://example.org/jurisdiction/endpoint",
-                                                                                  "http://nchs.cdc.gov/vrdr_submission");
+using VRDR;
 
-// Assign the business identifiers
-message.CertificateNumber = 10;
-message.StateAuxiliaryIdentifier = "101010";
-message.DeathYear = 2019;
-message.DeathJurisdictionID = "MA";
+// Create an empty IJE Mortality record
+IJEMortality ije = new IJEMortality();
 
-// Create the ethnicity coding
-var ethnicity = new Dictionary<CodingResponseMessage.HispanicOrigin, string>();
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNICE, "<ethnicity-code>");
-ethnicity.Add(CodingResponseMessage.HispanicOrigin.DETHNIC5C, "<ethnicity-code>");
-message.Ethnicity = ethnicity;
+// Populate the IJE fields
+ije.DOD_YR = "2022";
+ije.DSTATE = "YC";
+ije.FILENO = "123";
+ije.AUXNO = "500";
+ije.DETHNIC1 = "Y";
+ije.DETHNIC2 = "N";
+ije.RACE1 = "Y";
+ije.RACE2 = "N";
+ije.RACE16 = "Cheyenne";
+ije.RACE1E = "199";
+ije.RACE16C = "B40";
 
-// Create the race coding
-var race = new Dictionary<CodingResponseMessage.RaceCode, string>();
-race.Add(CodingResponseMessage.RaceCode.RACE1E, "<race-code>");
-race.Add(CodingResponseMessage.RaceCode.RACE17C, "<race-code>");
-race.Add(CodingResponseMessage.RaceCode.RACEBRG, "<race-code>");
-message.Race = race;
+// Populate the fields that only appear in MRE records and not IJE
+ije.mre.RECODE40 = "88";
+
+// Create the message
+DemographicsCodingMessage message = new DemographicsCodingMessage(ije.ToDeathRecord());
+
+// Set the source and destination
+message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
+message.MessageDestination = "https://example.org/jurisdiction/endpoint";
 
 // Create a JSON representation of the coding response message
 string jsonMessage = message.ToJSON();
@@ -199,20 +200,31 @@ BaseMessage message = BaseMessage.Parse(messageStream);
 // Switch to determine the type of message
 switch(message)
 {
-    case CauseOfDeathCodingResponseMessage coding:
-        string nchsId = coding.NCHSIdentifier;
-        string stateAuxId = coding.StateAuxiliaryIdentifier;
-        string cod = coding.CauseOfDeathConditionId;
-        List<string> recordAxis = coding.CauseOfDeathRecordAxis;
-        List<CauseOfDeathEntityAxisEntry> entityAxis = coding.CauseOfDeathEntityAxis;
-        ProcessCauseOfDeathCoding(nchsId, stateAuxId, cod, recordAxis, entityAxis);
+    case CauseOfDeathCodingMessage codingResponse:
+        Console.WriteLine($"\nUnderlying COD: {codingResponse.DeathRecord.AutomatedUnderlyingCOD}\n");
+        Console.WriteLine("Record Axis Codes:");
+        foreach (var entry in codingResponse.DeathRecord.RecordAxisCauseOfDeath)
+        {
+            Console.WriteLine($"  Position: {entry.Item1}  Code: {entry.Item2}");
+        }
+        Console.WriteLine("\nEntity Axis Codes:");
+        foreach (var entry in codingResponse.DeathRecord.EntityAxisCauseOfDeath)
+        {
+            Console.WriteLine($"  Line: {entry.Item1}  Position: {entry.Item2}  Code: {entry.Item3}");
+        }
+        Console.WriteLine();
         break;
-    case CauseOfDeathCodingResponseMessage coding:
-        string nchsId = coding.NCHSIdentifier;
-        string stateAuxId = coding.StateAuxiliaryIdentifier;
-        Dictionary<CodingResponseMessage.HispanicOrigin, string> ethnicity = coding.Ethnicity;
-        Dictionary<CodingResponseMessage.RaceCode, string> race = coding.Race;
-        ProcessDemographicsCoding(nchsId, stateAuxId, ethnicity, race);
+    case DemographicsCodingMessage codingResponse:
+        Console.WriteLine($"First Edited Race Code: {codingResponse.DeathRecord.FirstEditedRaceCodeHelper}");
+        Console.WriteLine($"Second Edited Race Code: {codingResponse.DeathRecord.SecondEditedRaceCodeHelper}");
+        Console.WriteLine($"Third Edited Race Code: {codingResponse.DeathRecord.ThirdEditedRaceCodeHelper}");
+        Console.WriteLine($"Fourth Edited Race Code: {codingResponse.DeathRecord.FourthEditedRaceCodeHelper}");
+        Console.WriteLine($"Fifth Edited Race Code: {codingResponse.DeathRecord.FifthEditedRaceCodeHelper}");
+        Console.WriteLine($"Sixth Edited Race Code: {codingResponse.DeathRecord.SixthEditedRaceCodeHelper}");
+        Console.WriteLine($"Seventh Edited Race Code: {codingResponse.DeathRecord.SeventhEditedRaceCodeHelper}");
+        Console.WriteLine($"Eighth Edited Race Code: {codingResponse.DeathRecord.EighthEditedRaceCodeHelper}");
+        Console.WriteLine($"First American Indian Race Code: {codingResponse.DeathRecord.FirstAmericanIndianRaceCodeHelper}");
+        Console.WriteLine($"Second American Indian Race Code: {codingResponse.DeathRecord.SecondAmericanIndianRaceCodeHelper}");
         break;
 
     ...

@@ -21,6 +21,7 @@ This repository includes .NET (C#) code for
 <tbody>
 <tr>
 <td style="text-align: center;"><strong>VRDR IG</strong></td>
+<td style="text-align: center;"><strong>Messaging IG</strong></td>
 <td style="text-align: center;"><strong>FHIR</strong></td>
 <td style="text-align: center;"><strong>Version</strong></td>
 <td style="text-align: center;"><strong>VRDR</strong></td>
@@ -28,6 +29,7 @@ This repository includes .NET (C#) code for
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
+<td style="text-align: center;">N/A</td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V3.1.1</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
@@ -35,13 +37,15 @@ This repository includes .NET (C#) code for
 </tr>
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
+<td style="text-align: center;">N/A</td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V3.3.1</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1"> github</a></td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">1.3.0 STU2 Post-Ballot Pre-Publication</td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V4.0.0.preview2</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview2">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview2"> github</a></td>

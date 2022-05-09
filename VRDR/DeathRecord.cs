@@ -956,7 +956,7 @@ namespace VRDR
                 }
                 return null;
             }
-            // The setter is pribate because the value is derived so should never be set directly
+            // The setter is private because the value is derived so should never be set directly
             private set
             {
                 if (Bundle.Identifier == null)

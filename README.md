@@ -113,22 +113,15 @@ deathRecord.COD1A = "Rupture of myocardium";
 // Cause of Death Part I Interval, Line a
 deathRecord.INTERVAL1A = "Minutes";
 
-// Cause of Death Part I Code, Line a
-Dictionary<string, string> exampleCode = new Dictionary<string, string>();
-exampleCode.Add("code", "I21.0");
-exampleCode.Add("system", "ICD-10");
-exampleCode.Add("display", "Acute transmural myocardial infarction of anterior wall");
-deathRecord.CODE1A = exampleCode;
-
 // Add PregnancyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
-code.Add("code", "PHC1261");
-code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("code", "2");
+code.Add("system", VRDR.CodeSystems.PregnancyStatus);
 code.Add("display", "Pregnant at the time of death");
 deathRecord.PregnancyStatus = code;
 
 // Add ExaminerContacted
-deathRecord.ExaminerContacted = false;
+deathRecord.ExaminerContactedHelper = VRDR.ValueSets.YesNoUnkown.Yes ;
 
 // Add DateOfDeath
 deathRecord.DateOfDeath = "2018-07-10T10:04:00+00:00";
@@ -155,7 +148,6 @@ Console.WriteLine($"Date/Time of Death: {deathRecord.DateOfDeath}");
 
 Console.WriteLine($"Cause of Death Part I, Line a: {deathRecord.COD1A}");
 Console.WriteLine($"Cause of Death Part I Interval, Line a: {deathRecord.INTERVAL1A}");
-Console.WriteLine($"Cause of Death Part I Code, Line a: {String.Join(", ", deathRecord.CODE1A.Select(x => x.Key + "=" + x.Value).ToArray())}");
 ```
 
 #### Helper Methods for Value Sets
@@ -168,8 +160,8 @@ necessary values:
 ```
 // Add PregnancyStatus
 Dictionary<string, string> code = new Dictionary<string, string>();
-code.Add("code", "PHC1261");
-code.Add("system", VRDR.CodeSystems.PH_PHINVS_CDC);
+code.Add("code", "2");
+code.Add("system", VRDR.CodeSystems.PregnancyStatus);
 code.Add("display", "Pregnant at the time of death");
 deathRecord.PregnancyStatus = code;
 ```
@@ -177,21 +169,64 @@ deathRecord.PregnancyStatus = code;
 Here's a simpler way to accomplish the same thing by using the `PregnancyStatusHelper`:
 
 ```
-deathRecord.PregnancyStatusHelper = "PHC1261";
+deathRecord.PregnancyStatusHelper = VRDR.ValueSets.PregnancyStatus.Pregnant_At_Time_Of_Death;
 ```
 
 The helper automatically looks up the correct code system and display string. The following helpers
 are available to simplify setting coded values:
 
+* FilingFormatHelper
+* ReplaceStatusHelper
 * CertificationRoleHelper
 * MannerOfDeathTypeHelper
+* SexAtDeathHelper
+* ResidenceWithinCityLimitsHelper
+* Ethnicity1Helper
+* Ethnicity2Helper
+* Ethnicity3Helper
+* Ethnicity4Helper
+* RaceMissingValueReasonHelper
 * MaritalStatusHelper
+* MaritalBypassHelper
+* SpouseAliveHelper
 * EducationLevelHelper
+* EducationLevelEditFlagHelper
+* MilitaryServiceHelper
 * DecedentDispositionMethodHelper
+* AutopsyPerformedIndicatorHelper
+* AutopsyResultsAvailableHelper
 * DeathLocationTypeHelper
+* AgeAtDeathEditBypassFlagHelper
 * PregnancyStatusHelper
-* InjuryPlaceHelper
+* PregnancyStatusEditFlagHelper
+* ExaminerContactedHelper
+* InjuryAtWorkHelper
 * TransportationRoleHelper
+* TobaccoUseHelper
+* ActivityAtDeathHelper
+* PlaceOfInjuryHelper
+* FirstEditedRaceCodeHelper
+* SecondEditedRaceCodeHelper
+* ThirdEditedRaceCodeHelper
+* FourthEditedRaceCodeHelper
+* FifthEditedRaceCodeHelper
+* SixthEditedRaceCodeHelper
+* SeventhEditedRaceCodeHelper
+* EighthEditedRaceCodeHelper
+* FirstAmericanIndianRaceCodeHelper
+* SecondAmericanIndianRaceCodeHelper
+* FirstOtherAsianRaceCodeHelper
+* SecondOtherAsianRaceCodeHelper
+* FirstOtherPacificIslanderRaceCodeHelper
+* SecondOtherPacificIslanderRaceCodeHelper
+* FirstOtherRaceCodeHelper
+* SecondOtherRaceCodeHelper
+* HispanicCodeHelper
+* HispanicCodeForLiteralHelper
+* RaceRecode40Helper
+* IntentionalRejectHelper
+* AcmeSystemRejectHelper
+* TransaxConversionHelper
 
 #### FHIR VRDR record to/from IJE Mortality format
 An example of converting a VRDR FHIR Death Record to an IJE string:
@@ -237,7 +272,7 @@ CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessag
 // Assign the business identifiers
 message.CertificateNumber = "...";
 message.StateAuxiliaryIdentifier = "...";
-message.NCHSIdentifier = "...";
+message.DeathRecordIdentifier = "...";
 
 // Create the cause of death coding
 message.UnderlyingCauseOfDeath = <icd code>;
@@ -379,7 +414,7 @@ dotnet run --project VRDR.CLI showcodes VRDR.CLI/1coding.json
 
 ### VRDR.Client
 
-This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API). 
+This directory contains classes and functions to connect to the [NVSS API server](https://github.com/nightingaleproject/Reference-NCHS-API), authenticate, manage authentication tokens, post records, and retrieve responses. For a full implementation of a client service that uses this library, see the [Reference Client Implementation](https://github.com/nightingaleproject/Reference-Client-API).
 
 *This package is not yet published on NuGet.*
 
@@ -427,7 +462,7 @@ GET record responses from the NVSS API Server with your authenticated client
   // lastUpdated is a timestamp of the last GET request
   lastUpdatedStr = lastUpdated.ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
   var content = client.GetMessageResponsesAsync(lastUpdatedStr);
-  
+
   // ...parse the Bundle of Bundles in the content response
 ```
 
@@ -462,7 +497,7 @@ dotnet run --project VRDR.HTTP
 The service will be listening locally at `http://localhost:8080`.
 
 #### Contributing
-Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created.  
+Changes related to an upcoming IG version should be merged to the IG-develop-vx.x.x branch. Bug fixes related to the current version should be merged to the master branch and a new release should be created.
 
 ##### Create a branch for IG changes:
 ```
@@ -476,7 +511,7 @@ git push origin <your-ticketnumber-branch-name>
 ```
 Create merge request to the IG-develop-vx.x.x branch.
 
-##### Create a branch for bug fixes in master 
+##### Create a branch for bug fixes in master
 ```
 git checkout master
 git pull origin master

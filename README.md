@@ -21,6 +21,7 @@ This repository includes .NET (C#) code for
 <tbody>
 <tr>
 <td style="text-align: center;"><strong>VRDR IG</strong></td>
+<td style="text-align: center;"><strong>Messaging IG</strong></td>
 <td style="text-align: center;"><strong>FHIR</strong></td>
 <td style="text-align: center;"><strong>Version</strong></td>
 <td style="text-align: center;"><strong>VRDR</strong></td>
@@ -28,6 +29,7 @@ This repository includes .NET (C#) code for
 </tr>
 <tr>
 <td style="text-align: center;">STU1</td>
+<td style="text-align: center;">N/A</td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V3.1.1</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.1.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.1.1"> github</a></td>
@@ -35,13 +37,15 @@ This repository includes .NET (C#) code for
 </tr>
 <tr>
 <td style="text-align: center;">STU2 Ballot</td>
+<td style="text-align: center;">N/A</td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V3.3.1</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/v3.3.1"> github</a></td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR.Messaging/3.3.1">nuget</a> <a href="https://github.com/nightingaleproject/vital_records_fhir_messaging/releases/download/v3.1.0/fhir_messaging_for_nvss.pdf"> github</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">1.3.0 STU2 Post-Ballot Pre-Publication</td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/HL7/vrdr/">STU2 v1.3</a></td>
+<td style="text-align: center;"><a href="http://build.fhir.org/ig/nightingaleproject/vital_records_fhir_messaging_ig/branches/main/index.html">v0.9</a></td>
 <td style="text-align: center;">R4</td>
 <td style="text-align: center;">V4.0.0.preview2</td>
 <td style="text-align: center;"><a href="https://www.nuget.org/packages/VRDR/4.0.0.preview2">nuget</a> <a href="https://github.com/nightingaleproject/vrdr-dotnet/releases/tag/4.0.0.preview2"> github</a></td>
@@ -261,44 +265,6 @@ DeathRecord deathRecord = ije.ToDeathRecord();
 Console.WriteLine(deathRecord.ToJSON());
 ```
 
-#### Return Coding
-An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from NCHS containing coded causes. For a complete example, [click here](doc/Messaging.md#return-coding).
-
-```cs
-using VRDR;
-// Create an empty cause of death coding response message
-CauseOfDeathCodingResponseMessage message = new CauseOfDeathCodingResponseMessage("https://example.org/jurisdiction/endpoint");
-
-// Assign the business identifiers
-message.CertificateNumber = "...";
-message.StateAuxiliaryIdentifier = "...";
-message.DeathRecordIdentifier = "...";
-
-// Create the cause of death coding
-message.UnderlyingCauseOfDeath = <icd code>;
-
-// Assign the record axis codes
-var recordAxisCodes = new List<string>();
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-recordAxisCodes.Add(<icd code>);
-message.CauseOfDeathRecordAxis = recordAxisCodes;
-
-// Assign the entity axis codes
-var builder = new CauseOfDeathEntityAxisBuilder();
-// for each entity axis codes
-...
-builder.Add(<lineNumber>, <positionInLine>, <icd code>);
-...
-// end loop
-message.CauseOfDeathEntityAxis = builder.ToCauseOfDeathEntityAxis();
-
-// Create a JSON representation of the coding response message
-string jsonMessage = message.ToJSON();
-```
-Note that the `CauseCodes` class from previous versions is now obsolete, and the `CodingResponseMessage` is now an abstract base class; use the `CauseOfDeathCodingResponseMessage` and `DemographicsCodingResponseMessage` as described above instead.
-
 ### VRDR.Messaging
 
 This directory contains classes to create and parse FHIR messages used for Vital Records Death Reporting.
@@ -329,6 +295,54 @@ You can also include a locally downloaded copy of the library instead of the NuG
 ```
 
 Use of the VRDR.Messaging library to support various message exchange scenarios is described in [`doc/Messaging.md`](doc/Messaging.md).
+
+#### Return Coding Example
+
+An example of producing a `CauseOfDeathCodingResponseMessage` for handling the returned message from
+NCHS containing coded causes. For convenience we can create the record either using IJE-style
+properties on an IJEMortality record (demonstrated below) or using FHIR IG properties on a
+DeathRecord record. For a complete example, [click here](doc/Messaging.md#return-coding).
+
+```cs
+using VRDR;
+
+// Create an empty IJE Mortality record
+IJEMortality ije = new IJEMortality();
+
+// Populate the IJE fields
+ije.DOD_YR = "2022";
+ije.DSTATE = "YC";
+ije.FILENO = "123";
+ije.AUXNO = "500";
+ije.ACME_UC = "T273";
+ije.RAC = "T273 T270 ";
+ije.EAC = "11T273  21T270 &";
+ije.R_YR = "2019";
+ije.R_MO = "11";
+ije.R_DY = "14";
+ije.INT_REJ = "4";
+ije.SYS_REJ = "3";
+ije.TRX_FLG = "5";
+ije.MANNER = "A";
+ije.INJPL = "7";
+ije.DOI_YR = "2022";
+ije.DOI_MO = "1";
+ije.DOI_DY = "15";
+
+// Populate the fields that only appear in TRX records and not IJE
+ije.trx.CS = "8";
+ije.trx.SHIP = "876";
+
+// Create the message
+CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
+
+// Set the source and destination
+message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
+message.MessageDestination = "https://example.org/jurisdiction/endpoint";
+
+// Create a JSON representation of the coding response message
+string jsonMessage = message.ToJSON();
+```
 
 ### VRDR.Tests
 This directory contains unit and functional tests for the VRDR library.

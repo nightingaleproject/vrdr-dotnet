@@ -730,36 +730,39 @@ namespace VRDR.CLI
             }
             else if (args.Length == 2 && args[0] == "showcodes")
             {
-/*                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
+                BaseMessage message = BaseMessage.Parse(File.ReadAllText(args[1]));
                 switch(message)
                 {
                     case CauseOfDeathCodingMessage codingResponse:
-                        Console.WriteLine($"\nUnderlying COD: {codingResponse.UnderlyingCauseOfDeath}\n");
-                        Console.WriteLine($"Record Axis Codes: {String.Join(", ", codingResponse.CauseOfDeathRecordAxis.ToArray())}\n");
-                        Console.WriteLine("Entity Axis Codes:");
-                        foreach (var entry in codingResponse.CauseOfDeathEntityAxisList)
+                        Console.WriteLine($"\nUnderlying COD: {codingResponse.DeathRecord.AutomatedUnderlyingCOD}\n");
+                        Console.WriteLine("Record Axis Codes:");
+                        foreach (var entry in codingResponse.DeathRecord.RecordAxisCauseOfDeath)
                         {
-                            Console.WriteLine($"  Line: {entry.Line}  Sequence: {entry.Position}  Code: {entry.Code}");
+                            Console.WriteLine($"  Position: {entry.Item1}  Code: {entry.Item2}");
+                        }
+                        Console.WriteLine("\nEntity Axis Codes:");
+                        foreach (var entry in codingResponse.DeathRecord.EntityAxisCauseOfDeath)
+                        {
+                            Console.WriteLine($"  Line: {entry.Item1}  Position: {entry.Item2}  Code: {entry.Item3}");
                         }
                         Console.WriteLine();
                         break;
                     case DemographicsCodingMessage codingResponse:
-                        Console.WriteLine("\nEthnicity:");
-                        foreach (var entry in codingResponse.Ethnicity)
-                        {
-                          Console.WriteLine($"{entry.Key}: {entry.Value}");
-                        }
-                        Console.WriteLine("Race:");
-                        foreach (var entry in codingResponse.Race)
-                        {
-                          Console.WriteLine($"{entry.Key}: {entry.Value}");
-                        }
+                        Console.WriteLine($"First Edited Race Code: {codingResponse.DeathRecord.FirstEditedRaceCodeHelper}");
+                        Console.WriteLine($"Second Edited Race Code: {codingResponse.DeathRecord.SecondEditedRaceCodeHelper}");
+                        Console.WriteLine($"Third Edited Race Code: {codingResponse.DeathRecord.ThirdEditedRaceCodeHelper}");
+                        Console.WriteLine($"Fourth Edited Race Code: {codingResponse.DeathRecord.FourthEditedRaceCodeHelper}");
+                        Console.WriteLine($"Fifth Edited Race Code: {codingResponse.DeathRecord.FifthEditedRaceCodeHelper}");
+                        Console.WriteLine($"Sixth Edited Race Code: {codingResponse.DeathRecord.SixthEditedRaceCodeHelper}");
+                        Console.WriteLine($"Seventh Edited Race Code: {codingResponse.DeathRecord.SeventhEditedRaceCodeHelper}");
+                        Console.WriteLine($"Eighth Edited Race Code: {codingResponse.DeathRecord.EighthEditedRaceCodeHelper}");
+                        Console.WriteLine($"First American Indian Race Code: {codingResponse.DeathRecord.FirstAmericanIndianRaceCodeHelper}");
+                        Console.WriteLine($"Second American Indian Race Code: {codingResponse.DeathRecord.SecondAmericanIndianRaceCodeHelper}");
                         break;
                     default:
                         Console.WriteLine("Message does not appear to be a CodingMessage");
                         break;
                 }
-*/
                 return 0;
             }
             return 0;

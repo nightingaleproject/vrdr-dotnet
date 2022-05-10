@@ -687,49 +687,6 @@
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:9d567f0e-553d-4a58-aa3c-22b3b64e4add" />
-    <resource>
-      <List>
-        <id value="9d567f0e-553d-4a58-aa3c-22b3b64e4add" />
-        <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-of-Death-Pathway" />
-        </meta>
-        <status value="current" />
-        <mode value="snapshot" />
-        <source>
-          <reference value="urn:uuid:c99651c4-7c84-499f-bb37-7db96f9929c4" />
-        </source>
-        <orderedBy>
-          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/list-order" />
-            <code value="priority" />
-            <display value="Sorted by Priority" />
-          </coding>
-        </orderedBy>
-        <entry>
-          <item>
-            <reference value="urn:uuid:e3328799-6392-4f6b-9db9-556a9b8a88d3" />
-          </item>
-        </entry>
-        <entry>
-          <item>
-            <reference value="urn:uuid:5c0a0509-8297-4a53-a0ef-725daaaf9736" />
-          </item>
-        </entry>
-        <entry>
-          <item>
-            <reference value="urn:uuid:826a3c27-c712-4c65-b454-46cc4ca76c99" />
-          </item>
-        </entry>
-        <entry>
-          <item>
-            <reference value="urn:uuid:46c9ed22-34f6-4d40-bdfa-9b7d6b3e9da6" />
-          </item>
-        </entry>
-      </List>
-    </resource>
-  </entry>
-  <entry>
     <fullUrl value="9bebc631-70b1-4052-bb61-7909caa7f5d4" />
     <resource>
       <Location>
@@ -873,6 +830,16 @@
             <text value="minutes" />
           </valueCodeableConcept>
         </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+              <display value="lineNumber" />
+            </coding>
+          </code>
+          <valueUnsignedInt value="1"/>
+        </component>
       </Observation>
     </resource>
   </entry>
@@ -917,6 +884,16 @@
             <text value="6 days" />
           </valueCodeableConcept>
         </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+              <display value="lineNumber" />
+            </coding>
+          </code>
+          <valuePositiveInt value="2"/>
+        </component>
       </Observation>
     </resource>
   </entry>
@@ -955,6 +932,16 @@
           <valueCodeableConcept>
             <text value="5 years" />
           </valueCodeableConcept>
+        </component>
+                <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+              <display value="lineNumber" />
+            </coding>
+          </code>
+          <valuePositiveInt value="3"/>
         </component>
 
       </Observation>
@@ -995,6 +982,16 @@
           <valueCodeableConcept>
             <text value="7 years" />
           </valueCodeableConcept>
+        </component>
+                <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+              <display value="lineNumber" />
+            </coding>
+          </code>
+          <valuePositiveInt value="4"/>
         </component>
       </Observation>
     </resource>

@@ -95,15 +95,19 @@ namespace VRDR
                     CodCondition.Code = new CodeableConcept(CodeSystems.LOINC, "69453-9", "Cause of death [US Standard Certificate of Death]", null);
                     CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     CodCondition.Performer.Add (new ResourceReference("urn:uuid:" + Certifier.Id));
+                    Observation.ComponentComponent component = new Observation.ComponentComponent();
+                    component.Code = new CodeableConcept(CodeSystems.ComponentCode, "lineNumber", "line number", null);
+                    component.Value = new Integer (index + 1); // index is 0-3, linenumbers are 1-4
+                    CodCondition.Component.Add(component);
                     AddReferenceToComposition(CodCondition.Id, "DeathCertification");
                     Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
-                    List.EntryComponent entry = new List.EntryComponent();
-                    entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
-                    if (CauseOfDeathConditionPathway.Entry.Count() != 4)
-                    {
-                        foreach (var i in Enumerable.Range(0, 4)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    }
-                    CauseOfDeathConditionPathway.Entry[index] = entry;
+                    // List.EntryComponent entry = new List.EntryComponent();
+                    // entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
+                    // if (CauseOfDeathConditionPathway.Entry.Count() != 4)
+                    // {
+                    //     foreach (var i in Enumerable.Range(0, 4)) { CauseOfDeathConditionPathway.Entry.Add(null); }
+                    // }
+                    // CauseOfDeathConditionPathway.Entry[index] = entry;
                     return (CodCondition);
         }
 
@@ -120,8 +124,8 @@ namespace VRDR
         /// <summary>Cause Of Death Condition Line D (#4).</summary>
         private Observation CauseOfDeathConditionD;
 
-        /// <summary>Cause Of Death Condition Pathway.</summary>
-        private List CauseOfDeathConditionPathway;
+        // /// <summary>Cause Of Death Condition Pathway.</summary>
+        // private List CauseOfDeathConditionPathway;
 
         /// <summary>Decedent's Father.</summary>
         private RelatedPerson Father;
@@ -628,15 +632,15 @@ namespace VRDR
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
             // Start with an empty Cause of Death Pathway
-            CauseOfDeathConditionPathway = new List();
-            CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
-            CauseOfDeathConditionPathway.Meta = new Meta();
-            string[] causeofdeathconditionpathway_profile = { ProfileURL.CauseOfDeathPathway };
-            CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
-            CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
-            CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
-            CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
-            CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
+            // CauseOfDeathConditionPathway = new List();
+            // CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
+            // CauseOfDeathConditionPathway.Meta = new Meta();
+            // string[] causeofdeathconditionpathway_profile = { ProfileURL.CauseOfDeathPathway };
+            // CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
+            // CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
+            // CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
+            // CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
+            // CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
 
             CreateEmptyCodingStatusValues();
 
@@ -647,7 +651,7 @@ namespace VRDR
             // AddReferenceToComposition(Pronouncer.Id, "OBE");
             AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
             AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
-            AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
+            // AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
             AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
             AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
@@ -659,7 +663,7 @@ namespace VRDR
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
             Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
-            Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
+            // Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
             Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
 
@@ -840,7 +844,7 @@ namespace VRDR
             AddResourceToBundleIfPresent(CauseOfDeathConditionB, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionC, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionD, codccBundle);
-            AddResourceToBundleIfPresent(CauseOfDeathConditionPathway, codccBundle);
+            // AddResourceToBundleIfPresent(CauseOfDeathConditionPathway, codccBundle);
             AddResourceToBundleIfPresent(ConditionContributingToDeath, codccBundle);
             AddResourceToBundleIfPresent(MannerOfDeath, codccBundle);
             AddResourceToBundleIfPresent(AutopsyPerformed, codccBundle);
@@ -1786,7 +1790,7 @@ namespace VRDR
         /// <para>    Console.WriteLine($"Cause: {cause.Item1}, Onset: {cause.Item2}");</para>
         /// <para>}</para>
         /// </example>
-        [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPathway, true, 50)]
+        [Property("Causes Of Death", Property.Types.TupleArr, "Death Certification", "Conditions that resulted in the cause of death.", true, IGURL.CauseOfDeathPart1, true, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(onset.empty().not())", "")]
         public Tuple<string, string>[] CausesOfDeath
         {
@@ -10446,6 +10450,34 @@ namespace VRDR
                 case "69441-4":
                     ConditionContributingToDeath = (Observation)obs;
                     break;
+                case "69453-9":
+                        var lineNumber = 0;
+                        Observation.ComponentComponent lineNumComp = obs.Component.Where(c => c.Code.Coding[0].Code=="lineNumber").FirstOrDefault();
+                        if (lineNumComp != null && lineNumComp.Value != null)
+                        {
+                            lineNumber = Int32.Parse(lineNumComp.Value.ToString());
+                        }
+                    switch(lineNumber){
+                        case 1:
+                            CauseOfDeathConditionA = obs;
+                            break;
+
+                        case 2:
+                            CauseOfDeathConditionB = obs;
+                            break;
+
+                        case 3:
+                            CauseOfDeathConditionC = obs;
+                            break;
+
+                        case 4:
+                            CauseOfDeathConditionD = obs;
+                            break;
+
+                        default: // invalid position, should we go kaboom?
+                        break;
+                    }
+                    break;
                 case "80913-7":
                     DecedentEducationLevel = (Observation)obs;
                     break;
@@ -10523,47 +10555,47 @@ namespace VRDR
                 }
             }
 
-            // Grab Cause Of Death Condition Pathway
-            var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
-            if (causeOfDeathConditionPathway != null)
-            {
-                CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
-            }
+            // // Grab Cause Of Death Condition Pathway
+            // var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
+            // if (causeOfDeathConditionPathway != null)
+            // {
+            //     CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
+            // }
 
             // Grab Causes of Death using CauseOfDeathConditionPathway
-            List<Observation> causeConditions = new List<Observation>();
-            if (CauseOfDeathConditionPathway != null)
-            {
-                foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
-                {
-                    if (condition != null && condition.Item != null && condition.Item.Reference != null)
-                    {
-                        var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69453-9") &&
-                        (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
-                        if (codCond != null)
-                        {
-                            causeConditions.Add((Observation)codCond.Resource);
-                        }
-                    }
-                }
-                if (causeConditions.Count() > 0)
-                {
-                    CauseOfDeathConditionA = causeConditions[0];
-                }
-                if (causeConditions.Count() > 1)
-                {
-                    CauseOfDeathConditionB = causeConditions[1];
-                }
-                if (causeConditions.Count() > 2)
-                {
-                    CauseOfDeathConditionC = causeConditions[2];
-                }
-                if (causeConditions.Count() > 3)
-                {
-                    CauseOfDeathConditionD = causeConditions[3];
-                }
+            // List<Observation> causeConditions = new List<Observation>();
+            // if (CauseOfDeathConditionPathway != null)
+            // {
+            //     foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
+            //     {
+            //         if (condition != null && condition.Item != null && condition.Item.Reference != null)
+            //         {
+            //             var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69453-9") &&
+            //             (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
+            //             if (codCond != null)
+            //             {
+            //                 causeConditions.Add((Observation)codCond.Resource);
+            //             }
+            //         }
+            //     }
+            //     if (causeConditions.Count() > 0)
+            //     {
+            //         CauseOfDeathConditionA = causeConditions[0];
+            //     }
+            //     if (causeConditions.Count() > 1)
+            //     {
+            //         CauseOfDeathConditionB = causeConditions[1];
+            //     }
+            //     if (causeConditions.Count() > 2)
+            //     {
+            //         CauseOfDeathConditionC = causeConditions[2];
+            //     }
+            //     if (causeConditions.Count() > 3)
+            //     {
+            //         CauseOfDeathConditionD = causeConditions[3];
+            //     }
 
-            }
+            // }
             // Scan through all RelatedPerson to make sure they all have relationship codes!
             foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
             {

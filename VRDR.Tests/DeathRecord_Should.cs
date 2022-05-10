@@ -694,7 +694,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ContributingConditions()
         {
-            Assert.Equal("Example Contributing Conditions", ((DeathRecord)JSONRecords[0]).ContributingConditions);
+            Assert.Equal("hypertensive heart disease", ((DeathRecord)JSONRecords[1]).ContributingConditions);
             Assert.Equal("Example Contributing Conditions", ((DeathRecord)XMLRecords[0]).ContributingConditions);
         }
 
@@ -708,7 +708,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1A()
         {
-            Assert.Equal("Rupture of myocardium", ((DeathRecord)JSONRecords[0]).COD1A);
+            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)JSONRecords[1]).COD1A);
             Assert.Equal("Rupture of myocardium", ((DeathRecord)XMLRecords[0]).COD1A);
         }
 

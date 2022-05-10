@@ -60,19 +60,6 @@
             ]
           }
         ],
-        "identifier": {
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
-              "valueString": "000000000001"
-            },
-            {
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
-              "valueString": "100000000001"
-            }
-          ],
-          "value": "000182"
-        },
         "section": [
           {
             "code": {
@@ -185,9 +172,6 @@
               },
               {
                 "reference": "Observation/CauseOfDeathPart2-Example1"
-              },
-              {
-                "reference": "List/CauseOfDeathPathway-Example1"
               }
             ]
           },
@@ -1585,6 +1569,17 @@
             "code": {
               "coding": [
                 {
+                  "code": "lineNumber",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+                }
+              ]
+            },
+            "valueInteger": 1
+          },
+          {
+            "code": {
+              "coding": [
+                {
                   "code": "69440-6",
                   "system": "http://loinc.org",
                   "display": "Disease onset to death interval"
@@ -1628,6 +1623,17 @@
           ]
         },
         "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "lineNumber",
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+                }
+              ]
+            },
+            "valueInteger": 2
+          },
           {
             "code": {
               "coding": [
@@ -1688,44 +1694,6 @@
         "status": "final"
       },
       "fullUrl": "http://www.example.org/fhir/Observation/CauseOfDeathPart2-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "List",
-        "id": "CauseOfDeathPathway-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-pathway"
-          ]
-        },
-        "status": "current",
-        "mode": "snapshot",
-        "orderedBy": {
-          "coding": [
-            {
-              "code": "priority",
-              "system": "http://terminology.hl7.org/CodeSystem/list-order",
-              "display": "Sorted by Priority"
-            }
-          ]
-        },
-        "source": {
-          "reference": "Practitioner/Certifier-Example1"
-        },
-        "entry": [
-          {
-            "item": {
-              "reference": "Observation/CauseOfDeathPart1-Example1"
-            }
-          },
-          {
-            "item": {
-              "reference": "Observation/CauseOfDeathPart1-Example2"
-            }
-          }
-        ]
-      },
-      "fullUrl": "http://www.example.org/fhir/List/CauseOfDeathPathway-Example1"
     },
     {
       "resource": {

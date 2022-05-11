@@ -65,6 +65,7 @@ namespace VRDR
             Certifier.Meta = new Meta();
             string[] certifier_profile = { ProfileURL.Certifier  };
             Certifier.Meta.Profile = certifier_profile;
+            // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }
         // ///<summary>The Mortician.</summary>
         //private Practitioner Mortician;
@@ -72,15 +73,14 @@ namespace VRDR
         /// <summary>The Certification.</summary>
         private Procedure DeathCertification;
 
+        // /// <summary>Create Death Certification.</summary>
+        // private void CreateDeathCertification(){
+        //     CreateDeathCertification();
+
+        // }
+
         /// <summary>Create Death Certification.</summary>
         private void CreateDeathCertification(){
-            CreateEmptyDeathCertification();
-            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
-            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-        }
-
-        /// <summary>Create Empty Death Certification.</summary>
-        private void CreateEmptyDeathCertification(){
             DeathCertification = new Procedure();
             DeathCertification.Id = Guid.NewGuid().ToString();
             DeathCertification.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
@@ -90,6 +90,7 @@ namespace VRDR
             DeathCertification.Status = EventStatus.Completed;
             DeathCertification.Category = new CodeableConcept(CodeSystems.SCT, "103693007", "Diagnostic procedure", null);
             DeathCertification.Code = new CodeableConcept(CodeSystems.SCT, "308646001", "Death certification", null);
+            // Not linked to Composition or inserted in bundle, since this is run before the composition exists.
         }
 
         /// <summary>The Manner of Death Observation.</summary>
@@ -193,6 +194,21 @@ namespace VRDR
         /// <summary>Decedent Education Level.</summary>
         private Observation DecedentEducationLevel;
 
+        /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
+        private void CreateEducationLevelObs()
+        {
+            DecedentEducationLevel = new Observation();
+            DecedentEducationLevel.Id = Guid.NewGuid().ToString();
+            DecedentEducationLevel.Meta = new Meta();
+            string[] educationlevel_profile = { ProfileURL.DecedentEducationLevel };
+            DecedentEducationLevel.Meta.Profile = educationlevel_profile;
+            DecedentEducationLevel.Status = ObservationStatus.Final;
+            DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
+            DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
+            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographic");
+            Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
+        }
+
         /// <summary>Birth Record Identifier.</summary>
         private Observation BirthRecordIdentifier;
 
@@ -204,7 +220,7 @@ namespace VRDR
         /// </summary>
         private Parameters CodingStatusValues;
 
-        private void CreateEmptyCodingStatusValues()
+        private void CreateCodingStatusValues()
         {
             CodingStatusValues = new Parameters();
             CodingStatusValues.Id = Guid.NewGuid().ToString();
@@ -214,6 +230,8 @@ namespace VRDR
             Date date = new Date();
             date.Extension.Add(NewBlankPartialDateTimeExtension(false));
             CodingStatusValues.Add("receiptDate", date);
+            AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
+            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
         }
 
         private void CreateBirthRecordIdentifier(){
@@ -285,6 +303,8 @@ namespace VRDR
             DispositionLocation.PhysicalType = new CodeableConcept();
             DispositionLocation.PhysicalType.Coding.Add(pt);
             DispositionLocation.Type.Add(new CodeableConcept( CodeSystems.LocationType, "disposition", "disposition location", null));
+            AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
+            Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
         }
 
         /// <summary>Disposition Method.</summary>
@@ -569,7 +589,7 @@ namespace VRDR
             Bundle.Timestamp = DateTime.Now;
             Bundle.Meta.Profile = bundle_profile;
 
-            // Start with an empty decedent.
+            // Start with an empty decedent.  Need reference in Composition.
             Decedent = new Patient();
             Decedent.Id = Guid.NewGuid().ToString();
             Decedent.Meta = new Meta();
@@ -578,7 +598,7 @@ namespace VRDR
 
 
 
-            // Start with an empty certifier. - why?
+            // Start with an empty certifier. - Need reference in Composition
             CreateCertifier();
 
             // // Start with an empty pronouncer.
@@ -591,14 +611,14 @@ namespace VRDR
             // Start with an empty mortician.
            // InitializeMorticianIfNull();
 
-            // Start with an empty certification. - why?
-            CreateEmptyDeathCertification();
+            // Start with an empty certification. - need reference in Composition
+            CreateDeathCertification();
 
             // Start with an empty funeral home. - why?
-            CreateFuneralHome();
+            // CreateFuneralHome();
 
             // Location of Disposition -why?
-            CreateDispositionLocation();
+            //CreateDispositionLocation();
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
@@ -622,33 +642,39 @@ namespace VRDR
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
              // Start with an empty race and ethinicity observation - why?
-            CreateInputRaceEthnicityObs();
+            // CreateInputRaceEthnicityObs();
 
-            // Start with an empty coding status values. - why?
-            CreateEmptyCodingStatusValues();
+            // Start with an empty coding status values.
+            // CreateCodingStatusValues();
 
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
-            AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
+
             AddReferenceToComposition(Certifier.Id, "DeathCertification");
+            Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
             // AddReferenceToComposition(Pronouncer.Id, "OBE");
             AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
-            AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
+            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
+            // AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
+            // Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
             // AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
-            AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
-            AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
-            Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
+            // AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
+            // Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
+
             // TODO: Some of these, particularly the ones that only appear in certain bundles, probably shouldn't be added by default
-            Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
-            Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
+            // AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
+            // Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
+
             // Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
             //Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-            Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
+
+
             //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
             // Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
-            Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
-            Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
+
+            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
+            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -4266,20 +4292,6 @@ namespace VRDR
             }
         }
 
-        /// <summary>Create an empty EducationLevel Observation, to be populated in either EducationLevel or EducationLevelEditFlag.</summary>
-        private void CreateEmptyEducationLevelObservation()
-        {
-            DecedentEducationLevel = new Observation();
-            DecedentEducationLevel.Id = Guid.NewGuid().ToString();
-            DecedentEducationLevel.Meta = new Meta();
-            string[] educationlevel_profile = { ProfileURL.DecedentEducationLevel };
-            DecedentEducationLevel.Meta.Profile = educationlevel_profile;
-            DecedentEducationLevel.Status = ObservationStatus.Final;
-            DecedentEducationLevel.Code = new CodeableConcept(CodeSystems.LOINC, "80913-7", "Highest level of education [US Standard Certificate of Death]", null);
-            DecedentEducationLevel.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
-            AddReferenceToComposition(DecedentEducationLevel.Id, "DecedentDemographic");
-            Bundle.AddResourceEntry(DecedentEducationLevel, "urn:uuid:" + DecedentEducationLevel.Id);
-        }
 
         /// <summary>Decedent's Education Level.</summary>
         /// <value>the decedent's education level. A Dictionary representing a code, containing the following key/value pairs:
@@ -4316,7 +4328,7 @@ namespace VRDR
             {
                 if (DecedentEducationLevel == null)
                 {
-                    CreateEmptyEducationLevelObservation();
+                    CreateEducationLevelObs();
                 }
                 DecedentEducationLevel.Value = DictToCodeableConcept(value);
             }
@@ -4388,7 +4400,7 @@ namespace VRDR
             {
                 if (DecedentEducationLevel == null)
                 {
-                    CreateEmptyEducationLevelObservation();
+                    CreateEducationLevelObs();
                 }
                 if (DecedentEducationLevel.Value != null && DecedentEducationLevel.Value.Extension != null){
                     DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
@@ -9953,7 +9965,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
@@ -9976,7 +9988,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
@@ -9999,7 +10011,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
                 SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
@@ -10056,7 +10068,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("coderStatus");
                 if (value != null)
@@ -10081,7 +10093,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("shipmentNumber");
                 if (value != null)
@@ -10110,7 +10122,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("intentionalReject");
                 if (value != null)
@@ -10169,7 +10181,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("acmeSystemReject");
                 if (value != null)
@@ -10228,7 +10240,7 @@ namespace VRDR
             {
                 if (CodingStatusValues == null)
                 {
-                    CreateEmptyCodingStatusValues();
+                    CreateCodingStatusValues();
                 }
                 CodingStatusValues.Remove("transaxConversion");
                 if (value != null)

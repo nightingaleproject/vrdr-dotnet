@@ -227,7 +227,7 @@ namespace VRDR
             Date date = new Date();
             date.Extension.Add(NewBlankPartialDateTimeExtension(false));
             CodingStatusValues.Add("receiptDate", date);
-            AddReferenceToComposition(CodingStatusValues.Id, "CodingStatus");
+            AddReferenceToComposition(CodingStatusValues.Id, "CodedContent");
             Bundle.AddResourceEntry(CodingStatusValues, "urn:uuid:" + CodingStatusValues.Id);
         }
 
@@ -304,7 +304,7 @@ namespace VRDR
             DispositionLocation.PhysicalType = new CodeableConcept();
             DispositionLocation.PhysicalType.Coding.Add(pt);
             DispositionLocation.Type.Add(new CodeableConcept(CodeSystems.LocationType, "disposition", "disposition location", null));
-            AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
+            AddReferenceToComposition(DispositionLocation.Id, "DecedentDisposition");
             Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
         }
 
@@ -448,6 +448,8 @@ namespace VRDR
             InjuryLocationLoc.Meta.Profile = injurylocation_profile;
             InjuryLocationLoc.Address = DictToAddress(EmptyAddrDict());
             InjuryLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "injury", "injury location", null));
+            AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
+            Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
         }
 
         /// <summary>Injury Incident.</summary>
@@ -466,7 +468,7 @@ namespace VRDR
             InjuryIncidentObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             InjuryIncidentObs.Effective = new FhirDateTime();
             InjuryIncidentObs.Effective.Extension.Add(NewBlankPartialDateTimeExtension(true));
-            AddReferenceToComposition(InjuryIncidentObs.Id, "OBE");
+            AddReferenceToComposition(InjuryIncidentObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(InjuryIncidentObs, "urn:uuid:" + InjuryIncidentObs.Id);
         }
         /// <summary>Death Location.</summary>
@@ -624,6 +626,7 @@ namespace VRDR
             CreateDeathCertification();
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
+            // I think we need to add sections to the composition.
             Composition = new Composition();
             Composition.Id = Guid.NewGuid().ToString();
             Composition.Status = CompositionStatus.Final;
@@ -1765,7 +1768,7 @@ namespace VRDR
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
                     ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
                     ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
-                    AddReferenceToComposition(ConditionContributingToDeath.Id, "OBE");
+                    AddReferenceToComposition(ConditionContributingToDeath.Id, "DeathCertification");
                     Bundle.AddResourceEntry(ConditionContributingToDeath, "urn:uuid:" + ConditionContributingToDeath.Id);
                 }
             }
@@ -7284,8 +7287,6 @@ namespace VRDR
                 {
                     CreateInjuryLocationLoc();
                     // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
-                    Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
                 }
                 InjuryLocationLoc.Name = value;
             }
@@ -10312,28 +10313,36 @@ namespace VRDR
         /// <summary>Add a reference to the Death Record Composition.</summary>
         /// <param name="reference">a reference.</param>
         /// <param name="code">the code for the section to add to.</param>
+        /// The sections are from : CodeSystems.DocumentSections
+        ///               DecedentDemographics
+        ///               DeathInvestigation
+        ///               DeathCertification
+        ///               DecedentDisposition
+        ///               CodedContent
         private void AddReferenceToComposition(string reference, string code)
         {
             //Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
             Composition.SectionComponent section = new Composition.SectionComponent();
-            // Find the right section
-            foreach (var s in Composition.Section)
-            {
-                if (s.Code != null && s.Code.Coding.Count > 0 && s.Code.Coding.First().Code == code)
+            string[] sections = new string[]{"DecedentDemographics", "DeathInvestigation", "DeathCertification", "DecedentDisposition", "CodedContent"};
+            if(sections.Any(code.Contains)){
+                // Find the right section
+                foreach (var s in Composition.Section)
                 {
-                    section = s;
+                    if (s.Code != null && s.Code.Coding.Count > 0 && s.Code.Coding.First().Code == code)
+                    {
+                        section = s;
+                    }
                 }
+                if (section.Code == null)
+                {
+                    Dictionary<string, string> coding = new Dictionary<string, string>();
+                    coding["system"] = VRDR.CodeSystems.DocumentSections;
+                    coding["code"] = code;
+                    section.Code = DictToCodeableConcept(coding);
+                    Composition.Section.Add(section);
+                }
+                section.Entry.Add(new ResourceReference("urn:uuid:" + reference));
             }
-            if (section.Code == null)
-            {
-                Dictionary<string, string> coding = new Dictionary<string, string>();
-                coding["system"] = VRDR.CodeSystems.DocumentSections;
-                coding["code"] = code;
-                section.Code = DictToCodeableConcept(coding);
-                Composition.Section.Add(section);
-            }
-            section.Entry.Add(new ResourceReference("urn:uuid:" + reference));
-
         }
 
         /// <summary>Remove a reference from the Death Record Composition.</summary>

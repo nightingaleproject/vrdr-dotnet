@@ -116,13 +116,6 @@ namespace VRDR
                     CodCondition.Component.Add(component);
                     AddReferenceToComposition(CodCondition.Id, "DeathCertification");
                     Bundle.AddResourceEntry(CodCondition, "urn:uuid:" + CodCondition.Id);
-                    // List.EntryComponent entry = new List.EntryComponent();
-                    // entry.Item = new ResourceReference("urn:uuid:" + CodCondition.Id);
-                    // if (CauseOfDeathConditionPathway.Entry.Count() != 4)
-                    // {
-                    //     foreach (var i in Enumerable.Range(0, 4)) { CauseOfDeathConditionPathway.Entry.Add(null); }
-                    // }
-                    // CauseOfDeathConditionPathway.Entry[index] = entry;
                     return (CodCondition);
         }
 
@@ -138,9 +131,6 @@ namespace VRDR
 
         /// <summary>Cause Of Death Condition Line D (#4).</summary>
         private Observation CauseOfDeathConditionD;
-
-        // /// <summary>Cause Of Death Condition Pathway.</summary>
-        // private List CauseOfDeathConditionPathway;
 
         /// <summary>Decedent's Father.</summary>
         private RelatedPerson Father;
@@ -614,12 +604,6 @@ namespace VRDR
             // Start with an empty certification. - need reference in Composition
             CreateDeathCertification();
 
-            // Start with an empty funeral home. - why?
-            // CreateFuneralHome();
-
-            // Location of Disposition -why?
-            //CreateDispositionLocation();
-
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
             Composition = new Composition();
             Composition.Id = Guid.NewGuid().ToString();
@@ -641,40 +625,19 @@ namespace VRDR
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
-             // Start with an empty race and ethinicity observation - why?
-            // CreateInputRaceEthnicityObs();
-
-            // Start with an empty coding status values.
-            // CreateCodingStatusValues();
 
             // Add references back to the Decedent, Certifier, Certification, etc.
             AddReferenceToComposition(Decedent.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(Decedent, "urn:uuid:" + Decedent.Id);
-
             AddReferenceToComposition(Certifier.Id, "DeathCertification");
             Bundle.AddResourceEntry(Certifier, "urn:uuid:" + Certifier.Id);
-            // AddReferenceToComposition(Pronouncer.Id, "OBE");
             AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
             Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
-            // AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
-            // Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
-            // AddReferenceToComposition(CauseOfDeathConditionPathway.Id, "DeathCertification");
-            // AddReferenceToComposition(DispositionLocation.Id, "DispositionLocation");
-            // Bundle.AddResourceEntry(DispositionLocation, "urn:uuid:" + DispositionLocation.Id);
 
-            // TODO: Some of these, particularly the ones that only appear in certain bundles, probably shouldn't be added by default
-            // AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
-            // Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
-
+            // AddReferenceToComposition(Pronouncer.Id, "OBE");
             // Bundle.AddResourceEntry(Pronouncer, "urn:uuid:" + Pronouncer.Id);
             //Bundle.AddResourceEntry(Mortician, "urn:uuid:" + Mortician.Id);
-
-
             //Bundle.AddResourceEntry(FuneralHomeDirector, "urn:uuid:" + FuneralHomeDirector.Id);
-            // Bundle.AddResourceEntry(CauseOfDeathConditionPathway, "urn:uuid:" + CauseOfDeathConditionPathway.Id);
-
-            AddReferenceToComposition(DeathCertification.Id, "DeathCertification");
-            Bundle.AddResourceEntry(DeathCertification, "urn:uuid:" + DeathCertification.Id);
 
             // Create a Navigator for this new death record.
             Navigator = Bundle.ToTypedElement();
@@ -853,7 +816,6 @@ namespace VRDR
             AddResourceToBundleIfPresent(CauseOfDeathConditionB, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionC, codccBundle);
             AddResourceToBundleIfPresent(CauseOfDeathConditionD, codccBundle);
-            // AddResourceToBundleIfPresent(CauseOfDeathConditionPathway, codccBundle);
             AddResourceToBundleIfPresent(ConditionContributingToDeath, codccBundle);
             AddResourceToBundleIfPresent(MannerOfDeath, codccBundle);
             AddResourceToBundleIfPresent(AutopsyPerformed, codccBundle);
@@ -10550,47 +10512,6 @@ namespace VRDR
                 }
             }
 
-            // // Grab Cause Of Death Condition Pathway
-            // var causeOfDeathConditionPathway = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.List );
-            // if (causeOfDeathConditionPathway != null)
-            // {
-            //     CauseOfDeathConditionPathway = (List)causeOfDeathConditionPathway.Resource;
-            // }
-
-            // Grab Causes of Death using CauseOfDeathConditionPathway
-            // List<Observation> causeConditions = new List<Observation>();
-            // if (CauseOfDeathConditionPathway != null)
-            // {
-            //     foreach (List.EntryComponent condition in CauseOfDeathConditionPathway.Entry)
-            //     {
-            //         if (condition != null && condition.Item != null && condition.Item.Reference != null)
-            //         {
-            //             var codCond = Bundle.Entry.FirstOrDefault( entry => entry.Resource.ResourceType == ResourceType.Observation && (((Observation)entry.Resource).Code.Coding.First().Code == "69453-9") &&
-            //             (entry.FullUrl == condition.Item.Reference || (entry.Resource.Id != null && entry.Resource.Id == condition.Item.Reference)) );
-            //             if (codCond != null)
-            //             {
-            //                 causeConditions.Add((Observation)codCond.Resource);
-            //             }
-            //         }
-            //     }
-            //     if (causeConditions.Count() > 0)
-            //     {
-            //         CauseOfDeathConditionA = causeConditions[0];
-            //     }
-            //     if (causeConditions.Count() > 1)
-            //     {
-            //         CauseOfDeathConditionB = causeConditions[1];
-            //     }
-            //     if (causeConditions.Count() > 2)
-            //     {
-            //         CauseOfDeathConditionC = causeConditions[2];
-            //     }
-            //     if (causeConditions.Count() > 3)
-            //     {
-            //         CauseOfDeathConditionD = causeConditions[3];
-            //     }
-
-            // }
             // Scan through all RelatedPerson to make sure they all have relationship codes!
             foreach (var rp in Bundle.Entry.Where( entry => entry.Resource.ResourceType == ResourceType.RelatedPerson ))
             {

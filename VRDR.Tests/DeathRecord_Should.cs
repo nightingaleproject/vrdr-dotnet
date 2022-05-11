@@ -22,6 +22,7 @@ namespace VRDR.Tests
         {
             XMLRecords = new ArrayList();
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
+            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
@@ -709,7 +710,7 @@ namespace VRDR.Tests
         public void Get_COD1A()
         {
             Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)JSONRecords[1]).COD1A);
-            Assert.Equal("Rupture of myocardium", ((DeathRecord)XMLRecords[0]).COD1A);
+            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)XMLRecords[1]).COD1A);
         }
 
         [Fact]
@@ -722,8 +723,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1A()
         {
-            Assert.Equal("minutes", ((DeathRecord)JSONRecords[0]).INTERVAL1A);
-            Assert.Equal("minutes", ((DeathRecord)XMLRecords[0]).INTERVAL1A);
+            Assert.Equal("4 hours", ((DeathRecord)JSONRecords[1]).INTERVAL1A);
+            Assert.Equal("4 hours", ((DeathRecord)XMLRecords[1]).INTERVAL1A);
         }
 
         // [Fact]
@@ -760,8 +761,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1B()
         {
-            Assert.Equal("Acute myocardial infarction", ((DeathRecord)JSONRecords[0]).COD1B);
-            Assert.Equal("Acute myocardial infarction", ((DeathRecord)XMLRecords[0]).COD1B);
+            Assert.Equal("Eclampsia", ((DeathRecord)JSONRecords[1]).COD1B);
+            Assert.Equal("Eclampsia", ((DeathRecord)XMLRecords[1]).COD1B);
         }
 
         [Fact]
@@ -774,8 +775,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1B()
         {
-            Assert.Equal("6 days", ((DeathRecord)JSONRecords[0]).INTERVAL1B);
-            Assert.Equal("6 days", ((DeathRecord)XMLRecords[0]).INTERVAL1B);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1B);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1B);
         }
 
         // [Fact]
@@ -812,8 +813,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1C()
         {
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[0]).COD1C);
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[0]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[1]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[1]).COD1C);
         }
 
         [Fact]
@@ -826,8 +827,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1C()
         {
-            Assert.Equal("5 years", ((DeathRecord)JSONRecords[0]).INTERVAL1C);
-            Assert.Equal("5 years", ((DeathRecord)XMLRecords[0]).INTERVAL1C);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1C);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1C);
         }
 
         // [Fact]
@@ -853,8 +854,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1D()
         {
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[0]).COD1D);
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[0]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[1]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[1]).COD1D);
         }
 
         [Fact]
@@ -867,8 +868,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1D()
         {
-            Assert.Equal("7 years", ((DeathRecord)JSONRecords[0]).INTERVAL1D);
-            Assert.Equal("7 years", ((DeathRecord)XMLRecords[0]).INTERVAL1D);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1D);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1D);
         }
 
         // [Fact]

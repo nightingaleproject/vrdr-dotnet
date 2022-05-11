@@ -1890,9 +1890,9 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionA.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    if (intervalComp?.Value != null)
                     {
-                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                        return intervalComp.Value.ToString();
                     }
                 }
                 return "";
@@ -1909,13 +1909,13 @@ namespace VRDR
                     if (intervalComp != null)
                     {
 
-                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                     }
                     else
                     {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    component.Value = new CodeableConcept(null, null, null, value);
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionA.Component.Add(component);
                 }
             }
@@ -2017,9 +2017,9 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    if (intervalComp?.Value != null)
                     {
-                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                        return intervalComp.Value.ToString();
                     }
                 }
                 return "";
@@ -2033,16 +2033,16 @@ namespace VRDR
                 // Find correct component; if doesn't exist add another
                 var intervalComp = CauseOfDeathConditionB.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp != null)
+                     if (intervalComp != null)
                     {
 
-                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                     }
                     else
                     {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    component.Value = new CodeableConcept(null, null, null, value);
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionB.Component.Add(component);
                 }
             }
@@ -2145,9 +2145,9 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    if (intervalComp?.Value != null)
                     {
-                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                        return intervalComp.Value.ToString();
                     }
                 }
                 return "";
@@ -2161,18 +2161,18 @@ namespace VRDR
                 // Find correct component; if doesn't exist add another
                 var intervalComp = CauseOfDeathConditionC.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp != null)
-                    {
+                        if (intervalComp != null)
+                        {
 
-                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
-                    }
-                    else
-                    {
-                    Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    component.Value = new CodeableConcept(null, null, null, value);
-                    CauseOfDeathConditionC.Component.Add(component);
-                }
+                        ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
+                        }
+                        else
+                        {
+                        Observation.ComponentComponent component = new Observation.ComponentComponent();
+                        component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
+                        component.Value = new FhirString(value);
+                        CauseOfDeathConditionC.Component.Add(component);
+                        }
             }
         }
 
@@ -2271,9 +2271,9 @@ namespace VRDR
                 {
                     var intervalComp = CauseOfDeathConditionD.Component.FirstOrDefault( entry => ((Observation.ComponentComponent)entry).Code != null &&
                        ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69440-6" );
-                    if (intervalComp?.Value != null && intervalComp.Value as CodeableConcept != null)
+                    if (intervalComp?.Value != null)
                     {
-                        return (CodeableConceptToDict((CodeableConcept)intervalComp.Value))["text"];
+                        return intervalComp.Value.ToString();
                     }
                 }
                 return "";
@@ -2290,13 +2290,13 @@ namespace VRDR
                     if (intervalComp != null)
                     {
 
-                    ((Observation.ComponentComponent)intervalComp).Value = new CodeableConcept(null, null, null, value);
+                    ((Observation.ComponentComponent)intervalComp).Value = new FhirString(value);
                     }
                     else
                     {
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
                     component.Code = new CodeableConcept(CodeSystems.LOINC, "69440-6", "Disease onset to death interval", null);
-                    component.Value = new CodeableConcept(null, null, null, value);
+                    component.Value = new FhirString(value);
                     CauseOfDeathConditionD.Component.Add(component);
                 }
             }

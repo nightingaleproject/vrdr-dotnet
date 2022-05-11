@@ -838,7 +838,7 @@
               <display value="lineNumber" />
             </coding>
           </code>
-          <valueUnsignedInt value="1"/>
+          <valueInteger value="1" />
         </component>
       </Observation>
     </resource>
@@ -892,7 +892,7 @@
               <display value="lineNumber" />
             </coding>
           </code>
-          <valuePositiveInt value="2"/>
+          <valueInteger value="2" />
         </component>
       </Observation>
     </resource>
@@ -941,7 +941,7 @@
               <display value="lineNumber" />
             </coding>
           </code>
-          <valuePositiveInt value="3"/>
+          <valueInteger value="3" />
         </component>
 
       </Observation>
@@ -991,7 +991,7 @@
               <display value="lineNumber" />
             </coding>
           </code>
-          <valuePositiveInt value="4"/>
+          <valueInteger value="4" />
         </component>
       </Observation>
     </resource>

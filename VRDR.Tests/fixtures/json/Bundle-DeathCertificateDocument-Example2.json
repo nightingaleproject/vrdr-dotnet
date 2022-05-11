@@ -1663,6 +1663,122 @@
       "fullUrl": "http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2"
     },
     {
+    "resource": {
+      "resourceType": "Observation",
+      "id": "CauseOfDeathPart1-Example2",
+      "meta": {
+        "profile": [
+          "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
+        ]
+      },
+      "code": {
+        "coding": [
+          {
+            "code": "69453-9",
+            "system": "http://loinc.org",
+            "display": "Cause of death [US Standard Certificate of Death]"
+          }
+        ]
+      },
+      "component": [
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "lineNumber",
+                "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+              }
+            ]
+          },
+          "valueInteger": 3
+        },
+        {
+          "code": {
+            "coding": [
+              {
+                "code": "69440-6",
+                "system": "http://loinc.org",
+                "display": "Disease onset to death interval"
+              }
+            ]
+          },
+          "valueString": "3 months"
+        }
+      ],
+      "valueCodeableConcept": {
+        "text": "Coronary artery thrombosis"
+      },
+      "subject": {
+        "reference": "Patient/Decedent-Example1"
+      },
+      "performer": [
+        {
+          "reference": "Practitioner/Certifier-Example1"
+        }
+      ],
+      "status": "final"
+    },
+    "fullUrl": "http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2"
+  },
+  {
+  "resource": {
+    "resourceType": "Observation",
+    "id": "CauseOfDeathPart1-Example2",
+    "meta": {
+      "profile": [
+        "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1"
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "code": "69453-9",
+          "system": "http://loinc.org",
+          "display": "Cause of death [US Standard Certificate of Death]"
+        }
+      ]
+    },
+    "component": [
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "lineNumber",
+              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
+            }
+          ]
+        },
+        "valueInteger": 4
+      },
+      {
+        "code": {
+          "coding": [
+            {
+              "code": "69440-6",
+              "system": "http://loinc.org",
+              "display": "Disease onset to death interval"
+            }
+          ]
+        },
+        "valueString": "3 months"
+      }
+    ],
+    "valueCodeableConcept": {
+      "text": "Atherosclerotic coronary artery disease"
+    },
+    "subject": {
+      "reference": "Patient/Decedent-Example1"
+    },
+    "performer": [
+      {
+        "reference": "Practitioner/Certifier-Example1"
+      }
+    ],
+    "status": "final"
+  },
+  "fullUrl": "http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2"
+},
+    {
       "resource": {
         "resourceType": "Observation",
         "id": "CauseOfDeathPart2-Example1",

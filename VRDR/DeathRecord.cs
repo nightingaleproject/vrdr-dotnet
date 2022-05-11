@@ -39,6 +39,20 @@ namespace VRDR
         /// <summary>The Decedent's Race and Ethnicity provided by Jurisdiction.</summary>
         private Observation InputRaceAndEthnicityObs;
 
+        /// <summary> Create Input Race and Ethnicity </summary>
+
+        private void CreateInputRaceEthnicityObs() {
+            InputRaceAndEthnicityObs = new Observation();
+            InputRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
+            InputRaceAndEthnicityObs.Meta = new Meta();
+            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
+            InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
+            InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
+            InputRaceAndEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "inputraceandethnicity", "Input Race and Ethnicity", null);
+            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
+            AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
+            Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
+        }
         // ///<summary>The Pronouncer of death.</summary>
         //private Practitioner Pronouncer;
 
@@ -369,22 +383,6 @@ namespace VRDR
             Bundle.AddResourceEntry(SurgeryDateObs, "urn:uuid:" + SurgeryDateObs.Id);
         }
 
-        private void CreateRaceEthnicityObs() {
-            InputRaceAndEthnicityObs = new Observation();
-            InputRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
-            InputRaceAndEthnicityObs.Meta = new Meta();
-            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
-            InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
-            InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
-            Dictionary<string, string> coding = new Dictionary<string, string>();
-            coding.Add("code", "inputraceandethnicity");
-            coding.Add("system", "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs");
-            InputRaceAndEthnicityObs.Code = DictToCodeableConcept(coding);
-            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
-            AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
-            Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
-        }
-
         /// <summary>Decedent Pregnancy Status.</summary>
         private Observation PregnancyObs;
 
@@ -567,7 +565,7 @@ namespace VRDR
             Bundle.Id = Guid.NewGuid().ToString();
             Bundle.Type = Bundle.BundleType.Document; // By default, Bundle type is "document".
             Bundle.Meta = new Meta();
-            string[] bundle_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certificate-Document" };
+            string[] bundle_profile = { ProfileURL.DeathCertificateDocument };
             Bundle.Timestamp = DateTime.Now;
             Bundle.Meta.Profile = bundle_profile;
 
@@ -578,17 +576,9 @@ namespace VRDR
             string[] decedent_profile = { ProfileURL.Decedent };
             Decedent.Meta.Profile = decedent_profile;
 
-            // Start with an empty race and ethinicity observation
-            InputRaceAndEthnicityObs = new Observation();
-            InputRaceAndEthnicityObs.Id = Guid.NewGuid().ToString();
-            InputRaceAndEthnicityObs.Meta = new Meta();
-            string[] raceethnicity_profile = { ProfileURL.InputRaceAndEthnicity };
-            InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
-            InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
-            InputRaceAndEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "inputraceandethnicity", "Input Race and Ethnicity", null);
-            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
 
-            // Start with an empty certifier.
+
+            // Start with an empty certifier. - why?
             CreateCertifier();
 
             // // Start with an empty pronouncer.
@@ -601,13 +591,13 @@ namespace VRDR
             // Start with an empty mortician.
            // InitializeMorticianIfNull();
 
-            // Start with an empty certification.
+            // Start with an empty certification. - why?
             CreateEmptyDeathCertification();
 
-            // Start with an empty funeral home.
+            // Start with an empty funeral home. - why?
             CreateFuneralHome();
 
-            // Location of Disposition
+            // Location of Disposition -why?
             CreateDispositionLocation();
 
             // Add Composition to bundle. As the record is filled out, new entries will be added to this element.
@@ -631,17 +621,10 @@ namespace VRDR
             Composition.Event.Add(eventComponent);
             Bundle.AddResourceEntry(Composition, "urn:uuid:" + Composition.Id);
 
-            // Start with an empty Cause of Death Pathway
-            // CauseOfDeathConditionPathway = new List();
-            // CauseOfDeathConditionPathway.Id = Guid.NewGuid().ToString();
-            // CauseOfDeathConditionPathway.Meta = new Meta();
-            // string[] causeofdeathconditionpathway_profile = { ProfileURL.CauseOfDeathPathway };
-            // CauseOfDeathConditionPathway.Meta.Profile = causeofdeathconditionpathway_profile;
-            // CauseOfDeathConditionPathway.Status = List.ListStatus.Current;
-            // CauseOfDeathConditionPathway.Mode = Hl7.Fhir.Model.ListMode.Snapshot;
-            // CauseOfDeathConditionPathway.Source = new ResourceReference("urn:uuid:" + Certifier.Id);
-            // CauseOfDeathConditionPathway.OrderedBy = new CodeableConcept("http://terminology.hl7.org/CodeSystem/list-order", "priority", "Sorted by Priority", null);
+             // Start with an empty race and ethinicity observation - why?
+            CreateInputRaceEthnicityObs();
 
+            // Start with an empty coding status values. - why?
             CreateEmptyCodingStatusValues();
 
             // Add references back to the Decedent, Certifier, Certification, etc.
@@ -1363,7 +1346,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathType['display']}");</para>
         /// </example>
-        [Property("Manner Of Death Type", Property.Types.Dictionary, "Death Certification", "Manner of Death Type.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Manner-of-Death.html", true, 49)]
+        [Property("Manner Of Death Type", Property.Types.Dictionary, "Death Certification", "Manner of Death Type.", true, IGURL.MannerOfDeath, true, 49)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -1416,7 +1399,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Manner Of Death Type: {ExampleDeathRecord.MannerOfDeathTypeHelper}");</para>
         /// </example>
-        [Property("Manner Of Death Type", Property.Types.String, "Death Certification", "Manner of Death Type.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Manner-of-Death.html", true, 49)]
+        [Property("Manner Of Death Type", Property.Types.String, "Death Certification", "Manner of Death Type.", true, IGURL.MannerOfDeath, true, 49)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69449-7')", "")]
 
@@ -3026,7 +3009,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -3105,7 +3088,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -3184,7 +3167,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -3263,7 +3246,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -3336,7 +3319,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -3412,7 +3395,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 var booleanRaceCodes = NvssRace.GetBooleanRaceCodes();
                 foreach (Tuple<string, string> element in value)
@@ -3480,7 +3463,7 @@ namespace VRDR
             {
                 if (InputRaceAndEthnicityObs == null)
                 {
-                    CreateRaceEthnicityObs();
+                    CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
                 var coding = EmptyRaceEthnicityCodeDict();
@@ -4938,7 +4921,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryService['display']}");</para>
         /// </example>
-        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 22)]
+        [Property("Military Service", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Military Service.", true, IGURL.DecedentMilitaryService, false, 22)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -4984,7 +4967,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Military Service: {ExampleDeathRecord.MilitaryServiceHelper}");</para>
         /// </example>
-        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Military-Service.html", false, 23)]
+        [Property("Military Service Helper", Property.Types.String, "Decedent Demographics", "Decedent's Military Service.", true, IGURL.DecedentMilitaryService, false, 23)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='55280-2')", "")]
          public string MilitaryServiceHelper
         {
@@ -5260,7 +5243,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
         /// </example>
-        [Property("Funeral Home Name", Property.Types.String, "Decedent Disposition", "Name of Funeral Home.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Funeral-Home.html", false, 94)]
+        [Property("Funeral Home Name", Property.Types.String, "Decedent Disposition", "Name of Funeral Home.", true, IGURL.FuneralHome, false, 94)]
         [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "name")]
         public string FuneralHomeName
         {
@@ -5460,7 +5443,7 @@ namespace VRDR
                     DispositionMethod = new Observation();
                     DispositionMethod.Id = Guid.NewGuid().ToString();
                     DispositionMethod.Meta = new Meta();
-                    string[] dispositionmethod_profile = { "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Disposition-Method" };
+                    string[] dispositionmethod_profile = { ProfileURL.DecedentDispositionMethod };
                     DispositionMethod.Meta.Profile = dispositionmethod_profile;
                     DispositionMethod.Status = ObservationStatus.Final;
                     DispositionMethod.Code = new CodeableConcept(CodeSystems.LOINC, "80905-3", "Body disposition method", null);
@@ -5553,7 +5536,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Performed Indicator: {ExampleDeathRecord.AutopsyPerformedIndicator['display']}");</para>
         /// </example>
-        [Property("Autopsy Performed Indicator", Property.Types.Dictionary, "Death Investigation", "Autopsy Performed Indicator.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 28)]
+        [Property("Autopsy Performed Indicator", Property.Types.Dictionary, "Death Investigation", "Autopsy Performed Indicator.", true, IGURL.AutopsyPerformedIndicator, true, 28)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6074,7 +6057,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death Pronouncement: {ExampleDeathRecord.DateOfDeathPronouncement}");</para>
         /// </example>
-        [Property("Date/Time Of Death Pronouncement", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death Pronouncement.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Date.html", false, 20)]
+        [Property("Date/Time Of Death Pronouncement", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date/Time of Death Pronouncement.", true, IGURL.DeathDate, false, 20)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80616-6')", "")]
         public string DateOfDeathPronouncement
         {
@@ -6258,7 +6241,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Autopsy Results Available: {ExampleDeathRecord.AutopsyResultsAvailable['display']}");</para>
         /// </example>
-        [Property("Autopsy Results Available", Property.Types.Dictionary, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Autopsy-Performed-Indicator.html", true, 30)]
+        [Property("Autopsy Results Available", Property.Types.Dictionary, "Death Investigation", "Autopsy results available, used to complete cause of death.", true, IGURL.AutopsyPerformedIndicator, true, 30)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6533,7 +6516,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Description: {ExampleDeathRecord.DeathLocationDescription}");</para>
         /// </example>
-        [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 18)]
+        [Property("Death Location Description", Property.Types.String, "Death Investigation", "Description of Death Location.", true, IGURL.DeathLocation, false, 18)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='death')", "description")]
         public string DeathLocationDescription
         {
@@ -6555,7 +6538,7 @@ namespace VRDR
                     string[] deathlocation_profile = { ProfileURL.DeathLocation };
                     DeathLocationLoc.Meta.Profile = deathlocation_profile;
                     DeathLocationLoc.Description = value;
-                    DeathLocationLoc.Type.Add(new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs", "death", "death location", null));
+                    DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
                     // LinkObservationToLocation(DeathDateObs, DeathLocationLoc);
                     AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
                     Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
@@ -6583,7 +6566,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
         /// </example>
-        [Property("Death Location Type", Property.Types.Dictionary, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
+        [Property("Death Location Type", Property.Types.Dictionary, "Death Investigation", "Type of Death Location.", true, IGURL.DeathLocation, false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6638,7 +6621,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
         /// </example>
-        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Death-Location.html", false, 19)]
+        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, IGURL.DeathLocation, false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public string DeathLocationTypeHelper
@@ -6892,7 +6875,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyObs['display']}");</para>
         /// </example>
-        [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
+        [Property("Pregnancy Status", Property.Types.Dictionary, "Death Investigation", "Pregnancy Status At Death.", true, IGURL.DecedentPregnancyStatus, true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6927,7 +6910,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Pregnancy Status: {ExampleDeathRecord.PregnancyStatusHelper}");</para>
         /// </example>
-        [Property("Pregnancy Status", Property.Types.String, "Death Investigation", "Pregnancy Status At Death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Pregnancy.html", true, 33)]
+        [Property("Pregnancy Status", Property.Types.String, "Death Investigation", "Pregnancy Status At Death.", true, IGURL.DecedentPregnancyStatus, true, 33)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
         public string PregnancyStatusHelper
@@ -7253,7 +7236,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Injury Location Name: {ExampleDeathRecord.InjuryLocationName}");</para>
         /// </example>
-        [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Injury-Location.html", true, 35)]
+        [Property("Injury Location Name", Property.Types.String, "Death Investigation", "Name of Injury Location.", true, IGURL.InjuryLocation, true, 35)]
         [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "name")]
         public string InjuryLocationName
         {
@@ -7663,11 +7646,11 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Transportation Role: {ExampleDeathRecord.TransportationRole['display']}");</para>
         /// </example>
-        [Property("Transportation Role", Property.Types.Dictionary, "Death Investigation", "Transportation Role in death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
+        [Property("Transportation Role", Property.Types.Dictionary, "Death Investigation", "Transportation Role in death.", true, IGURL.InjuryIncident, true, 45)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]  // The component  code is '69451-3'
         public Dictionary<string, string> TransportationRole
         {
             get
@@ -7718,7 +7701,7 @@ namespace VRDR
         /// </example>
         [Property("Transportation Role Helper", Property.Types.String, "Death Investigation", "Transportation Role in death.", true, "http://build.fhir.org/ig/HL7/vrdr/StructureDefinition-VRDR-Decedent-Transportation-Role.html", true, 45)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69451-3')", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='11374-6')", "")]  // The component  code is '69451-3'
         public string TransportationRoleHelper
         {
             get
@@ -7848,7 +7831,7 @@ namespace VRDR
                     string[] tb_profile = { ProfileURL.EmergingIssues };
                     EmergingIssues.Meta.Profile = tb_profile;
                     EmergingIssues.Status = ObservationStatus.Final;
-                    EmergingIssues.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observation-cs", "emergingissues", "Emerging Issues", null);
+                    EmergingIssues.Code = new CodeableConcept(CodeSystems.ObservationCode, "emergingissues", "Emerging Issues", null);
                     EmergingIssues.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     AddReferenceToComposition(EmergingIssues.Id, "DecedentDemographics");
                     Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);
@@ -7856,7 +7839,7 @@ namespace VRDR
                 // Remove existing component (if it exists) and add an appropriate component.
                 EmergingIssues.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == identifier );
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept("http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs", identifier, null, null);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode, identifier, null, null);
                 component.Value = new FhirString(value);
                 EmergingIssues.Component.Add(component);
         }
@@ -7885,7 +7868,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_1}");</para>
         /// </example>
-        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues", false, 50)]
+        [Property("Emerging Issue Field Length 1 Number 1", Property.Types.String, "Decedent Demographics", "One-Byte Field 1", true, IGURL.EmergingIssues, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
         public string EmergingIssue1_1
         {

@@ -22,6 +22,7 @@ namespace VRDR.Tests
         {
             XMLRecords = new ArrayList();
             XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/DeathRecord1.xml"))));
+            XMLRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml"))));
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
@@ -694,7 +695,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ContributingConditions()
         {
-            Assert.Equal("Example Contributing Conditions", ((DeathRecord)JSONRecords[0]).ContributingConditions);
+            Assert.Equal("hypertensive heart disease", ((DeathRecord)JSONRecords[1]).ContributingConditions);
             Assert.Equal("Example Contributing Conditions", ((DeathRecord)XMLRecords[0]).ContributingConditions);
         }
 
@@ -708,8 +709,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1A()
         {
-            Assert.Equal("Rupture of myocardium", ((DeathRecord)JSONRecords[0]).COD1A);
-            Assert.Equal("Rupture of myocardium", ((DeathRecord)XMLRecords[0]).COD1A);
+            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)JSONRecords[1]).COD1A);
+            Assert.Equal("Cardiopulmonary arrest", ((DeathRecord)XMLRecords[1]).COD1A);
         }
 
         [Fact]
@@ -722,8 +723,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1A()
         {
-            Assert.Equal("minutes", ((DeathRecord)JSONRecords[0]).INTERVAL1A);
-            Assert.Equal("minutes", ((DeathRecord)XMLRecords[0]).INTERVAL1A);
+            Assert.Equal("4 hours", ((DeathRecord)JSONRecords[1]).INTERVAL1A);
+            Assert.Equal("4 hours", ((DeathRecord)XMLRecords[1]).INTERVAL1A);
         }
 
         // [Fact]
@@ -760,8 +761,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1B()
         {
-            Assert.Equal("Acute myocardial infarction", ((DeathRecord)JSONRecords[0]).COD1B);
-            Assert.Equal("Acute myocardial infarction", ((DeathRecord)XMLRecords[0]).COD1B);
+            Assert.Equal("Eclampsia", ((DeathRecord)JSONRecords[1]).COD1B);
+            Assert.Equal("Eclampsia", ((DeathRecord)XMLRecords[1]).COD1B);
         }
 
         [Fact]
@@ -774,8 +775,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1B()
         {
-            Assert.Equal("6 days", ((DeathRecord)JSONRecords[0]).INTERVAL1B);
-            Assert.Equal("6 days", ((DeathRecord)XMLRecords[0]).INTERVAL1B);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1B);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1B);
         }
 
         // [Fact]
@@ -812,8 +813,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1C()
         {
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[0]).COD1C);
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[0]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[1]).COD1C);
+            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[1]).COD1C);
         }
 
         [Fact]
@@ -826,8 +827,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1C()
         {
-            Assert.Equal("5 years", ((DeathRecord)JSONRecords[0]).INTERVAL1C);
-            Assert.Equal("5 years", ((DeathRecord)XMLRecords[0]).INTERVAL1C);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1C);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1C);
         }
 
         // [Fact]
@@ -853,8 +854,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1D()
         {
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[0]).COD1D);
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[0]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[1]).COD1D);
+            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[1]).COD1D);
         }
 
         [Fact]
@@ -867,8 +868,8 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1D()
         {
-            Assert.Equal("7 years", ((DeathRecord)JSONRecords[0]).INTERVAL1D);
-            Assert.Equal("7 years", ((DeathRecord)XMLRecords[0]).INTERVAL1D);
+            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1D);
+            Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1D);
         }
 
         // [Fact]
@@ -1152,15 +1153,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ResidenceWithinCityLimits()
         {
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = false;
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.No;
             Assert.Equal("N", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.False(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = true;
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.Yes;
             Assert.Equal("Y", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.True(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = null;
-            Assert.Equal("NA", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.Null(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.Unknown;
+            Assert.Equal("UNK", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
         }
 
         [Fact]
@@ -1756,7 +1754,6 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.BirthRecordId = "242123";
             Assert.Equal("242123", SetterDeathRecord.BirthRecordId);
-            Assert.False(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
         }
 
         [Fact]
@@ -1771,7 +1768,6 @@ namespace VRDR.Tests
         {
             SetterDeathRecord.BirthRecordId = "";
             Assert.Null(SetterDeathRecord.BirthRecordId);
-            Assert.True(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
         }
 
         [Fact]
@@ -1779,23 +1775,6 @@ namespace VRDR.Tests
         {
             DeathRecord dr = new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecordBirthRecordDataAbsent.json")));
             Assert.Null(dr.BirthRecordId);
-            Assert.True(dr.BirthRecordIdentifierDataAbsentBoolean);
-        }
-
-        [Fact]
-        public void Set_BirthRecordDataAbsentReason()
-        {
-            SetterDeathRecord.BirthRecordId = "12121212"; // Will be nulled by the setter below
-            SetterDeathRecord.BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
-                { "code", "unknown" },
-                { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
-                { "display", "unknown" }
-            };
-            Assert.Null(SetterDeathRecord.BirthRecordId);
-            Assert.True(SetterDeathRecord.BirthRecordIdentifierDataAbsentBoolean);
-            Assert.Equal("unknown", SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["code"]);
-            Assert.Equal(CodeSystems.Data_Absent_Reason_HL7_V3, SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["system"]);
-            Assert.Equal("unknown", SetterDeathRecord.BirthRecordIdentifierDataAbsentReason["display"]);
         }
 
         [Fact]
@@ -1803,12 +1782,10 @@ namespace VRDR.Tests
         {
             DeathRecord dr = ((DeathRecord)JSONRecords[0]);
             Assert.Equal("242123",dr.BirthRecordId);
-            Assert.False(dr.BirthRecordIdentifierDataAbsentBoolean);
             IJEMortality ije1 = new IJEMortality(dr);
             Assert.Equal("242123", ije1.BCNO);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Equal("242123",dr2.BirthRecordId);
-            Assert.False(dr.BirthRecordIdentifierDataAbsentBoolean);
         }
 
      [Fact]
@@ -1819,7 +1796,6 @@ namespace VRDR.Tests
             Assert.Equal("", ije1.BCNO);
             DeathRecord dr2 = ije1.ToDeathRecord();
             Assert.Null(dr.BirthRecordId);
-            Assert.True(dr.BirthRecordIdentifierDataAbsentBoolean);
         }
         [Theory]
         [InlineData("MA")]
@@ -1862,13 +1838,8 @@ namespace VRDR.Tests
         public void Get_UsualOccupation()
         {
             Assert.Equal("Executive secretary", ((DeathRecord)JSONRecords[0]).UsualOccupation);
-            Assert.Equal("secretary", ((DeathRecord)JSONRecords[0]).UsualOccupationCode["display"]);
-            Assert.Equal("1965-01-01", ((DeathRecord)JSONRecords[0]).UsualOccupationStart);
-            Assert.Equal("2010-01-01", ((DeathRecord)JSONRecords[0]).UsualOccupationEnd);
             Assert.Equal("Executive secretary", ((DeathRecord)XMLRecords[0]).UsualOccupation);
-            Assert.Equal("secretary", ((DeathRecord)XMLRecords[0]).UsualOccupationCode["display"]);
-            Assert.Equal("1965-01-01", ((DeathRecord)XMLRecords[0]).UsualOccupationStart);
-            Assert.Equal("2010-01-01", ((DeathRecord)XMLRecords[0]).UsualOccupationEnd);
+
         }
 
         [Fact]
@@ -1881,8 +1852,6 @@ namespace VRDR.Tests
         [Fact]
         public void Get_UsualIndustry()
         {
-            Assert.Equal("State agency", ((DeathRecord)JSONRecords[0]).UsualIndustryCode["display"]);
-            Assert.Equal("State agency", ((DeathRecord)XMLRecords[0]).UsualIndustryCode["display"]);
             Assert.Equal("State department of agriculture", ((DeathRecord)JSONRecords[0]).UsualIndustry);
             Assert.Equal("State department of agriculture", ((DeathRecord)XMLRecords[0]).UsualIndustry);
         }
@@ -2211,19 +2180,9 @@ namespace VRDR.Tests
         [Fact]
         public void Set_AutopsyResultsAvailable()
         {
-            Dictionary<string, string> ara = new Dictionary<string, string>();
-            ara.Add("code", "Y");
-            ara.Add("system", VRDR.CodeSystems.YesNo);
-            ara.Add("display", "Yes");
-            SetterDeathRecord.AutopsyResultsAvailable = ara;
-            Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
-            Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
+            SetterDeathRecord.AutopsyResultsAvailableHelper = VRDR.ValueSets.YesNoUnknown.Yes;
             Assert.Equal("Y",SetterDeathRecord.AutopsyResultsAvailableHelper);
             SetterDeathRecord.AutopsyResultsAvailableHelper = "N";
-            Assert.Equal("N", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
-            Assert.Equal("No", SetterDeathRecord.AutopsyResultsAvailable["display"]);
             Assert.Equal("N",SetterDeathRecord.AutopsyResultsAvailableHelper);
             SetterDeathRecord.AutopsyResultsAvailableHelper = "NA";
             Assert.Equal("NA", SetterDeathRecord.AutopsyResultsAvailable["code"]);
@@ -2602,19 +2561,19 @@ namespace VRDR.Tests
             Assert.Equal("Example Injury Location Name", ((DeathRecord)XMLRecords[0]).InjuryLocationName);
         }
 
-        [Fact]
-        public void Set_InjuryLocationDescription()
-        {
-            SetterDeathRecord.InjuryLocationDescription = "Example Injury Location Description";
-            Assert.Equal("Example Injury Location Description", SetterDeathRecord.InjuryLocationDescription);
-        }
+        // [Fact]
+        // public void Set_InjuryLocationDescription()
+        // {
+        //     SetterDeathRecord.InjuryLocationDescription = "Example Injury Location Description";
+        //     Assert.Equal("Example Injury Location Description", SetterDeathRecord.InjuryLocationDescription);
+        // }
 
-        [Fact]
-        public void Get_InjuryLocationDescription()
-        {
-            Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
-            Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
-        }
+        // [Fact]
+        // public void Get_InjuryLocationDescription()
+        // {
+        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
+        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
+        // }
 
         [Fact]
         public void Set_InjuryDate()

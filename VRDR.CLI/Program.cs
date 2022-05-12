@@ -130,10 +130,10 @@ namespace VRDR.CLI
                 deathRecord.Suffix = "Jr.";
 
                 // Gender
-                deathRecord.Gender = "male";
+                deathRecord.SexAtDeathHelper = "M";
 
                 // BirthSex
-                deathRecord.BirthSex = "F";
+                //deathRecord.BirthSex = "F";
 
                 // DateOfBirth
                 deathRecord.DateOfBirth = "1940-02-19";
@@ -150,7 +150,7 @@ namespace VRDR.CLI
                 deathRecord.Residence = raddress;
 
                 // ResidenceWithinCityLimits
-                deathRecord.ResidenceWithinCityLimitsBoolean = false;
+                deathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.No;
 
                 // SSN
                 deathRecord.SSN = "123456789";
@@ -217,8 +217,6 @@ namespace VRDR.CLI
 
                 // UsualOccupation
                 deathRecord.UsualOccupation = "secretary";
-                deathRecord.UsualOccupationStart = "1965-01-01";
-                deathRecord.UsualOccupationEnd = "2010-01-01";
 
                 // UsualIndustry
                 deathRecord.UsualIndustry = "State agency";
@@ -340,7 +338,7 @@ namespace VRDR.CLI
                 deathRecord.InjuryDescription = "Example Injury Description";
 
                 // InjuryLocationDescription
-                deathRecord.InjuryLocationDescription = "Example Injury Location Description";
+                //deathRecord.InjuryLocationDescription = "Example Injury Location Description";
 
                 // InjuryDate
                 deathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";

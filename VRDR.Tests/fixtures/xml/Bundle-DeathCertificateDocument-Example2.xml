@@ -1,0 +1,1943 @@
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="DeathCertificateDocument-Example2" />
+  <meta>
+    <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document" />
+  </meta>
+  <identifier>
+    <system value="http://nchs.cdc.gov/vrdr_id" />
+    <value value="2020NY000000" />
+  </identifier>
+  <type value="document" />
+  <timestamp value="2020-10-20T14:48:35.401641-04:00" />
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Bundle/DeathCertificate-Example2" />
+    <resource>
+      <Composition>
+        <id value="DeathCertificate-Example2" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate" />
+        </meta>
+        <status value="final" />
+        <type>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="64297-5" />
+            <display value="Death certificate" />
+          </coding>
+        </type>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <date value="2020-11-15T16:39:54-05:00" />
+        <author>
+          <reference value="Practitioner/Certifier-Example1" />
+        </author>
+        <title value="Death Certificate" />
+        <attester>
+          <mode value="legal" />
+          <time value="2020-11-14T16:39:40-05:00" />
+          <party>
+            <reference value="Practitioner/Certifier-Example1" />
+          </party>
+        </attester>
+        <event>
+          <code>
+            <coding>
+              <system value="http://snomed.info/sct" />
+              <code value="103693007" />
+              <display value="Diagnostic procedure (procedure)" />
+            </coding>
+          </code>
+          <detail>
+            <reference value="Procedure/DeathCertification-Example1" />
+          </detail>
+        </event>
+        <section>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs" />
+              <code value="DecedentDemographics" />
+            </coding>
+          </code>
+          <entry>
+            <reference value="Patient/Decedent-Example1" />
+          </entry>
+          <entry>
+            <reference value="RelatedPerson/DecedentFather-Example1" />
+          </entry>
+          <entry>
+            <reference value="RelatedPerson/DecedentMother-Example1" />
+          </entry>
+          <entry>
+            <reference value="RelatedPerson/DecedentSpouse-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentAge-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/BirthRecordIdentifier-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentEducationLevel-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentMilitaryService-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentUsualWork-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/InputRaceAndEthnicity-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/EmergingIssues-Example1" />
+          </entry>
+        </section>
+        <section>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs" />
+              <code value="DeathInvestigation" />
+            </coding>
+          </code>
+          <entry>
+            <reference value="Observation/ExaminerContacted-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentPregnancyStatus-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/TobaccoUseContributedToDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/AutopsyPerformedIndicator-Example1" />
+          </entry>
+          <entry>
+            <reference value="Location/DeathLocation-Example1" />
+          </entry>
+          <entry>
+            <reference value="Location/InjuryLocation-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/InjuryIncident-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DeathDate-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/SurgeryDate-Example1" />
+          </entry>
+        </section>
+        <section>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs" />
+              <code value="DeathCertification" />
+            </coding>
+          </code>
+          <entry>
+            <reference value="Practitioner/Certifier-Example1" />
+          </entry>
+          <entry>
+            <reference value="Procedure/DeathCertification-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/MannerOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/CauseOfDeathPart1-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/CauseOfDeathPart1-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/CauseOfDeathPart2-Example1" />
+          </entry>
+        </section>
+        <section>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs" />
+              <code value="DecedentDisposition" />
+            </coding>
+          </code>
+          <entry>
+            <reference value="Location/DispositionLocation-Example1" />
+          </entry>
+          <entry>
+            <reference value="Organization/FuneralHome-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/DecedentDispositionMethod-Example1" />
+          </entry>
+          <entry>
+            <reference value="Practitioner/Mortician-Example1" />
+          </entry>
+        </section>
+        <section>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs" />
+              <code value="CodedContent" />
+            </coding>
+          </code>
+          <entry>
+            <reference value="Observation/ActivityAtTimeOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/PlaceOfInjury-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/CodedRaceAndEthnicity-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/ManualUnderlyingCauseOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/AutomatedUnderlyingCauseOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/RecordAxisCauseOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Observation/EntityAxisCauseOfDeath-Example1" />
+          </entry>
+          <entry>
+            <reference value="Parameters/CodingStatusValues-Example1" />
+          </entry>
+        </section>
+      </Composition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Patient/Decedent-Example1" />
+    <resource>
+      <Patient>
+        <id value="Decedent-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent" />
+        </meta>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/SpouseAlive">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="Y" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/NVSS-SexAtDeath">
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/administrative-gender" />
+              <code value="unknown" />
+              <display value="Unknown" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/patient-birthPlace">
+          <valueAddress>
+            <city value="Roanoke" />
+            <state value="VA" />
+            <country value="US" />
+          </valueAddress>
+        </extension>
+        <identifier>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="SB" />
+              <display value="Social Beneficiary Identifier" />
+            </coding>
+          </type>
+          <system value="http://hl7.org/fhir/sid/us-ssn" />
+          <value value="987654321" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Patel" />
+          <given value="Madelyn" />
+        </name>
+        <gender value="female" />
+        <birthDate>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day">
+              <valueUnsignedInt value="10" />
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year">
+              <valueUnsignedInt value="2004" />
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month">
+              <valueUnsignedInt value="11" />
+            </extension>
+          </extension>
+        </birthDate>
+        <address>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/WithinCityLimitsIndicator">
+            <valueCoding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="Y" />
+              <display value="Yes" />
+            </valueCoding>
+          </extension>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/StreetName">
+            <valueString value="Lockwood" />
+          </extension>
+          <line value="5590 Lockwood Drive" />
+          <city value="Danville">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/CityCode">
+              <valuePositiveInt value="1234" />
+            </extension>
+          </city>
+          <district value="Fairfax">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/DistrictCode">
+              <valuePositiveInt value="321" />
+            </extension>
+          </district>
+          <state value="VA" />
+          <country value="US" />
+        </address>
+        <maritalStatus>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+            <valueCodeableConcept>
+              <coding>
+                <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" />
+                <code value="0" />
+              </coding>
+            </valueCodeableConcept>
+          </extension>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus" />
+            <code value="S" />
+            <display value="Never Married" />
+          </coding>
+        </maritalStatus>
+        <contact>
+          <relationship>
+            <text value="Friend of family" />
+          </relationship>
+          <name>
+            <text value="Joe Smith" />
+          </name>
+        </contact>
+      </Patient>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/RelatedPerson/DecedentFather-Example1" />
+    <resource>
+      <RelatedPerson>
+        <id value="DecedentFather-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-father" />
+        </meta>
+        <patient>
+          <reference value="Patient/Decedent-Example1" />
+        </patient>
+        <relationship>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode" />
+            <code value="FTH" />
+            <display value="father" />
+          </coding>
+        </relationship>
+        <name>
+          <use value="official" />
+          <text value="Decedent Dad" />
+          <family value="Smith" />
+          <given value="John" />
+          <suffix value="Sr" />
+        </name>
+      </RelatedPerson>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/RelatedPerson/DecedentMother-Example1" />
+    <resource>
+      <RelatedPerson>
+        <id value="DecedentMother-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-mother" />
+        </meta>
+        <patient>
+          <reference value="Patient/Decedent-Example1" />
+        </patient>
+        <relationship>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode" />
+            <code value="MTH" />
+            <display value="mother" />
+          </coding>
+        </relationship>
+        <name>
+          <use value="maiden" />
+          <text value="Decedent Mom" />
+          <family value="Suzette" />
+          <given value="Jane" />
+        </name>
+      </RelatedPerson>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/RelatedPerson/DecedentSpouse-Example1" />
+    <resource>
+      <RelatedPerson>
+        <id value="DecedentSpouse-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-spouse" />
+        </meta>
+        <patient>
+          <reference value="Patient/Decedent-Example1" />
+        </patient>
+        <relationship>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode" />
+            <code value="SPS" />
+            <display value="spouse" />
+          </coding>
+        </relationship>
+        <name>
+          <use value="maiden" />
+          <text value="Decedent Spouse" />
+          <family value="Gazette" />
+          <given value="Samuel" />
+          <suffix value="III" />
+        </name>
+      </RelatedPerson>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentAge-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentAge-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-age" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="39016-1" />
+            <display value="Age at death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueQuantity>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+            <valueCodeableConcept>
+              <coding>
+                <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" />
+                <code value="0" />
+                <display value="Edit Passed" />
+              </coding>
+            </valueCodeableConcept>
+          </extension>
+          <value value="42" />
+          <unit value="a" />
+        </valueQuantity>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/InputRaceAndEthnicity-Example1" />
+    <resource>
+      <Observation>
+        <id value="InputRaceAndEthnicity-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-input-race-and-ethnicity" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs" />
+            <code value="inputraceandethnicity" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="White" />
+            </coding>
+          </code>
+          <valueBoolean value="true" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="BlackOrAfricanAmerican" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="AmericanIndianOrAlaskaNative" />
+            </coding>
+          </code>
+          <valueBoolean value="true" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="AsianIndian" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Chinese" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Filipino" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Japanese" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Korean" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Vietnamese" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="OtherAsian" />
+            </coding>
+          </code>
+          <valueBoolean value="true" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="NativeHawaiian" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="GuamanianOrChamorro" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="Samoan" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="OtherPacificIslander" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="OtherRace" />
+            </coding>
+          </code>
+          <valueBoolean value="false" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="FirstOtherAsianLiteral" />
+            </coding>
+          </code>
+          <valueString value="Malaysian" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="FirstAmericanIndianOrAlaskaNativeLiteral" />
+            </coding>
+          </code>
+          <valueString value="Arikara" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="HispanicMexican" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="Y" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/BirthRecordIdentifier-Example1" />
+    <resource>
+      <Observation>
+        <id value="BirthRecordIdentifier-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-birth-record-identifier" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+            <code value="BR" />
+            <display value="Birth registry number" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueString value="717171" />
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="21842-0" />
+              <display value="Birthplace" />
+            </coding>
+          </code>
+          <valueString value="YC" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="80904-6" />
+              <display value="Birth year" />
+            </coding>
+          </code>
+          <valueDateTime value="1961" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentEducationLevel-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentEducationLevel-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-education-level" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80913-7" />
+            <display value="Highest level of education [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-EducationLevel" />
+            <code value="SEC" />
+            <display value="Some secondary or high school education" />
+          </coding>
+          <text value="11th grade" />
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentMilitaryService-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentMilitaryService-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-military-service" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="55280-2" />
+            <display value="Military service Narrative" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <code value="Y" />
+            <display value="Yes" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentUsualWork-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentUsualWork-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-usual-work" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="21843-8" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <effectivePeriod>
+          <start value="2001" />
+          <end value="2005" />
+        </effectivePeriod>
+        <valueCodeableConcept>
+          <coding>
+            <system value="urn:oid:2.16.840.1.114222.4.5.314" />
+            <code value="5700" />
+            <display value="Secretaries and administrative assistants" />
+          </coding>
+          <text value="secretary" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="21844-6" />
+              <display value="History of Usual industry" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="urn:oid:2.16.840.1.114222.4.5.315" />
+              <code value="9390" />
+              <display value="Other general government and support" />
+            </coding>
+            <text value="State agency" />
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/EmergingIssues-Example1" />
+    <resource>
+      <Observation>
+        <id value="EmergingIssues-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-emerging-issues" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <code value="emergingissues" />
+            <display value="NCHS-required Parameter Slots for Emerging Issues" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="EmergingIssue1_1" />
+            </coding>
+          </code>
+          <valueString value="H" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentPregnancyStatus-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentPregnancyStatus-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-pregnancy-status" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69442-2" />
+            <display value="Timing of recent pregnancy in relation to death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/BypassEditFlag">
+            <valueCodeableConcept>
+              <coding>
+                <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" />
+                <code value="2" />
+                <display value="Edit Failed, Data Queried, but not Verified" />
+              </coding>
+            </valueCodeableConcept>
+          </extension>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-pregnancy-status-cs" />
+            <code value="2" />
+            <display value="Pregnant at time of death" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/TobaccoUseContributedToDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="TobaccoUseContributedToDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-tobacco-use-contributed-to-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69443-0" />
+            <display value="Did tobacco use contribute to death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="373066001" />
+            <display value="Yes" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DeathDate-Example1" />
+    <resource>
+      <Observation>
+        <id value="DeathDate-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="81956-5" />
+            <display value="Date+time of death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <effectiveDateTime value="2020-11-12T16:39:40-05:00" />
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueDateTime>
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime">
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day">
+              <valueUnsignedInt value="12" />
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year">
+              <valueUnsignedInt value="2020" />
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Month">
+              <valueUnsignedInt value="11" />
+            </extension>
+            <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time">
+              <valueTime value="12:13:14" />
+            </extension>
+          </extension>
+        </valueDateTime>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="80616-6" />
+              <display value="Date and time pronounced dead [US Standard Certificate of Death]" />
+            </coding>
+          </code>
+          <valueDateTime value="2020-11-13T16:39:40-05:00" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="58332-8" />
+              <display value="Location of death" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://snomed.info/sct" />
+              <code value="16983000" />
+              <display value="Death in hospital" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/SurgeryDate-Example1" />
+    <resource>
+      <Observation>
+        <id value="SurgeryDate-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-surgery-date" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80992-1" />
+            <display value="Date and time of surgery" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <effectiveDateTime value="2019-11-12" />
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/ExaminerContacted-Example1" />
+    <resource>
+      <Observation>
+        <id value="ExaminerContacted-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-examiner-contacted" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="74497-9" />
+            <display value="Medical examiner or coroner was contacted [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <code value="Y" />
+            <display value="Yes" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/MannerOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="MannerOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manner-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69449-7" />
+            <display value="Manner of death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="38605008" />
+            <display value="Natural death" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Location/DeathLocation-Example1" />
+    <resource>
+      <Location>
+        <id value="DeathLocation-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-location" />
+        </meta>
+        <name value="Pecan Grove Nursing Home" />
+        <description value="nursing home" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="death" />
+          </coding>
+        </type>
+        <address>
+          <city value="Albany" />
+          <state value="NY" />
+          <country value="US" />
+        </address>
+        <position>
+          <longitude value="-77.050636" />
+          <latitude value="38.889248" />
+        </position>
+      </Location>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Location/InjuryLocation-Example1" />
+    <resource>
+      <Location>
+        <id value="InjuryLocation-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-location" />
+        </meta>
+        <name value="Home" />
+        <description value="5590 Lockwood Drive 20621 US" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="injury" />
+          </coding>
+        </type>
+        <address>
+          <text value="5590 Lockwood Drive 20621 US" />
+        </address>
+      </Location>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/InjuryIncident-Example1" />
+    <resource>
+      <Observation>
+        <id value="InjuryIncident-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="11374-6" />
+            <display value="Injury incident description Narrative" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <effectiveDateTime value="2019-11-02T13:00:00-05:00" />
+        <valueCodeableConcept>
+          <text value="drug toxicity" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69444-8" />
+              <display value="Did death result from injury at work" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="N" />
+              <display value="No" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69450-5" />
+              <display value="Place of injury Facility" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <text value="Home" />
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69451-3" />
+              <display value="Transportation role of decedent" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
+              <code value="OTH" />
+              <display value="Other" />
+            </coding>
+            <text value="Hoverboard Rider" />
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Practitioner/Certifier-Example1" />
+    <resource>
+      <Practitioner>
+        <id value="Certifier-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier" />
+        </meta>
+        <identifier>
+          <system value="http://hl7.org/fhir/sid/us-npi" />
+          <value value="414444AB" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Black" />
+          <given value="Jim" />
+        </name>
+        <address>
+          <line value="44 South Street" />
+          <city value="Bird in Hand" />
+          <state value="PA" />
+          <postalCode value="17505" />
+          <country value="US" />
+        </address>
+        <qualification>
+          <code>
+            <coding>
+              <system value="http://snomed.info/sct" />
+              <code value="434641000124105" />
+            </coding>
+          </code>
+        </qualification>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Procedure/DeathCertification-Example1" />
+    <resource>
+      <Procedure>
+        <id value="DeathCertification-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification" />
+        </meta>
+        <identifier>
+          <value value="180" />
+        </identifier>
+        <status value="completed" />
+        <category>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="103693007" />
+            <display value="Diagnostic procedure" />
+          </coding>
+        </category>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="308646001" />
+            <display value="Death certification" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performedDateTime value="2020-11-14T16:39:40-05:00" />
+        <performer>
+          <function>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v3-NullFlavor" />
+              <code value="OTH" />
+            </coding>
+            <text value="Nurse Practitioner" />
+          </function>
+          <actor>
+            <reference value="Practitioner/Certifier-Example1" />
+          </actor>
+        </performer>
+      </Procedure>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example1" />
+    <resource>
+      <Observation>
+        <id value="CauseOfDeathPart1-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <text value="Cardiopulmonary arrest" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+            </coding>
+          </code>
+          <valueInteger value="1" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueString value="4 hours" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2" />
+    <resource>
+      <Observation>
+        <id value="CauseOfDeathPart1-Example2" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <text value="Eclampsia" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+            </coding>
+          </code>
+          <valueInteger value="2" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueString value="3 months" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2" />
+    <resource>
+      <Observation>
+        <id value="CauseOfDeathPart1-Example2" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <text value="Coronary artery thrombosis" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+            </coding>
+          </code>
+          <valueInteger value="3" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueString value="3 months" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CauseOfDeathPart1-Example2" />
+    <resource>
+      <Observation>
+        <id value="CauseOfDeathPart1-Example2" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part1" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69453-9" />
+            <display value="Cause of death [US Standard Certificate of Death]" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <text value="Atherosclerotic coronary artery disease" />
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+            </coding>
+          </code>
+          <valueInteger value="4" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69440-6" />
+              <display value="Disease onset to death interval" />
+            </coding>
+          </code>
+          <valueString value="3 months" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CauseOfDeathPart2-Example1" />
+    <resource>
+      <Observation>
+        <id value="CauseOfDeathPart2-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-cause-of-death-part2" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69441-4" />
+            <display value="Other significant causes or conditions of death" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Certifier-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <text value="hypertensive heart disease" />
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Location/DispositionLocation-Example1" />
+    <resource>
+      <Location>
+        <id value="DispositionLocation-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-disposition-location" />
+        </meta>
+        <name value="Rosewood Cemetary" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-location-type-cs" />
+            <code value="disposition" />
+          </coding>
+        </type>
+        <address>
+          <line value="303 Rosewood Ave" />
+          <city value="Danville" />
+          <state value="VA" />
+          <postalCode value="24541" />
+          <country value="US" />
+        </address>
+        <physicalType>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/location-physical-type" />
+            <code value="si" />
+            <display value="Site" />
+          </coding>
+        </physicalType>
+      </Location>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Organization/FuneralHome-Example1" />
+    <resource>
+      <Organization>
+        <id value="FuneralHome-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-funeral-home" />
+        </meta>
+        <active value="true" />
+        <type>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-organization-type-cs" />
+            <code value="funeralhome" />
+            <display value="Funeral Home" />
+          </coding>
+        </type>
+        <name value="Lancaster Funeral Home and Crematory" />
+        <address>
+          <line value="211 High Street" />
+          <city value="Lancaster" />
+          <state value="PA" />
+          <postalCode value="17573" />
+          <country value="US" />
+        </address>
+      </Organization>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/DecedentDispositionMethod-Example1" />
+    <resource>
+      <Observation>
+        <id value="DecedentDispositionMethod-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-decedent-disposition-method" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80905-3" />
+            <display value="Body disposition method" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <performer>
+          <reference value="Practitioner/Mortician-Example1" />
+        </performer>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="449971000124106" />
+            <display value="Patient status determination, deceased and buried" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/AutopsyPerformedIndicator-Example1" />
+    <resource>
+      <Observation>
+        <id value="AutopsyPerformedIndicator-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-autopsy-performed-indicator" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="85699-7" />
+            <display value="Autopsy was performed" />
+          </coding>
+        </code>
+        <subject>
+          <reference value="Patient/Decedent-Example1" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+            <code value="Y" />
+            <display value="Yes" />
+          </coding>
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://loinc.org" />
+              <code value="69436-4" />
+              <display value="Autopsy results available" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0136" />
+              <code value="Y" />
+              <display value="Yes" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Practitioner/Mortician-Example1" />
+    <resource>
+      <Practitioner>
+        <id value="Mortician-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner" />
+        </meta>
+        <identifier>
+          <system value="http://hl7.org/fhir/sid/us-npi" />
+          <value value="212222AB" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Smith" />
+          <given value="Ronald" />
+          <given value="Q" />
+        </name>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/ActivityAtTimeOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="ActivityAtTimeOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-activity-at-time-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80626-5" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs" />
+            <code value="1" />
+            <display value="While engaged in leisure activities." />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/CodedRaceAndEthnicity-Example1" />
+    <resource>
+      <Observation>
+        <id value="CodedRaceAndEthnicity-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coded-race-and-ethnicity" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs" />
+            <code value="codedraceandethnicity" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="FirstEditedCode" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs" />
+              <code value="101" />
+              <display value="White" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="SecondEditedCode" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs" />
+              <code value="122" />
+              <display value="Israeli" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="FirstAmericanIndianCode" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs" />
+              <code value="A31" />
+              <display value="Arikara" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="RaceRecode40" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs" />
+              <code value="20" />
+              <display value="AIAN and Asian" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="HispanicCode" />
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs" />
+              <code value="233" />
+              <display value="Chilean" />
+            </coding>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/ManualUnderlyingCauseOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="ManualUnderlyingCauseOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manual-underlying-cause-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80359-3" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/sid/icd-10" />
+            <code value="J96.0" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/AutomatedUnderlyingCauseOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="AutomatedUnderlyingCauseOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-automated-underlying-cause-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80358-5" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/sid/icd-10" />
+            <code value="J96.0" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/RecordAxisCauseOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="RecordAxisCauseOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80357-7" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/sid/icd-10" />
+            <code value="J96.0" />
+          </coding>
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="position" />
+            </coding>
+          </code>
+          <valueInteger value="1" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/EntityAxisCauseOfDeath-Example1" />
+    <resource>
+      <Observation>
+        <id value="EntityAxisCauseOfDeath-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="80356-9" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/sid/icd-10" />
+            <code value="J96.0" />
+          </coding>
+        </valueCodeableConcept>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="lineNumber" />
+            </coding>
+          </code>
+          <valueInteger value="1" />
+        </component>
+        <component>
+          <code>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs" />
+              <code value="position" />
+            </coding>
+          </code>
+          <valueInteger value="1" />
+        </component>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Observation/PlaceOfInjury-Example1" />
+    <resource>
+      <Observation>
+        <id value="PlaceOfInjury-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-place-of-injury" />
+        </meta>
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="11376-1" />
+          </coding>
+        </code>
+        <subject>
+          <display value="NCHS generated" />
+        </subject>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="LA14084-0" />
+            <display value="Home" />
+          </coding>
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://www.example.org/fhir/Parameter/CodingStatusValues-Example1" />
+    <resource>
+      <Parameters>
+        <id value="CodingStatusValues-Example1" />
+        <meta>
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coding-status-values" />
+        </meta>
+        <parameter>
+          <name value="shipmentNumber" />
+          <valueString value="A2B2" />
+        </parameter>
+        <parameter>
+          <name value="receiptDate" />
+          <valueDate value="2021-12-12" />
+        </parameter>
+        <parameter>
+          <name value="coderStatus" />
+          <valueInteger value="5" />
+        </parameter>
+        <parameter>
+          <name value="intentionalReject" />
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs" />
+              <code value="1" />
+            </coding>
+          </valueCodeableConcept>
+        </parameter>
+        <parameter>
+          <name value="acmeSystemReject" />
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs" />
+              <code value="0" />
+            </coding>
+          </valueCodeableConcept>
+        </parameter>
+        <parameter>
+          <name value="transaxConversion" />
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs" />
+              <code value="3" />
+            </coding>
+          </valueCodeableConcept>
+        </parameter>
+      </Parameters>
+    </resource>
+  </entry>
+</Bundle>

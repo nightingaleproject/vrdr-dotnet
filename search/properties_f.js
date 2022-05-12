@@ -65,7 +65,6 @@ var searchData=
   ['rescon_62',['RESCON',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a77aef1cc09ce7c729df2375666043987',1,'VRDR::IJEMortality']]],
   ['residence_63',['Residence',['../class_v_r_d_r_1_1_death_record.html#a56bb94c32494c0f29d2264707a962045',1,'VRDR::DeathRecord']]],
   ['residencewithincitylimits_64',['ResidenceWithinCityLimits',['../class_v_r_d_r_1_1_death_record.html#afa59a03b342215ceb354bf54fd28a6ac',1,'VRDR::DeathRecord']]],
-  ['residencewithincitylimitsboolean_65',['ResidenceWithinCityLimitsBoolean',['../class_v_r_d_r_1_1_death_record.html#a9a276aa96af815b2330ff9351e652123',1,'VRDR::DeathRecord']]],
-  ['residencewithincitylimitshelper_66',['ResidenceWithinCityLimitsHelper',['../class_v_r_d_r_1_1_death_record.html#a4014fb5c3a125a1f5c72cf035c7ac096',1,'VRDR::DeathRecord']]],
-  ['resstate_67',['RESSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5ba7807cce6f0e1e7929af8ccfb42954',1,'VRDR::IJEMortality']]]
+  ['residencewithincitylimitshelper_65',['ResidenceWithinCityLimitsHelper',['../class_v_r_d_r_1_1_death_record.html#a4014fb5c3a125a1f5c72cf035c7ac096',1,'VRDR::DeathRecord']]],
+  ['resstate_66',['RESSTATE',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5ba7807cce6f0e1e7929af8ccfb42954',1,'VRDR::IJEMortality']]]
 ];

@@ -6,9 +6,5 @@ var searchData=
   ['username_3',['Username',['../class_credentials.html#a02ad146d39322bb55663ede406ffe946',1,'Credentials']]],
   ['using_20the_20vrdr_2emessaging_20library_4',['Using the VRDR.Messaging Library',['../md_doc__messaging.html',1,'']]],
   ['usualindustry_5',['UsualIndustry',['../class_v_r_d_r_1_1_death_record.html#ad1052a091fd8367d65cf3176b0caa4a8',1,'VRDR::DeathRecord']]],
-  ['usualindustrycode_6',['UsualIndustryCode',['../class_v_r_d_r_1_1_death_record.html#acab2402745a9b04a9206d05921c26282',1,'VRDR::DeathRecord']]],
-  ['usualoccupation_7',['UsualOccupation',['../class_v_r_d_r_1_1_death_record.html#a0721d602d9431aada87d08b8e54a7072',1,'VRDR::DeathRecord']]],
-  ['usualoccupationcode_8',['UsualOccupationCode',['../class_v_r_d_r_1_1_death_record.html#a61a4591911f64f0c10a22a182b6a2163',1,'VRDR::DeathRecord']]],
-  ['usualoccupationend_9',['UsualOccupationEnd',['../class_v_r_d_r_1_1_death_record.html#a12dd5065c675379f1118e89d6351f0e9',1,'VRDR::DeathRecord']]],
-  ['usualoccupationstart_10',['UsualOccupationStart',['../class_v_r_d_r_1_1_death_record.html#aa3b674a0bacdc5ea97dc81e4e014ede7',1,'VRDR::DeathRecord']]]
+  ['usualoccupation_6',['UsualOccupation',['../class_v_r_d_r_1_1_death_record.html#a0721d602d9431aada87d08b8e54a7072',1,'VRDR::DeathRecord']]]
 ];

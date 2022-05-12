@@ -338,7 +338,7 @@ namespace VRDR.CLI
                 deathRecord.InjuryDescription = "Example Injury Description";
 
                 // InjuryLocationDescription
-                deathRecord.InjuryLocationDescription = "Example Injury Location Description";
+                //deathRecord.InjuryLocationDescription = "Example Injury Location Description";
 
                 // InjuryDate
                 deathRecord.InjuryDate = "2018-02-19T16:48:06-05:00";

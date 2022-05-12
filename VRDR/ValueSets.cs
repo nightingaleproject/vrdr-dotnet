@@ -4379,5 +4379,23 @@ namespace VRDR
             /// <summary> Reject9 </summary>
             public static string  Reject9 = "9";
         };
+        /// <summary> SpouseAlive </summary>
+        public static class SpouseAlive {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "Y", "Yes", VRDR.CodeSystems.YesNo },
+                { "N", "No", VRDR.CodeSystems.YesNo },
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
+                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> Yes </summary>
+            public static string  Yes = "Y";
+            /// <summary> No </summary>
+            public static string  No = "N";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
+            /// <summary> Not_Applicable </summary>
+            public static string  Not_Applicable = "NA";
+        };
    }
 }

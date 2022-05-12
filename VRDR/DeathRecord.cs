@@ -4249,7 +4249,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("SpouseAlive", value, VRDR.ValueSets.YesNoUnknownNotApplicable.Codes);
+                SetCodeValue("SpouseAlive", value, VRDR.ValueSets.SpouseAlive.Codes);
             }
         }
 

@@ -3014,6 +3014,26 @@ namespace VRDR
                 { "updated_notforNCHS", "2" },
             };
         }
+        /// <summary>Mappings for SpouseAlive</summary>
+        public static class SpouseAlive
+        {
+            /// <summary>IJE -> FHIR Mapping for SpouseAlive</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "1", "Y" },
+                { "2", "N" },
+                { "8", "NA" },
+                { "9", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for SpouseAlive</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "Y", "1" },
+                { "N", "2" },
+                { "NA", "8" },
+                { "UNK", "9" },
+            };
+        }
         /// <summary>Mappings for SystemReject</summary>
         public static class SystemReject
         {

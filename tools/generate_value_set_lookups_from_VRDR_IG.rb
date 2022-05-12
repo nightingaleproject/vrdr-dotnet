@@ -107,9 +107,11 @@ valuesets = {
     "ValueSet-vrdr-transax-conversion-vs.json" => "TransaxConversion",
     "ValueSet-vrdr-system-reject-vs.json" => "AcmeSystemReject",
     "ValueSet-vrdr-intentional-reject-vs.json" => "IntentionalReject",
+    "ValueSet-vrdr-spouse-alive-vs.json" => "SpouseAlive",
 }
 
 outfilename = ARGV[1] + "/ValueSets.cs"
+puts "Output in #{outfilename}"
 file = file=File.open(outfilename,"w")
 systems_without_constants = []
 

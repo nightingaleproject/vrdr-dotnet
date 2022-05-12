@@ -4434,107 +4434,10 @@ namespace VRDR
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     BirthRecordIdentifier.Value = new FhirString(value);
-                    BirthRecordIdentifierDataAbsentBoolean = false;
                 }
                 else
                 {
                     BirthRecordIdentifier.Value = (FhirString)null;
-                    BirthRecordIdentifierDataAbsentBoolean = true;
-                }
-            }
-        }
-        /// <summary>Birth Record Identifier Data Absent Reason (Code).</summary>
-        /// <value>Data Absent Reason for the Birth Record Identifier. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; brs = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>brs.Add("code", "unknown");</para>
-        /// <para>code.Add("system", CodeSystems.Data_Absent_Reason_HL7_V3);</para>
-        /// <para>brs.Add("display", "unknown");</para>
-        /// <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason = brs;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Birth Record Data Absent Reason: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
-        /// </example>
-        [Property("Birth Record Identifier Data Absent Reason (Code)", Property.Types.Dictionary, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='BR').dataAbsentReason", "")]
-        public Dictionary<string, string> BirthRecordIdentifierDataAbsentReason
-        {
-            get
-            {
-                if (BirthRecordIdentifier?.DataAbsentReason != null && BirthRecordIdentifier.DataAbsentReason as CodeableConcept != null)
-                {
-                    return CodeableConceptToDict(BirthRecordIdentifier.DataAbsentReason);
-                }
-                return EmptyCodeableDict();
-            }
-            set
-            {
-                if (BirthRecordIdentifier == null)
-                {
-                    CreateBirthRecordIdentifier();
-
-                }
-                // If an empty dict is provided then this will reset the `BirthRecordIdentifier.Value`
-                // Since `EmptyCodeableDict()` is returned via the getter, implementers trying to
-                // copy one death record to another would get their BirthRecordId cleared when copying this field.
-                if (!IsDictEmptyOrDefault(value))
-                {
-                    BirthRecordIdentifier.DataAbsentReason = DictToCodeableConcept(value);
-                    BirthRecordIdentifier.Value = (FhirString)null; // If reason is set the data must be null;
-                }
-            }
-        }
-
-        /// <summary>Birth Record Identifier Data Absent Boolean.</summary>
-        /// <value>True if the data absent reason field is present</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.BirthRecordIdentifierDataAbsentBoolean = true;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"BirthRecordIdentifierDataAbsentBoolean: {ExampleDeathRecord.BirthRecordIdentifierDataAbsentReason}");</para>
-        /// </example>
-        [Property("Birth Record Identifier Data Absent (Boolean)", Property.Types.Bool, "Decedent Demographics", "Birth Record Identifier Data Absent Reason.", true, IGURL.BirthRecordIdentifier, false, 17)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='30525-0').dataAbsentReason", "")]
-        public bool BirthRecordIdentifierDataAbsentBoolean
-        {
-            get
-            {
-                return (BirthRecordIdentifier == null || BirthRecordIdentifier.DataAbsentReason != null);
-            }
-            set
-            {
-                if (value == false)
-                {
-                    if (BirthRecordIdentifier != null)
-                    {  // if it has been created, reset the DataAbsentReason, otherwise, nothing to do.
-                        BirthRecordIdentifier.DataAbsentReason = (CodeableConcept)null;
-                    }
-                }
-                else
-                {
-                    if (BirthRecordIdentifier == null)
-                    {
-                        CreateBirthRecordIdentifier();
-
-                    }
-                    // If there already is a data absent reason do not overwrite it with the default
-                    if (BirthRecordIdentifier.DataAbsentReason == null)
-                    {
-                        BirthRecordIdentifierDataAbsentReason = new Dictionary<string, string>() {
-                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
-                            { "code", "unknown" },
-                            { "display", "unknown" },
-                            { "text", null }
-                        };
-                    }
-                    BirthRecordIdentifier.Value = (FhirString)null; // If reason is set the data must be null;
                 }
             }
         }

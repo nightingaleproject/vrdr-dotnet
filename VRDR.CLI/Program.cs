@@ -130,10 +130,10 @@ namespace VRDR.CLI
                 deathRecord.Suffix = "Jr.";
 
                 // Gender
-                deathRecord.Gender = "male";
+                deathRecord.SexAtDeathHelper = "M";
 
                 // BirthSex
-                deathRecord.BirthSex = "F";
+                //deathRecord.BirthSex = "F";
 
                 // DateOfBirth
                 deathRecord.DateOfBirth = "1940-02-19";
@@ -150,7 +150,7 @@ namespace VRDR.CLI
                 deathRecord.Residence = raddress;
 
                 // ResidenceWithinCityLimits
-                deathRecord.ResidenceWithinCityLimitsBoolean = false;
+                deathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.No;
 
                 // SSN
                 deathRecord.SSN = "123456789";

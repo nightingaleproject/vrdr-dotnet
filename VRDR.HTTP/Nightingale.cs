@@ -295,17 +295,17 @@ namespace VRDR.HTTP
                 }
             }
 
-            if (record.BirthSex != null)
-            {
-                if (record.BirthSex == "M")
-                {
-                    values["sex.sex"] = "Male";
-                }
-                else if (record.BirthSex == "F")
-                {
-                    values["sex.sex"] = "Female";
-                }
-            }
+            // if (record.BirthSex != null)
+            // {
+            //     if (record.BirthSex == "M")
+            //     {
+            //         values["sex.sex"] = "Male";
+            //     }
+            //     else if (record.BirthSex == "F")
+            //     {
+            //         values["sex.sex"] = "Female";
+            //     }
+            // }
 
             if (record.SSN != null && record.SSN.Length == 9)
             {
@@ -551,14 +551,14 @@ namespace VRDR.HTTP
                     break;
             }
 
-            if (GetValue(values, "sex.sex") == "Male")
-            {
-                deathRecord.BirthSex = "M";
-            }
-            else if (GetValue(values, "sex.sex") == "Female")
-            {
-                deathRecord.BirthSex = "F";
-            }
+            // if (GetValue(values, "sex.sex") == "Male")
+            // {
+            //     deathRecord.BirthSex = "M";
+            // }
+            // else if (GetValue(values, "sex.sex") == "Female")
+            // {
+            //     deathRecord.BirthSex = "F";
+            // }
 
             if (GetValue(values, "ssn.ssn1") != null && GetValue(values, "ssn.ssn2") != null && GetValue(values, "ssn.ssn3") != null)
             {

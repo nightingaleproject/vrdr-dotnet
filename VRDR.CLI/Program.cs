@@ -217,8 +217,6 @@ namespace VRDR.CLI
 
                 // UsualOccupation
                 deathRecord.UsualOccupation = "secretary";
-                deathRecord.UsualOccupationStart = "1965-01-01";
-                deathRecord.UsualOccupationEnd = "2010-01-01";
 
                 // UsualIndustry
                 deathRecord.UsualIndustry = "State agency";

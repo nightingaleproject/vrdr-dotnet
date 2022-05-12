@@ -4561,48 +4561,6 @@ namespace VRDR
                 }
             }
         }
-        /// <summary>Decedent's Usual Occupation (Code).</summary>
-        /// <value>the decedent's usual occupation. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; uocc = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>uocc.Add("code", "1340");</para>
-        /// <para>uocc.Add("system", "urn:oid:2.16.840.1.114222.4.11.7186");</para>
-        /// <para>uocc.Add("display", "Biomedical engineers");</para>
-        /// <para>ExampleDeathRecord.UsualOccupationCode = uocc;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Usual Occupation: {ExampleDeathRecord.UsualOccupationCode['display']}");</para>
-        /// </example>
-        [Property("Usual Occupation (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Occupation.", false, IGURL.DecedentUsualWork, false, 39)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
-        public Dictionary<string, string> UsualOccupationCode
-        {
-            get
-            {
-                if (UsualWork != null && UsualWork.Value != null && UsualWork.Value as CodeableConcept != null)
-                {
-                    return CodeableConceptToDict((CodeableConcept)UsualWork.Value);
-                }
-                return EmptyCodeDict();
-            }
-            set
-            {
-                if (UsualWork == null)
-                {
-                    CreateUsualWork();
-                }
-                UsualWork.Value = DictToCodeableConcept(value);
-
-            }
-        }
 
         /// <summary>Decedent's Usual Occupation.</summary>
         /// <value>the decedent's usual occupation.</value>
@@ -4618,126 +4576,11 @@ namespace VRDR
         {
             get
             {
-                var usualOccupationCode = UsualOccupationCode;
-                if (usualOccupationCode.ContainsKey("text"))
+                if (UsualWork != null && UsualWork.Value != null && UsualWork.Value as CodeableConcept != null)
                 {
-                    return UsualOccupationCode["text"];
+                    return CodeableConceptToDict((CodeableConcept)UsualWork.Value)["text"];
                 }
-                else
-                {
-                    return null;
-                }
-            }
-            set
-            {
-                var uocc = new Dictionary<string, string>();
-                uocc["text"] = value;
-                UsualOccupationCode = uocc;
-            }
-        }
-
-        /// <summary>Start Date of Usual Occupation.</summary>
-        /// <value>the date usual occupation started</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.UsualOccupationStart = "2018-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Start of Usual Occupation: {ExampleDeathRecord.UsualOccupationStart}");</para>
-        /// </example>
-        [Property("Usual Occupation Start Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 41)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
-        public string UsualOccupationStart
-        {
-            get
-            {
-                if (UsualWork?.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).Start != null)
-                {
-                    return Convert.ToString(((Period)UsualWork.Effective).Start);
-                }
-                return null;
-            }
-            set
-            {
-                if (UsualWork == null)
-                {
-                    CreateUsualWork();
-                    UsualWork.Effective = new Period(new FhirDateTime(value), null);
-                }
-                if (UsualWork.Effective as Period != null)
-                {
-                    ((Period)UsualWork.Effective).Start = value;
-                }
-            }
-        }
-
-        /// <summary>End Date of Usual Occupation.</summary>
-        /// <value>the date usual occupation ended</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.UsualOccupationEnd = "2018-02-19";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"End of Usual Occupation: {ExampleDeathRecord.UsualOccupationEnd}");</para>
-        /// </example>
-        [Property("Usual Occupation End Date", Property.Types.StringDateTime, "Decedent Demographics", "Decedent's Usual Occupation.", true, IGURL.DecedentUsualWork, true, 42)]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
-        public string UsualOccupationEnd
-        {
-            get
-            {
-                if (UsualWork?.Effective != null && UsualWork.Effective as Period != null && ((Period)UsualWork.Effective).End != null)
-                {
-                    return Convert.ToString(((Period)UsualWork.Effective).End);
-                }
-                return null;
-            }
-            set
-            {
-                if (UsualWork == null)
-                {
-                    CreateUsualWork();
-                    UsualWork.Effective = new Period(null, new FhirDateTime(value));
-                }
-                if (UsualWork.Effective as Period != null)
-                {
-                    ((Period)UsualWork.Effective).End = value;
-                }
-            }
-        }
-        /// <summary>Decedent's Usual Industry (Code).</summary>
-        /// <value>the decedent's usual industry. A Dictionary representing a code, containing the following key/value pairs:
-        /// <para>"code" - the code</para>
-        /// <para>"system" - the code system this code belongs to</para>
-        /// <para>"display" - a human readable meaning of the code</para>
-        /// </value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>Dictionary&lt;string, string&gt; uind = new Dictionary&lt;string, string&gt;();</para>
-        /// <para>uind.Add("code", "7280");</para>
-        /// <para>uind.Add("system", "urn:oid:2.16.840.1.114222.4.11.7187");</para>
-        /// <para>uind.Add("display", "Accounting, tax preparation, bookkeeping, and payroll services");</para>
-        /// <para>ExampleDeathRecord.UsualIndustryCode = uind;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Usual Industry: {ExampleDeathRecord.UsualIndustryCode['display']}");</para>
-        /// </example>
-        [Property("Usual Industry (Code)", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Usual Industry.", false, IGURL.DecedentUsualWork, false, 43)]
-        [PropertyParam("code", "The code used to describe this concept.")]
-        [PropertyParam("system", "The relevant code system.")]
-        [PropertyParam("display", "The human readable version of this code.")]
-        [PropertyParam("text", "Additional descriptive text.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='21843-8')", "")]
-        public Dictionary<string, string> UsualIndustryCode
-        {
-            get
-            {
-                if (UsualWork != null)
-                {
-                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
-                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
-                    {
-                        return CodeableConceptToDict((CodeableConcept)component.Value);
-                    }
-                }
-                return EmptyCodeableDict();
+                return "";
             }
             set
             {
@@ -4745,13 +4588,7 @@ namespace VRDR
                 {
                     CreateUsualWork();
                 }
-
-                UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
-                Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-
-                component.Value = DictToCodeableConcept(value);
-                UsualWork.Component.Add(component);
+                UsualWork.Value = new CodeableConcept(null, null, null, value);
 
             }
         }
@@ -4770,22 +4607,32 @@ namespace VRDR
         {
             get
             {
-                var usualIndustryCode = UsualIndustryCode;
-                if (usualIndustryCode.ContainsKey("text"))
+                if (UsualWork != null)
                 {
-                    return UsualIndustryCode["text"];
+                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    if (component != null && component.Value != null && component.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+                return "";
             }
             set
             {
-                var uicc = new Dictionary<string, string>();
-                uicc["text"] = value;
-                UsualIndustryCode = uicc;
+                if (UsualWork == null)
+                {
+                    CreateUsualWork();
+                }
+
+                UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                Observation.ComponentComponent component = new Observation.ComponentComponent();
+                component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
+
+                component.Value = new CodeableConcept(null, null, null, value);
+                UsualWork.Component.Add(component);
+
             }
+
         }
 
         /// <summary>Decedent's Military Service.</summary>

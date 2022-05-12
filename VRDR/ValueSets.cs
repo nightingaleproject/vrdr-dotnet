@@ -314,15 +314,6 @@ namespace VRDR
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
         };
-        /// <summary> NotApplicable </summary>
-        public static class NotApplicable {
-            /// <summary> Codes </summary>
-            public static string[,] Codes = {
-                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
-            };
-            /// <summary> Not_Applicable </summary>
-            public static string  Not_Applicable = "NA";
-        };
         /// <summary> PlaceOfDeath </summary>
         public static class PlaceOfDeath {
             /// <summary> Codes </summary>
@@ -454,21 +445,6 @@ namespace VRDR
             public static string  Years = "a";
             /// <summary> Unknown </summary>
             public static string  Unknown = "UNK";
-        };
-        /// <summary> YesNoNotApplicable </summary>
-        public static class YesNoNotApplicable {
-            /// <summary> Codes </summary>
-            public static string[,] Codes = {
-                { "N", "No", VRDR.CodeSystems.YesNo },
-                { "Y", "Yes", VRDR.CodeSystems.YesNo },
-                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
-            };
-            /// <summary> No </summary>
-            public static string  No = "N";
-            /// <summary> Yes </summary>
-            public static string  Yes = "Y";
-            /// <summary> Not_Applicable </summary>
-            public static string  Not_Applicable = "NA";
         };
         /// <summary> YesNoUnknownNotApplicable </summary>
         public static class YesNoUnknownNotApplicable {
@@ -4396,6 +4372,21 @@ namespace VRDR
             public static string  Unknown = "UNK";
             /// <summary> Not_Applicable </summary>
             public static string  Not_Applicable = "NA";
+        };
+        /// <summary> HispanicNoUnknown </summary>
+        public static class HispanicNoUnknown {
+            /// <summary> Codes </summary>
+            public static string[,] Codes = {
+                { "N", "No", VRDR.CodeSystems.YesNo },
+                { "Y", "Yes", VRDR.CodeSystems.YesNo },
+                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+            };
+            /// <summary> No </summary>
+            public static string  No = "N";
+            /// <summary> Yes </summary>
+            public static string  Yes = "Y";
+            /// <summary> Unknown </summary>
+            public static string  Unknown = "UNK";
         };
    }
 }

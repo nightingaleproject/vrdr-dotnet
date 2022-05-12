@@ -216,6 +216,24 @@ namespace VRDR
                 { "mixed", "2" },
             };
         }
+        /// <summary>Mappings for HispanicNoUnknown</summary>
+        public static class HispanicNoUnknown
+        {
+            /// <summary>IJE -> FHIR Mapping for HispanicNoUnknown</summary>
+            public readonly static Dictionary<string, string> IJEToFHIR = new Dictionary<string, string>
+            {
+                { "H", "Y" },
+                { "N", "N" },
+                { "U", "UNK" },
+            };
+            /// <summary>FHIR -> IJE Mapping for HispanicNoUnknown</summary>
+            public readonly static Dictionary<string, string> FHIRToIJE = new Dictionary<string, string>
+            {
+                { "Y", "H" },
+                { "N", "N" },
+                { "UNK", "U" },
+            };
+        }
         /// <summary>Mappings for HispanicOrigin</summary>
         public static class HispanicOrigin
         {

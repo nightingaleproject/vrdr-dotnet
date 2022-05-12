@@ -91,14 +91,12 @@ valuesets = {
     "ValueSet-vrdr-manner-of-death-vs.json" => "MannerOfDeath",
     "ValueSet-vrdr-marital-status-vs.json" => "MaritalStatus",
     "ValueSet-vrdr-method-of-disposition-vs.json" => "MethodOfDisposition",
-    "ValueSet-vrdr-not-applicable-vs.json" => "NotApplicable",
     "ValueSet-vrdr-place-of-death-vs.json" => "PlaceOfDeath",
     "ValueSet-vrdr-pregnancy-status-vs.json" => "PregnancyStatus",
     "ValueSet-vrdr-race-missing-value-reason-vs.json" => "RaceMissingValueReason",
     "ValueSet-vrdr-replace-status-vs.json" => "ReplaceStatus",
     "ValueSet-vrdr-transportation-incident-role-vs.json" => "TransportationIncidentRole",
     "ValueSet-vrdr-units-of-age-vs.json" => "UnitsOfAge",
-    "ValueSet-vrdr-yes-no-not-applicable-vs.json" => "YesNoNotApplicable",
     "ValueSet-vrdr-yes-no-unknown-not-applicable-vs.json" => "YesNoUnknownNotApplicable",
     "ValueSet-vrdr-yes-no-unknown-vs.json" => "YesNoUnknown",
     "ValueSet-vrdr-race-code-vs.json" => "RaceCode",
@@ -108,6 +106,7 @@ valuesets = {
     "ValueSet-vrdr-system-reject-vs.json" => "AcmeSystemReject",
     "ValueSet-vrdr-intentional-reject-vs.json" => "IntentionalReject",
     "ValueSet-vrdr-spouse-alive-vs.json" => "SpouseAlive",
+    "ValueSet-vrdr-hispanic-no-unknown-vs.json" => "HispanicNoUnknown",
 }
 
 outfilename = ARGV[1] + "/ValueSets.cs"

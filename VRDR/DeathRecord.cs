@@ -3023,7 +3023,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                SetCodeValue("Ethnicity1", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
             }
         }
 
@@ -3102,7 +3102,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                SetCodeValue("Ethnicity2", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
             }
         }
 
@@ -3181,7 +3181,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                SetCodeValue("Ethnicity3", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
             }
         }
 
@@ -3260,7 +3260,7 @@ namespace VRDR
             }
             set
             {
-                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.YesNoUnknown.Codes);
+                SetCodeValue("Ethnicity4", value, VRDR.ValueSets.HispanicNoUnknown.Codes);
             }
         }
 

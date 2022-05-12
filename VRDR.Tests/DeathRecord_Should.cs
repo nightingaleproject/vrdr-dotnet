@@ -2180,19 +2180,9 @@ namespace VRDR.Tests
         [Fact]
         public void Set_AutopsyResultsAvailable()
         {
-            Dictionary<string, string> ara = new Dictionary<string, string>();
-            ara.Add("code", "Y");
-            ara.Add("system", VRDR.CodeSystems.YesNo);
-            ara.Add("display", "Yes");
-            SetterDeathRecord.AutopsyResultsAvailable = ara;
-            Assert.Equal("Y", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
-            Assert.Equal("Yes", SetterDeathRecord.AutopsyResultsAvailable["display"]);
+            SetterDeathRecord.AutopsyResultsAvailableHelper = VRDR.ValueSets.YesNoUnknown.Yes;
             Assert.Equal("Y",SetterDeathRecord.AutopsyResultsAvailableHelper);
             SetterDeathRecord.AutopsyResultsAvailableHelper = "N";
-            Assert.Equal("N", SetterDeathRecord.AutopsyResultsAvailable["code"]);
-            Assert.Equal(VRDR.CodeSystems.YesNo, SetterDeathRecord.AutopsyResultsAvailable["system"]);
-            Assert.Equal("No", SetterDeathRecord.AutopsyResultsAvailable["display"]);
             Assert.Equal("N",SetterDeathRecord.AutopsyResultsAvailableHelper);
             SetterDeathRecord.AutopsyResultsAvailableHelper = "NA";
             Assert.Equal("NA", SetterDeathRecord.AutopsyResultsAvailable["code"]);
@@ -2571,19 +2561,19 @@ namespace VRDR.Tests
             Assert.Equal("Example Injury Location Name", ((DeathRecord)XMLRecords[0]).InjuryLocationName);
         }
 
-        [Fact]
-        public void Set_InjuryLocationDescription()
-        {
-            SetterDeathRecord.InjuryLocationDescription = "Example Injury Location Description";
-            Assert.Equal("Example Injury Location Description", SetterDeathRecord.InjuryLocationDescription);
-        }
+        // [Fact]
+        // public void Set_InjuryLocationDescription()
+        // {
+        //     SetterDeathRecord.InjuryLocationDescription = "Example Injury Location Description";
+        //     Assert.Equal("Example Injury Location Description", SetterDeathRecord.InjuryLocationDescription);
+        // }
 
-        [Fact]
-        public void Get_InjuryLocationDescription()
-        {
-            Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
-            Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
-        }
+        // [Fact]
+        // public void Get_InjuryLocationDescription()
+        // {
+        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)JSONRecords[0]).InjuryLocationDescription);
+        //     Assert.Equal("Example Injury Location Description", ((DeathRecord)XMLRecords[0]).InjuryLocationDescription);
+        // }
 
         [Fact]
         public void Set_InjuryDate()

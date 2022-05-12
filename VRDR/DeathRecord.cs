@@ -5954,7 +5954,11 @@ namespace VRDR
         {
             get
             {
-                var performed = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
+                if (AutopsyPerformed == null || AutopsyPerformed.Component == null)
+                {
+                    return EmptyCodeDict();
+                }
+                var performed = AutopsyPerformed.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
                     && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69436-4");
                 if(performed != null){
                     return CodeableConceptToDict((CodeableConcept)performed.Value);
@@ -9653,13 +9657,17 @@ namespace VRDR
             }
         }
 
-        // TODO: Appropriate FHIRPath attributes on the next several properties (supporting Coding Status)
 
-        /// <summary>
-        /// The year NCHS received the death record.
-        /// </summary>
+        /// <summary>The year NCHS received the death record.</summary>
+        /// <value>year</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReceiptYear = 2022 </para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Receipt Year: {ExampleDeathRecord.ReceiptYear}");</para>
+        /// </example>
         [Property("ReceiptYear", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptYear
         {
             get
@@ -9681,8 +9689,16 @@ namespace VRDR
         /// <summary>
         /// The month NCHS received the death record.
         /// </summary>
+        /// <summary>The month NCHS received the death record.</summary>
+        /// <value>month</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReceiptMonth = 11 </para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Receipt Month: {ExampleDeathRecord.ReceiptMonth}");</para>
+        /// </example>
         [Property("ReceiptMonth", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptMonth
         {
             get
@@ -9701,11 +9717,16 @@ namespace VRDR
             }
         }
 
-        /// <summary>
-        /// The day NCHS received the death record.
-        /// </summary>
+        /// <summary>The day NCHS received the death record.</summary>
+        /// <value>month</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ReceiptDay = 13 </para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Receipt Day: {ExampleDeathRecord.ReceiptDay}");</para>
+        /// </example>
         [Property("ReceiptDay", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public uint? ReceiptDay
         {
             get
@@ -9733,7 +9754,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Receipt Date: {ExampleDeathRecord.ReceiptDate}");</para>
         /// </example>
         [Property("Receipt Date", Property.Types.StringDateTime, "Coded Observations", "Receipt Date.", true, IGURL.CodingStatusValues, true, 25)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string ReceiptDate
         {
             get
@@ -9762,8 +9783,16 @@ namespace VRDR
         /// <summary>
         /// Coder Status; TRX field with no IJE mapping
         /// </summary>
+        /// <summary>Coder Status; TRX field with no IJE mapping</summary>
+        /// <value>integer code</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.CoderStatus = 3;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Coder STatus {ExampleDeathRecord.CoderStatus}");</para>
+        /// </example>
         [Property("CoderStatus", Property.Types.UInt32, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public int? CoderStatus
         {
             get
@@ -9787,8 +9816,16 @@ namespace VRDR
         /// <summary>
         /// Shipment Number; TRX field with no IJE mapping
         /// </summary>
+        /// <summary>Coder Status; TRX field with no IJE mapping</summary>
+        /// <value>string</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.ShipmentNumber = "abc123"";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Shipment Number{ExampleDeathRecord.ShipmentNumber}");</para>
+        /// </example>
         [Property("ShipmentNumber", Property.Types.String, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, false)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string ShipmentNumber
         {
             get
@@ -9811,8 +9848,16 @@ namespace VRDR
         /// <summary>
         /// Intentional Reject
         /// </summary>
+        /// <summary>Intentional Reject</summary>
+        /// <value>string</value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.IntentionalReject = "Reject1";</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Intentional Reject {ExampleDeathRecord.IntentionalReject}");</para>
+        /// </example>
         [Property("IntentionalReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> IntentionalReject
         {
             get
@@ -9850,7 +9895,7 @@ namespace VRDR
         /// </example>
         [Property("IntentionalRejectHelper", Property.Types.String, "Intentional Reject Codes", "IntentionalRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string IntentionalRejectHelper
         {
             get
@@ -9867,11 +9912,19 @@ namespace VRDR
             }
         }
 
-        /// <summary>
-        /// Acme System Reject Codes
-        /// </summary>
+        /// <summary>Acme System Reject.</summary>
+        /// <value>
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.AcmeSystemReject = 3;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
+        /// </example>
+
         [Property("AcmeSystemReject", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> AcmeSystemReject
         {
             get
@@ -9897,19 +9950,19 @@ namespace VRDR
             }
         }
 
-        /// <summary>ACME System Reject Codes Helper.</summary>
-        /// <value>Acme System REject codes
+        /// <summary>Acme System Reject.</summary>
+        /// <value>
         /// <para>"code" - the code</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.AcmeSystemRejectCodeHelper = ValueSets.SystemRejectCodes.Not_Rejected;</para>
+        /// <para>ExampleDeathRecord.AcmeSystemReject = 3;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemRejectCodeHelper}");</para>
+        /// <para>Console.WriteLine($"Acme System Reject Code: {ExampleDeathRecord.AcmeSystemReject}");</para>
         /// </example>
         [Property("AcmeSystemRejectHelper", Property.Types.String, "Acme System Reject Codes", "AcmeSystemRejectCodes.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string AcmeSystemRejectHelper
         {
             get
@@ -9926,11 +9979,19 @@ namespace VRDR
             }
         }
 
-        /// <summary>
-        /// Transax Conversion Flag
-        /// </summary>
+
+        /// <summary>Transax Conversion Flag</summary>
+        /// <value>
+        /// <para>"code" - the code</para>
+        /// </value>
+        /// <example>
+        /// <para>// Setter:</para>
+        /// <para>ExampleDeathRecord.TransaxConversion = 3;</para>
+        /// <para>// Getter:</para>
+        /// <para>Console.WriteLine($"Transax Conversion Code: {ExampleDeathRecord.TransaxConversion}");</para>
+        /// </example>
         [Property("TransaxConversion", Property.Types.Dictionary, "Coded Observations", "Coding Status", true, IGURL.CodingStatusValues, true)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public Dictionary<string, string> TransaxConversion
         {
             get
@@ -9968,7 +10029,7 @@ namespace VRDR
         /// </example>
         [Property("TransaxConversionFlag Helper", Property.Types.String, "Transax Conversion", "TransaxConversion Flag.", true, IGURL.CodingStatusValues, true, 4)]
         [PropertyParam("code", "The code used to describe this concept.")]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters)", "")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=codingstatus)", "")]
         public string TransaxConversionHelper
         {
             get
@@ -10185,6 +10246,7 @@ namespace VRDR
                                 break;
 
                             default: // invalid position, should we go kaboom?
+                                // throw new System.ArgumentException("Found a Cause of Death Part1 Observation with a linenumber other than 1-4.");
                                 break;
                         }
                         break;

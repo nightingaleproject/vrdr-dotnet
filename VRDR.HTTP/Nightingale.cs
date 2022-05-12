@@ -165,7 +165,7 @@ namespace VRDR.HTTP
             }
             SetStringValueDictionary(values, "personCompletingCauseOfDeathName.lastName", record.CertifierFamilyName);
 
-            SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
+            //SetStringValueDictionary(values, "detailsOfInjury.detailsOfInjury", record.InjuryLocationDescription);
 
             if (record.EducationLevelHelper != null)
             {

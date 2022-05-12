@@ -284,6 +284,8 @@ namespace VRDR
             FuneralHome.Meta.Profile = funeralhome_profile;
             FuneralHome.Type.Add(new CodeableConcept(CodeSystems.OrganizationType, "funeralhome", "Funeral Home", null));
             FuneralHome.Active = true;
+            AddReferenceToComposition(FuneralHome.Id, "DecedentDisposition");
+            Bundle.AddResourceEntry(FuneralHome, "urn:uuid:" + FuneralHome.Id);
         }
         // /// <summary>The Funeral Home Director.</summary>
         // private PractitionerRole FuneralHomeDirector;

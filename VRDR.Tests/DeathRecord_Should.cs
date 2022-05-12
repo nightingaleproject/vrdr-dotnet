@@ -1153,15 +1153,12 @@ namespace VRDR.Tests
         [Fact]
         public void Get_ResidenceWithinCityLimits()
         {
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = false;
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.No;
             Assert.Equal("N", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.False(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = true;
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.Yes;
             Assert.Equal("Y", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.True(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
-            SetterDeathRecord.ResidenceWithinCityLimitsBoolean = null;
-            Assert.Equal("NA", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
-            Assert.Null(SetterDeathRecord.ResidenceWithinCityLimitsBoolean);
+            SetterDeathRecord.ResidenceWithinCityLimitsHelper = ValueSets.YesNoUnknown.Unknown;
+            Assert.Equal("UNK", SetterDeathRecord.ResidenceWithinCityLimits["code"]);
         }
 
         [Fact]

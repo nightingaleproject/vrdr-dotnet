@@ -373,7 +373,7 @@ namespace VRDR
             }
             return partialDateTime;
         }
-
+        /// <summary>Create Death Date Observation.</summary>
         private void CreateDeathDateObs()
         {
             DeathDateObs = new Observation();
@@ -392,7 +392,7 @@ namespace VRDR
             AddReferenceToComposition(DeathDateObs.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathDateObs, "urn:uuid:" + DeathDateObs.Id);
         }
-
+        /// <summary>Create Surgery Date Observation.</summary>
         private void CreateSurgeryDateObs()
         {
             SurgeryDateObs = new Observation();
@@ -2503,53 +2503,53 @@ namespace VRDR
             }
         }
 
-        /// <summary>Decedent's Gender.</summary>
-        /// <value>the decedent's gender</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.Gender = "female";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
-        /// </example>
-        [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, IGURL.Decedent, true, 11)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
-        public string Gender
-        {
-            get
-            {
-                return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
-            }
-            set
-            {
-                switch (value)
-                {
-                    case "male":
-                    case "Male":
-                    case "m":
-                    case "M":
-                        Decedent.Gender = AdministrativeGender.Male;
-                        break;
-                    case "female":
-                    case "Female":
-                    case "f":
-                    case "F":
-                        Decedent.Gender = AdministrativeGender.Female;
-                        break;
-                    case "other":
-                    case "Other":
-                    case "o":
-                    case "O":
-                        Decedent.Gender = AdministrativeGender.Other;
-                        break;
-                    case "unknown":
-                    case "Unknown":
-                    case "u":
-                    case "U":
-                        Decedent.Gender = AdministrativeGender.Unknown;
-                        break;
-                }
-            }
-        }
+        // /// <summary>Decedent's Gender.</summary>
+        // /// <value>the decedent's gender</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.Gender = "female";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Gender: {ExampleDeathRecord.Gender}");</para>
+        // /// </example>
+        // [Property("Gender", Property.Types.String, "Decedent Demographics", "Decedent's Gender.", true, IGURL.Decedent, true, 11)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Patient)", "gender")]
+        // public string Gender
+        // {
+        //     get
+        //     {
+        //         return GetFirstString("Bundle.entry.resource.where($this is Patient).gender");
+        //     }
+        //     set
+        //     {
+        //         switch (value)
+        //         {
+        //             case "male":
+        //             case "Male":
+        //             case "m":
+        //             case "M":
+        //                 Decedent.Gender = AdministrativeGender.Male;
+        //                 break;
+        //             case "female":
+        //             case "Female":
+        //             case "f":
+        //             case "F":
+        //                 Decedent.Gender = AdministrativeGender.Female;
+        //                 break;
+        //             case "other":
+        //             case "Other":
+        //             case "o":
+        //             case "O":
+        //                 Decedent.Gender = AdministrativeGender.Other;
+        //                 break;
+        //             case "unknown":
+        //             case "Unknown":
+        //             case "u":
+        //             case "U":
+        //                 Decedent.Gender = AdministrativeGender.Unknown;
+        //                 break;
+        //         }
+        //     }
+        // }
 
         /// <summary>Decedent's Sex at Death.</summary>
         /// <value>the decedent's sex at time of death</value>
@@ -2609,37 +2609,40 @@ namespace VRDR
             }
         }
 
-        // Should this be removed for IG v1.3 updates?
-        /// <summary>Decedent's Birth Sex.</summary>
-        /// <value>the decedent's birth sex</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.BirthSex = "F";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
-        /// </example>
-        [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, IGURL.Decedent, true, 12)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
-        public string BirthSex
-        {
-            get
-            {
-                Extension birthsex = Decedent.Extension.Find(ext => ext.Url == OtherExtensionURL.BirthSex);
-                if (birthsex != null && birthsex.Value != null && birthsex.Value.GetType() == typeof(Code))
-                {
-                    return ((Code)birthsex.Value).Value;
-                }
-                return null;
-            }
-            set
-            {
-                Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.BirthSex);
-                Extension birthsex = new Extension();
-                birthsex.Url = OtherExtensionURL.BirthSex;
-                birthsex.Value = new Code(value);
-                Decedent.Extension.Add(birthsex);
-            }
-        }
+        // // Should this be removed for IG v1.3 updates?
+        // /// <summary>Decedent's Birth Sex.</summary>
+        // /// <value>the decedent's birth sex</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.BirthSex = "F";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Birth Sex: {ExampleDeathRecord.BirthSex}");</para>
+        // /// </example>
+        // [Property("Birth Sex", Property.Types.String, "Decedent Demographics", "Decedent's Birth Sex.", true, IGURL.Decedent, true, 12)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Patient).extension.where(url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex')", "")]
+        // public string BirthSex
+        // {
+        //     get
+        //     {
+        //         Extension birthsex = Decedent.Extension.Find(ext => ext.Url == OtherExtensionURL.BirthSex);
+        //         if (birthsex != null && birthsex.Value != null && birthsex.Value.GetType() == typeof(Code))
+        //         {
+        //             return ((Code)birthsex.Value).Value;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         Decedent.Extension.RemoveAll(ext => ext.Url == OtherExtensionURL.BirthSex);
+        //         Extension birthsex = new Extension();
+        //         birthsex.Url = OtherExtensionURL.BirthSex;
+        //         birthsex.Value = new Code(value);
+        //         Decedent.Extension.Add(birthsex);
+        //     }
+        // }
+
+
+
 
         private void AddBirthDateToDecedent()
         {
@@ -2911,57 +2914,6 @@ namespace VRDR
             set
             {
                 SetCodeValue("ResidenceWithinCityLimits", value, VRDR.ValueSets.YesNoUnknown.Codes);
-            }
-        }
-
-        // Todo remove in V1.3 IG updates
-        /// <summary>Decedent's residence is/is not within city limits. This is a convenience method, to access the coded value use ResidenceWithinCityLimits.</summary>
-        /// <value>Decedent's residence is/is not within city limits. A null value means "not applicable".</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>SetterDeathRecord.ResidenceWithinCityLimitsBoolean = true;</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Residence within city limits: {ExampleDeathRecord.ResidenceWithinCityLimitsBoolean}");</para>
-        /// </example>
-        [Property("Residence Within City Limits Boolean", Property.Types.Bool, "Decedent Demographics", "Decedent's residence is/is not within city limits.", true, IGURL.Decedent, true, 21)]
-        [FHIRPath("Bundle.entry.resource.where($this is Patient)", "address")]
-        public bool? ResidenceWithinCityLimitsBoolean
-        {
-            get
-            {
-                var code = this.ResidenceWithinCityLimits;
-                switch (code["code"])
-                {
-                    case "Y": // Yes
-                        return true;
-                    case "N": // No
-                        return false;
-                    default: // Not applicable
-                        return null;
-                }
-            }
-            set
-            {
-                var code = EmptyCodeDict();
-                switch (value)
-                {
-                    case true:
-                        code["code"] = "Y";
-                        code["display"] = "Yes";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    case false:
-                        code["code"] = "N";
-                        code["display"] = "No";
-                        code["system"] = CodeSystems.PH_YesNo_HL7_2x;
-                        break;
-                    default:
-                        code["code"] = "NA";
-                        code["display"] = "not applicable";
-                        code["system"] = CodeSystems.PH_NullFlavor_HL7_V3;
-                        break;
-                }
-                this.ResidenceWithinCityLimits = code;
             }
         }
 

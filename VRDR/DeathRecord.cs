@@ -4938,7 +4938,7 @@ namespace VRDR
         [PropertyParam("addressUnitnum", "address, unitnum")]
         [PropertyParam("addressZip", "address, zip")]
         [PropertyParam("addressCountry", "address, country")]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "address")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='funeralhome')", "address")]
         public Dictionary<string, string> FuneralHomeAddress
         {
             get
@@ -4974,7 +4974,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Funeral Home Name: {ExampleDeathRecord.FuneralHomeName}");</para>
         /// </example>
         [Property("Funeral Home Name", Property.Types.String, "Decedent Disposition", "Name of Funeral Home.", true, IGURL.FuneralHome, false, 94)]
-        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='bus')", "name")]
+        [FHIRPath("Bundle.entry.resource.where($this is Organization).where(type.coding.code='funeralhome')", "name")]
         public string FuneralHomeName
         {
             get
@@ -5151,7 +5151,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethod['display']}");</para>
         /// </example>
-        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.Dictionary, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DecedentDispositionMethod, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -5180,7 +5180,6 @@ namespace VRDR
                     DispositionMethod.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     //                    DispositionMethod.Performer.Add(new ResourceReference("urn:uuid:" + Mortician.Id));
                     DispositionMethod.Value = DictToCodeableConcept(value);
-                    // LinkObservationToLocation(DispositionMethod, DispositionLocation);
                     AddReferenceToComposition(DispositionMethod.Id, "DecedentDisposition");
                     Bundle.AddResourceEntry(DispositionMethod, "urn:uuid:" + DispositionMethod.Id);
                 }
@@ -5200,7 +5199,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Decedent Disposition Method: {ExampleDeathRecord.DecedentDispositionMethodHelper}");</para>
         /// </example>
         /// </value>
-        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DispositionLocation, true, 1)]
+        [Property("Decedent Disposition Method", Property.Types.String, "Decedent Disposition", "Decedent's Disposition Method.", true, IGURL.DecedentDispositionMethod, true, 1)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80905-3')", "")]
         public string DecedentDispositionMethodHelper
@@ -5218,31 +5217,6 @@ namespace VRDR
                 SetCodeValue("DecedentDispositionMethod", value, VRDR.ValueSets.MethodOfDisposition.Codes);
             }
         }
-
-        // private void LinkObservationToLocation(Observation observation, Location location)
-        // {
-        //     if (observation == null || location == null)
-        //     {
-        //         return;
-        //     }
-
-        //     Extension extension = null;
-        //     foreach (Extension ext in observation.Extension)
-        //     {
-        //         if (ext.Url == "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location")
-        //         {
-        //             extension = ext;
-        //             break;
-        //         }
-        //     }
-        //     if (extension == null)
-        //     {
-        //         extension = new Extension();
-        //         extension.Url = "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Observation-Location";
-        //         observation.Extension.Add(extension);
-        //     }
-        //     extension.Value = new ResourceReference("urn:uuid:" + location.Id);
-        // }
 
         /////////////////////////////////////////////////////////////////////////////////
         //
@@ -5980,9 +5954,10 @@ namespace VRDR
         {
             get
             {
-                if (AutopsyPerformed != null && AutopsyPerformed.Component.Count() > 0 && AutopsyPerformed.Component.First().Value as CodeableConcept != null)
-                {
-                    return CodeableConceptToDict((CodeableConcept)AutopsyPerformed.Component.First().Value);
+                var performed = DeathDateObs.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
+                    && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69436-4");
+                if(performed != null){
+                    return CodeableConceptToDict((CodeableConcept)performed.Value);
                 }
                 return EmptyCodeDict();
             }
@@ -6296,7 +6271,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationType['display']}");</para>
         /// </example>
-        [Property("Death Location Type", Property.Types.Dictionary, "Death Investigation", "Type of Death Location.", true, IGURL.DeathLocation, false, 19)]
+        [Property("Death Location Type", Property.Types.Dictionary, "Death Investigation", "Type of Death Location.", true, IGURL.DeathDate, false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6351,7 +6326,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Death Location Type: {ExampleDeathRecord.DeathLocationTypeHelper}");</para>
         /// </example>
-        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, IGURL.DeathLocation, false, 19)]
+        [Property("Death Location Type Helper", Property.Types.String, "Death Investigation", "Type of Death Location.", true, IGURL.DeathDate, false, 19)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "component")]
         public string DeathLocationTypeHelper
@@ -6581,12 +6556,7 @@ namespace VRDR
                     // If there already is a data absent reason do not overwrite it with the default
                     if (AgeAtDeathObs.DataAbsentReason == null)
                     {
-                        AgeAtDeathDataAbsentReason = new Dictionary<string, string>() {
-                            { "system", CodeSystems.Data_Absent_Reason_HL7_V3 },
-                            { "code", "unknown" },
-                            { "display", "Unknown" },
-                            { "text", null }
-                        };
+                        AgeAtDeathDataAbsentReason = CodeableConceptToDict(new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3,"unknown","Unknown",null));
                     }
                     AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
                 }
@@ -6996,39 +6966,39 @@ namespace VRDR
             }
         }
 
-        /// <summary>Description of Injury Location.</summary>
-        /// <value>the injury location description.</value>
-        /// <example>
-        /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.InjuryLocationDescription = "Bedford Cemetery";</para>
-        /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
-        /// </example>
-        [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
-        [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "description")]
-        public string InjuryLocationDescription
-        {
-            get
-            {
-                if (InjuryLocationLoc != null)
-                {
-                    return InjuryLocationLoc.Description;
-                }
-                return null;
-            }
-            set
-            {
-                if (InjuryLocationLoc == null)
-                {
-                    CreateInjuryLocationLoc();
-                    // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
-                    AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
-                    Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
-                }
+        // /// <summary>Description of Injury Location.</summary>
+        // /// <value>the injury location description.</value>
+        // /// <example>
+        // /// <para>// Setter:</para>
+        // /// <para>ExampleDeathRecord.InjuryLocationDescription = "Bedford Cemetery";</para>
+        // /// <para>// Getter:</para>
+        // /// <para>Console.WriteLine($"Injury Location Description: {ExampleDeathRecord.InjuryLocationDescription}");</para>
+        // /// </example>
+        // [Property("Injury Location Description", Property.Types.String, "Death Investigation", "Description of Injury Location.", true, IGURL.InjuryLocation, true, 36)]
+        // [FHIRPath("Bundle.entry.resource.where($this is Location).where(type='injury')", "description")]
+        // public string InjuryLocationDescription
+        // {
+        //     get
+        //     {
+        //         if (InjuryLocationLoc != null)
+        //         {
+        //             return InjuryLocationLoc.Description;
+        //         }
+        //         return null;
+        //     }
+        //     set
+        //     {
+        //         if (InjuryLocationLoc == null)
+        //         {
+        //             CreateInjuryLocationLoc();
+        //             // LinkObservationToLocation(InjuryIncidentObs, InjuryLocationLoc);
+        //             AddReferenceToComposition(InjuryLocationLoc.Id, "DeathInvestigation");
+        //             Bundle.AddResourceEntry(InjuryLocationLoc, "urn:uuid:" + InjuryLocationLoc.Id);
+        //         }
 
-                InjuryLocationLoc.Description = value;
-            }
-        }
+        //         InjuryLocationLoc.Description = value;
+        //     }
+        // }
 
         /// <summary>Decedent's Year of Injury.</summary>
         /// <value>the decedent's year of injury</value>
@@ -7631,7 +7601,7 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_2}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 1 Number 2", Property.Types.String, "Decedent Demographics", "1-Byte Field 2", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_2')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
         public string EmergingIssue1_2
         {
             get
@@ -7653,7 +7623,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_3}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 1 Number 3", Property.Types.String, "Decedent Demographics", "1-Byte Field 3", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_3')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue1_3
         {
             get
@@ -7675,7 +7646,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_4}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 1 Number 4", Property.Types.String, "Decedent Demographics", "1-Byte Field 4", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_4')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue1_4
         {
             get
@@ -7697,7 +7669,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_5}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 1 Number 5", Property.Types.String, "Decedent Demographics", "1-Byte Field 5", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_5')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue1_5
         {
             get
@@ -7719,7 +7692,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue1_6}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 1 Number 6", Property.Types.String, "Decedent Demographics", "1-Byte Field 6", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE1_6')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue1_6
         {
             get
@@ -7741,7 +7715,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_1}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 8 Number 1", Property.Types.String, "Decedent Demographics", "8-Byte Field 1", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_1')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue8_1
         {
             get
@@ -7763,7 +7738,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_2}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 8 Number 2", Property.Types.String, "Decedent Demographics", "8-Byte Field 2", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_2')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue8_2
         {
             get
@@ -7785,7 +7761,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue8_3}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 8 Number 3", Property.Types.String, "Decedent Demographics", "8-Byte Field 3", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE8_3')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue8_3
         {
             get
@@ -7809,7 +7786,8 @@ namespace VRDR
         /// <para>Console.WriteLine($"Emerging Issue Value: {ExampleDeathRecord.EmergingIssue20}");</para>
         /// </example>
         [Property("Emerging Issue Field Length 20", Property.Types.String, "Decedent Demographics", "20-Byte Field", true, IGURL.EmergingIssues, false, 50)]
-        [FHIRPath("Bundle.entry.resource.where($this is Parameters).where(parameter.name='PLACE20')", "value")]
+        [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='emergingissues')", "")]
+
         public string EmergingIssue20
         {
             get

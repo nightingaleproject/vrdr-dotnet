@@ -2538,7 +2538,7 @@ namespace VRDR
             }
             set
             {
-                LeftJustified_Set("Man_UC","ManUnderlyingCOD", NCHSICD10toActualICD10(value));
+                LeftJustified_Set("MAN_UC","ManUnderlyingCOD", NCHSICD10toActualICD10(value));
             }
         }
 

@@ -54,7 +54,7 @@ require 'json'
 require 'pry'
 codesystems = {
     "http://snomed.info/sct" => "VRDR.CodeSystems.SCT",
-    "http://terminology.hl7.org/CodeSystem/v3-NullFlavor" => "VRDR.CodeSystems.PH_NullFlavor_HL7_V3",
+    "http://terminology.hl7.org/CodeSystem/v3-NullFlavor" => "VRDR.CodeSystems.NullFlavor_HL7_V3",
     "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus" => "VRDR.CodeSystems.PH_MaritalStatus_HL7_2x",
     "http://hl7.org/fhir/administrative-gender" => "VRDR.CodeSystems.AdministrativeGender",
     "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs" => "VRDR.CodeSystems.BypassEditFlag",

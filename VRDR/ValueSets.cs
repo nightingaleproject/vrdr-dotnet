@@ -16,7 +16,7 @@ namespace VRDR
                 { "4", "While resting, sleeping, eating, or engaging in other vital activities", VRDR.CodeSystems.ActivityAtTimeOfDeath },
                 { "8", "While engaged in other specified activities.", VRDR.CodeSystems.ActivityAtTimeOfDeath },
                 { "9", "During unspecified activity", VRDR.CodeSystems.ActivityAtTimeOfDeath },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> While_Engaged_In_Sports_Activity </summary>
             public static string  While_Engaged_In_Sports_Activity = "0";
@@ -48,7 +48,7 @@ namespace VRDR
                 { "LA14091-5", "Industrial or construction area", VRDR.CodeSystems.LOINC },
                 { "LA14092-3", "Farm", VRDR.CodeSystems.LOINC },
                 { "LA14093-1", "Unspecified", VRDR.CodeSystems.LOINC },
-                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "OTH", "Other", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Home </summary>
             public static string  Home = "LA14084-0";
@@ -93,7 +93,7 @@ namespace VRDR
                 { "455381000124109", "Medical Examiner/Coroner-On the basis of examination, and/or investigation, in my opinion, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
                 { "434641000124105", "Pronouncing & Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
                 { "434651000124107", "Certifying physician-To the best of my knowledge, death occurred due to the cause(s) and manner stated.", VRDR.CodeSystems.SCT },
-                { "OTH", "Other (Specify)", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "OTH", "Other (Specify)", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Medical_Examiner_Coroner </summary>
             public static string  Medical_Examiner_Coroner = "455381000124109";
@@ -111,8 +111,8 @@ namespace VRDR
                 { "373066001", "Yes", VRDR.CodeSystems.SCT },
                 { "373067005", "No", VRDR.CodeSystems.SCT },
                 { "2931005", "Probably", VRDR.CodeSystems.SCT },
-                { "UNK", "Unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "NI", "no information", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "Unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "NI", "no information", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Yes </summary>
             public static string  Yes = "373066001";
@@ -203,7 +203,7 @@ namespace VRDR
                 { "AA", "Associate's or technical degree complete", VRDR.CodeSystems.DegreeLicenceAndCertificate },
                 { "BA", "Bachelor's degree", VRDR.CodeSystems.DegreeLicenceAndCertificate },
                 { "MA", "Master's degree", VRDR.CodeSystems.DegreeLicenceAndCertificate },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Elementary_School </summary>
             public static string  Elementary_School = "ELEM";
@@ -272,7 +272,7 @@ namespace VRDR
                 { "M", "Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
                 { "S", "Never Married", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
                 { "W", "Widowed", VRDR.CodeSystems.PH_MaritalStatus_HL7_2x },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Divorced </summary>
             public static string  Divorced = "D";
@@ -296,8 +296,8 @@ namespace VRDR
                 { "449951000124101", "Donation", VRDR.CodeSystems.SCT },
                 { "449961000124104", "Cremation", VRDR.CodeSystems.SCT },
                 { "449971000124106", "Burial", VRDR.CodeSystems.SCT },
-                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "UNK", "Unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "OTH", "Other", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "UNK", "Unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Entombment </summary>
             public static string  Entombment = "449931000124108";
@@ -324,8 +324,8 @@ namespace VRDR
                 { "16983000", "Death in hospital", VRDR.CodeSystems.SCT },
                 { "450391000124102", "Death in hospital-based emergency department or outpatient department", VRDR.CodeSystems.SCT },
                 { "450381000124100", "Death in nursing home or long term care facility", VRDR.CodeSystems.SCT },
-                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "UNK", "UNK", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "OTH", "Other", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "UNK", "UNK", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Dead_On_Arrival_At_Hospital </summary>
             public static string  Dead_On_Arrival_At_Hospital = "63238001";
@@ -353,7 +353,7 @@ namespace VRDR
                 { "3", "Not pregnant, but pregnant within 42 days of death", VRDR.CodeSystems.PregnancyStatus },
                 { "4", "Not pregnant, but pregnant 43 days to 1 year before death", VRDR.CodeSystems.PregnancyStatus },
                 { "9", "Unknown if pregnant within the past year", VRDR.CodeSystems.PregnancyStatus },
-                { "NA", "Not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "NA", "Not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Not_Pregnant_Within_Past_Year </summary>
             public static string  Not_Pregnant_Within_Past_Year = "1";
@@ -405,9 +405,9 @@ namespace VRDR
                 { "236320001", "Vehicle driver", VRDR.CodeSystems.SCT },
                 { "257500003", "Passenger", VRDR.CodeSystems.SCT },
                 { "257518000", "Pedestrian", VRDR.CodeSystems.SCT },
-                { "OTH", "Other", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "OTH", "Other", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "NA", "not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Vehicle_Driver </summary>
             public static string  Vehicle_Driver = "236320001";
@@ -431,7 +431,7 @@ namespace VRDR
                 { "h", "Hours", VRDR.CodeSystems.UnitsOfMeasure },
                 { "mo", "Months", VRDR.CodeSystems.UnitsOfMeasure },
                 { "a", "Years", VRDR.CodeSystems.UnitsOfMeasure },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Minutes </summary>
             public static string  Minutes = "min";
@@ -452,8 +452,8 @@ namespace VRDR
             public static string[,] Codes = {
                 { "Y", "Yes", VRDR.CodeSystems.YesNo },
                 { "N", "No", VRDR.CodeSystems.YesNo },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "NA", "not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Yes </summary>
             public static string  Yes = "Y";
@@ -470,7 +470,7 @@ namespace VRDR
             public static string[,] Codes = {
                 { "N", "No", VRDR.CodeSystems.YesNo },
                 { "Y", "Yes", VRDR.CodeSystems.YesNo },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> No </summary>
             public static string  No = "N";
@@ -4361,8 +4361,8 @@ namespace VRDR
             public static string[,] Codes = {
                 { "Y", "Yes", VRDR.CodeSystems.YesNo },
                 { "N", "No", VRDR.CodeSystems.YesNo },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 },
-                { "NA", "not applicable", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 },
+                { "NA", "not applicable", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> Yes </summary>
             public static string  Yes = "Y";
@@ -4379,7 +4379,7 @@ namespace VRDR
             public static string[,] Codes = {
                 { "N", "No", VRDR.CodeSystems.YesNo },
                 { "Y", "Yes", VRDR.CodeSystems.YesNo },
-                { "UNK", "unknown", VRDR.CodeSystems.PH_NullFlavor_HL7_V3 }
+                { "UNK", "unknown", VRDR.CodeSystems.NullFlavor_HL7_V3 }
             };
             /// <summary> No </summary>
             public static string  No = "N";

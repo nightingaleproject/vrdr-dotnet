@@ -3184,11 +3184,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.YesNoUnknownNotApplicable.FHIRToIJE, "SpouseAlive", "SPOUSELV");
+                return Get_MappingFHIRToIJE(Mappings.SpouseAlive.FHIRToIJE, "SpouseAlive", "SPOUSELV");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.YesNoUnknownNotApplicable.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
+                Set_MappingIJEToFHIR(Mappings.SpouseAlive.IJEToFHIR, "SPOUSELV", "SpouseAlive", value);
             }
         }
 

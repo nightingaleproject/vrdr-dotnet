@@ -3751,11 +3751,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "TransportationRole", "TRANSPRT");
+                return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "TRANSPRT", "TransportationRole", value);
+                Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value);
             }
         }
 

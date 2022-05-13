@@ -1334,6 +1334,10 @@ namespace VRDR
                         }
                         return ("Other");
                     }
+                    else
+                    {
+                        return code;
+                    }
                 }
                 return null;
             }
@@ -1341,10 +1345,7 @@ namespace VRDR
             {
                 if ((value != null) && !VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
-                    if (DeathCertification == null)
-                    {
-                        CreateDeathCertification();
-                    }
+
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
                 }
                 else
@@ -7428,11 +7429,18 @@ namespace VRDR
                         }
                         return ("Other");
                     }
+                    else
+                    {
+                        return code;
+                    }
                 }
                 return null;
             }
             set
             {
+                if (InjuryIncidentObs == null) {
+                    CreateInjuryIncidentObs();
+                }
                 if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
                 { //other
                     //Find the component, or create it

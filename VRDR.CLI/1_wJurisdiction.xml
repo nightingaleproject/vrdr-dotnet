@@ -496,7 +496,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician certified and pronounced death certificate" />
+              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
             </coding>
           </code>
         </qualification>
@@ -553,7 +553,7 @@
       <Procedure>
         <id value="9bf77849-d029-4501-a24e-7acd999c0337" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification" />
         </meta>
         <identifier>
           <value value="1" />
@@ -579,7 +579,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician certified and pronounced death certificate" />
+              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
             </coding>
           </function>
           <actor>
@@ -1261,36 +1261,7 @@
       </Observation>
     </resource>
   </entry>
-  <entry>
-    <fullUrl value="urn:uuid:e84c4aaf-7ba8-468a-8aea-227860574b9a" />
-    <resource>
-      <Observation>
-        <id value="e84c4aaf-7ba8-468a-8aea-227860574b9a" />
-        <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" />
-        </meta>
-        <status value="final" />
-        <code>
-          <coding>
-            <system value="http://loinc.org" />
-            <code value="69451-3" />
-            <display value="Transportation role of decedent " />
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
-        </subject>
-        <valueCodeableConcept>
-          <coding>
-            <system value="http://snomed.info/sct" />
-            <code value="257500003" />
-            <display value="Passenger" />
-          </coding>
-        </valueCodeableConcept>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
+    <entry>
     <fullUrl value="urn:uuid:ef0a627a-0d67-469d-a043-f20aaa56f6dd" />
     <resource>
       <Observation>
@@ -1376,7 +1347,7 @@
       <Observation>
         <id value="90989981-753d-4443-b137-7feac80d7271" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident" />
         </meta>
         <status value="final" />
         <code>
@@ -1421,6 +1392,22 @@
               <display value="Home" />
             </coding>
           </valueCodeableConcept>
+        </component>
+        <component>
+          <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69451-3" />
+            <display value="Transportation role of decedent " />
+          </coding>
+        </code>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="257500003" />
+            <display value="Passenger" />
+          </coding>
+        </valueCodeableConcept>
         </component>
       </Observation>
     </resource>

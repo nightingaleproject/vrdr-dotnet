@@ -2810,11 +2810,24 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
+                var ret = record.CertificationRoleHelper;
+                if(Mappings.CertifierTypes.FHIRToIJE.ContainsKey(ret)){
+                    return Get_MappingFHIRToIJE(Mappings.CertifierTypes.FHIRToIJE, "CertificationRole", "CERTL");
+                }
+                else  // If the return value is not a code, it is just an arbitrary string, so return it.
+                {
+                    return ret;
+                }
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
+                if(Mappings.CertifierTypes.IJEToFHIR.ContainsKey(value.Split(' ')[0])){
+                    Set_MappingIJEToFHIR(Mappings.CertifierTypes.IJEToFHIR, "CERTL", "CertificationRole", value.Trim());
+                }
+                else  // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
+                {
+                    record.CertificationRoleHelper = value;
+                }
             }
 
         }
@@ -3751,11 +3764,24 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.MannerOfDeath.FHIRToIJE, "TransportationRole", "TRANSPRT");
+                var ret = record.TransportationRoleHelper;
+                if(Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(ret)){
+                    return Get_MappingFHIRToIJE(Mappings.TransportationIncidentRole.FHIRToIJE, "TransportationRole", "TRANSPRT");
+                }
+                else
+                {
+                    return ret;  // If the return value is not a code, it is just an arbitrary string, so return it.
+                }
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.MannerOfDeath.IJEToFHIR, "TRANSPRT", "TransportationRole", value);
+                if(Mappings.TransportationIncidentRole.IJEToFHIR.ContainsKey(value.Split(' ')[0])){
+                    Set_MappingIJEToFHIR(Mappings.TransportationIncidentRole.IJEToFHIR, "TRANSPRT", "TransportationRole", value.Trim());
+                }
+                else
+                {
+                    record.TransportationRoleHelper = value;   // If the value is not a valid code, it is just an arbitrary string.  The helper will deal with it.
+                }
             }
         }
 

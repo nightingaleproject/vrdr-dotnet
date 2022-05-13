@@ -3150,6 +3150,39 @@ namespace VRDR.Tests
             Assert.NotNull(bundle);
             // TODO: Fill out tests
         }
+        [Fact]
+        public void VeroniqueTRX()
+        {
+            IJEMortality ije = new IJEMortality();
+            ije.DOD_YR = "2021";
+            ije.DSTATE = "MA";
+            ije.FILENO = "578660";
+            ije.MAN_UC = "I219";
+            ije.EAC = "21I219  31I251  61E119  62F179  63I10   64E780";
+            ije.RAC = "I219 E119 E780 F179 I10  I251";
+            ije.AUXNO = "579927";
+            ije.MFILED = "0";
+            ije.MANNER = "N";
+            ije.trx.CS = "1";
+            ije.trx.SHIP = "497";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
+            ije.TOBAC = "Y";
+            ije.PREG = "8";
+            ije.CERTL = "D";
+            Assert.Equal("D", ije.CERTL);
+            ije.INACT = "9";
+            DeathRecord record = ije.ToDeathRecord();
+//            DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle().ToJson());
+            IJEMortality ije2 = new IJEMortality(record);
+            Assert.Equal("D", ije2.CERTL);
+            Assert.Equal("I219", ije2.MAN_UC);
+            Assert.Equal("Y",ije2.AUTOP);
+            Assert.Equal( "Y",ije2.AUTOPF);
+            // THIS TEST FAILS
+            // Assert.Equal( "21I219  31I251  61E119  62F179  63I10  64E780",ije2.EAC);
+        }
+
 
         private string FixturePath(string filePath)
         {

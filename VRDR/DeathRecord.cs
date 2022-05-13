@@ -1334,6 +1334,10 @@ namespace VRDR
                         }
                         return ("Other");
                     }
+                    else
+                    {
+                        return code;
+                    }
                 }
                 return null;
             }
@@ -1341,10 +1345,7 @@ namespace VRDR
             {
                 if ((value != null) && !VRDR.Mappings.CertifierTypes.FHIRToIJE.ContainsKey(value))
                 { //other
-                    if (DeathCertification == null)
-                    {
-                        CreateDeathCertification();
-                    }
+
                     CertificationRole = CodeableConceptToDict(new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "OTH", "Other", value));
                 }
                 else
@@ -7427,6 +7428,10 @@ namespace VRDR
                             return (TransportationRole["text"]);
                         }
                         return ("Other");
+                    }
+                    else
+                    {
+                        return code;
                     }
                 }
                 return null;

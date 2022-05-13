@@ -387,6 +387,10 @@ namespace VRDR.Tests
             ije.DOI_YR = "2022";
             ije.DOI_MO = "1";
             ije.DOI_DY = "15";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
+            ije.TOBAC = "Y";
+            ije.PREG = "1";
             CauseOfDeathCodingMessage message = new CauseOfDeathCodingMessage(ije.ToDeathRecord());
             message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
             message.MessageDestination = "https://example.org/jurisdiction/endpoint";
@@ -425,6 +429,10 @@ namespace VRDR.Tests
             Assert.Equal(2022, (int)message.DeathRecord.InjuryYear);
             Assert.Equal(1, (int)message.DeathRecord.InjuryMonth);
             Assert.Equal(15, (int)message.DeathRecord.InjuryDay);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.AutopsyPerformedIndicatorHelper);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.AutopsyResultsAvailableHelper);
+            Assert.Equal(ValueSets.ContributoryTobaccoUse.Yes, message.DeathRecord.TobaccoUseHelper);
+            Assert.Equal(ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year, message.DeathRecord.PregnancyStatusHelper);
         }
 
         [Fact]
@@ -452,6 +460,10 @@ namespace VRDR.Tests
             ije.DOI_YR = "2022";
             ije.DOI_MO = "1";
             ije.DOI_DY = "15";
+            ije.AUTOP = "Y";
+            ije.AUTOPF = "Y";
+            ije.TOBAC = "Y";
+            ije.PREG = "1";
             CauseOfDeathCodingUpdateMessage message = new CauseOfDeathCodingUpdateMessage(ije.ToDeathRecord());
             message.MessageSource = "http://nchs.cdc.gov/vrdr_submission";
             message.MessageDestination = "https://example.org/jurisdiction/endpoint";
@@ -490,6 +502,10 @@ namespace VRDR.Tests
             Assert.Equal(2022, (int)message.DeathRecord.InjuryYear);
             Assert.Equal(1, (int)message.DeathRecord.InjuryMonth);
             Assert.Equal(15, (int)message.DeathRecord.InjuryDay);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.AutopsyPerformedIndicatorHelper);
+            Assert.Equal(ValueSets.YesNoUnknown.Yes, message.DeathRecord.AutopsyResultsAvailableHelper);
+            Assert.Equal(ValueSets.ContributoryTobaccoUse.Yes, message.DeathRecord.TobaccoUseHelper);
+            Assert.Equal(ValueSets.PregnancyStatus.Not_Pregnant_Within_Past_Year, message.DeathRecord.PregnancyStatusHelper);
         }
 
         [Fact]

@@ -7438,6 +7438,9 @@ namespace VRDR
             }
             set
             {
+                if (InjuryIncidentObs == null) {
+                    CreateInjuryIncidentObs();
+                }
                 if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
                 { //other
                     //Find the component, or create it

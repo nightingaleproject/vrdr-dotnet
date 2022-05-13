@@ -2393,12 +2393,21 @@ namespace VRDR.Tests
             Assert.Equal(ValueSets.TransportationIncidentRole.Passenger, SetterDeathRecord.TransportationRole["code"]);
             Assert.Equal(CodeSystems.SCT, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Passenger", SetterDeathRecord.TransportationRole["display"]);
+            SetterDeathRecord.DeathLocationJurisdiction = "MA";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord);
+            Assert.Equal("PA", ije1.TRANSPRT);
+            ije1.TRANSPRT = "PAP";
+            Assert.Equal("PAP", ije1.TRANSPRT);
+            DeathRecord d = ije1.ToDeathRecord();
+            IJEMortality ije2 = new IJEMortality(d);
+            Assert.Equal("PAP", ije2.TRANSPRT);
             SetterDeathRecord.TransportationRoleHelper = "Hover Board Rider";
             Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRoleHelper);
             Assert.Equal("Hover Board Rider", SetterDeathRecord.TransportationRole["text"]);
             Assert.Equal("OTH", SetterDeathRecord.TransportationRole["code"]);
             Assert.Equal(CodeSystems.NullFlavor_HL7_V3, SetterDeathRecord.TransportationRole["system"]);
             Assert.Equal("Other", SetterDeathRecord.TransportationRole["display"]);
+
 
 
         }
@@ -3173,7 +3182,7 @@ namespace VRDR.Tests
             Assert.Equal("D", ije.CERTL);
             ije.INACT = "9";
             DeathRecord record = ije.ToDeathRecord();
-//            DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle().ToJson());
+            DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
             IJEMortality ije2 = new IJEMortality(record);
             Assert.Equal("D", ije2.CERTL);
             Assert.Equal("I219", ije2.MAN_UC);

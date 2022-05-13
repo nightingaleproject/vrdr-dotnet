@@ -496,7 +496,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician certified and pronounced death certificate" />
+              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
             </coding>
           </code>
         </qualification>
@@ -553,7 +553,7 @@
       <Procedure>
         <id value="9bf77849-d029-4501-a24e-7acd999c0337" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Certification" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certification" />
         </meta>
         <identifier>
           <value value="1" />
@@ -579,7 +579,7 @@
             <coding>
               <system value="http://snomed.info/sct" />
               <code value="434641000124105" />
-              <display value="Physician certified and pronounced death certificate" />
+              <display value="Pronouncing &amp; Certifying physician-To the best of my knowledge, death occurred at the time, date, and place, and due to the cause(s) and manner stated." />
             </coding>
           </function>
           <actor>

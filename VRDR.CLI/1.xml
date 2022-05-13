@@ -1395,35 +1395,6 @@
     </resource>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:e84c4aaf-7ba8-468a-8aea-227860574b9a" />
-    <resource>
-      <Observation>
-        <id value="e84c4aaf-7ba8-468a-8aea-227860574b9a" />
-        <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Transportation-Role" />
-        </meta>
-        <status value="final" />
-        <code>
-          <coding>
-            <system value="http://loinc.org" />
-            <code value="69451-3" />
-            <display value="Transportation role of decedent " />
-          </coding>
-        </code>
-        <subject>
-          <reference value="urn:uuid:0042d54e-25fe-426d-8a3e-d002369951d8" />
-        </subject>
-        <valueCodeableConcept>
-          <coding>
-            <system value="http://snomed.info/sct" />
-            <code value="257500003" />
-            <display value="Passenger" />
-          </coding>
-        </valueCodeableConcept>
-      </Observation>
-    </resource>
-  </entry>
-  <entry>
     <fullUrl value="urn:uuid:ef0a627a-0d67-469d-a043-f20aaa56f6dd" />
     <resource>
       <Observation>
@@ -1521,7 +1492,7 @@
       <Observation>
         <id value="90989981-753d-4443-b137-7feac80d7271" />
         <meta>
-          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-InjuryIncident" />
+          <profile value="http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident" />
         </meta>
         <status value="final" />
         <code>
@@ -1550,6 +1521,22 @@
               <display value="No" />
             </coding>
           </valueCodeableConcept>
+        </component>
+        <component>
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="69451-3" />
+            <display value="Transportation role of decedent " />
+          </coding>
+        </code>
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="257500003" />
+            <display value="Passenger" />
+          </coding>
+        </valueCodeableConcept>
         </component>
         <component>
           <code>

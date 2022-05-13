@@ -3160,7 +3160,7 @@ namespace VRDR.Tests
             // TODO: Fill out tests
         }
         [Fact]
-        public void VeroniqueTRX()
+        public void TestTRX()
         {
             IJEMortality ije = new IJEMortality();
             ije.DOD_YR = "2021";
@@ -3180,14 +3180,18 @@ namespace VRDR.Tests
             ije.PREG = "8";
             ije.CERTL = "D";
             Assert.Equal("D", ije.CERTL);
+            ije.CERTL = "DDDD";
+            Assert.Equal("DDDD", ije.CERTL);
+            ije.TRANSPRT = "Hover Board Rider";
             ije.INACT = "9";
             DeathRecord record = ije.ToDeathRecord();
             DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
             IJEMortality ije2 = new IJEMortality(record);
-            Assert.Equal("D", ije2.CERTL);
+            Assert.Equal("DDDD", ije2.CERTL);
             Assert.Equal("I219", ije2.MAN_UC);
             Assert.Equal("Y",ije2.AUTOP);
             Assert.Equal( "Y",ije2.AUTOPF);
+            Assert.Equal("Hover Board Rider", ije.TRANSPRT);
             // THIS TEST FAILS
             // Assert.Equal( "21I219  31I251  61E119  62F179  63I10  64E780",ije2.EAC);
         }

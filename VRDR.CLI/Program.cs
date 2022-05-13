@@ -130,7 +130,7 @@ namespace VRDR.CLI
                 deathRecord.Suffix = "Jr.";
 
                 // Gender
-                deathRecord.SexAtDeathHelper = "M";
+                deathRecord.SexAtDeathHelper = ValueSets.AdministrativeGender.Male;
 
                 // BirthSex
                 //deathRecord.BirthSex = "F";
@@ -156,7 +156,7 @@ namespace VRDR.CLI
                 deathRecord.SSN = "123456789";
 
                 // Ethnicity
-                deathRecord.Ethnicity2Helper = "H";
+                deathRecord.Ethnicity2Helper = ValueSets.YesNoUnknown.Yes;
 
                 // Race
                 Tuple<string, string>[] race = { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslander, "Y") };

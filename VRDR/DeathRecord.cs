@@ -1106,7 +1106,7 @@ namespace VRDR
             }
             set
             {
-                // TODO: Create new Composition if it is null (how should it be initialized?)
+                // TODO: Handle case where Composition == null (either create it or throw exception)
                 Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.FilingFormat);
                 Extension filingFormat = new Extension();
                 filingFormat.Url = ExtensionURL.FilingFormat;
@@ -1196,7 +1196,7 @@ namespace VRDR
             }
             set
             {
-                // TODO: Create new Composition if it is null (how should it be initialized?)
+                // TODO: Handle case where Composition == null (either create it or throw exception)
                 Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.StateSpecificField);
                 Extension stateSpecificData = new Extension();
                 stateSpecificData.Url = ExtensionURL.StateSpecificField;
@@ -1232,7 +1232,7 @@ namespace VRDR
             }
             set
             {
-                // TODO: Create new Composition if it is null (how should it be initialized?)
+                // TODO: Handle case where Composition == null (either create it or throw exception)
                 Composition.Extension.RemoveAll(ext => ext.Url == ExtensionURL.ReplaceStatus);
                 Extension replaceStatus = new Extension();
                 replaceStatus.Url = ExtensionURL.ReplaceStatus;

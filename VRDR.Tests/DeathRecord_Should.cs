@@ -3075,15 +3075,14 @@ namespace VRDR.Tests
         [Fact]
         public void Set_EntityAxisCodes()
         {
-            Tuple<string, string, string, string>[] eac = new Tuple<string, string, string, string>[]{Tuple.Create("2", "1", "T27.3", "&")};
-            SetterDeathRecord.EntityAxisCauseOfDeath = eac;
+            SetterDeathRecord.EntityAxisCauseOfDeath = new [] {(LineNumber: 2, Position: 1, Code: "T27.3", ECode: true)};
 
-            Tuple<string, string, string, string>[] eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
+            var eacGet = SetterDeathRecord.EntityAxisCauseOfDeath;
             Assert.Single(eacGet);
-            Assert.Equal("2", eacGet[0].Item1);
-            Assert.Equal("1", eacGet[0].Item2);
-            Assert.Equal("T27.3", eacGet[0].Item3);
-            Assert.Equal("&", eacGet[0].Item4);
+            Assert.Equal(2, eacGet.ElementAt(0).LineNumber);
+            Assert.Equal(1, eacGet.ElementAt(0).Position);
+            Assert.Equal("T27.3", eacGet.ElementAt(0).Code);
+            Assert.True(eacGet.ElementAt(0).ECode);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
             string fmtEac = "21T273 &".PadRight(160, ' ');
@@ -3093,43 +3092,42 @@ namespace VRDR.Tests
         [Fact]
         public void Get_EntityAxisCodes()
         {
-            Tuple<string, string, string, string>[] eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
+            var eacGet = ((DeathRecord)JSONRecords[1]).EntityAxisCauseOfDeath;
             Assert.Single(eacGet);
-            Assert.Equal("1", eacGet[0].Item1);
-            Assert.Equal("1", eacGet[0].Item2);
-            Assert.Equal("J96.0", eacGet[0].Item3);
-            Assert.Equal("", eacGet[0].Item4);
+            Assert.Equal(1, eacGet.ElementAt(0).LineNumber);
+            Assert.Equal(1, eacGet.ElementAt(0).Position);
+            Assert.Equal("J96.0", eacGet.ElementAt(0).Code);
+            Assert.False(eacGet.ElementAt(0).ECode);
             // Add more items to IG example
         }
 
         [Fact]
         public void Set_RecordAxisCodes()
         {
-            Tuple<string, string, string>[] rac = new Tuple<string, string, string>[]{Tuple.Create("1", "T27.3", "1"), Tuple.Create("2", "T27.3", "1")};
-            SetterDeathRecord.RecordAxisCauseOfDeath = rac;
+            SetterDeathRecord.RecordAxisCauseOfDeath = new [] { (Position: 1, Code: "T27.3", Pregnancy: true), (Position: 2, Code: "T27.5", Pregnancy: true) };
 
-            Tuple<string, string, string>[] racGet = SetterDeathRecord.RecordAxisCauseOfDeath;
-            Assert.Equal(2, racGet.Length);
-            Assert.Equal("1", racGet[0].Item1);
-            Assert.Equal("T27.3", racGet[0].Item2);
-            Assert.Equal("", racGet[0].Item3);
-            Assert.Equal("2", racGet[1].Item1);
-            Assert.Equal("T27.3", racGet[1].Item2);
-            Assert.Equal("1", racGet[1].Item3);
+            var racGet = SetterDeathRecord.RecordAxisCauseOfDeath;
+            Assert.Equal(2, racGet.Count());
+            Assert.Equal(1, racGet.ElementAt(0).Position);
+            Assert.Equal("T27.3", racGet.ElementAt(0).Code);
+            Assert.False(racGet.ElementAt(0).Pregnancy); // Pregnancy flag is only allowed in position 2
+            Assert.Equal(2, racGet.ElementAt(1).Position);
+            Assert.Equal("T27.5", racGet.ElementAt(1).Code);
+            Assert.True(racGet.ElementAt(1).Pregnancy);
 
             IJEMortality ije = new IJEMortality(SetterDeathRecord, false); // Don't validate since we don't care about most fields
-            string fmtRac = "T273 T2731".PadRight(100, ' ');
+            string fmtRac = "T273 T2751".PadRight(100, ' ');
             Assert.Equal(fmtRac, ije.RAC);
         }
 
         [Fact]
         public void Get_RecordAxisCodes()
         {
-            Tuple<string, string, string>[] racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
+            var racGet = ((DeathRecord)JSONRecords[1]).RecordAxisCauseOfDeath;
             Assert.Single(racGet);
-            Assert.Equal("1", racGet[0].Item1);
-            Assert.Equal("J96.0", racGet[0].Item2);
-            Assert.Equal("", racGet[0].Item3);
+            Assert.Equal(1, racGet.ElementAt(0).Position);
+            Assert.Equal("J96.0", racGet.ElementAt(0).Code);
+            Assert.False(racGet.ElementAt(0).Pregnancy);
         }
 
         [Fact]
@@ -3159,8 +3157,9 @@ namespace VRDR.Tests
             Assert.NotNull(bundle);
             // TODO: Fill out tests
         }
+
         [Fact]
-        public void TestTRX()
+        public void TestTRXRoundTrip()
         {
             IJEMortality ije = new IJEMortality();
             ije.DOD_YR = "2021";
@@ -3187,13 +3186,24 @@ namespace VRDR.Tests
             DeathRecord record = ije.ToDeathRecord();
             DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
             IJEMortality ije2 = new IJEMortality(record);
-            Assert.Equal("DDDD", ije2.CERTL);
+            Assert.Equal("2021", ije2.DOD_YR);
+            Assert.Equal("MA", ije2.DSTATE);
+            Assert.Equal("578660", ije2.FILENO);
             Assert.Equal("I219", ije2.MAN_UC);
-            Assert.Equal("Y",ije2.AUTOP);
-            Assert.Equal( "Y",ije2.AUTOPF);
-            Assert.Equal("Hover Board Rider", ije.TRANSPRT);
-            // THIS TEST FAILS
-            // Assert.Equal( "21I219  31I251  61E119  62F179  63I10  64E780",ije2.EAC);
+            Assert.Equal("21I219  31I251  61E119  62F179  63I10   64E780".PadRight(160), ije2.EAC);
+            Assert.Equal("I219 E119 E780 F179 I10  I251".PadRight(100), ije2.RAC);
+            Assert.Equal("579927".PadLeft(12, '0'), ije2.AUXNO);
+            Assert.Equal("0", ije2.MFILED);
+            Assert.Equal("N", ije2.MANNER);
+            Assert.Equal("1", ije2.trx.CS);
+            Assert.Equal("497", ije2.trx.SHIP);
+            Assert.Equal("Y", ije2.AUTOP);
+            Assert.Equal("Y", ije2.AUTOPF);
+            Assert.Equal("Y", ije2.TOBAC);
+            Assert.Equal("8", ije2.PREG);
+            Assert.Equal("DDDD", ije2.CERTL);
+            Assert.Equal("Hover Board Rider", ije2.TRANSPRT);
+            Assert.Equal("9", ije2.INACT);
         }
 
 

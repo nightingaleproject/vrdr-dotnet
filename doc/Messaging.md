@@ -205,12 +205,12 @@ switch(message)
         Console.WriteLine("Record Axis Codes:");
         foreach (var entry in codingResponse.DeathRecord.RecordAxisCauseOfDeath)
         {
-            Console.WriteLine($"  Position: {entry.Item1}  Code: {entry.Item2}");
+            Console.WriteLine($"  Position: {entry.Position}  Code: {entry.Code}");
         }
         Console.WriteLine("\nEntity Axis Codes:");
         foreach (var entry in codingResponse.DeathRecord.EntityAxisCauseOfDeath)
         {
-            Console.WriteLine($"  Line: {entry.Item1}  Position: {entry.Item2}  Code: {entry.Item3}");
+            Console.WriteLine($"  Line: {entry.LineNumber}  Position: {entry.Position}  Code: {entry.Code}");
         }
         Console.WriteLine();
         break;

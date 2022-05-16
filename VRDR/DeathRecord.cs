@@ -9456,56 +9456,59 @@ namespace VRDR
             }
         }
 
-        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
-        /// <summary>Entity Axis Cause Of Death</summary>
+        /// <summary>Entity Axis Cause Of Death
+        /// <para>Note that record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+        /// http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage></para>
+        /// </summary>
         /// <value>Entity-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para> Tuple&lt;string, string, string, string&gt;[] eac = new Tuple&lt;string, string, string, string&gt;{Tuple.Create("line", "position", "code", "ecode")}</para>
-        /// <para> ExampleDeathRecord.EntityAxisCauseOfDeath = eac;</para>
+        /// <para> ExampleDeathRecord.EntityAxisCauseOfDeath = new [] {(LineNumber: 2, Position: 1, Code: "T27.3", ECode: true)};</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath[0].Item3}");</para>
+        /// <para>Console.WriteLine($"First Entity Axis Code: {ExampleDeathRecord.EntityAxisCauseOfDeath.ElementAt(0).Code}");</para>
         /// </example>
         [Property("Entity Axis Cause of Death", Property.Types.Tuple4Arr, "Entity Axis Cause of Death", "", true, IGURL.EntityAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80356-9)", "")]
-        public Tuple<string, string, string, string>[] EntityAxisCauseOfDeath
+        public IEnumerable<(int LineNumber, int Position, string Code, bool ECode)> EntityAxisCauseOfDeath
         {
             get
             {
-                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
+                List<(int LineNumber, int Position, string Code, bool ECode)> eac = new List<(int LineNumber, int Position, string Code, bool ECode)>();
                 if (EntityAxisCauseOfDeathObsList != null)
                 {
                     foreach (Observation ob in EntityAxisCauseOfDeathObsList)
                     {
-                        string icd10code = "";
-                        string lineNumber = "";
-                        string position = "";
-                        string ecode = "";
-                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        if (valueCC != null)
-                        {
-                            icd10code = valueCC.Coding[0].Code;
-                        }
+                        int? lineNumber = null;
+                        int? position = null;
+                        string icd10code = null;
+                        bool ecode = false;
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code == "position").FirstOrDefault();
                         if (positionComp != null && positionComp.Value != null)
                         {
-                            position = positionComp.Value.ToString();
+                            position = ((Integer)positionComp.Value).Value;
                         }
                         Observation.ComponentComponent lineNumComp = ob.Component.Where(c => c.Code.Coding[0].Code == "lineNumber").FirstOrDefault();
                         if (lineNumComp != null && lineNumComp.Value != null)
                         {
-                            lineNumber = lineNumComp.Value.ToString();
+                            lineNumber = ((Integer)lineNumComp.Value).Value;
+                        }
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        if (valueCC != null && valueCC.Coding != null && valueCC.Coding.Count() > 0)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
                         }
                         Observation.ComponentComponent ecodeComp = ob.Component.Where(c => c.Code.Coding[0].Code == "eCodeIndicator").FirstOrDefault();
                         if (ecodeComp != null && ecodeComp.Value != null)
                         {
-                            ecode = ecodeComp.Value.ToString() == "true" ? "&" : " ";
+                            ecode = (bool)((FhirBoolean)ecodeComp.Value).Value;
                         }
-                        Tuple<string, string, string, string> eacod = Tuple.Create(lineNumber, position, icd10code, ecode);
-                        eac.Add(eacod);
+                        if (lineNumber != null && position != null && icd10code != null)
+                        {
+                            eac.Add((LineNumber: (int)lineNumber, Position: (int)position, Code: icd10code, ECode: ecode));
+                        }
                     }
                 }
-                return eac.ToArray();
+                return eac.OrderBy(element => element.LineNumber).ThenBy(element => element.Position);
             }
             set
             {
@@ -9520,13 +9523,8 @@ namespace VRDR
                     EntityAxisCauseOfDeathObsList = new List<Observation>();
                 }
                 // Rebuild the list of observations
-                foreach (Tuple<string, string, string, string> eac in value)
+                foreach ((int LineNumber, int Position, string Code, bool ECode) eac in value)
                 {
-                    string lineNumber = eac.Item1;
-                    string position = eac.Item2;
-                    string icd10code = eac.Item3;
-                    string ecode = eac.Item4;
-
                     Observation ob = new Observation();
                     ob.Id = Guid.NewGuid().ToString();
                     ob.Meta = new Meta();
@@ -9537,25 +9535,20 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, eac.Code, null, null);
 
-                    if (Int32.TryParse(lineNumber, out int lineNumberInt))
-                    {
-                        Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
-                        lineNumComp.Value = new Integer(lineNumberInt);
-                        lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
-                        ob.Component.Add(lineNumComp);
-                    }
-                    if (Int32.TryParse(position, out int positionInt))
-                    {
-                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                        positionComp.Value = new Integer(positionInt);
-                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                        ob.Component.Add(positionComp);
-                    }
+                    Observation.ComponentComponent lineNumComp = new Observation.ComponentComponent();
+                    lineNumComp.Value = new Integer(eac.LineNumber);
+                    lineNumComp.Code = new CodeableConcept(CodeSystems.Component, "lineNumber", "lineNumber", null);
+                    ob.Component.Add(lineNumComp);
+
+                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                    positionComp.Value = new Integer(eac.Position);
+                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                    ob.Component.Add(positionComp);
 
                     Observation.ComponentComponent eCodeComp = new Observation.ComponentComponent();
-                    eCodeComp.Value = new FhirBoolean(ecode == "&");
+                    eCodeComp.Value = new FhirBoolean(eac.ECode);
                     eCodeComp.Code = new CodeableConcept(CodeSystems.Component, "eCodeIndicator", "eCodeIndicator", null);
                     ob.Component.Add(eCodeComp);
 
@@ -9565,53 +9558,51 @@ namespace VRDR
             }
         }
 
-        // TODO: We probably want a helper for this that uses integers and booleans where appropriate
         /// <summary>Record Axis Cause Of Death</summary>
         /// <value>record-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
         /// <para>Tuple&lt;string, string, string&gt;[] eac = new Tuple&lt;string, string, string&gt;{Tuple.Create("position", "code", "pregnancy")}</para>
-        /// <para>ExampleDeathRecord.RecordAxisCauseOfDeath = eac;</para>
+        /// <para>ExampleDeathRecord.RecordAxisCauseOfDeath = new [] { (Position: 1, Code: "T27.3", Pregnancy: true) };</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath[0].Item2}");</para>
+        /// <para>Console.WriteLine($"First Record Axis Code: {ExampleDeathRecord.RecordAxisCauseOfDeath.ElememtAt(0).Code}");</para>
         /// </example>
         [Property("Record Axis Cause Of Death", Property.Types.Tuple4Arr, "RecordAxisCauseOfDeath", "", true, IGURL.RecordAxisCauseOfDeath, false, 50)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code=80357-7)", "")]
-        public Tuple<string, string, string>[] RecordAxisCauseOfDeath
+        public IEnumerable<(int Position, string Code, bool Pregnancy)> RecordAxisCauseOfDeath
         {
             get
             {
-                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
+                List<(int Position, string Code, bool Pregnancy)> rac = new List<(int Position, string Code, bool Pregnancy)>();
                 if (RecordAxisCauseOfDeathObsList != null)
                 {
                     foreach (Observation ob in RecordAxisCauseOfDeathObsList)
                     {
-                        string icd10code = "";
-                        string position = "";
-                        string pregnancy = "";
-                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        if (valueCC != null)
-                        {
-                            icd10code = valueCC.Coding[0].Code;
-                        }
+                        int? position = null;
+                        string icd10code = null;
+                        bool pregnancy = false;
                         Observation.ComponentComponent positionComp = ob.Component.Where(c => c.Code.Coding[0].Code == "position").FirstOrDefault();
                         if (positionComp != null && positionComp.Value != null)
                         {
-                            position = positionComp.Value.ToString();
+                            position = ((Integer)positionComp.Value).Value;
+                        }
+                        CodeableConcept valueCC = (CodeableConcept)ob.Value;
+                        if (valueCC != null && valueCC.Coding != null && valueCC.Coding.Count() > 0)
+                        {
+                            icd10code = valueCC.Coding[0].Code;
                         }
                         Observation.ComponentComponent pregComp = ob.Component.Where(c => c.Code.Coding[0].Code == "wouldBeUnderlyingCauseOfDeathWithoutPregnancy").FirstOrDefault();
                         if (pregComp != null && pregComp.Value != null)
                         {
-                            string preg = pregComp.Value.ToString();
-                            pregnancy = preg == "true" ? "1" : " ";
-
+                            pregnancy = (bool)((FhirBoolean)pregComp.Value).Value;
                         }
-                        Tuple<string, string, string> racod = Tuple.Create(position, icd10code, pregnancy);
-
-                        rac.Add(racod);
+                        if (position != null && icd10code != null)
+                        {
+                            rac.Add((Position: (int)position, Code: icd10code, Pregnancy: pregnancy));
+                        }
                     }
                 }
-                return rac.ToArray();
+                return rac.OrderBy(entry => entry.Position);
             }
             set
             {
@@ -9626,12 +9617,8 @@ namespace VRDR
                     RecordAxisCauseOfDeathObsList = new List<Observation>();
                 }
                 // Rebuild the list of observations
-                foreach (Tuple<string, string, string> rac in value)
+                foreach ((int Position, string Code, bool Pregnancy) rac in value)
                 {
-                    string position = rac.Item1;
-                    string icd10code = rac.Item2;
-                    string preg = rac.Item3;
-
                     Observation ob = new Observation();
                     ob.Id = Guid.NewGuid().ToString();
                     ob.Meta = new Meta();
@@ -9642,16 +9629,16 @@ namespace VRDR
                     AddReferenceToComposition(ob.Id, "CodedContent");
 
                     ob.Effective = new FhirDateTime();
-                    ob.Value = new CodeableConcept(CodeSystems.ICD10, icd10code, null, null);
+                    ob.Value = new CodeableConcept(CodeSystems.ICD10, rac.Code, null, null);
 
-                    if (Int32.TryParse(position, out int j))
-                    {
-                        Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
-                        positionComp.Value = new Integer(j);
-                        positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
-                        ob.Component.Add(positionComp);
-                    }
-                    if (preg == "1" && position == "2")
+                    Observation.ComponentComponent positionComp = new Observation.ComponentComponent();
+                    positionComp.Value = new Integer(rac.Position);
+                    positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
+                    ob.Component.Add(positionComp);
+
+                    // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+                    // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
+                    if (rac.Pregnancy && rac.Position == 2)
                     {
                         Observation.ComponentComponent pregComp = new Observation.ComponentComponent();
                         pregComp.Value = new FhirBoolean(true);
@@ -11006,10 +10993,10 @@ namespace VRDR
         {
             Dictionary<string, Dictionary<string, dynamic>> description = new Dictionary<string, Dictionary<string, dynamic>>();
             // the priority values should order the categories as: Decedent Demographics, Decedent Disposition, Death Investigation, Death Certification
-            foreach (PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => ((Property)p.GetCustomAttributes().First()).Priority))
+            foreach (PropertyInfo property in typeof(DeathRecord).GetProperties().OrderBy(p => p.GetCustomAttribute<Property>().Priority))
             {
                 // Grab property annotation for this property
-                Property info = (Property)property.GetCustomAttributes().First();
+                Property info = property.GetCustomAttribute<Property>();
 
                 // Skip properties that shouldn't be serialized.
                 if (!info.Serialize)

@@ -68,6 +68,10 @@ namespace VRDR
             /// <summary>coder status - Property for setting the CodingStatus of a Cause of Death Coding Submission</summary>
             public string CS
             {
+                get
+                {
+                    return record.CoderStatus.ToString();
+                }
                 set
                 {
                     if (!String.IsNullOrWhiteSpace(value))
@@ -79,6 +83,10 @@ namespace VRDR
             /// <summary>shipment number - Property for setting the ShipmentNumber of a Cause of Death Coding Submission</summary>
             public string SHIP
             {
+                get
+                {
+                    return record.ShipmentNumber;
+                }
                 set
                 {
                     record.ShipmentNumber = value;
@@ -86,11 +94,11 @@ namespace VRDR
             }
         }
 
-        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        /// <summary>Helper class to contain properties for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
         public class MREHelper
         {
             private DeathRecord record;
-            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            /// <summary>Constructor for class to contain properties for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
             public MREHelper(DeathRecord record)
             {
                 this.record = record;
@@ -98,6 +106,10 @@ namespace VRDR
             /// <summary>Property for setting the Race Recode 40 of a Demographic Coding Submission</summary>
             public string RECODE40
             {
+                get
+                {
+                    return record.RaceRecode40Helper;
+                }
                 set
                 {
                     record.RaceRecode40Helper = value;
@@ -2568,40 +2580,39 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string, string, string>[] eac = record.EntityAxisCauseOfDeath;
                 string eacStr = "";
-                foreach(Tuple<string, string, string, string> entry in eac)
+                foreach((int LineNumber, int Position, string Code, bool ECode) entry in record.EntityAxisCauseOfDeath)
                 {
-                    string lineNumber = Truncate(entry.Item1, 1).PadRight(1, ' ');
-                    string position = Truncate(entry.Item2, 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item3), 4).PadRight(4, ' ');;
+                    string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
+                    string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');;
                     string reserved = " ";
-                    string eCode = Truncate(entry.Item4, 1).PadRight(1, ' ');
-                    eacStr += lineNumber + position  + icdCode + reserved + eCode;
+                    string eCode = entry.ECode ? "&" : " ";
+                    eacStr += lineNumber + position + icdCode + reserved + eCode;
                 }
                 string fmtEac = Truncate(eacStr, 160).PadRight(160, ' ');
                 return fmtEac;
             }
             set
             {
-                List<Tuple<string, string, string, string>> eac = new List<Tuple<string, string, string, string>>();
-                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 8).Select(i => value.Substring(i * 8, 8));
+                List<(int LineNumber, int Position, string Code, bool ECode)> eac = new List<(int LineNumber, int Position, string Code, bool ECode)>();
+                string paddedValue = value.PadRight(160); // Accept input that's missing white space padding to the right
+                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 8).Select(i => paddedValue.Substring(i * 8, 8));
                 foreach(string code in codes)
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        string lineNumber = code.Substring(0, 1);
-                        string position = code.Substring(1, 1);
-                        string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
-                        string eCode = code.Substring(7, 1);
-                        Tuple<string, string, string, string> entry = Tuple.Create(lineNumber, position, icdCode, eCode);
-                        eac.Add(entry);
+                        if (int.TryParse(code.Substring(0, 1), out int lineNumber) && int.TryParse(code.Substring(1, 1), out int position))
+                        {
+                            string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
+                            string eCode = code.Substring(7, 1);
+                            eac.Add((LineNumber: lineNumber, Position: position, Code: icdCode, ECode: eCode == "&"));
+                        }
                     }
-
                 }
                 if (eac.Count > 0)
                 {
-                    record.EntityAxisCauseOfDeath = eac.ToArray();
+                    record.EntityAxisCauseOfDeath = eac;
                 }
             }
         }
@@ -2629,13 +2640,12 @@ namespace VRDR
         {
             get
             {
-                Tuple<string, string, string>[] rac = record.RecordAxisCauseOfDeath;
                 string racStr = "";
-                foreach(Tuple<string, string, string> entry in rac)
+                foreach((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
                 {
-                    string position = Truncate(entry.Item1, 1).PadRight(1, ' ');
-                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Item2), 4).PadRight(4, ' ');
-                    string preg = Truncate(entry.Item3, 1).PadRight(1, ' ');
+                    // Position doesn't appear in the IJE/TRX format it's just implicit
+                    string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');
+                    string preg = entry.Pregnancy ? "1" : " ";
                     racStr += icdCode + preg;
                 }
                 string fmtRac = Truncate(racStr, 100).PadRight(100, ' ');
@@ -2643,8 +2653,9 @@ namespace VRDR
             }
             set
             {
-                List<Tuple<string, string, string>> rac = new List<Tuple<string, string, string>>();
-                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 5).Select(i => value.Substring(i * 5, 5));
+                List<(int Position, string Code, bool Pregnancy)> rac = new List<(int Position, string Code, bool Pregnancy)>();
+                string paddedValue = value.PadRight(100); // Accept input that's missing white space padding to the right
+                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 5).Select(i => paddedValue.Substring(i * 5, 5));
                 int position = 1;
                 foreach(string code in codes)
                 {
@@ -2653,13 +2664,13 @@ namespace VRDR
                         string icdCode = NCHSICD10toActualICD10(code.Substring(0, 4));
                         string preg = code.Substring(4, 1);
                         Tuple<string, string, string> entry = Tuple.Create(Convert.ToString(position), icdCode, preg);
-                        rac.Add(entry);
+                        rac.Add((Position: position, Code: icdCode, Pregnancy: preg == "1"));
                     }
                     position++;
                 }
                 if (rac.Count > 0)
                 {
-                    record.RecordAxisCauseOfDeath = rac.ToArray();
+                    record.RecordAxisCauseOfDeath = rac;
                 }
             }
         }

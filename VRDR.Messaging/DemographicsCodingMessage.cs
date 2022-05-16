@@ -38,7 +38,7 @@ namespace VRDR
         {
             try
             {
-                DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle), false);
+                DeathRecord = new DeathRecord(findEntry<Bundle>(ResourceType.Bundle));
             }
             catch (System.ArgumentException ex)
             {

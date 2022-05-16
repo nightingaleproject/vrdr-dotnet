@@ -741,13 +741,12 @@ namespace VRDR
 
         /// <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
         /// <param name="bundle">represents a FHIR Bundle.</param>
-        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
         /// <exception cref="ArgumentException">Record is invalid.</exception>
-        public DeathRecord(Bundle bundle, bool fullRecord = true)
+        public DeathRecord(Bundle bundle)
         {
             Bundle = bundle;
             Navigator = Bundle.ToTypedElement();
-            RestoreReferences(fullRecord);
+            RestoreReferences();
         }
 
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
@@ -1094,11 +1093,14 @@ namespace VRDR
         {
             get
             {
-                Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
-
-                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
+                if (Composition != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
+                    Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
+
+                    if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -1155,7 +1157,11 @@ namespace VRDR
         {
             get
             {
-                return Composition.Date;
+                if (Composition != null)
+                {
+                    return Composition.Date;
+                }
+                return "";
             }
             set
             {
@@ -1177,10 +1183,13 @@ namespace VRDR
         {
             get
             {
-                Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
-                if (stateSpecificData != null)
+                if (Composition != null)
                 {
-                    return stateSpecificData.Value.ToString();
+                    Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
+                    if (stateSpecificData != null)
+                    {
+                        return stateSpecificData.Value.ToString();
+                    }
                 }
                 return "";
             }
@@ -1208,11 +1217,14 @@ namespace VRDR
         {
             get
             {
-                Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
-
-                if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
+                if (Composition != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                    Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
+
+                    if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -2566,10 +2578,13 @@ namespace VRDR
         {
             get
             {
-                Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
-                if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                if (Decedent != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)sex.Value);
+                    Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
+                    if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)sex.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -2665,7 +2680,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateYear);
                 }
@@ -2695,7 +2710,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateMonth);
                 }
@@ -2725,7 +2740,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateDay);
                 }
@@ -3519,15 +3534,18 @@ namespace VRDR
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == OtherExtensionURL.PatientBirthPlace);
-                if (addressExt != null)
+                if (Decedent != null)
                 {
-                    Address address = (Address)addressExt.Value;
-                    if (address != null)
+                    Extension addressExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == OtherExtensionURL.PatientBirthPlace);
+                    if (addressExt != null)
                     {
-                        return AddressToDict((Address)address);
+                        Address address = (Address)addressExt.Value;
+                        if (address != null)
+                        {
+                            return AddressToDict((Address)address);
+                        }
+                        return EmptyAddrDict();
                     }
-                    return EmptyAddrDict();
                 }
                 return EmptyAddrDict();
             }
@@ -3650,7 +3668,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
                 {
                     Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
@@ -4210,11 +4228,14 @@ namespace VRDR
         {
             get
             {
-                Extension spouseExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.SpouseAlive);
-                if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null)
+                if (Decedent != null)
                 {
+                    Extension spouseExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.SpouseAlive);
+                    if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null)
+                    {
 
-                    return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                        return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -4610,7 +4631,7 @@ namespace VRDR
             {
                 if (UsualWork != null)
                 {
-                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                    Observation.ComponentComponent component = UsualWork.Component.FirstOrDefault(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                     if (component != null && component.Value != null && component.Value as CodeableConcept != null)
                     {
                         return CodeableConceptToDict((CodeableConcept)component.Value)["text"];
@@ -4625,7 +4646,7 @@ namespace VRDR
                     CreateUsualWork();
                 }
 
-                UsualWork.Component.RemoveAll( cmp => cmp.Code!= null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6" );
+                UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
 
@@ -5961,7 +5982,8 @@ namespace VRDR
                 }
                 var performed = AutopsyPerformed.Component.FirstOrDefault(entry => ((Observation.ComponentComponent)entry).Code != null
                     && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault() != null && ((Observation.ComponentComponent)entry).Code.Coding.FirstOrDefault().Code == "69436-4");
-                if(performed != null){
+                if (performed != null)
+                {
                     return CodeableConceptToDict((CodeableConcept)performed.Value);
                 }
                 return EmptyCodeDict();
@@ -6561,7 +6583,7 @@ namespace VRDR
                     // If there already is a data absent reason do not overwrite it with the default
                     if (AgeAtDeathObs.DataAbsentReason == null)
                     {
-                        AgeAtDeathDataAbsentReason = CodeableConceptToDict(new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3,"unknown","Unknown",null));
+                        AgeAtDeathDataAbsentReason = CodeableConceptToDict(new CodeableConcept(CodeSystems.Data_Absent_Reason_HL7_V3, "unknown", "Unknown", null));
                     }
                     AgeAtDeathObs.Value = (Quantity)null;  // this is either or with the data absent reason
                 }
@@ -7438,7 +7460,8 @@ namespace VRDR
             }
             set
             {
-                if (InjuryIncidentObs == null) {
+                if (InjuryIncidentObs == null)
+                {
                     CreateInjuryIncidentObs();
                 }
                 if ((value != null) && !VRDR.Mappings.TransportationIncidentRole.FHIRToIJE.ContainsKey(value))
@@ -10061,8 +10084,9 @@ namespace VRDR
         {
             //Composition.Section.First().Entry.Add(new ResourceReference("urn:uuid:" + reference));
             Composition.SectionComponent section = new Composition.SectionComponent();
-            string[] sections = new string[]{"DecedentDemographics", "DeathInvestigation", "DeathCertification", "DecedentDisposition", "CodedContent"};
-            if(sections.Any(code.Contains)){
+            string[] sections = new string[] { "DecedentDemographics", "DeathInvestigation", "DeathCertification", "DecedentDisposition", "CodedContent" };
+            if (sections.Any(code.Contains))
+            {
                 // Find the right section
                 foreach (var s in Composition.Section)
                 {
@@ -10093,9 +10117,10 @@ namespace VRDR
         }
 
         /// <summary>Restores class references from a newly parsed record.</summary>
-        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
-        private void RestoreReferences(bool fullRecord = true)
+        private void RestoreReferences()
         {
+            string profile = Bundle.Meta.Profile.First();
+            bool fullRecord = profile.Equals(VRDR.ProfileURL.DeathCertificateDocument);
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
             if (compositionEntry != null)

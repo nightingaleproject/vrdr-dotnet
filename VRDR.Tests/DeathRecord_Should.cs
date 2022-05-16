@@ -152,8 +152,8 @@ namespace VRDR.Tests
             DeathRecord codedDemoRecord = new DeathRecord(record.GetDemographicCodedContentBundle (), false);
             string CodedCODDescription = codedCODRecord.ToDescription();
             string CodedDemoDescription = codedCODRecord.ToDescription();
-            DeathRecord record2 = new DeathRecord(CodedCODDescription, false);
-            DeathRecord record3 = new DeathRecord(CodedDemoDescription, false);
+            DeathRecord record2 = new DeathRecord(codedCODRecord, false);
+            DeathRecord record3 = new DeathRecord(codedDemoRecord, false);
         }
 
         [Fact]

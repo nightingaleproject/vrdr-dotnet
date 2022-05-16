@@ -3157,8 +3157,9 @@ namespace VRDR.Tests
             Assert.NotNull(bundle);
             // TODO: Fill out tests
         }
+
         [Fact]
-        public void TestTRX()
+        public void TestTRXRoundTrip()
         {
             IJEMortality ije = new IJEMortality();
             ije.DOD_YR = "2021";
@@ -3185,13 +3186,24 @@ namespace VRDR.Tests
             DeathRecord record = ije.ToDeathRecord();
             DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
             IJEMortality ije2 = new IJEMortality(record);
-            Assert.Equal("DDDD", ije2.CERTL);
+            Assert.Equal("2021", ije2.DOD_YR);
+            Assert.Equal("MA", ije2.DSTATE);
+            Assert.Equal("578660", ije2.FILENO);
             Assert.Equal("I219", ije2.MAN_UC);
-            Assert.Equal("Y",ije2.AUTOP);
-            Assert.Equal( "Y",ije2.AUTOPF);
-            Assert.Equal("Hover Board Rider", ije.TRANSPRT);
-            // THIS TEST FAILS
-            // Assert.Equal( "21I219  31I251  61E119  62F179  63I10  64E780",ije2.EAC);
+            Assert.Equal("21I219  31I251  61E119  62F179  63I10   64E780".PadRight(160), ije2.EAC);
+            Assert.Equal("I219 E119 E780 F179 I10  I251".PadRight(100), ije2.RAC);
+            Assert.Equal("579927".PadLeft(12, '0'), ije2.AUXNO);
+            Assert.Equal("0", ije2.MFILED);
+            Assert.Equal("N", ije2.MANNER);
+            Assert.Equal("1", ije2.trx.CS);
+            Assert.Equal("497", ije2.trx.SHIP);
+            Assert.Equal("Y", ije2.AUTOP);
+            Assert.Equal("Y", ije2.AUTOPF);
+            Assert.Equal("Y", ije2.TOBAC);
+            Assert.Equal("8", ije2.PREG);
+            Assert.Equal("DDDD", ije2.CERTL);
+            Assert.Equal("Hover Board Rider", ije2.TRANSPRT);
+            Assert.Equal("9", ije2.INACT);
         }
 
 

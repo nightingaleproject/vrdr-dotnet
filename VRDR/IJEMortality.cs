@@ -68,6 +68,10 @@ namespace VRDR
             /// <summary>coder status - Property for setting the CodingStatus of a Cause of Death Coding Submission</summary>
             public string CS
             {
+                get
+                {
+                    return record.CoderStatus.ToString();
+                }
                 set
                 {
                     if (!String.IsNullOrWhiteSpace(value))
@@ -79,6 +83,10 @@ namespace VRDR
             /// <summary>shipment number - Property for setting the ShipmentNumber of a Cause of Death Coding Submission</summary>
             public string SHIP
             {
+                get
+                {
+                    return record.ShipmentNumber;
+                }
                 set
                 {
                     record.ShipmentNumber = value;
@@ -86,11 +94,11 @@ namespace VRDR
             }
         }
 
-        /// <summary>Helper class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+        /// <summary>Helper class to contain properties for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
         public class MREHelper
         {
             private DeathRecord record;
-            /// <summary>Constructor for class to contain properties for setting TRX-only fields that have no mapping in IJE when creating coding response records</summary>
+            /// <summary>Constructor for class to contain properties for setting MRE-only fields that have no mapping in IJE when creating coding response records</summary>
             public MREHelper(DeathRecord record)
             {
                 this.record = record;
@@ -98,6 +106,10 @@ namespace VRDR
             /// <summary>Property for setting the Race Recode 40 of a Demographic Coding Submission</summary>
             public string RECODE40
             {
+                get
+                {
+                    return record.RaceRecode40Helper;
+                }
                 set
                 {
                     record.RaceRecode40Helper = value;
@@ -2584,7 +2596,8 @@ namespace VRDR
             set
             {
                 List<(int LineNumber, int Position, string Code, bool ECode)> eac = new List<(int LineNumber, int Position, string Code, bool ECode)>();
-                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 8).Select(i => value.Substring(i * 8, 8));
+                string paddedValue = value.PadRight(160); // Accept input that's missing white space padding to the right
+                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 8).Select(i => paddedValue.Substring(i * 8, 8));
                 foreach(string code in codes)
                 {
                     if (!String.IsNullOrWhiteSpace(code))
@@ -2641,7 +2654,8 @@ namespace VRDR
             set
             {
                 List<(int Position, string Code, bool Pregnancy)> rac = new List<(int Position, string Code, bool Pregnancy)>();
-                IEnumerable<string> codes = Enumerable.Range(0, value.Length / 5).Select(i => value.Substring(i * 5, 5));
+                string paddedValue = value.PadRight(100); // Accept input that's missing white space padding to the right
+                IEnumerable<string> codes = Enumerable.Range(0, paddedValue.Length / 5).Select(i => paddedValue.Substring(i * 5, 5));
                 int position = 1;
                 foreach(string code in codes)
                 {

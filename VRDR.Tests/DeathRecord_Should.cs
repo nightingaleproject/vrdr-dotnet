@@ -201,6 +201,30 @@ namespace VRDR.Tests
             Assert.Equal("N", ije2.DETHNIC4);
             Assert.Equal("Y", ije2.RACE10);
             Assert.Equal("Hmong", ije2.RACE18);
+
+            // From VRDR IG
+            DeathRecord d3 = (((DeathRecord)JSONRecords[0]));
+            IJEMortality ije3 = new IJEMortality(d3);
+            Assert.Equal("H", ije3.DETHNIC1);
+            Assert.Equal("U", ije3.DETHNIC2);
+            Assert.Equal("U", ije3.DETHNIC3);
+            Assert.Equal("U", ije3.DETHNIC4);
+            Assert.Equal("", ije3.RACE18);
+            Assert.Equal("Y", ije3.RACE1);
+            Assert.Equal("N", ije3.RACE2);
+            Assert.Equal("N", ije3.RACE3);
+            Assert.Equal("N", ije3.RACE4);
+            Assert.Equal("N", ije3.RACE5);
+            Assert.Equal("N", ije3.RACE6);
+            Assert.Equal("N", ije3.RACE7);
+            Assert.Equal("N", ije3.RACE8);
+            Assert.Equal("N", ije3.RACE9);
+            Assert.Equal("N", ije3.RACE10);
+            Assert.Equal("N", ije3.RACE11);
+            Assert.Equal("N", ije3.RACE12);
+            Assert.Equal("N", ije3.RACE13);
+            Assert.Equal("N", ije3.RACE14);
+            Assert.Equal("N", ije3.RACE15);
         }
 
         [Fact]
@@ -272,6 +296,7 @@ namespace VRDR.Tests
         public void Get_DeathLocationType()
         {
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)JSONRecords[0]).DeathLocationTypeHelper);
+            Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Hospital, ((DeathRecord)JSONRecords[2]).DeathLocationTypeHelper);
             Assert.Equal(ValueSets.PlaceOfDeath.Death_In_Home, ((DeathRecord)XMLRecords[0]).DeathLocationTypeHelper);
         }
         [Fact]
@@ -285,6 +310,7 @@ namespace VRDR.Tests
         public void Get_Identifier()
         {
             Assert.Equal("000182", ((DeathRecord)JSONRecords[0]).Identifier);
+            Assert.Equal("000182", ((DeathRecord)JSONRecords[1]).Identifier);
             Assert.Equal("000182", ((DeathRecord)XMLRecords[0]).Identifier);
         }
 

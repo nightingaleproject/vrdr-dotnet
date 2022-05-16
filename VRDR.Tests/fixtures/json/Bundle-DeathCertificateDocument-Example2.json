@@ -8,8 +8,22 @@
   },
   "type": "document",
   "identifier": {
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString": "000182"
+      },
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+        "valueString": "000000000001"
+      },
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+        "valueString": "100000000001"
+      }
+    ],
     "system": "http://nchs.cdc.gov/vrdr_id",
-    "value": "2020YC000182"
+    "value": "2020NY000182"
   },
   "timestamp": "2020-10-20T14:48:35.401641-04:00",
   "entry": [

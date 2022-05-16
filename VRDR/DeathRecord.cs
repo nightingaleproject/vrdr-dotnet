@@ -741,13 +741,12 @@ namespace VRDR
 
         /// <summary>Constructor that takes a FHIR Bundle that represents a FHIR Death Record.</summary>
         /// <param name="bundle">represents a FHIR Bundle.</param>
-        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
         /// <exception cref="ArgumentException">Record is invalid.</exception>
-        public DeathRecord(Bundle bundle, bool fullRecord = true)
+        public DeathRecord(Bundle bundle)
         {
             Bundle = bundle;
             Navigator = Bundle.ToTypedElement();
-            RestoreReferences(fullRecord);
+            RestoreReferences();
         }
 
         /// <summary>Helper method to return a XML string representation of this Death Record.</summary>
@@ -10110,9 +10109,10 @@ namespace VRDR
         }
 
         /// <summary>Restores class references from a newly parsed record.</summary>
-        /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
-        private void RestoreReferences(bool fullRecord = false)
+        private void RestoreReferences()
         {
+            string profile = Bundle.Meta.Profile.First();
+            bool fullRecord = profile.Equals(VRDR.ProfileURL.DeathCertificateDocument);
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
             if (compositionEntry != null)

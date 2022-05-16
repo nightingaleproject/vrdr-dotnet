@@ -45,37 +45,37 @@ namespace VRDR.Tests
             Assert.Equal("Parser: The attribute 'value' in element 'status' has an empty value, which is not allowed. (at line 21, 17)", ex.Message);
         }
 
-        [Fact]
-        public void FailMissingComposition()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingComposition.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.", ex.Message);
-        }
+        // [Fact]
+        // public void FailMissingComposition()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingComposition.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("Failed to find a Composition. The first entry in the FHIR Bundle should be a Composition.", ex.Message);
+        // }
 
-        [Fact]
-        public void FailMissingCompositionSubject()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionSubject.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("The Composition is missing a subject (a reference to the Decedent resource).", ex.Message);
-        }
+        // [Fact]
+        // public void FailMissingCompositionSubject()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionSubject.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("The Composition is missing a subject (a reference to the Decedent resource).", ex.Message);
+        // }
 
-        [Fact]
-        public void FailMissingCompositionAttestor()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionAttestor.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).", ex.Message);
-        }
+        // [Fact]
+        // public void FailMissingCompositionAttestor()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingCompositionAttestor.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).", ex.Message);
+        // }
 
-        [Fact]
-        public void FailMissingDecedent()
-        {
-            string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingDecedent.json"));
-            Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-            Assert.Equal("Failed to find a Decedent (Patient).", ex.Message);
-        }
+        // [Fact]
+        // public void FailMissingDecedent()
+        // {
+        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/MissingDecedent.json"));
+        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
+        //     Assert.Equal("Failed to find a Decedent (Patient).", ex.Message);
+        // }
 
         // It is perfectly acceptable for the Certififer to be missing
         // [Fact]
@@ -148,8 +148,8 @@ namespace VRDR.Tests
         public void ToFromCodedBundleViaDescription()
         {
             DeathRecord record = (DeathRecord)JSONRecords[1];
-            DeathRecord codedCODRecord = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
-            DeathRecord codedDemoRecord = new DeathRecord(record.GetDemographicCodedContentBundle (), false);
+            DeathRecord codedCODRecord = new DeathRecord(record.GetCauseOfDeathCodedContentBundle());
+            DeathRecord codedDemoRecord = new DeathRecord(record.GetDemographicCodedContentBundle ());
             string CodedCODDescription = codedCODRecord.ToDescription();
             string CodedDemoDescription = codedCODRecord.ToDescription();
             DeathRecord record2 = new DeathRecord(codedCODRecord.ToJSON());
@@ -3187,7 +3187,7 @@ namespace VRDR.Tests
             ije.TRANSPRT = "Hover Board Rider";
             ije.INACT = "9";
             DeathRecord record = ije.ToDeathRecord();
-            DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
+            DeathRecord record1 = new DeathRecord(record.GetCauseOfDeathCodedContentBundle());
             IJEMortality ije2 = new IJEMortality(record);
             Assert.Equal("2021", ije2.DOD_YR);
             Assert.Equal("MA", ije2.DSTATE);

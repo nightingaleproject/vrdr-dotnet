@@ -9490,7 +9490,7 @@ namespace VRDR
                             lineNumber = ((Integer)lineNumComp.Value).Value;
                         }
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        if (valueCC != null && valueCC.Coding != null)
+                        if (valueCC != null && valueCC.Coding != null && valueCC.Coding.Count() > 0)
                         {
                             icd10code = valueCC.Coding[0].Code;
                         }
@@ -9584,7 +9584,7 @@ namespace VRDR
                             position = ((Integer)positionComp.Value).Value;
                         }
                         CodeableConcept valueCC = (CodeableConcept)ob.Value;
-                        if (valueCC != null && valueCC.Coding != null)
+                        if (valueCC != null && valueCC.Coding != null && valueCC.Coding.Count() > 0)
                         {
                             icd10code = valueCC.Coding[0].Code;
                         }

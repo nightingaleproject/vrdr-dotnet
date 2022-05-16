@@ -2569,7 +2569,7 @@ namespace VRDR
             get
             {
                 string eacStr = "";
-                foreach(var entry in record.EntityAxisCauseOfDeath)
+                foreach((int LineNumber, int Position, string Code, bool ECode) entry in record.EntityAxisCauseOfDeath)
                 {
                     string lineNumber = Truncate(entry.LineNumber.ToString(), 1).PadRight(1, ' ');
                     string position = Truncate(entry.Position.ToString(), 1).PadRight(1, ' ');
@@ -2589,9 +2589,7 @@ namespace VRDR
                 {
                     if (!String.IsNullOrWhiteSpace(code))
                     {
-                        int lineNumber;
-                        int position;
-                        if (int.TryParse(code.Substring(0, 1), out lineNumber) && int.TryParse(code.Substring(1, 1), out position))
+                        if (int.TryParse(code.Substring(0, 1), out int lineNumber) && int.TryParse(code.Substring(1, 1), out int position))
                         {
                             string icdCode = NCHSICD10toActualICD10(code.Substring(2, 4));
                             string eCode = code.Substring(7, 1);
@@ -2630,7 +2628,7 @@ namespace VRDR
             get
             {
                 string racStr = "";
-                foreach(var entry in record.RecordAxisCauseOfDeath)
+                foreach((int Position, string Code, bool Pregnancy) entry in record.RecordAxisCauseOfDeath)
                 {
                     // Position doesn't appear in the IJE/TRX format it's just implicit
                     string icdCode = Truncate(ActualICD10toNCHSICD10(entry.Code), 4).PadRight(4, ' ');

@@ -156,7 +156,7 @@ namespace VRDR.CLI
                 deathRecord.SSN = "123456789";
 
                 // Ethnicity
-                deathRecord.Ethnicity2Helper = ValueSets.YesNoUnknown.Yes;
+                deathRecord.Ethnicity2Helper = ValueSets.HispanicNoUnknown.Yes;
 
                 // Race
                 Tuple<string, string>[] race = { Tuple.Create(NvssRace.White, "Y"), Tuple.Create(NvssRace.NativeHawaiian, "Y"), Tuple.Create(NvssRace.OtherPacificIslander, "Y") };

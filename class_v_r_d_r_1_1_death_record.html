@@ -88,9 +88,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1da434f187ecbfd99afc0e2bb2d5b982"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a1da434f187ecbfd99afc0e2bb2d5b982">DeathRecord</a> (string record, bool permissive=false)</td></tr>
 <tr class="memdesc:a1da434f187ecbfd99afc0e2bb2d5b982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes a string that represents a FHIR Death Record in either XML or JSON format. <a href="class_v_r_d_r_1_1_death_record.html#a1da434f187ecbfd99afc0e2bb2d5b982">More...</a><br /></td></tr>
 <tr class="separator:a1da434f187ecbfd99afc0e2bb2d5b982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a2608879584fb750009ecec8811b69b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a4a2608879584fb750009ecec8811b69b">DeathRecord</a> (Bundle bundle, bool fullRecord=true)</td></tr>
-<tr class="memdesc:a4a2608879584fb750009ecec8811b69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes a FHIR Bundle that represents a FHIR Death Record. <a href="class_v_r_d_r_1_1_death_record.html#a4a2608879584fb750009ecec8811b69b">More...</a><br /></td></tr>
-<tr class="separator:a4a2608879584fb750009ecec8811b69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3e76e1dd80b0d7cb904cabf0729ed70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#ac3e76e1dd80b0d7cb904cabf0729ed70">DeathRecord</a> (Bundle bundle)</td></tr>
+<tr class="memdesc:ac3e76e1dd80b0d7cb904cabf0729ed70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that takes a FHIR Bundle that represents a FHIR Death Record. <a href="class_v_r_d_r_1_1_death_record.html#ac3e76e1dd80b0d7cb904cabf0729ed70">More...</a><br /></td></tr>
+<tr class="separator:ac3e76e1dd80b0d7cb904cabf0729ed70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13b18fafac6cbdc8a5c206c1473265c4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_v_r_d_r_1_1_death_record.html#a13b18fafac6cbdc8a5c206c1473265c4">ToXML</a> ()</td></tr>
 <tr class="memdesc:a13b18fafac6cbdc8a5c206c1473265c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to return a XML string representation of this Death Record. <a href="class_v_r_d_r_1_1_death_record.html#a13b18fafac6cbdc8a5c206c1473265c4">More...</a><br /></td></tr>
 <tr class="separator:a13b18fafac6cbdc8a5c206c1473265c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -832,8 +832,8 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditBypa
 
 </div>
 </div>
-<a id="a4a2608879584fb750009ecec8811b69b" name="a4a2608879584fb750009ecec8811b69b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a2608879584fb750009ecec8811b69b">&#9670;&nbsp;</a></span>DeathRecord() <span class="overload">[2/2]</span></h2>
+<a id="ac3e76e1dd80b0d7cb904cabf0729ed70" name="ac3e76e1dd80b0d7cb904cabf0729ed70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3e76e1dd80b0d7cb904cabf0729ed70">&#9670;&nbsp;</a></span>DeathRecord() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -845,18 +845,8 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditBypa
           <td class="memname">VRDR.DeathRecord.DeathRecord </td>
           <td>(</td>
           <td class="paramtype">Bundle&#160;</td>
-          <td class="paramname"><em>bundle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>bundle</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>fullRecord</em> = <code>true</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -870,7 +860,6 @@ String?&#160;</td><td class="memItemRight" valign="bottom"><b>AgeAtDeathEditBypa
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bundle</td><td>represents a FHIR Bundle.</td></tr>
-    <tr><td class="paramname">fullRecord</td><td>flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</td></tr>
   </table>
   </dd>
 </dl>

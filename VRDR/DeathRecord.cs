@@ -10111,7 +10111,7 @@ namespace VRDR
 
         /// <summary>Restores class references from a newly parsed record.</summary>
         /// <param name="fullRecord">flag to indicate if we are expecting a full record and should raise errors if certain elements are note present</param>
-        private void RestoreReferences(bool fullRecord = true)
+        private void RestoreReferences(bool fullRecord = false)
         {
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);

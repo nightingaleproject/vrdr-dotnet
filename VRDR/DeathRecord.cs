@@ -1094,11 +1094,14 @@ namespace VRDR
         {
             get
             {
-                Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
-
-                if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
+                if (Composition != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
+                    Extension filingFormat = Composition.Extension.Find(ext => ext.Url == ExtensionURL.FilingFormat);
+
+                    if (filingFormat != null && filingFormat.Value != null && filingFormat.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)filingFormat.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -1155,7 +1158,10 @@ namespace VRDR
         {
             get
             {
-                return Composition.Date;
+                if(Composition != null){
+                    return Composition.Date;
+                }
+                return "";
             }
             set
             {
@@ -1177,10 +1183,12 @@ namespace VRDR
         {
             get
             {
-                Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
-                if (stateSpecificData != null)
-                {
-                    return stateSpecificData.Value.ToString();
+                if(Composition != null){
+                    Extension stateSpecificData = Composition.Extension.Where(ext => ext.Url == ExtensionURL.StateSpecificField).FirstOrDefault();
+                    if (stateSpecificData != null)
+                    {
+                        return stateSpecificData.Value.ToString();
+                    }
                 }
                 return "";
             }
@@ -1208,11 +1216,13 @@ namespace VRDR
         {
             get
             {
-                Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
+                if(Composition != null){
+                    Extension replaceStatus = Composition.Extension.Find(ext => ext.Url == ExtensionURL.ReplaceStatus);
 
-                if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
-                {
-                    return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                    if (replaceStatus != null && replaceStatus.Value != null && replaceStatus.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)replaceStatus.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }
@@ -2566,10 +2576,13 @@ namespace VRDR
         {
             get
             {
-                Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
-                if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                if(Decedent != null)
                 {
-                    return CodeableConceptToDict((CodeableConcept)sex.Value);
+                    Extension sex = Decedent.Extension.Find(ext => ext.Url == ExtensionURL.NVSSSexAtDeath);
+                    if (sex != null && sex.Value != null && sex.Value as CodeableConcept != null)
+                    {
+                        return CodeableConceptToDict((CodeableConcept)sex.Value);
+                    }
                 }
                 return EmptyCodeDict();
             }
@@ -2665,7 +2678,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateYear);
                 }
@@ -2695,7 +2708,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateMonth);
                 }
@@ -2725,7 +2738,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.BirthDateElement != null)
+                if (Decedent != null && Decedent.BirthDateElement != null)
                 {
                     return GetDateFragmentOrPartialDate(Decedent.BirthDateElement, ExtensionURL.DateDay);
                 }
@@ -3519,15 +3532,17 @@ namespace VRDR
         {
             get
             {
-                Extension addressExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == OtherExtensionURL.PatientBirthPlace);
-                if (addressExt != null)
-                {
-                    Address address = (Address)addressExt.Value;
-                    if (address != null)
+                if(Decedent != null){
+                    Extension addressExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == OtherExtensionURL.PatientBirthPlace);
+                    if (addressExt != null)
                     {
-                        return AddressToDict((Address)address);
+                        Address address = (Address)addressExt.Value;
+                        if (address != null)
+                        {
+                            return AddressToDict((Address)address);
+                        }
+                        return EmptyAddrDict();
                     }
-                    return EmptyAddrDict();
                 }
                 return EmptyAddrDict();
             }
@@ -3650,7 +3665,7 @@ namespace VRDR
         {
             get
             {
-                if (Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
+                if (Decedent != null && Decedent.MaritalStatus != null && Decedent.MaritalStatus.Extension.FirstOrDefault() != null)
                 {
                     Extension addressExt = Decedent.MaritalStatus.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.BypassEditFlag);
                     if (addressExt != null && addressExt.Value != null && addressExt.Value as CodeableConcept != null)
@@ -4210,11 +4225,13 @@ namespace VRDR
         {
             get
             {
-                Extension spouseExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.SpouseAlive);
-                if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null)
-                {
+                if(Decedent != null){
+                    Extension spouseExt = Decedent.Extension.FirstOrDefault(extension => extension.Url == ExtensionURL.SpouseAlive);
+                    if (spouseExt != null && spouseExt.Value != null && spouseExt.Value as CodeableConcept != null)
+                    {
 
-                    return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                        return CodeableConceptToDict((CodeableConcept)spouseExt.Value);
+                    }
                 }
                 return EmptyCodeableDict();
             }

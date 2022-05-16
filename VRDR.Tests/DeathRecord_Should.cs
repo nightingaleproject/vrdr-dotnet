@@ -102,15 +102,6 @@ namespace VRDR.Tests
             Assert.Equal("Found a RelatedPerson resource that did not contain a relationship code. All RelatedPersons must include a relationship code to specify how the RelatedPerson is related to the subject.", ex.Message);
         }
 
-        // This is a meaningless test because the CauseOfDeath conditions are now clearly identifiable (by code) Observations
-        // [Fact]
-        // public void FailBadConditions()
-        // {
-        //     string bundle = File.ReadAllText(FixturePath("fixtures/json/BadConditions.json"));
-        //     Exception ex = Assert.Throws<System.ArgumentException>(() => new DeathRecord(bundle));
-        //     Assert.Equal("There are multiple Condition Contributing to Death resources present. Condition Contributing to Death resources are identified by not being referenced in the Cause of Death Pathway resource, so please confirm that all Cause of Death Conditions are correctly referenced in the Cause of Death Pathway to ensure they are not mistaken for a Condition Contributing to Death resource.", ex.Message);
-        // }
-
         [Fact]
         public void InvalidDeathLocationJurisdiction()
         {
@@ -151,6 +142,18 @@ namespace VRDR.Tests
             // Assert.Equal(first.CODE1A, second.CODE1A);
             Assert.Equal(first.CertifierAddress, second.CertifierAddress);
             Assert.Equal(first.CausesOfDeath, second.CausesOfDeath);
+        }
+
+        [Fact]
+        public void ToFromCodedBundleViaDescription()
+        {
+            DeathRecord record = (DeathRecord)JSONRecords[1];
+            DeathRecord codedCODRecord = new DeathRecord(record.GetCauseOfDeathCodedContentBundle(), false);
+            DeathRecord codedDemoRecord = new DeathRecord(record.GetDemographicCodedContentBundle (), false);
+            string CodedCODDescription = codedCODRecord.ToDescription();
+            string CodedDemoDescription = codedCODRecord.ToDescription();
+            DeathRecord record2 = new DeathRecord(CodedCODDescription, false);
+            DeathRecord record3 = new DeathRecord(CodedDemoDescription, false);
         }
 
         [Fact]

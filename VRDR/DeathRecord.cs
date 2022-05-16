@@ -9456,7 +9456,10 @@ namespace VRDR
             }
         }
 
-        /// <summary>Entity Axis Cause Of Death</summary>
+        /// <summary>Entity Axis Cause Of Death
+        /// <para>Note that record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+        /// http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage></para>
+        /// </summary>
         /// <value>Entity-axis codes</value>
         /// <example>
         /// <para>// Setter:</para>
@@ -9633,6 +9636,8 @@ namespace VRDR
                     positionComp.Code = new CodeableConcept(CodeSystems.Component, "position", "Position", null);
                     ob.Component.Add(positionComp);
 
+                    // Record axis codes have an unusual and obscure handling of a Pregnancy flag, for more information see
+                    // http://build.fhir.org/ig/HL7/vrdr/branches/master/StructureDefinition-vrdr-record-axis-cause-of-death.html#usage
                     if (rac.Pregnancy && rac.Position == 2)
                     {
                         Observation.ComponentComponent pregComp = new Observation.ComponentComponent();

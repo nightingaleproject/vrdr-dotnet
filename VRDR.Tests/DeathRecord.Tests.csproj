@@ -18,6 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="fixtures/json/Bundle-DeathCertificateDocument-Example2.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/Bundle-DeathCertificateDocument-Example1.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/Bundle-CauseOfDeathCodedContentBundle-Example1.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="fixtures/json/Bundle-DemographicCodedContentBundle-Example1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/xml/Bundle-DeathCertificateDocument-Example2.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecord1.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="fixtures/json/DeathRecordNoIdentifiers.json" CopyToOutputDirectory="PreserveNewest" />

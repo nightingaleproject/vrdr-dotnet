@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "DeathCertificateDocument-Example2",
+  "id": "DeathCertificateDocument-Example1",
   "meta": {
     "profile": [
       "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate-document"
@@ -8,15 +8,29 @@
   },
   "type": "document",
   "identifier": {
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/CertificateNumber",
+        "valueString": "000182"
+      },
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier1",
+        "valueString": "000000000001"
+      },
+      {
+        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/AuxiliaryStateIdentifier2",
+        "valueString": "100000000001"
+      }
+    ],
     "system": "http://nchs.cdc.gov/vrdr_id",
-    "value": "2020YC000182"
+    "value": "2020NY000182"
   },
   "timestamp": "2020-10-20T14:48:35.401641-04:00",
   "entry": [
     {
       "resource": {
         "resourceType": "Composition",
-        "id": "DeathCertificate-Example2",
+        "id": "DeathCertificate-Example1",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-certificate"
@@ -58,6 +72,32 @@
                 "reference": "Procedure/DeathCertification-Example1"
               }
             ]
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/FilingFormat",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "electronic"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/ReplaceStatus",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "original"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/StateSpecificField",
+            "valueString": "State Specific Content"
           }
         ],
         "section": [
@@ -135,10 +175,10 @@
                 "reference": "Location/InjuryLocation-Example1"
               },
               {
-                "reference": "Observation/InjuryIncident-Example2"
+                "reference": "Observation/InjuryIncident-Example1"
               },
               {
-                "reference": "Observation/DeathDate-Example2"
+                "reference": "Observation/DeathDate-Example1"
               },
               {
                 "reference": "Observation/SurgeryDate-Example1"
@@ -198,42 +238,6 @@
                 "reference": "Practitioner/Mortician-Example1"
               }
             ]
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "CodedContent",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-document-section-cs"
-                }
-              ]
-            },
-            "entry": [
-              {
-                "reference": "Observation/ActivityAtTimeOfDeath-Example1"
-              },
-              {
-                "reference": "Observation/PlaceOfInjury-Example1"
-              },
-              {
-                "reference": "Observation/CodedRaceAndEthnicity-Example1"
-              },
-              {
-                "reference": "Observation/ManualUnderlyingCauseOfDeath-Example1"
-              },
-              {
-                "reference": "Observation/AutomatedUnderlyingCauseOfDeath-Example1"
-              },
-              {
-                "reference": "Observation/RecordAxisCauseOfDeath-Example1"
-              },
-              {
-                "reference": "Observation/EntityAxisCauseOfDeath-Example1"
-              },
-              {
-                "reference": "Parameters/CodingStatusValues-Example1"
-              }
-            ]
           }
         ],
         "status": "final",
@@ -248,7 +252,7 @@
         ],
         "title": "Death Certificate"
       },
-      "fullUrl": "http://www.example.org/fhir/Bundle/DeathCertificate-Example2"
+      "fullUrl": "http://www.example.org/fhir/Bundle/DeathCertificate-Example1"
     },
     {
       "resource": {
@@ -1162,7 +1166,7 @@
     {
       "resource": {
         "resourceType": "Observation",
-        "id": "DeathDate-Example2",
+        "id": "DeathDate-Example1",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-death-date"
@@ -1227,14 +1231,7 @@
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day",
-                  "_valueUnsignedInt": {
-                    "extension": [
-                      {
-                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                        "valueCode": "unknown"
-                      }
-                    ]
-                  }
+                  "valueUnsignedInt": 12
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year",
@@ -1246,7 +1243,6 @@
                 },
                 {
                   "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Time",
-                  "valueTime": "12:13:14",
                   "_valueTime": {
                     "extension": [
                       {
@@ -1262,7 +1258,7 @@
           ]
         }
       },
-      "fullUrl": "http://www.example.org/fhir/Observation/DeathDate-Example2"
+      "fullUrl": "http://www.example.org/fhir/Observation/DeathDate-Example1"
     },
     {
       "resource": {
@@ -1426,7 +1422,7 @@
     {
       "resource": {
         "resourceType": "Observation",
-        "id": "InjuryIncident-Example2",
+        "id": "InjuryIncident-Example1",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-injury-incident"
@@ -1490,11 +1486,12 @@
             "valueCodeableConcept": {
               "coding": [
                 {
-                  "code": "257518000",
-                  "system": "http://snomed.info/sct",
-                  "display": "Pedestrian"
+                  "code": "OTH",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "display": "Other"
                 }
-              ]
+              ],
+              "text": "Hoverboard Rider"
             }
           }
         ],
@@ -1506,7 +1503,7 @@
           "text": "drug toxicity"
         }
       },
-      "fullUrl": "http://www.example.org/fhir/Observation/InjuryIncident-Example2"
+      "fullUrl": "http://www.example.org/fhir/Observation/InjuryIncident-Example1"
     },
     {
       "resource": {
@@ -1962,417 +1959,6 @@
         ]
       },
       "fullUrl": "http://www.example.org/fhir/Practitioner/Mortician-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "ActivityAtTimeOfDeath-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-activity-at-time-of-death"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "80626-5",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "1",
-              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-activity-at-time-of-death-cs",
-              "display": "While engaged in leisure activities."
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/ActivityAtTimeOfDeath-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "CodedRaceAndEthnicity-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coded-race-and-ethnicity"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "codedraceandethnicity",
-              "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-observations-cs"
-            }
-          ]
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "FirstEditedCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "101",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
-                  "display": "White"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "SecondEditedCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "122",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
-                  "display": "Israeli"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "FirstAmericanIndianCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "A31",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs",
-                  "display": "Arikara"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "RaceRecode40",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "20",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs",
-                  "display": "AIAN and Asian"
-                }
-              ]
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "HispanicCode",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "233",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs",
-                  "display": "Chilean"
-                }
-              ]
-            }
-          }
-        ],
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/CodedRaceAndEthnicity-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "ManualUnderlyingCauseOfDeath-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-manual-underlying-cause-of-death"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "80359-3",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "J96.0",
-              "system": "http://hl7.org/fhir/sid/icd-10"
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/ManualUnderlyingCauseOfDeath-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "AutomatedUnderlyingCauseOfDeath-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-automated-underlying-cause-of-death"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "80358-5",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "J96.0",
-              "system": "http://hl7.org/fhir/sid/icd-10"
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/AutomatedUnderlyingCauseOfDeath-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "RecordAxisCauseOfDeath-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-record-axis-cause-of-death"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "80357-7",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "position",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueInteger": 1
-          }
-        ],
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "J96.0",
-              "system": "http://hl7.org/fhir/sid/icd-10"
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/RecordAxisCauseOfDeath-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "EntityAxisCauseOfDeath-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-entity-axis-cause-of-death"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "80356-9",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "lineNumber",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueInteger": 1
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "code": "position",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-component-cs"
-                }
-              ]
-            },
-            "valueInteger": 1
-          }
-        ],
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "J96.0",
-              "system": "http://hl7.org/fhir/sid/icd-10"
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/EntityAxisCauseOfDeath-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "PlaceOfInjury-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-place-of-injury"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "code": "11376-1",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "status": "final",
-        "subject": {
-          "display": "NCHS generated"
-        },
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "LA14084-0",
-              "system": "http://loinc.org",
-              "display": "Home"
-            }
-          ]
-        }
-      },
-      "fullUrl": "http://www.example.org/fhir/Observation/PlaceOfInjury-Example1"
-    },
-    {
-      "resource": {
-        "resourceType": "Parameters",
-        "id": "CodingStatusValues-Example1",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-coding-status-values"
-          ]
-        },
-        "parameter": [
-          {
-            "name": "shipmentNumber",
-            "valueString": "A2B2"
-          },
-          {
-            "name": "receiptDate",
-            "valueDate": "2021-12-12"
-          },
-          {
-            "name": "coderStatus",
-            "valueInteger": 5
-          },
-          {
-            "name": "intentionalReject",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "1",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs"
-                }
-              ]
-            }
-          },
-          {
-            "name": "acmeSystemReject",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "0",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs"
-                }
-              ]
-            }
-          },
-          {
-            "name": "transaxConversion",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "code": "3",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "fullUrl": "http://www.example.org/fhir/Parameter/CodingStatusValues-Example1"
     }
   ]
 }

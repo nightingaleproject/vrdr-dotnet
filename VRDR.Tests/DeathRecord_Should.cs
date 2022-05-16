@@ -26,6 +26,9 @@ namespace VRDR.Tests
             JSONRecords = new ArrayList();
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/DeathRecord1.json"))));
             JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example2.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DeathCertificateDocument-Example1.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-CauseOfDeathCodedContentBundle-Example1.json"))));
+            JSONRecords.Add(new DeathRecord(File.ReadAllText(FixturePath("fixtures/json/Bundle-DemographicCodedContentBundle-Example1.json"))));
             //Console.WriteLine("TEST1: " + ((DeathRecord)JSONRecords[0]).ToJSON());
             SetterDeathRecord = new DeathRecord();
         }
@@ -2780,8 +2783,14 @@ namespace VRDR.Tests
         [Fact]
         public void Get_DateOfDeath()
         {
-            Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)JSONRecords[0]).DateOfDeath);
+            Assert.Null(((DeathRecord)JSONRecords[1]).DateOfDeath);
+            Assert.Null(((DeathRecord)JSONRecords[1]).DeathDay);
+            Assert.Equal((uint)2020,(((DeathRecord)JSONRecords[1]).DeathYear));
+            Assert.Equal("2020-11-12T00:00:00", ((DeathRecord)JSONRecords[2]).DateOfDeath);
+            Assert.Equal((uint)2020,(((DeathRecord)JSONRecords[2]).DeathYear));
+            Assert.Null( ((DeathRecord)JSONRecords[2]).DeathTime);
             Assert.Equal("2019-02-19T16:48:00", ((DeathRecord)XMLRecords[0]).DateOfDeath);
+            Assert.Equal((uint)2019,(((DeathRecord)JSONRecords[0]).DeathYear));
         }
 
         [Fact]

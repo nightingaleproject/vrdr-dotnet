@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['identifier_0',['Identifier',['../class_v_r_d_r_1_1_death_record.html#aa0ff0c268671e2c5b391918f093b3b8d',1,'VRDR::DeathRecord']]],
+  ['identifier_0',['Identifier',['../class_v_r_d_r_1_1_death_record.html#a5a2a0b4d8a53984f0e68743f496cc820',1,'VRDR::DeathRecord']]],
   ['idob_5fyr_1',['IDOB_YR',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a22a78d7702b7a54e25e05ba7b658e0ef',1,'VRDR::IJEMortality']]],
   ['igurl_2',['IGUrl',['../class_v_r_d_r_1_1_property.html#aa8a0c7e020636f6be0174dabaa4be9be',1,'VRDR::Property']]],
   ['ijefield_3',['IJEField',['../class_v_r_d_r_1_1_i_j_e_field.html#a2a62061a13e4e6e791a67fccce19a5a9',1,'VRDR.IJEField.IJEField()'],['../class_v_r_d_r_1_1_i_j_e_field.html',1,'VRDR.IJEField']]],
@@ -13,9 +13,9 @@ var searchData=
   ['injpl_10',['INJPL',['../class_v_r_d_r_1_1_i_j_e_mortality.html#afeffacb0ec68cc9c6cb18fa3f370f0d6',1,'VRDR::IJEMortality']]],
   ['injuryatwork_11',['InjuryAtWork',['../class_v_r_d_r_1_1_death_record.html#ad5b89afafdc60b10584c88bbb989c52f',1,'VRDR::DeathRecord']]],
   ['injuryatworkhelper_12',['InjuryAtWorkHelper',['../class_v_r_d_r_1_1_death_record.html#ac6187506ef5bb3253fdca6a40bea5ad4',1,'VRDR::DeathRecord']]],
-  ['injurydate_13',['InjuryDate',['../class_v_r_d_r_1_1_death_record.html#a0588e534b86c8c1085e58d52bc12dffa',1,'VRDR::DeathRecord']]],
+  ['injurydate_13',['InjuryDate',['../class_v_r_d_r_1_1_death_record.html#a7c0d42114fd5daca44b11ee96855a9b9',1,'VRDR::DeathRecord']]],
   ['injuryday_14',['InjuryDay',['../class_v_r_d_r_1_1_death_record.html#af9aef4f77354344715a2c29eb7994119',1,'VRDR::DeathRecord']]],
-  ['injurydescription_15',['InjuryDescription',['../class_v_r_d_r_1_1_death_record.html#ac6a45b0e89c6a02ddb67fee2be5a66d9',1,'VRDR::DeathRecord']]],
+  ['injurydescription_15',['InjuryDescription',['../class_v_r_d_r_1_1_death_record.html#a9e376accec8d70a6791835ad315c06b7',1,'VRDR::DeathRecord']]],
   ['injurylocationaddress_16',['InjuryLocationAddress',['../class_v_r_d_r_1_1_death_record.html#a52d258bfa3475dbfd91837492f286e09',1,'VRDR::DeathRecord']]],
   ['injurylocationlatitude_17',['InjuryLocationLatitude',['../class_v_r_d_r_1_1_death_record.html#a701d1f52f020b3461ed251266c402587',1,'VRDR::DeathRecord']]],
   ['injurylocationlongitude_18',['InjuryLocationLongitude',['../class_v_r_d_r_1_1_death_record.html#aac738f39aabf398818a55d3c71fdb2a5',1,'VRDR::DeathRecord']]],
@@ -26,12 +26,12 @@ var searchData=
   ['injuryyear_23',['InjuryYear',['../class_v_r_d_r_1_1_death_record.html#a82c4d582289d91c01114e28d0bd441a3',1,'VRDR::DeathRecord']]],
   ['instance_24',['Instance',['../class_v_r_d_r_1_1_mortality_data.html#a819135a01c97411ee3687cae927b1f70',1,'VRDR::MortalityData']]],
   ['int_5frej_25',['INT_REJ',['../class_v_r_d_r_1_1_i_j_e_mortality.html#a5896705f3e22bc896547c7baf16f63f5',1,'VRDR::IJEMortality']]],
-  ['intentionalreject_26',['IntentionalReject',['../class_v_r_d_r_1_1_death_record.html#a42245d70c90e201493a122ee3c71fb3e',1,'VRDR::DeathRecord']]],
+  ['intentionalreject_26',['IntentionalReject',['../class_v_r_d_r_1_1_death_record.html#a24e5a58a752fd602b9278cc0b0282e34',1,'VRDR::DeathRecord']]],
   ['intentionalrejecthelper_27',['IntentionalRejectHelper',['../class_v_r_d_r_1_1_death_record.html#a4e257571e36ab2784062ded6cf5de0d4',1,'VRDR::DeathRecord']]],
-  ['interval1a_28',['INTERVAL1A',['../class_v_r_d_r_1_1_death_record.html#aa5991dc7f43c1207dca322175b0f647d',1,'VRDR.DeathRecord.INTERVAL1A()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2e4058ffe45711c7cd07740ffe3cd150',1,'VRDR.IJEMortality.INTERVAL1A()']]],
-  ['interval1b_29',['INTERVAL1B',['../class_v_r_d_r_1_1_death_record.html#a0e66b8d297f9974a8cba3d6d76537577',1,'VRDR.DeathRecord.INTERVAL1B()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a10569c0693aebf94fe55be8d4e23d450',1,'VRDR.IJEMortality.INTERVAL1B()']]],
-  ['interval1c_30',['INTERVAL1C',['../class_v_r_d_r_1_1_death_record.html#ab6a4f92d06f25016f5cd5d12799f04f6',1,'VRDR.DeathRecord.INTERVAL1C()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a90d3f1069607b591e378e5c6ba9cb6a2',1,'VRDR.IJEMortality.INTERVAL1C()']]],
-  ['interval1d_31',['INTERVAL1D',['../class_v_r_d_r_1_1_death_record.html#af02e58ed415f1354fd64b0f74d1af2ff',1,'VRDR.DeathRecord.INTERVAL1D()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7d29bf2677d813c81050d976e2035037',1,'VRDR.IJEMortality.INTERVAL1D()']]],
+  ['interval1a_28',['INTERVAL1A',['../class_v_r_d_r_1_1_death_record.html#aa871937fae706c1898cdafffe579eb51',1,'VRDR.DeathRecord.INTERVAL1A()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a2e4058ffe45711c7cd07740ffe3cd150',1,'VRDR.IJEMortality.INTERVAL1A()']]],
+  ['interval1b_29',['INTERVAL1B',['../class_v_r_d_r_1_1_death_record.html#a6764455100aa5d913a7d06b0c584adcc',1,'VRDR.DeathRecord.INTERVAL1B()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a10569c0693aebf94fe55be8d4e23d450',1,'VRDR.IJEMortality.INTERVAL1B()']]],
+  ['interval1c_30',['INTERVAL1C',['../class_v_r_d_r_1_1_death_record.html#a45657862c1bf6f96b37ada3c9a1f7e2c',1,'VRDR.DeathRecord.INTERVAL1C()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a90d3f1069607b591e378e5c6ba9cb6a2',1,'VRDR.IJEMortality.INTERVAL1C()']]],
+  ['interval1d_31',['INTERVAL1D',['../class_v_r_d_r_1_1_death_record.html#aa73cb2416674e7048d58d5ad2c291125',1,'VRDR.DeathRecord.INTERVAL1D()'],['../class_v_r_d_r_1_1_i_j_e_mortality.html#a7d29bf2677d813c81050d976e2035037',1,'VRDR.IJEMortality.INTERVAL1D()']]],
   ['issue_32',['Issue',['../class_v_r_d_r_1_1_issue.html#aa4a6938ce1ae1db991c8456b545dcac4',1,'VRDR.Issue.Issue()'],['../class_v_r_d_r_1_1_issue.html',1,'VRDR.Issue']]],
   ['issues_33',['Issues',['../class_v_r_d_r_1_1_extraction_error_message.html#abf7883c3c165eee6e37b4c31a75b2b50',1,'VRDR::ExtractionErrorMessage']]]
 ];

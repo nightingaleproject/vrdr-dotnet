@@ -18,7 +18,7 @@ var searchData=
   ['toxml_15',['ToXml',['../class_v_r_d_r_1_1_base_message.html#a6d9b02f58b46ef398f77c4ad30c35b78',1,'VRDR::BaseMessage']]],
   ['toxml_16',['ToXML',['../class_v_r_d_r_1_1_death_record.html#a13b18fafac6cbdc8a5c206c1473265c4',1,'VRDR.DeathRecord.ToXML()'],['../class_v_r_d_r_1_1_base_message.html#aa77343f72455ed4e04685f05b0e75464',1,'VRDR.BaseMessage.ToXML()']]],
   ['toxml_17',['ToXml',['../class_v_r_d_r_1_1_death_record.html#a4f57448486e1fe436bff194957389218',1,'VRDR::DeathRecord']]],
-  ['transaxconversion_18',['TransaxConversion',['../class_v_r_d_r_1_1_death_record.html#ae68615e9b574d0e213e6d4b2cfd3a9c5',1,'VRDR::DeathRecord']]],
+  ['transaxconversion_18',['TransaxConversion',['../class_v_r_d_r_1_1_death_record.html#a308140a7ad80f6a1e52bcaa6d8fd2e9c',1,'VRDR::DeathRecord']]],
   ['transaxconversionhelper_19',['TransaxConversionHelper',['../class_v_r_d_r_1_1_death_record.html#ad26d3de0f4ec1e33201151d1e8b76f3f',1,'VRDR::DeathRecord']]],
   ['transportationrole_20',['TransportationRole',['../class_v_r_d_r_1_1_death_record.html#a92fba0d2393a352e9e85c35ef6758f74',1,'VRDR::DeathRecord']]],
   ['transportationrolehelper_21',['TransportationRoleHelper',['../class_v_r_d_r_1_1_death_record.html#a6a759480bb8bed087edf0a68dad66566',1,'VRDR::DeathRecord']]],

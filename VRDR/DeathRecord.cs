@@ -7574,7 +7574,7 @@ namespace VRDR
             }
             // Remove existing component (if it exists) and add an appropriate component.
             Observation.ComponentComponent issue = EmergingIssues.Component.FirstOrDefault(c => c.Code.Coding[0].Code == identifier);
-            if (issue != null)
+            if (issue != null && issue.Value != null)
             {
                 return issue.Value.ToString();
             }

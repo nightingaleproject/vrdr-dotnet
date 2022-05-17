@@ -11050,7 +11050,7 @@ namespace VRDR
                 category[property.Name]["CapturedInIJE"] = info.CapturedInIJE;
 
                 // Add snippets
-                FHIRPath path = (FHIRPath)property.GetCustomAttributes().Last();
+                FHIRPath path = property.GetCustomAttribute<FHIRPath>();
                 var matches = Navigator.Select(path.Path);
                 if (matches.Count() > 0)
                 {
@@ -11117,7 +11117,7 @@ namespace VRDR
                         continue;
                     }
                     Dictionary<string, Dictionary<string, string>> moreInfo = new Dictionary<string, Dictionary<string, string>>();
-                    foreach (PropertyParam propParameter in property.GetCustomAttributes().Reverse().Skip(1).Reverse().Skip(1))
+                    foreach (PropertyParam propParameter in property.GetCustomAttributes<PropertyParam>())
                     {
                         moreInfo[propParameter.Key] = new Dictionary<string, string>();
                         moreInfo[propParameter.Key]["Description"] = propParameter.Description;

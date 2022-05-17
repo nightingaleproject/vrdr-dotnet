@@ -10189,15 +10189,20 @@ namespace VRDR
             }
 
             // Grab Certifier
-            if (fullRecord && (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
+            if ( Composition == null || (Composition.Attester == null || Composition.Attester.FirstOrDefault() == null || Composition.Attester.First().Party == null || String.IsNullOrWhiteSpace(Composition.Attester.First().Party.Reference)))
             {
-                throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
-            }
-            var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
-            (entry.Resource.Id != null && entry.Resource.Id == Composition.Attester.First().Party.Reference)));
-            if (practitionerEntry != null)
-            {
-                Certifier = (Practitioner)practitionerEntry.Resource;
+                if(fullRecord)
+                {
+                    throw new System.ArgumentException("The Composition is missing an attestor (a reference to the Certifier/Practitioner resource).");
+                }
+            }else{  // There is an attester
+                var attesterID = (Composition.Attester.First().Party.Reference).Split('/').Last(); // Practititioner/Certifier-Example1 --> Certifier-Example1.  Trims the type off of the path
+                var practitionerEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Practitioner && (entry.FullUrl == Composition.Attester.First().Party.Reference ||
+                (entry.Resource.Id != null && entry.Resource.Id == attesterID )));
+                if (practitionerEntry != null)
+                {
+                    Certifier = (Practitioner)practitionerEntry.Resource;
+                }
             }
             // else
             // {

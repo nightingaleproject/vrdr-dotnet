@@ -331,6 +331,7 @@ namespace VRDR.Tests
         public void Get_DeathRecordIdentifier()
         {
             Assert.Equal("2019YC000182", ((DeathRecord)JSONRecords[0]).DeathRecordIdentifier);
+            Assert.Equal("2020NY000182", ((DeathRecord)JSONRecords[1]).DeathRecordIdentifier);
             Assert.Equal("2019YC000182", ((DeathRecord)XMLRecords[0]).DeathRecordIdentifier);
         }
 
@@ -348,6 +349,8 @@ namespace VRDR.Tests
         {
             Assert.Equal("000000000042", ((DeathRecord)JSONRecords[0]).StateLocalIdentifier1);
             Assert.Equal("000000000042", ((DeathRecord)XMLRecords[0]).StateLocalIdentifier1);
+            Assert.Equal("000000000001", ((DeathRecord)JSONRecords[1]).StateLocalIdentifier1);
+            Assert.Equal("100000000001", ((DeathRecord)JSONRecords[1]).StateLocalIdentifier2);
         }
 
         [Fact]
@@ -361,6 +364,7 @@ namespace VRDR.Tests
         public void Get_CertifiedTime()
         {
             Assert.Equal("2019-01-29T16:48:06-05:00", ((DeathRecord)JSONRecords[0]).CertifiedTime);
+            Assert.Equal("2020-11-14T16:39:40-05:00", ((DeathRecord)JSONRecords[1]).CertifiedTime);
             Assert.Equal("2019-01-29T16:48:06-05:00", ((DeathRecord)XMLRecords[0]).CertifiedTime);
         }
 

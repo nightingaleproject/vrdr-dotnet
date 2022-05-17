@@ -3636,13 +3636,13 @@ namespace VRDR
                 }
                 else
                 {
+                    // Need to keep any existing text or extension that could be there
                     string text = Decedent.MaritalStatus.Text;
-                    Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
+                    List<Extension> extensions = Decedent.MaritalStatus.Extension.FindAll(e => true);
                     Decedent.MaritalStatus = DictToCodeableConcept(value);
-                    Decedent.MaritalStatus.Extension.Add(bypass);
+                    Decedent.MaritalStatus.Extension.AddRange(extensions);
                     Decedent.MaritalStatus.Text = text;
                 }
-
             }
         }
 
@@ -3683,16 +3683,13 @@ namespace VRDR
             }
             set
             {
-                Extension ext = new Extension();
-                ext.Url = ExtensionURL.BypassEditFlag;
-                ext.Value = DictToCodeableConcept(value);
                 if (Decedent.MaritalStatus == null)
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
                 }
-                Decedent.MaritalStatus.Extension.Add(ext);
+                Decedent.MaritalStatus.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                Decedent.MaritalStatus.Extension.Add(new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value)));
             }
-
         }
 
         /// <summary>The marital status of the decedent at the time of death helper method.</summary>
@@ -4315,8 +4312,15 @@ namespace VRDR
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
                 }
-                DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                else
+                {
+                    // Need to keep any existing extension that could be there
+                    List<Extension> extensions = DecedentEducationLevel.Value.Extension.FindAll(e => true);
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                    DecedentEducationLevel.Value.Extension.AddRange(extensions);
+                }
             }
         }
 
@@ -4392,13 +4396,11 @@ namespace VRDR
                 {
                     DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 }
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
                 if (DecedentEducationLevel.Value == null)
                 {
                     DecedentEducationLevel.Value = new CodeableConcept();
                 }
-                editFlag.Value = DictToCodeableConcept(value);
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 DecedentEducationLevel.Value.Extension.Add(editFlag);
             }
         }
@@ -6472,11 +6474,8 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs();
                 }
-
                 AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
-                editFlag.Value = DictToCodeableConcept(value);
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 AgeAtDeathObs.Extension.Add(editFlag);
             }
         }
@@ -6630,8 +6629,15 @@ namespace VRDR
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
+                    PregnancyObs.Value = DictToCodeableConcept(value);
                 }
-                PregnancyObs.Value = DictToCodeableConcept(value);
+                else
+                {
+                    // Need to keep any existing extension that could be there
+                    List<Extension> extensions = PregnancyObs.Value.Extension.FindAll(e => true);
+                    PregnancyObs.Value = DictToCodeableConcept(value);
+                    PregnancyObs.Value.Extension.AddRange(extensions);
+                }
             }
         }
 
@@ -6708,13 +6714,11 @@ namespace VRDR
                 {
                     PregnancyObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 }
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
-                editFlag.Value = DictToCodeableConcept(value);
                 if (PregnancyObs.Value == null)
                 {
                     PregnancyObs.Value = new CodeableConcept();
                 }
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 PregnancyObs.Value.Extension.Add(editFlag);
             }
         }

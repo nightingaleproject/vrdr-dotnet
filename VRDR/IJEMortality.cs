@@ -156,11 +156,11 @@ namespace VRDR
                 ije = ije.PadRight(5000, ' ');
             }
             // Loop over every property (these are the fields); Order by priority
-            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => ((IJEField)p.GetCustomAttributes().First()).Priority).ToList();
+            List<PropertyInfo> properties = typeof(IJEMortality).GetProperties().ToList().OrderBy(p => p.GetCustomAttribute<IJEField>().Priority).ToList();
             foreach(PropertyInfo property in properties)
             {
                 // Grab the field attributes
-                IJEField info = (IJEField)property.GetCustomAttributes().First();
+                IJEField info = property.GetCustomAttribute<IJEField>();
                 // Grab the field value
                 string field = ije.Substring(info.Location - 1, info.Length);
                 // Set the value on this IJEMortality (and the embedded record)
@@ -193,7 +193,7 @@ namespace VRDR
                 // Grab the field value
                 string field = Convert.ToString(property.GetValue(this, null));
                 // Grab the field attributes
-                IJEField info = (IJEField)property.GetCustomAttributes().First();
+                IJEField info = property.GetCustomAttribute<IJEField>();
                 // Be mindful about lengths
                 if (field.Length > info.Length)
                 {
@@ -234,7 +234,7 @@ namespace VRDR
         /// <summary>Grabs the IJEInfo for a specific IJE field name.</summary>
         private static IJEField FieldInfo(string ijeFieldName)
         {
-            return (IJEField)typeof(IJEMortality).GetProperty(ijeFieldName).GetCustomAttributes().First();
+            return typeof(IJEMortality).GetProperty(ijeFieldName).GetCustomAttribute<IJEField>();
         }
 
         /// <summary>Helps decompose a DateTime into individual parts (year, month, day, time).</summary>

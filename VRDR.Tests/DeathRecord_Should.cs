@@ -379,6 +379,7 @@ namespace VRDR.Tests
         public void Get_RegisteredTime()
         {
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)JSONRecords[0]).RegisteredTime);
+            Assert.Equal("2020-11-15T16:39:54-05:00", ((DeathRecord)JSONRecords[1]).RegisteredTime);
             Assert.Equal("2019-02-01T16:47:04-05:00", ((DeathRecord)XMLRecords[0]).RegisteredTime);
         }
 
@@ -418,6 +419,7 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertificationRole()
         {
+            Assert.Equal("Nurse Practitioner", ((DeathRecord)JSONRecords[1]).CertificationRoleHelper);
             Assert.Equal("434641000124105", ((DeathRecord)JSONRecords[0]).CertificationRole["code"]);
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).CertificationRole["system"]);
             Assert.Equal("Physician certified and pronounced death certificate", ((DeathRecord)JSONRecords[0]).CertificationRole["display"]);
@@ -541,6 +543,7 @@ namespace VRDR.Tests
             Assert.Equal(CodeSystems.SCT, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["system"]);
             Assert.Equal(ValueSets.MannerOfDeath.Accidental_Death, ((DeathRecord)XMLRecords[0]).MannerOfDeathType["code"]);
             Assert.Equal("Accidental death", ((DeathRecord)XMLRecords[0]).MannerOfDeathType["display"]);
+            Assert.Equal(ValueSets.MannerOfDeath.Natural_Death , ((DeathRecord)JSONRecords[1]).MannerOfDeathTypeHelper);
         }
 
         [Fact]
@@ -555,6 +558,11 @@ namespace VRDR.Tests
         [Fact]
         public void Get_CertifierGivenNames()
         {
+            Assert.Equal("Black", ((DeathRecord)JSONRecords[2]).CertifierFamilyName);
+            string[] cnamesjson1 = ((DeathRecord)JSONRecords[2]).CertifierGivenNames;
+            Assert.NotNull (cnamesjson1);
+            Assert.Equal(1, cnamesjson1.Length);
+            Assert.Equal("Jim", cnamesjson1[0]);
             string[] cnamesjson = ((DeathRecord)JSONRecords[0]).CertifierGivenNames;
             Assert.Equal("Doctor", cnamesjson[0]);
             Assert.Equal("Middle", cnamesjson[1]);

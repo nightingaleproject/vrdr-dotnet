@@ -422,7 +422,7 @@
         "id": "0402b9de-2347-4580-a9bf-b984c161ed2d",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier"
+            "http://hl7.org/fhir/us/vrdr/StructureDefinition/vrdr-certifier"
           ]
         },
         "identifier": [

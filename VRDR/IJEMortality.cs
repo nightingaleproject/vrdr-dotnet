@@ -1160,11 +1160,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditBypassFlag", "AGE");
+                return Get_MappingFHIRToIJE(Mappings.EditBypass01.FHIRToIJE, "AgeAtDeathEditFlag", "AGE");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE", "AgeAtDeathEditBypassFlag", value);
+                Set_MappingIJEToFHIR(Mappings.EditBypass01.IJEToFHIR, "AGE", "AgeAtDeathEditFlag", value);
             }
         }
 
@@ -1346,11 +1346,11 @@ namespace VRDR
         {
             get
             {
-                return Get_MappingFHIRToIJE(Mappings.EditBypass0124.FHIRToIJE, "MaritalBypass", "MARITAL_BYPASS");
+                return Get_MappingFHIRToIJE(Mappings.EditBypass0124.FHIRToIJE, "MaritalStatusEditFlag", "MARITAL_BYPASS");
             }
             set
             {
-                Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalBypass", value);
+                Set_MappingIJEToFHIR(Mappings.EditBypass0124.IJEToFHIR, "MARITAL_BYPASS", "MaritalStatusEditFlag", value);
             }
         }
 

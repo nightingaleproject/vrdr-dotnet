@@ -1310,42 +1310,42 @@ namespace VRDR.Tests
         }
 
         [Fact]
-        public void Set_MaritalBypass()
+        public void Set_MaritalStatusEditFlag()
         {
-            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypass["code"]);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.MaritalBypass["system"]);
-            Assert.Equal("Edit Passed", SetterDeathRecord.MaritalBypass["display"]);
+            SetterDeathRecord.MaritalStatusEditFlagHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, SetterDeathRecord.MaritalStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.MaritalStatusEditFlag["display"]);
         }
 
         [Fact]
-        public void Get_MaritalBypass()
+        public void Get_MaritalStatusEditFlag()
         {
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)JSONRecords[0]).MaritalBypass["code"]);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).MaritalBypass["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).MaritalBypass["display"]);
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)XMLRecords[0]).MaritalBypass["code"]);
-            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).MaritalBypass["system"]);
-            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).MaritalBypass["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)JSONRecords[0]).MaritalStatusEditFlag["display"]);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["code"]);
+            Assert.Equal(VRDR.CodeSystems.BypassEditFlag, ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["system"]);
+            Assert.Equal("Edit Passed", ((DeathRecord)XMLRecords[0]).MaritalStatusEditFlag["display"]);
         }
 
         [Fact]
-        public void Get_MaritalBypassHelper()
+        public void Get_MaritalStatusEditFlagHelper()
         {
-            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+            SetterDeathRecord.MaritalStatusEditFlagHelper = ValueSets.EditBypass0124.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalStatusEditFlagHelper);
         }
 
         [Fact]
         public void Get_MaritalStatusAndBypass()
         {
             SetterDeathRecord.MaritalStatusHelper = ValueSets.MaritalStatus.Never_Married;
-            SetterDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.Edit_Passed;
+            SetterDeathRecord.MaritalStatusEditFlagHelper = ValueSets.EditBypass0124.Edit_Passed;
 
             Assert.Equal(ValueSets.MaritalStatus.Never_Married, SetterDeathRecord.MaritalStatus["code"]);
             Assert.Equal(VRDR.CodeSystems.PH_MaritalStatus_HL7_2x, SetterDeathRecord.MaritalStatus["system"]);
             Assert.Equal("Never Married", SetterDeathRecord.MaritalStatus["display"]);
-            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalBypassHelper);
+            Assert.Equal(ValueSets.EditBypass0124.Edit_Passed, SetterDeathRecord.MaritalStatusEditFlagHelper);
         }
 
         [Fact]
@@ -2224,11 +2224,11 @@ namespace VRDR.Tests
         [Fact]
         public void Set_AgeAtDeath_EditBypassFlag()
         {
-            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Passed;
-            Assert.Equal(ValueSets.EditBypass01.Edit_Passed, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
+            SetterDeathRecord.AgeAtDeathEditFlagHelper = ValueSets.EditBypass01.Edit_Passed;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Passed, SetterDeathRecord.AgeAtDeathEditFlagHelper);
 
-            SetterDeathRecord.AgeAtDeathEditBypassFlagHelper = ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified;
-            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.AgeAtDeathEditBypassFlagHelper);
+            SetterDeathRecord.AgeAtDeathEditFlagHelper = ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified;
+            Assert.Equal(ValueSets.EditBypass01.Edit_Failed_Data_Queried_And_Verified, SetterDeathRecord.AgeAtDeathEditFlagHelper);
         }
 
         [Fact]
@@ -2251,19 +2251,19 @@ namespace VRDR.Tests
             flag.Add("system", CodeSystems.BypassEditFlag);
             flag.Add("code", "0");
             flag.Add("display", "Edit Passed");
-            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
-            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
-            Assert.Equal("0", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
-            Assert.Equal("Edit Passed", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+            SetterDeathRecord.AgeAtDeathEditFlag = flag;
+            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditFlag["system"]);
+            Assert.Equal("0", SetterDeathRecord.AgeAtDeathEditFlag["code"]);
+            Assert.Equal("Edit Passed", SetterDeathRecord.AgeAtDeathEditFlag["display"]);
 
             flag = new Dictionary<string, string>();
             flag.Add("system", CodeSystems.BypassEditFlag);
             flag.Add("code", "1");
             flag.Add("display", "Edit Failed, Data Queried, and Verified");
-            SetterDeathRecord.AgeAtDeathEditBypassFlag = flag;
-            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditBypassFlag["system"]);
-            Assert.Equal("1", SetterDeathRecord.AgeAtDeathEditBypassFlag["code"]);
-            Assert.Equal("Edit Failed, Data Queried, and Verified", SetterDeathRecord.AgeAtDeathEditBypassFlag["display"]);
+            SetterDeathRecord.AgeAtDeathEditFlag = flag;
+            Assert.Equal(CodeSystems.BypassEditFlag, SetterDeathRecord.AgeAtDeathEditFlag["system"]);
+            Assert.Equal("1", SetterDeathRecord.AgeAtDeathEditFlag["code"]);
+            Assert.Equal("Edit Failed, Data Queried, and Verified", SetterDeathRecord.AgeAtDeathEditFlag["display"]);
         }
 
         [Fact]
@@ -2274,16 +2274,16 @@ namespace VRDR.Tests
             flag.Add("system", CodeSystems.BypassEditFlag);
             flag.Add("code", "0");
             flag.Add("display", "Edit Passed");
-            dr.AgeAtDeathEditBypassFlag = flag;
+            dr.AgeAtDeathEditFlag = flag;
 
             IJEMortality ije = new IJEMortality(dr);
             Assert.Equal("999", ije.AGE);
             Assert.Equal("9", ije.AGETYPE);
             Assert.Equal("0", ije.AGE_BYPASS);
             DeathRecord dr2 = ije.ToDeathRecord();
-            Assert.Equal(CodeSystems.BypassEditFlag, dr2.AgeAtDeathEditBypassFlag["system"]);
-            Assert.Equal("0", dr2.AgeAtDeathEditBypassFlag["code"]);
-            Assert.Equal("Edit Passed", dr2.AgeAtDeathEditBypassFlag["display"]);
+            Assert.Equal(CodeSystems.BypassEditFlag, dr2.AgeAtDeathEditFlag["system"]);
+            Assert.Equal("0", dr2.AgeAtDeathEditFlag["code"]);
+            Assert.Equal("Edit Passed", dr2.AgeAtDeathEditFlag["display"]);
         }
 
         [Fact]

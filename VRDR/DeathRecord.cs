@@ -3662,12 +3662,12 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status Bypass", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, IGURL.Decedent, true, 24)]
+        [Property("Marital Status Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
-        public Dictionary<string, string> MaritalBypass
+        public Dictionary<string, string> MaritalStatusEditFlag
         {
             get
             {
@@ -3724,32 +3724,32 @@ namespace VRDR
             }
         }
 
-        /// <summary>The marital bypass helper method.</summary>
-        /// <value>the marital pass.:
+        /// <summary>The marital status edit flag helper method.</summary>
+        /// <value>the marital status edit flag value.:
         /// <para>"code" - the code describing this finding</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.0;</para>
+        /// <para>ExampleDeathRecord.MaritalStatusEditFlagHelper = ValueSets.EditBypass0124.0;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalBypassHelper}");</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusEditFlagHelper}");</para>
         /// </example>
         [Property("Marital Bypass", Property.Types.String, "Decedent Demographics", "The marital bypass.", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
-        public string MaritalBypassHelper
+        public string MaritalStatusEditFlagHelper
         {
             get
             {
-                if (MaritalBypass.ContainsKey("code"))
+                if (MaritalStatusEditFlag.ContainsKey("code"))
                 {
-                    return MaritalBypass["code"];
+                    return MaritalStatusEditFlag["code"];
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("MaritalBypass", value, VRDR.ValueSets.EditBypass0124.Codes);
+                SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
             }
         }
 
@@ -6445,17 +6445,17 @@ namespace VRDR
         /// <para>ageEdit.Add("code", "0");</para>
         /// <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
         /// <para>ageEdit.Add("display", "Edit Passed");</para>
-        /// <para>ExampleDeathRecord.AgeAtDeathEditBypassFlag = ageEdit;</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathEditFlag = ageEdit;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditBypassFlag['display']}");</para>
+        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditFlag['display']}");</para>
         /// </example>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
-        public Dictionary<string, string> AgeAtDeathEditBypassFlag
+        public Dictionary<string, string> AgeAtDeathEditFlag
         {
             get
             {
@@ -6484,18 +6484,18 @@ namespace VRDR
         /// <summary>
         /// Age at Death Edit Bypass Flag Helper
         /// </summary>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Flag", Property.Types.String, "Decedent Demographics", "Age At Death Edit Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
-        public String AgeAtDeathEditBypassFlagHelper
+        public String AgeAtDeathEditFlagHelper
         {
             get
             {
-                return AgeAtDeathEditBypassFlag.ContainsKey("code") ? AgeAtDeathEditBypassFlag["code"] : null;
+                return AgeAtDeathEditFlag.ContainsKey("code") ? AgeAtDeathEditFlag["code"] : null;
             }
             set
             {
-                SetCodeValue("AgeAtDeathEditBypassFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
             }
         }
 

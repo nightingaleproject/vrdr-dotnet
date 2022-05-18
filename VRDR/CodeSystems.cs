@@ -96,7 +96,7 @@ namespace VRDR
         public static string RaceCode = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-code-cs";
 
         /// <summary> Race Recode40 </summary>
-        public static string RaceRecode40 = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode40-cs";
+        public static string RaceRecode40 = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-race-recode-40-cs";
 
         /// <summary> Hispanic Origin </summary>
         public static string HispanicOrigin = "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-hispanic-origin-cs";

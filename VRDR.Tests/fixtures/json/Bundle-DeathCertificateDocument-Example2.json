@@ -355,7 +355,8 @@
                 "coding": [
                   {
                     "code": "0",
-                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs"
+                    "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
+                    "display": "Edit Passed"
                   }
                 ]
               }
@@ -805,7 +806,8 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "display": "Yes"
                 }
               ]
             }
@@ -823,7 +825,8 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "display": "Yes"
                 }
               ]
             }
@@ -841,7 +844,8 @@
               "coding": [
                 {
                   "code": "Y",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "display": "Yes"
                 }
               ]
             }
@@ -859,7 +863,8 @@
               "coding": [
                 {
                   "code": "N",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                  "display": "No"
                 }
               ]
             }
@@ -953,8 +958,7 @@
               "system": "http://terminology.hl7.org/CodeSystem/v3-EducationLevel",
               "display": "Some secondary or high school education"
             }
-          ],
-          "text": "11th grade"
+          ]
         }
       },
       "fullUrl": "http://www.example.org/fhir/Observation/DecedentEducationLevel-Example1"
@@ -1615,7 +1619,8 @@
               "coding": [
                 {
                   "code": "OTH",
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                  "display": "Other"
                 }
               ],
               "text": "Nurse Practitioner"
@@ -1886,7 +1891,7 @@
             {
               "code": "449971000124106",
               "system": "http://snomed.info/sct",
-              "display": "Patient status determination, deceased and buried"
+              "display": "Burial"
             }
           ]
         }
@@ -2357,7 +2362,8 @@
               "coding": [
                 {
                   "code": "1",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-intentional-reject-cs",
+                  "display": "Reject1"
                 }
               ]
             }
@@ -2368,7 +2374,8 @@
               "coding": [
                 {
                   "code": "0",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-system-reject-cs",
+                  "display": "Not Rejected"
                 }
               ]
             }
@@ -2379,7 +2386,8 @@
               "coding": [
                 {
                   "code": "3",
-                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs"
+                  "system": "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-transax-conversion-cs",
+                  "display": "Conversion using non-ambivalent table entries"
                 }
               ]
             }

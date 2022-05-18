@@ -5763,7 +5763,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent Date of Death: {ExampleDeathRecord.DateOfDeath}");</para>
         /// </example>
-        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date and Time of Death.", true, IGURL.DeathDate, true, 25)]
+        [Property("Date/Time Of Death", Property.Types.StringDateTime, "Death Investigation", "Decedent's Date+Time of Death.", true, IGURL.DeathDate, true, 25)]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='81956-5')", "")]
         public string DateOfDeath
         {
@@ -10599,7 +10599,7 @@ namespace VRDR
                 {
                     Extension cityCode = new Extension();
                     cityCode.Url = ExtensionURL.CityCode;
-                    cityCode.Value = new FhirString(dict["addressCityC"]);
+                    cityCode.Value = new Integer(Int32.Parse(dict["addressCityC"]));
                     address.CityElement = new FhirString();
                     address.CityElement.Extension.Add(cityCode);
                 }
@@ -10619,7 +10619,7 @@ namespace VRDR
                 {
                     Extension countyCode = new Extension();
                     countyCode.Url = ExtensionURL.DistrictCode;
-                    countyCode.Value = new FhirString(dict["addressCountyC"]);
+                    countyCode.Value = new Integer(Int32.Parse(dict["addressCountyC"]));
                     address.DistrictElement = new FhirString();
                     address.DistrictElement.Extension.Add(countyCode);
                 }

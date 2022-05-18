@@ -50,7 +50,7 @@ namespace VRDR
             InputRaceAndEthnicityObs.Meta.Profile = raceethnicity_profile;
             InputRaceAndEthnicityObs.Status = ObservationStatus.Final;
             InputRaceAndEthnicityObs.Code = new CodeableConcept(CodeSystems.ObservationCode, "inputraceandethnicity", "Input Race and Ethnicity", null);
-            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + InputRaceAndEthnicityObs.Id);
+            InputRaceAndEthnicityObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             AddReferenceToComposition(InputRaceAndEthnicityObs.Id, "DecedentDemographics");
             Bundle.AddResourceEntry(InputRaceAndEthnicityObs, "urn:uuid:" + InputRaceAndEthnicityObs.Id);
         }
@@ -111,6 +111,7 @@ namespace VRDR
             CodCondition.Meta = new Meta();
             string[] condition_profile = { ProfileURL.CauseOfDeathPart1 };
             CodCondition.Meta.Profile = condition_profile;
+            CodCondition.Status = ObservationStatus.Final;
             CodCondition.Code = new CodeableConcept(CodeSystems.LOINC, "69453-9", "Cause of death [US Standard Certificate of Death]", null);
             CodCondition.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             CodCondition.Performer.Add(new ResourceReference("urn:uuid:" + Certifier.Id));
@@ -484,6 +485,7 @@ namespace VRDR
             string[] deathlocation_profile = { ProfileURL.DeathLocation };
             DeathLocationLoc.Meta.Profile = deathlocation_profile;
             DeathLocationLoc.Type.Add(new CodeableConcept(CodeSystems.LocationType, "death", "death location", null));
+            DeathLocationLoc.Name = "";
             AddReferenceToComposition(DeathLocationLoc.Id, "DeathInvestigation");
             Bundle.AddResourceEntry(DeathLocationLoc, "urn:uuid:" + DeathLocationLoc.Id);
 
@@ -1793,6 +1795,7 @@ namespace VRDR
                     ConditionContributingToDeath.Meta = new Meta();
                     string[] condition_profile = { ProfileURL.CauseOfDeathPart2 };
                     ConditionContributingToDeath.Meta.Profile = condition_profile;
+                    ConditionContributingToDeath.Status = ObservationStatus.Final;
                     ConditionContributingToDeath.Code = (new CodeableConcept(CodeSystems.LOINC, "69441-4", "Other significant causes or conditions of death", null));
                     ConditionContributingToDeath.Value = new CodeableConcept(null, null, null, value);
                     AddReferenceToComposition(ConditionContributingToDeath.Id, "DeathCertification");
@@ -3021,11 +3024,8 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Mexican);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssEthnicity.Mexican;
-                coding["display"] = NvssEthnicity.Mexican;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Mexican,  NvssEthnicity.Mexican, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3100,11 +3100,8 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.PuertoRican);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssEthnicity.PuertoRican;
-                coding["display"] = NvssEthnicity.PuertoRican;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.PuertoRican,  NvssEthnicity.PuertoRican, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3179,11 +3176,8 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Cuban);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssEthnicity.Cuban;
-                coding["display"] = NvssEthnicity.Cuban;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Cuban,  NvssEthnicity.Cuban,null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3257,12 +3251,9 @@ namespace VRDR
                 {
                     CreateInputRaceEthnicityObs();
                 }
-                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssEthnicity.Other;
-                coding["display"] = NvssEthnicity.Other;
+                InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Other);;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Other,  NvssEthnicity.Other,null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3331,11 +3322,8 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssEthnicity.Literal);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssEthnicity.Literal;
-                coding["display"] = NvssEthnicity.Literal;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssEthnicity.Literal,  NvssEthnicity.Literal,null);
                 component.Value = new FhirString(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -3410,11 +3398,8 @@ namespace VRDR
                 foreach (Tuple<string, string> element in value)
                 {
                     InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == element.Item1);
-                    var coding = EmptyRaceEthnicityCodeDict();
-                    coding["code"] = element.Item1;
-                    coding["display"] = element.Item1;
                     Observation.ComponentComponent component = new Observation.ComponentComponent();
-                    component.Code = DictToCodeableConcept(coding);
+                    component.Code = new CodeableConcept(CodeSystems.ComponentCode,   element.Item1,  element.Item1,null);
                     if (booleanRaceCodes.Contains(element.Item1))
                     {
                         if (element.Item2 == "Y")
@@ -3478,11 +3463,8 @@ namespace VRDR
                     CreateInputRaceEthnicityObs();
                 }
                 InputRaceAndEthnicityObs.Component.RemoveAll(c => c.Code.Coding[0].Code == NvssRace.MissingValueReason);
-                var coding = EmptyRaceEthnicityCodeDict();
-                coding["code"] = NvssRace.MissingValueReason;
-                coding["display"] = NvssRace.MissingValueReason;
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
-                component.Code = DictToCodeableConcept(coding);
+                component.Code = new CodeableConcept(CodeSystems.ComponentCode,   NvssRace.MissingValueReason,  NvssRace.MissingValueReason, null);
                 component.Value = DictToCodeableConcept(value);
                 InputRaceAndEthnicityObs.Component.Add(component);
             }
@@ -4630,7 +4612,7 @@ namespace VRDR
                 {
                     CreateUsualWork();
                 }
-                UsualWork.Value = new CodeableConcept(null, null, null, value);
+                UsualWork.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "UNK", "unknown", value);     // code is required
 
             }
         }
@@ -4669,8 +4651,7 @@ namespace VRDR
                 UsualWork.Component.RemoveAll(cmp => cmp.Code != null && cmp.Code.Coding != null && cmp.Code.Coding.Count() > 0 && cmp.Code.Coding.First().Code == "21844-6");
                 Observation.ComponentComponent component = new Observation.ComponentComponent();
                 component.Code = new CodeableConcept(CodeSystems.LOINC, "21844-6", "History of Usual industry", null);
-
-                component.Value = new CodeableConcept(null, null, null, value);
+                component.Value = new CodeableConcept(CodeSystems.NullFlavor_HL7_V3, "UNK", "unknown", value);     // code is required
                 UsualWork.Component.Add(component);
 
             }
@@ -9584,6 +9565,7 @@ namespace VRDR
                     ob.Meta = new Meta();
                     string[] entityAxis_profile = { ProfileURL.EntityAxisCauseOfDeath };
                     ob.Meta.Profile = entityAxis_profile;
+                    ob.Status = ObservationStatus.Final;
                     ob.Code = new CodeableConcept(CodeSystems.LOINC, "80356-9", "Cause of death entity axis code [Automated]", null);
                     ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     AddReferenceToComposition(ob.Id, "CodedContent");
@@ -9678,6 +9660,7 @@ namespace VRDR
                     ob.Meta = new Meta();
                     string[] recordAxis_profile = { ProfileURL.RecordAxisCauseOfDeath };
                     ob.Meta.Profile = recordAxis_profile;
+                    ob.Status = ObservationStatus.Final;
                     ob.Code = new CodeableConcept(CodeSystems.LOINC, "80357-7", "Cause of death record axis code [Automated]", null);
                     ob.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                     AddReferenceToComposition(ob.Id, "CodedContent");
@@ -10599,7 +10582,7 @@ namespace VRDR
                 {
                     Extension cityCode = new Extension();
                     cityCode.Url = ExtensionURL.CityCode;
-                    cityCode.Value = new Integer(Int32.Parse(dict["addressCityC"]));
+                    cityCode.Value = new PositiveInt(Int32.Parse(dict["addressCityC"]));
                     address.CityElement = new FhirString();
                     address.CityElement.Extension.Add(cityCode);
                 }
@@ -10619,7 +10602,7 @@ namespace VRDR
                 {
                     Extension countyCode = new Extension();
                     countyCode.Url = ExtensionURL.DistrictCode;
-                    countyCode.Value = new Integer(Int32.Parse(dict["addressCountyC"]));
+                    countyCode.Value = new PositiveInt(Int32.Parse(dict["addressCountyC"]));
                     address.DistrictElement = new FhirString();
                     address.DistrictElement.Extension.Add(countyCode);
                 }
@@ -10902,16 +10885,6 @@ namespace VRDR
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             dictionary.Add("code", "");
             dictionary.Add("system", "");
-            dictionary.Add("display", "");
-            return dictionary;
-        }
-
-        /// <summary>Returns an empty "code" Dictionary for race and ethnicity.</summary>
-        /// <returns>an empty "code" Dictionary.</returns>
-        private Dictionary<string, string> EmptyRaceEthnicityCodeDict()
-        {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            dictionary.Add("code", "");
             dictionary.Add("display", "");
             return dictionary;
         }

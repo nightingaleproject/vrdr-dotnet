@@ -2863,9 +2863,14 @@ namespace VRDR.Tests
             SetterDeathRecord.DeathYear = 2021;
             SetterDeathRecord.DeathMonth = 5;
             SetterDeathRecord.DeathDay = null;
-            Assert.Equal(2021, (int)SetterDeathRecord.DeathYear);
-            Assert.Equal(5, (int)SetterDeathRecord.DeathMonth);
-            Assert.Null(SetterDeathRecord.DeathDay);
+            SetterDeathRecord.DeathTime = "10:00:00";
+            IJEMortality ije1 = new IJEMortality(SetterDeathRecord,false);
+            Assert.Equal("1000", ije1.TOD);
+            DeathRecord dr2 = ije1.ToDeathRecord();
+            Assert.Equal(2021, (int)dr2.DeathYear);
+            Assert.Equal(5, (int)dr2.DeathMonth);
+            Assert.Null(dr2.DeathDay);
+            Assert.Equal("10:00:00",dr2.DeathTime);
         }
 
         [Fact]

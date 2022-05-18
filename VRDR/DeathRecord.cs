@@ -10132,8 +10132,9 @@ namespace VRDR
         /// <summary>Restores class references from a newly parsed record.</summary>
         private void RestoreReferences()
         {
-            string profile = Bundle.Meta.Profile.First();
-            bool fullRecord = profile.Equals(VRDR.ProfileURL.DeathCertificateDocument);
+            // Depending on the type of bundle, some of this information may not be present, so check it in a null-safe way
+            string profile = Bundle.Meta?.Profile?.FirstOrDefault();
+            bool fullRecord = VRDR.ProfileURL.DeathCertificateDocument.Equals(profile);
             // Grab Composition
             var compositionEntry = Bundle.Entry.FirstOrDefault(entry => entry.Resource.ResourceType == ResourceType.Composition);
             if (compositionEntry != null)

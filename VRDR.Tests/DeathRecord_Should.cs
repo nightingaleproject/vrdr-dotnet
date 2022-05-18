@@ -822,7 +822,6 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1C()
         {
-            Assert.Equal("Coronary artery thrombosis", ((DeathRecord)JSONRecords[1]).COD1C);
             Assert.Equal("Coronary artery thrombosis", ((DeathRecord)XMLRecords[1]).COD1C);
         }
 
@@ -836,7 +835,6 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1C()
         {
-            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1C);
             Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1C);
         }
 
@@ -863,7 +861,6 @@ namespace VRDR.Tests
         [Fact]
         public void Get_COD1D()
         {
-            Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)JSONRecords[1]).COD1D);
             Assert.Equal("Atherosclerotic coronary artery disease", ((DeathRecord)XMLRecords[1]).COD1D);
         }
 
@@ -877,7 +874,6 @@ namespace VRDR.Tests
         [Fact]
         public void Get_INTERVAL1D()
         {
-            Assert.Equal("3 months", ((DeathRecord)JSONRecords[1]).INTERVAL1D);
             Assert.Equal("3 months", ((DeathRecord)XMLRecords[1]).INTERVAL1D);
         }
 

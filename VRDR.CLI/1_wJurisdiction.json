@@ -331,7 +331,8 @@
                 "coding" : [
                   {
                     "system" : "http://hl7.org/fhir/us/vrdr/CodeSystem/vrdr-bypass-edit-flag-cs",
-                    "code" : "0"
+                    "code" : "0",
+                    "display" : "Edit Passed"
                   }
                 ]
               }

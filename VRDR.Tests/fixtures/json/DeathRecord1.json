@@ -2174,7 +2174,7 @@
                   "valueUnsignedInt": 18
                 }
               ],
-              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+              "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
             }
           ]
         }

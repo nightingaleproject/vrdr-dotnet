@@ -546,7 +546,7 @@
                             "valueUnsignedInt": 1
                           }
                         ],
-                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+                        "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
                       }
                     ]
                   }
@@ -934,7 +934,7 @@
                         "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Day"
                       }
                     ],
-                    "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime"
+                    "url": "http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate"
                   }
                 ]
               }

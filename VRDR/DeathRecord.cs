@@ -355,7 +355,7 @@ namespace VRDR
         // present); takes an optional flag to determine if this extension should include the time field, which is not always needed
         private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
         {
-            Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
+            Extension partialDateTime = new Extension(includeTime ? ExtensionURL.PartialDateTime : ExtensionURL.PartialDate, null);
             Extension year = new Extension(ExtensionURL.DateYear, null);
             year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(year);
@@ -2695,7 +2695,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -2725,7 +2725,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -2755,7 +2755,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 
@@ -3636,13 +3636,13 @@ namespace VRDR
                 }
                 else
                 {
+                    // Need to keep any existing text or extension that could be there
                     string text = Decedent.MaritalStatus.Text;
-                    Extension bypass = Decedent.MaritalStatus.Extension.FirstOrDefault();
+                    List<Extension> extensions = Decedent.MaritalStatus.Extension.FindAll(e => true);
                     Decedent.MaritalStatus = DictToCodeableConcept(value);
-                    Decedent.MaritalStatus.Extension.Add(bypass);
+                    Decedent.MaritalStatus.Extension.AddRange(extensions);
                     Decedent.MaritalStatus.Text = text;
                 }
-
             }
         }
 
@@ -3662,12 +3662,12 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatus["display"]}");</para>
         /// </example>
-        [Property("Marital Status Bypass", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, IGURL.Decedent, true, 24)]
+        [Property("Marital Status Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "The marital status edit flag.", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
-        public Dictionary<string, string> MaritalBypass
+        public Dictionary<string, string> MaritalStatusEditFlag
         {
             get
             {
@@ -3683,16 +3683,13 @@ namespace VRDR
             }
             set
             {
-                Extension ext = new Extension();
-                ext.Url = ExtensionURL.BypassEditFlag;
-                ext.Value = DictToCodeableConcept(value);
                 if (Decedent.MaritalStatus == null)
                 {
                     Decedent.MaritalStatus = new CodeableConcept();
                 }
-                Decedent.MaritalStatus.Extension.Add(ext);
+                Decedent.MaritalStatus.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
+                Decedent.MaritalStatus.Extension.Add(new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value)));
             }
-
         }
 
         /// <summary>The marital status of the decedent at the time of death helper method.</summary>
@@ -3724,32 +3721,32 @@ namespace VRDR
             }
         }
 
-        /// <summary>The marital bypass helper method.</summary>
-        /// <value>the marital pass.:
+        /// <summary>The marital status edit flag helper method.</summary>
+        /// <value>the marital status edit flag value.:
         /// <para>"code" - the code describing this finding</para>
         /// </value>
         /// <example>
         /// <para>// Setter:</para>
-        /// <para>ExampleDeathRecord.MaritalBypassHelper = ValueSets.EditBypass0124.0;</para>
+        /// <para>ExampleDeathRecord.MaritalStatusEditFlagHelper = ValueSets.EditBypass0124.0;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalBypassHelper}");</para>
+        /// <para>Console.WriteLine($"Marital status: {ExampleDeathRecord.MaritalStatusEditFlagHelper}");</para>
         /// </example>
-        [Property("Marital Bypass", Property.Types.String, "Decedent Demographics", "The marital bypass.", true, IGURL.Decedent, true, 24)]
+        [Property("Marital Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Marital Status Edit Flag Helper", true, IGURL.Decedent, true, 24)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Patient)", "maritalStatus")]
-        public string MaritalBypassHelper
+        public string MaritalStatusEditFlagHelper
         {
             get
             {
-                if (MaritalBypass.ContainsKey("code"))
+                if (MaritalStatusEditFlag.ContainsKey("code"))
                 {
-                    return MaritalBypass["code"];
+                    return MaritalStatusEditFlag["code"];
                 }
                 return null;
             }
             set
             {
-                SetCodeValue("MaritalBypass", value, VRDR.ValueSets.EditBypass0124.Codes);
+                SetCodeValue("MaritalStatusEditFlag", value, VRDR.ValueSets.EditBypass0124.Codes);
             }
         }
 
@@ -4315,8 +4312,15 @@ namespace VRDR
                 if (DecedentEducationLevel == null)
                 {
                     CreateEducationLevelObs();
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
                 }
-                DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                else
+                {
+                    // Need to keep any existing extension that could be there
+                    List<Extension> extensions = DecedentEducationLevel.Value.Extension.FindAll(e => true);
+                    DecedentEducationLevel.Value = DictToCodeableConcept(value);
+                    DecedentEducationLevel.Value.Extension.AddRange(extensions);
+                }
             }
         }
 
@@ -4392,13 +4396,11 @@ namespace VRDR
                 {
                     DecedentEducationLevel.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 }
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
                 if (DecedentEducationLevel.Value == null)
                 {
                     DecedentEducationLevel.Value = new CodeableConcept();
                 }
-                editFlag.Value = DictToCodeableConcept(value);
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 DecedentEducationLevel.Value.Extension.Add(editFlag);
             }
         }
@@ -4411,7 +4413,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Education Level Edit Flag: {ExampleDeathRecord.EducationLevelHelperEditFlag}");</para>
         /// </example>
-        [Property("Education Level Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag.", true, IGURL.DecedentEducationLevel, false, 34)]
+        [Property("Education Level Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Education Level Edit Flag Helper.", true, IGURL.DecedentEducationLevel, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='80913-7')", "")]
         public string EducationLevelEditFlagHelper
@@ -5581,7 +5583,13 @@ namespace VRDR
                         throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
                 }
             }
-            return GetPartialDate(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), partURL);
+            // Look for either PartialDate or PartialDateTime
+            Extension extension = value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime);
+            if (extension == null)
+            {
+                extension = value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate);
+            }
+            return GetPartialDate(extension, partURL);
         }
 
         /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
@@ -5855,7 +5863,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -5885,7 +5893,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -5915,7 +5923,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 
@@ -6445,17 +6453,17 @@ namespace VRDR
         /// <para>ageEdit.Add("code", "0");</para>
         /// <para>ageEdit.Add("system", CodeSystems.BypassEditFlag);</para>
         /// <para>ageEdit.Add("display", "Edit Passed");</para>
-        /// <para>ExampleDeathRecord.AgeAtDeathEditBypassFlag = ageEdit;</para>
+        /// <para>ExampleDeathRecord.AgeAtDeathEditFlag = ageEdit;</para>
         /// <para>// Getter:</para>
-        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditBypassFlag['display']}");</para>
+        /// <para>Console.WriteLine($"Age At Death Edit Flag: {ExampleDeathRecord.AgeAtDeathEditFlag['display']}");</para>
         /// </example>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Age At Death Edit Flag.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
         [PropertyParam("text", "Additional descriptive text.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
-        public Dictionary<string, string> AgeAtDeathEditBypassFlag
+        public Dictionary<string, string> AgeAtDeathEditFlag
         {
             get
             {
@@ -6472,11 +6480,8 @@ namespace VRDR
                 {
                     CreateAgeAtDeathObs();
                 }
-
                 AgeAtDeathObs.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
-                editFlag.Value = DictToCodeableConcept(value);
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 AgeAtDeathObs.Extension.Add(editFlag);
             }
         }
@@ -6484,18 +6489,18 @@ namespace VRDR
         /// <summary>
         /// Age at Death Edit Bypass Flag Helper
         /// </summary>
-        [Property("Age At Death Edit Bypass Flag (Code)", Property.Types.String, "Decedent Demographics", "Age At Death Edit Bypass Flag.", true, IGURL.DecedentAge, true, 2)]
+        [Property("Age At Death Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Age At Death Edit Flag Helper.", true, IGURL.DecedentAge, true, 2)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='39016-1').extension.where(url='" + ExtensionURL.BypassEditFlag + "')", "")]
-        public String AgeAtDeathEditBypassFlagHelper
+        public String AgeAtDeathEditFlagHelper
         {
             get
             {
-                return AgeAtDeathEditBypassFlag.ContainsKey("code") ? AgeAtDeathEditBypassFlag["code"] : null;
+                return AgeAtDeathEditFlag.ContainsKey("code") ? AgeAtDeathEditFlag["code"] : null;
             }
             set
             {
-                SetCodeValue("AgeAtDeathEditBypassFlag", value, VRDR.ValueSets.EditBypass01.Codes);
+                SetCodeValue("AgeAtDeathEditFlag", value, VRDR.ValueSets.EditBypass01.Codes);
             }
         }
 
@@ -6630,8 +6635,15 @@ namespace VRDR
                 if (PregnancyObs == null)
                 {
                     CreatePregnancyObs();
+                    PregnancyObs.Value = DictToCodeableConcept(value);
                 }
-                PregnancyObs.Value = DictToCodeableConcept(value);
+                else
+                {
+                    // Need to keep any existing extension that could be there
+                    List<Extension> extensions = PregnancyObs.Value.Extension.FindAll(e => true);
+                    PregnancyObs.Value = DictToCodeableConcept(value);
+                    PregnancyObs.Value.Extension.AddRange(extensions);
+                }
             }
         }
 
@@ -6679,7 +6691,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Education Level Edit Flag: {ExampleDeathRecord.EducationLevelEditFlag['display']}");</para>
         /// </example>
-        [Property("Decedent's Pregnancy Status at Death Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [Property("Pregnancy Status Edit Flag", Property.Types.Dictionary, "Decedent Demographics", "Decedent's Pregnancy Status at Death Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [PropertyParam("system", "The relevant code system.")]
         [PropertyParam("display", "The human readable version of this code.")]
@@ -6708,13 +6720,11 @@ namespace VRDR
                 {
                     PregnancyObs.Value.Extension.RemoveAll(ext => ext.Url == ExtensionURL.BypassEditFlag);
                 }
-                Extension editFlag = new Extension();
-                editFlag.Url = ExtensionURL.BypassEditFlag;
-                editFlag.Value = DictToCodeableConcept(value);
                 if (PregnancyObs.Value == null)
                 {
                     PregnancyObs.Value = new CodeableConcept();
                 }
+                Extension editFlag = new Extension(ExtensionURL.BypassEditFlag, DictToCodeableConcept(value));
                 PregnancyObs.Value.Extension.Add(editFlag);
             }
         }
@@ -6727,7 +6737,7 @@ namespace VRDR
         /// <para>// Getter:</para>
         /// <para>Console.WriteLine($"Decedent's Pregnancy Status Edit Flag: {ExampleDeathRecord.PregnancyStatusHelperEditFlag}");</para>
         /// </example>
-        [Property("Pregnancy Status Edit Flag", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag.", true, IGURL.DecedentPregnancyStatus, false, 34)]
+        [Property("Pregnancy Status Edit Flag Helper", Property.Types.String, "Decedent Demographics", "Decedent's Pregnancy Status Edit Flag Helper.", true, IGURL.DecedentPregnancyStatus, false, 34)]
         [PropertyParam("code", "The code used to describe this concept.")]
         [FHIRPath("Bundle.entry.resource.where($this is Observation).where(code.coding.code='69442-2')", "")]
         public string PregnancyStatusEditFlagHelper
@@ -9703,7 +9713,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -9734,7 +9744,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -9762,7 +9772,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 

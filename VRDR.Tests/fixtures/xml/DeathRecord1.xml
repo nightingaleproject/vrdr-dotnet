@@ -1754,7 +1754,7 @@
           <reference value="urn:uuid:c1c4861b-8749-4442-be31-2d984ea8c93b"/>
         </subject>
         <valueDateTime>
-          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDateTime">
+          <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/PartialDate">
             <extension url="http://hl7.org/fhir/us/vrdr/StructureDefinition/Date-Year">
               <valueUnsignedInt value="2017"/>
             </extension>

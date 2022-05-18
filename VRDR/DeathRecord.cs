@@ -355,7 +355,7 @@ namespace VRDR
         // present); takes an optional flag to determine if this extension should include the time field, which is not always needed
         private Extension NewBlankPartialDateTimeExtension(bool includeTime = true)
         {
-            Extension partialDateTime = new Extension(ExtensionURL.PartialDateTime, null);
+            Extension partialDateTime = new Extension(includeTime ? ExtensionURL.PartialDateTime : ExtensionURL.PartialDate, null);
             Extension year = new Extension(ExtensionURL.DateYear, null);
             year.Extension.Add(new Extension(OtherExtensionURL.DataAbsentReason, new Code("unknown")));
             partialDateTime.Extension.Add(year);
@@ -2695,7 +2695,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -2725,7 +2725,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -2755,7 +2755,7 @@ namespace VRDR
                 {
                     AddBirthDateToDecedent();
                 }
-                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(Decedent.BirthDateElement.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 
@@ -5583,7 +5583,13 @@ namespace VRDR
                         throw new ArgumentException("GetDateFragmentOrPartialDate called with unsupported PartialDateTime segment");
                 }
             }
-            return GetPartialDate(value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), partURL);
+            // Look for either PartialDate or PartialDateTime
+            Extension extension = value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime);
+            if (extension == null)
+            {
+                extension = value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate);
+            }
+            return GetPartialDate(extension, partURL);
         }
 
         /// <summary>Getter helper for anything that can have a regular FHIR date/time or a PartialDateTime extension, allowing the time to be read
@@ -5857,7 +5863,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -5887,7 +5893,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -5917,7 +5923,7 @@ namespace VRDR
                 {
                     CreateSurgeryDateObs();
                 }
-                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(SurgeryDateObs.Value.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 
@@ -9707,7 +9713,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateYear, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateYear, value);
             }
         }
 
@@ -9738,7 +9744,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateMonth, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateMonth, value);
             }
         }
 
@@ -9766,7 +9772,7 @@ namespace VRDR
                     CreateCodingStatusValues();
                 }
                 Date date = CodingStatusValues?.GetSingleValue<Date>("receiptDate");
-                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDateTime), ExtensionURL.DateDay, value);
+                SetPartialDate(date.Extension.Find(ext => ext.Url == ExtensionURL.PartialDate), ExtensionURL.DateDay, value);
             }
         }
 

@@ -382,7 +382,7 @@ namespace VRDR
             string[] deathdate_profile = { ProfileURL.DeathDate };
             DeathDateObs.Meta.Profile = deathdate_profile;
             DeathDateObs.Status = ObservationStatus.Final;
-            DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date and time of death", null);
+            DeathDateObs.Code = new CodeableConcept(CodeSystems.LOINC, "81956-5", "Date+time of death", null);
             DeathDateObs.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
             // A DeathDate can be represented either using the PartialDateTime or the valueDateTime; we always prefer
             // the PartialDateTime representation (though we'll correctly read records using valueDateTime) and so we
@@ -7606,7 +7606,7 @@ namespace VRDR
                 string[] tb_profile = { ProfileURL.EmergingIssues };
                 EmergingIssues.Meta.Profile = tb_profile;
                 EmergingIssues.Status = ObservationStatus.Final;
-                EmergingIssues.Code = new CodeableConcept(CodeSystems.ObservationCode, "emergingissues", "Emerging Issues", null);
+                EmergingIssues.Code = new CodeableConcept(CodeSystems.ObservationCode, "emergingissues", "NCHS-required Parameter Slots for Emerging Issues", null);
                 EmergingIssues.Subject = new ResourceReference("urn:uuid:" + Decedent.Id);
                 AddReferenceToComposition(EmergingIssues.Id, "DecedentDemographics");
                 Bundle.AddResourceEntry(EmergingIssues, "urn:uuid:" + EmergingIssues.Id);

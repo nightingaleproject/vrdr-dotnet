@@ -2234,9 +2234,21 @@ namespace VRDR.Tests
         [Fact]
         public void Get_AgeAtDeath()
         {
-            Assert.Equal("a", ((DeathRecord)JSONRecords[0]).AgeAtDeath["type"]);
-            Assert.Equal("79", ((DeathRecord)JSONRecords[0]).AgeAtDeath["units"]);
-            Assert.False(((DeathRecord)JSONRecords[0]).AgeAtDeathDataAbsentBoolean);
+            Assert.Equal("a", ((DeathRecord)JSONRecords[1]).AgeAtDeath["type"]);
+            Assert.Equal("42", ((DeathRecord)JSONRecords[1]).AgeAtDeath["units"]);
+            Assert.False(((DeathRecord)JSONRecords[1]).AgeAtDeathDataAbsentBoolean);
+            DeathRecord dr1 = (DeathRecord)JSONRecords[1];
+            DeathRecord dr2 = new DeathRecord(dr1.ToJSON());
+            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
+            Assert.Equal("42", (dr2.AgeAtDeath["units"]));
+            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
+            Dictionary<string, string> aad = new Dictionary<string, string>();
+            aad.Add("type", "a");
+            aad.Add("units", "79");
+            dr2.AgeAtDeath = aad;
+            Assert.Equal("a", (dr2.AgeAtDeath["type"]));
+            Assert.Equal("79", (dr2.AgeAtDeath["units"]));
+            Assert.False(dr2.AgeAtDeathDataAbsentBoolean);
             Assert.Equal("a", ((DeathRecord)XMLRecords[0]).AgeAtDeath["type"]);
             Assert.Equal("79", ((DeathRecord)XMLRecords[0]).AgeAtDeath["units"]);
             Assert.False(((DeathRecord)XMLRecords[0]).AgeAtDeathDataAbsentBoolean);

@@ -610,6 +610,8 @@ namespace VRDR
                     {
                         current = "N";
                     }
+                } else if (geoType == "countyC" || geoType == "cityC"){
+                    current = Truncate(current, info.Length).PadLeft(info.Length,'0');
                 }
             }
 

@@ -398,8 +398,8 @@ namespace VRDR.Tests
             Assert.Equal("000", ije1.COUNTYC);
 
             DeathRecord dr1 = ije1.ToDeathRecord();
-            Assert.Equal("000", dr1.DeathLocationAddress["addressCountyC"]);
-            Assert.Equal("000", dr1.Residence["addressCountyC"]);
+            Assert.Equal("0", dr1.DeathLocationAddress["addressCountyC"]); // no padding int the FHIR world
+            Assert.Equal("0", dr1.Residence["addressCountyC"]);
         }
 
         [Fact]
